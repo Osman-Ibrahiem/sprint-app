@@ -1,0 +1,43 @@
+<!-- @dsCard group="Actions" height=196 subtitle="primary · secondary · tonal · ghost · danger" -->
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens.css">
+<title>Button</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;700&family=Cairo:wght@400;500;600;700&display=swap">
+<style>
+  body { margin:0; padding:var(--space-4); background:var(--bg); color:var(--ink); font-family:var(--font-text); }
+  .row { display:flex; flex-wrap:wrap; gap:var(--space-3); align-items:center; margin-bottom:var(--space-4); }
+  .btn { height:var(--control-height); padding:0 var(--space-5); border:0; border-radius:var(--radius-md); font:600 14px/20px var(--font-heading); display:inline-flex; align-items:center; gap:var(--space-2); cursor:pointer; }
+  .primary { background:var(--primary); color:var(--on-primary); }
+  .primary.hover { background:var(--primary-hover); }
+  .secondary { background:var(--surface); color:var(--ink); box-shadow:inset 0 0 0 1px var(--control-border); }
+  .tonal { background:var(--primary-soft); color:var(--on-primary-soft); }
+  .ghost { background:transparent; color:var(--primary); padding:0 var(--space-3); }
+  .danger { background:var(--danger); color:var(--on-danger); }
+  .sm { height:var(--control-height-sm); padding:0 var(--space-3); border-radius:var(--radius-sm); }
+  .focus { outline:2px solid var(--focus-ring); outline-offset:2px; }
+  .disabled { background:var(--surface-sunken); color:var(--ink-disabled); cursor:default; }
+  .spin { width:16px; height:16px; border-radius:50%; border:2px solid currentColor; border-inline-start-color:transparent; box-sizing:border-box; }
+  .num { direction:ltr; unicode-bidi:isolate; }
+  .price { font-family:var(--font-text); }
+</style>
+</head>
+<body>
+<div class="row">
+  <button class="btn primary">تأكيد الحجز · <span class="price"><span class="num">120</span> ج.م</span></button>
+  <button class="btn secondary">تغيير الميعاد</button>
+  <button class="btn tonal">عرض التذكرة</button>
+  <button class="btn ghost">التفاصيل</button>
+  <button class="btn danger">إلغاء الحجز</button>
+</div>
+<div class="row">
+  <button class="btn primary focus">تأكيد الحجز</button>
+  <button class="btn primary hover">تأكيد الحجز</button>
+  <button class="btn primary" aria-busy="true"><span class="spin" aria-hidden="true"></span>جاري الدفع…</button>
+  <button class="btn disabled" disabled>اختار ميعاد الأول</button>
+  <button class="btn secondary sm">تصدير CSV</button>
+</div>
+</body>
+</html>

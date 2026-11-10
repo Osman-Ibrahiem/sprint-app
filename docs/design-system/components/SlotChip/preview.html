@@ -1,0 +1,38 @@
+<!-- @dsCard group="Booking" height=176 subtitle="available · selected · few left · full · past" -->
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens.css">
+<title>SlotChip</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;700&family=Cairo:wght@400;500;600;700&display=swap">
+<style>
+  body { margin:0; padding:var(--space-4); background:var(--bg); color:var(--ink); font-family:var(--font-text); }
+  .panel { background:var(--surface); border-radius:var(--radius-lg); padding:var(--space-4); max-width:640px; }
+  .head { font:600 14px/20px var(--font-text); color:var(--ink-muted); margin-bottom:var(--space-3); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(100px, 1fr)); gap:var(--space-2); }
+  .chip { min-height:56px; border-radius:var(--radius-sm); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; box-sizing:border-box; }
+  .t { font:600 14px/20px var(--font-text); }
+  .s { font:500 12px/16px var(--font-text); }
+  .available { background:var(--surface); box-shadow:inset 0 0 0 1px var(--control-border); color:var(--ink); }
+  .available .s { color:var(--ink-muted); }
+  .selected { background:var(--primary); color:var(--on-primary); }
+  .few { background:var(--volt); color:var(--on-volt); }
+  .full { background:var(--surface-sunken); color:var(--ink-muted); }
+  .past { background:transparent; color:var(--ink-disabled); box-shadow:inset 0 0 0 1px var(--line); }
+</style>
+</head>
+<body>
+<div class="panel">
+  <div class="head">حارة 3 · التلات 10 نوفمبر</div>
+  <div class="grid">
+    <div class="chip past" aria-disabled="true"><span class="t">3:00 م</span><span class="s">فات</span></div>
+    <div class="chip available" role="button"><span class="t">4:00 م</span><span class="s">5 أماكن</span></div>
+    <div class="chip selected" role="button" aria-pressed="true"><span class="t">5:00 م</span><span class="s">مختار</span></div>
+    <div class="chip few" role="button"><span class="t">6:00 م</span><span class="s">فاضل 1</span></div>
+    <div class="chip full" aria-disabled="true"><span class="t">7:00 م</span><span class="s">مكتمل</span></div>
+    <div class="chip available" role="button"><span class="t">8:00 م</span><span class="s">6 أماكن</span></div>
+  </div>
+</div>
+</body>
+</html>

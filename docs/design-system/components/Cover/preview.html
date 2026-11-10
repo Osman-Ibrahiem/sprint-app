@@ -1,0 +1,52 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens.css">
+<title>Sprint</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;700&family=Cairo:wght@400;500;600;700&display=swap">
+<style>
+  html, body { margin:0; height:100%; }
+  body { background:var(--bg); color:var(--ink); font-family:var(--font-text); overflow:hidden; }
+  .cover { position:relative; height:288px; overflow:hidden; }
+  .art { position:absolute; top:0; left:480px; width:480px; height:288px; overflow:hidden; }
+  .art svg { display:block; width:480px; height:288px; }
+  .brand { fill:var(--primary); }
+  .volt { fill:var(--volt); }
+  .deep { fill:var(--ink); }
+  .blk { rx:var(--radius-lg); }
+  .rope { fill:var(--volt); rx:4px; }
+  .words { position:absolute; left:var(--space-6); bottom:var(--space-6); max-width:440px; }
+  .name { margin:0; font-family:var(--font-heading); font-size:112px; line-height:.9; font-weight:700; letter-spacing:-.02em; color:var(--ink); }
+  .tag { margin:var(--space-3) 0 0 4px; font-size:14px; line-height:20px; color:var(--ink-muted); direction:rtl; text-align:left; unicode-bidi:plaintext; }
+</style>
+</head>
+<body>
+<div class="cover">
+<div class="art" aria-hidden="true">
+<svg viewBox="0 0 480 288" width="480" height="288">
+<!--
+  blocks      primary 304x240 (the brand, largest) · volt 160x104 bleeding off the right edge (the bolt colour) · ink 160x120 bleeding off the right edge (the deep ground) — about 36% of 960x288
+  arrangement one tall primary slab with two stacked satellites, tops on one line space-6 from the top edge, bottoms space-6 above the bottom edge, space-4 gutters
+  pattern     lane ropes: rows of volt pills across the primary slab, because Sprint books swimming lanes and pitches by the slot — a literal motif built from radius-full pills
+  scales      gutters space-4; edges space-6; rope rows at a space-12 pitch, pills space-6 long and space-2 tall with space-3 gaps; corners radius-lg, pills half of space-2
+-->
+<rect class="brand blk" x="16" y="24" width="304" height="240" rx="16"/>
+<rect class="volt blk" x="336" y="24" width="160" height="104" rx="16"/>
+<rect class="deep blk" x="336" y="144" width="160" height="120" rx="16"/>
+<g>
+<rect class="rope" x="32" y="64" width="24" height="8"/><rect class="rope" x="68" y="64" width="24" height="8"/><rect class="rope" x="104" y="64" width="24" height="8"/><rect class="rope" x="140" y="64" width="24" height="8"/><rect class="rope" x="176" y="64" width="24" height="8"/><rect class="rope" x="212" y="64" width="24" height="8"/><rect class="rope" x="248" y="64" width="24" height="8"/><rect class="rope" x="284" y="64" width="24" height="8"/>
+<rect class="rope" x="32" y="112" width="24" height="8"/><rect class="rope" x="68" y="112" width="24" height="8"/><rect class="rope" x="104" y="112" width="24" height="8"/><rect class="rope" x="140" y="112" width="24" height="8"/><rect class="rope" x="176" y="112" width="24" height="8"/><rect class="rope" x="212" y="112" width="24" height="8"/><rect class="rope" x="248" y="112" width="24" height="8"/><rect class="rope" x="284" y="112" width="24" height="8"/>
+<rect class="rope" x="32" y="160" width="24" height="8"/><rect class="rope" x="68" y="160" width="24" height="8"/><rect class="rope" x="104" y="160" width="24" height="8"/><rect class="rope" x="140" y="160" width="24" height="8"/><rect class="rope" x="176" y="160" width="24" height="8"/><rect class="rope" x="212" y="160" width="24" height="8"/><rect class="rope" x="248" y="160" width="24" height="8"/><rect class="rope" x="284" y="160" width="24" height="8"/>
+<rect class="rope" x="32" y="208" width="24" height="8"/><rect class="rope" x="68" y="208" width="24" height="8"/><rect class="rope" x="104" y="208" width="24" height="8"/><rect class="rope" x="140" y="208" width="24" height="8"/><rect class="rope" x="176" y="208" width="24" height="8"/><rect class="rope" x="212" y="208" width="24" height="8"/><rect class="rope" x="248" y="208" width="24" height="8"/><rect class="rope" x="284" y="208" width="24" height="8"/>
+</g>
+</svg>
+</div>
+<div class="words">
+<h1 class="name">Sprint</h1>
+<p class="tag">حجز المنشآت الرياضية بجامعة طنطا</p>
+</div>
+</div>
+</body>
+</html>

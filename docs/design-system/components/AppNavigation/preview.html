@@ -1,0 +1,64 @@
+<!-- @dsCard group="Navigation" height=360 subtitle="sidebar · rail · tab bar" -->
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens.css">
+<title>AppNavigation</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;700&family=Cairo:wght@400;500;600;700&display=swap">
+<style>
+  body { margin:0; padding:var(--space-4); background:var(--bg); color:var(--ink); font-family:var(--font-text); }
+  .wrap { display:flex; gap:var(--space-6); align-items:flex-start; flex-wrap:wrap; }
+  .cap { font:400 13px/20px var(--font-text); color:var(--ink-muted); margin-bottom:var(--space-2); }
+  svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linejoin:round; stroke-linecap:round; flex:none; }
+  .side { width:220px; background:var(--surface); border-radius:var(--radius-lg); padding:var(--space-4) var(--space-3); display:flex; flex-direction:column; gap:var(--space-1); }
+  .brand { font:700 20px/30px var(--font-heading); color:var(--ink); padding:0 var(--space-3) var(--space-3); }
+  .si { display:flex; align-items:center; gap:var(--space-3); height:44px; padding:0 var(--space-3); border-radius:var(--radius-md); font:500 14px/20px var(--font-text); color:var(--ink-muted); }
+  .si.on { background:var(--primary-soft); color:var(--on-primary-soft); font-weight:600; }
+  .rail { width:var(--rail-width); background:var(--surface); border-radius:var(--radius-lg); padding:var(--space-3) 0; display:flex; flex-direction:column; align-items:center; gap:var(--space-3); }
+  .ri { display:flex; flex-direction:column; align-items:center; gap:4px; font:500 12px/16px var(--font-text); color:var(--ink-muted); }
+  .ri .pill { width:56px; height:32px; border-radius:var(--radius-full); display:flex; align-items:center; justify-content:center; }
+  .ri.on { color:var(--on-primary-soft); font-weight:600; }
+  .ri.on .pill { background:var(--primary-soft); }
+  .tabs { width:360px; height:var(--tabbar-height); background:var(--surface); border-top:1px solid var(--line); display:flex; }
+  .ti { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; font:500 12px/16px var(--font-text); color:var(--ink-muted); }
+  .ti.on { color:var(--primary); font-weight:600; }
+  .badge { background:var(--danger); color:var(--on-danger); font:600 11px/16px var(--font-text); min-width:16px; height:16px; border-radius:var(--radius-full); text-align:center; margin-inline-start:auto; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div>
+    <div class="cap">Expanded و Large</div>
+    <nav class="side">
+      <div class="brand">سبرنت</div>
+      <div class="si"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>الرئيسية</div>
+      <div class="si"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>المنشآت</div>
+      <div class="si on"><svg viewBox="0 0 24 24"><path d="M4 7h16v3a2 2 0 000 4v3H4v-3a2 2 0 000-4z"/><path d="M14 7v10"/></svg>حجوزاتي</div>
+      <div class="si"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4z"/><path d="M10 20h4"/></svg>الإشعارات<span class="badge">2</span></div>
+      <div class="si"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>حسابي</div>
+    </nav>
+  </div>
+  <div>
+    <div class="cap">Medium</div>
+    <nav class="rail">
+      <div class="ri"><span class="pill"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg></span>الرئيسية</div>
+      <div class="ri"><span class="pill"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg></span>المنشآت</div>
+      <div class="ri on"><span class="pill"><svg viewBox="0 0 24 24"><path d="M4 7h16v3a2 2 0 000 4v3H4v-3a2 2 0 000-4z"/><path d="M14 7v10"/></svg></span>حجوزاتي</div>
+      <div class="ri"><span class="pill"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4z"/><path d="M10 20h4"/></svg></span>الإشعارات</div>
+      <div class="ri"><span class="pill"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></span>حسابي</div>
+    </nav>
+  </div>
+  <div>
+    <div class="cap">Compact</div>
+    <nav class="tabs">
+      <div class="ti"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>الرئيسية</div>
+      <div class="ti"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>المنشآت</div>
+      <div class="ti on"><svg viewBox="0 0 24 24" style="fill:currentColor;fill-opacity:.18"><path d="M4 7h16v3a2 2 0 000 4v3H4v-3a2 2 0 000-4z"/><path d="M14 7v10"/></svg>حجوزاتي</div>
+      <div class="ti"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4z"/><path d="M10 20h4"/></svg>الإشعارات</div>
+      <div class="ti"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>حسابي</div>
+    </nav>
+  </div>
+</div>
+</body>
+</html>

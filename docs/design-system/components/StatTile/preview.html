@@ -1,0 +1,41 @@
+<!-- @dsCard group="Admin" height=176 subtitle="KPI tiles" -->
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens.css">
+<title>StatTile</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;700&family=Cairo:wght@400;500;600;700&display=swap">
+<style>
+  body { margin:0; padding:var(--space-4); background:var(--bg); color:var(--ink); font-family:var(--font-text); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:var(--space-4); max-width:760px; }
+  .tile { background:var(--surface); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:var(--space-4); display:flex; flex-direction:column; gap:var(--space-1); }
+  .k { font:400 13px/20px var(--font-text); color:var(--ink-muted); }
+  .v { font:700 32px/44px var(--font-text); color:var(--ink); }
+  .v small { font:600 15px/24px var(--font-text); color:var(--ink-muted); }
+  .d { display:inline-flex; align-items:center; gap:var(--space-1); font:500 13px/20px var(--font-text); }
+  .d svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.8; }
+  .good { color:var(--success); }
+  .bad { color:var(--danger); }
+</style>
+</head>
+<body>
+<div class="grid">
+  <div class="tile">
+    <span class="k">نسبة الإشغال · الأسبوع ده</span>
+    <span class="v">72%</span>
+    <span class="d good"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M4 7l4-4 4 4"/></svg>زيادة 6 نقاط عن الأسبوع اللي فات</span>
+  </div>
+  <div class="tile">
+    <span class="k">الإيراد · نوفمبر</span>
+    <span class="v">18,400 <small>ج.م</small></span>
+    <span class="d bad"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4"/></svg>أقل بـ 4% من أكتوبر</span>
+  </div>
+  <div class="tile">
+    <span class="k">نسبة الغياب</span>
+    <span class="v">9%</span>
+    <span class="d good"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4"/></svg>أقل بنقطتين، وده كويس</span>
+  </div>
+</div>
+</body>
+</html>
