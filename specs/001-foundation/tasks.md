@@ -35,12 +35,12 @@ proceed in parallel once Phase 2 is done (US5 needs a runnable app from Phase 1 
 
 **Purpose**: A runnable, green-on-CI empty app.
 
-- [ ] T001 Create the Flutter project in place at the repository root with `flutter create --org eg.edu.tanta --project-name sprint --platforms=android,ios,web,macos,windows,linux .` keeping `docs/`, `assets/`, `specs/`, `CLAUDE.md` untouched (research R2)
-- [ ] T002 Add dependencies and declare fonts and assets in `pubspec.yaml`: runtime `flutter_riverpod`, `riverpod_annotation`, `go_router`, `intl`, `flutter_localizations`, `shared_preferences`, `timezone`, `clock`, `freezed_annotation`; dev `build_runner`, `riverpod_generator`, `freezed`, `riverpod_lint`, `flutter_lints`, `mocktail`; fonts Alexandria 600/700, Cairo 400/500/600/700, IBM Plex Mono 400/500 from `assets/fonts/`; `flutter: generate: true` (research R1, tokens.md rule 5)
-- [ ] T003 [P] Configure `analysis_options.yaml` with `flutter_lints`, the `riverpod_lint` plugin and strict analysis, no excluded `lib/` folders
-- [ ] T004 [P] Create `l10n.yaml` and starter `lib/l10n/app_ar.arb` (template) and `lib/l10n/app_en.arb` with the app name and four destination names
-- [ ] T005 [P] Create `.github/workflows/ci.yml` per `contracts/ci.md`: pull requests to `develop` and `main`; pinned Flutter 3.47.9; pub get, build_runner and token drift checks (`git diff --exit-code`), `flutter analyze --fatal-infos`, `flutter test`, `flutter build web --release --base-href /sprint-app/`; job named `build`; permissions `contents: read`
-- [ ] T006 Replace the generated counter app: minimal `lib/main.dart` (ProviderScope + empty `MaterialApp`) and `test/smoke_test.dart` that pumps it
+- [X] T001 Create the Flutter project in place at the repository root with `flutter create --org eg.edu.tanta --project-name sprint --platforms=android,ios,web,macos,windows,linux .` keeping `docs/`, `assets/`, `specs/`, `CLAUDE.md` untouched (research R2)
+- [X] T002 Add dependencies and declare fonts and assets in `pubspec.yaml`: runtime `flutter_riverpod`, `riverpod_annotation`, `go_router`, `intl`, `flutter_localizations`, `shared_preferences`, `timezone`, `clock`, `freezed_annotation`; dev `build_runner`, `riverpod_generator`, `freezed`, `riverpod_lint`, `flutter_lints`, `mocktail`; fonts Alexandria 600/700, Cairo 400/500/600/700, IBM Plex Mono 400/500 from `assets/fonts/`; `flutter: generate: true` (research R1, tokens.md rule 5)
+- [X] T003 [P] Configure `analysis_options.yaml` with `flutter_lints`, the `riverpod_lint` plugin and strict analysis, no excluded `lib/` folders
+- [X] T004 [P] Create `l10n.yaml` and starter `lib/l10n/app_ar.arb` (template) and `lib/l10n/app_en.arb` with the app name and four destination names
+- [X] T005 [P] Create `.github/workflows/ci.yml` per `contracts/ci.md`: pull requests to `develop` and `main`; pinned Flutter 3.47.9; pub get, build_runner and token drift checks (`git diff --exit-code`), `flutter analyze --fatal-infos`, `flutter test`, `flutter build web --release --base-href /sprint-app/`; job named `build`; permissions `contents: read`
+- [X] T006 Replace the generated counter app: minimal `lib/main.dart` (ProviderScope + empty `MaterialApp`) and `test/smoke_test.dart` that pumps it
 - [ ] T007 Run analyze, test and web build locally and confirm green; commit the generated platform folders; then, with Osman's OK, open the one Draft pull request `001-foundation` → `develop` so CI runs on every push to it
 
 **Checkpoint**: Empty app builds on web and passes the same checks CI runs.
