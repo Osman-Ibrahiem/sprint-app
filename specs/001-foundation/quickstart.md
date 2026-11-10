@@ -36,8 +36,6 @@ flutter analyze --fatal-infos
 flutter test
 ```
 
-CI also runs `flutter test --tags golden` on Linux.
-
 ```bash
 flutter build web --release --base-href /sprint-app/
 ```
@@ -70,7 +68,7 @@ Use `flutter run -d <device-id>` for Android and iOS devices.
 | US2 text | Set system text size to the maximum (200%) on a compact window | No clipped or overlapping text |
 | US2 motion | Turn on "reduce motion" in the system | Shell animations skipped or short fade |
 | US3 adaptive | Open `/#/demo` on iOS, Android and web; trigger the dialog, sheet, switch, loader and app bar | Each matches [contracts/adaptive-controls.md](contracts/adaptive-controls.md) |
-| US4 data | On the demo screen, switch among seeded users; open the settings inspector | Navigation and permissions follow the user; values show where each setting resolves from (unit, facility, university or default) |
+| US4 data | On the demo screen, switch from guest to a seeded internal booker and back; open the settings inspector | Profile placeholder changes between the sign-in prompt and the user's name, role and tier; the inspector shows where each setting resolves from (unit, facility, university or default). Role-specific destinations are proved by `flutter test test/features/identity` |
 | US4 rules | Run `flutter test test/features` | Conflict, capacity, pricing, cancellation, hold and permission cases pass |
 | US5 deploy | Merge a trivial change into `develop`; open the Pages link | New build live in under 10 minutes; deep link and refresh work; a deliberately failing change leaves the old build live |
 

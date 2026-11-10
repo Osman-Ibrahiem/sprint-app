@@ -26,13 +26,13 @@ AuditLog records every administrative change
 | --- | --- | --- |
 | `OwningUnit` | `id`, `name`, `type` (`FACULTY`/`CENTRAL`) | name required |
 | `Facility` | `id`, `owningUnitId`, `name`, `type`, `description`, `photos`, `location`, `isFree`, `requiresTrainer`, `isPublished` | `isFree` and `requiresTrainer` define the three paths (BR-08, BR-09, BR-10); a free facility has no `Price`; unpublished facilities are hidden from guests |
-| `BookableUnit` | `id`, `facilityId`, `name`, `bookingMode`, `capacity`, `maxParticipants`, `isActive` | `capacity` ≥ 1 for `SHARED`; `bookingMode` change or capacity cut refused when future bookings exceed the new value (BR-04) |
+| `BookableUnit` | `id`, `facilityId`, `name`, `isActive` | `bookingMode`, `capacity` and `maxParticipants` are NOT fields: they are unit-scoped settings (registry below) and are always read through `SettingsRepository.resolve`. Changing `bookingMode` or cutting `capacity` is refused when future bookings exceed the new value (BR-04) |
 | `OperatingHours` | `ownerId` (unit or facility), `dayOfWeek`, `openTime`, `closeTime` | `openTime` < `closeTime`; times are Cairo wall-clock; no overlap within a day |
 | `Closure` | `scope` (facility/unit), `scopeId`, `from`, `to`, `reason` | `from` < `to`; removes slots in range (BR-05) |
 | `Price` | `unitId`, `tier`, `amount`, `currency` (`EGP`) | amount ≥ 0; one row per unit × tier; free facilities have none (BR-16, BR-19) |
 | `Offer` | `scope`, `discountPercent`, `days`, `timeRange`, `tier?`, `validFrom`, `validTo` | 0 < discount ≤ 100 (BR-20) |
 | `Trainer` / `TrainerAvailability` | per BRD | `trainerCapacity` ≥ 1; availability windows do not overlap (BR-09) |
-| `User` | `id`, `name`, `phone`, `email`, `photo`, `nationalId?`, `tier`, `status` | `tier` is derived from `Verification` and its expiry; default `EXTERNAL` (BR-21, BR-25); national id unique (BR-27) and shown masked |
+| `User` | `id`, `name`, `phone`, `email`, `photo`, `nationalId?`, `tier`, `status` | The current user is `null` for a guest (the launch state); the demo switcher can select any seeded user. `tier` is derived from `Verification` and its expiry; default `EXTERNAL` (BR-21, BR-25); national id unique (BR-27) and shown masked |
 | `Verification` | per BRD | `expiresAt` from `verificationExpiry`; rejected status requires `reason` (BR-26) |
 | `RoleAssignment` | `userId`, `role`, `scopeType`, `scopeId?` | `UNIVERSITY` has no `scopeId`; others require it; a user may hold several |
 | `Booking` | `id`, `code`, `userId`, `unitId`, `trainerId?`, `start`, `end`, `seats`, `tierAtBooking`, `priceAtBooking`, `status`, `qrToken`, `holdExpiresAt?`, `cancelledBy?`, `cancelReason?` | tier and price frozen at creation (BR-17); `seats` = 1 for `SHARED` and 1 for `EXCLUSIVE`; not transferable (BR-38) |
@@ -75,6 +75,8 @@ owner cancel before `cancellationCutoffHours` pays `refundPercent`; admin cancel
 Services take `now` from the injected `Clock`; none reads the system time directly.
 
 ## Settings registry (BRD §4)
+
+Setting keys are the only home of `bookingMode`, `capacity` and `maxParticipants`, so there is one source for each (constitution III).
 
 Resolution: unit → facility → university → registry default. A value outside its allowed scopes
 or failing validation is rejected by `SettingsRepository.set` with a typed error (spec edge case).

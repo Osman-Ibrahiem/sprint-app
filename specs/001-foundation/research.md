@@ -188,10 +188,10 @@ with `flutter pub add` at implementation time.
   matrix against BRD §6, formatters, token generator drift, guard tests (R9). Widget tests:
   shell at the six boundary widths (599/600/839/840/1199/1200), state kept across a size change,
   each adaptive control on iOS, Android and web/desktop overrides, 200% text scale on compact,
-  Arabic and English direction. One golden set (light/dark, ar) for the token gallery to catch
-  accidental token changes; goldens are tagged `golden`, excluded from the default local `flutter test` run through
-  `dart_test.yaml`, and run in CI with `--tags golden` on the Linux runner, so they do not
-  flap between developer machines. Updating them is a deliberate step in a pull request.
+  Arabic and English direction. A widget test renders the token gallery in light, dark, Arabic and English and asserts no
+  overflow. Pixel goldens are NOT used: they only match on the machine that made them (fonts
+  render differently on macOS and the Linux CI runner), and the token drift test already catches
+  accidental token changes.
 - **Rationale**: Covers SC-002 – SC-009. `integration_test` is not used in this feature; a
   manual device checklist in quickstart covers the foldable and the native-look checks that
   automation cannot judge.

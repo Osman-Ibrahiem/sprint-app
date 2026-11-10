@@ -100,6 +100,7 @@ The app comes with realistic Egyptian placeholder data: Arabic facility names, E
 6. **Given** an internal-tier and an external-tier user, **When** the price of the same slot is requested, **Then** each gets its own tier price.
 7. **Given** a payment is requested, **When** it goes through the payment boundary, **Then** the caller cannot tell whether a sandbox gateway or a fake answered.
 8. **Given** a user without the role needed for an action, **When** the action is tried, **Then** the permission check refuses it, using the role × scope rules of BRD §6.
+9. **Given** the demo user switcher, **When** the reviewer switches from guest to an internal booker and back, **Then** the Profile placeholder changes between the sign-in prompt and the user's name, role and price tier, and the destination list is computed from that user's roles.
 
 ---
 
@@ -180,7 +181,7 @@ When a change is merged into `develop`, an automatic job checks the project and 
 - **FR-028**: Pull requests into `develop` and `main` MUST run the same three checks before merge.
 - **FR-029**: The published web app MUST work when opened on a deep link or refreshed on any route.
 - **FR-030**: The project MUST contain a written project constitution in `.specify/memory/constitution.md`, derived from CLAUDE.md, before the plan step.
-- **FR-031**: The demo screen MUST include a reviewer-only control that switches the current user among the seeded users, so role-based navigation can be seen without sign-in; it MUST be easy to remove or hide from a release build.
+- **FR-031**: The demo screen MUST include a reviewer-only control that switches the current user among the seeded users, so role-based behaviour can be seen without sign-in. Switching user MUST visibly change the Profile placeholder (name, role and price tier of the user, or the guest sign-in prompt), and the list of navigation destinations MUST be computed from the user's role assignments; in this feature guest and booker both get the four destinations, and role-specific destinations are proved by an automated test with a trainer user. The control MUST be easy to remove or hide from a release build.
 
 ### Key Entities
 
@@ -230,6 +231,7 @@ Foundation is UI-only and prepares the ground. These are explicitly not part of 
 - The technology stack and architecture are those fixed in `CLAUDE.md` (Flutter, Riverpod with codegen, Freezed, GoRouter, feature-first Clean Architecture, repository interfaces). This spec states outcomes; the how belongs to the plan.
 - **Top-level destinations**: Home, Facilities, My Bookings, Profile (see Clarifications). Role-specific destinations (trainer, admin) appear later by role data.
 - **Seed data size**: about 6 facilities (for example a swimming pool, a football pitch, a gym, a tennis court, a free multi-purpose hall, and a training course), across 3 owning units (two faculties and one central unit), about 15 bookable units, 10 users (every role at least once, both tiers), and 20 bookings spread across all statuses. Names and prices are placeholders.
+- **Current user**: at launch there is no current user, which means a guest; the demo switcher can select any seeded user and return to guest.
 - **Persistence**: the only things saved across launches are the theme choice and the language. Seed data resets on every start.
 - The GitHub Pages site is served from the public repository `sprint-app` (a public repo needs no paid plan). The published address is under a sub-path, so routing must work under it.
 - Android and iOS builds are verified by hand on a developer machine, not in CI, in this feature.

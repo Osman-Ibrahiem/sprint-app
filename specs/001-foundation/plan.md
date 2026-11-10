@@ -26,7 +26,7 @@ GitHub Pages. Approach and package choices are in [research.md](research.md).
 **Storage**: In-memory seed data (resets on every start). Only theme mode and locale persist,
 through `shared_preferences`.
 
-**Testing**: `flutter_test` (unit, widget, and goldens tagged `golden`, run in CI only) and `mocktail`. Guard tests
+**Testing**: `flutter_test` (unit and widget tests, no pixel goldens) and `mocktail`. Guard tests
 scan source for raw colours, numeric style literals, left/right-specific layout and hard-coded
 strings. A manual device checklist covers foldable and native-look checks (see quickstart).
 
@@ -138,7 +138,6 @@ test/
 ├── features/        # rule services (table-driven), settings, permissions, repositories
 ├── shell/           # six boundary widths, state kept on resize, a11y, text scale
 ├── guards/          # raw-value scan, RTL scan, ARB parity
-└── goldens/         # token gallery light/dark (CI Linux runner)
 ```
 
 **Structure Decision**: A single Flutter package at the repository root, feature-first with
@@ -162,7 +161,7 @@ No constitution violations. Nothing to justify.
 4. Adaptive controls and the demo screen.
 5. Domain entities, settings registry, rule services, in-memory repositories, seed data,
    `PaymentProvider` fake, permission checker.
-6. Guard tests, goldens, accessibility and boundary tests.
+6. Guard tests, accessibility and boundary tests.
 7. Pages deploy workflow, one-time Pages setting, required status checks on the protected
    branches.
 
