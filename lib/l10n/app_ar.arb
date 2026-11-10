@@ -1,9 +1,23 @@
 {
   "@@locale": "ar",
   "appName": "سبرنت",
-  "@appName": {"description": "App name, shown as the wordmark"},
+  "@appName": {
+    "description": "App name, shown as the wordmark"
+  },
   "navHome": "الرئيسية",
   "navFacilities": "المنشآت",
   "navBookings": "حجوزاتي",
-  "navProfile": "حسابي"
+  "navProfile": "حسابي",
+  "navMainLabel": "التنقل الرئيسي",
+  "placeholderNote": "الشاشة دي لسه تحت التجهيز.",
+  "homeIntro": "هنا هتلاقي المنشآت والمواعيد القريبة.",
+  "facilitiesIntro": "كل منشآت الجامعة الرياضية في مكان واحد.",
+  "facilitiesSearchHint": "البحث عن منشأة",
+  "signInPromptTitle": "محتاج تسجيل دخول",
+  "signInPromptBody": "حجوزاتك وبيانات حسابك هتظهر هنا بعد تسجيل الدخول. التسجيل لسه مش متاح في النسخة دي.",
+  "notFoundTitle": "الصفحة دي مش موجودة",
+  "notFoundBody": "الرابط ممكن يكون اتغيّر أو مكتوب غلط.",
+  "backToHome": "الرجوع للرئيسية",
+  "homeTitle": "أهلًا بيك في سبرنت",
+  "facilitiesTitle": "منشآت الجامعة"
 }

@@ -4,5 +4,17 @@
   "navHome": "Home",
   "navFacilities": "Facilities",
   "navBookings": "My bookings",
-  "navProfile": "Profile"
+  "navProfile": "Profile",
+  "navMainLabel": "Main navigation",
+  "placeholderNote": "This screen is still being built.",
+  "homeIntro": "Nearby facilities and upcoming slots will show up here.",
+  "facilitiesIntro": "All the university's sports facilities in one place.",
+  "facilitiesSearchHint": "Search facilities",
+  "signInPromptTitle": "Sign-in needed",
+  "signInPromptBody": "Your bookings and account details will show here once you sign in. Sign-in isn't available in this version yet.",
+  "notFoundTitle": "This page doesn't exist",
+  "notFoundBody": "The link may have changed or been typed wrong.",
+  "backToHome": "Back to home",
+  "homeTitle": "Welcome to Sprint",
+  "facilitiesTitle": "University facilities"
 }

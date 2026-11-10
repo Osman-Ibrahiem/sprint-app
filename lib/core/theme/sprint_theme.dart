@@ -96,6 +96,20 @@ abstract final class SprintTheme {
               s.contains(WidgetState.selected) ? c.primary : c.surfaceSunken,
         ),
       ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: c.primary,
+          foregroundColor: c.onPrimary,
+          minimumSize: const Size(
+            SprintSize.controlHeight,
+            SprintSize.controlHeight,
+          ),
+          textStyle: SprintText.button,
+          shape: const RoundedRectangleBorder(
+            borderRadius: SprintRadius.mdBorder,
+          ),
+        ),
+      ),
       progressIndicatorTheme: ProgressIndicatorThemeData(color: c.primary),
       iconTheme: IconThemeData(color: c.ink, size: SprintSize.iconLg),
       visualDensity: VisualDensity.standard,

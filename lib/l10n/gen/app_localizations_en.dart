@@ -23,4 +23,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navProfile => 'Profile';
+
+  @override
+  String get navMainLabel => 'Main navigation';
+
+  @override
+  String get placeholderNote => 'This screen is still being built.';
+
+  @override
+  String get homeIntro =>
+      'Nearby facilities and upcoming slots will show up here.';
+
+  @override
+  String get facilitiesIntro =>
+      'All the university\'s sports facilities in one place.';
+
+  @override
+  String get facilitiesSearchHint => 'Search facilities';
+
+  @override
+  String get signInPromptTitle => 'Sign-in needed';
+
+  @override
+  String get signInPromptBody =>
+      'Your bookings and account details will show here once you sign in. Sign-in isn\'t available in this version yet.';
+
+  @override
+  String get notFoundTitle => 'This page doesn\'t exist';
+
+  @override
+  String get notFoundBody => 'The link may have changed or been typed wrong.';
+
+  @override
+  String get backToHome => 'Back to home';
+
+  @override
+  String get homeTitle => 'Welcome to Sprint';
+
+  @override
+  String get facilitiesTitle => 'University facilities';
 }

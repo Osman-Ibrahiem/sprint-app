@@ -127,6 +127,78 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'حسابي'**
   String get navProfile;
+
+  /// No description provided for @navMainLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'التنقل الرئيسي'**
+  String get navMainLabel;
+
+  /// No description provided for @placeholderNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشاشة دي لسه تحت التجهيز.'**
+  String get placeholderNote;
+
+  /// No description provided for @homeIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'هنا هتلاقي المنشآت والمواعيد القريبة.'**
+  String get homeIntro;
+
+  /// No description provided for @facilitiesIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل منشآت الجامعة الرياضية في مكان واحد.'**
+  String get facilitiesIntro;
+
+  /// No description provided for @facilitiesSearchHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'البحث عن منشأة'**
+  String get facilitiesSearchHint;
+
+  /// No description provided for @signInPromptTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'محتاج تسجيل دخول'**
+  String get signInPromptTitle;
+
+  /// No description provided for @signInPromptBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجوزاتك وبيانات حسابك هتظهر هنا بعد تسجيل الدخول. التسجيل لسه مش متاح في النسخة دي.'**
+  String get signInPromptBody;
+
+  /// No description provided for @notFoundTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفحة دي مش موجودة'**
+  String get notFoundTitle;
+
+  /// No description provided for @notFoundBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرابط ممكن يكون اتغيّر أو مكتوب غلط.'**
+  String get notFoundBody;
+
+  /// No description provided for @backToHome.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرجوع للرئيسية'**
+  String get backToHome;
+
+  /// No description provided for @homeTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'أهلًا بيك في سبرنت'**
+  String get homeTitle;
+
+  /// No description provided for @facilitiesTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'منشآت الجامعة'**
+  String get facilitiesTitle;
 }
 
 class _AppLocalizationsDelegate

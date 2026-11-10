@@ -75,22 +75,22 @@ state across resize and fold. (FR-001 – FR-008, SC-001 – SC-003)
 
 ### Tests for US1 (write first, must fail)
 
-- [ ] T018 [P] [US1] `test/shell/shell_boundaries_test.dart`: at 320 and 1920 and the six boundary widths exactly one navigation form is visible (tab bar / rail / sidebar) and large content is capped at `content-max` (SC-002)
-- [ ] T019 [P] [US1] `test/shell/shell_state_test.dart`: select My Bookings, enter text and scroll, resize across each boundary; destination, text and scroll offset persist (FR-005, SC-003)
-- [ ] T020 [P] [US1] `test/shell/hinge_test.dart`: inject a `DisplayFeature` hinge and assert no text or control overlaps it in two-pane layouts (FR-006)
-- [ ] T021 [P] [US1] `test/shell/routing_test.dart`: `/` redirects to `/home`; unknown path shows not-found with a button to Home; guest on `/bookings` and `/profile` sees the sign-in placeholder without redirect (FR-004, FR-008, `contracts/routes.md`)
-- [ ] T022 [P] [US1] `test/shell/shell_a11y_test.dart`: every destination has a spoken label, 48dp targets, visible focus on keyboard platforms, labels survive 200% text scale at compact width (FR-017, SC-006)
+- [X] T018 [P] [US1] `test/shell/shell_boundaries_test.dart`: at 320 and 1920 and the six boundary widths exactly one navigation form is visible (tab bar / rail / sidebar) and large content is capped at `content-max` (SC-002)
+- [X] T019 [P] [US1] `test/shell/shell_state_test.dart`: select My Bookings, enter text and scroll, resize across each boundary; destination, text and scroll offset persist (FR-005, SC-003)
+- [X] T020 [P] [US1] `test/shell/hinge_test.dart`: inject a `DisplayFeature` hinge and assert no text or control overlaps it in two-pane layouts (FR-006)
+- [X] T021 [P] [US1] `test/shell/routing_test.dart`: `/` redirects to `/home`; unknown path shows not-found with a button to Home; guest on `/bookings` and `/profile` sees the sign-in placeholder without redirect (FR-004, FR-008, `contracts/routes.md`)
+- [X] T022 [P] [US1] `test/shell/shell_a11y_test.dart`: every destination has a spoken label, 48dp targets, visible focus on keyboard platforms, labels survive 200% text scale at compact width (FR-017, SC-006)
 
 ### Implementation for US1
 
-- [ ] T023 [P] [US1] Route name constants and path table in `lib/app/router/routes.dart` (four destinations in order, `/demo`, route list built from data not per role, FR-007)
-- [ ] T024 [P] [US1] Placeholder screens in `lib/app/shell/placeholders/home_placeholder.dart`, `facilities_placeholder.dart`, `bookings_placeholder.dart`, `profile_placeholder.dart` and `not_found_screen.dart`, all strings from ARB; guest sign-in prompt on bookings and profile
-- [ ] T025 [P] [US1] Navigation widgets using tokens only: `lib/app/shell/nav/sprint_tab_bar.dart` (`tabbar-height`, blur on Apple), `sprint_nav_rail.dart` (`rail-width`), `sprint_sidebar.dart` (`sidebar-width`, wordmark "سبرنت"), each with semantic labels, hover and `focus-ring` on keyboard platforms
-- [ ] T026 [US1] `lib/app/shell/adaptive_shell.dart`: pick the nav form from `WindowSize`, keep the `navigationShell` under a `GlobalKey` so form changes re-parent instead of rebuild, centre content up to `content-max` on large (depends on T023 – T025)
-- [ ] T027 [US1] `lib/core/window/display_feature_layout.dart`: split two-pane content around hinges using `MediaQuery.displayFeatures` and `DisplayFeatureSubScreen`; use it in the shell for medium and larger (FR-006)
-- [ ] T028 [US1] `lib/app/router/app_router.dart`: `GoRouter` with `StatefulShellRoute.indexedStack` (four branches), `/` redirect, not-found `errorBuilder`, hash URL strategy; provider in `lib/app/router/router_provider.dart`
-- [ ] T029 [US1] Plug the router and shell into `lib/app/app.dart`; Arabic is the default locale; show the Sprint wordmark text (the SVG logo widget is feature 2)
-- [ ] T030 [US1] Run T018 – T022 and the quickstart US1 steps on web and macOS; also confirm page transitions are the platform defaults (FR-018); fix until green
+- [X] T023 [P] [US1] Route name constants and path table in `lib/app/router/routes.dart` (four destinations in order, `/demo`, route list built from data not per role, FR-007)
+- [X] T024 [P] [US1] Placeholder screens in `lib/app/shell/placeholders/home_placeholder.dart`, `facilities_placeholder.dart`, `bookings_placeholder.dart`, `profile_placeholder.dart` and `not_found_screen.dart`, all strings from ARB; guest sign-in prompt on bookings and profile
+- [X] T025 [P] [US1] Navigation widgets using tokens only: `lib/app/shell/nav/sprint_tab_bar.dart` (`tabbar-height`, blur on Apple), `sprint_nav_rail.dart` (`rail-width`), `sprint_sidebar.dart` (`sidebar-width`, wordmark "سبرنت"), each with semantic labels, hover and `focus-ring` on keyboard platforms
+- [X] T026 [US1] `lib/app/shell/adaptive_shell.dart`: pick the nav form from `WindowSize`, keep the `navigationShell` under a `GlobalKey` so form changes re-parent instead of rebuild, centre content up to `content-max` on large (depends on T023 – T025)
+- [X] T027 [US1] `lib/core/window/display_feature_layout.dart`: split two-pane content around hinges using `MediaQuery.displayFeatures` and `DisplayFeatureSubScreen`; use it in the shell for medium and larger (FR-006)
+- [X] T028 [US1] `lib/app/router/app_router.dart`: `GoRouter` with `StatefulShellRoute.indexedStack` (four branches), `/` redirect, not-found `errorBuilder`, hash URL strategy; provider in `lib/app/router/router_provider.dart`
+- [X] T029 [US1] Plug the router and shell into `lib/app/app.dart`; Arabic is the default locale; show the Sprint wordmark text (the SVG logo widget is feature 2)
+- [X] T030 [US1] Run T018 – T022 and the quickstart US1 steps on web and macOS; also confirm page transitions are the platform defaults (FR-018); fix until green
 
 **Checkpoint**: US1 works alone and is demonstrable (MVP, part 1).
 
