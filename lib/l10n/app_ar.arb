@@ -1,0 +1,9 @@
+{
+  "@@locale": "ar",
+  "appName": "سبرنت",
+  "@appName": {"description": "App name, shown as the wordmark"},
+  "navHome": "الرئيسية",
+  "navFacilities": "المنشآت",
+  "navBookings": "حجوزاتي",
+  "navProfile": "حسابي"
+}
