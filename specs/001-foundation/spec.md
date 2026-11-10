@@ -196,7 +196,7 @@ Foundation implements the shapes of BRD §5; it does not add new business concep
 
 ### Measurable Outcomes
 
-- **SC-001**: The app starts and shows the shell on all five target families (Android, iOS, web, macOS or Windows desktop, and a tablet) with no manual step beyond installing or opening it.
+- **SC-001**: The app starts and shows the shell on all five target families (Android, iOS, web, macOS desktop, and a tablet) with no manual step beyond installing or opening it.
 - **SC-002**: At every width from 320 to 1920, exactly one navigation form is visible, and it is the one defined for that width in 100% of tested widths, including the six boundary widths (599, 600, 839, 840, 1199, 1200).
 - **SC-003**: Resizing across a boundary, or folding and unfolding, keeps the destination and scroll position in 100% of tested transitions.
 - **SC-004**: 100% of colours, spacing, radius, size and motion values used by shell and demo screens trace to a named token; a repository search for raw colour values or numeric style literals in screen code finds none.
