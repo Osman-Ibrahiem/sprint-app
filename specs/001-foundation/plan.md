@@ -26,13 +26,14 @@ GitHub Pages. Approach and package choices are in [research.md](research.md).
 **Storage**: In-memory seed data (resets on every start). Only theme mode and locale persist,
 through `shared_preferences`.
 
-**Testing**: `flutter_test` (unit, widget, goldens on the CI runner) and `mocktail`. Guard tests
+**Testing**: `flutter_test` (unit, widget, and goldens tagged `golden`, run in CI only) and `mocktail`. Guard tests
 scan source for raw colours, numeric style literals, left/right-specific layout and hard-coded
 strings. A manual device checklist covers foldable and native-look checks (see quickstart).
 
 **Target Platform**: Android, iOS (phone and iPad), web, macOS, Windows, Linux. Foldables are
 covered by width classes and `MediaQuery.displayFeatures`. Hand-checked in this feature: web,
-macOS, one Android and one iOS target; Windows and Linux are build-checked only.
+macOS, one Android and one iOS target. Windows and Linux are scaffolded but not built or run
+here (they need their own host machines); they are verified when first needed.
 
 **Project Type**: Mobile + web + desktop app (single Flutter package, no backend).
 

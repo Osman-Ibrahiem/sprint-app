@@ -36,6 +36,8 @@ flutter analyze --fatal-infos
 flutter test
 ```
 
+CI also runs `flutter test --tags golden` on Linux.
+
 ```bash
 flutter build web --release --base-href /sprint-app/
 ```
@@ -75,5 +77,5 @@ Use `flutter run -d <device-id>` for Android and iOS devices.
 ## Done means
 
 All automated checks green on CI for the pull request, the manual table above checked on at
-least web, macOS, one Android target and one iOS target (Windows and Linux build only), and the
+least web, macOS, one Android target and one iOS target (Windows and Linux are not run in this feature), and the
 spec's success criteria SC-001 – SC-011 each ticked with the evidence noted in the pull request.

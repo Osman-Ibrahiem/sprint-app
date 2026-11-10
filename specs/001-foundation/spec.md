@@ -163,7 +163,7 @@ When a change is merged into `develop`, an automatic job checks the project and 
 **Adaptive controls** (NFR-01, `adaptive.md`)
 
 - **FR-019**: The app MUST provide one adaptive version each of app bar, dialog, sheet, switch and loader, whose behaviour follows the platform as defined in `adaptive.md`, and screens MUST use them without checking the platform.
-- **FR-020**: A demo screen MUST show each adaptive control and each theme and language, so reviewers can check them on a real device.
+- **FR-020**: A demo screen MUST show each adaptive control and each theme and language, and a read-only settings inspector that shows, for a chosen unit, each setting's value and the level it comes from (unit, facility, university or default), so reviewers can check them on a real device.
 
 **Data layer and settings** (NFR-11, NFR-13, BRD §4, §5)
 
@@ -234,4 +234,4 @@ Foundation is UI-only and prepares the ground. These are explicitly not part of 
 - The GitHub Pages site is served from the public repository `sprint-app` (a public repo needs no paid plan). The published address is under a sub-path, so routing must work under it.
 - Android and iOS builds are verified by hand on a developer machine, not in CI, in this feature.
 - Time handling uses Cairo time for display and UTC for storage (NFR-03), even though the data is in memory.
-- Windows and Linux desktop builds are supported by the code but only macOS and web are checked on a developer machine in this feature; the others are checked by building, not by hand.
+- Windows and Linux are scaffolded by the project but not built or run in this feature (they need their own host machines); only web, macOS, Android and iOS are checked.

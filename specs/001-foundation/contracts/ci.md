@@ -11,7 +11,7 @@
 | `dart run build_runner build --delete-conflicting-outputs` then `git diff --exit-code` | generated Riverpod/Freezed/l10n files are stale |
 | `dart run tool/gen_tokens.dart` then `git diff --exit-code` | tokens drifted from `tokens.json` |
 | `flutter analyze --fatal-infos` | any analyzer or lint finding |
-| `flutter test` | any unit, widget, guard or golden test fails |
+| `flutter test` and `flutter test --tags golden` | any unit, widget, guard or golden test fails |
 | `flutter build web --release --base-href /sprint-app/` | web build fails |
 
 Permissions: `contents: read` only.

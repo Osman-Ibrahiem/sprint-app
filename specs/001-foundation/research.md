@@ -3,8 +3,9 @@
 **Feature**: 001-foundation | **Date**: 2026-11-10 | **Spec**: [spec.md](spec.md)
 
 Every "NEEDS CLARIFICATION" in the plan's Technical Context is resolved here. Package versions
-were read from pub.dev on 2026-11-10 and MUST be re-confirmed with `flutter pub add` at
-implementation time (the resolver picks the final constraint).
+were read from pub.dev on 2026-11-10 and the full set was dry-run resolved together in a
+scratch Flutter 3.47.9 project (no conflicts). The resolver still picks the final constraints
+with `flutter pub add` at implementation time.
 
 ## R1. Toolchain and packages
 
@@ -60,15 +61,15 @@ implementation time (the resolver picks the final constraint).
 
 - **Decision**: Flutter `gen-l10n` with ARB files `lib/l10n/app_ar.arb` (template) and
   `app_en.arb`. Western digits in both languages: formatters pass `NumberFormat` /
-  `DateFormat` locales that produce Latin digits (`ar` locale with the `latn` numbering
-  system, for example `ar-EG-u-nu-latn` as the formatting locale while the UI locale stays
-  `ar`). A `SprintFormat` helper owns price ("120 ج.م" / "EGP 120"), 12-hour time
+  `DateFormat` with the plain `ar` locale, which prints Latin digits. Checked on 2026-11-10 with
+  intl 0.20.3: `ar` gives "5:00 م" and "1,234", while `ar_EG` would give Arabic-Indic digits
+  ("٥:٠٠ م"), so `ar_EG` MUST NOT be used for formatting. A `SprintFormat` helper owns price ("120 ج.م" / "EGP 120"), 12-hour time
   ("5:00 م" / "5:00 PM"), and date; screens never call `intl` directly.
 - **Rationale**: FR-013 – FR-015. One helper is the only place that can get digits or currency
   wrong, and it is unit-testable. An ARB-completeness test fails if a key exists in one language
   only (SC-005).
-- **Risk**: confirm on a device that the Arabic AM/PM markers print "ص" / "م" as the brief
-  wants; if not, `SprintFormat` overrides them.
+- **Verified**: the plain `ar` locale prints "م" / "ص" markers as the brief wants. A unit test
+  pins the output so a future intl upgrade cannot change digits silently.
 
 ## R6. Window size classes, shell and state preservation
 
@@ -134,7 +135,7 @@ implementation time (the resolver picks the final constraint).
 ## R9. Guard tests (SC-004, SC-005)
 
 - **Decision**: Plain `flutter_test` tests that scan `lib/` (excluding `lib/core/tokens/` and
-  `lib/core/seed/`) and fail on: `Color(0x`, `Colors.` outside theme glue, numeric `fontSize:`
+  `lib/core/seed/`) and fail on: `Color(0x`, `Colors.` other than `Colors.transparent`, numeric `fontSize:`
   or `EdgeInsets.all(<number>)` literals, `Alignment.centerLeft/Right` and `EdgeInsets.only(left:|right:)`
   (RTL), and string literals passed to `Text(`. A second test compares ARB keys across
   languages.
@@ -188,8 +189,9 @@ implementation time (the resolver picks the final constraint).
   shell at the six boundary widths (599/600/839/840/1199/1200), state kept across a size change,
   each adaptive control on iOS, Android and web/desktop overrides, 200% text scale on compact,
   Arabic and English direction. One golden set (light/dark, ar) for the token gallery to catch
-  accidental token changes; goldens are generated on the CI Linux runner only, so they do not
-  flap between developer machines.
+  accidental token changes; goldens are tagged `golden`, excluded from the default local `flutter test` run through
+  `dart_test.yaml`, and run in CI with `--tags golden` on the Linux runner, so they do not
+  flap between developer machines. Updating them is a deliberate step in a pull request.
 - **Rationale**: Covers SC-002 – SC-009. `integration_test` is not used in this feature; a
   manual device checklist in quickstart covers the foldable and the native-look checks that
   automation cannot judge.
