@@ -31,5 +31,5 @@
 
 ## Notes
 
-- Judgement calls recorded in Assumptions for `/speckit-clarify`: top-level destination names, seed data size, demo role switcher, CI check set.
+- Clarified 2026-11-10: top-level destinations, demo role switcher, CI check set. Still an assumption (low impact): seed data size.
 - The project constitution is still the unfilled template; FR-030 requires it before `/speckit-plan`.

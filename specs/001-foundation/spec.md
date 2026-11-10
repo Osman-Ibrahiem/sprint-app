@@ -10,6 +10,14 @@
 
 **BRD coverage**: NFR-01, NFR-02, NFR-03, NFR-04, NFR-10, NFR-11, NFR-13, NFR-14, NFR-15; BR-01 – BR-03, BR-06 – BR-09, BR-12, BR-14, BR-30, BR-31, BR-35, BR-39 (settings and their defaults, §4); BR-15 – BR-16 (price tiers, seed data); BR-29 (`PaymentProvider` boundary); FR-AUTH-04 (shell is built on roles and scopes, with no real sign-in yet). Domain model: BRD §5. Design rules: `docs/design-system/README.md`, `adaptive.md`, `handoff.md`.
 
+## Clarifications
+
+### Session 2026-11-10
+
+- Q: Which top-level destinations does the shell show for a guest and a booker? → A: Four: Home, Facilities, My Bookings, Profile. Guests see Home and Facilities as usable and the other two as a sign-in prompt placeholder.
+- Q: Does the shell include a reviewer-only control to view the app as another seeded user (another role) without real sign-in? → A: Yes, a demo-only switcher on the demo screen; whether it stays in the defense build is decided later.
+- Q: Which checks must pass before a PR merges and before `develop` is published? → A: Static analysis, all automated tests and a successful web build. Android and iOS builds are not part of CI in this feature.
+
 ## User Scenarios & Testing *(mandatory)*
 
 Foundation has no business feature of its own. It is the base that every later feature stands on, so its "users" are the person who opens the running app (Osman, Dr. Sara, the expert reviewers) and the developers and agents who build the next features. Each story below can be checked on its own.
@@ -133,7 +141,7 @@ When a change is merged into `develop`, an automatic job checks the project and 
 - **FR-001**: The app MUST run from one codebase on Android, iOS (phone and iPad), foldables, web and desktop.
 - **FR-002**: The app MUST choose its layout from the window width only, using four size classes: compact below 600, medium 600–839, expanded 840–1199, large 1200 and above. It MUST NOT depend on device names or models.
 - **FR-003**: The shell MUST show a bottom tab bar in compact, a rail in medium, and a sidebar in expanded and large; content in large MUST be centred and limited to the maximum content width token.
-- **FR-004**: The shell MUST provide placeholder destinations for the top-level areas a guest and a booker will use (see Assumptions), each reachable by URL, so later features replace placeholders without changing navigation.
+- **FR-004**: The shell MUST provide four placeholder destinations (Home, Facilities, My Bookings, Profile), each reachable by URL, so later features replace placeholders without changing navigation.
 - **FR-005**: The shell MUST keep the selected destination, the in-progress input and the scroll position when the size class changes or a foldable folds or unfolds.
 - **FR-006**: On a foldable with a hinge or fold that splits the screen, two-pane layouts MUST avoid placing text or controls on the hinge.
 - **FR-007**: Navigation MUST be built from the user's roles and scopes (a guest has none), so later role-specific destinations appear by data rather than by new navigation code.
@@ -168,10 +176,11 @@ When a change is merged into `develop`, an automatic job checks the project and 
 
 **Delivery** (NFR-14, NFR-15)
 
-- **FR-027**: A change merged into `develop` MUST be checked automatically and, if the checks pass, published to GitHub Pages; a failing change MUST NOT be published.
-- **FR-028**: Pull requests into `develop` and `main` MUST run the same checks before merge.
+- **FR-027**: A change merged into `develop` MUST be checked automatically (static analysis, all automated tests and a web build) and, if all pass, published to GitHub Pages; a failing change MUST NOT be published.
+- **FR-028**: Pull requests into `develop` and `main` MUST run the same three checks before merge.
 - **FR-029**: The published web app MUST work when opened on a deep link or refreshed on any route.
 - **FR-030**: The project MUST contain a written project constitution in `.specify/memory/constitution.md`, derived from CLAUDE.md, before the plan step.
+- **FR-031**: The demo screen MUST include a reviewer-only control that switches the current user among the seeded users, so role-based navigation can be seen without sign-in; it MUST be easy to remove or hide from a release build.
 
 ### Key Entities
 
@@ -206,7 +215,7 @@ Foundation is UI-only and prepares the ground. These are explicitly not part of 
 - **Backend**: no Supabase, no Firebase, no server, no real database, no real push, no real file upload. All data is in memory and resets on restart.
 - **Real payments**: no gateway account or call; only the payment boundary and a fake or sandbox answer. The university's e-collection platform is P2.
 - **SMS and any paid service**: not used; email and push are only represented as in-app seed notifications.
-- **Real sign-in, registration, email confirmation and password reset** (US-01 – US-05): the shell supports roles in data, and a demo user switcher MAY exist for reviewers, but no real authentication.
+- **Real sign-in, registration, email confirmation and password reset** (US-01 – US-05): the shell supports roles in data, and a demo-only user switcher exists for reviewers (FR-031), but no real authentication.
 - **Design-system widgets** (`SprintButton`, `SprintTextField`, `SlotChip`, `DayStrip`, `FacilityCard`, `StatusBadge`, `BookingTicket`, `AppNavigation` as a styled component, `StatTile`): feature 2. Foundation delivers only the navigation shell and the five adaptive controls, using plain tokens.
 - **Any business screen**: catalogue, availability, booking, checkout, my bookings, profile, trainer, admin, reports, assets, offers. They stay placeholders.
 - **Lottie moments and the final animation polish**: feature 11. Only the motion tokens and code-timed motion are here.
@@ -219,11 +228,10 @@ Foundation is UI-only and prepares the ground. These are explicitly not part of 
 
 - Foundation depends on the design system documents already in `docs/design-system/` and on the bundled fonts in `assets/fonts` (Alexandria 600/700, Cairo 400–700, IBM Plex Mono). No font is added or removed by this feature.
 - The technology stack and architecture are those fixed in `CLAUDE.md` (Flutter, Riverpod with codegen, Freezed, GoRouter, feature-first Clean Architecture, repository interfaces). This spec states outcomes; the how belongs to the plan.
-- **Top-level destinations** in the shell, from BRD FR-CAT-03, FR-MYB-02 and FR-MYB-03: Home, Facilities, My Bookings, Profile. Role-specific destinations (trainer, admin) appear later by role data. If Osman prefers different names or a different count, the clarify step decides.
+- **Top-level destinations**: Home, Facilities, My Bookings, Profile (see Clarifications). Role-specific destinations (trainer, admin) appear later by role data.
 - **Seed data size**: about 6 facilities (for example a swimming pool, a football pitch, a gym, a tennis court, a free multi-purpose hall, and a training course), across 3 owning units (two faculties and one central unit), about 15 bookable units, 10 users (every role at least once, both tiers), and 20 bookings spread across all statuses. Names and prices are placeholders.
 - **Persistence**: the only things saved across launches are the theme choice and the language. Seed data resets on every start.
-- **Demo role switcher**: a small reviewer-only control to view the app as another seeded user is allowed as a way to see role-based navigation; whether it stays in the defense build is decided later.
 - The GitHub Pages site is served from the public repository `sprint-app` (a public repo needs no paid plan). The published address is under a sub-path, so routing must work under it.
-- Checks that gate publishing are the project's static analysis and automated tests; the specific tools are a plan decision.
+- Android and iOS builds are verified by hand on a developer machine, not in CI, in this feature.
 - Time handling uses Cairo time for display and UTC for storage (NFR-03), even though the data is in memory.
 - Windows and Linux desktop builds are supported by the code but only macOS and web are checked on a developer machine in this feature; the others are checked by building, not by hand.
