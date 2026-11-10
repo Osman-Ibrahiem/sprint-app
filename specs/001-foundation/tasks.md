@@ -54,13 +54,13 @@ proceed in parallel once Phase 2 is done (US5 needs a runnable app from Phase 1 
 - [X] T008 Write `tool/gen_tokens.dart` reading `docs/design-system/tokens.json` and emitting `lib/core/tokens/sprint_colors.g.dart`, `sprint_spacing.g.dart`, `sprint_radius.g.dart`, `sprint_size.g.dart`, `sprint_motion.g.dart`, `sprint_text.g.dart` per `contracts/tokens.md` (explicit `height` on every text style; empty shadow list for dark card)
 - [X] T009 [P] Write `test/core/tokens/tokens_drift_test.dart`: regenerate in memory and compare to committed files; assert every font weight used is declared in `pubspec.yaml`
 - [X] T010 Run the generator and commit the generated token files under `lib/core/tokens/`
-- [ ] T011 [P] Hand-written token helpers: `lib/core/tokens/context_extensions.dart` (`context.colors`, `context.text`) and `lib/core/tokens/reduced_motion.dart` (fade at `duration-fast` or zero when `MediaQuery.disableAnimationsOf`)
-- [ ] T012 Build `lib/core/theme/sprint_theme.dart`: light and dark `ThemeData` from `SprintColors`, `ColorScheme` filled from it, text theme from `SprintText`, Cupertino override theme, no shadows in dark (FR-009, FR-011, FR-012); do NOT set `pageTransitionsTheme` so page, sheet and back-gesture timing stay the platform's (FR-018); the Volt lime appears only as a fill paired with its on-colour text (FR-012)
-- [ ] T013 [P] Write `test/core/window/window_size_test.dart` for the six boundary widths (599, 600, 839, 840, 1199, 1200) then implement `lib/core/window/window_size.dart` (`WindowSize.of(context)` from breakpoint tokens, FR-002)
-- [ ] T014 [P] `test/core/time/cairo_time_test.dart`: UTC ↔ Cairo conversion including a daylight-saving change day; slot boundaries do not shift by an hour (research R13)
-- [ ] T015 [P] `lib/core/time/cairo_time.dart` and `lib/core/time/clock_provider.dart` (`timezone` data initialised once, injected `Clock`)
-- [ ] T016 [P] Implement `lib/core/scroll/sprint_scroll_behavior.dart` (bounce on Apple, stretch on Android, visible scrollbar on web/desktop; `adaptive.md`)
-- [ ] T017 Wire `lib/app/app.dart` (`MaterialApp.router` placeholder, theme from T012, scroll behaviour, locales from `AppLocalizations`) and point `lib/main.dart` at it
+- [X] T011 [P] Hand-written token helpers: `lib/core/tokens/context_extensions.dart` (`context.colors`, `context.text`) and `lib/core/tokens/reduced_motion.dart` (fade at `duration-fast` or zero when `MediaQuery.disableAnimationsOf`)
+- [X] T012 Build `lib/core/theme/sprint_theme.dart`: light and dark `ThemeData` from `SprintColors`, `ColorScheme` filled from it, text theme from `SprintText`, Cupertino override theme, no shadows in dark (FR-009, FR-011, FR-012); do NOT set `pageTransitionsTheme` so page, sheet and back-gesture timing stay the platform's (FR-018); the Volt lime appears only as a fill paired with its on-colour text (FR-012)
+- [X] T013 [P] Write `test/core/window/window_size_test.dart` for the six boundary widths (599, 600, 839, 840, 1199, 1200) then implement `lib/core/window/window_size.dart` (`WindowSize.of(context)` from breakpoint tokens, FR-002)
+- [X] T014 [P] `test/core/time/cairo_time_test.dart`: UTC ↔ Cairo conversion including a daylight-saving change day; slot boundaries do not shift by an hour (research R13)
+- [X] T015 [P] `lib/core/time/cairo_time.dart` and `lib/core/time/clock_provider.dart` (`timezone` data initialised once, injected `Clock`)
+- [X] T016 [P] Implement `lib/core/scroll/sprint_scroll_behavior.dart` (bounce on Apple, stretch on Android, visible scrollbar on web/desktop; `adaptive.md`)
+- [X] T017 Wire `lib/app/app.dart` (`MaterialApp.router` placeholder, theme from T012, scroll behaviour, locales from `AppLocalizations`) and point `lib/main.dart` at it
 
 **Checkpoint**: App renders with brand theme in light and dark; ready for stories.
 
