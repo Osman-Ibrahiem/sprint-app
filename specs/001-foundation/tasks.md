@@ -41,7 +41,7 @@ proceed in parallel once Phase 2 is done (US5 needs a runnable app from Phase 1 
 - [ ] T004 [P] Create `l10n.yaml` and starter `lib/l10n/app_ar.arb` (template) and `lib/l10n/app_en.arb` with the app name and four destination names
 - [ ] T005 [P] Create `.github/workflows/ci.yml` per `contracts/ci.md`: pull requests to `develop` and `main`; pinned Flutter 3.47.9; pub get, build_runner and token drift checks (`git diff --exit-code`), `flutter analyze --fatal-infos`, `flutter test`, `flutter build web --release --base-href /sprint-app/`; job named `build`; permissions `contents: read`
 - [ ] T006 Replace the generated counter app: minimal `lib/main.dart` (ProviderScope + empty `MaterialApp`) and `test/smoke_test.dart` that pumps it
-- [ ] T007 Run analyze, test and web build locally and confirm green; commit the generated platform folders
+- [ ] T007 Run analyze, test and web build locally and confirm green; commit the generated platform folders; then, with Osman's OK, open the one Draft pull request `001-foundation` → `develop` so CI runs on every push to it
 
 **Checkpoint**: Empty app builds on web and passes the same checks CI runs.
 
@@ -208,7 +208,6 @@ settings inspector. (FR-021 – FR-026, FR-031, SC-008, SC-009)
 - [ ] T082 [US5] Create `.github/workflows/deploy.yml` per `contracts/ci.md`: trigger on push to `develop`; `build` job reuses the CI steps and uploads `build/web` with `actions/upload-pages-artifact`; `deploy` job (needs `build`, environment `github-pages`, `pages: write`, `id-token: write`) uses `actions/deploy-pages`
 - [ ] T083 [US5] Ask Osman before changing repository settings, then set the Pages source to "GitHub Actions" with `gh api` (outward-facing; record the result in the PR)
 - [ ] T084 [US5] After the first green run on the PR, ask Osman, then add the `build` check as a required status check on `develop` and `main`, keeping PR-required and no-force-push rules
-- [ ] T085 [US5] Verify FR-029: open a deep link (`/#/facilities`) and refresh on the published site under `/sprint-app/`; verify a deliberately failing branch does not replace the live build (SC-010) and record the evidence
 
 **Checkpoint**: Pages link live and gated by CI.
 
@@ -216,12 +215,12 @@ settings inspector. (FR-021 – FR-026, FR-031, SC-008, SC-009)
 
 ## Phase 8: Polish and cross-cutting
 
-- [ ] T086 [P] Update `CLAUDE.md` "Current state" (the repo now has code; Foundation done) and add a dated row in `docs/decisions.md` for the application ID `eg.edu.tanta.sprint` (once Osman confirms it) and for hash URLs on Pages
-- [ ] T087 [P] Add `README.md` at the root: what Sprint is, prerequisites, how to run, test and build (from `quickstart.md`)
-- [ ] T088 Walk the whole `quickstart.md` manual table on web, macOS, one Android phone, one tablet (iPad or Android tablet), a foldable emulator for the hinge checks, and one iOS phone; tick SC-001 – SC-011 with evidence in the PR description (Windows and Linux are not run in this feature)
-- [ ] T089 Measure SC-011: web build size from the CI log and first-interactive on throttled 4G in Chrome DevTools; if over 3 s apply the Plex Mono deferral from research R10 and record numbers; also measure cold start of the installed Android and iOS builds against the 2 s target of SC-011
-- [ ] T090 Final sweep: `flutter analyze --fatal-infos`, `flutter test`, `flutter build web --release --base-href /sprint-app/`; check that no `TODO` without an owner remains and that the demo-only switcher is clearly marked
-- [ ] T091 Open the pull request `001-foundation` → `develop` with BRD IDs in the description and the SC evidence
+- [ ] T085 [P] Update `CLAUDE.md` "Current state" (the repo now has code; Foundation done) and add a dated row in `docs/decisions.md` for the application ID `eg.edu.tanta.sprint` (once Osman confirms it) and for hash URLs on Pages
+- [ ] T086 [P] Add `README.md` at the root: what Sprint is, prerequisites, how to run, test and build (from `quickstart.md`)
+- [ ] T087 Walk the whole `quickstart.md` manual table on web, macOS, one Android phone, one tablet (iPad or Android tablet), a foldable emulator for the hinge checks, and one iOS phone; tick SC-001 – SC-011 with evidence in the PR description (Windows and Linux are not run in this feature)
+- [ ] T088 Measure SC-011: web build size from the CI log and first-interactive on throttled 4G in Chrome DevTools; if over 3 s apply the Plex Mono deferral from research R10 and record numbers; also measure cold start of the installed Android and iOS builds against the 2 s target of SC-011
+- [ ] T089 Final sweep: `flutter analyze --fatal-infos`, `flutter test`, `flutter build web --release --base-href /sprint-app/`; check that no `TODO` without an owner remains and that the demo-only switcher is clearly marked
+- [ ] T090 Mark the single pull request `001-foundation` → `develop` (opened as a Draft after T008) ready for review, with BRD IDs in the description and the SC evidence; after T090 the whole feature is one PR
 
 ---
 
@@ -243,4 +242,14 @@ settings inspector. (FR-021 – FR-026, FR-031, SC-008, SC-009)
 1. **MVP**: Phases 1 – 4 (T001 – T045). Stop and review on web: shell, theme, language.
 2. **Increment**: US3 (demo of native controls), then US4 (data and rules), reviewing each at its checkpoint.
 3. **Ship**: US5 and Polish, then one PR into `develop` (constitution: one branch, one PR per feature).
-4. Two steps need Osman's approval before running: T083 and T084 (repository settings).
+4. Two steps need Osman's approval before running: T083 and T084 (repository settings), plus opening the Draft PR at the end of T008. The live-site verification (T091) runs after the merge.
+
+---
+
+## Phase 9: After the merge into `develop`
+
+**Purpose**: Checks that only a merge can trigger, because `deploy.yml` runs on push to `develop`.
+
+- [ ] T091 [US5] Verify FR-029: open a deep link (`/#/facilities`) and refresh on the published site under `/sprint-app/`; verify a deliberately failing branch does not replace the live build (SC-010) and record the evidence
+
+**Checkpoint**: SC-010 and FR-029 are closed with evidence; add the result to `docs/decisions.md` only if something changed.
