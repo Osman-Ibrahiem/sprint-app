@@ -94,4 +94,78 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get optionSelected => 'Selected';
+
+  @override
+  String get demoTitle => 'Demo screen';
+
+  @override
+  String get demoColours => 'Colours';
+
+  @override
+  String get demoTypography => 'Type';
+
+  @override
+  String get demoSpacing => 'Spacing';
+
+  @override
+  String get demoRadius => 'Radius';
+
+  @override
+  String get demoControls => 'Platform controls';
+
+  @override
+  String get demoTypeSample => 'Sprint – booking confirmed 120';
+
+  @override
+  String get demoAppBarTrigger => 'Show large-title app bar';
+
+  @override
+  String get demoLargeTitle => 'Large title';
+
+  @override
+  String get demoDialogTrigger => 'Show confirmation dialog';
+
+  @override
+  String get demoDialogTitle => 'Cancel this booking?';
+
+  @override
+  String get demoDialogMessage => 'The place will open up for others.';
+
+  @override
+  String get demoDialogConfirm => 'Cancel booking';
+
+  @override
+  String get demoDialogKeep => 'Keep booking';
+
+  @override
+  String get demoSheetTrigger => 'Show actions';
+
+  @override
+  String get demoSheetTitle => 'Booking actions';
+
+  @override
+  String get demoSheetShare => 'Share';
+
+  @override
+  String get demoSheetCalendar => 'Add to calendar';
+
+  @override
+  String get demoSheetClose => 'Close';
+
+  @override
+  String get demoSwitchLabel => 'Reminders';
+
+  @override
+  String get demoLoaderLabel => 'Loading';
+
+  @override
+  String demoResult(String value) {
+    return 'Last choice: $value';
+  }
+
+  @override
+  String get demoResultNone => 'Nothing chosen yet';
+
+  @override
+  String get demoAppearance => 'Appearance and language';
 }

@@ -1,10 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/app/shell/nav/nav_destinations_view.dart';
 import 'package:sprint/core/a11y/focusable_tap.dart';
-import 'package:sprint/core/adaptive/platform.dart';
+import 'package:sprint/core/adaptive/adaptive_bar_surface.dart';
 import 'package:sprint/core/l10n/directional_icon.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
@@ -24,19 +22,11 @@ class SprintTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final colors = context.colors;
-    final apple = isApplePlatform(context);
     final showLabels = MediaQuery.textScalerOf(context).scale(1) <=
         SprintExtras.navLabelMaxTextScale;
 
-    Widget bar = DecoratedBox(
-      decoration: BoxDecoration(
-        color: apple
-            ? colors.surface.withValues(alpha: SprintExtras.tabBarTranslucentAlpha)
-            : colors.surface,
-        border: BorderDirectional(
-          top: BorderSide(color: colors.line),
-        ),
-      ),
+    final bar = AdaptiveBarSurface(
+      border: BorderDirectional(top: BorderSide(color: colors.line)),
       child: SafeArea(
         top: false,
         child: ConstrainedBox(
@@ -58,18 +48,6 @@ class SprintTabBar extends StatelessWidget {
         ),
       ),
     );
-
-    if (apple) {
-      bar = ClipRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: SprintExtras.tabBarBlurSigma,
-            sigmaY: SprintExtras.tabBarBlurSigma,
-          ),
-          child: bar,
-        ),
-      );
-    }
 
     return Semantics(
       container: true,

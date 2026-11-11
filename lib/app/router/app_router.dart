@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/app/shell/adaptive_shell.dart';
 import 'package:sprint/app/shell/placeholders/not_found_screen.dart';
+import 'package:sprint/features/demo/presentation/demo_screen.dart';
 
 /// Builds the app router. Web uses Flutter's default hash URL strategy
 /// (`/#/path`), so deep links and refreshes work under the Pages sub-path
@@ -20,6 +21,12 @@ GoRouter buildAppRouter({
         state.uri.path == AppPaths.root ? AppPaths.home : null,
     errorBuilder: (context, state) => const NotFoundScreen(),
     routes: [
+      // Outside the shell and out of navigation; reached from Profile.
+      GoRoute(
+        path: AppPaths.demo,
+        name: AppRouteNames.demo,
+        builder: (context, state) => const DemoScreen(),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) =>
             AdaptiveShell(navigationShell: shell, destinations: list),

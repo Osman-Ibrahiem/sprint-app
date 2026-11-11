@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sprint/app/router/routes.dart';
-import 'package:sprint/app/shell/placeholders/option_group.dart';
+import 'package:sprint/core/widgets/option_group.dart';
 import 'package:sprint/app/shell/placeholders/placeholder_page.dart';
 import 'package:sprint/app/shell/placeholders/sign_in_prompt.dart';
 import 'package:sprint/core/a11y/focusable_tap.dart';

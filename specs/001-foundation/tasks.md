@@ -136,22 +136,22 @@ text scaling and reduced motion. (FR-009 – FR-018, SC-004 – SC-006)
 
 ### Tests for US3 (write first, must fail)
 
-- [ ] T046 [P] [US3] `test/core/adaptive/adaptive_app_bar_test.dart`: with `debugDefaultTargetPlatformOverride` iOS/macOS shows the Cupertino bar (large title when requested, chevron back); Android shows start title and arrow back
-- [ ] T047 [P] [US3] `test/core/adaptive/adaptive_dialog_test.dart`: Cupertino alert on Apple, Material dialog on Android, centred dialog on web/desktop with Enter confirming and Esc cancelling
-- [ ] T048 [P] [US3] `test/core/adaptive/adaptive_sheet_test.dart`: action sheet on Apple, bottom sheet on Android, anchored menu on web/desktop, Esc closes where a keyboard exists
-- [ ] T049 [P] [US3] `test/core/adaptive/adaptive_switch_loader_test.dart`: platform widget types and semantic labels
-- [ ] T050 [P] [US3] `test/guards/no_platform_checks_test.dart`: no `defaultTargetPlatform`, `Platform.is*` or `TargetPlatform` outside `lib/core/adaptive/` and `lib/core/scroll/` and the theme glue
+- [X] T046 [P] [US3] `test/core/adaptive/adaptive_app_bar_test.dart`: with `debugDefaultTargetPlatformOverride` iOS/macOS shows the Cupertino bar (large title when requested, chevron back); Android shows start title and arrow back
+- [X] T047 [P] [US3] `test/core/adaptive/adaptive_dialog_test.dart`: Cupertino alert on Apple, Material dialog on Android, centred dialog on web/desktop with Enter confirming and Esc cancelling
+- [X] T048 [P] [US3] `test/core/adaptive/adaptive_sheet_test.dart`: action sheet on Apple, bottom sheet on Android, anchored menu on web/desktop, Esc closes where a keyboard exists
+- [X] T049 [P] [US3] `test/core/adaptive/adaptive_switch_loader_test.dart`: platform widget types and semantic labels
+- [X] T050 [P] [US3] `test/guards/no_platform_checks_test.dart`: no `defaultTargetPlatform`, `Platform.is*` or `TargetPlatform` outside `lib/core/adaptive/` and `lib/core/scroll/` and the theme glue
 
 ### Implementation for US3
 
-- [ ] T051 [P] [US3] `lib/core/adaptive/adaptive_app_bar.dart`
-- [ ] T052 [P] [US3] `lib/core/adaptive/adaptive_dialog.dart` (`showSprintDialog`)
-- [ ] T053 [P] [US3] `lib/core/adaptive/adaptive_sheet.dart` (`showSprintSheet`)
-- [ ] T054 [P] [US3] `lib/core/adaptive/adaptive_switch.dart`
-- [ ] T055 [P] [US3] `lib/core/adaptive/adaptive_loader.dart`
-- [ ] T056 [US3] Demo screen `lib/features/demo/presentation/demo_screen.dart` at `/demo` (outside the shell, linked from Profile): token gallery (colours light/dark, type, spacing, radius), each adaptive control with a trigger, theme and language switchers; strings in ARB
-- [ ] T057 [US3] Widget test `test/features/demo/token_gallery_test.dart`: the token gallery renders in light, dark, Arabic and English with no overflow (no pixel goldens, research R12)
-- [ ] T058 [US3] Run T046 – T050 and the quickstart US3 steps on iOS, Android and web; fix until green
+- [X] T051 [P] [US3] `lib/core/adaptive/adaptive_app_bar.dart`
+- [X] T052 [P] [US3] `lib/core/adaptive/adaptive_dialog.dart` (`showSprintDialog`)
+- [X] T053 [P] [US3] `lib/core/adaptive/adaptive_sheet.dart` (`showSprintSheet`)
+- [X] T054 [P] [US3] `lib/core/adaptive/adaptive_switch.dart`
+- [X] T055 [P] [US3] `lib/core/adaptive/adaptive_loader.dart`
+- [X] T056 [US3] Demo screen `lib/features/demo/presentation/demo_screen.dart` at `/demo` (outside the shell, linked from Profile): token gallery (colours light/dark, type, spacing, radius), each adaptive control with a trigger, theme and language switchers; strings in ARB
+- [X] T057 [US3] Widget test `test/features/demo/token_gallery_test.dart`: the token gallery renders in light, dark, Arabic and English with no overflow (no pixel goldens, research R12)
+- [X] T058 [US3] Run T046 – T050 and the quickstart US3 steps on iOS, Android and web; fix until green
 
 **Checkpoint**: US3 demonstrable on its own.
 

@@ -92,4 +92,78 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get optionSelected => 'مختار';
+
+  @override
+  String get demoTitle => 'شاشة العرض';
+
+  @override
+  String get demoColours => 'الألوان';
+
+  @override
+  String get demoTypography => 'الخطوط';
+
+  @override
+  String get demoSpacing => 'المسافات';
+
+  @override
+  String get demoRadius => 'الزوايا';
+
+  @override
+  String get demoControls => 'عناصر التحكم حسب النظام';
+
+  @override
+  String get demoTypeSample => 'سبرنت – حجزك اتأكد 120';
+
+  @override
+  String get demoAppBarTrigger => 'عرض شريط العنوان الكبير';
+
+  @override
+  String get demoLargeTitle => 'عنوان كبير';
+
+  @override
+  String get demoDialogTrigger => 'عرض نافذة التأكيد';
+
+  @override
+  String get demoDialogTitle => 'إلغاء الحجز؟';
+
+  @override
+  String get demoDialogMessage => 'المكان هيرجع متاح لغيرك.';
+
+  @override
+  String get demoDialogConfirm => 'إلغاء الحجز';
+
+  @override
+  String get demoDialogKeep => 'التراجع';
+
+  @override
+  String get demoSheetTrigger => 'عرض قايمة الإجراءات';
+
+  @override
+  String get demoSheetTitle => 'إجراءات الحجز';
+
+  @override
+  String get demoSheetShare => 'مشاركة';
+
+  @override
+  String get demoSheetCalendar => 'إضافة للتقويم';
+
+  @override
+  String get demoSheetClose => 'إغلاق';
+
+  @override
+  String get demoSwitchLabel => 'تفعيل التذكيرات';
+
+  @override
+  String get demoLoaderLabel => 'جاري التحميل';
+
+  @override
+  String demoResult(String value) {
+    return 'آخر اختيار: $value';
+  }
+
+  @override
+  String get demoResultNone => 'لسه مفيش اختيار';
+
+  @override
+  String get demoAppearance => 'المظهر واللغة';
 }

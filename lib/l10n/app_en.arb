@@ -33,5 +33,36 @@
         "type": "String"
       }
     }
+  },
+  "demoTitle": "Demo screen",
+  "demoColours": "Colours",
+  "demoTypography": "Type",
+  "demoSpacing": "Spacing",
+  "demoRadius": "Radius",
+  "demoControls": "Platform controls",
+  "demoTypeSample": "Sprint – booking confirmed 120",
+  "demoAppBarTrigger": "Show large-title app bar",
+  "demoLargeTitle": "Large title",
+  "demoDialogTrigger": "Show confirmation dialog",
+  "demoDialogTitle": "Cancel this booking?",
+  "demoDialogMessage": "The place will open up for others.",
+  "demoDialogConfirm": "Cancel booking",
+  "demoDialogKeep": "Keep booking",
+  "demoSheetTrigger": "Show actions",
+  "demoSheetTitle": "Booking actions",
+  "demoSheetShare": "Share",
+  "demoSheetCalendar": "Add to calendar",
+  "demoSheetClose": "Close",
+  "demoSwitchLabel": "Reminders",
+  "demoLoaderLabel": "Loading",
+  "demoResult": "Last choice: {value}",
+  "demoResultNone": "Nothing chosen yet",
+  "demoAppearance": "Appearance and language",
+  "@demoResult": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
   }
 }

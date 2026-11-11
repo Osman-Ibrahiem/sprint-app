@@ -37,5 +37,36 @@
         "type": "String"
       }
     }
+  },
+  "demoTitle": "شاشة العرض",
+  "demoColours": "الألوان",
+  "demoTypography": "الخطوط",
+  "demoSpacing": "المسافات",
+  "demoRadius": "الزوايا",
+  "demoControls": "عناصر التحكم حسب النظام",
+  "demoTypeSample": "سبرنت – حجزك اتأكد 120",
+  "demoAppBarTrigger": "عرض شريط العنوان الكبير",
+  "demoLargeTitle": "عنوان كبير",
+  "demoDialogTrigger": "عرض نافذة التأكيد",
+  "demoDialogTitle": "إلغاء الحجز؟",
+  "demoDialogMessage": "المكان هيرجع متاح لغيرك.",
+  "demoDialogConfirm": "إلغاء الحجز",
+  "demoDialogKeep": "التراجع",
+  "demoSheetTrigger": "عرض قايمة الإجراءات",
+  "demoSheetTitle": "إجراءات الحجز",
+  "demoSheetShare": "مشاركة",
+  "demoSheetCalendar": "إضافة للتقويم",
+  "demoSheetClose": "إغلاق",
+  "demoSwitchLabel": "تفعيل التذكيرات",
+  "demoLoaderLabel": "جاري التحميل",
+  "demoResult": "آخر اختيار: {value}",
+  "demoResultNone": "لسه مفيش اختيار",
+  "demoAppearance": "المظهر واللغة",
+  "@demoResult": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
   }
 }

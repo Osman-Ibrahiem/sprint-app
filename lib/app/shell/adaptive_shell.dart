@@ -42,6 +42,12 @@ class _AdaptiveShellState extends State<AdaptiveShell> {
 
   @override
   Widget build(BuildContext context) {
+    // The shell UI is built inside the layout's pane, so its size class
+    // follows the pane's width when a hinge splits the screen.
+    return DisplayFeatureLayout(start: Builder(builder: _buildUi));
+  }
+
+  Widget _buildUi(BuildContext context) {
     final size = WindowSize.of(context);
     final data = NavData(
       destinations: widget.destinations,
@@ -59,7 +65,7 @@ class _AdaptiveShellState extends State<AdaptiveShell> {
           )
         : SizedBox.expand(key: shellContentKey, child: body);
 
-    final Widget ui = switch (size) {
+    return switch (size) {
       WindowSize.compact => Scaffold(
           body: content,
           bottomNavigationBar: SprintTabBar(data: data),
@@ -75,7 +81,5 @@ class _AdaptiveShellState extends State<AdaptiveShell> {
           ),
         ),
     };
-
-    return DisplayFeatureLayout(start: ui);
   }
 }

@@ -22,4 +22,8 @@ abstract final class SprintExtras {
   /// Lowest opacity of the skeleton pulse (a design judgement; the docs only
   /// fix the cycle length, `duration-pulse`).
   static const double skeletonMinOpacity = 0.5;
+
+  /// Under reduced motion the loader stops spinning and shows a fixed
+  /// three-quarter ring, so the busy state stays visible without motion.
+  static const double reducedMotionLoaderProgress = 0.75;
 }

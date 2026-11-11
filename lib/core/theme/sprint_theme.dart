@@ -110,6 +110,39 @@ abstract final class SprintTheme {
           ),
         ),
       ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: c.primary,
+          minimumSize: const Size(
+            SprintSize.controlHeight,
+            SprintSize.controlHeight,
+          ),
+          textStyle: SprintText.button,
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: c.ink,
+          side: BorderSide(color: c.controlBorder),
+          minimumSize: const Size(
+            SprintSize.controlHeight,
+            SprintSize.controlHeight,
+          ),
+          textStyle: SprintText.button,
+          shape: const RoundedRectangleBorder(
+            borderRadius: SprintRadius.mdBorder,
+          ),
+        ),
+      ),
+      popupMenuTheme: PopupMenuThemeData(
+        color: c.surfaceRaised,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: SprintRadius.mdBorder,
+          side: BorderSide(color: c.line),
+        ),
+      ),
       progressIndicatorTheme: ProgressIndicatorThemeData(color: c.primary),
       iconTheme: IconThemeData(color: c.ink, size: SprintSize.iconLg),
       visualDensity: VisualDensity.standard,

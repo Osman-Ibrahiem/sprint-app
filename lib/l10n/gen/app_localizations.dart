@@ -259,6 +259,150 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'مختار'**
   String get optionSelected;
+
+  /// No description provided for @demoTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'شاشة العرض'**
+  String get demoTitle;
+
+  /// No description provided for @demoColours.
+  ///
+  /// In ar, this message translates to:
+  /// **'الألوان'**
+  String get demoColours;
+
+  /// No description provided for @demoTypography.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخطوط'**
+  String get demoTypography;
+
+  /// No description provided for @demoSpacing.
+  ///
+  /// In ar, this message translates to:
+  /// **'المسافات'**
+  String get demoSpacing;
+
+  /// No description provided for @demoRadius.
+  ///
+  /// In ar, this message translates to:
+  /// **'الزوايا'**
+  String get demoRadius;
+
+  /// No description provided for @demoControls.
+  ///
+  /// In ar, this message translates to:
+  /// **'عناصر التحكم حسب النظام'**
+  String get demoControls;
+
+  /// No description provided for @demoTypeSample.
+  ///
+  /// In ar, this message translates to:
+  /// **'سبرنت – حجزك اتأكد 120'**
+  String get demoTypeSample;
+
+  /// No description provided for @demoAppBarTrigger.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض شريط العنوان الكبير'**
+  String get demoAppBarTrigger;
+
+  /// No description provided for @demoLargeTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'عنوان كبير'**
+  String get demoLargeTitle;
+
+  /// No description provided for @demoDialogTrigger.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض نافذة التأكيد'**
+  String get demoDialogTrigger;
+
+  /// No description provided for @demoDialogTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء الحجز؟'**
+  String get demoDialogTitle;
+
+  /// No description provided for @demoDialogMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'المكان هيرجع متاح لغيرك.'**
+  String get demoDialogMessage;
+
+  /// No description provided for @demoDialogConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء الحجز'**
+  String get demoDialogConfirm;
+
+  /// No description provided for @demoDialogKeep.
+  ///
+  /// In ar, this message translates to:
+  /// **'التراجع'**
+  String get demoDialogKeep;
+
+  /// No description provided for @demoSheetTrigger.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض قايمة الإجراءات'**
+  String get demoSheetTrigger;
+
+  /// No description provided for @demoSheetTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إجراءات الحجز'**
+  String get demoSheetTitle;
+
+  /// No description provided for @demoSheetShare.
+  ///
+  /// In ar, this message translates to:
+  /// **'مشاركة'**
+  String get demoSheetShare;
+
+  /// No description provided for @demoSheetCalendar.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة للتقويم'**
+  String get demoSheetCalendar;
+
+  /// No description provided for @demoSheetClose.
+  ///
+  /// In ar, this message translates to:
+  /// **'إغلاق'**
+  String get demoSheetClose;
+
+  /// No description provided for @demoSwitchLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفعيل التذكيرات'**
+  String get demoSwitchLabel;
+
+  /// No description provided for @demoLoaderLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري التحميل'**
+  String get demoLoaderLabel;
+
+  /// No description provided for @demoResult.
+  ///
+  /// In ar, this message translates to:
+  /// **'آخر اختيار: {value}'**
+  String demoResult(String value);
+
+  /// No description provided for @demoResultNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'لسه مفيش اختيار'**
+  String get demoResultNone;
+
+  /// No description provided for @demoAppearance.
+  ///
+  /// In ar, this message translates to:
+  /// **'المظهر واللغة'**
+  String get demoAppearance;
 }
 
 class _AppLocalizationsDelegate
