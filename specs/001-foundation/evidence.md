@@ -31,7 +31,7 @@ device posture. A tabletop (horizontal hinge) posture is not tested.
 | SC-007 | `test/core/adaptive/*` on Apple, Android, desktop; seen by hand on web, iOS, Android. A reviewer's own judgement is still Osman's |
 | SC-008 | `test/features/settings/*` (8 inheritance combinations, validation, audit) |
 | SC-009 | `conflict_checker_test`, `booking_repository_test`, `permission_checker_test` |
-| SC-010 | Not yet provable: needs a merge into `develop` (T091). `deploy.yml` is written, Pages source is "GitHub Actions", `build` is a required check |
+| SC-010 | After the merge of PR #1 (`52075b6`, 2026-11-11 12:36 UTC) the `Deploy` run on `develop` finished green (`build` then `deploy`) in about 3 minutes, and the site is live at https://osman-ibrahiem.github.io/sprint-app/. The failing-build half (a failing merge leaves the live build unchanged) is **not proved live**: it holds because the `deploy` job `needs: build`, and a live proof would need a deliberately failing push to `develop`, which branch protection forbids. See the section below |
 | SC-011 | See below: not met on the web estimate |
 
 ## SC-011 numbers (T088)
@@ -77,3 +77,14 @@ What was tried and what remains:
 
 The emulator is not a phone: 2.3 to 2.5 s is slightly above the 2 s target and needs a
 real mid-range device to confirm.
+
+## Live site check after the merge (T091)
+
+Checked 2026-11-11 against https://osman-ibrahiem.github.io/sprint-app/:
+
+| Check | Result |
+| --- | --- |
+| `/`, `/main.dart.js` (3.27 MB), `/flutter_bootstrap.js`, a bundled font | all HTTP 200; `<base href>` is `/sprint-app/` |
+| Deep link `/#/facilities` opened directly in a fresh browser tab (FR-029) | Facilities screen inside the sidebar shell, Arabic RTL, Dark; the route is client-side (hash), so a refresh requests the same `index.html` |
+| First paint | The page stayed blank for about 6 s on the first load in the browser pane; consistent with the SC-011 estimate and still to be measured with DevTools "Fast 4G" and "Slow 4G" |
+| SC-010, failing build | Not proved by a live failing deploy (see the SC table). Structural reason: `deploy` runs only after a successful `build` |
