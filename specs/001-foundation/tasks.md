@@ -41,7 +41,7 @@ proceed in parallel once Phase 2 is done (US5 needs a runnable app from Phase 1 
 - [X] T004 [P] Create `l10n.yaml` and starter `lib/l10n/app_ar.arb` (template) and `lib/l10n/app_en.arb` with the app name and four destination names
 - [X] T005 [P] Create `.github/workflows/ci.yml` per `contracts/ci.md`: pull requests to `develop` and `main`; pinned Flutter 3.47.9; pub get, build_runner and token drift checks (`git diff --exit-code`), `flutter analyze --fatal-infos`, `flutter test`, `flutter build web --release --base-href /sprint-app/`; job named `build`; permissions `contents: read`
 - [X] T006 Replace the generated counter app: minimal `lib/main.dart` (ProviderScope + empty `MaterialApp`) and `test/smoke_test.dart` that pumps it
-- [ ] T007 Run analyze, test and web build locally and confirm green; commit the generated platform folders; then, with Osman's OK, open the one Draft pull request `001-foundation` → `develop` so CI runs on every push to it
+- [X] T007 Run analyze, test and web build locally and confirm green; commit the generated platform folders; then, with Osman's OK, open the one Draft pull request `001-foundation` → `develop` so CI runs on every push to it
 
 **Checkpoint**: Empty app builds on web and passes the same checks CI runs.
 
