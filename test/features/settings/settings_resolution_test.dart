@@ -91,7 +91,7 @@ void main() {
     expect(d.cancellationCutoffHours, 2); // BR-30
     expect(d.refundPercent, 100); // BR-31
     expect(d.checkInOpensMinutes, 15); // BR-35
-    expect(d.reminderLeadMinutes, 60); // BR-39
+    expect(d.reminderLeadMinutes, 180); // BR-39 (decision 2026-11-11)
     expect(settingRegistry['verificationExpiry']!.defaultValue,
         const MonthDay(8, 31)); // BR-25
     expect(settingRegistry['paymentProvider']!.defaultValue,

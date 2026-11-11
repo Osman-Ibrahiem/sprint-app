@@ -42,7 +42,7 @@ installed builds (SC-011). Shell resize must not drop frames visibly (no rebuild
 branch on a size-class change).
 
 **Constraints**: Tokens only; all strings in ARB files; no platform checks in screens; domain
-layer has no Flutter imports; no network access at runtime; sandbox/fake payment only.
+layer has no Flutter imports; no network access for app data at runtime (the web engine, CanvasKit, loads from the Google CDN, decided 2026-11-11); sandbox/fake payment only.
 
 **Scale/Scope**: 4 shell destinations (placeholders), 1 demo screen, ~21 BRD entities, ~15
 settings keys, ~6 facilities / ~15 units / 10 users / ~20 bookings of seed data.

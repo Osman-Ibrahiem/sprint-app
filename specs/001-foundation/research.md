@@ -127,10 +127,9 @@ with `flutter pub add` at implementation time.
   easiest thing to test exhaustively (SC-008, SC-009) and to port to a backend.
 - **Concurrency**: the in-memory layer serialises writes (single isolate, synchronous critical
   section) so two "simultaneous" booking attempts in tests cannot both win.
-- **Open BRD item surfaced, not decided here**: BR-40 (reminder shows a cancel button only
-  before the cutoff) conflicts with the defaults reminder = 60 min and cutoff = 2 h (BRD §11).
-  Foundation keeps both defaults as the BRD states them and records them as settings; the
-  decision belongs to Osman (a later clarify or `decisions.md`).
+- **BR-40, decided 2026-11-11**: the reminder shows a cancel button only before the cutoff, so
+  the reminder default moved from 60 to 180 minutes (cutoff stays 2 h). Recorded in
+  `docs/decisions.md` and `docs/BRD.md`.
 
 ## R9. Guard tests (SC-004, SC-005)
 

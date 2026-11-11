@@ -237,14 +237,14 @@ void main() {
       );
     });
 
-    test('BRD defaults: a 60-minute reminder falls after a 2-hour cutoff, so '
-        'it never offers cancel (open BRD §11 item, kept as written)', () {
+    test('defaults: a 180-minute reminder falls before the 2-hour cutoff, so '
+        'it can offer cancel (decision 2026-11-11, BR-39 and BR-40)', () {
       final d = settings();
       final b = booking(start: start);
       final reminderAt = b.start.subtract(Duration(minutes: d.reminderLeadMinutes));
       expect(
         cancel.canOfferCancel(b, reminderAt, cutoffHours: d.cancellationCutoffHours),
-        isFalse,
+        isTrue,
       );
     });
   });

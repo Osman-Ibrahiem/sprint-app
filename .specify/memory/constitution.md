@@ -41,7 +41,8 @@ above), never device names, and respects foldable hinges while keeping state. Br
 look the same everywhere, while navigation bars, back gestures, dialogs, sheets, switches,
 loaders and scroll physics follow the platform; iOS MUST NOT look like Material. Copy uses a
 light Egyptian dialect with no imperative verbs, Western digits, 12-hour time, and
-"120 ج.م" / "EGP 120". Interactive targets are at least 48dp; every state carries a word or an
+"120 ج.م" / "EGP 120". Interactive targets are at least 48dp, except the native Apple navigation bar and its back
+button, which keep the platform's 44pt height (decisions.md, 2026-11-11); every state carries a word or an
 icon, never colour alone; text scales to 200% with a minimum size of 12; animation respects the
 reduce-motion setting.
 Rationale: the users are Egyptian university students on every kind of device.
@@ -84,4 +85,4 @@ same pull request. Versioning follows semantic rules: MAJOR for removing or rede
 principle, MINOR for adding a principle or materially expanding one, PATCH for wording fixes.
 `CLAUDE.md` is the runtime guidance for day-to-day work and is kept consistent with this file.
 
-**Version**: 1.0.0 | **Ratified**: 2026-11-10 | **Last Amended**: 2026-11-10
+**Version**: 1.1.0 | **Ratified**: 2026-11-10 | **Last Amended**: 2026-11-11

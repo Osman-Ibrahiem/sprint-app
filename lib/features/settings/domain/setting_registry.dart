@@ -133,7 +133,7 @@ final Map<String, SettingDefinition<dynamic>> settingRegistry = {
     ),
     SettingDefinition<int>(
       key: SettingKeys.reminderLeadMinutes, // BR-39
-      defaultValue: 60,
+      defaultValue: 180,
       allowedScopes: _uniOnly,
       validate: _atLeast(0),
     ),
