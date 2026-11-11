@@ -268,4 +268,5 @@ contracts agree and the next features (and OpenCode) start from a clean referenc
 - [X] T096 [US1] Hinge tests for a tabletop posture, left-to-right, and folding and unfolding while typing (text and focus kept) in `test/shell/hinge_test.dart` (FR-005, FR-006)
 - [X] T097 Update `contracts/` (adaptive controls, repositories, routes, tokens, ci), `data-model.md` ("As built"), `plan.md` and `quickstart.md` to match the code
 - [X] T098 Decisions with Osman, 2026-11-11: Apple navigation bar keeps native 44pt (recorded in CLAUDE.md and constitution v1.1.0); CanvasKit stays on the Google CDN; SC-011 is measured first; `reminderLeadMinutes` default moved to 180 (BR-40). All in `docs/decisions.md`
-- [ ] T099 Measure SC-011 on the published site with Chrome DevTools "Fast 4G" and "Slow 4G" and record first-interactive time in `specs/001-foundation/evidence.md`; if over 3 s on Fast 4G, defer IBM Plex Mono, then subset the fonts (needs Osman's OK before changing font rules)
+- [X] T099 Measure SC-011 on the published site with Chrome DevTools "Fast 4G" and "Slow 4G" and record first-interactive time in `specs/001-foundation/evidence.md`. Done 2026-11-11: about 3.3 s on Fast 4G and about 18 s on Slow 4G, so over 3 s
+- [ ] T100 SC-011 follow-up as decided: defer IBM Plex Mono, then, with Osman's OK before changing font rules, subset the font files; measure again
