@@ -1,0 +1,127 @@
+{
+  "@@locale": "en",
+  "appName": "Sprint",
+  "navHome": "Home",
+  "navFacilities": "Facilities",
+  "navBookings": "My bookings",
+  "navProfile": "Profile",
+  "navMainLabel": "Main navigation",
+  "placeholderNote": "This screen is still being built.",
+  "homeIntro": "Nearby facilities and upcoming slots will show up here.",
+  "facilitiesIntro": "All the university's sports facilities in one place.",
+  "facilitiesSearchHint": "Search facilities",
+  "signInPromptTitle": "Sign-in needed",
+  "signInPromptBody": "Your bookings and account details will show here once you sign in. Sign-in isn't available in this version yet.",
+  "notFoundTitle": "This page doesn't exist",
+  "notFoundBody": "The link may have changed or been typed wrong.",
+  "backToHome": "Back to home",
+  "homeTitle": "Welcome to Sprint",
+  "facilitiesTitle": "University facilities",
+  "priceEgp": "EGP {amount}",
+  "appearanceTitle": "Appearance",
+  "appearanceSystem": "Match device",
+  "appearanceLight": "Light",
+  "appearanceDark": "Dark",
+  "languageTitle": "Language",
+  "languageAr": "العربية",
+  "languageEn": "English",
+  "demoEntry": "Reviewer demo screen",
+  "optionSelected": "Selected",
+  "@priceEgp": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "demoTitle": "Demo screen",
+  "demoColours": "Colours",
+  "demoTypography": "Type",
+  "demoSpacing": "Spacing",
+  "demoRadius": "Radius",
+  "demoControls": "Platform controls",
+  "demoTypeSample": "Sprint – booking confirmed 120",
+  "demoAppBarTrigger": "Show large-title app bar",
+  "demoLargeTitle": "Large title",
+  "demoDialogTrigger": "Show confirmation dialog",
+  "demoDialogTitle": "Cancel this booking?",
+  "demoDialogMessage": "The place will open up for others.",
+  "demoDialogConfirm": "Cancel booking",
+  "demoDialogKeep": "Keep booking",
+  "demoSheetTrigger": "Show actions",
+  "demoSheetTitle": "Booking actions",
+  "demoSheetShare": "Share",
+  "demoSheetCalendar": "Add to calendar",
+  "demoSheetClose": "Close",
+  "demoSwitchLabel": "Reminders",
+  "demoLoaderLabel": "Loading",
+  "demoResult": "Last choice: {value}",
+  "demoResultNone": "Nothing chosen yet",
+  "demoAppearance": "Appearance and language",
+  "@demoResult": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "roleBooker": "Booker",
+  "roleTrainer": "Trainer",
+  "roleFacilityManager": "Facility manager",
+  "roleVerifier": "Verifier",
+  "roleUnitAdmin": "Unit admin",
+  "roleSuperAdmin": "Super admin",
+  "roleViewer": "Viewer",
+  "tierInternal": "Internal price",
+  "tierExternal": "Full price",
+  "profileRoles": "Roles: {roles}",
+  "profileTier": "Tier: {tier}",
+  "demoUserTitle": "View as another user",
+  "demoUserNote": "For reviewers only. There is no real sign-in.",
+  "demoGuest": "Guest (no account)",
+  "demoSettingsTitle": "Settings and inheritance",
+  "demoSettingsPick": "Choose a unit",
+  "demoSettingsUnit": "Unit: {unit}",
+  "levelUnit": "Unit",
+  "levelFacility": "Facility",
+  "levelUniversity": "University",
+  "levelDefault": "Default",
+  "demoNoLimit": "No limit",
+  "demoSettingsLevel": "From: {level}",
+  "@profileRoles": {
+    "placeholders": {
+      "roles": {
+        "type": "String"
+      }
+    }
+  },
+  "@profileTier": {
+    "placeholders": {
+      "tier": {
+        "type": "String"
+      }
+    }
+  },
+  "@demoSettingsUnit": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "@demoSettingsLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "demoSwatchLabel": "{name}, light and dark",
+  "@demoSwatchLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
+}

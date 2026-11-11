@@ -1,0 +1,584 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations_ar.dart';
+import 'app_localizations_en.dart';
+
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'gen/app_localizations.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
+    Locale('en'),
+  ];
+
+  /// App name, shown as the wordmark
+  ///
+  /// In ar, this message translates to:
+  /// **'سبرنت'**
+  String get appName;
+
+  /// No description provided for @navHome.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرئيسية'**
+  String get navHome;
+
+  /// No description provided for @navFacilities.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنشآت'**
+  String get navFacilities;
+
+  /// No description provided for @navBookings.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجوزاتي'**
+  String get navBookings;
+
+  /// No description provided for @navProfile.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابي'**
+  String get navProfile;
+
+  /// No description provided for @navMainLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'التنقل الرئيسي'**
+  String get navMainLabel;
+
+  /// No description provided for @placeholderNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشاشة دي لسه تحت التجهيز.'**
+  String get placeholderNote;
+
+  /// No description provided for @homeIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'هنا هتلاقي المنشآت والمواعيد القريبة.'**
+  String get homeIntro;
+
+  /// No description provided for @facilitiesIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل منشآت الجامعة الرياضية في مكان واحد.'**
+  String get facilitiesIntro;
+
+  /// No description provided for @facilitiesSearchHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'البحث عن منشأة'**
+  String get facilitiesSearchHint;
+
+  /// No description provided for @signInPromptTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول مطلوب'**
+  String get signInPromptTitle;
+
+  /// No description provided for @signInPromptBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجوزاتك وبيانات حسابك هتظهر هنا بعد تسجيل الدخول. التسجيل لسه مش متاح في النسخة دي.'**
+  String get signInPromptBody;
+
+  /// No description provided for @notFoundTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفحة دي مش موجودة'**
+  String get notFoundTitle;
+
+  /// No description provided for @notFoundBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرابط ممكن يكون اتغيّر أو مكتوب غلط.'**
+  String get notFoundBody;
+
+  /// No description provided for @backToHome.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرجوع للرئيسية'**
+  String get backToHome;
+
+  /// No description provided for @homeTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'أهلًا في سبرنت'**
+  String get homeTitle;
+
+  /// No description provided for @facilitiesTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'منشآت الجامعة'**
+  String get facilitiesTitle;
+
+  /// Price in Egyptian pounds; amount is already formatted with Western digits
+  ///
+  /// In ar, this message translates to:
+  /// **'{amount} ج.م'**
+  String priceEgp(String amount);
+
+  /// No description provided for @appearanceTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المظهر'**
+  String get appearanceTitle;
+
+  /// No description provided for @appearanceSystem.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسب الجهاز'**
+  String get appearanceSystem;
+
+  /// No description provided for @appearanceLight.
+  ///
+  /// In ar, this message translates to:
+  /// **'فاتح'**
+  String get appearanceLight;
+
+  /// No description provided for @appearanceDark.
+  ///
+  /// In ar, this message translates to:
+  /// **'غامق'**
+  String get appearanceDark;
+
+  /// No description provided for @languageTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'اللغة'**
+  String get languageTitle;
+
+  /// No description provided for @languageAr.
+  ///
+  /// In ar, this message translates to:
+  /// **'العربية'**
+  String get languageAr;
+
+  /// No description provided for @languageEn.
+  ///
+  /// In ar, this message translates to:
+  /// **'English'**
+  String get languageEn;
+
+  /// No description provided for @demoEntry.
+  ///
+  /// In ar, this message translates to:
+  /// **'شاشة العرض للمراجعين'**
+  String get demoEntry;
+
+  /// No description provided for @optionSelected.
+  ///
+  /// In ar, this message translates to:
+  /// **'مختار'**
+  String get optionSelected;
+
+  /// No description provided for @demoTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'شاشة العرض'**
+  String get demoTitle;
+
+  /// No description provided for @demoColours.
+  ///
+  /// In ar, this message translates to:
+  /// **'الألوان'**
+  String get demoColours;
+
+  /// No description provided for @demoTypography.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخطوط'**
+  String get demoTypography;
+
+  /// No description provided for @demoSpacing.
+  ///
+  /// In ar, this message translates to:
+  /// **'المسافات'**
+  String get demoSpacing;
+
+  /// No description provided for @demoRadius.
+  ///
+  /// In ar, this message translates to:
+  /// **'الزوايا'**
+  String get demoRadius;
+
+  /// No description provided for @demoControls.
+  ///
+  /// In ar, this message translates to:
+  /// **'عناصر التحكم حسب النظام'**
+  String get demoControls;
+
+  /// No description provided for @demoTypeSample.
+  ///
+  /// In ar, this message translates to:
+  /// **'سبرنت – حجزك اتأكد 120'**
+  String get demoTypeSample;
+
+  /// No description provided for @demoAppBarTrigger.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض شريط العنوان الكبير'**
+  String get demoAppBarTrigger;
+
+  /// No description provided for @demoLargeTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'عنوان كبير'**
+  String get demoLargeTitle;
+
+  /// No description provided for @demoDialogTrigger.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض نافذة التأكيد'**
+  String get demoDialogTrigger;
+
+  /// No description provided for @demoDialogTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء الحجز؟'**
+  String get demoDialogTitle;
+
+  /// No description provided for @demoDialogMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'المكان هيرجع متاح لغيرك.'**
+  String get demoDialogMessage;
+
+  /// No description provided for @demoDialogConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء الحجز'**
+  String get demoDialogConfirm;
+
+  /// No description provided for @demoDialogKeep.
+  ///
+  /// In ar, this message translates to:
+  /// **'التراجع'**
+  String get demoDialogKeep;
+
+  /// No description provided for @demoSheetTrigger.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض قايمة الإجراءات'**
+  String get demoSheetTrigger;
+
+  /// No description provided for @demoSheetTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إجراءات الحجز'**
+  String get demoSheetTitle;
+
+  /// No description provided for @demoSheetShare.
+  ///
+  /// In ar, this message translates to:
+  /// **'مشاركة'**
+  String get demoSheetShare;
+
+  /// No description provided for @demoSheetCalendar.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة للتقويم'**
+  String get demoSheetCalendar;
+
+  /// No description provided for @demoSheetClose.
+  ///
+  /// In ar, this message translates to:
+  /// **'إغلاق'**
+  String get demoSheetClose;
+
+  /// No description provided for @demoSwitchLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفعيل التذكيرات'**
+  String get demoSwitchLabel;
+
+  /// No description provided for @demoLoaderLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري التحميل'**
+  String get demoLoaderLabel;
+
+  /// No description provided for @demoResult.
+  ///
+  /// In ar, this message translates to:
+  /// **'آخر اختيار: {value}'**
+  String demoResult(String value);
+
+  /// No description provided for @demoResultNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'لسه مفيش اختيار'**
+  String get demoResultNone;
+
+  /// No description provided for @demoAppearance.
+  ///
+  /// In ar, this message translates to:
+  /// **'المظهر واللغة'**
+  String get demoAppearance;
+
+  /// No description provided for @roleBooker.
+  ///
+  /// In ar, this message translates to:
+  /// **'حاجز'**
+  String get roleBooker;
+
+  /// No description provided for @roleTrainer.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدرب'**
+  String get roleTrainer;
+
+  /// No description provided for @roleFacilityManager.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدير منشأة'**
+  String get roleFacilityManager;
+
+  /// No description provided for @roleVerifier.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسؤول توثيق'**
+  String get roleVerifier;
+
+  /// No description provided for @roleUnitAdmin.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسؤول جهة'**
+  String get roleUnitAdmin;
+
+  /// No description provided for @roleSuperAdmin.
+  ///
+  /// In ar, this message translates to:
+  /// **'مشرف عام'**
+  String get roleSuperAdmin;
+
+  /// No description provided for @roleViewer.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراقب'**
+  String get roleViewer;
+
+  /// No description provided for @tierInternal.
+  ///
+  /// In ar, this message translates to:
+  /// **'سعر داخلي'**
+  String get tierInternal;
+
+  /// No description provided for @tierExternal.
+  ///
+  /// In ar, this message translates to:
+  /// **'سعر كامل'**
+  String get tierExternal;
+
+  /// No description provided for @profileRoles.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأدوار: {roles}'**
+  String profileRoles(String roles);
+
+  /// No description provided for @profileTier.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشريحة: {tier}'**
+  String profileTier(String tier);
+
+  /// No description provided for @demoUserTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض كمستخدم تاني'**
+  String get demoUserTitle;
+
+  /// No description provided for @demoUserNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'للمراجعين فقط. من غير تسجيل دخول حقيقي.'**
+  String get demoUserNote;
+
+  /// No description provided for @demoGuest.
+  ///
+  /// In ar, this message translates to:
+  /// **'ضيف (من غير حساب)'**
+  String get demoGuest;
+
+  /// No description provided for @demoSettingsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإعدادات والوراثة'**
+  String get demoSettingsTitle;
+
+  /// No description provided for @demoSettingsPick.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار وحدة'**
+  String get demoSettingsPick;
+
+  /// No description provided for @demoSettingsUnit.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوحدة: {unit}'**
+  String demoSettingsUnit(String unit);
+
+  /// No description provided for @levelUnit.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوحدة'**
+  String get levelUnit;
+
+  /// No description provided for @levelFacility.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنشأة'**
+  String get levelFacility;
+
+  /// No description provided for @levelUniversity.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجامعة'**
+  String get levelUniversity;
+
+  /// No description provided for @levelDefault.
+  ///
+  /// In ar, this message translates to:
+  /// **'افتراضي'**
+  String get levelDefault;
+
+  /// No description provided for @demoNoLimit.
+  ///
+  /// In ar, this message translates to:
+  /// **'بلا حد'**
+  String get demoNoLimit;
+
+  /// No description provided for @demoSettingsLevel.
+  ///
+  /// In ar, this message translates to:
+  /// **'من: {level}'**
+  String demoSettingsLevel(String level);
+
+  /// No description provided for @demoSwatchLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'{name}، فاتح وغامق'**
+  String demoSwatchLabel(String name);
+}
+
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) =>
+      <String>['ar', 'en'].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'ar':
+      return AppLocalizationsAr();
+    case 'en':
+      return AppLocalizationsEn();
+  }
+
+  throw FlutterError(
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
+}

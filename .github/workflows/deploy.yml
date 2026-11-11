@@ -1,0 +1,63 @@
+name: Deploy
+
+# Publishes the web build to GitHub Pages after a merge into develop, but only
+# if analysis, tests and the web build pass (FR-027, SC-010). A failing build
+# never reaches the deploy job, so the previous site stays live.
+
+on:
+  push:
+    branches: [develop]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.47.9
+          channel: stable
+          cache: true
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Generate code and fail if stale
+        run: |
+          dart run build_runner build --delete-conflicting-outputs
+          flutter gen-l10n
+          git diff --exit-code
+      - name: Check design tokens against tokens.json
+        run: |
+          dart run tool/gen_tokens.dart
+          git diff --exit-code
+      - name: Analyze
+        run: flutter analyze --fatal-infos
+      - name: Test
+        run: flutter test
+      - name: Build web
+        run: flutter build web --release --base-href /sprint-app/
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    name: deploy
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

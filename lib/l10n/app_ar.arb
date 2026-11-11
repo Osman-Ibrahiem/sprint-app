@@ -1,0 +1,131 @@
+{
+  "@@locale": "ar",
+  "appName": "سبرنت",
+  "@appName": {
+    "description": "App name, shown as the wordmark"
+  },
+  "navHome": "الرئيسية",
+  "navFacilities": "المنشآت",
+  "navBookings": "حجوزاتي",
+  "navProfile": "حسابي",
+  "navMainLabel": "التنقل الرئيسي",
+  "placeholderNote": "الشاشة دي لسه تحت التجهيز.",
+  "homeIntro": "هنا هتلاقي المنشآت والمواعيد القريبة.",
+  "facilitiesIntro": "كل منشآت الجامعة الرياضية في مكان واحد.",
+  "facilitiesSearchHint": "البحث عن منشأة",
+  "signInPromptTitle": "تسجيل الدخول مطلوب",
+  "signInPromptBody": "حجوزاتك وبيانات حسابك هتظهر هنا بعد تسجيل الدخول. التسجيل لسه مش متاح في النسخة دي.",
+  "notFoundTitle": "الصفحة دي مش موجودة",
+  "notFoundBody": "الرابط ممكن يكون اتغيّر أو مكتوب غلط.",
+  "backToHome": "الرجوع للرئيسية",
+  "homeTitle": "أهلًا في سبرنت",
+  "facilitiesTitle": "منشآت الجامعة",
+  "priceEgp": "{amount} ج.م",
+  "appearanceTitle": "المظهر",
+  "appearanceSystem": "حسب الجهاز",
+  "appearanceLight": "فاتح",
+  "appearanceDark": "غامق",
+  "languageTitle": "اللغة",
+  "languageAr": "العربية",
+  "languageEn": "English",
+  "demoEntry": "شاشة العرض للمراجعين",
+  "optionSelected": "مختار",
+  "@priceEgp": {
+    "description": "Price in Egyptian pounds; amount is already formatted with Western digits",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "demoTitle": "شاشة العرض",
+  "demoColours": "الألوان",
+  "demoTypography": "الخطوط",
+  "demoSpacing": "المسافات",
+  "demoRadius": "الزوايا",
+  "demoControls": "عناصر التحكم حسب النظام",
+  "demoTypeSample": "سبرنت – حجزك اتأكد 120",
+  "demoAppBarTrigger": "عرض شريط العنوان الكبير",
+  "demoLargeTitle": "عنوان كبير",
+  "demoDialogTrigger": "عرض نافذة التأكيد",
+  "demoDialogTitle": "إلغاء الحجز؟",
+  "demoDialogMessage": "المكان هيرجع متاح لغيرك.",
+  "demoDialogConfirm": "إلغاء الحجز",
+  "demoDialogKeep": "التراجع",
+  "demoSheetTrigger": "عرض قايمة الإجراءات",
+  "demoSheetTitle": "إجراءات الحجز",
+  "demoSheetShare": "مشاركة",
+  "demoSheetCalendar": "إضافة للتقويم",
+  "demoSheetClose": "إغلاق",
+  "demoSwitchLabel": "تفعيل التذكيرات",
+  "demoLoaderLabel": "جاري التحميل",
+  "demoResult": "آخر اختيار: {value}",
+  "demoResultNone": "لسه مفيش اختيار",
+  "demoAppearance": "المظهر واللغة",
+  "@demoResult": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "roleBooker": "حاجز",
+  "roleTrainer": "مدرب",
+  "roleFacilityManager": "مدير منشأة",
+  "roleVerifier": "مسؤول توثيق",
+  "roleUnitAdmin": "مسؤول جهة",
+  "roleSuperAdmin": "مشرف عام",
+  "roleViewer": "مراقب",
+  "tierInternal": "سعر داخلي",
+  "tierExternal": "سعر كامل",
+  "profileRoles": "الأدوار: {roles}",
+  "profileTier": "الشريحة: {tier}",
+  "demoUserTitle": "عرض كمستخدم تاني",
+  "demoUserNote": "للمراجعين فقط. من غير تسجيل دخول حقيقي.",
+  "demoGuest": "ضيف (من غير حساب)",
+  "demoSettingsTitle": "الإعدادات والوراثة",
+  "demoSettingsPick": "اختيار وحدة",
+  "demoSettingsUnit": "الوحدة: {unit}",
+  "levelUnit": "الوحدة",
+  "levelFacility": "المنشأة",
+  "levelUniversity": "الجامعة",
+  "levelDefault": "افتراضي",
+  "demoNoLimit": "بلا حد",
+  "demoSettingsLevel": "من: {level}",
+  "@profileRoles": {
+    "placeholders": {
+      "roles": {
+        "type": "String"
+      }
+    }
+  },
+  "@profileTier": {
+    "placeholders": {
+      "tier": {
+        "type": "String"
+      }
+    }
+  },
+  "@demoSettingsUnit": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "@demoSettingsLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "demoSwatchLabel": "{name}، فاتح وغامق",
+  "@demoSwatchLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
+}

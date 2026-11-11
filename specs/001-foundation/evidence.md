@@ -1,0 +1,79 @@
+# Evidence for the success criteria (T087, T088)
+
+Collected 2026-11-11 on branch `001-foundation`. Automated checks at that point:
+`flutter analyze --fatal-infos` clean, `flutter test` 449 passed,
+`flutter build web --release --base-href /sprint-app/` built, CI `build` green.
+
+## Devices walked (T087)
+
+| Target | How | Result |
+| --- | --- | --- |
+| Web | Chrome pane, debug-free release build served locally | Shell, theme, language, demo, dialog (Enter/Esc), anchored menu, hash deep link OK |
+| macOS | `flutter build macos --debug`, launched | Shell with rail and dark theme (system) shown |
+| iOS phone | iPhone 17 Pro simulator, debug | Tab bar, RTL, Cupertino alert, switch, indicator, back chevron OK |
+| iPad (tablet) | iPad Pro 11" simulator, portrait 834 pt | Rail form (medium), content beside it OK |
+| Android + foldable | Pixel 10 Pro Fold emulator, release APK | Unfolded inner display with a flat fold: sidebar, no split; Profile, demo, arrow back, Material switch OK |
+| Windows, Linux | not run (need their own hosts) | scaffolded only, as planned |
+
+A split-screen hinge was exercised in tests (`test/shell/hinge_test.dart`), not on a
+device posture. A tabletop (horizontal hinge) posture is not tested.
+
+## Success criteria
+
+| SC | Evidence |
+| --- | --- |
+| SC-001 | Started and showed the shell on web, macOS, iOS, Android and an iPad (table above) |
+| SC-002 | `test/shell/shell_boundaries_test.dart`: exactly one nav form at 320, 599, 600, 839, 840, 1199, 1200, 1920 |
+| SC-003 | `test/shell/shell_state_test.dart` (destination, typed text, scroll across every boundary), `hinge_test.dart` |
+| SC-004 | `test/guards/source_scan_test.dart` (raw colours, numeric style literals, volt misuse) |
+| SC-005 | `test/guards/arb_parity_test.dart`, `test/core/l10n/locale_test.dart` |
+| SC-006 | `test/shell/text_scale_test.dart`, `shell_a11y_test.dart` at 200% |
+| SC-007 | `test/core/adaptive/*` on Apple, Android, desktop; seen by hand on web, iOS, Android. A reviewer's own judgement is still Osman's |
+| SC-008 | `test/features/settings/*` (8 inheritance combinations, validation, audit) |
+| SC-009 | `conflict_checker_test`, `booking_repository_test`, `permission_checker_test` |
+| SC-010 | Not yet provable: needs a merge into `develop` (T091). `deploy.yml` is written, Pages source is "GitHub Actions", `build` is a required check |
+| SC-011 | See below: not met on the web estimate |
+
+## SC-011 numbers (T088)
+
+**Web build, first load** (served build and the gstatic CDN, after the Cairo-only time zone
+change in `40f7f9d`):
+
+| Part | Size on the wire |
+| --- | --- |
+| `main.dart.js` | 3.3 MB raw, 0.94 MB gzip (was 4.1 MB / 1.04 MB) |
+| 8 bundled fonts (Alexandria 2, Cairo 4, IBM Plex Mono 2) | 1.12 MB raw, 0.58 MB gzip |
+| CanvasKit (`canvaskit.wasm`, from `gstatic.com`) | 1.56 MB brotli |
+| CanvasKit JS, Roboto fallback (from `gstatic.com`), misc | about 0.15 MB |
+| **Total** | **about 3.2 MB** |
+
+Unthrottled on localhost the shell was drawn in about 1.1 s. **No DevTools throttled run
+was possible from here**, so the 4G figure is arithmetic, not a measurement: about 2.9 s at
+9 Mbps and about 16 s at 1.6 Mbps, against a 3 s target. **Status: open.** It sits on the
+edge for fast 4G and is over for slow 4G.
+
+What was tried and what remains:
+
+- Done: bundle only Africa/Cairo time zone data (about 105 KB gzip saved).
+- Tried and dropped: `--wasm` build, whose main module is about the same size (1.08 MB gzip).
+- Where the rest is: the Flutter framework (1.37 MB raw of the JS), `flutter_localizations`
+  (190 KB raw, all locales), CanvasKit, the fonts. Our own code is 95 KB raw.
+- Not done, each needs Osman's decision: defer IBM Plex Mono (about 0.14 MB gzip, changes the
+  font declaration rule in `contracts/tokens.md`); subset the font files (about 0.3 MB, changes
+  the font files); self-host CanvasKit (removes the run-time `gstatic.com` dependency, likely
+  slower).
+- To close it: run Chrome DevTools "Fast 4G" and "Slow 4G" on the published Pages site after the
+  merge and record the first-interactive time here.
+- Open finding: CanvasKit and the Roboto fallback load from `gstatic.com` at run time, which
+  conflicts with "no network access at runtime"; the build also ships a 36 MB local `canvaskit/`
+  folder it does not use by default.
+
+**Installed builds:**
+
+| Build | Result |
+| --- | --- |
+| Android release APK (56.1 MB), arm64 emulator, `am start -W`, after warm-up | 2.28 to 2.53 s cold start (first runs right after boot: 5.8 to 10.3 s) |
+| iOS | Not measured: a release build cannot run on the simulator and no device is attached. A debug launch is not representative |
+
+The emulator is not a phone: 2.3 to 2.5 s is slightly above the 2 s target and needs a
+real mid-range device to confirm.
