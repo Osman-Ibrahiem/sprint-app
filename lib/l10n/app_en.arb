@@ -16,5 +16,22 @@
   "notFoundBody": "The link may have changed or been typed wrong.",
   "backToHome": "Back to home",
   "homeTitle": "Welcome to Sprint",
-  "facilitiesTitle": "University facilities"
+  "facilitiesTitle": "University facilities",
+  "priceEgp": "EGP {amount}",
+  "appearanceTitle": "Appearance",
+  "appearanceSystem": "Match device",
+  "appearanceLight": "Light",
+  "appearanceDark": "Dark",
+  "languageTitle": "Language",
+  "languageAr": "العربية",
+  "languageEn": "English",
+  "demoEntry": "Reviewer demo screen",
+  "optionSelected": "Selected",
+  "@priceEgp": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

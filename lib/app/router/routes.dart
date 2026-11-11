@@ -34,6 +34,7 @@ class ShellDestination {
     required this.selectedIcon,
     required this.label,
     required this.builder,
+    this.mirrorInRtl = false,
   });
 
   final String name;
@@ -42,6 +43,9 @@ class ShellDestination {
   final IconData selectedIcon;
   final String Function(AppLocalizations l10n) label;
   final Widget Function() builder;
+
+  /// Only directional icons mirror in RTL; none of the base four do.
+  final bool mirrorInRtl;
 }
 
 /// The four destinations every guest and booker sees, in order (the first is

@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' as rp;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sprint/app/app.dart';
@@ -17,8 +18,13 @@ void setWindow(
   Size size = const Size(400, 800),
   double textScale = 1,
   List<ui.DisplayFeature> features = const [],
+  bool reduceMotion = true,
 }) {
   tester.view.devicePixelRatio = 1;
+  // Skeletons pulse forever; tests settle only when motion is reduced.
+  tester.platformDispatcher.accessibilityFeaturesTestValue =
+      FakeAccessibilityFeatures(disableAnimations: reduceMotion);
+  addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
   tester.view.physicalSize = size;
   tester.view.displayFeatures = features;
   tester.platformDispatcher.textScaleFactorTestValue = textScale;
@@ -31,11 +37,24 @@ Future<void> pumpSprintApp(
   Size size = const Size(400, 800),
   double textScale = 1,
   List<ui.DisplayFeature> features = const [],
+  List<rp.Override> overrides = const [],
+  bool reduceMotion = true,
 }) async {
-  setWindow(tester, size: size, textScale: textScale, features: features);
-  await tester.pumpWidget(const ProviderScope(child: SprintApp()));
+  setWindow(
+    tester,
+    size: size,
+    textScale: textScale,
+    features: features,
+    reduceMotion: reduceMotion,
+  );
+  await tester.pumpWidget(
+    ProviderScope(overrides: overrides, child: const SprintApp()),
+  );
   await tester.pumpAndSettle();
 }
+
+ProviderContainer containerOf(WidgetTester tester) =>
+    ProviderScope.containerOf(tester.element(find.byType(SprintApp)));
 
 GoRouter routerOf(WidgetTester tester) {
   final container = ProviderScope.containerOf(

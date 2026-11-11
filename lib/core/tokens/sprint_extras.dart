@@ -18,4 +18,8 @@ abstract final class SprintExtras {
   /// Above this text scale, narrow navigation drops visible labels and keeps
   /// the icon plus its spoken label, so nothing is clipped at 200% (FR-017).
   static const double navLabelMaxTextScale = 1.3;
+
+  /// Lowest opacity of the skeleton pulse (a design judgement; the docs only
+  /// fix the cycle length, `duration-pulse`).
+  static const double skeletonMinOpacity = 0.5;
 }

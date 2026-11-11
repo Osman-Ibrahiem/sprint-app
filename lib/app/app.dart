@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sprint/app/router/router_provider.dart';
+import 'package:sprint/core/l10n/locale_notifier.dart';
 import 'package:sprint/core/scroll/sprint_scroll_behavior.dart';
 import 'package:sprint/core/theme/sprint_theme.dart';
+import 'package:sprint/core/theme/theme_mode_notifier.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 class SprintApp extends ConsumerWidget {
@@ -15,10 +17,10 @@ class SprintApp extends ConsumerWidget {
       onGenerateTitle: (context) => AppLocalizations.of(context).appName,
       theme: SprintTheme.light,
       darkTheme: SprintTheme.dark,
-      themeMode: ThemeMode.system,
+      themeMode: ref.watch(themeModeProvider),
       scrollBehavior: const SprintScrollBehavior(),
-      // Arabic is the default whatever the system language is (FR-013).
-      locale: const Locale('ar'),
+      // Arabic unless the user chose English; never the system language.
+      locale: ref.watch(localeProvider),
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [
         AppLocalizations.delegate,

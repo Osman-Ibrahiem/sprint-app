@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/app/shell/nav/nav_destinations_view.dart';
-import 'package:sprint/app/shell/nav/nav_item_frame.dart';
+import 'package:sprint/core/a11y/focusable_tap.dart';
+import 'package:sprint/core/l10n/directional_icon.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
@@ -77,7 +78,7 @@ class _SidebarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final color = selected ? colors.onPrimarySoft : colors.ink;
-    return NavItemFrame(
+    return FocusableTap(
       label: label,
       selected: selected,
       onTap: onTap,
@@ -95,8 +96,9 @@ class _SidebarItem extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(
+              DirectionalIcon(
                 selected ? destination.selectedIcon : destination.icon,
+                mirror: destination.mirrorInRtl,
                 size: SprintSize.iconLg,
                 color: color,
               ),

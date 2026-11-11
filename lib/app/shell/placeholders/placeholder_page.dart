@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sprint/core/motion/skeleton.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
-import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/window/window_size.dart';
@@ -67,16 +67,7 @@ class PlaceholderPage extends StatelessWidget {
               padding: const EdgeInsetsDirectional.only(
                 bottom: SprintSpacing.space4,
               ),
-              child: ExcludeSemantics(
-                child: Container(
-                  height: SprintSize.controlHeight * 2,
-                  decoration: BoxDecoration(
-                    color: colors.surface,
-                    borderRadius: SprintRadius.lgBorder,
-                    border: Border.all(color: colors.line),
-                  ),
-                ),
-              ),
+              child: const Skeleton(height: SprintSize.controlHeight * 2),
             ),
         ],
       ),

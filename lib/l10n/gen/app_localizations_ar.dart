@@ -40,7 +40,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get facilitiesSearchHint => 'البحث عن منشأة';
 
   @override
-  String get signInPromptTitle => 'محتاج تسجيل دخول';
+  String get signInPromptTitle => 'تسجيل الدخول مطلوب';
 
   @override
   String get signInPromptBody =>
@@ -56,8 +56,40 @@ class AppLocalizationsAr extends AppLocalizations {
   String get backToHome => 'الرجوع للرئيسية';
 
   @override
-  String get homeTitle => 'أهلًا بيك في سبرنت';
+  String get homeTitle => 'أهلًا في سبرنت';
 
   @override
   String get facilitiesTitle => 'منشآت الجامعة';
+
+  @override
+  String priceEgp(String amount) {
+    return '$amount ج.م';
+  }
+
+  @override
+  String get appearanceTitle => 'المظهر';
+
+  @override
+  String get appearanceSystem => 'حسب الجهاز';
+
+  @override
+  String get appearanceLight => 'فاتح';
+
+  @override
+  String get appearanceDark => 'غامق';
+
+  @override
+  String get languageTitle => 'اللغة';
+
+  @override
+  String get languageAr => 'العربية';
+
+  @override
+  String get languageEn => 'English';
+
+  @override
+  String get demoEntry => 'شاشة العرض للمراجعين';
+
+  @override
+  String get optionSelected => 'مختار';
 }

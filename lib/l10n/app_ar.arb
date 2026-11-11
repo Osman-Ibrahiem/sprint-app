@@ -13,11 +13,29 @@
   "homeIntro": "هنا هتلاقي المنشآت والمواعيد القريبة.",
   "facilitiesIntro": "كل منشآت الجامعة الرياضية في مكان واحد.",
   "facilitiesSearchHint": "البحث عن منشأة",
-  "signInPromptTitle": "محتاج تسجيل دخول",
+  "signInPromptTitle": "تسجيل الدخول مطلوب",
   "signInPromptBody": "حجوزاتك وبيانات حسابك هتظهر هنا بعد تسجيل الدخول. التسجيل لسه مش متاح في النسخة دي.",
   "notFoundTitle": "الصفحة دي مش موجودة",
   "notFoundBody": "الرابط ممكن يكون اتغيّر أو مكتوب غلط.",
   "backToHome": "الرجوع للرئيسية",
-  "homeTitle": "أهلًا بيك في سبرنت",
-  "facilitiesTitle": "منشآت الجامعة"
+  "homeTitle": "أهلًا في سبرنت",
+  "facilitiesTitle": "منشآت الجامعة",
+  "priceEgp": "{amount} ج.م",
+  "appearanceTitle": "المظهر",
+  "appearanceSystem": "حسب الجهاز",
+  "appearanceLight": "فاتح",
+  "appearanceDark": "غامق",
+  "languageTitle": "اللغة",
+  "languageAr": "العربية",
+  "languageEn": "English",
+  "demoEntry": "شاشة العرض للمراجعين",
+  "optionSelected": "مختار",
+  "@priceEgp": {
+    "description": "Price in Egyptian pounds; amount is already formatted with Western digits",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

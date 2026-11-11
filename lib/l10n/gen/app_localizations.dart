@@ -161,7 +161,7 @@ abstract class AppLocalizations {
   /// No description provided for @signInPromptTitle.
   ///
   /// In ar, this message translates to:
-  /// **'محتاج تسجيل دخول'**
+  /// **'تسجيل الدخول مطلوب'**
   String get signInPromptTitle;
 
   /// No description provided for @signInPromptBody.
@@ -191,7 +191,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeTitle.
   ///
   /// In ar, this message translates to:
-  /// **'أهلًا بيك في سبرنت'**
+  /// **'أهلًا في سبرنت'**
   String get homeTitle;
 
   /// No description provided for @facilitiesTitle.
@@ -199,6 +199,66 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'منشآت الجامعة'**
   String get facilitiesTitle;
+
+  /// Price in Egyptian pounds; amount is already formatted with Western digits
+  ///
+  /// In ar, this message translates to:
+  /// **'{amount} ج.م'**
+  String priceEgp(String amount);
+
+  /// No description provided for @appearanceTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المظهر'**
+  String get appearanceTitle;
+
+  /// No description provided for @appearanceSystem.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسب الجهاز'**
+  String get appearanceSystem;
+
+  /// No description provided for @appearanceLight.
+  ///
+  /// In ar, this message translates to:
+  /// **'فاتح'**
+  String get appearanceLight;
+
+  /// No description provided for @appearanceDark.
+  ///
+  /// In ar, this message translates to:
+  /// **'غامق'**
+  String get appearanceDark;
+
+  /// No description provided for @languageTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'اللغة'**
+  String get languageTitle;
+
+  /// No description provided for @languageAr.
+  ///
+  /// In ar, this message translates to:
+  /// **'العربية'**
+  String get languageAr;
+
+  /// No description provided for @languageEn.
+  ///
+  /// In ar, this message translates to:
+  /// **'English'**
+  String get languageEn;
+
+  /// No description provided for @demoEntry.
+  ///
+  /// In ar, this message translates to:
+  /// **'شاشة العرض للمراجعين'**
+  String get demoEntry;
+
+  /// No description provided for @optionSelected.
+  ///
+  /// In ar, this message translates to:
+  /// **'مختار'**
+  String get optionSelected;
 }
 
 class _AppLocalizationsDelegate

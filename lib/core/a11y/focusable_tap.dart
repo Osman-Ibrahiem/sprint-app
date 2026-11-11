@@ -3,10 +3,10 @@ import 'package:sprint/core/a11y/sprint_focus_ring.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 
-/// Shared behaviour of one navigation destination: spoken label, selected
+/// Shared behaviour of one tappable row or navigation destination: spoken label, selected
 /// state, at least 48 dp, hover, keyboard focus ring and Enter/Space.
-class NavItemFrame extends StatefulWidget {
-  const NavItemFrame({
+class FocusableTap extends StatefulWidget {
+  const FocusableTap({
     required this.label,
     required this.selected,
     required this.onTap,
@@ -20,10 +20,10 @@ class NavItemFrame extends StatefulWidget {
   final Widget Function(BuildContext context, bool hovered) builder;
 
   @override
-  State<NavItemFrame> createState() => _NavItemFrameState();
+  State<FocusableTap> createState() => _FocusableTapState();
 }
 
-class _NavItemFrameState extends State<NavItemFrame> {
+class _FocusableTapState extends State<FocusableTap> {
   bool _hovered = false;
   bool _focusVisible = false;
 

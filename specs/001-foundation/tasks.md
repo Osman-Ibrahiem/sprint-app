@@ -105,24 +105,24 @@ text scaling and reduced motion. (FR-009 – FR-018, SC-004 – SC-006)
 
 ### Tests for US2 (write first, must fail)
 
-- [ ] T031 [P] [US2] `test/core/l10n/sprint_format_test.dart`: with locale `ar` price is "120 ج.م", time "5:00 م", digits Western; with `en` "EGP 120" and "5:00 PM"; pin the intl output so an upgrade cannot change digits (research R5)
-- [ ] T032 [P] [US2] `test/core/theme/appearance_test.dart`: theme mode follows system by default, override persists via fake `SharedPreferences`, storage failure falls back to defaults (FR-010)
-- [ ] T033 [P] [US2] `test/core/l10n/locale_test.dart`: default `ar`, switching to `en` flips `Directionality`, choice persists
-- [ ] T034 [P] [US2] `test/guards/arb_parity_test.dart`: every key exists in both ARB files with non-empty text (SC-005)
-- [ ] T035 [P] [US2] `test/guards/source_scan_test.dart`: scan `lib/` (excluding `lib/core/tokens/` and `lib/core/seed/`) and fail on `Color(0x`, `Colors.` other than `Colors.transparent`, numeric `fontSize:` or `EdgeInsets.all(<number>)`, `Alignment.centerLeft|Right`, `EdgeInsets.only(left:|right:)`, string literals in `Text(`, and `volt` used as a text, icon or border colour (FR-012) (SC-004, SC-005, research R9)
-- [ ] T036 [P] [US2] `test/shell/text_scale_test.dart`: shell at 200% text scale and compact width shows no overflow; no text style below size 12 (SC-006)
-- [ ] T037 [P] [US2] `test/core/reduced_motion_test.dart`: with `disableAnimations` the fade helper returns zero or `duration-fast` (FR-018)
+- [X] T031 [P] [US2] `test/core/l10n/sprint_format_test.dart`: with locale `ar` price is "120 ج.م", time "5:00 م", digits Western; with `en` "EGP 120" and "5:00 PM"; pin the intl output so an upgrade cannot change digits (research R5)
+- [X] T032 [P] [US2] `test/core/theme/appearance_test.dart`: theme mode follows system by default, override persists via fake `SharedPreferences`, storage failure falls back to defaults (FR-010)
+- [X] T033 [P] [US2] `test/core/l10n/locale_test.dart`: default `ar`, switching to `en` flips `Directionality`, choice persists
+- [X] T034 [P] [US2] `test/guards/arb_parity_test.dart`: every key exists in both ARB files with non-empty text (SC-005)
+- [X] T035 [P] [US2] `test/guards/source_scan_test.dart`: scan `lib/` (excluding `lib/core/tokens/` and `lib/core/seed/`) and fail on `Color(0x`, `Colors.` other than `Colors.transparent`, numeric `fontSize:` or `EdgeInsets.all(<number>)`, `Alignment.centerLeft|Right`, `EdgeInsets.only(left:|right:)`, string literals in `Text(`, and `volt` used as a text, icon or border colour (FR-012) (SC-004, SC-005, research R9)
+- [X] T036 [P] [US2] `test/shell/text_scale_test.dart`: shell at 200% text scale and compact width shows no overflow; no text style below size 12 (SC-006)
+- [X] T037 [P] [US2] `test/core/reduced_motion_test.dart`: with `disableAnimations` the fade helper returns zero or `duration-fast` (FR-018)
 
 ### Implementation for US2
 
-- [ ] T038 [P] [US2] `lib/core/l10n/sprint_format.dart`: price, 12-hour time, date, number formatting with plain `ar`/`en` locales (never `ar_EG`); Cairo time conversion call-site comes in US4
-- [ ] T039 [P] [US2] `lib/core/theme/theme_mode_notifier.dart` and `lib/core/l10n/locale_notifier.dart`: Riverpod notifiers persisted with `shared_preferences`, safe defaults on failure (generated code committed)
-- [ ] T040 [P] [US2] `lib/core/l10n/ltr_isolate.dart`: widget that keeps booking codes, phones and emails left-to-right inside Arabic text (FR-014)
-- [ ] T041 [US2] Profile placeholder entries for Appearance (system, light, dark) and Language, wired to T039; extend `lib/app/shell/placeholders/profile_placeholder.dart` and ARB files in both languages; add the entry that links to `/demo` here
-- [ ] T042 [US2] Skeleton primitive `lib/core/motion/skeleton.dart` (opacity pulse at `duration-pulse`, static under reduced motion) and use it for placeholder loading states (FR-018)
-- [ ] T043 [US2] Mirror only directional icons: `lib/core/l10n/directional_icon.dart` helper used by the nav widgets; audit nav and placeholders for `start`/`end` usage
-- [ ] T044 [US2] Review every Arabic string in `lib/l10n/app_ar.arb` against the copy rules (light Egyptian dialect, no imperative verbs, buttons as verbal nouns, FR-015) and check the English text matches the meaning; record the review in the PR
-- [ ] T045 [US2] Run T031 – T037 and the quickstart US2 steps (device theme, override, English, 200% text, reduced motion); fix until green
+- [X] T038 [P] [US2] `lib/core/l10n/sprint_format.dart`: price, 12-hour time, date, number formatting with plain `ar`/`en` locales (never `ar_EG`); Cairo time conversion call-site comes in US4
+- [X] T039 [P] [US2] `lib/core/theme/theme_mode_notifier.dart` and `lib/core/l10n/locale_notifier.dart`: Riverpod notifiers persisted with `shared_preferences`, safe defaults on failure (generated code committed)
+- [X] T040 [P] [US2] `lib/core/l10n/ltr_isolate.dart`: widget that keeps booking codes, phones and emails left-to-right inside Arabic text (FR-014)
+- [X] T041 [US2] Profile placeholder entries for Appearance (system, light, dark) and Language, wired to T039; extend `lib/app/shell/placeholders/profile_placeholder.dart` and ARB files in both languages; add the entry that links to `/demo` here
+- [X] T042 [US2] Skeleton primitive `lib/core/motion/skeleton.dart` (opacity pulse at `duration-pulse`, static under reduced motion) and use it for placeholder loading states (FR-018)
+- [X] T043 [US2] Mirror only directional icons: `lib/core/l10n/directional_icon.dart` helper used by the nav widgets; audit nav and placeholders for `start`/`end` usage
+- [X] T044 [US2] Review every Arabic string in `lib/l10n/app_ar.arb` against the copy rules (light Egyptian dialect, no imperative verbs, buttons as verbal nouns, FR-015) and check the English text matches the meaning; record the review in the PR
+- [X] T045 [US2] Run T031 – T037 and the quickstart US2 steps (device theme, override, English, 200% text, reduced motion); fix until green
 
 **Checkpoint**: US1 + US2 = MVP slice complete and reviewable.
 

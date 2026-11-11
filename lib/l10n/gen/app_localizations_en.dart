@@ -62,4 +62,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get facilitiesTitle => 'University facilities';
+
+  @override
+  String priceEgp(String amount) {
+    return 'EGP $amount';
+  }
+
+  @override
+  String get appearanceTitle => 'Appearance';
+
+  @override
+  String get appearanceSystem => 'Match device';
+
+  @override
+  String get appearanceLight => 'Light';
+
+  @override
+  String get appearanceDark => 'Dark';
+
+  @override
+  String get languageTitle => 'Language';
+
+  @override
+  String get languageAr => 'العربية';
+
+  @override
+  String get languageEn => 'English';
+
+  @override
+  String get demoEntry => 'Reviewer demo screen';
+
+  @override
+  String get optionSelected => 'Selected';
 }
