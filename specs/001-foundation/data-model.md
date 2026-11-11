@@ -98,12 +98,11 @@ Changes apply to new bookings only; existing bookings keep their frozen values (
 | `refundPercent` | int | 100 | university, facility, unit | 0 – 100 | BR-31 |
 | `verificationExpiry` | month/day | 31 August | university | valid date | BR-25 |
 | `checkInOpensMinutes` | int | 15 | university, facility | ≥ 0 | BR-35 |
-| `reminderLeadMinutes` | int | 60 | university | ≥ 0 | BR-39 |
+| `reminderLeadMinutes` | int | 180 | university | ≥ 0 | BR-39 |
 | `paymentProvider` | enum `FAKE`/`SANDBOX` | `FAKE` | university | known value | BR-29 |
 
-Open item (not decided here): defaults `reminderLeadMinutes = 60` and
-`cancellationCutoffHours = 2` mean the reminder never offers cancel (BR-40). The registry keeps
-the BRD values; BRD §11 asks Osman to align one of them.
+Decided 2026-11-11: `reminderLeadMinutes` defaults to 180 so that, with `cancellationCutoffHours = 2`,
+the reminder arrives before the cutoff and can offer cancel (BR-40).
 
 ## Seed data (placeholder until Dr. Sara's data arrives)
 
@@ -140,7 +139,7 @@ These are what the code does today. Where one is a judgement and not a BRD rule,
 | Price | Exclusive: the unit's price for the tier. Shared: price × seats. Best applicable offer by day, time-of-day of the slot start, tier and validity; the amount is rounded half up to whole pounds. An amount of 0 skips payment |
 | Tier | `INTERNAL` only with an approved, unexpired verification, else `EXTERNAL`; read at booking time and frozen |
 | Refund | Owner, before the cutoff: `paid × refundPercent ÷ 100`, rounded down. Admin: 100%, any time before the slot ends |
-| BR-40 | Kept as the BRD says; with the defaults (reminder 60 minutes, cutoff 2 hours) a reminder never offers cancel. Still open in BRD §11 |
+| BR-40 | With the defaults (reminder 180 minutes, cutoff 2 hours) a reminder arrives before the cutoff and offers cancel. Decided 2026-11-11 |
 | BR-04 guard | Changing a unit's `bookingMode`, or cutting its `capacity` below the seats already booked in any future slot, is refused with `Conflict` |
 | `paymentProvider` | `fake` and `sandbox` both resolve to the fake provider until a gateway is chosen |
 | `capacity` default | 1, and `maxParticipants` empty, when a unit has no value (the seed sets real ones) |

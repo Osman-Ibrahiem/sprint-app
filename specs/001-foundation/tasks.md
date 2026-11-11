@@ -267,4 +267,5 @@ contracts agree and the next features (and OpenCode) start from a clean referenc
 - [X] T095 [US3] Screen-reader phrase for each colour swatch in the token gallery (`demoSwatchLabel`); test in `test/features/demo/token_gallery_test.dart` (FR-017)
 - [X] T096 [US1] Hinge tests for a tabletop posture, left-to-right, and folding and unfolding while typing (text and focus kept) in `test/shell/hinge_test.dart` (FR-005, FR-006)
 - [X] T097 Update `contracts/` (adaptive controls, repositories, routes, tokens, ci), `data-model.md` ("As built"), `plan.md` and `quickstart.md` to match the code
-- [ ] T098 Decide with Osman: ~~Apple navigation bar height~~ (decided: keep native 44, 2026-11-11); how to close SC-011 on the web; whether CanvasKit stays on the CDN
+- [X] T098 Decisions with Osman, 2026-11-11: Apple navigation bar keeps native 44pt (recorded in CLAUDE.md and constitution v1.1.0); CanvasKit stays on the Google CDN; SC-011 is measured first; `reminderLeadMinutes` default moved to 180 (BR-40). All in `docs/decisions.md`
+- [ ] T099 Measure SC-011 on the published site with Chrome DevTools "Fast 4G" and "Slow 4G" and record first-interactive time in `specs/001-foundation/evidence.md`; if over 3 s on Fast 4G, defer IBM Plex Mono, then subset the fonts (needs Osman's OK before changing font rules)

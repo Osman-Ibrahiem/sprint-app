@@ -94,7 +94,7 @@ The app comes with realistic Egyptian placeholder data: Arabic facility names, E
 
 1. **Given** the seed data, **When** facilities are listed, **Then** they include paid, free and with-trainer types, owned by faculties and by a central unit, each with at least one bookable unit.
 2. **Given** a setting defined at university level only, **When** it is read for a unit, **Then** the university value is returned; **Given** it is also defined at facility level, **Then** the facility value wins; **Given** it is also defined at unit level, **Then** the unit value wins.
-3. **Given** the default settings, **When** they are read, **Then** they match BRD §4 (booking window 7 days, hold 10 minutes, cancellation cutoff 2 hours, refund 100%, reminder lead time 60 minutes, check-in opens 15 minutes before, and so on).
+3. **Given** the default settings, **When** they are read, **Then** they match BRD §4 (booking window 7 days, hold 10 minutes, cancellation cutoff 2 hours, refund 100%, reminder lead time 180 minutes, check-in opens 15 minutes before, and so on).
 4. **Given** a unit whose booking mode is exclusive and a slot already booked, **When** a second booking is attempted for the same slot, **Then** it is refused.
 5. **Given** a shared unit with capacity N, **When** N places are taken, **Then** the slot reports full and the next attempt is refused.
 6. **Given** an internal-tier and an external-tier user, **When** the price of the same slot is requested, **Then** each gets its own tier price.
