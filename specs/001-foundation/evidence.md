@@ -87,7 +87,7 @@ Checked 2026-11-11 against https://osman-ibrahiem.github.io/sprint-app/:
 | `/`, `/main.dart.js` (3.27 MB), `/flutter_bootstrap.js`, a bundled font | all HTTP 200; `<base href>` is `/sprint-app/` |
 | Deep link `/#/facilities` opened directly in a fresh browser tab (FR-029) | Facilities screen inside the sidebar shell, Arabic RTL, Dark; the route is client-side (hash), so a refresh requests the same `index.html` |
 | First paint | The page stayed blank for about 6 s on the first load in the browser pane; consistent with the SC-011 estimate and still to be measured with DevTools "Fast 4G" and "Slow 4G" |
-| SC-010, failing build | Not proved by a live failing deploy (see the SC table). Structural reason: `deploy` runs only after a successful `build` |
+| SC-010, failing build | Not proved by a live failing deploy (see the SC table). Structural reason: `deploy` runs only after a successful `build`. The merge gate is proved live, see below |
 
 ## SC-011 measured on the published site (T099)
 
@@ -114,4 +114,18 @@ they are good to about a tenth of a second.
 - Next step, as decided on 2026-11-11 (`docs/decisions.md`): defer IBM Plex Mono (about 0.14 MB
   gzip, 4% of the transfer), then, with Osman's OK, subset the font files (about 0.3 MB). Plex
   Mono alone is expected to leave Fast 4G at about 3.2 s, so both are likely needed.
+
+## Merge gate proved live (SC-010, FR-028)
+
+PR #4 carried one commit with a deliberately failing test (`test/zz_closeout_gate_test.dart`,
+`expect(1 + 1, 3)`), then a revert commit; history was not rewritten.
+
+| Moment | `build` check | PR state |
+| --- | --- | --- |
+| Head with the failing test (`24c0940`) | **failed** after 2 m 27 s: `Expected: <3> Actual: <2>` in the Test step | `mergeStateStatus: BLOCKED` while the PR was mergeable in content |
+| Head after the revert | passed (see the PR) | clean |
+
+So a change whose tests fail cannot reach `develop`, and `deploy.yml` runs only on a push to
+`develop`. Together with `deploy` needing `build`, a failing change cannot replace the live build.
+What is still not shown is a failing *push* to `develop`, which branch protection forbids.
 
