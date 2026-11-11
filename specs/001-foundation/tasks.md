@@ -205,7 +205,7 @@ settings inspector. (FR-021 – FR-026, FR-031, SC-008, SC-009)
 
 **Independent Test**: Merge a trivial change into `develop`, open the Pages link, repeat with a failing change.
 
-- [ ] T082 [US5] Create `.github/workflows/deploy.yml` per `contracts/ci.md`: trigger on push to `develop`; `build` job reuses the CI steps and uploads `build/web` with `actions/upload-pages-artifact`; `deploy` job (needs `build`, environment `github-pages`, `pages: write`, `id-token: write`) uses `actions/deploy-pages`
+- [X] T082 [US5] Create `.github/workflows/deploy.yml` per `contracts/ci.md`: trigger on push to `develop`; `build` job reuses the CI steps and uploads `build/web` with `actions/upload-pages-artifact`; `deploy` job (needs `build`, environment `github-pages`, `pages: write`, `id-token: write`) uses `actions/deploy-pages`
 - [ ] T083 [US5] Ask Osman before changing repository settings, then set the Pages source to "GitHub Actions" with `gh api` (outward-facing; record the result in the PR)
 - [ ] T084 [US5] After the first green run on the PR, ask Osman, then add the `build` check as a required status check on `develop` and `main`, keeping PR-required and no-force-push rules
 
