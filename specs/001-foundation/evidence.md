@@ -36,23 +36,37 @@ device posture. A tabletop (horizontal hinge) posture is not tested.
 
 ## SC-011 numbers (T088)
 
-**Web build, first load** (from the served build and the gstatic CDN):
+**Web build, first load** (served build and the gstatic CDN, after the Cairo-only time zone
+change in `40f7f9d`):
 
 | Part | Size on the wire |
 | --- | --- |
-| `main.dart.js` | 4.1 MB raw, 1.04 MB gzip |
+| `main.dart.js` | 3.3 MB raw, 0.94 MB gzip (was 4.1 MB / 1.04 MB) |
 | 8 bundled fonts (Alexandria 2, Cairo 4, IBM Plex Mono 2) | 1.12 MB raw, 0.58 MB gzip |
 | CanvasKit (`canvaskit.wasm`, from `gstatic.com`) | 1.56 MB brotli |
 | CanvasKit JS, Roboto fallback (from `gstatic.com`), misc | about 0.15 MB |
-| **Total** | **about 3.3 MB** |
+| **Total** | **about 3.2 MB** |
 
 Unthrottled on localhost the shell was drawn in about 1.1 s. **No DevTools throttled run
-was possible from here**, so the 4G figure is arithmetic, not a measurement: about 3 s at
-9 Mbps and about 17 s at 1.6 Mbps, against a 3 s target. Deferring IBM Plex Mono
-(research R10) would save about 0.14 MB gzip, which does not change that.
-Two findings: CanvasKit and the Roboto fallback load from `gstatic.com` at run time
-(the build also ships a 36 MB local `canvaskit/` folder it does not use by default),
-which conflicts with "no network access at runtime".
+was possible from here**, so the 4G figure is arithmetic, not a measurement: about 2.9 s at
+9 Mbps and about 16 s at 1.6 Mbps, against a 3 s target. **Status: open.** It sits on the
+edge for fast 4G and is over for slow 4G.
+
+What was tried and what remains:
+
+- Done: bundle only Africa/Cairo time zone data (about 105 KB gzip saved).
+- Tried and dropped: `--wasm` build, whose main module is about the same size (1.08 MB gzip).
+- Where the rest is: the Flutter framework (1.37 MB raw of the JS), `flutter_localizations`
+  (190 KB raw, all locales), CanvasKit, the fonts. Our own code is 95 KB raw.
+- Not done, each needs Osman's decision: defer IBM Plex Mono (about 0.14 MB gzip, changes the
+  font declaration rule in `contracts/tokens.md`); subset the font files (about 0.3 MB, changes
+  the font files); self-host CanvasKit (removes the run-time `gstatic.com` dependency, likely
+  slower).
+- To close it: run Chrome DevTools "Fast 4G" and "Slow 4G" on the published Pages site after the
+  merge and record the first-interactive time here.
+- Open finding: CanvasKit and the Roboto fallback load from `gstatic.com` at run time, which
+  conflicts with "no network access at runtime"; the build also ships a 36 MB local `canvaskit/`
+  folder it does not use by default.
 
 **Installed builds:**
 

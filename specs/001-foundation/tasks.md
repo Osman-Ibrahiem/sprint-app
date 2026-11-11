@@ -218,7 +218,7 @@ settings inspector. (FR-021 – FR-026, FR-031, SC-008, SC-009)
 - [X] T085 [P] Update `CLAUDE.md` "Current state" (the repo now has code; Foundation done) and add a dated row in `docs/decisions.md` for the application ID `eg.edu.tanta.sprint` (once Osman confirms it) and for hash URLs on Pages
 - [X] T086 [P] Add `README.md` at the root: what Sprint is, prerequisites, how to run, test and build (from `quickstart.md`)
 - [X] T087 Walk the whole `quickstart.md` manual table on web, macOS, one Android phone, one tablet (iPad or Android tablet), a foldable emulator for the hinge checks, and one iOS phone; tick SC-001 – SC-011 with evidence in the PR description (Windows and Linux are not run in this feature)
-- [ ] T088 Measure SC-011: web build size from the CI log and first-interactive on throttled 4G in Chrome DevTools; if over 3 s apply the Plex Mono deferral from research R10 and record numbers; also measure cold start of the installed Android and iOS builds against the 2 s target of SC-011
+- [X] T088 Measure SC-011: web build size from the CI log and first-interactive on throttled 4G in Chrome DevTools; if over 3 s apply the Plex Mono deferral from research R10 and record numbers; also measure cold start of the installed Android and iOS builds against the 2 s target of SC-011
 - [X] T089 Final sweep: `flutter analyze --fatal-infos`, `flutter test`, `flutter build web --release --base-href /sprint-app/`; check that no `TODO` without an owner remains and that the demo-only switcher is clearly marked
 - [ ] T090 Mark the single pull request `001-foundation` → `develop` (opened as a Draft after T008) ready for review, with BRD IDs in the description and the SC evidence; after T090 the whole feature is one PR
 
