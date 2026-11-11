@@ -1,4 +1,6 @@
-import 'package:timezone/data/latest.dart' as tzdata;
+import 'dart:convert';
+
+import 'package:sprint/core/time/cairo_tzdata.g.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 /// Cairo wall-clock handling on top of UTC storage (NFR-03, research R13).
@@ -8,10 +10,11 @@ import 'package:timezone/timezone.dart' as tz;
 abstract final class CairoTime {
   static bool _initialised = false;
 
-  /// Loads the time zone database once.
+  /// Loads the Cairo time zone data once.
   static void ensureInitialized() {
     if (_initialised) return;
-    tzdata.initializeTimeZones();
+    // Only Africa/Cairo is bundled, not the whole database (web size).
+    tz.initializeDatabase(base64Decode(cairoTzdataBase64));
     _initialised = true;
   }
 
