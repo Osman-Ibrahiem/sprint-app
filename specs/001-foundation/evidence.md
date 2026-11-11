@@ -32,7 +32,7 @@ device posture. A tabletop (horizontal hinge) posture is not tested.
 | SC-008 | `test/features/settings/*` (8 inheritance combinations, validation, audit) |
 | SC-009 | `conflict_checker_test`, `booking_repository_test`, `permission_checker_test` |
 | SC-010 | After the merge of PR #1 (`52075b6`, 2026-11-11 12:36 UTC) the `Deploy` run on `develop` finished green (`build` then `deploy`) in about 3 minutes, and the site is live at https://osman-ibrahiem.github.io/sprint-app/. The failing-build half (a failing merge leaves the live build unchanged) is **not proved live**: it holds because the `deploy` job `needs: build`, and a live proof would need a deliberately failing push to `develop`, which branch protection forbids. See the section below |
-| SC-011 | See below: not met on the web estimate |
+| SC-011 | Measured on the published site (T099): web first load is **not met** (about 3.3 s on Fast 4G, about 18 s on Slow 4G, against 3 s). See "SC-011 measured" below |
 
 ## SC-011 numbers (T088)
 
@@ -87,4 +87,45 @@ Checked 2026-11-11 against https://osman-ibrahiem.github.io/sprint-app/:
 | `/`, `/main.dart.js` (3.27 MB), `/flutter_bootstrap.js`, a bundled font | all HTTP 200; `<base href>` is `/sprint-app/` |
 | Deep link `/#/facilities` opened directly in a fresh browser tab (FR-029) | Facilities screen inside the sidebar shell, Arabic RTL, Dark; the route is client-side (hash), so a refresh requests the same `index.html` |
 | First paint | The page stayed blank for about 6 s on the first load in the browser pane; consistent with the SC-011 estimate and still to be measured with DevTools "Fast 4G" and "Slow 4G" |
-| SC-010, failing build | Not proved by a live failing deploy (see the SC table). Structural reason: `deploy` runs only after a successful `build` |
+| SC-010, failing build | Not proved by a live failing deploy (see the SC table). Structural reason: `deploy` runs only after a successful `build`. The merge gate is proved live, see below |
+
+## SC-011 measured on the published site (T099)
+
+Measured 2026-11-11 by Osman in Chrome DevTools on https://osman-ibrahiem.github.io/sprint-app/
+(deploy of PR #1, `52075b6`), Network tab, **Disable cache** on, hard reload at `/#/home`.
+The times are read from the Time column of the screenshots, where the cells were cut off, so
+they are good to about a tenth of a second.
+
+| | Fast 4G | Slow 4G |
+| --- | --- | --- |
+| Requests | 20 | 20 |
+| Transferred | 3.2 MB (10.2 MB of resources) | 3.2 MB |
+| `main.dart.js` (955 KB) | about 2.1 s | about 11 s |
+| `canvaskit.wasm` (1.5 MB, from `gstatic.com`) | about 3.3 s | about 18 s |
+| Each bundled font | under 0.1 s | about 4 s |
+| **Shell on screen (the last resource)** | **about 3.3 s** | **about 18 s** |
+
+- The measured transfer (3.2 MB) matches the estimate above (3.2 MB), so the byte counts in
+  "SC-011 numbers (T088)" hold.
+- **Result: not met.** Fast 4G is about 10% over the 3 s target; Slow 4G is far over.
+- The long pole is `canvaskit.wasm`, then `main.dart.js`; both are on the critical path. These
+  runs had the cache off: a repeat visit is served by the service worker and is much faster, and
+  SC-011 is about the first visit.
+- Next step, as decided on 2026-11-11 (`docs/decisions.md`): defer IBM Plex Mono (about 0.14 MB
+  gzip, 4% of the transfer), then, with Osman's OK, subset the font files (about 0.3 MB). Plex
+  Mono alone is expected to leave Fast 4G at about 3.2 s, so both are likely needed.
+
+## Merge gate proved live (SC-010, FR-028)
+
+PR #4 carried one commit with a deliberately failing test (`test/zz_closeout_gate_test.dart`,
+`expect(1 + 1, 3)`), then a revert commit; history was not rewritten.
+
+| Moment | `build` check | PR state |
+| --- | --- | --- |
+| Head with the failing test (`24c0940`) | **failed** after 2 m 27 s: `Expected: <3> Actual: <2>` in the Test step | `mergeStateStatus: BLOCKED` while the PR was mergeable in content |
+| Head after the revert | passed (see the PR) | clean |
+
+So a change whose tests fail cannot reach `develop`, and `deploy.yml` runs only on a push to
+`develop`. Together with `deploy` needing `build`, a failing change cannot replace the live build.
+What is still not shown is a failing *push* to `develop`, which branch protection forbids.
+
