@@ -22,7 +22,7 @@ Owner: Osman (decides, reviews). Claude Code plans and reviews; OpenCode impleme
 
 ## Current state
 
-- The repo has no code yet. Phase **P1**: build the **whole UI first, every screen, on realistic mock data**, then the backend (Supabase or Firebase, decided later).
+- Phase **P1**: build the **whole UI first, every screen, on realistic mock data**, then the backend (Supabase or Firebase, decided later). **Feature 001 Foundation is built** (PR #1): tokens generated from `tokens.json`, light/dark theme, ar/en l10n, router and adaptive shell, the five adaptive controls, the `/demo` screen, settings with inheritance, pure rule services, in-memory repositories on seed data behind interfaces, role-driven destinations, and CI plus a Pages deploy. Next is feature 2 (design-system widgets).
 - Real facility data from Dr. Sara is coming later. Until then use realistic placeholder seed data (Arabic facility names, EGP prices, 12-hour times) behind the same repositories.
 - Payments run in **sandbox/test mode** only. **No SMS and no paid service in P1**: notifications are push and in-app; account confirmation and password reset go by email.
 
