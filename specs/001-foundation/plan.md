@@ -95,7 +95,8 @@ analysis_options.yaml
 l10n.yaml
 build.yaml                         # only if build_runner needs options
 tool/
-└── gen_tokens.dart                # tokens.json -> lib/core/tokens/*.g.dart
+├── gen_tokens.dart                # tokens.json -> lib/core/tokens/*.g.dart
+└── gen_cairo_tzdata.dart          # Africa/Cairo-only time zone data (web size)
 android/  ios/  web/  macos/  windows/  linux/      # created by flutter create
 assets/
 └── fonts/                         # already in repo

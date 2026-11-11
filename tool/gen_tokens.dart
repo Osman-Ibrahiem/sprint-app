@@ -267,12 +267,26 @@ String _text(Map<String, dynamic> json) {
     return m.group(1)!;
   }
 
+  // The generic families after the first name, e.g. `system-ui, sans-serif`.
+  // They apply while a bundled font is still loading or if it fails, and the
+  // explicit `height` keeps the line height the same either way (edge case in
+  // the spec: "fonts fail to load").
+  List<String> fallback(String key) {
+    final rest = (families[key] as String)
+        .replaceFirst(RegExp(r'^\s*"[^"]+"\s*,?'), '')
+        .split(',')
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty);
+    return rest.toList();
+  }
+
   final b = StringBuffer(_header)
     ..writeln("import 'package:flutter/painting.dart';")
     ..writeln()
     ..writeln('abstract final class SprintText {');
   for (final g in (type['groups'] as List).cast<Map<String, dynamic>>()) {
     final fam = family(g['family'] as String);
+    final fall = fallback(g['family'] as String);
     for (final s in (g['styles'] as List).cast<Map<String, dynamic>>()) {
       final size = _px(s['fontSize'] as String);
       final lh = _px(s['lineHeight'] as String);
@@ -282,6 +296,9 @@ String _text(Map<String, dynamic> json) {
         ..writeln('  static const TextStyle ${camel(s['name'] as String)} = '
             'TextStyle(')
         ..writeln("    fontFamily: '$fam',")
+        ..writeln(
+          '    fontFamilyFallback: [${fall.map((e) => "'$e'").join(', ')}],',
+        )
         ..writeln('    fontSize: ${_num(size)},')
         ..writeln('    fontWeight: FontWeight.w$w,')
         ..writeln('    height: ${_num(lh / size)},');

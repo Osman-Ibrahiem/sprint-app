@@ -26,6 +26,13 @@ dart run tool/gen_tokens.dart
 dart run build_runner build --delete-conflicting-outputs
 ```
 
+```bash
+flutter gen-l10n
+```
+
+The Cairo-only time zone data is regenerated with `dart run tool/gen_cairo_tzdata.dart` (a test
+fails if it drifts). To hide the reviewer tools in a build, add `--dart-define=HIDE_DEMO_TOOLS=true`.
+
 ## Automated checks (same as CI)
 
 ```bash

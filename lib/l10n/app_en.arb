@@ -115,5 +115,13 @@
         "type": "String"
       }
     }
+  },
+  "demoSwatchLabel": "{name}, light and dark",
+  "@demoSwatchLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

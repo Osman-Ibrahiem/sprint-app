@@ -541,6 +541,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'من: {level}'**
   String demoSettingsLevel(String level);
+
+  /// No description provided for @demoSwatchLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'{name}، فاتح وغامق'**
+  String demoSwatchLabel(String name);
 }
 
 class _AppLocalizationsDelegate

@@ -245,4 +245,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String demoSettingsLevel(String level) {
     return 'From: $level';
   }
+
+  @override
+  String demoSwatchLabel(String name) {
+    return '$name, light and dark';
+  }
 }

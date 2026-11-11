@@ -95,12 +95,12 @@ class TokenGallery extends StatelessWidget {
     final colors = context.colors;
 
     Widget heading(String text) => Padding(
-          padding: const EdgeInsetsDirectional.only(
-            top: SprintSpacing.space6,
-            bottom: SprintSpacing.space3,
-          ),
-          child: Text(text, style: context.text.title),
-        );
+      padding: const EdgeInsetsDirectional.only(
+        top: SprintSpacing.space6,
+        bottom: SprintSpacing.space3,
+      ),
+      child: Text(text, style: context.text.title),
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,7 +123,10 @@ class TokenGallery extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(name, style: context.text.caption.copyWith(color: colors.inkMuted)),
+                Text(
+                  name,
+                  style: context.text.caption.copyWith(color: colors.inkMuted),
+                ),
                 Text(
                   l10n.demoTypeSample,
                   style: style.copyWith(color: colors.ink),
@@ -193,31 +196,39 @@ class _SwatchCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context);
     Widget chip(Color c) => Expanded(
-          child: Container(
-            height: SprintSize.controlHeight,
-            decoration: BoxDecoration(
-              color: c,
-              border: Border.all(color: colors.controlBorder),
-              borderRadius: SprintRadius.smBorder,
-            ),
-          ),
-        );
-    return SizedBox(
-      width: SprintSize.sidebarWidth,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+      child: Container(
+        height: SprintSize.controlHeight,
+        decoration: BoxDecoration(
+          color: c,
+          border: Border.all(color: colors.controlBorder),
+          borderRadius: SprintRadius.smBorder,
+        ),
+      ),
+    );
+    // Read as one phrase, "bg, light and dark", instead of two blank boxes.
+    return Semantics(
+      container: true,
+      label: l10n.demoSwatchLabel(name),
+      child: ExcludeSemantics(
+        child: SizedBox(
+          width: SprintSize.sidebarWidth,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              chip(light),
-              const SizedBox(width: SprintSpacing.space1),
-              chip(dark),
+              Row(
+                children: [
+                  chip(light),
+                  const SizedBox(width: SprintSpacing.space1),
+                  chip(dark),
+                ],
+              ),
+              const SizedBox(height: SprintSpacing.space1),
+              Text(name, style: context.text.caption),
             ],
           ),
-          const SizedBox(height: SprintSpacing.space1),
-          Text(name, style: context.text.caption),
-        ],
+        ),
       ),
     );
   }

@@ -30,6 +30,14 @@ Permissions: `contents: read` only.
 - After the first green run: add the `build` check as a required status check on `develop`
   and `main`, keeping the existing "pull request required, no force push" rules.
 
+## As built
+
+- `ci.yml` and `deploy.yml` both have a job named `build`; `deploy.yml` adds a `deploy` job
+  that needs it. Concurrency group `pages` queues deploys and never cancels one in progress.
+- The Pages source is "GitHub Actions" (set 2026-11-11). `build` is a required status check on
+  `develop` and `main`, with "PR required, no force-push, no deletion" unchanged.
+- The Cairo time zone database is checked by a unit test, not a CI step.
+
 ## Not in CI (decided in clarify, 2026-11-10)
 
 Android and iOS builds, store signing, release publishing. They are checked by hand.

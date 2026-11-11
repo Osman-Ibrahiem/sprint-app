@@ -119,5 +119,13 @@
         "type": "String"
       }
     }
+  },
+  "demoSwatchLabel": "{name}، فاتح وغامق",
+  "@demoSwatchLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

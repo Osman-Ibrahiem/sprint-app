@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sprint/app/shell/placeholders/placeholder_page.dart';
+import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
@@ -34,7 +35,9 @@ class _FacilitiesPlaceholderState extends State<FacilitiesPlaceholder> {
       leading: [
         const SizedBox(height: SprintSpacing.space4),
         ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: SprintSize.controlHeight),
+          constraints: const BoxConstraints(
+            minHeight: SprintSize.controlHeight,
+          ),
           child: TextField(
             controller: _controller,
             style: context.text.body,
@@ -51,6 +54,13 @@ class _FacilitiesPlaceholderState extends State<FacilitiesPlaceholder> {
               enabledBorder: OutlineInputBorder(
                 borderRadius: SprintRadius.smBorder,
                 borderSide: BorderSide(color: colors.controlBorder),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: SprintRadius.smBorder,
+                borderSide: BorderSide(
+                  color: colors.focusRing,
+                  width: SprintExtras.focusRingWidth,
+                ),
               ),
             ),
           ),

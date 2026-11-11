@@ -13,6 +13,17 @@ class SprintApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // A dialog, sheet or menu built in one language must not stay open, mixed
+    // with the other direction, after the language changes (spec edge case).
+    ref.listen(localeProvider, (previous, next) {
+      if (previous == next) return;
+      ref
+          .read(appRouterProvider)
+          .routerDelegate
+          .navigatorKey
+          .currentState
+          ?.popUntil((route) => route is! PopupRoute<Object?>);
+    });
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appName,
       theme: SprintTheme.light,

@@ -243,4 +243,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String demoSettingsLevel(String level) {
     return 'من: $level';
   }
+
+  @override
+  String demoSwatchLabel(String name) {
+    return '$name، فاتح وغامق';
+  }
 }

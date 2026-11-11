@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sprint/core/tokens/sprint_colors.g.dart';
+import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_text.g.dart';
@@ -63,13 +64,16 @@ abstract final class SprintTheme {
         color: c.surface,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
-        shape: const RoundedRectangleBorder(borderRadius: SprintRadius.lgBorder),
+        shape: const RoundedRectangleBorder(
+          borderRadius: SprintRadius.lgBorder,
+        ),
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: c.surfaceRaised,
         surfaceTintColor: Colors.transparent,
-        shape:
-            const RoundedRectangleBorder(borderRadius: SprintRadius.xlBorder),
+        shape: const RoundedRectangleBorder(
+          borderRadius: SprintRadius.xlBorder,
+        ),
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: c.surfaceRaised,
@@ -89,11 +93,20 @@ abstract final class SprintTheme {
       ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.selected) ? c.onPrimary : c.controlBorder,
+          (s) =>
+              s.contains(WidgetState.selected) ? c.onPrimary : c.controlBorder,
         ),
         trackColor: WidgetStateProperty.resolveWith(
+          (s) => s.contains(WidgetState.selected) ? c.primary : c.surfaceSunken,
+        ),
+        trackOutlineColor: WidgetStateProperty.resolveWith(
+          (s) => s.contains(WidgetState.focused)
+              ? c.focusRing
+              : Colors.transparent,
+        ),
+        trackOutlineWidth: WidgetStateProperty.resolveWith(
           (s) =>
-              s.contains(WidgetState.selected) ? c.primary : c.surfaceSunken,
+              s.contains(WidgetState.focused) ? SprintExtras.focusRingWidth : 0,
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
@@ -108,7 +121,7 @@ abstract final class SprintTheme {
           shape: const RoundedRectangleBorder(
             borderRadius: SprintRadius.mdBorder,
           ),
-        ),
+        ).copyWith(side: _focusSide(c, null)),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
@@ -118,7 +131,7 @@ abstract final class SprintTheme {
             SprintSize.controlHeight,
           ),
           textStyle: SprintText.button,
-        ),
+        ).copyWith(side: _focusSide(c, null)),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
@@ -131,6 +144,23 @@ abstract final class SprintTheme {
           textStyle: SprintText.button,
           shape: const RoundedRectangleBorder(
             borderRadius: SprintRadius.mdBorder,
+          ),
+        ).copyWith(side: _focusSide(c, BorderSide(color: c.controlBorder))),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        border: OutlineInputBorder(
+          borderRadius: SprintRadius.smBorder,
+          borderSide: BorderSide(color: c.controlBorder),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: SprintRadius.smBorder,
+          borderSide: BorderSide(color: c.controlBorder),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: SprintRadius.smBorder,
+          borderSide: BorderSide(
+            color: c.focusRing,
+            width: SprintExtras.focusRingWidth,
           ),
         ),
       ),
@@ -163,6 +193,17 @@ abstract final class SprintTheme {
       ),
     );
   }
+
+  /// The `focus-ring` line (2 px, `focus-ring` colour) shown while a control
+  /// has keyboard focus, in place of its resting [rest] border (FR-017).
+  static WidgetStateProperty<BorderSide?> _focusSide(
+    SprintColors c,
+    BorderSide? rest,
+  ) => WidgetStateProperty.resolveWith(
+    (states) => states.contains(WidgetState.focused)
+        ? BorderSide(color: c.focusRing, width: SprintExtras.focusRingWidth)
+        : rest,
+  );
 
   static TextTheme _textTheme(Color ink) {
     TextStyle s(TextStyle t) => t.copyWith(color: ink);

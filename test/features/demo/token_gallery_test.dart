@@ -41,4 +41,19 @@ void main() {
     expect(find.byType(DemoScreen), findsOneWidget);
     expect(find.text(ar.demoTitle), findsWidgets);
   });
+
+  testWidgets('colour swatches are read as one phrase, not blank boxes',
+      (tester) async {
+    final handle = tester.ensureSemantics();
+    await pumpSprintApp(tester, size: const Size(500, 900));
+    routerOf(tester).push('/demo');
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.bySemanticsLabel(ar.demoSwatchLabel('bg')),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.bySemanticsLabel(ar.demoSwatchLabel('bg')), findsOneWidget);
+    handle.dispose();
+  });
 }

@@ -52,4 +52,20 @@ void main() {
       expect(s.height, isNotNull);
     }
   });
+
+  test('every type token has generic fallback fonts, so a failed font load '
+      'keeps the same line height', () {
+    for (final s in [
+      SprintText.display,
+      SprintText.title,
+      SprintText.body,
+      SprintText.micro,
+      SprintText.code,
+    ]) {
+      expect(s.fontFamilyFallback, isNotEmpty);
+      expect(s.height, isNotNull);
+    }
+    expect(SprintText.body.fontFamilyFallback, contains('sans-serif'));
+    expect(SprintText.code.fontFamilyFallback, contains('monospace'));
+  });
 }

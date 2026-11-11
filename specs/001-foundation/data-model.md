@@ -120,3 +120,29 @@ the BRD values; BRD §11 asks Osman to align one of them.
 | Other | 5 notifications, 4 assets with 1 damage report, 2 offers, a short audit log |
 
 All names, phones and emails are fictional; no real person's data is used.
+
+## As built (2026-11-11): choices the model left open
+
+These are what the code does today. Where one is a judgement and not a BRD rule, it says so.
+
+| Topic | As built |
+| --- | --- |
+| Slot length | `slotGranularityMinutes` (default 60) for normal and free facilities; `sessionMinutes` for trainer facilities. A last slot that would pass closing time is dropped |
+| Hours | A unit's own hours replace its facility's hours for that unit. Times are Cairo wall-clock minutes; a day with no row is closed (the seed hall is closed on Fridays) |
+| Booking window | `bookingWindowDays` counts today as day one: 7 means today and the next 6 days. Slots from the start of the day after that are not offered |
+| Past and lead time | A slot is past when it starts at or before `now + minLeadMinutes` |
+| "Few left" | A shared slot with capacity above 1 and 2 or fewer places left. A display hint held as a constant in `AvailabilityService`, **not a BRD setting** (judgement) |
+| Closures | A closure removes every slot it overlaps; an inactive unit's slots come back as `closed` |
+| What holds a place | `CONFIRMED`, `ATTENDED`, `NO_SHOW`, and `PENDING_PAYMENT` while its hold is live. Cancelled and expired bookings never do |
+| Exclusive seats | A booking in an exclusive unit always takes 1 seat; shared bookings take the seats asked for |
+| Trainer sessions | Remaining places are the smaller of the unit's and the trainer's, counting that trainer's own bookings |
+| Active bookings (BR-14) | `CONFIRMED`, or pending with a live hold, and not yet ended |
+| Price | Exclusive: the unit's price for the tier. Shared: price × seats. Best applicable offer by day, time-of-day of the slot start, tier and validity; the amount is rounded half up to whole pounds. An amount of 0 skips payment |
+| Tier | `INTERNAL` only with an approved, unexpired verification, else `EXTERNAL`; read at booking time and frozen |
+| Refund | Owner, before the cutoff: `paid × refundPercent ÷ 100`, rounded down. Admin: 100%, any time before the slot ends |
+| BR-40 | Kept as the BRD says; with the defaults (reminder 60 minutes, cutoff 2 hours) a reminder never offers cancel. Still open in BRD §11 |
+| BR-04 guard | Changing a unit's `bookingMode`, or cutting its `capacity` below the seats already booked in any future slot, is refused with `Conflict` |
+| `paymentProvider` | `fake` and `sandbox` both resolve to the fake provider until a gateway is chosen |
+| `capacity` default | 1, and `maxParticipants` empty, when a unit has no value (the seed sets real ones) |
+| Seed | 3 owning units, 6 facilities, 15 units, 12 users (three trainers need accounts), 21 bookings in every status, 5 notifications, 4 assets with 1 damage report, 2 offers, 3 audit entries. Units `u-futsal-2`, `u-tennis-2`, `u-hall-2`, `u-room-2`, `u-pool-6` have no seeded bookings, so tests and demos can book them |
+| Navigation sections | `AppSection` (home, facilities, bookings, profile, then trainer sessions, facility operations, verification, administration, reports) is computed from roles; only sections with a registered screen appear (today the first four) |

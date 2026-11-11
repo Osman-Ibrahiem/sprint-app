@@ -253,3 +253,18 @@ settings inspector. (FR-021 – FR-026, FR-031, SC-008, SC-009)
 - [ ] T091 [US5] Verify FR-029: open a deep link (`/#/facilities`) and refresh on the published site under `/sprint-app/`; verify a deliberately failing branch does not replace the live build (SC-010) and record the evidence
 
 **Checkpoint**: SC-010 and FR-029 are closed with evidence; add the result to `docs/decisions.md` only if something changed.
+
+---
+
+## Phase 10: Hardening after the first implementation (added 2026-11-11)
+
+**Purpose**: Close the gaps found when checking the build against the spec, so the code and the
+contracts agree and the next features (and OpenCode) start from a clean reference.
+
+- [X] T092 [US2] Generic fallback fonts from `tokens.json` in every generated text style, so a failed font load keeps the same line height; test in `test/shell/text_scale_test.dart` (spec edge case: fonts fail to load)
+- [X] T093 [US2] Close an open dialog, sheet or menu when the language changes (`lib/app/app.dart`); tests in `test/core/l10n/locale_overlay_test.dart` (spec edge case: language changes while a dialog is open)
+- [X] T094 [US3] Keyboard `focus-ring` on filled, outlined and text buttons, text fields and the Material switch in `SprintTheme`; test in `test/core/theme/focus_ring_theme_test.dart` (FR-017)
+- [X] T095 [US3] Screen-reader phrase for each colour swatch in the token gallery (`demoSwatchLabel`); test in `test/features/demo/token_gallery_test.dart` (FR-017)
+- [X] T096 [US1] Hinge tests for a tabletop posture, left-to-right, and folding and unfolding while typing (text and focus kept) in `test/shell/hinge_test.dart` (FR-005, FR-006)
+- [X] T097 Update `contracts/` (adaptive controls, repositories, routes, tokens, ci), `data-model.md` ("As built"), `plan.md` and `quickstart.md` to match the code
+- [ ] T098 Decide with Osman: Apple navigation bar height (native 44 or 48); how to close SC-011 on the web; whether CanvasKit stays on the CDN
