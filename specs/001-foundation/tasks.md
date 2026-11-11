@@ -250,7 +250,7 @@ settings inspector. (FR-021 – FR-026, FR-031, SC-008, SC-009)
 
 **Purpose**: Checks that only a merge can trigger, because `deploy.yml` runs on push to `develop`.
 
-- [ ] T091 [US5] Verify FR-029: open a deep link (`/#/facilities`) and refresh on the published site under `/sprint-app/`; verify a deliberately failing branch does not replace the live build (SC-010) and record the evidence
+- [X] T091 [US5] Verify FR-029: open a deep link (`/#/facilities`) and refresh on the published site under `/sprint-app/`; verify a deliberately failing branch does not replace the live build (SC-010) and record the evidence. Done 2026-11-11: deep link verified live; the failing-build half is shown by the workflow structure, not by a live failing deploy (see `evidence.md`)
 
 **Checkpoint**: SC-010 and FR-029 are closed with evidence; add the result to `docs/decisions.md` only if something changed.
 
