@@ -267,4 +267,4 @@ contracts agree and the next features (and OpenCode) start from a clean referenc
 - [X] T095 [US3] Screen-reader phrase for each colour swatch in the token gallery (`demoSwatchLabel`); test in `test/features/demo/token_gallery_test.dart` (FR-017)
 - [X] T096 [US1] Hinge tests for a tabletop posture, left-to-right, and folding and unfolding while typing (text and focus kept) in `test/shell/hinge_test.dart` (FR-005, FR-006)
 - [X] T097 Update `contracts/` (adaptive controls, repositories, routes, tokens, ci), `data-model.md` ("As built"), `plan.md` and `quickstart.md` to match the code
-- [ ] T098 Decide with Osman: Apple navigation bar height (native 44 or 48); how to close SC-011 on the web; whether CanvasKit stays on the CDN
+- [ ] T098 Decide with Osman: ~~Apple navigation bar height~~ (decided: keep native 44, 2026-11-11); how to close SC-011 on the web; whether CanvasKit stays on the CDN

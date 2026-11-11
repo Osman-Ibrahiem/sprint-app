@@ -43,8 +43,9 @@ Why two app bars: a large title only works inside a sliver, so it has its own wi
   line or icon on a light surface.
 - Every control exposes a semantic label from l10n; state is conveyed by text or icon, not
   colour only (the Material switch shows a check; the chosen option shows a check and a word).
-- Touch targets are at least 48 logical pixels (switch and loader wrap to 48). The Apple
-  navigation bar keeps the native 44 height: **open decision for Osman** (44 native or 48).
+- Touch targets are at least 48 logical pixels (switch and loader wrap to 48). The one exception
+  is the Apple navigation bar and its back button, which keep the native 44 height (Osman,
+  2026-11-11; recorded in `docs/decisions.md` and the plan's complexity table).
 - A visible keyboard focus: `FocusableTap` and the buttons, text fields and switch in
   `SprintTheme` draw the `focus-ring` line (2 px, `focus-ring` colour); a test checks it.
 - Destructive actions use `danger` plus a word, never colour alone.

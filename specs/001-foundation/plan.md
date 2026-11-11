@@ -150,7 +150,11 @@ own features arrive.
 
 ## Complexity Tracking
 
-No constitution violations. Nothing to justify.
+One deviation, decided by Osman on 2026-11-11 (see `docs/decisions.md`):
+
+| Principle | Deviation | Why |
+| --- | --- | --- |
+| V. Accessible (48dp targets) | The Apple navigation bar and its back button keep the native 44 height | Principle V also says iOS must not look Material and navigation bars follow the platform; 44 is the native size. Every other control is at least 48 |
 
 ## Planned order of work (input to /speckit-tasks)
 
