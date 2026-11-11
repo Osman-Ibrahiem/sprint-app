@@ -6,10 +6,16 @@ import 'package:flutter_test/flutter_test.dart';
 /// layout, strings in ARB. Scans `lib/` except generated tokens, seed data and
 /// generated l10n (SC-004, SC-005, research R9).
 class _Rule {
-  const _Rule(this.name, this.pattern);
+  const _Rule(this.name, this.pattern, {this.uiOnly = false});
   final String name;
   final RegExp pattern;
+
+  /// Skips `data/` and `domain/` code, where a duration is a rule or a fake's
+  /// delay, not UI motion.
+  final bool uiOnly;
 }
+
+bool _isLogic(String path) => path.contains('/data/') || path.contains('/domain/');
 
 final _rules = <_Rule>[
   _Rule('raw colour Color(0x', RegExp(r'Color\(\s*0x')),
@@ -23,7 +29,11 @@ final _rules = <_Rule>[
       r'radius|blurRadius)\s*:\s*(?!0\b)\d',
     ),
   ),
-  _Rule('numeric Duration', RegExp(r'Duration\(\s*(milliseconds|seconds)\s*:\s*\d')),
+  _Rule(
+    'numeric Duration',
+    RegExp(r'Duration\(\s*(milliseconds|seconds)\s*:\s*\d'),
+    uiOnly: true,
+  ),
   _Rule('BorderRadius.circular(<number>)', RegExp(r'BorderRadius\.circular\(\s*\d')),
   _Rule(
     'left/right-specific alignment',
@@ -65,6 +75,7 @@ void main() {
     test('no ${rule.name} in lib/', () {
       final hits = <String>[];
       for (final f in files) {
+        if (rule.uiOnly && _isLogic(f.path)) continue;
         final lines = f.readAsLinesSync();
         for (var i = 0; i < lines.length; i++) {
           final line = lines[i].trimLeft();

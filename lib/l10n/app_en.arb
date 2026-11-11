@@ -64,5 +64,56 @@
         "type": "String"
       }
     }
+  },
+  "roleBooker": "Booker",
+  "roleTrainer": "Trainer",
+  "roleFacilityManager": "Facility manager",
+  "roleVerifier": "Verifier",
+  "roleUnitAdmin": "Unit admin",
+  "roleSuperAdmin": "Super admin",
+  "roleViewer": "Viewer",
+  "tierInternal": "Internal price",
+  "tierExternal": "Full price",
+  "profileRoles": "Roles: {roles}",
+  "profileTier": "Tier: {tier}",
+  "demoUserTitle": "View as another user",
+  "demoUserNote": "For reviewers only. There is no real sign-in.",
+  "demoGuest": "Guest (no account)",
+  "demoSettingsTitle": "Settings and inheritance",
+  "demoSettingsPick": "Choose a unit",
+  "demoSettingsUnit": "Unit: {unit}",
+  "levelUnit": "Unit",
+  "levelFacility": "Facility",
+  "levelUniversity": "University",
+  "levelDefault": "Default",
+  "demoNoLimit": "No limit",
+  "demoSettingsLevel": "From: {level}",
+  "@profileRoles": {
+    "placeholders": {
+      "roles": {
+        "type": "String"
+      }
+    }
+  },
+  "@profileTier": {
+    "placeholders": {
+      "tier": {
+        "type": "String"
+      }
+    }
+  },
+  "@demoSettingsUnit": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "@demoSettingsLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
   }
 }

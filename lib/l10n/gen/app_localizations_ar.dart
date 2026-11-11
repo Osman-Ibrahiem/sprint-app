@@ -166,4 +166,81 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get demoAppearance => 'المظهر واللغة';
+
+  @override
+  String get roleBooker => 'حاجز';
+
+  @override
+  String get roleTrainer => 'مدرب';
+
+  @override
+  String get roleFacilityManager => 'مدير منشأة';
+
+  @override
+  String get roleVerifier => 'مسؤول توثيق';
+
+  @override
+  String get roleUnitAdmin => 'مسؤول جهة';
+
+  @override
+  String get roleSuperAdmin => 'مشرف عام';
+
+  @override
+  String get roleViewer => 'مراقب';
+
+  @override
+  String get tierInternal => 'سعر داخلي';
+
+  @override
+  String get tierExternal => 'سعر كامل';
+
+  @override
+  String profileRoles(String roles) {
+    return 'الأدوار: $roles';
+  }
+
+  @override
+  String profileTier(String tier) {
+    return 'الشريحة: $tier';
+  }
+
+  @override
+  String get demoUserTitle => 'عرض كمستخدم تاني';
+
+  @override
+  String get demoUserNote => 'للمراجعين فقط. من غير تسجيل دخول حقيقي.';
+
+  @override
+  String get demoGuest => 'ضيف (من غير حساب)';
+
+  @override
+  String get demoSettingsTitle => 'الإعدادات والوراثة';
+
+  @override
+  String get demoSettingsPick => 'اختيار وحدة';
+
+  @override
+  String demoSettingsUnit(String unit) {
+    return 'الوحدة: $unit';
+  }
+
+  @override
+  String get levelUnit => 'الوحدة';
+
+  @override
+  String get levelFacility => 'المنشأة';
+
+  @override
+  String get levelUniversity => 'الجامعة';
+
+  @override
+  String get levelDefault => 'افتراضي';
+
+  @override
+  String get demoNoLimit => 'بلا حد';
+
+  @override
+  String demoSettingsLevel(String level) {
+    return 'من: $level';
+  }
 }

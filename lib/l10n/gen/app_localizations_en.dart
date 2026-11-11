@@ -168,4 +168,81 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get demoAppearance => 'Appearance and language';
+
+  @override
+  String get roleBooker => 'Booker';
+
+  @override
+  String get roleTrainer => 'Trainer';
+
+  @override
+  String get roleFacilityManager => 'Facility manager';
+
+  @override
+  String get roleVerifier => 'Verifier';
+
+  @override
+  String get roleUnitAdmin => 'Unit admin';
+
+  @override
+  String get roleSuperAdmin => 'Super admin';
+
+  @override
+  String get roleViewer => 'Viewer';
+
+  @override
+  String get tierInternal => 'Internal price';
+
+  @override
+  String get tierExternal => 'Full price';
+
+  @override
+  String profileRoles(String roles) {
+    return 'Roles: $roles';
+  }
+
+  @override
+  String profileTier(String tier) {
+    return 'Tier: $tier';
+  }
+
+  @override
+  String get demoUserTitle => 'View as another user';
+
+  @override
+  String get demoUserNote => 'For reviewers only. There is no real sign-in.';
+
+  @override
+  String get demoGuest => 'Guest (no account)';
+
+  @override
+  String get demoSettingsTitle => 'Settings and inheritance';
+
+  @override
+  String get demoSettingsPick => 'Choose a unit';
+
+  @override
+  String demoSettingsUnit(String unit) {
+    return 'Unit: $unit';
+  }
+
+  @override
+  String get levelUnit => 'Unit';
+
+  @override
+  String get levelFacility => 'Facility';
+
+  @override
+  String get levelUniversity => 'University';
+
+  @override
+  String get levelDefault => 'Default';
+
+  @override
+  String get demoNoLimit => 'No limit';
+
+  @override
+  String demoSettingsLevel(String level) {
+    return 'From: $level';
+  }
 }

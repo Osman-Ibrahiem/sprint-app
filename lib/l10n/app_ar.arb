@@ -68,5 +68,56 @@
         "type": "String"
       }
     }
+  },
+  "roleBooker": "حاجز",
+  "roleTrainer": "مدرب",
+  "roleFacilityManager": "مدير منشأة",
+  "roleVerifier": "مسؤول توثيق",
+  "roleUnitAdmin": "مسؤول جهة",
+  "roleSuperAdmin": "مشرف عام",
+  "roleViewer": "مراقب",
+  "tierInternal": "سعر داخلي",
+  "tierExternal": "سعر كامل",
+  "profileRoles": "الأدوار: {roles}",
+  "profileTier": "الشريحة: {tier}",
+  "demoUserTitle": "عرض كمستخدم تاني",
+  "demoUserNote": "للمراجعين فقط. من غير تسجيل دخول حقيقي.",
+  "demoGuest": "ضيف (من غير حساب)",
+  "demoSettingsTitle": "الإعدادات والوراثة",
+  "demoSettingsPick": "اختيار وحدة",
+  "demoSettingsUnit": "الوحدة: {unit}",
+  "levelUnit": "الوحدة",
+  "levelFacility": "المنشأة",
+  "levelUniversity": "الجامعة",
+  "levelDefault": "افتراضي",
+  "demoNoLimit": "بلا حد",
+  "demoSettingsLevel": "من: {level}",
+  "@profileRoles": {
+    "placeholders": {
+      "roles": {
+        "type": "String"
+      }
+    }
+  },
+  "@profileTier": {
+    "placeholders": {
+      "tier": {
+        "type": "String"
+      }
+    }
+  },
+  "@demoSettingsUnit": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "@demoSettingsLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
   }
 }

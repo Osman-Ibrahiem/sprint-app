@@ -9,14 +9,17 @@ import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/option_group.dart';
 import 'package:sprint/core/window/window_size.dart';
+import 'package:sprint/features/demo/demo_flags.dart';
 import 'package:sprint/features/demo/presentation/adaptive_controls_demo.dart';
+import 'package:sprint/features/demo/presentation/demo_user_switcher.dart';
+import 'package:sprint/features/demo/presentation/settings_inspector.dart';
 import 'package:sprint/features/demo/presentation/token_gallery.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// Reviewer-only screen at `/demo`: token gallery, the five adaptive controls
-/// and theme and language switchers (FR-020). Outside the shell and hidden
-/// from navigation; reached from Profile. The user switcher and settings
-/// inspector join it in US4 (T080).
+/// theme and language switchers, the user switcher and the settings inspector
+/// (FR-020, FR-031). Outside the shell and hidden from navigation; reached
+/// from Profile.
 class DemoScreen extends ConsumerWidget {
   const DemoScreen({super.key});
 
@@ -65,6 +68,12 @@ class DemoScreen extends ConsumerWidget {
                     ('en', l10n.languageEn),
                   ],
                 ),
+                if (demoToolsEnabled) ...[
+                  const SizedBox(height: SprintSpacing.space6),
+                  const DemoUserSwitcher(),
+                  const SizedBox(height: SprintSpacing.space6),
+                  const SettingsInspector(),
+                ],
                 const SizedBox(height: SprintSpacing.space6),
                 Text(l10n.demoControls, style: context.text.title),
                 const SizedBox(height: SprintSpacing.space3),

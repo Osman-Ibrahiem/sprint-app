@@ -403,6 +403,144 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'المظهر واللغة'**
   String get demoAppearance;
+
+  /// No description provided for @roleBooker.
+  ///
+  /// In ar, this message translates to:
+  /// **'حاجز'**
+  String get roleBooker;
+
+  /// No description provided for @roleTrainer.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدرب'**
+  String get roleTrainer;
+
+  /// No description provided for @roleFacilityManager.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدير منشأة'**
+  String get roleFacilityManager;
+
+  /// No description provided for @roleVerifier.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسؤول توثيق'**
+  String get roleVerifier;
+
+  /// No description provided for @roleUnitAdmin.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسؤول جهة'**
+  String get roleUnitAdmin;
+
+  /// No description provided for @roleSuperAdmin.
+  ///
+  /// In ar, this message translates to:
+  /// **'مشرف عام'**
+  String get roleSuperAdmin;
+
+  /// No description provided for @roleViewer.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراقب'**
+  String get roleViewer;
+
+  /// No description provided for @tierInternal.
+  ///
+  /// In ar, this message translates to:
+  /// **'سعر داخلي'**
+  String get tierInternal;
+
+  /// No description provided for @tierExternal.
+  ///
+  /// In ar, this message translates to:
+  /// **'سعر كامل'**
+  String get tierExternal;
+
+  /// No description provided for @profileRoles.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأدوار: {roles}'**
+  String profileRoles(String roles);
+
+  /// No description provided for @profileTier.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشريحة: {tier}'**
+  String profileTier(String tier);
+
+  /// No description provided for @demoUserTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض كمستخدم تاني'**
+  String get demoUserTitle;
+
+  /// No description provided for @demoUserNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'للمراجعين فقط. من غير تسجيل دخول حقيقي.'**
+  String get demoUserNote;
+
+  /// No description provided for @demoGuest.
+  ///
+  /// In ar, this message translates to:
+  /// **'ضيف (من غير حساب)'**
+  String get demoGuest;
+
+  /// No description provided for @demoSettingsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإعدادات والوراثة'**
+  String get demoSettingsTitle;
+
+  /// No description provided for @demoSettingsPick.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار وحدة'**
+  String get demoSettingsPick;
+
+  /// No description provided for @demoSettingsUnit.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوحدة: {unit}'**
+  String demoSettingsUnit(String unit);
+
+  /// No description provided for @levelUnit.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوحدة'**
+  String get levelUnit;
+
+  /// No description provided for @levelFacility.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنشأة'**
+  String get levelFacility;
+
+  /// No description provided for @levelUniversity.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجامعة'**
+  String get levelUniversity;
+
+  /// No description provided for @levelDefault.
+  ///
+  /// In ar, this message translates to:
+  /// **'افتراضي'**
+  String get levelDefault;
+
+  /// No description provided for @demoNoLimit.
+  ///
+  /// In ar, this message translates to:
+  /// **'بلا حد'**
+  String get demoNoLimit;
+
+  /// No description provided for @demoSettingsLevel.
+  ///
+  /// In ar, this message translates to:
+  /// **'من: {level}'**
+  String demoSettingsLevel(String level);
 }
 
 class _AppLocalizationsDelegate

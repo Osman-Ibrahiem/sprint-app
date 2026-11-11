@@ -114,7 +114,8 @@ class _SheetBody<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     return SafeArea(
-      child: Column(
+      child: SingleChildScrollView(
+        child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -147,6 +148,7 @@ class _SheetBody<T> extends StatelessWidget {
               ),
             ),
         ],
+      ),
       ),
     );
   }
