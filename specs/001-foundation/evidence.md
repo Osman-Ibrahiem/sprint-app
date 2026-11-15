@@ -144,3 +144,26 @@ That is about 0.12 MB (3.5%) off the first load, so Fast 4G should move from abo
 3.2 s: still over 3 s, as expected when this was decided. **Not yet re-measured on the published
 site; it needs a deploy first.** Next, with Osman's OK: subset the font files (T101).
 
+## Fonts subset (T101)
+
+Done on PR #4, with Osman's OK. Alexandria (600, 700) and Cairo (400, 500, 600, 700) keep only
+basic Latin, Latin-1 punctuation, the Arabic blocks (with presentation forms) and common
+punctuation (`tool/font_subset.json`). Shaping tables (initial, medial, final forms, ligatures,
+kerning) and the licence name records are kept. IBM Plex Mono is **not** subset, because its
+licence reserves the name "Plex"; it is loaded on demand. Cairo and Alexandria declare no Reserved
+Font Name.
+
+| | Before | After |
+| --- | --- | --- |
+| Six startup fonts, raw | 1.02 MB | 0.37 MB |
+| Six startup fonts, gzip | 0.46 MB | 0.19 MB |
+| First load (3.2 MB measured before any change; minus 0.12 MB Plex Mono, minus 0.27 MB subset) | 3.2 MB | about 2.8 MB |
+
+- Every character in the app's strings (both ARB files and the seed data, 124 distinct) is covered;
+  a test now fails if new copy uses a character outside the ranges.
+- Checked by eye in the browser: Arabic joins and tanween ("أهلًا"), Latin digits ("120"), the
+  English text and the monospace booking code all render correctly.
+- Scaling the measured 3.3 s and 18 s by the bytes (2.8 / 3.2), the estimate is about **2.9 s on Fast 4G**
+  (just under the 3 s target) and about 16 s on Slow 4G (still far over). **This is a scaling, not a
+  measurement: it must be re-measured on the published site after a deploy (T102).**
+

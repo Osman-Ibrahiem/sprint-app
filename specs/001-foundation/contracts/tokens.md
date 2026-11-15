@@ -31,7 +31,9 @@ progress; some are design judgements and are flagged as such in the file). `Wind
 4. Font families are `Alexandria`, `Cairo`, `IBM Plex Mono`; weights match `tokens.json`. A test
    checks that every weight used by Alexandria and Cairo is declared under `fonts:` in
    `pubspec.yaml`, and that the Plex Mono weights are covered by the deferred assets (rule 5).
-5. Fonts declared under `fonts:` (loaded at startup): Alexandria 600/700, Cairo 400/500/600/700.
+5. Fonts declared under `fonts:` (loaded at startup): Alexandria 600/700, Cairo 400/500/600/700,
+   **subset** to Arabic, basic Latin and common punctuation (`tool/font_subset.json`,
+   `assets/fonts/SUBSET.md`; a test fails if the app's text uses a character outside the ranges).
    **IBM Plex Mono 400/500 is deferred** (SC-011, `docs/decisions.md` 2026-11-11): the two files stay
    in `assets/fonts/` and are bundled as plain `assets:`, and `ensureMonoFont()`
    (`lib/core/fonts/deferred_fonts.dart`) loads them the first time a booking code is shown,

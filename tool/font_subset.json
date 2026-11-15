@@ -1,0 +1,12 @@
+{
+  "note": "Unicode ranges kept in Alexandria and Cairo (IBM Plex Mono is not subset: its licence reserves the name Plex). See assets/fonts/SUBSET.md.",
+  "fonts": [
+    "Alexandria-SemiBold",
+    "Alexandria-Bold",
+    "Cairo-Regular",
+    "Cairo-Medium",
+    "Cairo-SemiBold",
+    "Cairo-Bold"
+  ],
+  "unicodes": "U+0020-007E,U+00A0-00BF,U+00D7,U+00F7,U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+2010-2015,U+2018-201F,U+2022,U+2026,U+200B-200F,U+2060-206F,U+2212,U+25CC"
+}
