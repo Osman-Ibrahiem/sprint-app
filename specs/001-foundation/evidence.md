@@ -87,7 +87,7 @@ Checked 2026-11-11 against https://osman-ibrahiem.github.io/sprint-app/:
 | `/`, `/main.dart.js` (3.27 MB), `/flutter_bootstrap.js`, a bundled font | all HTTP 200; `<base href>` is `/sprint-app/` |
 | Deep link `/#/facilities` opened directly in a fresh browser tab (FR-029) | Facilities screen inside the sidebar shell, Arabic RTL, Dark; the route is client-side (hash), so a refresh requests the same `index.html` |
 | First paint | The page stayed blank for about 6 s on the first load in the browser pane; consistent with the SC-011 estimate and still to be measured with DevTools "Fast 4G" and "Slow 4G" |
-| SC-010, failing build | Not proved by a live failing deploy (see the SC table). Structural reason: `deploy` runs only after a successful `build` |
+| SC-010, failing build | The merge gate is proved live (section below): a failing `build` blocks the PR. A failing push to `develop` is not shown, because branch protection forbids it; structurally `deploy` runs only after a successful `build` |
 
 ## SC-011 measured on the published site (T099)
 
@@ -191,4 +191,19 @@ interactive within 5 s on fast 4G; slow 4G splash within 1 s, interactive time r
 | Installed iOS, cold start | 2 s | not measured | **open**: needs a real device |
 
 The two installed-build rows are the only part of SC-011 still open.
+
+## Merge gate proved live (SC-010, FR-028)
+
+Ported from the closed PR #4 (branch `001-closeout`, still on GitHub). That PR carried one commit
+with a deliberately failing test (`test/zz_closeout_gate_test.dart`, `expect(1 + 1, 3)`), then a
+revert commit; history was not rewritten.
+
+| Moment | `build` check | PR state |
+| --- | --- | --- |
+| Head with the failing test (`24c0940`) | **failed** after 2 m 27 s: `Expected: <3> Actual: <2>` in the Test step ([run](https://github.com/Osman-Ibrahiem/sprint-app/actions/runs/43028482364)) | `mergeStateStatus: BLOCKED` while the PR was mergeable in content |
+| Head after the revert (`c2f558f`) | passed ([run](https://github.com/Osman-Ibrahiem/sprint-app/actions/runs/43028984378)) | clean |
+
+So a change whose tests fail cannot reach `develop`, and `deploy.yml` runs only on a push to
+`develop`, after `build` succeeds. What is still not shown is a failing *push* to `develop`, which
+branch protection forbids.
 
