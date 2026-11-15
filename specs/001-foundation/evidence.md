@@ -88,3 +88,45 @@ Checked 2026-11-11 against https://osman-ibrahiem.github.io/sprint-app/:
 | Deep link `/#/facilities` opened directly in a fresh browser tab (FR-029) | Facilities screen inside the sidebar shell, Arabic RTL, Dark; the route is client-side (hash), so a refresh requests the same `index.html` |
 | First paint | The page stayed blank for about 6 s on the first load in the browser pane; consistent with the SC-011 estimate and still to be measured with DevTools "Fast 4G" and "Slow 4G" |
 | SC-010, failing build | Not proved by a live failing deploy (see the SC table). Structural reason: `deploy` runs only after a successful `build` |
+
+## SC-011 measured on the published site (T099)
+
+Measured 2026-11-15 on https://osman-ibrahiem.github.io/sprint-app/ (develop after PRs #2 and #3)
+with `tool/measure_web_load.mjs`: headless Google Chrome driven over the DevTools protocol, a
+390 x 844 phone viewport, **4x CPU slowdown** (a stand-in for a mid-range phone), cache disabled,
+3 runs per profile. DevTools has no "4G" preset, so the profiles are: **Fast 4G** = 9 Mbps down,
+170 ms round trip; **Slow 4G** = 1.6 Mbps down, 150 ms round trip (the Lighthouse "slow 4G"
+numbers). "First content" is the first contentful paint, which for this app is the first drawn
+frame of the shell.
+
+| Profile | First content, 3 runs | Median | Target |
+| --- | --- | --- | --- |
+| No throttle (CPU 1x) | 2.5 s, 3.0 s, 3.5 s | 3.0 s | |
+| Fast 4G, CPU 4x | 4.2 s, 4.4 s, 4.6 s | **4.4 s** | 3 s |
+| Slow 4G, CPU 4x | 17.4 s, 17.5 s, 17.9 s | **17.5 s** | 3 s |
+
+**Result: SC-011 is not met on the web** (about 1.5x the target on Fast 4G, about 6x on Slow 4G).
+
+What it shows:
+
+- Even with no throttling the first paint takes 2.5 to 3.5 s on this machine, so the cost is
+  not only bytes: the browser must fetch and start the 3.3 MB app script and the CanvasKit
+  engine (`canvaskit.wasm`, about 1.56 MB brotli) from `gstatic.com` before the first frame.
+- On Fast 4G the wait is about 70% fixed start-up (script and engine), so shaving fonts barely
+  moves it: deferring IBM Plex Mono (about 0.14 MB gzip) saves about 0.1 s on Fast 4G and about
+  0.7 s on Slow 4G; subsetting the fonts (about 0.3 MB) saves about 0.2 s and about 1.5 s. Neither
+  brings Slow 4G anywhere near 3 s.
+- Limits of this measurement: headless Chrome with emulated throttling, not a real phone and not
+  a real mobile network; the bytes counter undercounts (2.5 MB shown against about 3.2 MB on the
+  wire); the profiles are chosen by me, not by DevTools presets.
+
+Options for Osman, in order of effort (decision recorded in `docs/decisions.md` once taken):
+
+1. **Re-word SC-011 for the web**: first screen visible in 3 s on Fast 4G thanks to a small
+   HTML/CSS splash in `web/index.html` (shown at once, before the engine loads), interactive in
+   5 s on Fast 4G; the 2 s target stays for installed builds.
+2. **Keep 3 s as "interactive"** and accept that the web build misses it; the installed apps
+   are the product and Pages is for review.
+3. **Reduce the weight** (Plex Mono deferral, font subsets): small gain, changes the font rule;
+   not recommended on its own.
+
