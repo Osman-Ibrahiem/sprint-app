@@ -1,45 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
   <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
+    The base path is filled in by `flutter build web --base-href`. It has to
+    start and end with a slash. On GitHub Pages it is /sprint-app/.
   -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="حجز ودفع المنشآت الرياضية بجامعة طنطا إلكترونيًا.">
+  <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b0f1a" media="(prefers-color-scheme: dark)">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="sprint">
+  <meta name="apple-mobile-web-app-title" content="سبرنت">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>sprint</title>
+  <title>سبرنت</title>
   <link rel="manifest" href="manifest.json">
+
+  <!--
+    The web engine (CanvasKit) and the fallback font are served from Google's
+    CDN (docs/decisions.md, 2026-11-11). Opening those connections now, before
+    flutter_bootstrap.js asks for the files, saves the handshake time. One
+    link with crossorigin (for fetch) and one without (for script tags).
+  -->
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://www.gstatic.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!--
+    First screen, shown by the browser alone until the first Flutter frame.
+    Colours are the `bg` and `ink` tokens of docs/design-system/tokens.json
+    (light and dark) and the logo tile; test/web/splash_test.dart keeps them
+    in step. The pulse uses duration-pulse (1200ms) and is off under reduced
+    motion. No text that needs translating: only the brand name.
+  -->
+  <style>
+    html, body { margin: 0; height: 100%; }
+    #sprint-splash {
+      position: fixed; inset: 0; z-index: 1;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 16px;
+      background: #f6f7fb; color: #0f1729;
+      font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      opacity: 1; transition: opacity 150ms ease-out;
+    }
+    #sprint-splash svg { width: 96px; height: 96px; }
+    #sprint-splash span { font-size: 26px; line-height: 36px; font-weight: 700; }
+    #sprint-splash.sprint-splash-hide { opacity: 0; }
+    @media (prefers-color-scheme: dark) {
+      #sprint-splash { background: #0b0f1a; color: #eef1f8; }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      #sprint-splash svg { animation: sprint-pulse 1200ms ease-in-out infinite; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #sprint-splash { transition: none; }
+    }
+    @keyframes sprint-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+  </style>
 </head>
 <body>
+  <div id="sprint-splash" role="status" aria-label="سبرنت">
+    <svg viewBox="0 0 1024 1024" aria-hidden="true" focusable="false">
+      <rect width="1024" height="1024" rx="232" fill="#2445e0"/>
+      <path d="M519.6 243.7 C548.4 212.0 563.4 220.0 552.8 261.6 L521.7 384.0 C513.1 418.1 534.8 446.0 570.0 446.0 L728.0 446.0 C772.0 446.0 783.8 472.7 754.2 505.2 L504.4 780.3 C475.6 812.0 460.6 804.0 471.2 762.4 L502.3 640.0 C510.9 605.9 489.2 578.0 454.0 578.0 L296.0 578.0 C252.0 578.0 240.2 551.3 269.8 518.8Z" fill="#d4f536"/>
+    </svg>
+    <span>سبرنت</span>
+  </div>
+  <script>
+    // Remove the splash at the first Flutter frame. The timeout is a safety
+    // net so a failed start never leaves the splash covering the page.
+    (function () {
+      var splash = document.getElementById('sprint-splash');
+      if (!splash) return;
+      var gone = false;
+      function remove() {
+        if (gone) return;
+        gone = true;
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce) { splash.remove(); return; }
+        splash.classList.add('sprint-splash-hide');
+        setTimeout(function () { splash.remove(); }, 200);
+      }
+      window.addEventListener('flutter-first-frame', remove);
+      setTimeout(remove, 30000);
+    })();
+  </script>
   <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
-
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
+    flutter_bootstrap.js starts the app. More on initialization:
+    https://docs.flutter.dev/platform-integration/web/initialization
   -->
   <script src="flutter_bootstrap.js" async></script>
 </body>

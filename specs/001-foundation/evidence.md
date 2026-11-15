@@ -130,3 +130,34 @@ Options for Osman, in order of effort (decision recorded in `docs/decisions.md` 
 3. **Reduce the weight** (Plex Mono deferral, font subsets): small gain, changes the font rule;
    not recommended on its own.
 
+## Web splash and early connections, measured (SC-011)
+
+Branch `perf/web-splash-preconnect-2`. A splash (logo and "سبرنت", plain HTML and CSS) is in
+`web/index.html` and goes away at the first Flutter frame; `preconnect` links open the
+connections to `www.gstatic.com` and `fonts.gstatic.com` early. Measured on local builds served
+with gzip (`tool/serve_web.mjs`), 3 runs per case, 4x CPU slowdown, same profiles as above.
+
+| Profile | Version | First paint | First Flutter frame |
+| --- | --- | --- | --- |
+| Fast 4G | before | the same as the first frame | 4.12 s, 4.14 s, 4.19 s |
+| Fast 4G | after | **0.26 s, 0.29 s, 0.30 s** (splash) | 3.98 s, 4.03 s, 4.61 s |
+| Slow 4G | before | the same as the first frame | 17.2 s, 17.2 s, 17.7 s |
+| Slow 4G | after | **0.24 s, 0.25 s, 0.28 s** (splash) | 17.1 s, 17.1 s, 17.1 s |
+
+What it shows:
+
+- **The splash works**: something branded is on screen in about 0.3 s on both profiles, instead
+  of a blank page for 4 s (Fast 4G) or 17 s (Slow 4G). It is checked in light and dark.
+- **The time to the real first frame did not change**: the 0.1 s difference on Fast 4G is inside
+  the run-to-run noise (3.98 s to 4.61 s). `preconnect` has no measurable effect here.
+- **Why**: the request waterfall on Fast 4G shows `canvaskit.wasm` (1.5 MB) and `main.dart.js`
+  (0.93 MB) already download in parallel from 0.6 s, and the fonts only start after the engine
+  is up. The load is bandwidth-bound: about 3 MB at 9 Mbps is about 2.7 s of pure transfer.
+  Opening connections earlier cannot fix that; only fewer bytes can.
+- Honest limits: headless Chrome with emulation, 3 runs, a local server instead of GitHub Pages.
+  The `preconnect` links were kept because they cost nothing and may help on a real network; the
+  numbers do not prove it. Remove them if you prefer only what is proven.
+
+SC-011 as written (interactive in 3 s on 4G) is still not met; see the options above. The splash
+changes what the reviewer sees in the first second, not when the app responds.
+
