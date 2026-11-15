@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/app_navigation/app_navigation.dart';
 import 'package:sprint/core/widgets/app_navigation/nav_destination.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/gallery_section.dart';

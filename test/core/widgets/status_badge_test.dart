@@ -180,7 +180,7 @@ void main() {
     final semantics = tester.getSemantics(find.byType(StatusBadge));
     expect(semantics.flagsCollection.isLiveRegion, isTrue);
     expect(semantics.getSemanticsData().hasAction(SemanticsAction.tap), isFalse);
-    expect(semantics.getSemanticsData().hasFlag(SemanticsFlag.isButton), isFalse);
+    expect(semantics.flagsCollection.isButton, isFalse);
     handle.dispose();
   });
 

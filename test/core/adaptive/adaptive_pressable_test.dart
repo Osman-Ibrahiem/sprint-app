@@ -7,7 +7,6 @@ import 'package:sprint/core/adaptive/adaptive_pressable.dart';
 import 'package:sprint/core/tokens/reduced_motion.dart';
 import 'package:sprint/core/tokens/sprint_colors.g.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
-import 'package:sprint/core/tokens/sprint_motion.g.dart';
 import 'package:sprint/core/theme/sprint_theme.dart';
 
 void main() {

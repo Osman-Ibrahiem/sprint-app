@@ -7,12 +7,14 @@ import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/option_group.dart';
-import 'package:sprint/features/demo/presentation/component_gallery/gallery_section.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/sections/app_navigation_section.dart';
+import 'package:sprint/features/demo/presentation/component_gallery/sections/booking_ticket_section.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/sections/button_section.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/sections/day_strip_section.dart';
+import 'package:sprint/features/demo/presentation/component_gallery/sections/facility_card_section.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/sections/logo_section.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/sections/slot_chip_section.dart';
+import 'package:sprint/features/demo/presentation/component_gallery/sections/stat_tile_section.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/sections/status_badge_section.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/sections/text_field_section.dart';
 import 'package:sprint/features/settings/domain/setting_registry.dart';
@@ -64,10 +66,10 @@ class _ComponentGalleryScreenState extends ConsumerState<ComponentGalleryScreen>
           DayStripSection(l10n: l10n, bookingWindowDays: settings.$1),
           StatusBadgeSection(l10n: l10n),
           LogoSection(l10n: l10n),
-          _placeholder(l10n.galleryFacilityCardSection),
-          _placeholder(l10n.galleryBookingTicketSection),
+          FacilityCardSection(l10n: l10n),
+          BookingTicketSection(l10n: l10n),
           AppNavigationSection(l10n: l10n),
-          _placeholder(l10n.galleryStatTileSection),
+          StatTileSection(l10n: l10n),
         ];
 
         return Scaffold(
@@ -146,10 +148,4 @@ class _ComponentGalleryScreenState extends ConsumerState<ComponentGalleryScreen>
       ],
     );
   }
-
-  Widget _placeholder(String title) => GallerySection(
-        title: title,
-        caption: AppLocalizations.of(context).gallerySampleNote,
-        children: const [],
-      );
 }

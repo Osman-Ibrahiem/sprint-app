@@ -10,7 +10,6 @@ import 'package:sprint/features/demo/presentation/component_gallery/gallery_sect
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 import '../../helpers/pump_app.dart';
-import '../../helpers/widget_harness.dart';
 
 void main() {
   Future<void> pumpGallery(

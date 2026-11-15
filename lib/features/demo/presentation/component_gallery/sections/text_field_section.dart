@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_text_field/sprint_text_field.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/gallery_section.dart';
@@ -18,7 +19,7 @@ class TextFieldSection extends StatelessWidget {
       children: [
         for (final type in SprintTextFieldType.values)
           SizedBox(
-            width: 280,
+            width: SprintExtras.ticketWidth,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
