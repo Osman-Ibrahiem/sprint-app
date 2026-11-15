@@ -35,5 +35,3 @@ jobs:
         run: flutter analyze --fatal-infos
       - name: Test
         run: flutter test
-      - name: Build web
-        run: flutter build web --release --base-href /sprint-app/
