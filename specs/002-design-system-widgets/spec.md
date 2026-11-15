@@ -20,7 +20,16 @@ These were decided in this specification so that the plan does not have to guess
 
 ## Clarifications
 
-No clarification session yet. The guesses that most need Osman's decision are listed under Assumptions, marked **(decide)**, for `/speckit-clarify`.
+### Session 2026-11-15
+
+- Q: Is the few-left threshold a new setting added in this feature? → A: Yes. `fewLeftThreshold` (default 2, university → facility → unit inheritance) is added to BRD §4 and to the settings registry here, and the gallery reads it from settings.
+
+- Q: Does the component gallery stay in the defense build? → A: Yes. It stays reachable in the defense build behind the same release switch as the Foundation's demo screen, so it can still be removed from a store release later.
+
+- Q: Is the ticket's screen-brightness boost built here or later? → A: Later. `BookingTicket` only exposes the `today` state; feature 7 (My bookings), which owns the screen and its lifecycle, raises and restores the brightness.
+- Q: Are Phosphor icons adopted in the widgets now? → A: Yes. Regular weight everywhere, Fill for the active navigation item only; icons are passed in as data so a later swap is easy.
+
+All four guesses that needed Osman's decision are now settled; the remaining Assumptions are low-impact defaults.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -226,7 +235,7 @@ A developer or agent building feature 3 to 11 imports a widget, passes plain val
 **SlotChip** (FR-AVL-01, FR-BKG-01 – FR-BKG-03, US-06 – US-09)
 
 - **FR-023**: `SlotChip` MUST show the start time in 12-hour form and, under it, a word for its state, for the states `available`, `selected`, `fewLeft`, `full` and `past`, with the look defined in the SlotChip README.
-- **FR-024**: It MUST derive `fewLeft` from the remaining places and the threshold supplied by the caller; on an exclusive unit it MUST show no number.
+- **FR-024**: It MUST derive `fewLeft` from the remaining places and the threshold supplied by the caller; on an exclusive unit it MUST show no number. The threshold is the setting `fewLeftThreshold` (default 2, university → facility → unit inheritance), which this feature adds to BRD §4 and to the settings registry and shows in the settings inspector.
 - **FR-025**: A chip MUST be at least 56 tall and 100 wide and MUST be laid out in a grid with `space-2` gaps ordered with the reading direction. `full` and `past` MUST NOT be pressable and MUST tell a screen reader why.
 - **FR-026**: It MUST support range selection for free facilities: the first and last chips selected, the chips between them tinted `primary-soft`.
 - **FR-027**: A selection MUST give a light haptic on Apple and Android platforms only, through the adaptive layer; a state change while on screen MUST change colour and word together within `duration-base`.
@@ -343,12 +352,12 @@ This feature is UI-only and delivers the widgets, not the screens that use them.
 
 ## Assumptions
 
-The guesses below are mine and are for `/speckit-clarify` to settle. Those marked **(decide)** change what is built and need Osman.
+The four guesses that needed Osman's decision were settled in `/speckit-clarify` (2026-11-15) and are marked as settled below. The rest are low-impact defaults.
 
-- **(decide) The few-left threshold is a new setting.** The SlotChip README says the threshold comes from settings with a default of 2, but BRD §4 does not list it (it lists `bookingWindowDays` and `maxRangeHours`, among others). I assume this feature adds `fewLeftThreshold` (default 2, university → facility → unit inheritance) to BRD §4 and to the settings registry, because Principle III forbids hard-coding it. The alternative is to leave it to feature 5 with availability and let the gallery use fixed sample values.
-- **(decide) The widgets stay in the release build.** The gallery uses the Foundation's demo switch, so it is a reviewer area that can be removed. I assume it stays reachable in the defense build, since showing the system is part of the defense, and Osman decides later whether it ships (the Foundation made the same call for the user switcher).
-- **(decide) Screen-brightness boost is deferred.** The BookingTicket README says brightness rises when the ticket shows on the day of the booking. I assume the ticket only exposes the `today` state and the boost is added by feature 7, which owns the screen and its lifecycle, because it needs a platform plugin and a place to restore the brightness. The alternative is to build it here.
-- **(decide) Phosphor is adopted as the icon set.** The README marks Phosphor as a temporary choice ("بديل مؤقت") and the Foundation used built-in icons. I assume the widgets adopt Phosphor (Regular, plus Fill for the active navigation item) so they look like the design, and that swapping it later is easy because icons are passed in as data.
+- **The few-left threshold is a new setting (settled in clarify, 2026-11-15).** The SlotChip README says the threshold comes from settings with a default of 2, but BRD §4 did not list it. This feature adds `fewLeftThreshold` (default 2, university → facility → unit inheritance) to BRD §4 and to the settings registry, because Principle III forbids hard-coding it. The BRD change lands in this feature's pull request, docs first.
+- **The gallery stays in the defense build (settled in clarify, 2026-11-15).** It is reachable behind the Foundation's demo switch, so showing the design system is part of the defense and it can still be removed from a store release without touching a widget.
+- **Screen-brightness boost is deferred to feature 7 (settled in clarify, 2026-11-15).** The ticket only exposes the `today` state, because the boost needs a platform plugin and a screen lifecycle to restore the brightness, and the widget stays presentation-only.
+- **Phosphor is adopted as the icon set (settled in clarify, 2026-11-15).** The README marks it as temporary ("بديل مؤقت") and the Foundation used built-in icons; the widgets adopt Phosphor (Regular, plus Fill for the active navigation item) and icons are passed in as data, so swapping later is easy.
 - **Availability level is decided by the caller.** The FacilityCard README does not say what counts as "plenty" or "few". I assume the widget shows the level it is given (with the count) and the catalogue feature decides the level, since no BRD setting defines it.
 - **Skeleton and logo decisions** are those in Scope decisions above (logo in; skeleton not new, loading forms added for three cards).
 - **The platform look switch in the gallery is demo-only.** It changes the platform the widgets see, through the same theme platform value the adaptive layer already reads, so a reviewer on one device can see Apple and Android behaviour. It is not a setting of the product.

@@ -13,7 +13,7 @@
 
 ## Requirement Completeness
 
-- [x] No [NEEDS CLARIFICATION] markers remain — open guesses are listed under Assumptions, marked **(decide)**, for `/speckit-clarify`
+- [x] No [NEEDS CLARIFICATION] markers remain — the guesses that needed a decision were settled in clarify
 - [x] Requirements are testable and unambiguous
 - [x] Success criteria are measurable
 - [x] Success criteria are technology-agnostic (no implementation details)
@@ -39,4 +39,4 @@
 
 ## Notes
 
-- Four guesses need Osman's decision in clarify: the `fewLeftThreshold` setting (not in BRD §4), the gallery staying in the defense build, deferring the ticket brightness boost, and adopting Phosphor.
+- Clarify session 2026-11-15 settled all four guesses: `fewLeftThreshold` added as a setting, gallery stays in the defense build, ticket brightness boost deferred to feature 7, Phosphor adopted.
