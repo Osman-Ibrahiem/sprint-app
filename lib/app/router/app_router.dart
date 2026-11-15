@@ -2,6 +2,8 @@ import 'package:go_router/go_router.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/app/shell/adaptive_shell.dart';
 import 'package:sprint/app/shell/placeholders/not_found_screen.dart';
+import 'package:sprint/features/demo/demo_flags.dart';
+import 'package:sprint/features/demo/presentation/component_gallery/component_gallery_screen.dart';
 import 'package:sprint/features/demo/presentation/demo_screen.dart';
 
 /// Builds the app router. Web uses Flutter's default hash URL strategy
@@ -13,6 +15,7 @@ import 'package:sprint/features/demo/presentation/demo_screen.dart';
 GoRouter buildAppRouter({
   List<ShellDestination>? destinations,
   String initialLocation = AppPaths.root,
+  bool demoTools = demoToolsEnabled,
 }) {
   final list = destinations ?? baseDestinations;
   return GoRouter(
@@ -25,8 +28,14 @@ GoRouter buildAppRouter({
       GoRoute(
         path: AppPaths.demo,
         name: AppRouteNames.demo,
-        builder: (context, state) => const DemoScreen(),
+        builder: (context, state) => DemoScreen(showToolLinks: demoTools),
       ),
+      if (demoTools)
+        GoRoute(
+          path: AppPaths.demoComponents,
+          name: AppRouteNames.demoComponents,
+          builder: (context, state) => const ComponentGalleryScreen(),
+        ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) =>
             AdaptiveShell(navigationShell: shell, destinations: list),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/app/shell/placeholders/placeholder_page.dart';
 import 'package:sprint/core/adaptive/adaptive_app_bar.dart';
 import 'package:sprint/core/l10n/locale_notifier.dart';
@@ -8,6 +10,7 @@ import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/option_group.dart';
+import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/features/demo/demo_flags.dart';
 import 'package:sprint/features/demo/presentation/adaptive_controls_demo.dart';
@@ -21,7 +24,11 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 /// (FR-020, FR-031). Outside the shell and hidden from navigation; reached
 /// from Profile.
 class DemoScreen extends ConsumerWidget {
-  const DemoScreen({super.key});
+  const DemoScreen({this.showToolLinks = demoToolsEnabled, super.key});
+
+  /// Reviewer controls (user switcher, settings, gallery) can be compiled out
+  /// with `HIDE_DEMO_TOOLS=true`; tests pass this explicitly.
+  final bool showToolLinks;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -68,11 +75,18 @@ class DemoScreen extends ConsumerWidget {
                     ('en', l10n.languageEn),
                   ],
                 ),
-                if (demoToolsEnabled) ...[
+                if (showToolLinks) ...[
                   const SizedBox(height: SprintSpacing.space6),
                   const DemoUserSwitcher(),
                   const SizedBox(height: SprintSpacing.space6),
                   const SettingsInspector(),
+                  const SizedBox(height: SprintSpacing.space6),
+                  SprintButton(
+                    label: l10n.galleryOpenFromDemo,
+                    variant: SprintButtonVariant.secondary,
+                    icon: const SprintButtonIcon(Icons.widgets_outlined),
+                    onPressed: () => context.push(AppPaths.demoComponents),
+                  ),
                 ],
                 const SizedBox(height: SprintSpacing.space6),
                 Text(l10n.demoControls, style: context.text.title),

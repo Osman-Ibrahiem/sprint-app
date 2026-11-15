@@ -7,7 +7,7 @@
 - `start`: وقت البداية، بيتعرض 12 ساعة ("5:00 م").
 - `state`: `available` | `selected` | `fewLeft` | `full` | `past`.
 - `remaining`: عدد الأماكن المتبقية في وحدة `SHARED`. في `EXCLUSIVE` مش بيتعرض رقم.
-- `fewLeftThreshold`: من الإعدادات (افتراضي 2). لما `remaining` يوصل له أو أقل، الحالة تبقى `fewLeft`.
+- `fewLeftThreshold`: من الإعدادات (افتراضي 2، BR-45). لما `remaining` يوصل له أو أقل، الحالة تبقى `fewLeft`.
 - `onSelected`. في المنشأة المجانية بيتختار نطاق (أول وآخر chip، واللي بينهم يتلون `primary-soft`).
 
 ## الحالات

@@ -9,6 +9,7 @@ abstract final class SettingKeys {
   static const capacity = SettingKey<int>('capacity');
   static const maxParticipants = SettingKey<int?>('maxParticipants');
   static const bookingWindowDays = SettingKey<int>('bookingWindowDays');
+  static const fewLeftThreshold = SettingKey<int>('fewLeftThreshold'); // BR-45
   static const minLeadMinutes = SettingKey<int>('minLeadMinutes');
   static const slotGranularityMinutes = SettingKey<int>('slotGranularityMinutes');
   static const maxRangeHours = SettingKey<int>('maxRangeHours');
@@ -76,6 +77,12 @@ final Map<String, SettingDefinition<dynamic>> settingRegistry = {
       defaultValue: 0,
       allowedScopes: _all,
       validate: _atLeast(0),
+    ),
+    SettingDefinition<int>(
+      key: SettingKeys.fewLeftThreshold, // BR-45
+      defaultValue: 2,
+      allowedScopes: _all,
+      validate: _atLeast(1),
     ),
     SettingDefinition<int>(
       key: SettingKeys.slotGranularityMinutes, // BR-08

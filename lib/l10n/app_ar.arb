@@ -30,6 +30,20 @@
   "languageEn": "English",
   "demoEntry": "شاشة العرض للمراجعين",
   "optionSelected": "مختار",
+  "dayShortSaturday": "السبت",
+  "dayShortSunday": "الحد",
+  "dayShortMonday": "الاتنين",
+  "dayShortTuesday": "التلات",
+  "dayShortWednesday": "الأربع",
+  "dayShortThursday": "الخميس",
+  "dayShortFriday": "الجمعة",
+  "dayFullSaturday": "السبت",
+  "dayFullSunday": "الأحد",
+  "dayFullMonday": "الاثنين",
+  "dayFullTuesday": "الثلاثاء",
+  "dayFullWednesday": "الأربعاء",
+  "dayFullThursday": "الخميس",
+  "dayFullFriday": "الجمعة",
   "@priceEgp": {
     "description": "Price in Egyptian pounds; amount is already formatted with Western digits",
     "placeholders": {
@@ -127,5 +141,210 @@
         "type": "String"
       }
     }
-  }
+  },
+  "buttonDisabledSuffix": "، غير متاح",
+  "buttonBusy": "جاري التنفيذ…",
+  "fieldShowPassword": "إظهار",
+  "fieldHidePassword": "إخفاء",
+  "fieldSearchHint": "البحث",
+  "slotAvailablePlaces": "{count, plural, =1{مكان واحد} =2{مكانين} other{{count} أماكن}}",
+  "slotSelected": "مختار",
+  "slotFewLeft": "{count, plural, =1{فاضل 1} =2{فاضل مكانين} other{فاضل {count}}}",
+  "slotFewLeftSpoken": "{count, plural, =1{فاضل مكان واحد} =2{فاضل مكانين} other{فاضل {count} أماكن}}",
+  "slotFull": "مكتمل",
+  "slotPast": "فات",
+  "slotSpoken": "الساعة {time}، {state}",
+  "slotSpokenWithPrice": "الساعة {time}، {state}، {price}",
+  "dayToday": "النهارده",
+  "dayHasRoom": "فيه أماكن",
+  "dayClosed": "مقفول",
+  "daySpoken": "يوم {day}، {state}",
+  "statusSpoken": "الحالة: {status}",
+  "statusConfirmed": "مؤكد",
+  "statusPendingPayment": "في انتظار الدفع",
+  "statusCancelled": "اتلغى",
+  "statusAttended": "حضر",
+  "statusNoShow": "غاب",
+  "statusExpired": "انتهت المهلة",
+  "statusUnderReview": "قيد المراجعة",
+  "statusVerified": "موثّق",
+  "statusRejected": "مرفوض",
+  "statusOpen": "مفتوح",
+  "statusInProgress": "جاري",
+  "statusResolved": "اتحل",
+  "facilityPhotoPlaceholder": "صورة المنشأة",
+  "facilityTrainerTag": "بمدرب",
+  "facilityFreeTag": "مجاني",
+  "facilityUnitCount": "{count, plural, =1{وحدة واحدة} =2{وحدتين} other{{count} وحدات}}",
+  "facilityAvailabilityPlenty": "متاح النهارده",
+  "facilityAvailabilityFew": "أماكن قليلة",
+  "facilityAvailabilityNone": "مفيش مواعيد النهارده",
+  "facilityPriceInternalLabel": "سعر الطلاب والعاملين",
+  "facilityPriceExternalLabel": "السعر الكامل",
+  "facilityFree": "مجاني",
+  "facilitySpoken": "منشأة {name}، {unit}، {availability}، {price}",
+  "ticketCodeLabel": "كود الحجز",
+  "ticketCopied": "اتنسخ",
+  "ticketPaid": "المدفوع",
+  "ticketCancelUntil": "إلغاء مجاني لحد {date}",
+  "ticketCancelUnavailable": "الإلغاء مش متاح",
+  "ticketQrUnavailable": "QR غير متاح",
+  "ticketSpoken": "تذكرة {facility}، {dateTime}، {status}، {code}",
+  "navMore": "المزيد",
+  "navBadgeSpoken": "{count, plural, =1{غير مقروء واحد} other{{count} غير مقروء}}",
+  "statDeltaUp": "زيادة {value}",
+  "statDeltaDown": "نقص {value}",
+  "statDeltaFlat": "مفيش تغيير",
+  "statNoComparison": "مفيش مقارنة",
+  "logoLabel": "سبرنت",
+  "galleryTitle": "معرض المكونات",
+  "gallerySampleNote": "بيانات تجريبية",
+  "galleryTextSize": "حجم النص",
+  "galleryReducedMotion": "تقليل الحركة",
+  "galleryPlatformLook": "شكل المنصة",
+  "galleryPlatformApple": "آبل",
+  "galleryPlatformAndroid": "أندرويد",
+  "galleryPlatformDesktop": "ديسكتوب",
+  "galleryOpenFromDemo": "معرض المكونات",
+  "galleryButtonSection": "الأزرار",
+  "galleryTextFieldSection": "حقول الإدخال",
+  "gallerySlotChipSection": "مواعيد الحجز",
+  "galleryDayStripSection": "شريط الأيام",
+  "galleryStatusBadgeSection": "شارات الحالة",
+  "galleryFacilityCardSection": "كروت المنشآت",
+  "galleryBookingTicketSection": "تذاكر الحجز",
+  "galleryNavigationSection": "التنقل",
+  "galleryStatTileSection": "المؤشرات",
+  "galleryLogoSection": "اللوجو",
+  "@slotAvailablePlaces": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@slotFewLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@slotFewLeftSpoken": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@slotSpoken": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  },
+  "@slotSpokenWithPrice": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "state": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "@daySpoken": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  },
+  "@statusSpoken": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "@facilityUnitCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@facilitySpoken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "availability": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "@ticketCancelUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@ticketSpoken": {
+    "placeholders": {
+      "facility": {
+        "type": "String"
+      },
+      "dateTime": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "@navBadgeSpoken": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@statDeltaUp": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@statDeltaDown": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "timeAm": "صباحًا",
+  "timePm": "مساءً",
+  "slotAvailableWord": "متاح"
 }

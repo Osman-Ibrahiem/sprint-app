@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sprint/app/router/routes.dart';
-import 'package:sprint/app/shell/nav/nav_destinations_view.dart';
-import 'package:sprint/core/a11y/focusable_tap.dart';
+import 'package:sprint/core/adaptive/adaptive_pressable.dart';
 import 'package:sprint/core/l10n/directional_icon.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
+import 'package:sprint/core/widgets/app_navigation/nav_destination.dart';
+import 'package:sprint/core/widgets/app_navigation/sprint_tab_bar.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// Navigation rail for medium windows (`rail-width`).
@@ -46,7 +46,6 @@ class SprintNavRail extends StatelessWidget {
                   ),
                   child: _RailItem(
                     destination: data.destinations[i],
-                    label: data.destinations[i].label(l10n),
                     selected: i == data.selectedIndex,
                     showLabel: showLabels,
                     onTap: () => data.onSelect(i),
@@ -63,57 +62,64 @@ class SprintNavRail extends StatelessWidget {
 class _RailItem extends StatelessWidget {
   const _RailItem({
     required this.destination,
-    required this.label,
     required this.selected,
     required this.showLabel,
     required this.onTap,
   });
 
-  final ShellDestination destination;
-  final String label;
+  final NavDestination destination;
   final bool selected;
   final bool showLabel;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final colors = context.colors;
     final color = selected ? colors.onPrimarySoft : colors.inkMuted;
-    return FocusableTap(
-      label: label,
+    return AdaptivePressable(
+      label: SprintTabBar.spokenLabel(destination, l10n),
       selected: selected,
+      liveRegion: destination.hasBadge,
       onTap: onTap,
-      builder: (context, hovered) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: selected
-              ? colors.primarySoft
-              : (hovered ? colors.surfaceSunken : Colors.transparent),
-          borderRadius: SprintRadius.mdBorder,
+      restingColor: selected ? colors.primarySoft : Colors.transparent,
+      hoverColor: colors.surfaceSunken,
+      pressedColor: colors.surfaceSunken,
+      borderRadius: SprintRadius.mdBorder,
+      builder: (context, state) => Padding(
+        padding: const EdgeInsetsDirectional.symmetric(
+          vertical: SprintSpacing.space2,
+          horizontal: SprintSpacing.space1,
         ),
-        child: Padding(
-          padding: const EdgeInsetsDirectional.symmetric(
-            vertical: SprintSpacing.space2,
-            horizontal: SprintSpacing.space1,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              DirectionalIcon(
-                selected ? destination.selectedIcon : destination.icon,
-                mirror: destination.mirrorInRtl,
-                size: SprintSize.iconLg,
-                color: color,
-              ),
-              if (showLabel) ...[
-                const SizedBox(height: SprintSpacing.space1),
-                Text(
-                  label,
-                  style: context.text.micro.copyWith(color: color),
-                  textAlign: TextAlign.center,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                DirectionalIcon(
+                  selected ? destination.selectedIcon : destination.icon,
+                  mirror: destination.mirrorInRtl,
+                  size: SprintSize.iconLg,
+                  color: color,
                 ),
+                if (destination.hasBadge) ...[
+                  const SizedBox(width: SprintSpacing.space1),
+                  NavigationBadge(count: destination.badgeCount!),
+                ],
               ],
+            ),
+            if (showLabel) ...[
+              const SizedBox(height: SprintSpacing.space1),
+              Text(
+                destination.label,
+                style: context.text.micro.copyWith(color: color),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ],
-          ),
+          ],
         ),
       ),
     );
