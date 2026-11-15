@@ -28,10 +28,10 @@ progress; some are design judgements and are flagged as such in the file). `Wind
 2. The drift test regenerates in memory and fails if the committed output differs from
    `tokens.json` (CI runs it).
 3. Dark theme `shadow-card` is `none`; the generator emits an empty shadow list for dark.
-4. Font families are `Alexandria`, `Cairo`, `IBM Plex Mono`; weights match `tokens.json` and the
+4. The only font family is `Cairo` (since 2026-11-15); weights match `tokens.json` and the
    `pubspec.yaml` font declarations exactly (a test checks that every weight used is declared).
-5. Fonts declared in `pubspec.yaml` and nothing else: Alexandria 600/700, Cairo 400/500/600/700,
-   IBM Plex Mono 400/500 (files already in `assets/fonts/`).
+5. Fonts declared in `pubspec.yaml` and nothing else: Cairo 400/500/600/700 (files in
+   `assets/fonts/`).
 6. Changing a token means editing `tokens.json` first, then re-running the generator, in the
    same pull request (constitution I and II).
 7. `tool/gen_cairo_tzdata.dart` is a second generator: it writes `lib/core/time/cairo_tzdata.g.dart`,

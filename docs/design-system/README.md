@@ -47,12 +47,10 @@
 
 ## الخط
 
-- **Alexandria** للعناوين والأزرار: `display` و `title-lg` و `title` و `headline` و `button`.
-- **Cairo** للنص والتفاصيل وكل الأرقام: `number-lg` و `number` و `body` و `body-strong` و `label` و `caption` و `micro`.
-- **IBM Plex Mono** لأكواد الحجز والإيصالات (style `code`).
-- أي رقم على الشاشة (سعر، ميعاد، تاريخ، عدد، KPI) بخط Cairo، حتى لو جوه كارت عنوانه Alexandria، عشان نفس الرقم ميظهرش بشكلين.
-- Alexandria عريض، فمبيتحطش على chips أو tabs أو labels صغيرة. دي كلها `label` أو `micro`.
-- في Flutter الخطوط بتتحط كـ assets جوه التطبيق، مش من النت، عشان تشتغل offline وتطلع زي بعضها على كل منصة. الأوزان static: Alexandria 600 و 700، و Cairo من 400 لـ 700.
+- **Cairo** لكل حاجة: العناوين والأزرار (`display` و `title-lg` و `title` و `headline` و `button`)، والنص والتفاصيل وكل الأرقام (`number-lg` و `number` و `body` و `body-strong` و `label` و `caption` و `micro`)، وأكواد الحجز والإيصالات (`code`). التمييز بين العنوان والنص بالوزن والمقاس مش بالخط.
+- أرقام Cairo كلها بنفس العرض، فأكواد الحجز بتتراص من غير خط monospace منفصل. الـ `code` بوزن 500 وبـ `letterSpacing` من الـ token.
+- في Flutter الخطوط بتتحط كـ assets جوه التطبيق، مش من النت، عشان تشتغل offline وتطلع زي بعضها على كل منصة. الأوزان static: Cairo من 400 لـ 700.
+- (اتشال: Alexandria للعناوين و IBM Plex Mono للأكواد، قرار 2026-11-15 في `docs/decisions.md`.)
 - السلم: `display` ← `title-lg` ← `title` ← `headline` ← `body` / `body-strong` ← `label` / `button` ← `caption` ← `micro`، ومعاهم `number-lg` و `number` للأرقام.
 - أصغر حجم 12px (`micro`). العربي تحت كده النقط بتضيع.
 - الـ line height بييجي من الـ token مش من الخط. Cairo الافتراضي بتاعه حوالي 1.87، فكل `TextStyle` لازم يحدد `height` صريح من الـ token. قيم الـ tokens هي الحد الأدنى: ممنوع تضييقها، وممنوع letter-spacing على العربي.
@@ -83,7 +81,7 @@
 | `logo/sprint-tile-primary.svg` | البرق جوه مربع أزرق | أيقونة التطبيق، والـ favicon، وأي خلفية فاتحة. ده الشكل الأساسي |
 | `logo/sprint-tile-ink.svg` | البرق جوه مربع غامق | بديل أهدى: الإيصالات والطباعة |
 
-- **مع الاسم (lockup):** المربع وجنبه "سبرنت" / "Sprint" بخط Alexandria وزن 700 بمقاس `title` (20/30) بلون `ink`، والمسافة بينهم `space-3`. المربع على الـ start: يمين في العربي وشمال في الإنجليزي. ده اللي بيظهر أعلى الـ sidebar وفي شاشة الدخول.
+- **مع الاسم (lockup):** المربع وجنبه "سبرنت" / "Sprint" بخط Cairo وزن 700 بمقاس `title` (20/30) بلون `ink`، والمسافة بينهم `space-3`. المربع على الـ start: يمين في العربي وشمال في الإنجليزي. ده اللي بيظهر أعلى الـ sidebar وفي شاشة الدخول.
 - **الألوان ثابتة في الثيمين:** البرق `#d4f536` (`volt`)، والمربع `#2445e0` (`primary` بتاع الـ Light) أو `#0f1729` (`ink` بتاع الـ Light). المربع مش بيتبع الـ theme، لأن `primary` في الـ Dark بيفتح، والـ `volt` عليه بيضيع.
 - **أقل مقاس 16px.** زوايا المربع 22.7% من ضلعه (232 من 1024).
 - **ممنوع:** البرق `volt` لوحده على خلفية فاتحة (تباين 1.2:1)، وعكسه في الـ RTL، وتلوينه بأي لون غير `volt`، ومطّه أو لفّه أو إضافة ظل أو حدود عليه.

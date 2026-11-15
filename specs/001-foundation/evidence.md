@@ -161,3 +161,18 @@ What it shows:
 SC-011 as written (interactive in 3 s on 4G) is still not met; see the options above. The splash
 changes what the reviewer sees in the first second, not when the app responds.
 
+## Cairo-only fonts, measured (SC-011)
+
+Branch `design/fonts-cairo-only` (decisions.md, 2026-11-15): Alexandria and IBM Plex Mono removed,
+four Cairo weights left. Same method and profiles as above, local gzip server, 3 runs.
+
+| Profile | Splash and preconnect only | Cairo only |
+| --- | --- | --- |
+| Fast 4G, first Flutter frame | 3.98 s, 4.03 s, 4.61 s (median 4.03 s) | **3.65 s, 3.72 s, 3.84 s (median 3.72 s)** |
+| Slow 4G, first Flutter frame | 17.1 s, 17.1 s, 17.1 s | **15.6 s, 15.6 s, 15.7 s** |
+| First paint (splash) | 0.24 to 0.30 s | 0.25 to 0.31 s |
+
+About 0.3 s faster on Fast 4G and 1.5 s on Slow 4G, as estimated from the font sizes (0.27 MB
+gzip less). SC-011 as written (interactive in 3 s on 4G) is still not met on the web: 3.7 s on
+Fast 4G, 15.6 s on Slow 4G.
+

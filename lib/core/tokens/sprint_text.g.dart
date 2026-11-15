@@ -5,35 +5,35 @@ import 'package:flutter/painting.dart';
 
 abstract final class SprintText {
   static const TextStyle display = TextStyle(
-    fontFamily: 'Alexandria',
+    fontFamily: 'Cairo',
     fontFamilyFallback: ['system-ui', 'sans-serif'],
     fontSize: 32.0,
     fontWeight: FontWeight.w700,
     height: 1.375,
   );
   static const TextStyle titleLg = TextStyle(
-    fontFamily: 'Alexandria',
+    fontFamily: 'Cairo',
     fontFamilyFallback: ['system-ui', 'sans-serif'],
     fontSize: 26.0,
     fontWeight: FontWeight.w700,
     height: 1.3846153846153846,
   );
   static const TextStyle title = TextStyle(
-    fontFamily: 'Alexandria',
+    fontFamily: 'Cairo',
     fontFamilyFallback: ['system-ui', 'sans-serif'],
     fontSize: 20.0,
     fontWeight: FontWeight.w600,
     height: 1.5,
   );
   static const TextStyle headline = TextStyle(
-    fontFamily: 'Alexandria',
+    fontFamily: 'Cairo',
     fontFamilyFallback: ['system-ui', 'sans-serif'],
     fontSize: 17.0,
     fontWeight: FontWeight.w600,
     height: 1.5294117647058822,
   );
   static const TextStyle button = TextStyle(
-    fontFamily: 'Alexandria',
+    fontFamily: 'Cairo',
     fontFamilyFallback: ['system-ui', 'sans-serif'],
     fontSize: 14.0,
     fontWeight: FontWeight.w600,
@@ -89,8 +89,8 @@ abstract final class SprintText {
     height: 1.3333333333333333,
   );
   static const TextStyle code = TextStyle(
-    fontFamily: 'IBM Plex Mono',
-    fontFamilyFallback: ['ui-monospace', 'monospace'],
+    fontFamily: 'Cairo',
+    fontFamilyFallback: ['system-ui', 'sans-serif'],
     fontSize: 17.0,
     fontWeight: FontWeight.w500,
     height: 1.411764705882353,
