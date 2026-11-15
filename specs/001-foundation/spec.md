@@ -18,6 +18,10 @@
 - Q: Does the shell include a reviewer-only control to view the app as another seeded user (another role) without real sign-in? → A: Yes, a demo-only switcher on the demo screen; whether it stays in the defense build is decided later.
 - Q: Which checks must pass before a PR merges and before `develop` is published? → A: Static analysis, all automated tests and a successful web build. Android and iOS builds are not part of CI in this feature.
 
+### Session 2026-11-15
+
+- Q: Is the web build still held to "interactive within 3 seconds on 4G"? → A: No. Measured at 3.7 s on fast 4G and 15.6 s on slow 4G even after the fonts were cut to Cairo, because the web engine alone is about 2.5 MB. The web target is now: splash visible within 1 s, interactive within 5 s on fast 4G; slow 4G measured but not gated. Installed builds keep 2 s.
+
 ## User Scenarios & Testing *(mandatory)*
 
 Foundation has no business feature of its own. It is the base that every later feature stands on, so its "users" are the person who opens the running app (Osman, Dr. Sara, the expert reviewers) and the developers and agents who build the next features. Each story below can be checked on its own.
@@ -207,7 +211,7 @@ Foundation implements the shapes of BRD §5; it does not add new business concep
 - **SC-008**: Changing a setting at university, facility or unit level changes the value read at the unit in the expected order in 100% of tested inheritance cases, with no setting value found outside the settings boundary.
 - **SC-009**: A conflicting booking is refused in 100% of tested cases (exclusive double booking, shared over capacity, same user overlapping bookings), and a user without the right role is refused in 100% of tested permission cases.
 - **SC-010**: After a passing merge into `develop`, the new web build is live within 10 minutes; a failing merge leaves the live build unchanged.
-- **SC-011**: The first screen is interactive within 3 seconds on a mid-range phone on 4G for the web build and within 2 seconds on a typical device for the installed builds.
+- **SC-011**: Installed builds: the first screen is interactive within 2 seconds on a typical device. Web build (changed 2026-11-15): the Sprint splash is visible within 1 second and the app is interactive within 5 seconds on a fast 4G connection (9 Mbps, 170 ms round trip, a mid-range phone simulated with a processor 4 times slower); on a slow 4G connection (1.6 Mbps, 150 ms round trip) the splash is visible within 1 second, and the time until the app is interactive is measured and recorded but has no limit.
 
 ## Out of scope
 

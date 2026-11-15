@@ -37,8 +37,8 @@ here (they need their own host machines); they are verified when first needed.
 
 **Project Type**: Mobile + web + desktop app (single Flutter package, no backend).
 
-**Performance Goals**: First screen interactive in 3 s for the web build on 4G and 2 s for
-installed builds (SC-011). Shell resize must not drop frames visibly (no rebuild of the active
+**Performance Goals**: Web: splash visible in 1 s and interactive in 5 s on fast 4G; installed
+builds interactive in 2 s (SC-011, changed 2026-11-15). Shell resize must not drop frames visibly (no rebuild of the active
 branch on a size-class change).
 
 **Constraints**: Tokens only; all strings in ARB files; no platform checks in screens; domain
