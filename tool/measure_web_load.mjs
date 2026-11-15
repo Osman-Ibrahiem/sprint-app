@@ -1,7 +1,7 @@
 // Usage: node tool/measure_web_load.mjs <url> <empty-chrome-profile-dir> [Fast|Slow|No] [runs]
 // Needs Node 22+ (built-in WebSocket) and Google Chrome on macOS. No npm packages.
-// Emulates a 390x844 phone with 4x CPU slowdown and network throttling, cache disabled,
-// and prints the time to the first contentful paint of the Flutter web app (SC-011).
+// Emulates a 390x844 phone with 4x CPU slowdown and network throttling, cache disabled.
+// Prints, per run, the first paint (the splash, if any) and the first Flutter frame, in ms.
 // Measures first load of the published Sprint web app under network/CPU throttling via CDP.
 import { spawn } from 'node:child_process';
 const URL_ = process.argv[2];
@@ -23,27 +23,27 @@ async function one(browserWs, prof) {
   const { result: { targetId } } = await send('Target.createTarget', { url: 'about:blank' });
   const { result: { sessionId } } = await send('Target.attachToTarget', { targetId, flatten: true });
   const s = (m, p) => send(m, p, sessionId);
-  await s('Page.enable'); await s('Network.enable'); await s('Network.setCacheDisabled', { cacheDisabled: true });
+  await s('Page.enable'); await s('Network.enable'); await s('Page.addScriptToEvaluateOnNewDocument', { source: "window.addEventListener('flutter-first-frame',function(){window.__ff=performance.now();});" }); await s('Network.setCacheDisabled', { cacheDisabled: true });
   await s('Network.clearBrowserCache'); await s('Network.clearBrowserCookies');
   await s('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 3, mobile: true });
   await s('Emulation.setCPUThrottlingRate', { rate: prof.down === -1 ? 1 : CPU });
   await s('Network.emulateNetworkConditions', { offline: false, latency: prof.rtt, downloadThroughput: prof.down === -1 ? -1 : prof.down / 8, uploadThroughput: prof.up === -1 ? -1 : prof.up / 8 });
   const t0 = Date.now(); let bytes = 0; const reqs = new Map();
   await s('Page.navigate', { url: URL_ });
-  let paneAt = null, fcp = null, firstFrame = null;
+  let paneAt = null, fcp = null, firstFrame = null, ff = null;
   while (Date.now() - t0 < 90000) {
     for (const e of events.splice(0)) {
       if (e.method === 'Network.dataReceived') bytes += e.params.encodedDataLength || 0;
       if (e.method === 'Network.loadingFinished') { /* encoded length already counted via dataReceived approx */ }
     }
-    const r = await s('Runtime.evaluate', { expression: `JSON.stringify({pane: !!document.querySelector('flt-glass-pane'), sem: !!document.querySelector('flt-semantics, flt-semantics-placeholder'), fcp: (performance.getEntriesByName('first-contentful-paint')[0]||{}).startTime||null, txt: document.body ? document.body.innerText.length : 0, canv: document.querySelectorAll('canvas').length})`, returnByValue: true });
+    const r = await s('Runtime.evaluate', { expression: `JSON.stringify({pane: !!document.querySelector('flt-glass-pane'), sem: !!document.querySelector('flt-semantics, flt-semantics-placeholder'), fcp: (performance.getEntriesByName('first-contentful-paint')[0]||{}).startTime||null, ff: window.__ff||null, txt: document.body ? document.body.innerText.length : 0, canv: document.querySelectorAll('canvas').length})`, returnByValue: true });
     const v = r.result?.result?.value ? JSON.parse(r.result.result.value) : null;
-    if (v) { if (v.pane && paneAt === null) paneAt = Date.now() - t0; if (v.fcp && fcp === null) fcp = v.fcp; if (v.canv > 0 && firstFrame === null) firstFrame = Date.now() - t0; }
-    if (fcp !== null && Date.now() - t0 > paneAt + 800) break;
+    if (v) { if (v.ff && ff === null) ff = Math.round(v.ff); if (v.pane && paneAt === null) paneAt = Date.now() - t0; if (v.fcp && fcp === null) fcp = v.fcp; if (v.canv > 0 && firstFrame === null) firstFrame = Date.now() - t0; }
+    if (ff !== null) break;
     await sleep(100);
   }
   await send('Target.closeTarget', { targetId }); bws.close();
-  return { paneAt, fcp: fcp && Math.round(fcp), firstFrame, mb: +(bytes / 1048576).toFixed(2) };
+  return { firstPaint: fcp && Math.round(fcp), firstFlutterFrame: ff, mb: +(bytes / 1048576).toFixed(2) };
 }
 try {
   const { webSocketDebuggerUrl } = await ver();
