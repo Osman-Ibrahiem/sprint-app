@@ -54,9 +54,9 @@ Rationale: the users are Egyptian university students on every kind of device.
   no SMS and no paid service: notifications are push and in-app, and account confirmation and
   password reset go by email.
 - There is no AI, no cash payment and no no-show penalty in the system.
-- Fonts are bundled static-weight assets: Alexandria for headings and buttons, Cairo for body
-  text and every number, IBM Plex Mono for booking codes. Every `TextStyle` sets its token
-  `height`.
+- Fonts are bundled static-weight assets: Cairo only (400, 500, 600, 700) for every text style,
+  including headings, buttons, numbers and booking codes (decisions.md, 2026-11-15). Every
+  `TextStyle` sets its token `height`.
 - Motion is mostly code, timed by `SprintMotion`. Lottie is used only for booking and payment
   success, payment failure and empty states, plays once and stays within 100KB. No GIF or video.
 - Times display in Africa/Cairo and are stored in UTC.
@@ -85,4 +85,4 @@ same pull request. Versioning follows semantic rules: MAJOR for removing or rede
 principle, MINOR for adding a principle or materially expanding one, PATCH for wording fixes.
 `CLAUDE.md` is the runtime guidance for day-to-day work and is kept consistent with this file.
 
-**Version**: 1.1.0 | **Ratified**: 2026-11-10 | **Last Amended**: 2026-11-11
+**Version**: 1.2.0 | **Ratified**: 2026-11-10 | **Last Amended**: 2026-11-15

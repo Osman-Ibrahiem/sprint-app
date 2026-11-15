@@ -126,9 +126,9 @@
   --bp-medium: 600px;
   --bp-expanded: 840px;
   --bp-large: 1200px;
-  --font-heading: "Alexandria", system-ui, sans-serif;
+  --font-heading: "Cairo", system-ui, sans-serif;
   --font-text: "Cairo", system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-mono: "Cairo", system-ui, sans-serif;
   --duration-fast: 150ms;
   --duration-base: 250ms;
   --duration-slow: 350ms;

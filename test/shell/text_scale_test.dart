@@ -66,6 +66,8 @@ void main() {
       expect(s.height, isNotNull);
     }
     expect(SprintText.body.fontFamilyFallback, contains('sans-serif'));
-    expect(SprintText.code.fontFamilyFallback, contains('monospace'));
+    // Booking codes are Cairo too (decisions.md, 2026-11-15), so a failed load
+    // falls back to the same sans-serif as the body.
+    expect(SprintText.code.fontFamilyFallback, contains('sans-serif'));
   });
 }

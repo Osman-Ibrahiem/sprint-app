@@ -157,7 +157,7 @@ When a change is merged into `develop`, an automatic job checks the project and 
 - **FR-013**: Arabic (right-to-left) MUST be the default language and English (left-to-right) the second; every user-facing string MUST live in translation files, with none written in the screens.
 - **FR-014**: Layout MUST use direction-aware spacing and alignment; only directional icons MUST mirror; booking codes, phone numbers and emails MUST keep left-to-right order inside Arabic text.
 - **FR-015**: Copy MUST follow the product rules: light Egyptian dialect, no imperative verbs in UI (buttons are verbal nouns), Western digits in both languages, 12-hour time, "120 ج.م" / "EGP 120". Dates and times MUST be shown in Cairo time (NFR-03).
-- **FR-016**: Text MUST use the fonts and styles in the token list: Alexandria for headings and buttons; Cairo for body, labels and every number; IBM Plex Mono for booking codes. Fonts MUST ship inside the app. Every style MUST carry its explicit line height. The minimum size MUST be 12 and text MUST scale up to 200%.
+- **FR-016**: Text MUST use the fonts and styles in the token list: Cairo for every text style (headings, buttons, body, labels, numbers and booking codes; changed from Alexandria and IBM Plex Mono on 2026-11-15). Fonts MUST ship inside the app. Every style MUST carry its explicit line height. The minimum size MUST be 12 and text MUST scale up to 200%.
 - **FR-017**: Every interactive element MUST have a touch target of at least 48 and a visible keyboard focus on keyboard platforms; every state MUST carry a word or an icon in addition to colour; every shell control MUST have a meaningful screen-reader label in the current language.
 - **FR-018**: Motion MUST be timed by the motion tokens, MUST respect the platform's page, sheet and back-gesture timing, and MUST be skipped or reduced to a short fade when the system asks to reduce motion. Content loading MUST be shown with skeletons rather than spinners.
 
@@ -227,7 +227,7 @@ Foundation is UI-only and prepares the ground. These are explicitly not part of 
 
 ## Assumptions
 
-- Foundation depends on the design system documents already in `docs/design-system/` and on the bundled fonts in `assets/fonts` (Alexandria 600/700, Cairo 400–700, IBM Plex Mono). No font is added or removed by this feature.
+- Foundation depends on the design system documents already in `docs/design-system/` and on the bundled fonts in `assets/fonts` (at the time: Alexandria 600/700, Cairo 400–700, IBM Plex Mono; since 2026-11-15 Cairo only). No font is added or removed by this feature.
 - The technology stack and architecture are those fixed in `CLAUDE.md` (Flutter, Riverpod with codegen, Freezed, GoRouter, feature-first Clean Architecture, repository interfaces). This spec states outcomes; the how belongs to the plan.
 - **Top-level destinations**: Home, Facilities, My Bookings, Profile (see Clarifications). Role-specific destinations (trainer, admin) appear later by role data.
 - **Seed data size**: about 6 facilities (for example a swimming pool, a football pitch, a gym, a tennis court, a free multi-purpose hall, and a training course), across 3 owning units (two faculties and one central unit), about 15 bookable units, 10 users (every role at least once, both tiers), and 20 bookings spread across all statuses. Names and prices are placeholders.

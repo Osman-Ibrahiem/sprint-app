@@ -15,7 +15,7 @@
 | Motion | واحد | `duration-fast` لحد `duration-pulse` كـ number بالـ ms. الـ easing (`ease-*`) بيتوثق في صفحة Foundations لأن الـ Variables مبتشيلش curves |
 | Copy | ar, en | نصوص الأزرار والحالات من جدول المحتوى في الـ README، عشان نفس الشاشة تتبدل لغتها بتغيير الـ mode |
 
-- **Text styles** بنفس أسماء الـ type styles. بخط Alexandria: `display`، `title-lg`، `title`، `headline`، `button`. بخط Cairo: `number-lg`، `number`، `body`، `body-strong`، `label`، `caption`، `micro`. بخط IBM Plex Mono: `code`.
+- **Text styles** بنفس أسماء الـ type styles. كلها بخط Cairo: `display`، `title-lg`، `title`، `headline`، `button`، `number-lg`، `number`، `body`، `body-strong`، `label`، `caption`، `micro`، `code`.
 - **Effect styles:** `shadow-card`، `shadow-sheet`، `shadow-popover`. في Dark الكارت من غير ظل.
 
 ### صفحات الملف
@@ -57,7 +57,7 @@
 | الـ token | في Flutter |
 | --- | --- |
 | Color | `SprintColors extends ThemeExtension` بنسختين light و dark، وبيتقري بـ `context.colors.primary` |
-| Type | `SprintText` بالـ 12 style + `code`. Alexandria و Cairo و IBM Plex Mono كـ assets بأوزان static، وكل `TextStyle` فيه `height` صريح من الـ token |
+| Type | `SprintText` بالـ 12 style + `code`. Cairo كـ asset بأوزان static (400 و 500 و 600 و 700)، وكل `TextStyle` فيه `height` صريح من الـ token |
 | Spacing / Radius / Size | ثوابت في `SprintSpacing` و `SprintRadius` و `SprintSize` |
 | Breakpoints | `WindowSize.of(context)` بيرجّع compact أو medium أو expanded أو large |
 | Motion | `SprintMotion`: المدد كـ `Duration` والـ curves بنفس أسماء الـ tokens (`ease-standard` = `Easing.standard`، `ease-enter` = `Easing.emphasizedDecelerate`، `ease-exit` = `Easing.emphasizedAccelerate`)، و helper بيرجّع fade بـ `duration-fast` أو صفر لما `MediaQuery.disableAnimationsOf(context)` يبقى true |
