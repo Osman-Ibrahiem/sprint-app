@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sprint/core/l10n/booking_code_text.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_colors.g.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
@@ -127,10 +128,15 @@ class TokenGallery extends StatelessWidget {
                   name,
                   style: context.text.caption.copyWith(color: colors.inkMuted),
                 ),
-                Text(
-                  l10n.demoTypeSample,
-                  style: style.copyWith(color: colors.ink),
-                ),
+                // The booking-code style shows a real code, which also loads
+                // its deferred font.
+                if (name == 'code')
+                  const BookingCodeText('SP-1042')
+                else
+                  Text(
+                    l10n.demoTypeSample,
+                    style: style.copyWith(color: colors.ink),
+                  ),
               ],
             ),
           ),

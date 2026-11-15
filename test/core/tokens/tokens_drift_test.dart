@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sprint/core/fonts/deferred_fonts.dart';
 
 import '../../../tool/gen_tokens.dart';
 
@@ -44,6 +45,9 @@ void main() {
           .firstMatch(families[g['family'] as String] as String)!
           .group(1)!;
       for (final s in (g['styles'] as List).cast<Map<String, dynamic>>()) {
+        // IBM Plex Mono is bundled as assets and loaded on demand; see
+        // test/core/fonts/deferred_fonts_test.dart.
+        if (fam == monoFamily) continue;
         expect(
           declared[fam],
           contains(s['fontWeight'] as int),

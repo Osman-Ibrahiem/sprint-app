@@ -28,10 +28,15 @@ progress; some are design judgements and are flagged as such in the file). `Wind
 2. The drift test regenerates in memory and fails if the committed output differs from
    `tokens.json` (CI runs it).
 3. Dark theme `shadow-card` is `none`; the generator emits an empty shadow list for dark.
-4. Font families are `Alexandria`, `Cairo`, `IBM Plex Mono`; weights match `tokens.json` and the
-   `pubspec.yaml` font declarations exactly (a test checks that every weight used is declared).
-5. Fonts declared in `pubspec.yaml` and nothing else: Alexandria 600/700, Cairo 400/500/600/700,
-   IBM Plex Mono 400/500 (files already in `assets/fonts/`).
+4. Font families are `Alexandria`, `Cairo`, `IBM Plex Mono`; weights match `tokens.json`. A test
+   checks that every weight used by Alexandria and Cairo is declared under `fonts:` in
+   `pubspec.yaml`, and that the Plex Mono weights are covered by the deferred assets (rule 5).
+5. Fonts declared under `fonts:` (loaded at startup): Alexandria 600/700, Cairo 400/500/600/700.
+   **IBM Plex Mono 400/500 is deferred** (SC-011, `docs/decisions.md` 2026-11-11): the two files stay
+   in `assets/fonts/` and are bundled as plain `assets:`, and `ensureMonoFont()`
+   (`lib/core/fonts/deferred_fonts.dart`) loads them the first time a booking code is shown,
+   through `BookingCodeText`. Until then the `code` style falls back to `monospace` with the same
+   explicit line height. No font file was added or removed.
 6. Changing a token means editing `tokens.json` first, then re-running the generator, in the
    same pull request (constitution I and II).
 7. `tool/gen_cairo_tzdata.dart` is a second generator: it writes `lib/core/time/cairo_tzdata.g.dart`,

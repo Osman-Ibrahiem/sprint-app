@@ -129,3 +129,18 @@ So a change whose tests fail cannot reach `develop`, and `deploy.yml` runs only 
 `develop`. Together with `deploy` needing `build`, a failing change cannot replace the live build.
 What is still not shown is a failing *push* to `develop`, which branch protection forbids.
 
+## IBM Plex Mono deferred (T100, first part)
+
+Done on PR #4. IBM Plex Mono (booking codes only) is no longer loaded at startup: it is bundled as
+two plain assets and loaded by `ensureMonoFont()` when a booking code is first shown.
+
+| | Before | After |
+| --- | --- | --- |
+| Fonts loaded at startup | 8 files, 0.58 MB gzip | 6 files, 0.46 MB gzip |
+| Plex Mono (loaded on demand) | in the startup path | 0.11 MB gzip, off the startup path |
+| `main.dart.js` | 0.94 MB gzip | 0.94 MB gzip |
+
+That is about 0.12 MB (3.5%) off the first load, so Fast 4G should move from about 3.3 s to about
+3.2 s: still over 3 s, as expected when this was decided. **Not yet re-measured on the published
+site; it needs a deploy first.** Next, with Osman's OK: subset the font files (T101).
+
