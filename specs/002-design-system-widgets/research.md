@@ -202,9 +202,8 @@ Foundation's style (`copy-review.md`) lists every new string for Osman before th
 
 **Decision**: named constructors `FacilityCard.loading({layout})`, `BookingTicket.loading()` and
 `StatTile.loading()` assemble `Skeleton` blocks with the loaded widget's outer shape and radius. The
-`Skeleton` primitive is not edited. Each loading form is excluded from semantics (the primitive already
-does this) and exposes one "جاري التحميل" label at the card level only when the card itself is the
-loading target.
+`Skeleton` primitive is not edited. Each loading form is silent to a screen reader (the primitive already
+excludes itself from semantics), as the spec requires (FR-064); no loading label is added.
 
 ## R16. The gallery and its reviewer controls
 

@@ -103,7 +103,7 @@ A reviewer opens the app's demo area and finds a component gallery. For each of 
 
 **Why this priority**: Navigation is on every screen. It is also the one widget that replaces working code, so it carries regression risk, and the Foundation's guarantees (one form per width, state kept across resize and fold, 48dp targets, Arabic labels) must survive the swap.
 
-**Independent Test**: Run the Foundation's navigation tests unchanged against the new component, then run the gallery at the six boundary widths.
+**Independent Test**: Run the Foundation's navigation tests against the new component, with their assertions unchanged (only import paths may change because the three forms move), then run the gallery at the six boundary widths.
 
 **Acceptance Scenarios**:
 
@@ -160,7 +160,7 @@ A developer or agent building feature 3 to 11 imports a widget, passes plain val
 1. **Given** the property table in `handoff.md`, **When** a widget is inspected, **Then** it exposes the same properties under the same names (for example `variant`, `size`, `state`, `status`, `layout`, `form`, `trend`).
 2. **Given** a widget, **When** it is built in a test with plain values and no repository, no settings and no user, **Then** it renders correctly.
 3. **Given** a screen that uses a widget, **Then** the screen never names a platform; only the widget (through the adaptive layer) decides platform behaviour.
-4. **Given** the existing Foundation tests, **When** this feature is complete, **Then** they all still pass.
+4. **Given** the existing Foundation tests, **When** this feature is complete, **Then** they all still pass with their assertions unchanged (only import paths may differ).
 
 ---
 
@@ -311,7 +311,7 @@ A developer or agent building feature 3 to 11 imports a widget, passes plain val
 This feature adds no business entity. It adds presentation vocabulary that later features map their entities onto.
 
 - **Component variant and state**: the named variants, sizes and states of each widget (for example button variant, slot state, ticket state), identical in the README, in Figma and in code.
-- **Destination**: one item of `AppNavigation` (label, icon, filled icon, whether its icon mirrors in RTL, optional badge); the Foundation's destination model is reused.
+- **Destination**: one item of `AppNavigation` (label, icon, filled icon, whether its icon mirrors in RTL, optional badge); `AppNavigation` has its own plain destination value; the shell maps the Foundation's `ShellDestination` onto it, so role-driven destination lists work unchanged.
 - **Availability level**: plenty, few or none, shown on a `FacilityCard`.
 - **Status**: the booking, verification and damage-report statuses a `StatusBadge` shows, mapped to a word, an icon and a colour pair.
 - **Price display**: the amount, the currency, whom it is for, and the struck-through old price of an offer.
@@ -326,7 +326,7 @@ This feature adds no business entity. It adds presentation vocabulary that later
 - **SC-003**: Every widget state is distinguishable without colour in 100% of cases: viewed in grayscale, each of the five chip states, six booking statuses, three availability levels and the change direction of a tile can be told apart by its word or icon alone.
 - **SC-004**: At 200% text size, no widget in the gallery clips or overlaps its text at compact width, in both languages, and every touch target in the gallery is at least 48.
 - **SC-005**: At every width from 320 to 1920, exactly one navigation form shows and it is the correct one in 100% of tested widths, including 599, 600, 839, 840, 1199 and 1200, and the selected destination and scroll position survive 100% of tested resizes, folds and unfolds.
-- **SC-006**: The whole Foundation test suite passes unchanged after `AppNavigation` replaces the plain navigation, and the Foundation's navigation behaviours (destination list from roles, one form per width, 48 targets) still hold.
+- **SC-006**: The whole Foundation test suite passes with its assertions unchanged (only import paths may differ) after `AppNavigation` replaces the plain navigation, and the Foundation's navigation behaviours (destination list from roles, one form per width, 48 targets) still hold.
 - **SC-007**: A booking QR rendered by `BookingTicket` decodes back to exactly the token it was given in 100% of tested tokens, in Light and Dark.
 - **SC-008**: A reviewer can see an Apple, an Android and a desktop or web version of a button press and of the navigation on one device in the gallery, and the differences match `adaptive.md` in 100% of the rows that concern these widgets.
 - **SC-009**: Every user-facing string in the widgets and the gallery exists in Arabic and English; switching language changes 100% of them and mirrors the layout with no directional icon left unmirrored and no non-directional icon mirrored.
