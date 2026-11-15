@@ -373,8 +373,10 @@ class _Reveal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const from = 0.0;
+    const to = 1.0;
     return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0, end: 1),
+      tween: Tween<double>(begin: from, end: to),
       duration: ReducedMotion.fade(context, SprintMotion.durationSlow),
       curve: SprintMotion.easeEnter,
       builder: (context, t, child) => Opacity(

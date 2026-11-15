@@ -31,11 +31,6 @@ BookingTicket ticket({
       onCodeCopied: onCopied,
     );
 
-BoxDecoration? _bg(WidgetTester tester, Key key) {
-  final w = tester.widget<Container>(find.byKey(key));
-  return w.decoration as BoxDecoration?;
-}
-
 void main() {
   final light = SprintColors.light;
 

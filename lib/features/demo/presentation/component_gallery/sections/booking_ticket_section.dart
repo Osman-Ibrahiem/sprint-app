@@ -4,6 +4,7 @@ import 'package:sprint/core/l10n/sprint_format.dart';
 import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
+import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/booking_ticket/booking_ticket.dart';
 import 'package:sprint/core/widgets/status_badge/sprint_status.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
@@ -30,8 +31,8 @@ class BookingTicketSection extends ConsumerWidget {
         FutureBuilder<List<Widget>>(
           future: _tickets(repo, catalogue, format),
           builder: (context, snapshot) => Wrap(
-            spacing: 16,
-            runSpacing: 16,
+            spacing: SprintSpacing.space4,
+            runSpacing: SprintSpacing.space4,
             children: [
               ...?snapshot.data,
               const SizedBox(

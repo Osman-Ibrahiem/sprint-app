@@ -11,6 +11,20 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 
 import '../../helpers/pump_app.dart';
 
+/// Scrolls the gallery down by jumping, so a nested control under the centre
+/// of the screen cannot swallow the drag.
+Future<void> scrollToHeading(WidgetTester tester, String heading) async {
+  final target = find.byKey(GallerySection.titleKey(heading));
+  final position = tester.state<ScrollableState>(find.byType(Scrollable).first).position;
+  for (var i = 0; i < 200 && target.evaluate().isEmpty; i++) {
+    position.jumpTo(
+      (position.pixels + 400).clamp(0, position.maxScrollExtent).toDouble(),
+    );
+    await tester.pump(const Duration(milliseconds: 50));
+  }
+  expect(target, findsOneWidget, reason: heading);
+}
+
 void main() {
   Future<void> pumpGallery(
     WidgetTester tester, {
@@ -52,13 +66,8 @@ void main() {
       l10n.galleryNavigationSection,
       l10n.galleryStatTileSection,
     ];
-    final scrollable = find.byType(Scrollable).first;
     for (final heading in headings) {
-      await tester.scrollUntilVisible(
-        find.byKey(GallerySection.titleKey(heading)),
-        300,
-        scrollable: scrollable,
-      );
+      await scrollToHeading(tester, heading);
       expect(find.byKey(GallerySection.titleKey(heading)), findsOneWidget, reason: heading);
     }
   });
@@ -66,17 +75,12 @@ void main() {
   testWidgets('lists the headings in English too', (tester) async {
     await pumpGallery(tester, locale: const Locale('en'));
     final l10n = lookupAppLocalizations(const Locale('en'));
-    final scrollable = find.byType(Scrollable).first;
     for (final heading in [
       l10n.galleryButtonSection,
-      l10n.galleryStatTileSection,
       l10n.galleryLogoSection,
+      l10n.galleryStatTileSection,
     ]) {
-      await tester.scrollUntilVisible(
-        find.byKey(GallerySection.titleKey(heading)),
-        300,
-        scrollable: scrollable,
-      );
+      await scrollToHeading(tester, heading);
       expect(find.byKey(GallerySection.titleKey(heading)), findsOneWidget);
     }
   });

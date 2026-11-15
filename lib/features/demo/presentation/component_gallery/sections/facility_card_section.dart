@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sprint/core/l10n/sprint_format.dart';
 import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
+import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/facility_card/facility_card.dart';
 import 'package:sprint/features/catalogue/domain/catalogue_repository.dart';
 import 'package:sprint/features/catalogue/domain/facility.dart';
@@ -31,8 +32,8 @@ class FacilityCardSection extends ConsumerWidget {
           builder: (context, snapshot) {
             final rows = snapshot.data ?? const <_Row>[];
             return Wrap(
-              spacing: 16,
-              runSpacing: 16,
+              spacing: SprintSpacing.space4,
+              runSpacing: SprintSpacing.space4,
               children: [
                 for (final (index, row) in rows.indexed)
                   SizedBox(
