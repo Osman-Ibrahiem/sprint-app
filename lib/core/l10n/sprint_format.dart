@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:sprint/core/time/cairo_time.dart';
+import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// The only place that formats prices, times, dates and numbers (FR-015).
@@ -34,4 +35,56 @@ class SprintFormat {
     final pattern = _lang == 'en' ? 'EEE, d MMM' : 'EEEE d MMMM';
     return DateFormat(pattern, _lang).format(CairoTime.toCairo(instant));
   }
+
+  /// A Cairo-local time, without the conversion [time] applies. Screens that
+  /// already hold Cairo wall-clock times use the methods below.
+  String _localTime(DateTime t) => DateFormat('h:mm a', _lang).format(t);
+
+  /// The short form of a Cairo-local time ("5:00 م").
+  String localTime(DateTime t) => _localTime(t);
+
+  /// "5:00 – 6:00 م" when both ends share the period, otherwise
+  /// "11:00 ص – 1:00 م" / "11:00 AM – 1:00 PM".
+  String timeRange(DateTime start, DateTime end) {
+    final a = _localTime(start);
+    final b = _localTime(end);
+    final aPeriod = a.split(' ').last;
+    final bPeriod = b.split(' ').last;
+    if (aPeriod == bPeriod) {
+      return '${a.substring(0, a.length - aPeriod.length - 1)} – $b';
+    }
+    return '$a – $b';
+  }
+
+  /// "التلات 10 نوفمبر · 5:00 – 6:00 م" / "Tue 10 Nov · 5:00 – 6:00 PM".
+  String dateTimeLine(DateTime start, DateTime end) {
+    final pattern = _lang == 'en' ? 'd MMM' : 'd MMMM';
+    final day = DateFormat(pattern, _lang).format(start);
+    return '${dayName(start, short: true)} $day · ${timeRange(start, end)}';
+  }
+
+  /// The week day's name in the current language. [short] gives the form the
+  /// day strip and the ticket line use.
+  String dayName(DateTime day, {bool short = false}) {
+    final l10n = _l10n;
+    return switch (day.weekday) {
+      DateTime.saturday => short ? l10n.dayShortSaturday : l10n.dayFullSaturday,
+      DateTime.sunday => short ? l10n.dayShortSunday : l10n.dayFullSunday,
+      DateTime.monday => short ? l10n.dayShortMonday : l10n.dayFullMonday,
+      DateTime.tuesday => short ? l10n.dayShortTuesday : l10n.dayFullTuesday,
+      DateTime.wednesday =>
+        short ? l10n.dayShortWednesday : l10n.dayFullWednesday,
+      DateTime.thursday => short ? l10n.dayShortThursday : l10n.dayFullThursday,
+      _ => short ? l10n.dayShortFriday : l10n.dayFullFriday,
+    };
+  }
+
+  /// 99 -> "99", 100 -> "99+" (the navigation badge cap).
+  String compactCount(int value) =>
+      value > SprintExtras.navigationBadgeCap
+          ? '${SprintExtras.navigationBadgeCap}+'
+          : number(value);
+
+  /// 73.4 -> "73%".
+  String percent(num value) => '${value.round()}%';
 }

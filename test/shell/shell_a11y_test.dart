@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sprint/app/shell/nav/sprint_nav_rail.dart';
-import 'package:sprint/app/shell/nav/sprint_sidebar.dart';
-import 'package:sprint/app/shell/nav/sprint_tab_bar.dart';
+import 'package:sprint/core/widgets/app_navigation/sprint_nav_rail.dart';
+import 'package:sprint/core/widgets/app_navigation/sprint_sidebar.dart';
+import 'package:sprint/core/widgets/app_navigation/sprint_tab_bar.dart';
 
 import '../helpers/pump_app.dart';
 

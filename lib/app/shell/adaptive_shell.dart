@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sprint/app/router/routes.dart';
-import 'package:sprint/app/shell/nav/nav_destinations_view.dart';
-import 'package:sprint/app/shell/nav/sprint_nav_rail.dart';
-import 'package:sprint/app/shell/nav/sprint_sidebar.dart';
-import 'package:sprint/app/shell/nav/sprint_tab_bar.dart';
 import 'package:sprint/app/shell/shell_keys.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
+import 'package:sprint/core/widgets/app_navigation/app_navigation.dart';
+import 'package:sprint/core/widgets/app_navigation/nav_destination.dart';
 import 'package:sprint/core/window/display_feature_layout.dart';
 import 'package:sprint/core/window/window_size.dart';
+import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// The app shell: tab bar, rail or sidebar chosen by window width, around one
 /// shared [StatefulNavigationShell] (FR-002 – FR-006).
@@ -49,10 +48,22 @@ class _AdaptiveShellState extends State<AdaptiveShell> {
 
   Widget _buildUi(BuildContext context) {
     final size = WindowSize.of(context);
-    final data = NavData(
-      destinations: widget.destinations,
-      selectedIndex: widget.navigationShell.currentIndex,
-      onSelect: _select,
+    final l10n = AppLocalizations.of(context);
+    final destinations = [
+      for (final destination in widget.destinations)
+        NavDestination(
+          label: destination.label(l10n),
+          icon: destination.icon,
+          selectedIcon: destination.selectedIcon,
+          mirrorInRtl: destination.mirrorInRtl,
+        ),
+    ];
+    final form = AppNavigation.formFor(size);
+    final navigation = AppNavigation(
+      destinations: destinations,
+      selected: widget.navigationShell.currentIndex,
+      onSelected: _select,
+      form: form,
     );
 
     final body = KeyedSubtree(key: _bodyKey, child: widget.navigationShell);
@@ -65,19 +76,19 @@ class _AdaptiveShellState extends State<AdaptiveShell> {
           )
         : SizedBox.expand(key: shellContentKey, child: body);
 
-    return switch (size) {
-      WindowSize.compact => Scaffold(
+    return switch (form) {
+      NavigationForm.tabBar => Scaffold(
           body: content,
-          bottomNavigationBar: SprintTabBar(data: data),
+          bottomNavigationBar: navigation,
         ),
-      WindowSize.medium => Scaffold(
+      NavigationForm.rail => Scaffold(
           body: Row(
-            children: [SprintNavRail(data: data), Expanded(child: content)],
+            children: [navigation, Expanded(child: content)],
           ),
         ),
-      WindowSize.expanded || WindowSize.large => Scaffold(
+      NavigationForm.sidebar => Scaffold(
           body: Row(
-            children: [SprintSidebar(data: data), Expanded(child: content)],
+            children: [navigation, Expanded(child: content)],
           ),
         ),
     };

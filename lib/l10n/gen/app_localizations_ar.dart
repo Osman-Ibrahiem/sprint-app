@@ -94,6 +94,48 @@ class AppLocalizationsAr extends AppLocalizations {
   String get optionSelected => 'مختار';
 
   @override
+  String get dayShortSaturday => 'السبت';
+
+  @override
+  String get dayShortSunday => 'الحد';
+
+  @override
+  String get dayShortMonday => 'الاتنين';
+
+  @override
+  String get dayShortTuesday => 'التلات';
+
+  @override
+  String get dayShortWednesday => 'الأربع';
+
+  @override
+  String get dayShortThursday => 'الخميس';
+
+  @override
+  String get dayShortFriday => 'الجمعة';
+
+  @override
+  String get dayFullSaturday => 'السبت';
+
+  @override
+  String get dayFullSunday => 'الأحد';
+
+  @override
+  String get dayFullMonday => 'الاثنين';
+
+  @override
+  String get dayFullTuesday => 'الثلاثاء';
+
+  @override
+  String get dayFullWednesday => 'الأربعاء';
+
+  @override
+  String get dayFullThursday => 'الخميس';
+
+  @override
+  String get dayFullFriday => 'الجمعة';
+
+  @override
   String get demoTitle => 'شاشة العرض';
 
   @override
@@ -248,4 +290,307 @@ class AppLocalizationsAr extends AppLocalizations {
   String demoSwatchLabel(String name) {
     return '$name، فاتح وغامق';
   }
+
+  @override
+  String get buttonDisabledSuffix => '، غير متاح';
+
+  @override
+  String get buttonBusy => 'جاري التنفيذ…';
+
+  @override
+  String get fieldShowPassword => 'إظهار';
+
+  @override
+  String get fieldHidePassword => 'إخفاء';
+
+  @override
+  String get fieldSearchHint => 'البحث';
+
+  @override
+  String slotAvailablePlaces(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count أماكن',
+      two: 'مكانين',
+      one: 'مكان واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get slotSelected => 'مختار';
+
+  @override
+  String slotFewLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'فاضل $count',
+      two: 'فاضل مكانين',
+      one: 'فاضل 1',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String slotFewLeftSpoken(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'فاضل $count أماكن',
+      two: 'فاضل مكانين',
+      one: 'فاضل مكان واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get slotFull => 'مكتمل';
+
+  @override
+  String get slotPast => 'فات';
+
+  @override
+  String slotSpoken(String time, String state) {
+    return 'الساعة $time، $state';
+  }
+
+  @override
+  String slotSpokenWithPrice(String time, String state, String price) {
+    return 'الساعة $time، $state، $price';
+  }
+
+  @override
+  String get dayToday => 'النهارده';
+
+  @override
+  String get dayHasRoom => 'فيه أماكن';
+
+  @override
+  String get dayClosed => 'مقفول';
+
+  @override
+  String daySpoken(String day, String state) {
+    return 'يوم $day، $state';
+  }
+
+  @override
+  String statusSpoken(String status) {
+    return 'الحالة: $status';
+  }
+
+  @override
+  String get statusConfirmed => 'مؤكد';
+
+  @override
+  String get statusPendingPayment => 'في انتظار الدفع';
+
+  @override
+  String get statusCancelled => 'اتلغى';
+
+  @override
+  String get statusAttended => 'حضر';
+
+  @override
+  String get statusNoShow => 'غاب';
+
+  @override
+  String get statusExpired => 'انتهت المهلة';
+
+  @override
+  String get statusUnderReview => 'قيد المراجعة';
+
+  @override
+  String get statusVerified => 'موثّق';
+
+  @override
+  String get statusRejected => 'مرفوض';
+
+  @override
+  String get statusOpen => 'مفتوح';
+
+  @override
+  String get statusInProgress => 'جاري';
+
+  @override
+  String get statusResolved => 'اتحل';
+
+  @override
+  String get facilityPhotoPlaceholder => 'صورة المنشأة';
+
+  @override
+  String get facilityTrainerTag => 'بمدرب';
+
+  @override
+  String get facilityFreeTag => 'مجاني';
+
+  @override
+  String facilityUnitCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count وحدات',
+      two: 'وحدتين',
+      one: 'وحدة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get facilityAvailabilityPlenty => 'متاح النهارده';
+
+  @override
+  String get facilityAvailabilityFew => 'أماكن قليلة';
+
+  @override
+  String get facilityAvailabilityNone => 'مفيش مواعيد النهارده';
+
+  @override
+  String get facilityPriceInternalLabel => 'سعر الطلاب والعاملين';
+
+  @override
+  String get facilityPriceExternalLabel => 'السعر الكامل';
+
+  @override
+  String get facilityFree => 'مجاني';
+
+  @override
+  String facilitySpoken(
+    String name,
+    String unit,
+    String availability,
+    String price,
+  ) {
+    return 'منشأة $name، $unit، $availability، $price';
+  }
+
+  @override
+  String get ticketCodeLabel => 'كود الحجز';
+
+  @override
+  String get ticketCopied => 'اتنسخ';
+
+  @override
+  String get ticketPaid => 'المدفوع';
+
+  @override
+  String ticketCancelUntil(String date) {
+    return 'إلغاء مجاني لحد $date';
+  }
+
+  @override
+  String get ticketCancelUnavailable => 'الإلغاء مش متاح';
+
+  @override
+  String get ticketQrUnavailable => 'QR غير متاح';
+
+  @override
+  String ticketSpoken(
+    String facility,
+    String dateTime,
+    String status,
+    String code,
+  ) {
+    return 'تذكرة $facility، $dateTime، $status، $code';
+  }
+
+  @override
+  String get navMore => 'المزيد';
+
+  @override
+  String navBadgeSpoken(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count غير مقروء',
+      one: 'غير مقروء واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statDeltaUp(String value) {
+    return 'زيادة $value';
+  }
+
+  @override
+  String statDeltaDown(String value) {
+    return 'نقص $value';
+  }
+
+  @override
+  String get statDeltaFlat => 'مفيش تغيير';
+
+  @override
+  String get statNoComparison => 'مفيش مقارنة';
+
+  @override
+  String get logoLabel => 'سبرنت';
+
+  @override
+  String get galleryTitle => 'معرض المكونات';
+
+  @override
+  String get gallerySampleNote => 'بيانات تجريبية';
+
+  @override
+  String get galleryTextSize => 'حجم النص';
+
+  @override
+  String get galleryReducedMotion => 'تقليل الحركة';
+
+  @override
+  String get galleryPlatformLook => 'شكل المنصة';
+
+  @override
+  String get galleryPlatformApple => 'آبل';
+
+  @override
+  String get galleryPlatformAndroid => 'أندرويد';
+
+  @override
+  String get galleryPlatformDesktop => 'ديسكتوب';
+
+  @override
+  String get galleryOpenFromDemo => 'معرض المكونات';
+
+  @override
+  String get galleryButtonSection => 'الأزرار';
+
+  @override
+  String get galleryTextFieldSection => 'حقول الإدخال';
+
+  @override
+  String get gallerySlotChipSection => 'مواعيد الحجز';
+
+  @override
+  String get galleryDayStripSection => 'شريط الأيام';
+
+  @override
+  String get galleryStatusBadgeSection => 'شارات الحالة';
+
+  @override
+  String get galleryFacilityCardSection => 'كروت المنشآت';
+
+  @override
+  String get galleryBookingTicketSection => 'تذاكر الحجز';
+
+  @override
+  String get galleryNavigationSection => 'التنقل';
+
+  @override
+  String get galleryStatTileSection => 'المؤشرات';
+
+  @override
+  String get galleryLogoSection => 'اللوجو';
+
+  @override
+  String get timeAm => 'صباحًا';
+
+  @override
+  String get timePm => 'مساءً';
+
+  @override
+  String get slotAvailableWord => 'متاح';
 }

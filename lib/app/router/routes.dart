@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/shell/placeholders/bookings_placeholder.dart';
 import 'package:sprint/app/shell/placeholders/facilities_placeholder.dart';
 import 'package:sprint/app/shell/placeholders/home_placeholder.dart';
@@ -13,6 +14,7 @@ abstract final class AppPaths {
   static const bookings = '/bookings';
   static const profile = '/profile';
   static const demo = '/demo';
+  static const demoComponents = '/demo/components';
 }
 
 /// Route names.
@@ -22,6 +24,7 @@ abstract final class AppRouteNames {
   static const bookings = 'bookings';
   static const profile = 'profile';
   static const demo = 'demo';
+  static const demoComponents = 'demoComponents';
 }
 
 /// One top-level shell destination. The shell and the router are built from a
@@ -49,38 +52,38 @@ class ShellDestination {
 }
 
 /// The four destinations every guest and booker sees, in order (the first is
-/// at the start edge: right in Arabic). Icons are Material for now; the
-/// Phosphor set arrives with the design-system widgets (feature 2).
+/// at the start edge: right in Arabic). Icons are Phosphor Regular, with Fill
+/// for the active item (FR-012, research R4).
 final List<ShellDestination> baseDestinations = <ShellDestination>[
   ShellDestination(
     name: AppRouteNames.home,
     path: AppPaths.home,
-    icon: Icons.home_outlined,
-    selectedIcon: Icons.home,
+    icon: PhosphorIconsRegular.house,
+    selectedIcon: PhosphorIconsFill.house,
     label: (l) => l.navHome,
     builder: HomePlaceholder.new,
   ),
   ShellDestination(
     name: AppRouteNames.facilities,
     path: AppPaths.facilities,
-    icon: Icons.fitness_center_outlined,
-    selectedIcon: Icons.fitness_center,
+    icon: PhosphorIconsRegular.squaresFour,
+    selectedIcon: PhosphorIconsFill.squaresFour,
     label: (l) => l.navFacilities,
     builder: FacilitiesPlaceholder.new,
   ),
   ShellDestination(
     name: AppRouteNames.bookings,
     path: AppPaths.bookings,
-    icon: Icons.confirmation_number_outlined,
-    selectedIcon: Icons.confirmation_number,
+    icon: PhosphorIconsRegular.ticket,
+    selectedIcon: PhosphorIconsFill.ticket,
     label: (l) => l.navBookings,
     builder: BookingsPlaceholder.new,
   ),
   ShellDestination(
     name: AppRouteNames.profile,
     path: AppPaths.profile,
-    icon: Icons.person_outline,
-    selectedIcon: Icons.person,
+    icon: PhosphorIconsRegular.user,
+    selectedIcon: PhosphorIconsFill.user,
     label: (l) => l.navProfile,
     builder: ProfilePlaceholder.new,
   ),

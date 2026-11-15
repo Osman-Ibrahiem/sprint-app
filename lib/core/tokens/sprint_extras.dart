@@ -26,4 +26,43 @@ abstract final class SprintExtras {
   /// Under reduced motion the loader stops spinning and shows a fixed
   /// three-quarter ring, so the busy state stays visible without motion.
   static const double reducedMotionLoaderProgress = 0.75;
+
+  /// SlotChip README § القواعد: at least 56 high and 100 wide.
+  static const double slotChipMinHeight = 56;
+  static const double slotChipMinWidth = 100;
+
+  /// DayStrip README § الشكل: each day pill is 64 high.
+  static const double dayPillHeight = 64;
+
+  /// StatusBadge README § الشكل: pill height 28.
+  static const double statusBadgeHeight = 28;
+
+  /// Component READMEs: the resting 1 px border (secondary button, chips,
+  /// text fields).
+  static const double hairlineWidth = 1;
+
+  /// BookingTicket README § الشكل: 340 wide on compact.
+  static const double ticketWidth = 340;
+
+  /// FacilityCard README § الشكل: photo on the start side, 112 wide in the
+  /// horizontal layout. The vertical layout uses a 16:9 photo.
+  static const double facilityPhotoWidth = 112;
+  static const double facilityPhotoAspect = 16 / 9;
+
+  /// BookingTicket README § الشكل: a quiet margin of 12 around the QR.
+  static const double qrQuietMargin = 12;
+
+  /// BookingTicket README § الشكل: the two half-circle notches on the dashed
+  /// divider; half the ticket width, a design judgement from the preview.
+  static const double ticketNotchRadius = 10;
+
+  /// SprintLogo README: never drawn below 16.
+  static const double logoMinSize = 16;
+
+  /// SprintLogo README: a bare mark needs 3:1 contrast with its background
+  /// against `volt`; below it the primary tile is used.
+  static const double logoMarkContrastThreshold = 3;
+
+  /// AppNavigation README: a badge count above 99 reads "99+".
+  static const int navigationBadgeCap = 99;
 }

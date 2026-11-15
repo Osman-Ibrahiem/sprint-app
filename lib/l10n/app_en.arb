@@ -27,6 +27,20 @@
   "languageEn": "English",
   "demoEntry": "Reviewer demo screen",
   "optionSelected": "Selected",
+  "dayShortSaturday": "Sat",
+  "dayShortSunday": "Sun",
+  "dayShortMonday": "Mon",
+  "dayShortTuesday": "Tue",
+  "dayShortWednesday": "Wed",
+  "dayShortThursday": "Thu",
+  "dayShortFriday": "Fri",
+  "dayFullSaturday": "Saturday",
+  "dayFullSunday": "Sunday",
+  "dayFullMonday": "Monday",
+  "dayFullTuesday": "Tuesday",
+  "dayFullWednesday": "Wednesday",
+  "dayFullThursday": "Thursday",
+  "dayFullFriday": "Friday",
   "@priceEgp": {
     "placeholders": {
       "amount": {
@@ -123,5 +137,210 @@
         "type": "String"
       }
     }
-  }
+  },
+  "buttonDisabledSuffix": ", unavailable",
+  "buttonBusy": "Working…",
+  "fieldShowPassword": "Show",
+  "fieldHidePassword": "Hide",
+  "fieldSearchHint": "Search",
+  "slotAvailablePlaces": "{count, plural, =1{1 place} other{{count} places}}",
+  "slotSelected": "Selected",
+  "slotFewLeft": "{count, plural, =1{1 place left} other{{count} places left}}",
+  "slotFewLeftSpoken": "{count, plural, =1{one place left} other{{count} places left}}",
+  "slotFull": "Full",
+  "slotPast": "Past",
+  "slotSpoken": "At {time}, {state}",
+  "slotSpokenWithPrice": "At {time}, {state}, {price}",
+  "dayToday": "Today",
+  "dayHasRoom": "Places available",
+  "dayClosed": "Closed",
+  "daySpoken": "Day {day}, {state}",
+  "statusSpoken": "Status: {status}",
+  "statusConfirmed": "Confirmed",
+  "statusPendingPayment": "Awaiting payment",
+  "statusCancelled": "Cancelled",
+  "statusAttended": "Attended",
+  "statusNoShow": "No-show",
+  "statusExpired": "Expired",
+  "statusUnderReview": "Under review",
+  "statusVerified": "Verified",
+  "statusRejected": "Rejected",
+  "statusOpen": "Open",
+  "statusInProgress": "In progress",
+  "statusResolved": "Resolved",
+  "facilityPhotoPlaceholder": "Facility photo",
+  "facilityTrainerTag": "With trainer",
+  "facilityFreeTag": "Free",
+  "facilityUnitCount": "{count, plural, =1{1 unit} other{{count} units}}",
+  "facilityAvailabilityPlenty": "Available today",
+  "facilityAvailabilityFew": "Few places left",
+  "facilityAvailabilityNone": "No slots today",
+  "facilityPriceInternalLabel": "Student and staff price",
+  "facilityPriceExternalLabel": "Full price",
+  "facilityFree": "Free",
+  "facilitySpoken": "Facility {name}, {unit}, {availability}, {price}",
+  "ticketCodeLabel": "Booking code",
+  "ticketCopied": "Copied",
+  "ticketPaid": "Paid",
+  "ticketCancelUntil": "Free cancellation until {date}",
+  "ticketCancelUnavailable": "Cancellation unavailable",
+  "ticketQrUnavailable": "QR unavailable",
+  "ticketSpoken": "Ticket {facility}, {dateTime}, {status}, {code}",
+  "navMore": "More",
+  "navBadgeSpoken": "{count, plural, =1{1 unread} other{{count} unread}}",
+  "statDeltaUp": "Up {value}",
+  "statDeltaDown": "Down {value}",
+  "statDeltaFlat": "No change",
+  "statNoComparison": "No comparison",
+  "logoLabel": "Sprint",
+  "galleryTitle": "Component gallery",
+  "gallerySampleNote": "Sample data",
+  "galleryTextSize": "Text size",
+  "galleryReducedMotion": "Reduced motion",
+  "galleryPlatformLook": "Platform look",
+  "galleryPlatformApple": "Apple",
+  "galleryPlatformAndroid": "Android",
+  "galleryPlatformDesktop": "Desktop",
+  "galleryOpenFromDemo": "Component gallery",
+  "galleryButtonSection": "Buttons",
+  "galleryTextFieldSection": "Text fields",
+  "gallerySlotChipSection": "Slot chips",
+  "galleryDayStripSection": "Day strip",
+  "galleryStatusBadgeSection": "Status badges",
+  "galleryFacilityCardSection": "Facility cards",
+  "galleryBookingTicketSection": "Booking tickets",
+  "galleryNavigationSection": "Navigation",
+  "galleryStatTileSection": "Stat tiles",
+  "galleryLogoSection": "Logo",
+  "@slotAvailablePlaces": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@slotFewLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@slotFewLeftSpoken": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@slotSpoken": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  },
+  "@slotSpokenWithPrice": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "state": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "@daySpoken": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  },
+  "@statusSpoken": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "@facilityUnitCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@facilitySpoken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "availability": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "@ticketCancelUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@ticketSpoken": {
+    "placeholders": {
+      "facility": {
+        "type": "String"
+      },
+      "dateTime": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "@navBadgeSpoken": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@statDeltaUp": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@statDeltaDown": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "timeAm": "AM",
+  "timePm": "PM",
+  "slotAvailableWord": "Available"
 }

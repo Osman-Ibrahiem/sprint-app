@@ -96,6 +96,48 @@ class AppLocalizationsEn extends AppLocalizations {
   String get optionSelected => 'Selected';
 
   @override
+  String get dayShortSaturday => 'Sat';
+
+  @override
+  String get dayShortSunday => 'Sun';
+
+  @override
+  String get dayShortMonday => 'Mon';
+
+  @override
+  String get dayShortTuesday => 'Tue';
+
+  @override
+  String get dayShortWednesday => 'Wed';
+
+  @override
+  String get dayShortThursday => 'Thu';
+
+  @override
+  String get dayShortFriday => 'Fri';
+
+  @override
+  String get dayFullSaturday => 'Saturday';
+
+  @override
+  String get dayFullSunday => 'Sunday';
+
+  @override
+  String get dayFullMonday => 'Monday';
+
+  @override
+  String get dayFullTuesday => 'Tuesday';
+
+  @override
+  String get dayFullWednesday => 'Wednesday';
+
+  @override
+  String get dayFullThursday => 'Thursday';
+
+  @override
+  String get dayFullFriday => 'Friday';
+
+  @override
   String get demoTitle => 'Demo screen';
 
   @override
@@ -250,4 +292,303 @@ class AppLocalizationsEn extends AppLocalizations {
   String demoSwatchLabel(String name) {
     return '$name, light and dark';
   }
+
+  @override
+  String get buttonDisabledSuffix => ', unavailable';
+
+  @override
+  String get buttonBusy => 'Working…';
+
+  @override
+  String get fieldShowPassword => 'Show';
+
+  @override
+  String get fieldHidePassword => 'Hide';
+
+  @override
+  String get fieldSearchHint => 'Search';
+
+  @override
+  String slotAvailablePlaces(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count places',
+      one: '1 place',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get slotSelected => 'Selected';
+
+  @override
+  String slotFewLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count places left',
+      one: '1 place left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String slotFewLeftSpoken(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count places left',
+      one: 'one place left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get slotFull => 'Full';
+
+  @override
+  String get slotPast => 'Past';
+
+  @override
+  String slotSpoken(String time, String state) {
+    return 'At $time, $state';
+  }
+
+  @override
+  String slotSpokenWithPrice(String time, String state, String price) {
+    return 'At $time, $state, $price';
+  }
+
+  @override
+  String get dayToday => 'Today';
+
+  @override
+  String get dayHasRoom => 'Places available';
+
+  @override
+  String get dayClosed => 'Closed';
+
+  @override
+  String daySpoken(String day, String state) {
+    return 'Day $day, $state';
+  }
+
+  @override
+  String statusSpoken(String status) {
+    return 'Status: $status';
+  }
+
+  @override
+  String get statusConfirmed => 'Confirmed';
+
+  @override
+  String get statusPendingPayment => 'Awaiting payment';
+
+  @override
+  String get statusCancelled => 'Cancelled';
+
+  @override
+  String get statusAttended => 'Attended';
+
+  @override
+  String get statusNoShow => 'No-show';
+
+  @override
+  String get statusExpired => 'Expired';
+
+  @override
+  String get statusUnderReview => 'Under review';
+
+  @override
+  String get statusVerified => 'Verified';
+
+  @override
+  String get statusRejected => 'Rejected';
+
+  @override
+  String get statusOpen => 'Open';
+
+  @override
+  String get statusInProgress => 'In progress';
+
+  @override
+  String get statusResolved => 'Resolved';
+
+  @override
+  String get facilityPhotoPlaceholder => 'Facility photo';
+
+  @override
+  String get facilityTrainerTag => 'With trainer';
+
+  @override
+  String get facilityFreeTag => 'Free';
+
+  @override
+  String facilityUnitCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count units',
+      one: '1 unit',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get facilityAvailabilityPlenty => 'Available today';
+
+  @override
+  String get facilityAvailabilityFew => 'Few places left';
+
+  @override
+  String get facilityAvailabilityNone => 'No slots today';
+
+  @override
+  String get facilityPriceInternalLabel => 'Student and staff price';
+
+  @override
+  String get facilityPriceExternalLabel => 'Full price';
+
+  @override
+  String get facilityFree => 'Free';
+
+  @override
+  String facilitySpoken(
+    String name,
+    String unit,
+    String availability,
+    String price,
+  ) {
+    return 'Facility $name, $unit, $availability, $price';
+  }
+
+  @override
+  String get ticketCodeLabel => 'Booking code';
+
+  @override
+  String get ticketCopied => 'Copied';
+
+  @override
+  String get ticketPaid => 'Paid';
+
+  @override
+  String ticketCancelUntil(String date) {
+    return 'Free cancellation until $date';
+  }
+
+  @override
+  String get ticketCancelUnavailable => 'Cancellation unavailable';
+
+  @override
+  String get ticketQrUnavailable => 'QR unavailable';
+
+  @override
+  String ticketSpoken(
+    String facility,
+    String dateTime,
+    String status,
+    String code,
+  ) {
+    return 'Ticket $facility, $dateTime, $status, $code';
+  }
+
+  @override
+  String get navMore => 'More';
+
+  @override
+  String navBadgeSpoken(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unread',
+      one: '1 unread',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statDeltaUp(String value) {
+    return 'Up $value';
+  }
+
+  @override
+  String statDeltaDown(String value) {
+    return 'Down $value';
+  }
+
+  @override
+  String get statDeltaFlat => 'No change';
+
+  @override
+  String get statNoComparison => 'No comparison';
+
+  @override
+  String get logoLabel => 'Sprint';
+
+  @override
+  String get galleryTitle => 'Component gallery';
+
+  @override
+  String get gallerySampleNote => 'Sample data';
+
+  @override
+  String get galleryTextSize => 'Text size';
+
+  @override
+  String get galleryReducedMotion => 'Reduced motion';
+
+  @override
+  String get galleryPlatformLook => 'Platform look';
+
+  @override
+  String get galleryPlatformApple => 'Apple';
+
+  @override
+  String get galleryPlatformAndroid => 'Android';
+
+  @override
+  String get galleryPlatformDesktop => 'Desktop';
+
+  @override
+  String get galleryOpenFromDemo => 'Component gallery';
+
+  @override
+  String get galleryButtonSection => 'Buttons';
+
+  @override
+  String get galleryTextFieldSection => 'Text fields';
+
+  @override
+  String get gallerySlotChipSection => 'Slot chips';
+
+  @override
+  String get galleryDayStripSection => 'Day strip';
+
+  @override
+  String get galleryStatusBadgeSection => 'Status badges';
+
+  @override
+  String get galleryFacilityCardSection => 'Facility cards';
+
+  @override
+  String get galleryBookingTicketSection => 'Booking tickets';
+
+  @override
+  String get galleryNavigationSection => 'Navigation';
+
+  @override
+  String get galleryStatTileSection => 'Stat tiles';
+
+  @override
+  String get galleryLogoSection => 'Logo';
+
+  @override
+  String get timeAm => 'AM';
+
+  @override
+  String get timePm => 'PM';
+
+  @override
+  String get slotAvailableWord => 'Available';
 }

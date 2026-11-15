@@ -260,6 +260,90 @@ abstract class AppLocalizations {
   /// **'مختار'**
   String get optionSelected;
 
+  /// No description provided for @dayShortSaturday.
+  ///
+  /// In ar, this message translates to:
+  /// **'السبت'**
+  String get dayShortSaturday;
+
+  /// No description provided for @dayShortSunday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحد'**
+  String get dayShortSunday;
+
+  /// No description provided for @dayShortMonday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاتنين'**
+  String get dayShortMonday;
+
+  /// No description provided for @dayShortTuesday.
+  ///
+  /// In ar, this message translates to:
+  /// **'التلات'**
+  String get dayShortTuesday;
+
+  /// No description provided for @dayShortWednesday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأربع'**
+  String get dayShortWednesday;
+
+  /// No description provided for @dayShortThursday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخميس'**
+  String get dayShortThursday;
+
+  /// No description provided for @dayShortFriday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجمعة'**
+  String get dayShortFriday;
+
+  /// No description provided for @dayFullSaturday.
+  ///
+  /// In ar, this message translates to:
+  /// **'السبت'**
+  String get dayFullSaturday;
+
+  /// No description provided for @dayFullSunday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأحد'**
+  String get dayFullSunday;
+
+  /// No description provided for @dayFullMonday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاثنين'**
+  String get dayFullMonday;
+
+  /// No description provided for @dayFullTuesday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الثلاثاء'**
+  String get dayFullTuesday;
+
+  /// No description provided for @dayFullWednesday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأربعاء'**
+  String get dayFullWednesday;
+
+  /// No description provided for @dayFullThursday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخميس'**
+  String get dayFullThursday;
+
+  /// No description provided for @dayFullFriday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجمعة'**
+  String get dayFullFriday;
+
   /// No description provided for @demoTitle.
   ///
   /// In ar, this message translates to:
@@ -547,6 +631,478 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'{name}، فاتح وغامق'**
   String demoSwatchLabel(String name);
+
+  /// No description provided for @buttonDisabledSuffix.
+  ///
+  /// In ar, this message translates to:
+  /// **'، غير متاح'**
+  String get buttonDisabledSuffix;
+
+  /// No description provided for @buttonBusy.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري التنفيذ…'**
+  String get buttonBusy;
+
+  /// No description provided for @fieldShowPassword.
+  ///
+  /// In ar, this message translates to:
+  /// **'إظهار'**
+  String get fieldShowPassword;
+
+  /// No description provided for @fieldHidePassword.
+  ///
+  /// In ar, this message translates to:
+  /// **'إخفاء'**
+  String get fieldHidePassword;
+
+  /// No description provided for @fieldSearchHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'البحث'**
+  String get fieldSearchHint;
+
+  /// No description provided for @slotAvailablePlaces.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{مكان واحد} =2{مكانين} other{{count} أماكن}}'**
+  String slotAvailablePlaces(int count);
+
+  /// No description provided for @slotSelected.
+  ///
+  /// In ar, this message translates to:
+  /// **'مختار'**
+  String get slotSelected;
+
+  /// No description provided for @slotFewLeft.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{فاضل 1} =2{فاضل مكانين} other{فاضل {count}}}'**
+  String slotFewLeft(int count);
+
+  /// No description provided for @slotFewLeftSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{فاضل مكان واحد} =2{فاضل مكانين} other{فاضل {count} أماكن}}'**
+  String slotFewLeftSpoken(int count);
+
+  /// No description provided for @slotFull.
+  ///
+  /// In ar, this message translates to:
+  /// **'مكتمل'**
+  String get slotFull;
+
+  /// No description provided for @slotPast.
+  ///
+  /// In ar, this message translates to:
+  /// **'فات'**
+  String get slotPast;
+
+  /// No description provided for @slotSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'الساعة {time}، {state}'**
+  String slotSpoken(String time, String state);
+
+  /// No description provided for @slotSpokenWithPrice.
+  ///
+  /// In ar, this message translates to:
+  /// **'الساعة {time}، {state}، {price}'**
+  String slotSpokenWithPrice(String time, String state, String price);
+
+  /// No description provided for @dayToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'النهارده'**
+  String get dayToday;
+
+  /// No description provided for @dayHasRoom.
+  ///
+  /// In ar, this message translates to:
+  /// **'فيه أماكن'**
+  String get dayHasRoom;
+
+  /// No description provided for @dayClosed.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقفول'**
+  String get dayClosed;
+
+  /// No description provided for @daySpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'يوم {day}، {state}'**
+  String daySpoken(String day, String state);
+
+  /// No description provided for @statusSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحالة: {status}'**
+  String statusSpoken(String status);
+
+  /// No description provided for @statusConfirmed.
+  ///
+  /// In ar, this message translates to:
+  /// **'مؤكد'**
+  String get statusConfirmed;
+
+  /// No description provided for @statusPendingPayment.
+  ///
+  /// In ar, this message translates to:
+  /// **'في انتظار الدفع'**
+  String get statusPendingPayment;
+
+  /// No description provided for @statusCancelled.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتلغى'**
+  String get statusCancelled;
+
+  /// No description provided for @statusAttended.
+  ///
+  /// In ar, this message translates to:
+  /// **'حضر'**
+  String get statusAttended;
+
+  /// No description provided for @statusNoShow.
+  ///
+  /// In ar, this message translates to:
+  /// **'غاب'**
+  String get statusNoShow;
+
+  /// No description provided for @statusExpired.
+  ///
+  /// In ar, this message translates to:
+  /// **'انتهت المهلة'**
+  String get statusExpired;
+
+  /// No description provided for @statusUnderReview.
+  ///
+  /// In ar, this message translates to:
+  /// **'قيد المراجعة'**
+  String get statusUnderReview;
+
+  /// No description provided for @statusVerified.
+  ///
+  /// In ar, this message translates to:
+  /// **'موثّق'**
+  String get statusVerified;
+
+  /// No description provided for @statusRejected.
+  ///
+  /// In ar, this message translates to:
+  /// **'مرفوض'**
+  String get statusRejected;
+
+  /// No description provided for @statusOpen.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفتوح'**
+  String get statusOpen;
+
+  /// No description provided for @statusInProgress.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري'**
+  String get statusInProgress;
+
+  /// No description provided for @statusResolved.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتحل'**
+  String get statusResolved;
+
+  /// No description provided for @facilityPhotoPlaceholder.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة المنشأة'**
+  String get facilityPhotoPlaceholder;
+
+  /// No description provided for @facilityTrainerTag.
+  ///
+  /// In ar, this message translates to:
+  /// **'بمدرب'**
+  String get facilityTrainerTag;
+
+  /// No description provided for @facilityFreeTag.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجاني'**
+  String get facilityFreeTag;
+
+  /// No description provided for @facilityUnitCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{وحدة واحدة} =2{وحدتين} other{{count} وحدات}}'**
+  String facilityUnitCount(int count);
+
+  /// No description provided for @facilityAvailabilityPlenty.
+  ///
+  /// In ar, this message translates to:
+  /// **'متاح النهارده'**
+  String get facilityAvailabilityPlenty;
+
+  /// No description provided for @facilityAvailabilityFew.
+  ///
+  /// In ar, this message translates to:
+  /// **'أماكن قليلة'**
+  String get facilityAvailabilityFew;
+
+  /// No description provided for @facilityAvailabilityNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش مواعيد النهارده'**
+  String get facilityAvailabilityNone;
+
+  /// No description provided for @facilityPriceInternalLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'سعر الطلاب والعاملين'**
+  String get facilityPriceInternalLabel;
+
+  /// No description provided for @facilityPriceExternalLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر الكامل'**
+  String get facilityPriceExternalLabel;
+
+  /// No description provided for @facilityFree.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجاني'**
+  String get facilityFree;
+
+  /// No description provided for @facilitySpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'منشأة {name}، {unit}، {availability}، {price}'**
+  String facilitySpoken(
+    String name,
+    String unit,
+    String availability,
+    String price,
+  );
+
+  /// No description provided for @ticketCodeLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود الحجز'**
+  String get ticketCodeLabel;
+
+  /// No description provided for @ticketCopied.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتنسخ'**
+  String get ticketCopied;
+
+  /// No description provided for @ticketPaid.
+  ///
+  /// In ar, this message translates to:
+  /// **'المدفوع'**
+  String get ticketPaid;
+
+  /// No description provided for @ticketCancelUntil.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء مجاني لحد {date}'**
+  String ticketCancelUntil(String date);
+
+  /// No description provided for @ticketCancelUnavailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإلغاء مش متاح'**
+  String get ticketCancelUnavailable;
+
+  /// No description provided for @ticketQrUnavailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'QR غير متاح'**
+  String get ticketQrUnavailable;
+
+  /// No description provided for @ticketSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكرة {facility}، {dateTime}، {status}، {code}'**
+  String ticketSpoken(
+    String facility,
+    String dateTime,
+    String status,
+    String code,
+  );
+
+  /// No description provided for @navMore.
+  ///
+  /// In ar, this message translates to:
+  /// **'المزيد'**
+  String get navMore;
+
+  /// No description provided for @navBadgeSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{غير مقروء واحد} other{{count} غير مقروء}}'**
+  String navBadgeSpoken(int count);
+
+  /// No description provided for @statDeltaUp.
+  ///
+  /// In ar, this message translates to:
+  /// **'زيادة {value}'**
+  String statDeltaUp(String value);
+
+  /// No description provided for @statDeltaDown.
+  ///
+  /// In ar, this message translates to:
+  /// **'نقص {value}'**
+  String statDeltaDown(String value);
+
+  /// No description provided for @statDeltaFlat.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش تغيير'**
+  String get statDeltaFlat;
+
+  /// No description provided for @statNoComparison.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش مقارنة'**
+  String get statNoComparison;
+
+  /// No description provided for @logoLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'سبرنت'**
+  String get logoLabel;
+
+  /// No description provided for @galleryTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'معرض المكونات'**
+  String get galleryTitle;
+
+  /// No description provided for @gallerySampleNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'بيانات تجريبية'**
+  String get gallerySampleNote;
+
+  /// No description provided for @galleryTextSize.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجم النص'**
+  String get galleryTextSize;
+
+  /// No description provided for @galleryReducedMotion.
+  ///
+  /// In ar, this message translates to:
+  /// **'تقليل الحركة'**
+  String get galleryReducedMotion;
+
+  /// No description provided for @galleryPlatformLook.
+  ///
+  /// In ar, this message translates to:
+  /// **'شكل المنصة'**
+  String get galleryPlatformLook;
+
+  /// No description provided for @galleryPlatformApple.
+  ///
+  /// In ar, this message translates to:
+  /// **'آبل'**
+  String get galleryPlatformApple;
+
+  /// No description provided for @galleryPlatformAndroid.
+  ///
+  /// In ar, this message translates to:
+  /// **'أندرويد'**
+  String get galleryPlatformAndroid;
+
+  /// No description provided for @galleryPlatformDesktop.
+  ///
+  /// In ar, this message translates to:
+  /// **'ديسكتوب'**
+  String get galleryPlatformDesktop;
+
+  /// No description provided for @galleryOpenFromDemo.
+  ///
+  /// In ar, this message translates to:
+  /// **'معرض المكونات'**
+  String get galleryOpenFromDemo;
+
+  /// No description provided for @galleryButtonSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأزرار'**
+  String get galleryButtonSection;
+
+  /// No description provided for @galleryTextFieldSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'حقول الإدخال'**
+  String get galleryTextFieldSection;
+
+  /// No description provided for @gallerySlotChipSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'مواعيد الحجز'**
+  String get gallerySlotChipSection;
+
+  /// No description provided for @galleryDayStripSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'شريط الأيام'**
+  String get galleryDayStripSection;
+
+  /// No description provided for @galleryStatusBadgeSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'شارات الحالة'**
+  String get galleryStatusBadgeSection;
+
+  /// No description provided for @galleryFacilityCardSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'كروت المنشآت'**
+  String get galleryFacilityCardSection;
+
+  /// No description provided for @galleryBookingTicketSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذاكر الحجز'**
+  String get galleryBookingTicketSection;
+
+  /// No description provided for @galleryNavigationSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'التنقل'**
+  String get galleryNavigationSection;
+
+  /// No description provided for @galleryStatTileSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'المؤشرات'**
+  String get galleryStatTileSection;
+
+  /// No description provided for @galleryLogoSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'اللوجو'**
+  String get galleryLogoSection;
+
+  /// No description provided for @timeAm.
+  ///
+  /// In ar, this message translates to:
+  /// **'صباحًا'**
+  String get timeAm;
+
+  /// No description provided for @timePm.
+  ///
+  /// In ar, this message translates to:
+  /// **'مساءً'**
+  String get timePm;
+
+  /// No description provided for @slotAvailableWord.
+  ///
+  /// In ar, this message translates to:
+  /// **'متاح'**
+  String get slotAvailableWord;
 }
 
 class _AppLocalizationsDelegate
