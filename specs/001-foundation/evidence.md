@@ -176,3 +176,19 @@ About 0.3 s faster on Fast 4G and 1.5 s on Slow 4G, as estimated from the font s
 gzip less). SC-011 as written (interactive in 3 s on 4G) is still not met on the web: 3.7 s on
 Fast 4G, 15.6 s on Slow 4G.
 
+## SC-011 after the decision of 2026-11-15
+
+The web target changed (spec SC-011, `docs/decisions.md`): splash visible within 1 s and
+interactive within 5 s on fast 4G; slow 4G splash within 1 s, interactive time recorded only.
+
+| Check | Target | Measured | Status |
+| --- | --- | --- | --- |
+| Web, fast 4G, splash visible | 1 s | 0.25 to 0.31 s | met |
+| Web, fast 4G, interactive | 5 s | 3.65 to 3.84 s | met |
+| Web, slow 4G, splash visible | 1 s | 0.25 to 0.26 s | met |
+| Web, slow 4G, interactive | recorded only | 15.6 to 15.7 s | recorded |
+| Installed Android, cold start | 2 s | 2.3 to 2.5 s on an emulator | **open**: needs a real mid-range phone |
+| Installed iOS, cold start | 2 s | not measured | **open**: needs a real device |
+
+The two installed-build rows are the only part of SC-011 still open.
+
