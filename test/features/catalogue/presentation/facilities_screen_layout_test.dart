@@ -86,8 +86,9 @@ void main() {
       expect(find.text('اختار منشأة تشوف تفاصيلها'), findsOneWidget);
     });
 
-    testWidgets('the same id shows beside the list at 700 and 1000',
-        (tester) async {
+    testWidgets('the same id shows beside the list at 700 and 1000', (
+      tester,
+    ) async {
       for (final width in [700.0, 1000.0]) {
         await pumpScreen(
           tester,
@@ -100,8 +101,9 @@ void main() {
       }
     });
 
-    testWidgets('a missing id shows the not-found screen in the pane',
-        (tester) async {
+    testWidgets('a missing id shows the not-found screen in the pane', (
+      tester,
+    ) async {
       await pumpScreen(tester, selectedId: 'nope', size: const Size(1000, 900));
       expect(find.byKey(FacilitiesScreen.listSlotKey), findsOneWidget);
       expect(find.byType(FacilityNotFound), findsOneWidget);

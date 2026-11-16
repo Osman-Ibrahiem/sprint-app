@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/adaptive/adaptive_app_bar.dart';
-import 'package:sprint/core/l10n/directional_icon.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/window/display_feature_layout.dart';
@@ -13,6 +12,7 @@ import 'package:sprint/features/catalogue/presentation/details/facility_details_
 import 'package:sprint/features/catalogue/presentation/facilities/facility_list_view.dart';
 import 'package:sprint/features/catalogue/presentation/providers/catalogue_providers.dart';
 import 'package:sprint/features/catalogue/presentation/providers/share_provider.dart';
+import 'package:sprint/core/adaptive/adaptive_back_button.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// The facilities master-detail screen. One URL always means the same facility
@@ -41,10 +41,7 @@ class FacilitiesScreen extends StatelessWidget {
       if (size.isCompact) return list;
       return DisplayFeatureLayout(
         start: list,
-        end: KeyedSubtree(
-          key: detailsSlotKey,
-          child: const _PanePrompt(),
-        ),
+        end: KeyedSubtree(key: detailsSlotKey, child: const _PanePrompt()),
       );
     }
 
@@ -99,9 +96,7 @@ class _DetailsSlot extends ConsumerWidget {
       children: [
         AdaptiveAppBar(
           title: title,
-          leading: IconButton(
-            tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-            icon: const DirectionalIcon(PhosphorIconsRegular.arrowRight),
+          leading: AdaptiveBackButton(
             onPressed: () => context.canPop()
                 ? context.pop()
                 : context.go(AppPaths.facilities),
@@ -112,7 +107,9 @@ class _DetailsSlot extends ConsumerWidget {
                 key: shareKey,
                 tooltip: l10n.catalogueShareAction,
                 icon: const Icon(PhosphorIconsRegular.shareNetwork),
-                onPressed: () => ref.read(shareActionProvider).share(
+                onPressed: () => ref
+                    .read(shareActionProvider)
+                    .share(
                       text: l10n.catalogueShareText(facility.value!.name),
                       url: shareUrlFor(id),
                     ),

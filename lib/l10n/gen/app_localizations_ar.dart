@@ -765,6 +765,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get catalogueClosedToday => 'مقفول النهارده';
 
   @override
+  String get catalogueListSeparator => '، ';
+
+  @override
   String catalogueClosureRange(String from, String to) {
     return 'من $from إلى $to';
   }

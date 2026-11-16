@@ -28,8 +28,11 @@ void main() {
         for (final scale in [1.0, 2.0]) {
           final name = '$width $lang${dark ? ' dark' : ''} x$scale';
           testWidgets('no overflow and 48dp targets at $name', (tester) async {
-            await pumpSprintApp(tester,
-                size: Size(width, 900), textScale: scale);
+            await pumpSprintApp(
+              tester,
+              size: Size(width, 900),
+              textScale: scale,
+            );
             final c = containerOf(tester);
             await c.read(localeProvider.notifier).set(Locale(lang));
             await c
@@ -53,10 +56,11 @@ void main() {
       r'Alignment\.(centerLeft|centerRight|topLeft|topRight|bottomLeft|bottomRight)|'
       r'EdgeInsets\.(only|fromLTRB)\(.*(left|right)|TextAlign\.(left|right)|Positioned\(',
     );
-    for (final f in Directory('lib/features/catalogue/presentation')
-        .listSync(recursive: true)
-        .whereType<File>()
-        .where((f) => f.path.endsWith('.dart'))) {
+    for (final f
+        in Directory('lib/features/catalogue/presentation')
+            .listSync(recursive: true)
+            .whereType<File>()
+            .where((f) => f.path.endsWith('.dart'))) {
       expect(bad.hasMatch(f.readAsStringSync()), isFalse, reason: f.path);
     }
   });
@@ -73,10 +77,16 @@ void _expectTargets(WidgetTester tester, String path) {
     for (final element in finder.evaluate()) {
       final box = element.renderObject as RenderBox?;
       if (box == null || !box.hasSize) continue;
-      expect(box.size.height, greaterThanOrEqualTo(47.9),
-          reason: '${element.widget.runtimeType} on $path is ${box.size}');
-      expect(box.size.width, greaterThanOrEqualTo(47.9),
-          reason: '${element.widget.runtimeType} on $path is ${box.size}');
+      expect(
+        box.size.height,
+        greaterThanOrEqualTo(47.9),
+        reason: '${element.widget.runtimeType} on $path is ${box.size}',
+      );
+      expect(
+        box.size.width,
+        greaterThanOrEqualTo(47.9),
+        reason: '${element.widget.runtimeType} on $path is ${box.size}',
+      );
     }
   }
 }

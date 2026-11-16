@@ -3,11 +3,11 @@ import 'package:go_router/go_router.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/adaptive/adaptive_app_bar.dart';
-import 'package:sprint/core/l10n/directional_icon.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
+import 'package:sprint/core/adaptive/adaptive_back_button.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// Where "عرض المواعيد" lands until the booking feature ships: no slots and no
@@ -25,9 +25,7 @@ class ScheduleComingSoonScreen extends StatelessWidget {
       children: [
         AdaptiveAppBar(
           title: l10n.catalogueScheduleSoonTitle,
-          leading: IconButton(
-            tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-            icon: const DirectionalIcon(PhosphorIconsRegular.arrowRight),
+          leading: AdaptiveBackButton(
             onPressed: () => context.go(AppPaths.facilityDetails(facilityId)),
           ),
         ),

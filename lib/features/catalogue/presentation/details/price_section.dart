@@ -64,7 +64,7 @@ class PriceSection extends StatelessWidget {
             Text(
               groups[i].coversAllUnits
                   ? l10n.cataloguePriceAllUnits
-                  : groups[i].unitNames.join('، '),
+                  : groups[i].unitNames.join(l10n.catalogueListSeparator),
               style: context.text.label,
             ),
             Text(

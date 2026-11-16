@@ -33,6 +33,10 @@ class FacilityFilterNotifier extends _$FacilityFilterNotifier {
   FacilityFilter build() => const FacilityFilter();
 
   void setType(FacilityType? type) => state = state.copyWith(type: type);
+
+  /// Starts a fresh filter on one type, dropping the other filters: the home
+  /// type chips are an entry point, not a refinement of an earlier search.
+  void startWithType(FacilityType type) => state = FacilityFilter(type: type);
   void setOwningUnit(String? owningUnitId) =>
       state = state.copyWith(owningUnitId: owningUnitId);
   void setFree(bool? free) => state = state.copyWith(free: free);
@@ -63,9 +67,22 @@ Future<Facility?> facilityById(Ref ref, String id) async {
 
 /// Published facilities with the filter applied, each with today's
 /// availability and both price ranges (FR-007 – FR-011, FR-027, R3, R8).
-@Riverpod(keepAlive: true)
-Future<List<FacilitySummary>> facilitySummaries(Ref ref) async {
+///
+/// Not keep-alive: it depends on "now" and on bookings, so it is rebuilt each
+/// time its screen is shown again instead of freezing today's counts.
+@riverpod
+Future<List<FacilitySummary>> facilitySummaries(Ref ref) {
   final filter = ref.watch(facilityFilterProvider);
+  return _publishedSummaries(ref, filter);
+}
+
+/// The published facilities that match [filter], as summaries. Never
+/// `includeUnpublished`: the catalogue is public (FR-027). The facilities are
+/// read in parallel.
+Future<List<FacilitySummary>> _publishedSummaries(
+  Ref ref,
+  FacilityFilter filter,
+) async {
   final catalogue = ref.watch(catalogueRepositoryProvider);
   final availability = ref.watch(availabilityRepositoryProvider);
   final settings = ref.watch(settingsRepositoryProvider);
@@ -73,26 +90,22 @@ Future<List<FacilitySummary>> facilitySummaries(Ref ref) async {
 
   final owningUnits = await catalogue.listOwningUnits();
   final unitNames = {for (final u in owningUnits) u.id: u.name};
-
-  // Never `includeUnpublished`: the catalogue is public (FR-027).
   final facilities = await catalogue.listFacilities(
     type: filter.type,
     owningUnitId: filter.owningUnitId,
     free: filter.free,
   );
-
-  final summaries = <FacilitySummary>[];
-  for (final facility in facilities) {
-    summaries.add(await _summaryOf(
-      facility: facility,
-      owningUnitName: unitNames[facility.owningUnitId] ?? '',
-      catalogue: catalogue,
-      availability: availability,
-      settings: settings,
-      now: now,
-    ));
-  }
-  return summaries;
+  return Future.wait([
+    for (final facility in facilities)
+      _summaryOf(
+        facility: facility,
+        owningUnitName: unitNames[facility.owningUnitId] ?? '',
+        catalogue: catalogue,
+        availability: availability,
+        settings: settings,
+        now: now,
+      ),
+  ]);
 }
 
 /// The guest home's discovery content: the types that have a published
@@ -100,29 +113,13 @@ Future<List<FacilitySummary>> facilitySummaries(Ref ref) async {
 /// today's availability count then name (FR-001, FR-002, FR-006, R4).
 ///
 /// Unfiltered on purpose: the list's filters never narrow the home page.
-@Riverpod(keepAlive: true)
+@riverpod
 Future<HomeContent> homeContent(Ref ref) async {
   final catalogue = ref.watch(catalogueRepositoryProvider);
-  final availability = ref.watch(availabilityRepositoryProvider);
-  final settings = ref.watch(settingsRepositoryProvider);
-  final now = ref.watch(appClockProvider).now();
   final session = ref.watch(currentSessionProvider);
+  final now = ref.watch(appClockProvider).now();
 
-  final owningUnits = await catalogue.listOwningUnits();
-  final unitNames = {for (final u in owningUnits) u.id: u.name};
-
-  final facilities = await catalogue.listFacilities();
-  final summaries = <FacilitySummary>[];
-  for (final facility in facilities) {
-    summaries.add(await _summaryOf(
-      facility: facility,
-      owningUnitName: unitNames[facility.owningUnitId] ?? '',
-      catalogue: catalogue,
-      availability: availability,
-      settings: settings,
-      now: now,
-    ));
-  }
+  final summaries = await _publishedSummaries(ref, const FacilityFilter());
 
   final types = <FacilityType>[
     for (final type in FacilityType.values)
@@ -143,18 +140,34 @@ Future<HomeContent> homeContent(Ref ref) async {
     final bookings = ref.watch(bookingRepositoryProvider);
     final all = await bookings.listForUser(user.id);
     final names = {for (final s in summaries) s.facility.id: s.facility.name};
-    final coming = all
-        .where((b) => b.status == BookingStatus.confirmed && b.start.isAfter(now))
-        .toList()
-      ..sort((a, b) => a.start.compareTo(b.start));
+    final coming =
+        all
+            .where(
+              (b) =>
+                  b.status == BookingStatus.confirmed && b.start.isAfter(now),
+            )
+            .toList()
+          ..sort((a, b) => a.start.compareTo(b.start));
+    // A booking stays visible even when its facility has since been
+    // unpublished: the name is read from the repository, never dropped.
+    final missing = {
+      for (final b in coming)
+        if (!names.containsKey(b.facilityId)) b.facilityId,
+    };
+    for (final id in missing) {
+      names[id] = (await catalogue.getFacility(id))?.name ?? '';
+    }
     upcoming = [
       for (final b in coming)
-        if (names.containsKey(b.facilityId))
-          UpcomingBooking(booking: b, facilityName: names[b.facilityId]!),
+        UpcomingBooking(booking: b, facilityName: names[b.facilityId] ?? ''),
     ];
     suggestions = SuggestionRule.pick(
       facilities: summaries,
-      pastBookings: all,
+      // Only bookings that have started count as "booked before".
+      pastBookings: [
+        for (final b in all)
+          if (!b.start.isAfter(now)) b,
+      ],
       upcomingFacilityIds: {for (final b in coming) b.facilityId},
     );
   }
@@ -169,7 +182,7 @@ Future<HomeContent> homeContent(Ref ref) async {
 
 /// The details page of one published facility, or null for a missing or
 /// unpublished id (FR-014 – FR-021, FR-026 – FR-028).
-@Riverpod(keepAlive: true)
+@riverpod
 Future<FacilityDetails?> facilityDetails(Ref ref, String id) async {
   final catalogue = ref.watch(catalogueRepositoryProvider);
   final identity = ref.watch(identityRepositoryProvider);
@@ -321,10 +334,7 @@ Future<FacilitySummary> _summaryOf({
       await availability.slots(unit.id, now, now, trainerId: trainerId),
     );
   }
-  final today = TodayAvailability.fromSlots(
-    slots,
-    fewLeftThreshold: threshold,
-  );
+  final today = TodayAvailability.fromSlots(slots, fewLeftThreshold: threshold);
 
   final internalAmounts = <int>[];
   final externalAmounts = <int>[];

@@ -12,8 +12,9 @@ void main() {
   group('seed extras', () {
     test('the tenant seed keeps the Foundation facility hours for lane 6', () {
       final seed = SeedData.build(now);
-      final facilityHours =
-          seed.hours.where((h) => h.ownerId == SeedIds.poolFacility);
+      final facilityHours = seed.hours.where(
+        (h) => h.ownerId == SeedIds.poolFacility,
+      );
       final laneSixHours = seed.hours.where((h) => h.ownerId == SeedIds.pool6);
       expect(laneSixHours, isEmpty);
       expect(facilityHours, isNotEmpty);
@@ -21,7 +22,9 @@ void main() {
 
     test('the lane-6 fixture gives lane 6 its own evening hours only', () {
       final seed = laneSixSeed(now);
-      final laneSix = seed.hours.where((h) => h.ownerId == SeedIds.pool6).toList();
+      final laneSix = seed.hours
+          .where((h) => h.ownerId == SeedIds.pool6)
+          .toList();
       expect(laneSix, hasLength(7));
       for (final h in laneSix) {
         expect(h.openMinutes, 16 * 60);
@@ -63,8 +66,9 @@ void main() {
     test('every seeded facility still has at least one active unit', () {
       final seed = SeedData.build(now);
       for (final facility in seed.facilities) {
-        final units = seed.units
-            .where((u) => u.facilityId == facility.id && u.isActive);
+        final units = seed.units.where(
+          (u) => u.facilityId == facility.id && u.isActive,
+        );
         expect(units, isNotEmpty, reason: facility.name);
       }
     });
@@ -75,7 +79,9 @@ void main() {
 int cairoDay(DateTime instant) {
   final today = CairoTime.toCairo(CairoTime.atWallClock(2026, 11, 14, 8));
   final day = CairoTime.toCairo(instant);
-  return DateTime(day.year, day.month, day.day)
-      .difference(DateTime(today.year, today.month, today.day))
-      .inDays;
+  return DateTime(
+    day.year,
+    day.month,
+    day.day,
+  ).difference(DateTime(today.year, today.month, today.day)).inDays;
 }

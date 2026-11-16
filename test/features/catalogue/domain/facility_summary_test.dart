@@ -4,10 +4,7 @@ import 'package:sprint/features/catalogue/domain/facility.dart';
 import 'package:sprint/features/catalogue/domain/facility_summary.dart';
 import 'package:sprint/features/catalogue/domain/today_availability.dart';
 
-Facility facility({
-  bool isFree = false,
-  bool requiresTrainer = false,
-}) =>
+Facility facility({bool isFree = false, bool requiresTrainer = false}) =>
     Facility(
       id: 'f1',
       owningUnitId: 'ou1',
@@ -20,11 +17,11 @@ Facility facility({
     );
 
 FacilitySummary summary(Facility f) => FacilitySummary(
-      facility: f,
-      owningUnitName: 'وحدة',
-      activeUnitCount: 1,
-      today: TodayAvailability.noneToday,
-    );
+  facility: f,
+  owningUnitName: 'وحدة',
+  activeUnitCount: 1,
+  today: TodayAvailability.noneToday,
+);
 
 void main() {
   group('FacilitySummary.kind', () {

@@ -13,11 +13,15 @@ SeedData catalogueSeed(
   List<OperatingHours> extraHours = const [],
   List<Closure> extraClosures = const [],
   List<Facility> extraFacilities = const [],
+  Set<String> unpublishIds = const {},
 }) {
   final base = SeedData.build(now);
   return SeedData(
     owningUnits: base.owningUnits,
-    facilities: [...base.facilities, ...extraFacilities],
+    facilities: [
+      for (final f in [...base.facilities, ...extraFacilities])
+        unpublishIds.contains(f.id) ? f.copyWith(isPublished: false) : f,
+    ],
     units: base.units,
     hours: [...base.hours, ...extraHours],
     closures: [...base.closures, ...extraClosures],
@@ -58,13 +62,11 @@ Closure closedToday(String facilityId, DateTime now) {
 /// show a unit that differs from its facility. The live seed keeps facility
 /// hours for lane 6 because the Foundation's booking tests book it in the
 /// morning (see evidence.md).
-SeedData laneSixSeed(DateTime now) => catalogueSeed(
-      now,
-      extraHours: seedCatalogueExtraHours(),
-    );
+SeedData laneSixSeed(DateTime now) =>
+    catalogueSeed(now, extraHours: seedCatalogueExtraHours());
 
 /// The seed with the tennis facility closed for the whole day.
 SeedData closedTodaySeed(DateTime now) => catalogueSeed(
-      now,
-      extraClosures: [closedToday(SeedIds.tennisFacility, now)],
-    );
+  now,
+  extraClosures: [closedToday(SeedIds.tennisFacility, now)],
+);

@@ -4,8 +4,9 @@ import 'package:sprint/features/catalogue/presentation/facilities/facility_not_f
 import '../../../helpers/widget_harness.dart';
 
 void main() {
-  testWidgets('the not-found screen shows a title, a body and a way back',
-      (tester) async {
+  testWidgets('the not-found screen shows a title, a body and a way back', (
+    tester,
+  ) async {
     await pumpWidgetUnder(tester, const FacilityNotFound());
     await tester.pumpAndSettle();
 

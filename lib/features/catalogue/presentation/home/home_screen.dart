@@ -47,10 +47,7 @@ class HomeScreen extends ConsumerWidget {
         children: [
           Semantics(
             header: true,
-            child: Text(
-              l10n.catalogueHomeTitle,
-              style: context.text.display,
-            ),
+            child: Text(l10n.catalogueHomeTitle, style: context.text.display),
           ),
           if (session.isGuest) ...[
             const SizedBox(height: SprintSpacing.space2),
@@ -61,10 +58,7 @@ class HomeScreen extends ConsumerWidget {
           ],
           const SizedBox(height: SprintSpacing.space6),
           content.when(
-            data: (value) => _Loaded(
-              content: value,
-              session: session,
-            ),
+            data: (value) => _Loaded(content: value, session: session),
             loading: _Loading.new,
             error: (error, stack) => CatalogueErrorView(
               onRetry: () => ref.invalidate(homeContentProvider),
@@ -85,7 +79,6 @@ class _Loaded extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final filter = ref.watch(facilityFilterProvider);
     final cards = [
       for (final summary in content.featured)
         _facilityCard(context, ref, summary),
@@ -107,9 +100,8 @@ class _Loaded extends ConsumerWidget {
           const SizedBox(height: SprintSpacing.space2),
           _TypeChips(
             types: content.types,
-            selected: filter.type,
             onSelected: (type) {
-              ref.read(facilityFilterProvider.notifier).setType(type);
+              ref.read(facilityFilterProvider.notifier).startWithType(type);
               context.go(AppPaths.facilities);
             },
           ),
@@ -176,14 +168,9 @@ class _SectionTitle extends StatelessWidget {
 }
 
 class _TypeChips extends StatelessWidget {
-  const _TypeChips({
-    required this.types,
-    required this.selected,
-    required this.onSelected,
-  });
+  const _TypeChips({required this.types, required this.onSelected});
 
   final List<FacilityType> types;
-  final FacilityType? selected;
   final ValueChanged<FacilityType> onSelected;
 
   @override
@@ -195,13 +182,15 @@ class _TypeChips extends StatelessWidget {
         children: [
           for (final type in types)
             Padding(
-              padding: const EdgeInsetsDirectional.only(end: SprintSpacing.space2),
+              padding: const EdgeInsetsDirectional.only(
+                end: SprintSpacing.space2,
+              ),
               child: _TypeChip(
                 key: HomeScreen.typeChipKey(type),
                 type: type,
                 label: typeLabelOf(type, l10n),
                 icon: _typeIcon(type),
-                selected: type == selected,
+                selected: false,
                 onTap: () => onSelected(type),
               ),
             ),
@@ -292,13 +281,13 @@ class _CardGrid extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         const spacing = SprintSpacing.space4;
-        final width = (constraints.maxWidth - spacing * (columns - 1)) / columns;
+        final width =
+            (constraints.maxWidth - spacing * (columns - 1)) / columns;
         return Wrap(
           spacing: spacing,
           runSpacing: spacing,
           children: [
-            for (final child in children)
-              SizedBox(width: width, child: child),
+            for (final child in children) SizedBox(width: width, child: child),
           ],
         );
       },
@@ -322,10 +311,10 @@ class _Loading extends StatelessWidget {
 }
 
 IconData _typeIcon(FacilityType type) => switch (type) {
-      FacilityType.swimming => PhosphorIconsRegular.swimmingPool,
-      FacilityType.football => PhosphorIconsRegular.soccerBall,
-      FacilityType.gym => PhosphorIconsRegular.barbell,
-      FacilityType.tennis => PhosphorIconsRegular.tennisBall,
-      FacilityType.hall => PhosphorIconsRegular.warehouse,
-      FacilityType.training => PhosphorIconsRegular.chalkboardTeacher,
-    };
+  FacilityType.swimming => PhosphorIconsRegular.swimmingPool,
+  FacilityType.football => PhosphorIconsRegular.soccerBall,
+  FacilityType.gym => PhosphorIconsRegular.barbell,
+  FacilityType.tennis => PhosphorIconsRegular.tennisBall,
+  FacilityType.hall => PhosphorIconsRegular.warehouse,
+  FacilityType.training => PhosphorIconsRegular.chalkboardTeacher,
+};

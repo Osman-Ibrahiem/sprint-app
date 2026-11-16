@@ -22,34 +22,37 @@ import '../../../helpers/pump_app.dart';
 final _now = CairoTime.atWallClock(2026, 11, 14, 8);
 
 void main() {
-  testWidgets('a guest sees the home title, no sign-in prompt, types and cards',
-      (tester) async {
-    await pumpSprintApp(tester);
-    await tester.pumpAndSettle();
+  testWidgets(
+    'a guest sees the home title, no sign-in prompt, types and cards',
+    (tester) async {
+      await pumpSprintApp(tester);
+      await tester.pumpAndSettle();
 
-    expect(find.text(ar.catalogueHomeTitle), findsOneWidget);
-    expect(find.text(ar.signInPromptTitle), findsNothing);
-    expect(find.text(ar.catalogueHomeTypesTitle), findsOneWidget);
-    expect(find.text(ar.catalogueHomeFeaturedTitle), findsOneWidget);
-    expect(find.text(ar.catalogueHomeSeeAll), findsOneWidget);
+      expect(find.text(ar.catalogueHomeTitle), findsOneWidget);
+      expect(find.text(ar.signInPromptTitle), findsNothing);
+      expect(find.text(ar.catalogueHomeTypesTitle), findsOneWidget);
+      expect(find.text(ar.catalogueHomeFeaturedTitle), findsOneWidget);
+      expect(find.text(ar.catalogueHomeSeeAll), findsOneWidget);
 
-    // One chip per facility type that has a published facility.
-    for (final type in FacilityType.values) {
-      expect(
-        find.byKey(HomeScreen.typeChipKey(type)),
-        findsOneWidget,
-        reason: type.name,
-      );
-    }
+      // One chip per facility type that has a published facility.
+      for (final type in FacilityType.values) {
+        expect(
+          find.byKey(HomeScreen.typeChipKey(type)),
+          findsOneWidget,
+          reason: type.name,
+        );
+      }
 
-    // At most six featured cards.
-    final cards = tester.widgetList<FacilityCard>(find.byType(FacilityCard));
-    expect(cards.length, lessThanOrEqualTo(6));
-    expect(cards, isNotEmpty);
-  });
+      // At most six featured cards.
+      final cards = tester.widgetList<FacilityCard>(find.byType(FacilityCard));
+      expect(cards.length, lessThanOrEqualTo(6));
+      expect(cards, isNotEmpty);
+    },
+  );
 
-  testWidgets('featured is ordered by today count descending then name',
-      (tester) async {
+  testWidgets('featured is ordered by today count descending then name', (
+    tester,
+  ) async {
     await pumpSprintApp(tester);
     final container = containerOf(tester);
     final content = container.read(homeContentProvider).value!;
@@ -57,11 +60,15 @@ void main() {
     for (var i = 0; i + 1 < content.featured.length; i++) {
       final a = content.featured[i];
       final b = content.featured[i + 1];
-      final ordered = a.today.count > b.today.count ||
+      final ordered =
+          a.today.count > b.today.count ||
           (a.today.count == b.today.count &&
               a.facility.name.compareTo(b.facility.name) <= 0);
-      expect(ordered, isTrue,
-          reason: '${a.facility.name} before ${b.facility.name}');
+      expect(
+        ordered,
+        isTrue,
+        reason: '${a.facility.name} before ${b.facility.name}',
+      );
     }
   });
 
@@ -77,8 +84,9 @@ void main() {
     expect(find.textContaining('40 ج.م'), findsWidgets);
   });
 
-  testWidgets('tapping a type chip filters the list and opens it',
-      (tester) async {
+  testWidgets('tapping a type chip filters the list and opens it', (
+    tester,
+  ) async {
     await pumpSprintApp(tester);
     final chip = find.byKey(HomeScreen.typeChipKey(FacilityType.tennis));
     await tester.ensureVisible(chip);
@@ -90,7 +98,9 @@ void main() {
     final container = containerOf(tester);
     expect(container.read(facilityFilterProvider).type, FacilityType.tennis);
     final summaries = await container.read(facilitySummariesProvider.future);
-    expect(summaries.map((s) => s.facility.type).toSet(), {FacilityType.tennis});
+    expect(summaries.map((s) => s.facility.type).toSet(), {
+      FacilityType.tennis,
+    });
   });
 
   testWidgets('tapping a card opens its facility', (tester) async {
@@ -105,8 +115,9 @@ void main() {
     expect(find.text(name), findsWidgets);
   });
 
-  testWidgets('while loading, skeleton cards show and no spinner shows',
-      (tester) async {
+  testWidgets('while loading, skeleton cards show and no spinner shows', (
+    tester,
+  ) async {
     setWindow(tester);
     final layer = InMemoryDataLayer.create(
       clock: Clock(() => _now),
@@ -126,9 +137,9 @@ void main() {
     await tester.pump();
 
     expect(find.text(ar.catalogueHomeTitle), findsOneWidget);
-    final loading = tester.widgetList<FacilityCard>(
-      find.byType(FacilityCard),
-    ).where((c) => c.isLoading);
+    final loading = tester
+        .widgetList<FacilityCard>(find.byType(FacilityCard))
+        .where((c) => c.isLoading);
     expect(loading, isNotEmpty);
     expect(find.byType(CircularProgressIndicator), findsNothing);
 

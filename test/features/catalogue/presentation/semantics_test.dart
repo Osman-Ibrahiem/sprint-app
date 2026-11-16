@@ -17,8 +17,9 @@ String labelOf(WidgetTester tester, Finder f) =>
     tester.getSemantics(f.first).label;
 
 void main() {
-  testWidgets('cards, chips, booking rows, hours and prices speak Arabic',
-      (tester) async {
+  testWidgets('cards, chips, booking rows, hours and prices speak Arabic', (
+    tester,
+  ) async {
     final handle = tester.ensureSemantics();
     await pumpSprintApp(tester, size: const Size(400, 3000));
     await containerOf(tester)
@@ -29,9 +30,11 @@ void main() {
     // Home: type chip, booking row.
     final typeChip = find.byKey(HomeScreen.typeChipKey(FacilityType.swimming));
     expect(labelOf(tester, typeChip), contains(ar.catalogueTypeSwimming));
-    final row = find.byWidgetPredicate((w) =>
-        w.key is ValueKey<String> &&
-        (w.key! as ValueKey<String>).value.startsWith('upcoming-b'));
+    final row = find.byWidgetPredicate(
+      (w) =>
+          w.key is ValueKey<String> &&
+          (w.key! as ValueKey<String>).value.startsWith('upcoming-b'),
+    );
     expect(row, findsWidgets);
     expect(labelOf(tester, row), contains(ar.statusConfirmed));
     expect(find.byKey(UpcomingBookingsSection.seeAllKey), findsOneWidget);

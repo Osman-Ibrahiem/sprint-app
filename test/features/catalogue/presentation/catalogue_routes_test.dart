@@ -9,18 +9,16 @@ import 'package:sprint/features/catalogue/presentation/home/home_screen.dart';
 import '../../../helpers/pump_app.dart';
 
 void main() {
-  testWidgets('/facilities resolves and keeps the facilities tab selected',
-      (tester) async {
+  testWidgets('/facilities resolves and keeps the facilities tab selected', (
+    tester,
+  ) async {
     await pumpSprintApp(tester);
     routerOf(tester).go(AppPaths.facilities);
     await tester.pumpAndSettle();
 
     expect(currentPath(tester), AppPaths.facilities);
     final semantics = tester.getSemantics(find.text(ar.navFacilities));
-    expect(
-      semantics.flagsCollection.isSelected,
-      Tristate.isTrue,
-    );
+    expect(semantics.flagsCollection.isSelected, Tristate.isTrue);
   });
 
   testWidgets('a facility id resolves to its details', (tester) async {
@@ -31,14 +29,12 @@ void main() {
     expect(currentPath(tester), AppPaths.facilityDetails(SeedIds.poolFacility));
     expect(find.text('حمام السباحة الأولمبي'), findsWidgets);
     final semantics = tester.getSemantics(find.text(ar.navFacilities));
-    expect(
-      semantics.flagsCollection.isSelected,
-      Tristate.isTrue,
-    );
+    expect(semantics.flagsCollection.isSelected, Tristate.isTrue);
   });
 
-  testWidgets('a wrong facility id shows the friendly not-found screen',
-      (tester) async {
+  testWidgets('a wrong facility id shows the friendly not-found screen', (
+    tester,
+  ) async {
     await pumpSprintApp(tester);
     routerOf(tester).go('/facilities/nope');
     await tester.pumpAndSettle();
@@ -63,7 +59,9 @@ void main() {
     expect(currentPath(tester), AppPaths.profile);
   });
 
-  testWidgets('the details deep link survives a rebuild of the app', (tester) async {
+  testWidgets('the details deep link survives a rebuild of the app', (
+    tester,
+  ) async {
     await pumpSprintApp(tester);
     routerOf(tester).go(AppPaths.facilityDetails(SeedIds.gymFacility));
     await tester.pumpAndSettle();

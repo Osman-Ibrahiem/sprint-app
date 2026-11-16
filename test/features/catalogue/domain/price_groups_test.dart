@@ -20,8 +20,11 @@ void main() {
         p(u.id, PriceTier.external, 40),
       ],
     ];
-    final groups =
-        PriceGroups.build(units: units, prices: prices, modeOf: shared);
+    final groups = PriceGroups.build(
+      units: units,
+      prices: prices,
+      modeOf: shared,
+    );
     expect(groups, hasLength(1));
     expect(groups.single.coversAllUnits, isTrue);
     expect(groups.single.unitIds, hasLength(6));
@@ -38,7 +41,10 @@ void main() {
       p('b', PriceTier.external, 300),
     ];
     final groups = PriceGroups.build(
-        units: units, prices: prices, modeOf: (_) => BookingMode.exclusive);
+      units: units,
+      prices: prices,
+      modeOf: (_) => BookingMode.exclusive,
+    );
     expect(groups, hasLength(2));
     expect(groups.every((g) => !g.coversAllUnits), isTrue);
   });

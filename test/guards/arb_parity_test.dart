@@ -8,9 +8,9 @@ Map<String, dynamic> _arb(String name) =>
         as Map<String, dynamic>;
 
 Map<String, String> _messages(Map<String, dynamic> arb) => {
-      for (final e in arb.entries)
-        if (!e.key.startsWith('@')) e.key: e.value as String,
-    };
+  for (final e in arb.entries)
+    if (!e.key.startsWith('@')) e.key: e.value as String,
+};
 
 void main() {
   final ar = _messages(_arb('app_ar.arb'));
@@ -30,7 +30,10 @@ void main() {
   });
 
   test('no message is empty', () {
-    for (final entry in {...ar.entries.map((e) => ('ar', e)), ...en.entries.map((e) => ('en', e))}) {
+    for (final entry in {
+      ...ar.entries.map((e) => ('ar', e)),
+      ...en.entries.map((e) => ('en', e)),
+    }) {
       expect(
         entry.$2.value.trim(),
         isNotEmpty,
@@ -43,12 +46,20 @@ void main() {
     final arabicLetter = RegExp('[ء-ي]');
     // "English" is the language name shown in its own script on purpose.
     const ownScript = {'languageEn'};
+    // Punctuation only: the list separator has no letters in either language.
+    const punctuationOnly = {'catalogueListSeparator'};
     for (final e in ar.entries) {
-      if (ownScript.contains(e.key)) continue;
+      if (ownScript.contains(e.key) || punctuationOnly.contains(e.key)) {
+        continue;
+      }
       expect(arabicLetter.hasMatch(e.value), isTrue, reason: 'ar:${e.key}');
     }
     for (final e in en.entries) {
-      if (ownScript.contains(e.key) || e.key == 'languageAr') continue;
+      if (ownScript.contains(e.key) ||
+          punctuationOnly.contains(e.key) ||
+          e.key == 'languageAr') {
+        continue;
+      }
       expect(arabicLetter.hasMatch(e.value), isFalse, reason: 'en:${e.key}');
     }
   });

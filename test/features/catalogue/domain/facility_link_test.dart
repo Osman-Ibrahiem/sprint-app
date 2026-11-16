@@ -39,4 +39,11 @@ void main() {
       expect(FacilityLink.parse(FacilityLink.path(id)), id);
     });
   });
+
+  group('FacilityLink.parse robustness', () {
+    test('a malformed percent escape is not a facility link', () {
+      expect(FacilityLink.parse('/facilities/%E0%A4%A'), isNull);
+      expect(FacilityLink.parse('/facilities/%'), isNull);
+    });
+  });
 }

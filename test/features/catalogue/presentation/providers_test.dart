@@ -66,13 +66,14 @@ class _FlakyCatalogue implements CatalogueRepository {
     String? owningUnitId,
     bool? free,
     bool includeUnpublished = false,
-  }) =>
-      _guard(() => _inner.listFacilities(
-            type: type,
-            owningUnitId: owningUnitId,
-            free: free,
-            includeUnpublished: includeUnpublished,
-          ));
+  }) => _guard(
+    () => _inner.listFacilities(
+      type: type,
+      owningUnitId: owningUnitId,
+      free: free,
+      includeUnpublished: includeUnpublished,
+    ),
+  );
 
   @override
   Future<List<OwningUnit>> listOwningUnits() => _inner.listOwningUnits();
@@ -105,8 +106,7 @@ class _FlakyCatalogue implements CatalogueRepository {
   Future<List<TrainerAvailability>> trainerAvailability(
     String trainerId, {
     String? unitId,
-  }) =>
-      _inner.trainerAvailability(trainerId, unitId: unitId);
+  }) => _inner.trainerAvailability(trainerId, unitId: unitId);
 
   @override
   Future<List<Offer>> offers({String? facilityId, String? unitId}) =>
@@ -143,7 +143,9 @@ void main() {
   test('filters: type alone', () async {
     final container = _container(now);
     addTearDown(container.dispose);
-    container.read(facilityFilterProvider.notifier).setType(FacilityType.swimming);
+    container
+        .read(facilityFilterProvider.notifier)
+        .setType(FacilityType.swimming);
     expect(await ids(container), [SeedIds.poolFacility]);
   });
 
@@ -252,36 +254,39 @@ void main() {
     final container = _container(now, seed: closedTodaySeed);
     addTearDown(container.dispose);
     final list = await container.read(facilitySummariesProvider.future);
-    final tennis =
-        list.firstWhere((s) => s.facility.id == SeedIds.tennisFacility);
+    final tennis = list.firstWhere(
+      (s) => s.facility.id == SeedIds.tennisFacility,
+    );
     expect(tennis.today.level, AvailabilityLevel.none);
     expect(tennis.today.count, 0);
     expect(tennis.today.closedToday, isTrue);
   });
 
-  test('a throwing catalogue gives an error state and invalidate recovers',
-      () async {
-    final flaky = <_FlakyCatalogue>[];
-    final container = _container(
-      now,
-      catalogue: (inner) {
-        final wrapper = _FlakyCatalogue(inner, 1);
-        flaky.add(wrapper);
-        return wrapper;
-      },
-    );
-    addTearDown(container.dispose);
+  test(
+    'a throwing catalogue gives an error state and invalidate recovers',
+    () async {
+      final flaky = <_FlakyCatalogue>[];
+      final container = _container(
+        now,
+        catalogue: (inner) {
+          final wrapper = _FlakyCatalogue(inner, 1);
+          flaky.add(wrapper);
+          return wrapper;
+        },
+      );
+      addTearDown(container.dispose);
 
-    await expectLater(
-      container.read(facilitySummariesProvider.future),
-      throwsA(isA<StateError>()),
-    );
-    expect(flaky.single.failures, 0);
+      await expectLater(
+        container.read(facilitySummariesProvider.future),
+        throwsA(isA<StateError>()),
+      );
+      expect(flaky.single.failures, 0);
 
-    container.invalidate(facilitySummariesProvider);
-    final list = await container.read(facilitySummariesProvider.future);
-    expect(list, hasLength(6));
-  });
+      container.invalidate(facilitySummariesProvider);
+      final list = await container.read(facilitySummariesProvider.future);
+      expect(list, hasLength(6));
+    },
+  );
 
   test('owning unit options come from the catalogue', () async {
     final container = _container(now);
@@ -296,8 +301,9 @@ void main() {
     final closures = await container
         .read(catalogueRepositoryProvider)
         .closures(facilityId: SeedIds.tennisFacility);
-    final closure =
-        closures.singleWhere((c) => c.scope == ClosureScope.facility);
+    final closure = closures.singleWhere(
+      (c) => c.scope == ClosureScope.facility,
+    );
     expect(closure.from.isAfter(now), isTrue);
   });
 
@@ -310,52 +316,70 @@ void main() {
     expect(content.suggestions, isEmpty);
   });
 
-  test('home featured is capped at six and sorted by count then name',
-      () async {
-    final container = _container(now);
-    addTearDown(container.dispose);
-    final content = await container.read(homeContentProvider.future);
-    expect(content.featured, hasLength(6));
-    for (var i = 0; i + 1 < content.featured.length; i++) {
-      final a = content.featured[i];
-      final b = content.featured[i + 1];
-      final ordered = a.today.count > b.today.count ||
-          (a.today.count == b.today.count &&
-              a.facility.name.compareTo(b.facility.name) <= 0);
-      expect(ordered, isTrue, reason: '${a.facility.name} before ${b.facility.name}');
-    }
-  });
+  test(
+    'home featured is capped at six and sorted by count then name',
+    () async {
+      final container = _container(now);
+      addTearDown(container.dispose);
+      final content = await container.read(homeContentProvider.future);
+      expect(content.featured, hasLength(6));
+      for (var i = 0; i + 1 < content.featured.length; i++) {
+        final a = content.featured[i];
+        final b = content.featured[i + 1];
+        final ordered =
+            a.today.count > b.today.count ||
+            (a.today.count == b.today.count &&
+                a.facility.name.compareTo(b.facility.name) <= 0);
+        expect(
+          ordered,
+          isTrue,
+          reason: '${a.facility.name} before ${b.facility.name}',
+        );
+      }
+    },
+  );
 
   test('facilityDetails is null for a missing id', () async {
     final container = _container(now);
     addTearDown(container.dispose);
-    expect(await container.read(facilityDetailsProvider('nope').future), isNull);
+    expect(
+      await container.read(facilityDetailsProvider('nope').future),
+      isNull,
+    );
   });
 
-  test('facilityDetails gathers hours, price groups, units and facts', () async {
-    final container = _container(now);
-    addTearDown(container.dispose);
-    final d = await container
-        .read(facilityDetailsProvider(SeedIds.poolFacility).future);
-    expect(d, isNotNull);
-    expect(d!.hours.days, hasLength(7));
-    expect(d.priceGroups, isNotEmpty);
-    expect(d.units, isNotEmpty);
-    expect(d.trainers, isEmpty);
-    expect(d.facts.bookingWindowDays, greaterThan(0));
-  });
+  test(
+    'facilityDetails gathers hours, price groups, units and facts',
+    () async {
+      final container = _container(now);
+      addTearDown(container.dispose);
+      final d = await container.read(
+        facilityDetailsProvider(SeedIds.poolFacility).future,
+      );
+      expect(d, isNotNull);
+      expect(d!.hours.days, hasLength(7));
+      expect(d.priceGroups, isNotEmpty);
+      expect(d.units, isNotEmpty);
+      expect(d.trainers, isEmpty);
+      expect(d.facts.bookingWindowDays, greaterThan(0));
+    },
+  );
 
-  test('facilityDetails has trainers for the academy and no prices when free',
-      () async {
-    final container = _container(now);
-    addTearDown(container.dispose);
-    final academy = await container
-        .read(facilityDetailsProvider(SeedIds.academyFacility).future);
-    expect(academy!.trainers, hasLength(3));
-    expect(academy.facts.sessionMinutes, isNotNull);
-    final hall =
-        await container.read(facilityDetailsProvider(SeedIds.hallFacility).future);
-    expect(hall!.priceGroups, isEmpty);
-    expect(hall.facts.maxRangeHours, isNotNull);
-  });
+  test(
+    'facilityDetails has trainers for the academy and no prices when free',
+    () async {
+      final container = _container(now);
+      addTearDown(container.dispose);
+      final academy = await container.read(
+        facilityDetailsProvider(SeedIds.academyFacility).future,
+      );
+      expect(academy!.trainers, hasLength(3));
+      expect(academy.facts.sessionMinutes, isNotNull);
+      final hall = await container.read(
+        facilityDetailsProvider(SeedIds.hallFacility).future,
+      );
+      expect(hall!.priceGroups, isEmpty);
+      expect(hall.facts.maxRangeHours, isNotNull);
+    },
+  );
 }

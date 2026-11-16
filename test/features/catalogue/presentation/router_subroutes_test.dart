@@ -10,19 +10,20 @@ import 'package:sprint/core/widgets/app_navigation/sprint_tab_bar.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 Widget _app(GoRouter router) => MaterialApp.router(
-      theme: SprintTheme.light,
-      locale: const Locale('ar'),
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      routerConfig: router,
-    );
+  theme: SprintTheme.light,
+  locale: const Locale('ar'),
+  supportedLocales: AppLocalizations.supportedLocales,
+  localizationsDelegates: const [
+    AppLocalizations.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ],
+  routerConfig: router,
+);
 
-List<ShellDestination> _destinations({List<RouteBase> subRoutes = const []}) => [
+List<ShellDestination> _destinations({List<RouteBase> subRoutes = const []}) =>
+    [
       ShellDestination(
         name: 'home',
         path: '/home',
@@ -43,8 +44,9 @@ List<ShellDestination> _destinations({List<RouteBase> subRoutes = const []}) => 
     ];
 
 void main() {
-  testWidgets('a sub-route resolves inside the shell, nav bar still present',
-      (tester) async {
+  testWidgets('a sub-route resolves inside the shell, nav bar still present', (
+    tester,
+  ) async {
     tester.view.devicePixelRatio = 1;
     tester.view.physicalSize = const Size(400, 800);
     addTearDown(tester.view.reset);
@@ -70,8 +72,9 @@ void main() {
     expect(find.text('facilities-screen'), findsNothing);
   });
 
-  testWidgets('a destination without sub-routes behaves as before',
-      (tester) async {
+  testWidgets('a destination without sub-routes behaves as before', (
+    tester,
+  ) async {
     tester.view.devicePixelRatio = 1;
     tester.view.physicalSize = const Size(400, 800);
     addTearDown(tester.view.reset);

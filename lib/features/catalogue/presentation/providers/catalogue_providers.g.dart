@@ -48,7 +48,7 @@ final class FacilityFilterNotifierProvider
 }
 
 String _$facilityFilterNotifierHash() =>
-    r'315d7a11449532a251cdf229c09dfe6efc7d68ca';
+    r'0f8d18a189aa3ad7c84e2e485ece386e9329745b';
 
 /// The list's filters. Keep-alive, so they survive navigation and resizes
 /// (FR-013, R5).
@@ -265,12 +265,18 @@ final class FacilityByIdFamily extends $Family
 
 /// Published facilities with the filter applied, each with today's
 /// availability and both price ranges (FR-007 – FR-011, FR-027, R3, R8).
+///
+/// Not keep-alive: it depends on "now" and on bookings, so it is rebuilt each
+/// time its screen is shown again instead of freezing today's counts.
 
 @ProviderFor(facilitySummaries)
 final facilitySummariesProvider = FacilitySummariesProvider._();
 
 /// Published facilities with the filter applied, each with today's
 /// availability and both price ranges (FR-007 – FR-011, FR-027, R3, R8).
+///
+/// Not keep-alive: it depends on "now" and on bookings, so it is rebuilt each
+/// time its screen is shown again instead of freezing today's counts.
 
 final class FacilitySummariesProvider
     extends
@@ -284,13 +290,16 @@ final class FacilitySummariesProvider
         $FutureProvider<List<FacilitySummary>> {
   /// Published facilities with the filter applied, each with today's
   /// availability and both price ranges (FR-007 – FR-011, FR-027, R3, R8).
+  ///
+  /// Not keep-alive: it depends on "now" and on bookings, so it is rebuilt each
+  /// time its screen is shown again instead of freezing today's counts.
   FacilitySummariesProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
         name: r'facilitySummariesProvider',
-        isAutoDispose: false,
+        isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -310,7 +319,7 @@ final class FacilitySummariesProvider
   }
 }
 
-String _$facilitySummariesHash() => r'db5b19db0578277b29569194e8b1cc9ba0f82387';
+String _$facilitySummariesHash() => r'9be884e0650e67197f352dc485ead74e760fff00';
 
 /// The guest home's discovery content: the types that have a published
 /// facility (fixed enum order) and up to six featured facilities sorted by
@@ -346,7 +355,7 @@ final class HomeContentProvider
         argument: null,
         retry: null,
         name: r'homeContentProvider',
-        isAutoDispose: false,
+        isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -366,7 +375,7 @@ final class HomeContentProvider
   }
 }
 
-String _$homeContentHash() => r'18b43b9fc089c4fec84a5c4127937ef6a4083498';
+String _$homeContentHash() => r'a83977e9a0dfb4f7d469a5b3e59712332e82a60a';
 
 /// The details page of one published facility, or null for a missing or
 /// unpublished id (FR-014 – FR-021, FR-026 – FR-028).
@@ -393,7 +402,7 @@ final class FacilityDetailsProvider
   }) : super(
          retry: null,
          name: r'facilityDetailsProvider',
-         isAutoDispose: false,
+         isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
@@ -431,7 +440,7 @@ final class FacilityDetailsProvider
   }
 }
 
-String _$facilityDetailsHash() => r'141dd0b220066387ad08d809ed36e6f94a712a58';
+String _$facilityDetailsHash() => r'c355508cc72b739251037d38630ffde6a2dbd999';
 
 /// The details page of one published facility, or null for a missing or
 /// unpublished id (FR-014 – FR-021, FR-026 – FR-028).
@@ -444,7 +453,7 @@ final class FacilityDetailsFamily extends $Family
         name: r'facilityDetailsProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
-        isAutoDispose: false,
+        isAutoDispose: true,
       );
 
   /// The details page of one published facility, or null for a missing or

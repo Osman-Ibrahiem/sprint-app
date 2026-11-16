@@ -1380,6 +1380,12 @@ abstract class AppLocalizations {
   /// **'مقفول النهارده'**
   String get catalogueClosedToday;
 
+  /// No description provided for @catalogueListSeparator.
+  ///
+  /// In ar, this message translates to:
+  /// **'، '**
+  String get catalogueListSeparator;
+
   /// No description provided for @catalogueClosureRange.
   ///
   /// In ar, this message translates to:

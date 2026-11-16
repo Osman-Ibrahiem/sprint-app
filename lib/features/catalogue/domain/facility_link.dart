@@ -24,6 +24,12 @@ abstract final class FacilityLink {
     }
     if (rest.endsWith('/')) rest = rest.substring(0, rest.length - 1);
     if (rest.isEmpty || rest.contains('/')) return null;
-    return Uri.decodeComponent(rest);
+    try {
+      return Uri.decodeComponent(rest);
+    } on FormatException {
+      return null; // a malformed percent escape is not a facility link
+    } on ArgumentError {
+      return null; // a malformed percent escape is not a facility link
+    }
   }
 }

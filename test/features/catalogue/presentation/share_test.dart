@@ -19,19 +19,24 @@ class _Recorder implements ShareAction {
 }
 
 void main() {
-  testWidgets('share and copy-link use the seam with the id-based URL',
-      (tester) async {
+  testWidgets('share and copy-link use the seam with the id-based URL', (
+    tester,
+  ) async {
     final rec = _Recorder();
-    await pumpSprintApp(tester, overrides: [
-      shareActionProvider.overrideWithValue(rec),
-    ]);
+    await pumpSprintApp(
+      tester,
+      overrides: [shareActionProvider.overrideWithValue(rec)],
+    );
     routerOf(tester).go('/facilities/${SeedIds.poolFacility}');
     await tester.pumpAndSettle();
 
     await tester.tap(find.byKey(FacilitiesScreen.shareKey));
     await tester.pumpAndSettle();
     expect(rec.shared, hasLength(1));
-    expect(rec.shared.single.url, endsWith('/facilities/${SeedIds.poolFacility}'));
+    expect(
+      rec.shared.single.url,
+      endsWith('/facilities/${SeedIds.poolFacility}'),
+    );
     expect(rec.shared.single.text, contains('حمام السباحة الأولمبي'));
 
     await tester.tap(find.byKey(FacilitiesScreen.copyKey));
@@ -52,8 +57,9 @@ void main() {
     );
   });
 
-  testWidgets('a deep link opens signed out; an unknown id shows not found',
-      (tester) async {
+  testWidgets('a deep link opens signed out; an unknown id shows not found', (
+    tester,
+  ) async {
     await pumpSprintApp(tester);
     routerOf(tester).go('/facilities/${SeedIds.hallFacility}');
     await tester.pumpAndSettle();

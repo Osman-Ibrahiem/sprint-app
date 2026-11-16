@@ -35,16 +35,23 @@ Future<bool> tabTo(WidgetTester tester, Key key, {int max = 60}) async {
 }
 
 void main() {
-  testWidgets('Tab reaches filters then cards; Enter and Space activate',
-      (tester) async {
+  testWidgets('Tab reaches filters then cards; Enter and Space activate', (
+    tester,
+  ) async {
     await pumpSprintApp(tester, size: const Size(400, 3000));
     routerOf(tester).go('/facilities');
     await tester.pumpAndSettle();
 
-    expect(await tabTo(tester, FacilityFilterBar.typeKey(FacilityType.tennis)), isTrue);
+    expect(
+      await tabTo(tester, FacilityFilterBar.typeKey(FacilityType.tennis)),
+      isTrue,
+    );
     await tester.sendKeyEvent(LogicalKeyboardKey.enter);
     await tester.pumpAndSettle();
-    expect(containerOf(tester).read(facilityFilterProvider).type, FacilityType.tennis);
+    expect(
+      containerOf(tester).read(facilityFilterProvider).type,
+      FacilityType.tennis,
+    );
 
     expect(await tabTo(tester, FacilityFilterBar.freeKey(true)), isTrue);
     await tester.sendKeyEvent(LogicalKeyboardKey.space);
@@ -56,8 +63,10 @@ void main() {
     await pumpSprintApp(tester, size: const Size(400, 3000));
     routerOf(tester).go('/facilities');
     await tester.pumpAndSettle();
-    expect(await tabTo(tester, FacilityListView.cardKey(SeedIds.poolFacility)),
-        isTrue);
+    expect(
+      await tabTo(tester, FacilityListView.cardKey(SeedIds.poolFacility)),
+      isTrue,
+    );
     await tester.sendKeyEvent(LogicalKeyboardKey.enter);
     await tester.pumpAndSettle();
     expect(currentPath(tester), '/facilities/${SeedIds.poolFacility}');
@@ -70,8 +79,9 @@ void main() {
     expect(await tabTo(tester, AvailabilitySection.actionKey), isTrue);
   });
 
-  testWidgets('with reduced motion the loading list schedules no frames',
-      (tester) async {
+  testWidgets('with reduced motion the loading list schedules no frames', (
+    tester,
+  ) async {
     final never = Completer<List<FacilitySummary>>();
     await pumpSprintApp(
       tester,

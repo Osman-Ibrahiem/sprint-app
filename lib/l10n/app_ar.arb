@@ -441,6 +441,7 @@
   "catalogueHoursToday": "النهارده",
   "catalogueClosedNow": "مقفول دلوقتي",
   "catalogueClosedToday": "مقفول النهارده",
+  "catalogueListSeparator": "، ",
   "catalogueClosureRange": "من {from} إلى {to}",
   "@catalogueClosureRange": {
     "placeholders": {

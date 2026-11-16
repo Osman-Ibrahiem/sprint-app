@@ -437,6 +437,7 @@
   "catalogueHoursToday": "Today",
   "catalogueClosedNow": "Closed right now",
   "catalogueClosedToday": "Closed today",
+  "catalogueListSeparator": ", ",
   "catalogueClosureRange": "{from} to {to}",
   "@catalogueClosureRange": {
     "placeholders": {

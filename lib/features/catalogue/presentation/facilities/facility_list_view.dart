@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -38,22 +40,24 @@ const _minColumnWidth = 300.0;
 
 class _FacilityListViewState extends ConsumerState<FacilityListView> {
   late final ScrollController _controller;
+  late final FacilitiesListScrollOffset _offsetStore;
 
   @override
   void initState() {
     super.initState();
-    _controller =
-        ScrollController(
-          initialScrollOffset: ref.read(facilitiesListScrollOffsetProvider),
-        )..addListener(() {
-          ref
-              .read(facilitiesListScrollOffsetProvider.notifier)
-              .save(_controller.offset);
-        });
+    _offsetStore = ref.read(facilitiesListScrollOffsetProvider.notifier);
+    _controller = ScrollController(
+      initialScrollOffset: ref.read(facilitiesListScrollOffsetProvider),
+    );
   }
 
   @override
   void dispose() {
+    // The offset is written when a scroll ends and once more here, never on
+    // every scroll tick. The write waits a microtask: a provider must not
+    // change while the tree is being torn down.
+    final offset = _controller.hasClients ? _controller.offset : null;
+    if (offset != null) scheduleMicrotask(() => _offsetStore.save(offset));
     _controller.dispose();
     super.dispose();
   }
@@ -73,81 +77,87 @@ class _FacilityListViewState extends ConsumerState<FacilityListView> {
         final columns = horizontal
             ? 1
             : (constraints.maxWidth / _minColumnWidth).floor().clamp(1, 3);
-        return CustomScrollView(
-          controller: _controller,
-          slivers: [
-            const SliverToBoxAdapter(child: FacilityFilterBar()),
-            ...switch (summaries) {
-              AsyncData(:final value) when value.isEmpty => [
-                const SliverToBoxAdapter(child: _Empty()),
-              ],
-              AsyncData(:final value) => [
-                SliverPadding(
-                  padding: const EdgeInsetsDirectional.only(
-                    start: SprintSpacing.space4,
-                    end: SprintSpacing.space4,
-                    bottom: SprintSpacing.space8,
-                  ),
-                  sliver: SliverList.separated(
-                    itemCount: (value.length / columns).ceil(),
-                    separatorBuilder: (_, _) =>
-                        const SizedBox(height: SprintSpacing.space4),
-                    itemBuilder: (context, row) => IntrinsicHeight(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          for (var c = 0; c < columns; c++) ...[
-                            if (c > 0)
-                              const SizedBox(width: SprintSpacing.space4),
-                            Expanded(
-                              child: row * columns + c < value.length
-                                  ? _Card(
-                                      summary: value[row * columns + c],
-                                      session: session,
-                                      horizontal: horizontal,
-                                      selected:
-                                          showSelection &&
-                                          value[row * columns + c]
-                                                  .facility
-                                                  .id ==
-                                              widget.selectedId,
-                                    )
-                                  : const SizedBox.shrink(),
-                            ),
+        return NotificationListener<ScrollEndNotification>(
+          onNotification: (_) {
+            _offsetStore.save(_controller.offset);
+            return false;
+          },
+          child: CustomScrollView(
+            controller: _controller,
+            slivers: [
+              const SliverToBoxAdapter(child: FacilityFilterBar()),
+              ...switch (summaries) {
+                AsyncData(:final value) when value.isEmpty => [
+                  const SliverToBoxAdapter(child: _Empty()),
+                ],
+                AsyncData(:final value) => [
+                  SliverPadding(
+                    padding: const EdgeInsetsDirectional.only(
+                      start: SprintSpacing.space4,
+                      end: SprintSpacing.space4,
+                      bottom: SprintSpacing.space8,
+                    ),
+                    sliver: SliverList.separated(
+                      itemCount: (value.length / columns).ceil(),
+                      separatorBuilder: (_, _) =>
+                          const SizedBox(height: SprintSpacing.space4),
+                      itemBuilder: (context, row) => IntrinsicHeight(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            for (var c = 0; c < columns; c++) ...[
+                              if (c > 0)
+                                const SizedBox(width: SprintSpacing.space4),
+                              Expanded(
+                                child: row * columns + c < value.length
+                                    ? _Card(
+                                        summary: value[row * columns + c],
+                                        session: session,
+                                        horizontal: horizontal,
+                                        selected:
+                                            showSelection &&
+                                            value[row * columns + c]
+                                                    .facility
+                                                    .id ==
+                                                widget.selectedId,
+                                      )
+                                    : const SizedBox.shrink(),
+                              ),
+                            ],
                           ],
-                        ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-              AsyncError() => [
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: CatalogueErrorView(
-                    onRetry: () => ref.invalidate(facilitySummariesProvider),
-                  ),
-                ),
-              ],
-              _ => [
-                SliverPadding(
-                  padding: const EdgeInsetsDirectional.all(
-                    SprintSpacing.space4,
-                  ),
-                  sliver: SliverList.separated(
-                    itemCount: 3,
-                    separatorBuilder: (_, _) =>
-                        const SizedBox(height: SprintSpacing.space4),
-                    itemBuilder: (_, _) => FacilityCard.loading(
-                      layout: horizontal
-                          ? FacilityCardLayout.horizontal
-                          : FacilityCardLayout.vertical,
+                ],
+                AsyncError() => [
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: CatalogueErrorView(
+                      onRetry: () => ref.invalidate(facilitySummariesProvider),
                     ),
                   ),
-                ),
-              ],
-            },
-          ],
+                ],
+                _ => [
+                  SliverPadding(
+                    padding: const EdgeInsetsDirectional.all(
+                      SprintSpacing.space4,
+                    ),
+                    sliver: SliverList.separated(
+                      itemCount: 3,
+                      separatorBuilder: (_, _) =>
+                          const SizedBox(height: SprintSpacing.space4),
+                      itemBuilder: (_, _) => FacilityCard.loading(
+                        layout: horizontal
+                            ? FacilityCardLayout.horizontal
+                            : FacilityCardLayout.vertical,
+                      ),
+                    ),
+                  ),
+                ],
+              },
+            ],
+          ),
         );
       },
     );

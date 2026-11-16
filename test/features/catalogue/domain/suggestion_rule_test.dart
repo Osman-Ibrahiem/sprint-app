@@ -7,7 +7,8 @@ import 'package:sprint/features/catalogue/domain/price.dart';
 import 'package:sprint/features/catalogue/domain/suggestion_rule.dart';
 import 'package:sprint/features/catalogue/domain/today_availability.dart';
 
-FacilitySummary fac(String id, String name, FacilityType type) => FacilitySummary(
+FacilitySummary fac(String id, String name, FacilityType type) =>
+    FacilitySummary(
       facility: Facility(
         id: id,
         owningUnitId: 'ou',
@@ -23,21 +24,23 @@ FacilitySummary fac(String id, String name, FacilityType type) => FacilitySummar
       today: TodayAvailability.noneToday,
     );
 
-Booking booking(String facilityId, {BookingStatus status = BookingStatus.attended}) =>
-    Booking(
-      id: 'b-$facilityId-${status.name}',
-      code: 'C',
-      userId: 'u',
-      facilityId: facilityId,
-      unitId: 'x',
-      start: DateTime.utc(2026, 1, 1),
-      end: DateTime.utc(2026, 1, 1, 1),
-      seats: 1,
-      tierAtBooking: PriceTier.internal,
-      priceAtBooking: 10,
-      status: status,
-      qrToken: 'q',
-    );
+Booking booking(
+  String facilityId, {
+  BookingStatus status = BookingStatus.attended,
+}) => Booking(
+  id: 'b-$facilityId-${status.name}',
+  code: 'C',
+  userId: 'u',
+  facilityId: facilityId,
+  unitId: 'x',
+  start: DateTime.utc(2026, 1, 1),
+  end: DateTime.utc(2026, 1, 1, 1),
+  seats: 1,
+  tierAtBooking: PriceTier.internal,
+  priceAtBooking: 10,
+  status: status,
+  qrToken: 'q',
+);
 
 void main() {
   final all = [
@@ -51,7 +54,11 @@ void main() {
 
   test('no history gives no suggestions', () {
     expect(
-      SuggestionRule.pick(facilities: all, pastBookings: [], upcomingFacilityIds: {}),
+      SuggestionRule.pick(
+        facilities: all,
+        pastBookings: [],
+        upcomingFacilityIds: {},
+      ),
       isEmpty,
     );
   });
@@ -63,37 +70,44 @@ void main() {
       upcomingFacilityIds: {},
     );
     expect(s, hasLength(4));
-    expect([for (final x in s) x.facility.facility.id].take(3), ['b', 'c', 'a']);
+    expect([for (final x in s) x.facility.facility.id].take(3), [
+      'b',
+      'c',
+      'a',
+    ]);
     expect(s.first.reason, isA<BookedTypeBefore>());
     expect((s.first.reason as BookedTypeBefore).type, FacilityType.gym);
     expect(s.last.reason, isA<OtherSuggestion>());
   });
 
-  test('never a facility with an upcoming booking; unbooked statuses ignored', () {
-    final s = SuggestionRule.pick(
-      facilities: all,
-      pastBookings: [
-        booking('b'),
-        booking('a', status: BookingStatus.cancelled),
-      ],
-      upcomingFacilityIds: {'b'},
-    );
-    expect([for (final x in s) x.facility.facility.id], isNot(contains('b')));
-    expect(s.first.facility.facility.id, 'c');
-    // The cancelled swimming booking is not history.
-    final swim = s.where((x) => x.facility.facility.id == 'a').single;
-    expect(swim.reason, isA<OtherSuggestion>());
-  });
+  test(
+    'never a facility with an upcoming booking; unbooked statuses ignored',
+    () {
+      final s = SuggestionRule.pick(
+        facilities: all,
+        pastBookings: [
+          booking('b'),
+          booking('a', status: BookingStatus.cancelled),
+        ],
+        upcomingFacilityIds: {'b'},
+      );
+      expect([for (final x in s) x.facility.facility.id], isNot(contains('b')));
+      expect(s.first.facility.facility.id, 'c');
+      // The cancelled swimming booking is not history.
+      final swim = s.where((x) => x.facility.facility.id == 'a').single;
+      expect(swim.reason, isA<OtherSuggestion>());
+    },
+  );
 
   test('deterministic for the same input', () {
     List<String> run() => [
-          for (final x in SuggestionRule.pick(
-            facilities: all,
-            pastBookings: [booking('d')],
-            upcomingFacilityIds: {},
-          ))
-            x.facility.facility.id,
-        ];
+      for (final x in SuggestionRule.pick(
+        facilities: all,
+        pastBookings: [booking('d')],
+        upcomingFacilityIds: {},
+      ))
+        x.facility.facility.id,
+    ];
     expect(run(), run());
   });
 }
