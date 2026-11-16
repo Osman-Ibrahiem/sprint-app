@@ -77,8 +77,75 @@ run, so later regressions are visible.
 - Hinge: the shell splits the window at a hinge and gives each side its own width class, so a facility
   screen may show one pane there; nothing overlaps the hinge (T059).
 
+## T063 web cost and load time (SC-009, NFR-01)
+
+Same method as feature 002: `tool/measure_web_load.mjs` (headless Chrome, 390 x 844, CPU 4x, Fast 4G
+9 Mbps / 170 ms, cache disabled), both builds served by `tool/serve_web.mjs` under `/sprint-app/`.
+develop is `8d426f1`. The two builds were measured alternately on the same machine on the same day.
+
+| | develop | this branch | change |
+| --- | --- | --- | --- |
+| `main.dart.js` | 3,620,507 B (gzip 1,046,302 B) | 3,724,915 B (gzip 1,075,702 B) | +104,408 B (gzip +29,400 B) |
+
+First Flutter frame on Fast 4G, 6 runs each, alternating:
+
+| | Runs | Median |
+| --- | --- | --- |
+| develop, home | 4.87, 4.87, 4.88, 4.80, 4.89, 5.01 s | 4.88 s |
+| this branch, home | 5.04, 5.15, 5.07, 5.20, 5.18, 5.13 s | 5.14 s |
+
+Per route on this branch (3 runs each): home 5.15 / 5.09 / 5.22 s, list 5.22 / 5.58 / 5.64 s, details
+5.08 / 5.10 / 5.09 s. First paint (the HTML splash) stays about 0.27 to 0.32 s on every route.
+
+**Result.** The feature adds about 0.26 s on Fast 4G (about 5%) and 29 KB gzip to the bundle. The
+absolute number is **not** under the Foundation's 5 s target today: develop itself measured 4.88 s on
+this machine, against 3.67 s when 002 was measured on 2026-11-15, so the machine or the CDN is slower
+today. The absolute check against SC-011 needs re-running on the 2026-11-15 setup or on a faster
+machine; the relative cost is what this pass shows. Limits: headless Chrome with emulated throttling,
+CanvasKit from the CDN, first Flutter frame standing in for "interactive".
+
+### Filter change (SC-002)
+
+In the browser pane at 800 x 600 on the release build: a click on the "مجاني" chip with the swimming
+filter on, then a screenshot showing the new state (the empty state, the two active chips and the
+"مفيش منشآت مطابقة" text), took 51 ms for the click and the screenshot together. This bounds the
+change well under the 1 s limit. It is a coarse bound, not a frame-accurate measurement.
+
+## T062 manual walk (SC-001 to SC-008, SC-010)
+
+Done on web, release build served at `/sprint-app/`, in the browser pane.
+
+| Scenario | Checked | Result |
+| --- | --- | --- |
+| 1 Guest discovery | Home signed out, Arabic dark, 800 wide: types, featured facilities with both prices, "متاح النهارده", "أماكن قليلة", no sign-in prompt. Tapped the swimming type: the list opened filtered. | Pass |
+| 2 List and filters | Type + free together gives the empty state with both chips and "مسح الفلاتر"; filters stay after opening a facility. | Pass (owning unit filter and the back-with-scroll case not walked) |
+| 3 Details | Pool (Arabic, 800 wide), futsal (Arabic, compact: pinned app bar, hours, closure line, prices "للحجز كله", units), free hall (English, wide). "عرض المواعيد" opens "قريبًا" and back returns. | Pass (academy and the pool's lane 6 hours line not walked) |
+| 5 Share and links | `/#/facilities/does-not-exist` shows "المنشأة مش موجودة" with a back button; the deep link `/#/facilities/f-pool` opens the details. | Pass (the share action itself not triggered) |
+| 6 Sizes, language, theme | Compact 375, medium 800, wide 1280; Arabic and English; dark and light. | Pass |
+
+**Not walked** (covered by widget tests only): scenario 4 (signed-in home with a booking, with none,
+and after sign-out); 200% text; reduce-motion; keyboard tab order; the share action and clipboard;
+iOS and Android devices or simulators; tablet and foldable hinge layouts.
+
+### Things noticed while walking (not fixed here)
+
+- The closure line on the futsal details ("من الخميس 19 نوفمبر إلى الجمعة 20 نوفمبر") goes through
+  `SprintFormat.date`, so it is affected by the known issue recorded under T061: the digits looked
+  Arabic-Indic in the browser. In a plain test with `initializeDateFormatting('ar')` the same call
+  gives Western digits (0x31 0x39), so the difference comes from how the app initialises date data.
+  Not confirmed pixel-for-pixel; needs a test that runs under the app's own localisation delegates.
+- The type chip "Swimming" shows as selected on the home screen after the list filter was used,
+  because the kept filter is shared. Home is for discovery, so a pre-selected type there may confuse.
+  A decision for the spec owner.
+- At 800 wide the list and detail panes sit beside the 220 px sidebar, so each pane is about 270 px
+  and the filter chips wrap to many rows. Within the medium window class, but tight.
+- In English the facility card line mixes an Arabic unit name with "units" and the bidi order looks
+  odd ("6 · كلية التربية الرياضية units"). Seed names are Arabic only; not checked on a real device.
+- In English the details app bar back arrow could not be confirmed as pointing left at this
+  resolution; worth a look on a larger capture.
+
 ## Not done yet
 
-- T062 (hand walk of quickstart on web) and T063 (web load and filter timing) need a browser session.
+- T062 is partly done (see the table above; the "Not walked" list is what remains).
 - T064 waits for feature 003 to merge into `develop` (it has not).
 - T065 (open the PR) is left for Osman.
