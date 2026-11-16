@@ -125,23 +125,26 @@ abstract class _$InitialSnapshot extends $Notifier<Map<String, Object?>?> {
   }
 }
 
-/// How code emails are worded. Override it with a localised template (reading
-/// the app's current language when called); the data layer calls it at send
-/// time, so changing it needs no rebuild of the layer.
+/// How code emails are worded: the localised template, in the app's language
+/// at the moment the email is sent (no `BuildContext` needed). Override it to
+/// change the wording; the data layer calls it at send time, so changing it
+/// needs no rebuild of the layer.
 
 @ProviderFor(emailTemplate)
 final emailTemplateProvider = EmailTemplateProvider._();
 
-/// How code emails are worded. Override it with a localised template (reading
-/// the app's current language when called); the data layer calls it at send
-/// time, so changing it needs no rebuild of the layer.
+/// How code emails are worded: the localised template, in the app's language
+/// at the moment the email is sent (no `BuildContext` needed). Override it to
+/// change the wording; the data layer calls it at send time, so changing it
+/// needs no rebuild of the layer.
 
 final class EmailTemplateProvider
     extends $FunctionalProvider<EmailTemplate, EmailTemplate, EmailTemplate>
     with $Provider<EmailTemplate> {
-  /// How code emails are worded. Override it with a localised template (reading
-  /// the app's current language when called); the data layer calls it at send
-  /// time, so changing it needs no rebuild of the layer.
+  /// How code emails are worded: the localised template, in the app's language
+  /// at the moment the email is sent (no `BuildContext` needed). Override it to
+  /// change the wording; the data layer calls it at send time, so changing it
+  /// needs no rebuild of the layer.
   EmailTemplateProvider._()
     : super(
         from: null,
@@ -175,7 +178,7 @@ final class EmailTemplateProvider
   }
 }
 
-String _$emailTemplateHash() => r'5115245e09db3a8f5262594d31af04046c90f646';
+String _$emailTemplateHash() => r'b5cd9ca14e0521f4e202cdf22add67b93913535c';
 
 /// Loads the layer from the snapshot (or the seed) and saves it again once per
 /// event-loop turn after any write.

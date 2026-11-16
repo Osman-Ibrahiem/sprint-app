@@ -4,10 +4,15 @@ import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/app/shell/adaptive_shell.dart';
 import 'package:sprint/app/shell/placeholders/not_found_screen.dart';
 import 'package:sprint/core/providers/session_provider.dart';
+import 'package:sprint/features/auth/presentation/forgot_password_screen.dart';
+import 'package:sprint/features/auth/presentation/reset_password_screen.dart';
+import 'package:sprint/features/auth/presentation/confirm_email_screen.dart';
 import 'package:sprint/features/auth/presentation/sign_in_screen.dart';
+import 'package:sprint/features/auth/presentation/sign_up_screen.dart';
 import 'package:sprint/features/demo/demo_flags.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/component_gallery_screen.dart';
 import 'package:sprint/features/demo/presentation/demo_screen.dart';
+import 'package:sprint/features/demo/presentation/mailbox_screen.dart';
 
 /// Builds the app router. Web uses Flutter's default hash URL strategy
 /// (`/#/path`), so deep links and refreshes work under the Pages sub-path
@@ -76,12 +81,58 @@ GoRouter buildAppRouter({
         builder: (context, state) =>
             SignInScreen(from: state.uri.queryParameters['from']),
       ),
+      GoRoute(
+        path: AppPaths.forgotPassword,
+        name: AppRouteNames.forgotPassword,
+        builder: (context, state) =>
+            ForgotPasswordScreen(from: state.uri.queryParameters['from']),
+      ),
+      GoRoute(
+        path: AppPaths.resetPassword,
+        name: AppRouteNames.resetPassword,
+        redirect: (context, state) =>
+            (state.uri.queryParameters['identifier'] ?? '').isEmpty
+            ? AppPaths.forgotPassword
+            : null,
+        builder: (context, state) => ResetPasswordScreen(
+          identifier: state.uri.queryParameters['identifier']!,
+          from: state.uri.queryParameters['from'],
+          resendAfter: state.extra is DateTime
+              ? state.extra! as DateTime
+              : null,
+        ),
+      ),
+      GoRoute(
+        path: AppPaths.signUp,
+        name: AppRouteNames.signUp,
+        builder: (context, state) =>
+            SignUpScreen(from: state.uri.queryParameters['from']),
+      ),
+      GoRoute(
+        path: AppPaths.confirmEmail,
+        name: AppRouteNames.confirmEmail,
+        // Nothing to confirm without the address the code went to.
+        redirect: (context, state) =>
+            (state.uri.queryParameters['email'] ?? '').isEmpty
+            ? AppPaths.signUp
+            : null,
+        builder: (context, state) => ConfirmEmailScreen(
+          email: state.uri.queryParameters['email']!,
+          from: state.uri.queryParameters['from'],
+        ),
+      ),
       // Outside the shell and out of navigation; reached from Profile.
       GoRoute(
         path: AppPaths.demo,
         name: AppRouteNames.demo,
         builder: (context, state) => DemoScreen(showToolLinks: demoTools),
       ),
+      if (demoTools)
+        GoRoute(
+          path: AppPaths.demoMailbox,
+          name: AppRouteNames.demoMailbox,
+          builder: (context, state) => const MailboxScreen(),
+        ),
       if (demoTools)
         GoRoute(
           path: AppPaths.demoComponents,

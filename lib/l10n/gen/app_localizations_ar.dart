@@ -314,7 +314,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get codeEntryLabel => 'كود التأكيد';
 
   @override
-  String get codeEntrySentTo => 'الكود اتبعت على';
+  String get codeEntrySentTo => 'بعتنا كود على';
 
   @override
   String get codeEntryResend => 'إرسال الكود تاني';
@@ -650,6 +650,61 @@ class AppLocalizationsAr extends AppLocalizations {
   String get signInCreateAccount => 'إنشاء حساب';
 
   @override
+  String get forgotTitle => 'استرجاع الباسورد';
+
+  @override
+  String get forgotIntro =>
+      'اكتب الإيميل أو رقم الموبايل المسجّل، وهنبعت كود على إيميل الحساب.';
+
+  @override
+  String get forgotSendButton => 'إرسال الكود';
+
+  @override
+  String get resetTitle => 'باسورد جديد';
+
+  @override
+  String get resetSentNeutral =>
+      'لو الحساب موجود هيوصله كود على الإيميل المسجّل.';
+
+  @override
+  String get resetNewPasswordLabel => 'الباسورد الجديد';
+
+  @override
+  String get resetPasswordHint => '8 حروف على الأقل، فيها حرف ورقم';
+
+  @override
+  String get resetSaveButton => 'حفظ الباسورد';
+
+  @override
+  String resetCodeWrong(int tries) {
+    return 'الكود غلط. المحاولات المتبقية: $tries.';
+  }
+
+  @override
+  String get resetCodeExpired => 'الكود انتهت صلاحيته. ممكن تطلب كود جديد.';
+
+  @override
+  String get resetCodeDead => 'محاولات الكود خلصت. ممكن تطلب كود جديد.';
+
+  @override
+  String resetResendTooSoon(int seconds) {
+    return 'ممكن تطلب كود جديد بعد $seconds ثانية.';
+  }
+
+  @override
+  String get resetPasswordEmpty => 'الباسورد الجديد مطلوب.';
+
+  @override
+  String get resetPasswordTooShort => 'الباسورد لازم يكون 8 حروف على الأقل.';
+
+  @override
+  String get resetPasswordNeedsLetter =>
+      'الباسورد لازم فيه حرف واحد على الأقل.';
+
+  @override
+  String get resetPasswordNeedsDigit => 'الباسورد لازم فيه رقم واحد على الأقل.';
+
+  @override
   String get signOutTitle => 'تأكيد تسجيل الخروج';
 
   @override
@@ -666,4 +721,180 @@ class AppLocalizationsAr extends AppLocalizations {
   String accountCardSpoken(String name, String tier) {
     return 'حسابك: $name، $tier';
   }
+
+  @override
+  String get signUpTitle => 'إنشاء حساب';
+
+  @override
+  String get signUpButton => 'إنشاء الحساب';
+
+  @override
+  String get signUpNameLabel => 'الاسم بالكامل';
+
+  @override
+  String get signUpNameHelper => 'الاسم الأول واسم العيلة على الأقل';
+
+  @override
+  String get signUpPhoneLabel => 'رقم الموبايل';
+
+  @override
+  String get signUpPhoneHelper => 'رقم مصري، مثال 01012345678';
+
+  @override
+  String get signUpEmailLabel => 'الإيميل';
+
+  @override
+  String get signUpEmailHelper => 'هنبعت عليه كود تأكيد الحساب';
+
+  @override
+  String get signUpPasswordLabel => 'الباسورد';
+
+  @override
+  String get signUpPasswordHelper => '8 حروف على الأقل، فيها حرف ورقم';
+
+  @override
+  String get signUpAlreadyHave => 'عندك حساب؟';
+
+  @override
+  String get validationNameEmpty => 'الاسم مطلوب.';
+
+  @override
+  String get validationNameTooShort => 'الاسم قصير أوي.';
+
+  @override
+  String get validationNameTooLong => 'الاسم طويل، الحد الأقصى 60 حرف.';
+
+  @override
+  String get validationNameNeedsTwoWords =>
+      'الاسم لازم يكون كلمتين على الأقل، الاسم الأول واسم العيلة.';
+
+  @override
+  String get validationNameInvalidCharacters => 'الاسم يقبل حروف ومسافات بس.';
+
+  @override
+  String get validationPhoneEmpty => 'رقم الموبايل مطلوب.';
+
+  @override
+  String get validationPhoneInvalid =>
+      'رقم الموبايل لازم يكون 11 رقم ويبدأ بـ 010 أو 011 أو 012 أو 015.';
+
+  @override
+  String get validationEmailEmpty => 'الإيميل مطلوب.';
+
+  @override
+  String get validationEmailInvalid =>
+      'الإيميل مش مكتوب صح، مثال name@example.com.';
+
+  @override
+  String get validationPasswordEmpty => 'الباسورد مطلوب.';
+
+  @override
+  String get validationPasswordTooShort =>
+      'الباسورد لازم يكون 8 حروف على الأقل.';
+
+  @override
+  String get validationPasswordNeedsLetter =>
+      'الباسورد لازم فيه حرف واحد على الأقل.';
+
+  @override
+  String get validationPasswordNeedsDigit =>
+      'الباسورد لازم فيه رقم واحد على الأقل.';
+
+  @override
+  String get signUpEmailTaken => 'الإيميل ده مسجل قبل كده.';
+
+  @override
+  String get signUpPhoneTaken => 'رقم الموبايل ده مسجل قبل كده.';
+
+  @override
+  String get signUpTakenActions => 'ممكن تسجيل الدخول أو استرجاع الباسورد.';
+
+  @override
+  String get confirmEmailTitle => 'تأكيد الإيميل';
+
+  @override
+  String get confirmEmailButton => 'تأكيد';
+
+  @override
+  String get confirmCodeEmpty => 'الكود مكوّن من 6 أرقام.';
+
+  @override
+  String confirmCodeWrong(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'فاضلك $count محاولات',
+      two: 'فاضلك محاولتين',
+      one: 'فاضلك محاولة واحدة',
+    );
+    return 'الكود مش صحيح. $_temp0.';
+  }
+
+  @override
+  String get confirmCodeExpired => 'الكود انتهت صلاحيته. ممكن إرسال كود جديد.';
+
+  @override
+  String get confirmCodeDead =>
+      'المحاولات خلصت على الكود ده. ممكن إرسال كود جديد.';
+
+  @override
+  String get confirmNoPending =>
+      'مفيش تأكيد معلّق للإيميل ده. ممكن إنشاء حساب من جديد.';
+
+  @override
+  String confirmResendTooSoon(int seconds) {
+    return 'ممكن إرسال كود جديد بعد $seconds ثانية.';
+  }
+
+  @override
+  String get confirmResent => 'بعتنا كود جديد.';
+
+  @override
+  String get emailConfirmSubject => 'كود تأكيد حسابك في سبرنت';
+
+  @override
+  String emailConfirmBody(String code, int minutes) {
+    return 'كود التأكيد: $code\nالكود صالح لمدة $minutes دقيقة. لو مش إنت اللي عملت الحساب، ممكن تتجاهل الرسالة دي.';
+  }
+
+  @override
+  String get emailResetSubject => 'كود استرجاع الباسورد في سبرنت';
+
+  @override
+  String emailResetBody(String code, int minutes) {
+    return 'كود الاسترجاع: $code\nالكود صالح لمدة $minutes دقيقة. لو مش إنت اللي طلبت الاسترجاع، ممكن تتجاهل الرسالة دي.';
+  }
+
+  @override
+  String get demoNoticeTitle => 'للعرض بس';
+
+  @override
+  String demoNoticeCode(String code) {
+    return 'كود التجربة: $code';
+  }
+
+  @override
+  String get demoNoticeDismiss => 'إخفاء';
+
+  @override
+  String get mailboxTitle => 'صندوق البريد التجريبي';
+
+  @override
+  String get mailboxNote =>
+      'الرسائل اللي التطبيق كان هيبعتها بالإيميل بتظهر هنا. للمراجعين فقط.';
+
+  @override
+  String get mailboxEmptyTitle => 'مفيش رسائل لسه';
+
+  @override
+  String get mailboxEmptyBody => 'أي كود تأكيد أو استرجاع هيتبعت هيظهر هنا.';
+
+  @override
+  String get mailboxTo => 'إلى';
+
+  @override
+  String get mailboxCopyCode => 'نسخ الكود';
+
+  @override
+  String get mailboxCopied => 'الكود اتنسخ.';
 }

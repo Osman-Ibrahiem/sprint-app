@@ -77,7 +77,7 @@ class _CodeEntryState extends State<CodeEntry> {
     _timer = Timer.periodic(SprintExtras.countdownTick, (_) {
       final left = _secondsLeft();
       if (!mounted) return;
-      setState(() => _remaining = left);
+      if (left != _remaining) setState(() => _remaining = left);
       if (left == 0) _timer?.cancel();
     });
   }

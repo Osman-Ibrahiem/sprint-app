@@ -4,7 +4,7 @@ import 'package:sprint/core/result/result.dart';
 import 'package:sprint/features/auth/domain/auth_repository.dart';
 import 'package:sprint/features/auth/domain/email_code.dart';
 
-/// Wraps a real repository and holds `signIn` until [release] is called, so a
+/// Wraps a real repository and holds `signIn` and `signUp` until [release] is called, so a
 /// test can look at the loading state. Counts the calls.
 class GatedAuthRepository implements AuthRepository {
   GatedAuthRepository(this.inner);
@@ -12,6 +12,7 @@ class GatedAuthRepository implements AuthRepository {
   final AuthRepository inner;
   final _gate = Completer<void>();
   int signInCalls = 0;
+  int signUpCalls = 0;
 
   void release() {
     if (!_gate.isCompleted) _gate.complete();
@@ -35,8 +36,17 @@ class GatedAuthRepository implements AuthRepository {
     required String phone,
     required String email,
     required String password,
-  }) =>
-      inner.signUp(name: name, phone: phone, email: email, password: password);
+  }) async {
+    signUpCalls++;
+    await _gate.future;
+    return inner.signUp(
+      name: name,
+      phone: phone,
+      email: email,
+      password: password,
+    );
+  }
+
   @override
   Future<Result<SignedIn>> confirmEmail({
     required String email,

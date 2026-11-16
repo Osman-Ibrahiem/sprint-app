@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sprint/core/l10n/locale_notifier.dart';
 import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/core/providers/session_provider.dart';
@@ -16,6 +17,15 @@ import '../../helpers/sign_in_steps.dart';
 
 /// The sign-in form across the cross-cutting matrix (language, theme, window,
 /// text scale) and its keyboard and screen-reader behaviour (FR-047, NFR-10).
+/// The full location of the page on top, query included, also for a page
+/// pushed on top of another.
+Uri currentUri(WidgetTester tester) {
+  final last = routerOf(tester).routerDelegate.currentConfiguration.last;
+  return last is ImperativeRouteMatch
+      ? last.matches.uri
+      : routerOf(tester).routerDelegate.currentConfiguration.uri;
+}
+
 void main() {
   final sizes = {
     'compact': const Size(400, 800),
@@ -153,15 +163,15 @@ void main() {
     await openSignIn(tester, from: '/bookings');
     await tester.tap(find.text(ar.signInForgot));
     await tester.pumpAndSettle();
-    expect(topUri(tester).path, '/forgot-password');
-    expect(topUri(tester).queryParameters['from'], '/bookings');
+    expect(currentUri(tester).path, '/forgot-password');
+    expect(currentUri(tester).queryParameters['from'], '/bookings');
 
     routerOf(tester).pop();
     await tester.pumpAndSettle();
     await tester.tap(find.text(ar.signInCreateAccount));
     await tester.pumpAndSettle();
-    expect(topUri(tester).path, '/sign-up');
-    expect(topUri(tester).queryParameters['from'], '/bookings');
+    expect(currentUri(tester).path, '/sign-up');
+    expect(currentUri(tester).queryParameters['from'], '/bookings');
   });
 
   testWidgets('a signed-in person opening /sign-in is sent on', (tester) async {

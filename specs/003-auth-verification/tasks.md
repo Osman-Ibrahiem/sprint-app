@@ -131,18 +131,18 @@ description: "Task list for the Auth and Verification feature"
 
 ### Tests for US1
 
-- [ ] T046 [P] [US1] Write `test/acceptance/us02_sign_up_test.dart` with one test per BRD US-02 scenario (new account external after confirming; taken phone or email shows the error and creates nothing) plus wrong code, expired code, resend wait and leaving before confirming
-- [ ] T047 [P] [US1] Write `test/features/auth/sign_up_screen_test.dart` and `test/features/auth/confirm_email_screen_test.dart` with the same cross-cutting matrix as T039, plus each field error shown next to its field in words, and the code field read as one field
-- [ ] T048 [P] [US1] Write `test/features/demo/mailbox_test.dart`: the mailbox screen and the demo code notice show the latest code; with `demoToolsEnabled` false neither the route nor the notice exists (FR-023)
+- [X] T046 [P] [US1] Write `test/acceptance/us02_sign_up_test.dart` with one test per BRD US-02 scenario (new account external after confirming; taken phone or email shows the error and creates nothing) plus wrong code, expired code, resend wait and leaving before confirming
+- [X] T047 [P] [US1] Write `test/features/auth/sign_up_screen_test.dart` and `test/features/auth/confirm_email_screen_test.dart` with the same cross-cutting matrix as T039, plus each field error shown next to its field in words, and the code field read as one field
+- [X] T048 [P] [US1] Write `test/features/demo/mailbox_test.dart`: the mailbox screen and the demo code notice show the latest code; with `demoToolsEnabled` false neither the route nor the notice exists (FR-023)
 
 ### Implementation for US1
 
-- [ ] T049 [US1] Add the US1 ARB keys to `lib/l10n/app_ar.arb` and `lib/l10n/app_en.arb` (sign-up title, name, phone, email, password labels and helpers, every validation reason, "إنشاء الحساب", "مسجل قبل كده" for email and for phone with sign-in and reset links, confirm title "تأكيد الإيميل", "بعتنا كود على", wrong, expired and dead code messages, "إرسال الكود تاني" with the countdown, email subject and body templates for confirm and reset, demo notice "للعرض بس", mailbox title "صندوق البريد التجريبي" and its empty state)
-- [ ] T050 [US1] Build `lib/features/auth/presentation/sign_up_screen.dart`: four fields with validation on leaving a field and on submit, `newPassword` autofill on the password, submit → `/confirm-email?email=…` keeping `from`; taken email or phone shows the message with links
-- [ ] T051 [US1] Build `lib/features/auth/presentation/confirm_email_screen.dart` on `CodeEntry`: confirm, resend with countdown, every failure message; success signs in and goes to `from` or `/home`
-- [ ] T052 [US1] Build `lib/features/auth/presentation/widgets/demo_code_notice.dart` (dismissible, "للعرض بس", the current code from `simulatedMailboxProvider`, LTR isolate; renders nothing when the provider is null) and plug it into `CodeEntry`
-- [ ] T053 [US1] Build `lib/features/demo/presentation/mailbox_screen.dart` (list newest first: to, subject, time in Cairo 12-hour, body with the code copyable) and register `/demo/mailbox` behind `demoToolsEnabled`; add its entry to `lib/features/demo/presentation/demo_screen.dart`
-- [ ] T054 [US1] Register `/sign-up` and `/confirm-email` in `lib/app/router/app_router.dart` outside the shell
+- [X] T049 [US1] Add the US1 ARB keys to `lib/l10n/app_ar.arb` and `lib/l10n/app_en.arb` (sign-up title, name, phone, email, password labels and helpers, every validation reason, "إنشاء الحساب", "مسجل قبل كده" for email and for phone with sign-in and reset links, confirm title "تأكيد الإيميل", "بعتنا كود على", wrong, expired and dead code messages, "إرسال الكود تاني" with the countdown, email subject and body templates for confirm and reset, demo notice "للعرض بس", mailbox title "صندوق البريد التجريبي" and its empty state)
+- [X] T050 [US1] Build `lib/features/auth/presentation/sign_up_screen.dart`: four fields with validation on leaving a field and on submit, `newPassword` autofill on the password, submit → `/confirm-email?email=…` keeping `from`; taken email or phone shows the message with links
+- [X] T051 [US1] Build `lib/features/auth/presentation/confirm_email_screen.dart` on `CodeEntry`: confirm, resend with countdown, every failure message; success signs in and goes to `from` or `/home`
+- [X] T052 [US1] Build `lib/features/auth/presentation/widgets/demo_code_notice.dart` (dismissible, "للعرض بس", the current code from `simulatedMailboxProvider`, LTR isolate; renders nothing when the provider is null) and plug it into `CodeEntry`
+- [X] T053 [US1] Build `lib/features/demo/presentation/mailbox_screen.dart` (list newest first: to, subject, time in Cairo 12-hour, body with the code copyable) and register `/demo/mailbox` behind `demoToolsEnabled`; add its entry to `lib/features/demo/presentation/demo_screen.dart`
+- [X] T054 [US1] Register `/sign-up` and `/confirm-email` in `lib/app/router/app_router.dart` outside the shell
 
 **Checkpoint**: US1 and US2 together give a complete account life cycle.
 
@@ -235,9 +235,9 @@ description: "Task list for the Auth and Verification feature"
 
 **Independent Test**: Forgot password with a seed email, read the code, set a new password; old fails, new works.
 
-- [ ] T079 [P] [US4] Write `test/features/auth/password_reset_test.dart`: same message for known and unknown identifiers; wrong and expired code; the new password must meet the rules; old password rejected and new accepted; lockout cleared; screens pass the cross-cutting matrix as T039
-- [ ] T080 [US4] Add the US4 ARB keys to `lib/l10n/app_ar.arb` and `lib/l10n/app_en.arb` ("استرجاع الباسورد", the neutral "لو الحساب موجود هيوصله كود" message, new password label, "حفظ الباسورد")
-- [ ] T081 [US4] Build `lib/features/auth/presentation/forgot_password_screen.dart` and `reset_password_screen.dart` (on `CodeEntry` with the new password field, `newPassword` autofill); success signs in and goes to `from` or `/home`; register `/forgot-password` and `/reset-password` outside the shell
+- [X] T079 [P] [US4] Write `test/features/auth/password_reset_test.dart`: same message for known and unknown identifiers; wrong and expired code; the new password must meet the rules; old password rejected and new accepted; lockout cleared; screens pass the cross-cutting matrix as T039
+- [X] T080 [US4] Add the US4 ARB keys to `lib/l10n/app_ar.arb` and `lib/l10n/app_en.arb` ("استرجاع الباسورد", the neutral "لو الحساب موجود هيوصله كود" message, new password label, "حفظ الباسورد")
+- [X] T081 [US4] Build `lib/features/auth/presentation/forgot_password_screen.dart` and `reset_password_screen.dart` (on `CodeEntry` with the new password field, `newPassword` autofill); success signs in and goes to `from` or `/home`; register `/forgot-password` and `/reset-password` outside the shell
 
 ---
 

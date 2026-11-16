@@ -648,6 +648,66 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signInCreateAccount => 'Create an account';
 
   @override
+  String get forgotTitle => 'Reset password';
+
+  @override
+  String get forgotIntro =>
+      'Enter the email or mobile number on the account, and we\'ll send a code to the account\'s email.';
+
+  @override
+  String get forgotSendButton => 'Send code';
+
+  @override
+  String get resetTitle => 'Choose a new password';
+
+  @override
+  String get resetSentNeutral =>
+      'If the account exists, a code is on its way to the registered email.';
+
+  @override
+  String get resetNewPasswordLabel => 'New password';
+
+  @override
+  String get resetPasswordHint =>
+      'At least 8 characters, with a letter and a digit';
+
+  @override
+  String get resetSaveButton => 'Save password';
+
+  @override
+  String resetCodeWrong(int tries) {
+    return 'That code is wrong. Tries left: $tries.';
+  }
+
+  @override
+  String get resetCodeExpired =>
+      'This code has expired. You can ask for a new one.';
+
+  @override
+  String get resetCodeDead =>
+      'No tries left on this code. You can ask for a new one.';
+
+  @override
+  String resetResendTooSoon(int seconds) {
+    return 'You can ask for a new code in $seconds seconds.';
+  }
+
+  @override
+  String get resetPasswordEmpty => 'A new password is required.';
+
+  @override
+  String get resetPasswordTooShort =>
+      'The password needs at least 8 characters.';
+
+  @override
+  String get resetPasswordNeedsLetter =>
+      'The password needs at least one letter.';
+
+  @override
+  String get resetPasswordNeedsDigit =>
+      'The password needs at least one digit.';
+
+  @override
   String get signOutTitle => 'Confirm sign out';
 
   @override
@@ -664,4 +724,185 @@ class AppLocalizationsEn extends AppLocalizations {
   String accountCardSpoken(String name, String tier) {
     return 'Your account: $name, $tier';
   }
+
+  @override
+  String get signUpTitle => 'Create an account';
+
+  @override
+  String get signUpButton => 'Create account';
+
+  @override
+  String get signUpNameLabel => 'Full name';
+
+  @override
+  String get signUpNameHelper => 'First and family name at least';
+
+  @override
+  String get signUpPhoneLabel => 'Mobile number';
+
+  @override
+  String get signUpPhoneHelper => 'An Egyptian number, for example 01012345678';
+
+  @override
+  String get signUpEmailLabel => 'Email';
+
+  @override
+  String get signUpEmailHelper =>
+      'We\'ll send the account confirmation code here';
+
+  @override
+  String get signUpPasswordLabel => 'Password';
+
+  @override
+  String get signUpPasswordHelper =>
+      'At least 8 characters, with a letter and a digit';
+
+  @override
+  String get signUpAlreadyHave => 'Already have an account?';
+
+  @override
+  String get validationNameEmpty => 'The name is required.';
+
+  @override
+  String get validationNameTooShort => 'The name is too short.';
+
+  @override
+  String get validationNameTooLong =>
+      'The name is too long, 60 characters at most.';
+
+  @override
+  String get validationNameNeedsTwoWords =>
+      'The name needs at least two words, first and family name.';
+
+  @override
+  String get validationNameInvalidCharacters =>
+      'The name takes letters and spaces only.';
+
+  @override
+  String get validationPhoneEmpty => 'The mobile number is required.';
+
+  @override
+  String get validationPhoneInvalid =>
+      'The mobile number must be 11 digits starting with 010, 011, 012 or 015.';
+
+  @override
+  String get validationEmailEmpty => 'The email is required.';
+
+  @override
+  String get validationEmailInvalid =>
+      'The email is not written correctly, for example name@example.com.';
+
+  @override
+  String get validationPasswordEmpty => 'The password is required.';
+
+  @override
+  String get validationPasswordTooShort =>
+      'The password needs at least 8 characters.';
+
+  @override
+  String get validationPasswordNeedsLetter =>
+      'The password needs at least one letter.';
+
+  @override
+  String get validationPasswordNeedsDigit =>
+      'The password needs at least one digit.';
+
+  @override
+  String get signUpEmailTaken => 'This email is already registered.';
+
+  @override
+  String get signUpPhoneTaken => 'This mobile number is already registered.';
+
+  @override
+  String get signUpTakenActions => 'You can sign in or reset the password.';
+
+  @override
+  String get confirmEmailTitle => 'Confirm your email';
+
+  @override
+  String get confirmEmailButton => 'Confirm';
+
+  @override
+  String get confirmCodeEmpty => 'The code has 6 digits.';
+
+  @override
+  String confirmCodeWrong(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tries left',
+      one: '1 try left',
+    );
+    return 'That code is not correct. $_temp0.';
+  }
+
+  @override
+  String get confirmCodeExpired =>
+      'This code has expired. You can send a new one.';
+
+  @override
+  String get confirmCodeDead =>
+      'No tries left on this code. You can send a new one.';
+
+  @override
+  String get confirmNoPending =>
+      'There is no pending confirmation for this email. You can create the account again.';
+
+  @override
+  String confirmResendTooSoon(int seconds) {
+    return 'You can send a new code in $seconds seconds.';
+  }
+
+  @override
+  String get confirmResent => 'We sent a new code.';
+
+  @override
+  String get emailConfirmSubject => 'Your Sprint account confirmation code';
+
+  @override
+  String emailConfirmBody(String code, int minutes) {
+    return 'Confirmation code: $code\nThe code is valid for $minutes minutes. If you did not create this account, you can ignore this message.';
+  }
+
+  @override
+  String get emailResetSubject => 'Your Sprint password reset code';
+
+  @override
+  String emailResetBody(String code, int minutes) {
+    return 'Reset code: $code\nThe code is valid for $minutes minutes. If you did not ask for a reset, you can ignore this message.';
+  }
+
+  @override
+  String get demoNoticeTitle => 'Demo only';
+
+  @override
+  String demoNoticeCode(String code) {
+    return 'Demo code: $code';
+  }
+
+  @override
+  String get demoNoticeDismiss => 'Hide';
+
+  @override
+  String get mailboxTitle => 'Demo mailbox';
+
+  @override
+  String get mailboxNote =>
+      'Emails the app would have sent appear here. For reviewers only.';
+
+  @override
+  String get mailboxEmptyTitle => 'No messages yet';
+
+  @override
+  String get mailboxEmptyBody =>
+      'Any confirmation or reset code that is sent will appear here.';
+
+  @override
+  String get mailboxTo => 'To';
+
+  @override
+  String get mailboxCopyCode => 'Copy code';
+
+  @override
+  String get mailboxCopied => 'Code copied.';
 }

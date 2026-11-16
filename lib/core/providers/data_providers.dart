@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sprint/core/data/demo_snapshot_store.dart';
 import 'package:sprint/core/data/in_memory_data_layer.dart';
 import 'package:sprint/core/data/in_memory_snapshot_store.dart';
+import 'package:sprint/core/l10n/locale_notifier.dart';
 import 'package:sprint/core/time/clock_provider.dart';
 import 'package:sprint/features/assets/domain/asset_repository.dart';
 import 'package:sprint/features/attendance/domain/attendance_repository.dart';
@@ -15,6 +16,7 @@ import 'package:sprint/features/booking/domain/booking_repository.dart';
 import 'package:sprint/features/catalogue/domain/catalogue_repository.dart';
 import 'package:sprint/features/demo/demo_flags.dart';
 import 'package:sprint/features/identity/domain/identity_repository.dart';
+import 'package:sprint/l10n/gen/app_localizations.dart';
 import 'package:sprint/features/notifications/domain/notification_repository.dart';
 import 'package:sprint/features/payments/domain/payment_provider.dart';
 import 'package:sprint/features/payments/domain/payment_repository.dart';
@@ -41,11 +43,17 @@ class InitialSnapshot extends _$InitialSnapshot {
   void clear() => state = null;
 }
 
-/// How code emails are worded. Override it with a localised template (reading
-/// the app's current language when called); the data layer calls it at send
-/// time, so changing it needs no rebuild of the layer.
+/// How code emails are worded: the localised template, in the app's language
+/// at the moment the email is sent (no `BuildContext` needed). Override it to
+/// change the wording; the data layer calls it at send time, so changing it
+/// needs no rebuild of the layer.
 @Riverpod(keepAlive: true)
-EmailTemplate emailTemplate(Ref ref) => defaultEmailTemplate;
+EmailTemplate emailTemplate(Ref ref) =>
+    (purpose, code) => localizedEmailTemplate(
+      lookupAppLocalizations(ref.read(localeProvider)),
+      purpose,
+      code,
+    );
 
 /// Loads the layer from the snapshot (or the seed) and saves it again once per
 /// event-loop turn after any write.

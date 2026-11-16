@@ -51,6 +51,10 @@ class SimulatedMailbox with ChangeSignal implements EmailOutbox {
     return null;
   }
 
+  /// The code inside [email]'s body, or null.
+  static String? codeOf(SimulatedEmail email) =>
+      _codePattern.firstMatch(email.body)?.group(0);
+
   /// For the demo snapshot.
   List<Map<String, dynamic>> toJson() => [for (final m in _emails) m.toJson()];
 

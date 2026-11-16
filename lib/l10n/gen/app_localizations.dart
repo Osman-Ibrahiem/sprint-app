@@ -677,7 +677,7 @@ abstract class AppLocalizations {
   /// No description provided for @codeEntrySentTo.
   ///
   /// In ar, this message translates to:
-  /// **'الكود اتبعت على'**
+  /// **'بعتنا كود على'**
   String get codeEntrySentTo;
 
   /// No description provided for @codeEntryResend.
@@ -1200,6 +1200,102 @@ abstract class AppLocalizations {
   /// **'إنشاء حساب'**
   String get signInCreateAccount;
 
+  /// No description provided for @forgotTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'استرجاع الباسورد'**
+  String get forgotTitle;
+
+  /// No description provided for @forgotIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب الإيميل أو رقم الموبايل المسجّل، وهنبعت كود على إيميل الحساب.'**
+  String get forgotIntro;
+
+  /// No description provided for @forgotSendButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال الكود'**
+  String get forgotSendButton;
+
+  /// No description provided for @resetTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'باسورد جديد'**
+  String get resetTitle;
+
+  /// No description provided for @resetSentNeutral.
+  ///
+  /// In ar, this message translates to:
+  /// **'لو الحساب موجود هيوصله كود على الإيميل المسجّل.'**
+  String get resetSentNeutral;
+
+  /// No description provided for @resetNewPasswordLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد الجديد'**
+  String get resetNewPasswordLabel;
+
+  /// No description provided for @resetPasswordHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'8 حروف على الأقل، فيها حرف ورقم'**
+  String get resetPasswordHint;
+
+  /// No description provided for @resetSaveButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ الباسورد'**
+  String get resetSaveButton;
+
+  /// No description provided for @resetCodeWrong.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود غلط. المحاولات المتبقية: {tries}.'**
+  String resetCodeWrong(int tries);
+
+  /// No description provided for @resetCodeExpired.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود انتهت صلاحيته. ممكن تطلب كود جديد.'**
+  String get resetCodeExpired;
+
+  /// No description provided for @resetCodeDead.
+  ///
+  /// In ar, this message translates to:
+  /// **'محاولات الكود خلصت. ممكن تطلب كود جديد.'**
+  String get resetCodeDead;
+
+  /// No description provided for @resetResendTooSoon.
+  ///
+  /// In ar, this message translates to:
+  /// **'ممكن تطلب كود جديد بعد {seconds} ثانية.'**
+  String resetResendTooSoon(int seconds);
+
+  /// No description provided for @resetPasswordEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد الجديد مطلوب.'**
+  String get resetPasswordEmpty;
+
+  /// No description provided for @resetPasswordTooShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد لازم يكون 8 حروف على الأقل.'**
+  String get resetPasswordTooShort;
+
+  /// No description provided for @resetPasswordNeedsLetter.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد لازم فيه حرف واحد على الأقل.'**
+  String get resetPasswordNeedsLetter;
+
+  /// No description provided for @resetPasswordNeedsDigit.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد لازم فيه رقم واحد على الأقل.'**
+  String get resetPasswordNeedsDigit;
+
   /// No description provided for @signOutTitle.
   ///
   /// In ar, this message translates to:
@@ -1229,6 +1325,306 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'حسابك: {name}، {tier}'**
   String accountCardSpoken(String name, String tier);
+
+  /// No description provided for @signUpTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء حساب'**
+  String get signUpTitle;
+
+  /// No description provided for @signUpButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء الحساب'**
+  String get signUpButton;
+
+  /// No description provided for @signUpNameLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم بالكامل'**
+  String get signUpNameLabel;
+
+  /// No description provided for @signUpNameHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم الأول واسم العيلة على الأقل'**
+  String get signUpNameHelper;
+
+  /// No description provided for @signUpPhoneLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الموبايل'**
+  String get signUpPhoneLabel;
+
+  /// No description provided for @signUpPhoneHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم مصري، مثال 01012345678'**
+  String get signUpPhoneHelper;
+
+  /// No description provided for @signUpEmailLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيميل'**
+  String get signUpEmailLabel;
+
+  /// No description provided for @signUpEmailHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'هنبعت عليه كود تأكيد الحساب'**
+  String get signUpEmailHelper;
+
+  /// No description provided for @signUpPasswordLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد'**
+  String get signUpPasswordLabel;
+
+  /// No description provided for @signUpPasswordHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'8 حروف على الأقل، فيها حرف ورقم'**
+  String get signUpPasswordHelper;
+
+  /// No description provided for @signUpAlreadyHave.
+  ///
+  /// In ar, this message translates to:
+  /// **'عندك حساب؟'**
+  String get signUpAlreadyHave;
+
+  /// No description provided for @validationNameEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم مطلوب.'**
+  String get validationNameEmpty;
+
+  /// No description provided for @validationNameTooShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم قصير أوي.'**
+  String get validationNameTooShort;
+
+  /// No description provided for @validationNameTooLong.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم طويل، الحد الأقصى 60 حرف.'**
+  String get validationNameTooLong;
+
+  /// No description provided for @validationNameNeedsTwoWords.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم لازم يكون كلمتين على الأقل، الاسم الأول واسم العيلة.'**
+  String get validationNameNeedsTwoWords;
+
+  /// No description provided for @validationNameInvalidCharacters.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم يقبل حروف ومسافات بس.'**
+  String get validationNameInvalidCharacters;
+
+  /// No description provided for @validationPhoneEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الموبايل مطلوب.'**
+  String get validationPhoneEmpty;
+
+  /// No description provided for @validationPhoneInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الموبايل لازم يكون 11 رقم ويبدأ بـ 010 أو 011 أو 012 أو 015.'**
+  String get validationPhoneInvalid;
+
+  /// No description provided for @validationEmailEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيميل مطلوب.'**
+  String get validationEmailEmpty;
+
+  /// No description provided for @validationEmailInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيميل مش مكتوب صح، مثال name@example.com.'**
+  String get validationEmailInvalid;
+
+  /// No description provided for @validationPasswordEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد مطلوب.'**
+  String get validationPasswordEmpty;
+
+  /// No description provided for @validationPasswordTooShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد لازم يكون 8 حروف على الأقل.'**
+  String get validationPasswordTooShort;
+
+  /// No description provided for @validationPasswordNeedsLetter.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد لازم فيه حرف واحد على الأقل.'**
+  String get validationPasswordNeedsLetter;
+
+  /// No description provided for @validationPasswordNeedsDigit.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد لازم فيه رقم واحد على الأقل.'**
+  String get validationPasswordNeedsDigit;
+
+  /// No description provided for @signUpEmailTaken.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيميل ده مسجل قبل كده.'**
+  String get signUpEmailTaken;
+
+  /// No description provided for @signUpPhoneTaken.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الموبايل ده مسجل قبل كده.'**
+  String get signUpPhoneTaken;
+
+  /// No description provided for @signUpTakenActions.
+  ///
+  /// In ar, this message translates to:
+  /// **'ممكن تسجيل الدخول أو استرجاع الباسورد.'**
+  String get signUpTakenActions;
+
+  /// No description provided for @confirmEmailTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد الإيميل'**
+  String get confirmEmailTitle;
+
+  /// No description provided for @confirmEmailButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد'**
+  String get confirmEmailButton;
+
+  /// No description provided for @confirmCodeEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود مكوّن من 6 أرقام.'**
+  String get confirmCodeEmpty;
+
+  /// No description provided for @confirmCodeWrong.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود مش صحيح. {count, plural, =1{فاضلك محاولة واحدة} =2{فاضلك محاولتين} other{فاضلك {count} محاولات}}.'**
+  String confirmCodeWrong(int count);
+
+  /// No description provided for @confirmCodeExpired.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود انتهت صلاحيته. ممكن إرسال كود جديد.'**
+  String get confirmCodeExpired;
+
+  /// No description provided for @confirmCodeDead.
+  ///
+  /// In ar, this message translates to:
+  /// **'المحاولات خلصت على الكود ده. ممكن إرسال كود جديد.'**
+  String get confirmCodeDead;
+
+  /// No description provided for @confirmNoPending.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش تأكيد معلّق للإيميل ده. ممكن إنشاء حساب من جديد.'**
+  String get confirmNoPending;
+
+  /// No description provided for @confirmResendTooSoon.
+  ///
+  /// In ar, this message translates to:
+  /// **'ممكن إرسال كود جديد بعد {seconds} ثانية.'**
+  String confirmResendTooSoon(int seconds);
+
+  /// No description provided for @confirmResent.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعتنا كود جديد.'**
+  String get confirmResent;
+
+  /// No description provided for @emailConfirmSubject.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود تأكيد حسابك في سبرنت'**
+  String get emailConfirmSubject;
+
+  /// No description provided for @emailConfirmBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود التأكيد: {code}\nالكود صالح لمدة {minutes} دقيقة. لو مش إنت اللي عملت الحساب، ممكن تتجاهل الرسالة دي.'**
+  String emailConfirmBody(String code, int minutes);
+
+  /// No description provided for @emailResetSubject.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود استرجاع الباسورد في سبرنت'**
+  String get emailResetSubject;
+
+  /// No description provided for @emailResetBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود الاسترجاع: {code}\nالكود صالح لمدة {minutes} دقيقة. لو مش إنت اللي طلبت الاسترجاع، ممكن تتجاهل الرسالة دي.'**
+  String emailResetBody(String code, int minutes);
+
+  /// No description provided for @demoNoticeTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'للعرض بس'**
+  String get demoNoticeTitle;
+
+  /// No description provided for @demoNoticeCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود التجربة: {code}'**
+  String demoNoticeCode(String code);
+
+  /// No description provided for @demoNoticeDismiss.
+  ///
+  /// In ar, this message translates to:
+  /// **'إخفاء'**
+  String get demoNoticeDismiss;
+
+  /// No description provided for @mailboxTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'صندوق البريد التجريبي'**
+  String get mailboxTitle;
+
+  /// No description provided for @mailboxNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرسائل اللي التطبيق كان هيبعتها بالإيميل بتظهر هنا. للمراجعين فقط.'**
+  String get mailboxNote;
+
+  /// No description provided for @mailboxEmptyTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش رسائل لسه'**
+  String get mailboxEmptyTitle;
+
+  /// No description provided for @mailboxEmptyBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'أي كود تأكيد أو استرجاع هيتبعت هيظهر هنا.'**
+  String get mailboxEmptyBody;
+
+  /// No description provided for @mailboxTo.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلى'**
+  String get mailboxTo;
+
+  /// No description provided for @mailboxCopyCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'نسخ الكود'**
+  String get mailboxCopyCode;
+
+  /// No description provided for @mailboxCopied.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود اتنسخ.'**
+  String get mailboxCopied;
 }
 
 class _AppLocalizationsDelegate

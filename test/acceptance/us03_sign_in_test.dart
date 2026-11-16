@@ -4,6 +4,7 @@ import 'package:sprint/core/adaptive/adaptive_loader.dart';
 import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
+import 'package:sprint/features/auth/presentation/confirm_email_screen.dart';
 import 'package:sprint/features/auth/presentation/sign_in_screen.dart';
 import 'package:sprint/features/catalogue/domain/price.dart';
 import 'package:sprint/features/identity/domain/role_assignment.dart';
@@ -110,10 +111,12 @@ void main() {
     await signInWith(tester, identifier: 'ahmed@example.test', password: pw);
 
     expect(sessionOf(tester).isGuest, isTrue);
-    final uri = topUri(tester);
-    expect(uri.path, '/confirm-email');
-    expect(uri.queryParameters['email'], 'ahmed@example.test');
-    expect(uri.queryParameters['from'], '/bookings');
+    expect(topUri(tester).path, '/confirm-email');
+    final screen = tester.widget<ConfirmEmailScreen>(
+      find.byType(ConfirmEmailScreen),
+    );
+    expect(screen.email, 'ahmed@example.test');
+    expect(screen.from, '/bookings');
   });
 
   testWidgets('five wrong passwords lock sign in, with the time left', (

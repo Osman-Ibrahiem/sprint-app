@@ -11,34 +11,48 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 /// dates are shown in Cairo time. Screens never call `intl` directly.
 class SprintFormat {
   const SprintFormat(String languageCode)
-      : _lang = languageCode == 'en' ? 'en' : 'ar';
+    : _lang = languageCode == 'en' ? 'en' : 'ar';
 
   factory SprintFormat.of(BuildContext context) =>
       SprintFormat(Localizations.localeOf(context).languageCode);
 
   final String _lang;
 
+  /// Once the Material localizations have loaded, intl's plain `ar` can print
+  /// Arabic-Indic digits; the product rule is Western digits in both languages.
+  static String _western(String text) =>
+      text.replaceAllMapped(RegExp('[٠-٩۰-۹]'), (m) {
+        final unit = m[0]!.codeUnitAt(0);
+        return String.fromCharCode(
+          unit >= 0x06F0 ? unit - 0x06F0 + 0x30 : unit - 0x0660 + 0x30,
+        );
+      });
+
   AppLocalizations get _l10n => lookupAppLocalizations(Locale(_lang));
 
   /// 1234.5 -> "1,234.5"
-  String number(num value) => NumberFormat.decimalPattern(_lang).format(value);
+  String number(num value) =>
+      _western(NumberFormat.decimalPattern(_lang).format(value));
 
   /// "120 ج.م" / "EGP 120".
   String price(num amount) => _l10n.priceEgp(number(amount));
 
   /// 12-hour Cairo time: "5:00 م" / "5:00 PM". [instant] is a UTC instant.
   String time(DateTime instant) =>
-      DateFormat('h:mm a', _lang).format(CairoTime.toCairo(instant));
+      _western(DateFormat('h:mm a', _lang).format(CairoTime.toCairo(instant)));
 
   /// "السبت 14 نوفمبر" / "Sat, 14 Nov", for the Cairo calendar day.
   String date(DateTime instant) {
     final pattern = _lang == 'en' ? 'EEE, d MMM' : 'EEEE d MMMM';
-    return DateFormat(pattern, _lang).format(CairoTime.toCairo(instant));
+    return _western(
+      DateFormat(pattern, _lang).format(CairoTime.toCairo(instant)),
+    );
   }
 
   /// A Cairo-local time, without the conversion [time] applies. Screens that
   /// already hold Cairo wall-clock times use the methods below.
-  String _localTime(DateTime t) => DateFormat('h:mm a', _lang).format(t);
+  String _localTime(DateTime t) =>
+      _western(DateFormat('h:mm a', _lang).format(t));
 
   /// The short form of a Cairo-local time ("5:00 م").
   String localTime(DateTime t) => _localTime(t);
@@ -59,7 +73,7 @@ class SprintFormat {
   /// "التلات 10 نوفمبر · 5:00 – 6:00 م" / "Tue 10 Nov · 5:00 – 6:00 PM".
   String dateTimeLine(DateTime start, DateTime end) {
     final pattern = _lang == 'en' ? 'd MMM' : 'd MMMM';
-    final day = DateFormat(pattern, _lang).format(start);
+    final day = _western(DateFormat(pattern, _lang).format(start));
     return '${dayName(start, short: true)} $day · ${timeRange(start, end)}';
   }
 
@@ -80,10 +94,9 @@ class SprintFormat {
   }
 
   /// 99 -> "99", 100 -> "99+" (the navigation badge cap).
-  String compactCount(int value) =>
-      value > SprintExtras.navigationBadgeCap
-          ? '${SprintExtras.navigationBadgeCap}+'
-          : number(value);
+  String compactCount(int value) => value > SprintExtras.navigationBadgeCap
+      ? '${SprintExtras.navigationBadgeCap}+'
+      : number(value);
 
   /// 73.4 -> "73%".
   String percent(num value) => '${value.round()}%';

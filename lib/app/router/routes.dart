@@ -55,6 +55,15 @@ abstract final class AppPaths {
   static String signInFrom(String from) =>
       Uri(path: signIn, queryParameters: {'from': from}).toString();
 
+  /// `/reset-password` for [identifier], keeping `from`.
+  static String resetFor(String identifier, String? from) => Uri(
+    path: resetPassword,
+    queryParameters: {
+      'identifier': identifier,
+      if (from != null && from.isNotEmpty) 'from': from,
+    },
+  ).toString();
+
   /// [path] keeping the place to return to (`from`), when there is one.
   static String keepingFrom(String path, String? from, {String? email}) => Uri(
     path: path,

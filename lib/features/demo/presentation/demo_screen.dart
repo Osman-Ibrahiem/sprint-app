@@ -57,7 +57,8 @@ class DemoScreen extends ConsumerWidget {
                 OptionGroup<ThemeMode>(
                   title: l10n.appearanceTitle,
                   selected: mode,
-                  onSelected: (v) => ref.read(themeModeProvider.notifier).set(v),
+                  onSelected: (v) =>
+                      ref.read(themeModeProvider.notifier).set(v),
                   options: [
                     (ThemeMode.system, l10n.appearanceSystem),
                     (ThemeMode.light, l10n.appearanceLight),
@@ -70,10 +71,7 @@ class DemoScreen extends ConsumerWidget {
                   selected: locale.languageCode,
                   onSelected: (v) =>
                       ref.read(localeProvider.notifier).set(Locale(v)),
-                  options: [
-                    ('ar', l10n.languageAr),
-                    ('en', l10n.languageEn),
-                  ],
+                  options: [('ar', l10n.languageAr), ('en', l10n.languageEn)],
                 ),
                 if (showToolLinks) ...[
                   const SizedBox(height: SprintSpacing.space6),
@@ -81,6 +79,13 @@ class DemoScreen extends ConsumerWidget {
                   const SizedBox(height: SprintSpacing.space6),
                   const SettingsInspector(),
                   const SizedBox(height: SprintSpacing.space6),
+                  SprintButton(
+                    label: l10n.mailboxTitle,
+                    variant: SprintButtonVariant.secondary,
+                    icon: const SprintButtonIcon(Icons.mail_outline),
+                    onPressed: () => context.push(AppPaths.demoMailbox),
+                  ),
+                  const SizedBox(height: SprintSpacing.space3),
                   SprintButton(
                     label: l10n.galleryOpenFromDemo,
                     variant: SprintButtonVariant.secondary,
