@@ -164,5 +164,6 @@ iOS and Android devices or simulators; tablet and foldable hinge layouts.
 ## Not done yet
 
 - T062 is partly done (see the table above; the "Not walked" list is what remains).
-- T064 waits for feature 003 to merge into `develop` (it has not).
+- T064 moved to feature 003: 004 merges into `develop` first (decided 2026-11-16); 003 merges `develop`
+  and resolves the shared-file overlap.
 - T065 (open the PR) is left for Osman.
