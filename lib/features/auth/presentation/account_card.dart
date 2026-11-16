@@ -12,6 +12,7 @@ import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/features/auth/domain/masking.dart';
 import 'package:sprint/features/identity/domain/role_assignment.dart';
+import 'package:sprint/features/verification/presentation/verification_notice.dart';
 import 'package:sprint/features/verification/presentation/verification_slot.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
@@ -114,6 +115,7 @@ class AccountCard extends ConsumerWidget {
           const SizedBox(height: SprintSpacing.space4),
           Divider(height: SprintExtras.hairlineWidth, color: colors.line),
           const SizedBox(height: SprintSpacing.space4),
+          const VerificationNotice(),
           VerificationSlot(session: session),
           const SizedBox(height: SprintSpacing.space4),
           SprintButton(

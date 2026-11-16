@@ -2051,6 +2051,330 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الرقم القومي: {id}'**
   String verifNationalIdMasked(String id);
+
+  /// No description provided for @verifRevSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوثيق'**
+  String get verifRevSection;
+
+  /// No description provided for @verifRevQueueTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبات التوثيق'**
+  String get verifRevQueueTitle;
+
+  /// No description provided for @verifRevQueueEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش طلبات مستنية المراجعة.'**
+  String get verifRevQueueEmpty;
+
+  /// No description provided for @verifRevWaitMinutes.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =0{مستني من أقل من دقيقة} =1{مستني من دقيقة} =2{مستني من دقيقتين} other{مستني من {count} دقايق}}'**
+  String verifRevWaitMinutes(int count);
+
+  /// No description provided for @verifRevWaitHours.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{مستني من ساعة} =2{مستني من ساعتين} other{مستني من {count} ساعات}}'**
+  String verifRevWaitHours(int count);
+
+  /// No description provided for @verifRevWaitDays.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{مستني من يوم} =2{مستني من يومين} other{مستني من {count} أيام}}'**
+  String verifRevWaitDays(int count);
+
+  /// No description provided for @verifRevPricing.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد القبول هيتحاسب بالسعر الداخلي'**
+  String get verifRevPricing;
+
+  /// No description provided for @verifRevRowSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب {name}، {type}، {unit}، {wait}'**
+  String verifRevRowSpoken(String name, String type, String unit, String wait);
+
+  /// No description provided for @verifRevDetailTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفاصيل الطلب'**
+  String get verifRevDetailTitle;
+
+  /// No description provided for @verifRevPickPrompt.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار طلب من القائمة بيعرض تفاصيله هنا.'**
+  String get verifRevPickPrompt;
+
+  /// No description provided for @verifRevName.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم'**
+  String get verifRevName;
+
+  /// No description provided for @verifRevType.
+  ///
+  /// In ar, this message translates to:
+  /// **'النوع'**
+  String get verifRevType;
+
+  /// No description provided for @verifRevCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود'**
+  String get verifRevCode;
+
+  /// No description provided for @verifRevUnit.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكلية أو الإدارة'**
+  String get verifRevUnit;
+
+  /// No description provided for @verifRevSubmitted.
+  ///
+  /// In ar, this message translates to:
+  /// **'وقت الإرسال'**
+  String get verifRevSubmitted;
+
+  /// No description provided for @verifRevNationalId.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرقم القومي'**
+  String get verifRevNationalId;
+
+  /// No description provided for @verifRevPhoto.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة البطاقة'**
+  String get verifRevPhoto;
+
+  /// No description provided for @verifRevPhotoSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة بطاقة {name}'**
+  String verifRevPhotoSpoken(String name);
+
+  /// No description provided for @verifRevPhotoMissing.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصورة مش موجودة.'**
+  String get verifRevPhotoMissing;
+
+  /// No description provided for @verifRevApprove.
+  ///
+  /// In ar, this message translates to:
+  /// **'قبول الطلب'**
+  String get verifRevApprove;
+
+  /// No description provided for @verifRevReject.
+  ///
+  /// In ar, this message translates to:
+  /// **'رفض الطلب'**
+  String get verifRevReject;
+
+  /// No description provided for @verifRevRejectTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'رفض الطلب'**
+  String get verifRevRejectTitle;
+
+  /// No description provided for @verifRevReasonLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'سبب الرفض'**
+  String get verifRevReasonLabel;
+
+  /// No description provided for @verifRevReasonHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'10 حروف على الأقل، والسبب هيظهر لصاحب الطلب.'**
+  String get verifRevReasonHelper;
+
+  /// No description provided for @verifRevReasonConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد الرفض'**
+  String get verifRevReasonConfirm;
+
+  /// No description provided for @verifRevReasonCancel.
+  ///
+  /// In ar, this message translates to:
+  /// **'رجوع'**
+  String get verifRevReasonCancel;
+
+  /// No description provided for @verifRevAlreadyDecided.
+  ///
+  /// In ar, this message translates to:
+  /// **'الطلب ده اتقرر فيه قبل كده.'**
+  String get verifRevAlreadyDecided;
+
+  /// No description provided for @verifRevOwnRequest.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبك أنت مينفعش تراجعه بنفسك.'**
+  String get verifRevOwnRequest;
+
+  /// No description provided for @verifRevDecidedApproved.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم قبول الطلب، وصاحبه بقى بالسعر الداخلي.'**
+  String get verifRevDecidedApproved;
+
+  /// No description provided for @verifRevDecidedRejected.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم رفض الطلب، والسبب ظاهر لصاحبه.'**
+  String get verifRevDecidedRejected;
+
+  /// No description provided for @verifRevUpload.
+  ///
+  /// In ar, this message translates to:
+  /// **'رفع الشيت'**
+  String get verifRevUpload;
+
+  /// No description provided for @sheetTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'رفع شيت التوثيق'**
+  String get sheetTitle;
+
+  /// No description provided for @sheetHelp.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملف CSV بترميز UTF-8 فيه 3 أعمدة بالترتيب: الرقم القومي، الكود، النوع (طالب أو موظف أو عضو هيئة تدريس). الصف الأول ممكن يبقى عناوين.'**
+  String get sheetHelp;
+
+  /// No description provided for @sheetPick.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار ملف CSV'**
+  String get sheetPick;
+
+  /// No description provided for @sheetSummaryTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملخص الرفع'**
+  String get sheetSummaryTitle;
+
+  /// No description provided for @sheetSummaryRead.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفوف اتقرت'**
+  String get sheetSummaryRead;
+
+  /// No description provided for @sheetSummaryAdded.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفوف اتضافت'**
+  String get sheetSummaryAdded;
+
+  /// No description provided for @sheetSummaryDuplicates.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفوف مكررة اتجاهلت'**
+  String get sheetSummaryDuplicates;
+
+  /// No description provided for @sheetSummaryInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفوف غلط اتجاهلت'**
+  String get sheetSummaryInvalid;
+
+  /// No description provided for @sheetSummaryApproved.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبات اتقبلت تلقائي'**
+  String get sheetSummaryApproved;
+
+  /// No description provided for @sheetProblemsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفوف اللي اتجاهلت'**
+  String get sheetProblemsTitle;
+
+  /// No description provided for @sheetProblemRow.
+  ///
+  /// In ar, this message translates to:
+  /// **'صف {row}: {reason}'**
+  String sheetProblemRow(String row, String reason);
+
+  /// No description provided for @sheetReasonColumns.
+  ///
+  /// In ar, this message translates to:
+  /// **'عدد الأعمدة غلط'**
+  String get sheetReasonColumns;
+
+  /// No description provided for @sheetReasonCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود مش صالح'**
+  String get sheetReasonCode;
+
+  /// No description provided for @sheetReasonType.
+  ///
+  /// In ar, this message translates to:
+  /// **'النوع مش معروف'**
+  String get sheetReasonType;
+
+  /// No description provided for @sheetReasonOther.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصف مش صالح'**
+  String get sheetReasonOther;
+
+  /// No description provided for @sheetErrBadColumns.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأعمدة مش زي المتوقع، ومفيش حاجة اتضافت.'**
+  String get sheetErrBadColumns;
+
+  /// No description provided for @sheetErrNoRows.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش صفوف صالحة في الملف، ومفيش حاجة اتضافت.'**
+  String get sheetErrNoRows;
+
+  /// No description provided for @sheetErrRead.
+  ///
+  /// In ar, this message translates to:
+  /// **'الملف ماتقراش. ممكن تجرب ملف CSV تاني.'**
+  String get sheetErrRead;
+
+  /// No description provided for @sheetBatchesTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرفعات اللي فاتت'**
+  String get sheetBatchesTitle;
+
+  /// No description provided for @sheetBatchesEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'لسه مفيش رفعات.'**
+  String get sheetBatchesEmpty;
+
+  /// No description provided for @sheetBatchLine.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتضاف {added}، اتقبل {approved}، اتجاهل {skipped}'**
+  String sheetBatchLine(int added, int approved, int skipped);
+
+  /// No description provided for @verifNoticeApproved.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم قبول طلب التوثيق. متوثق لحد {date}.'**
+  String verifNoticeApproved(String date);
+
+  /// No description provided for @verifNoticeRejected.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب التوثيق اترفض. السبب: {reason}'**
+  String verifNoticeRejected(String reason);
 }
 
 class _AppLocalizationsDelegate

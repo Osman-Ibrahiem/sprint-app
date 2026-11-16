@@ -80,11 +80,11 @@ class _VerificationRequestScreenState
   void initState() {
     super.initState();
     // Renewal or a new request after a refusal starts from the last answers,
-    // with no photo (FR-030).
+    // with no photo (FR-030). The national ID always starts empty: the full
+    // number is not shown outside the reviewer's detail (FR-033, NFR-06).
     final previous = ref.read(currentSessionProvider).verification;
     if (previous != null && previous.status != VerificationStatus.pending) {
       _type = previous.type;
-      _nationalId.text = previous.nationalId;
       _code.text = previous.code;
       _unitId = previous.owningUnitId;
       _renewal = previous.status == VerificationStatus.approved;

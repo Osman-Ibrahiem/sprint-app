@@ -1,3 +1,4 @@
+import 'package:sprint/core/l10n/sprint_format.dart';
 import 'package:sprint/features/identity/domain/verification.dart';
 import 'package:sprint/features/verification/data/in_memory_verification_repository.dart'
     show duplicateNationalIdReason;
@@ -61,3 +62,14 @@ String? verificationFieldMessage(
 /// code, a reviewer's reason is their own text (BR-26, BR-27).
 String verificationReasonText(AppLocalizations l10n, String reason) =>
     reason == duplicateNationalIdReason ? l10n.verifReasonDuplicate : reason;
+
+/// How long a request has been waiting, in the largest whole unit (FR-031).
+String verificationWaitText(
+  AppLocalizations l10n,
+  SprintFormat format,
+  Duration waited,
+) {
+  if (waited.inDays >= 1) return l10n.verifRevWaitDays(waited.inDays);
+  if (waited.inHours >= 1) return l10n.verifRevWaitHours(waited.inHours);
+  return l10n.verifRevWaitMinutes(waited.inMinutes < 0 ? 0 : waited.inMinutes);
+}

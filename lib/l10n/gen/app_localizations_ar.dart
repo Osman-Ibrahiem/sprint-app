@@ -1140,4 +1140,209 @@ class AppLocalizationsAr extends AppLocalizations {
   String verifNationalIdMasked(String id) {
     return 'الرقم القومي: $id';
   }
+
+  @override
+  String get verifRevSection => 'التوثيق';
+
+  @override
+  String get verifRevQueueTitle => 'طلبات التوثيق';
+
+  @override
+  String get verifRevQueueEmpty => 'مفيش طلبات مستنية المراجعة.';
+
+  @override
+  String verifRevWaitMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'مستني من $count دقايق',
+      two: 'مستني من دقيقتين',
+      one: 'مستني من دقيقة',
+      zero: 'مستني من أقل من دقيقة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String verifRevWaitHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'مستني من $count ساعات',
+      two: 'مستني من ساعتين',
+      one: 'مستني من ساعة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String verifRevWaitDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'مستني من $count أيام',
+      two: 'مستني من يومين',
+      one: 'مستني من يوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get verifRevPricing => 'بعد القبول هيتحاسب بالسعر الداخلي';
+
+  @override
+  String verifRevRowSpoken(String name, String type, String unit, String wait) {
+    return 'طلب $name، $type، $unit، $wait';
+  }
+
+  @override
+  String get verifRevDetailTitle => 'تفاصيل الطلب';
+
+  @override
+  String get verifRevPickPrompt => 'اختيار طلب من القائمة بيعرض تفاصيله هنا.';
+
+  @override
+  String get verifRevName => 'الاسم';
+
+  @override
+  String get verifRevType => 'النوع';
+
+  @override
+  String get verifRevCode => 'الكود';
+
+  @override
+  String get verifRevUnit => 'الكلية أو الإدارة';
+
+  @override
+  String get verifRevSubmitted => 'وقت الإرسال';
+
+  @override
+  String get verifRevNationalId => 'الرقم القومي';
+
+  @override
+  String get verifRevPhoto => 'صورة البطاقة';
+
+  @override
+  String verifRevPhotoSpoken(String name) {
+    return 'صورة بطاقة $name';
+  }
+
+  @override
+  String get verifRevPhotoMissing => 'الصورة مش موجودة.';
+
+  @override
+  String get verifRevApprove => 'قبول الطلب';
+
+  @override
+  String get verifRevReject => 'رفض الطلب';
+
+  @override
+  String get verifRevRejectTitle => 'رفض الطلب';
+
+  @override
+  String get verifRevReasonLabel => 'سبب الرفض';
+
+  @override
+  String get verifRevReasonHelper =>
+      '10 حروف على الأقل، والسبب هيظهر لصاحب الطلب.';
+
+  @override
+  String get verifRevReasonConfirm => 'تأكيد الرفض';
+
+  @override
+  String get verifRevReasonCancel => 'رجوع';
+
+  @override
+  String get verifRevAlreadyDecided => 'الطلب ده اتقرر فيه قبل كده.';
+
+  @override
+  String get verifRevOwnRequest => 'طلبك أنت مينفعش تراجعه بنفسك.';
+
+  @override
+  String get verifRevDecidedApproved =>
+      'تم قبول الطلب، وصاحبه بقى بالسعر الداخلي.';
+
+  @override
+  String get verifRevDecidedRejected => 'تم رفض الطلب، والسبب ظاهر لصاحبه.';
+
+  @override
+  String get verifRevUpload => 'رفع الشيت';
+
+  @override
+  String get sheetTitle => 'رفع شيت التوثيق';
+
+  @override
+  String get sheetHelp =>
+      'ملف CSV بترميز UTF-8 فيه 3 أعمدة بالترتيب: الرقم القومي، الكود، النوع (طالب أو موظف أو عضو هيئة تدريس). الصف الأول ممكن يبقى عناوين.';
+
+  @override
+  String get sheetPick => 'اختيار ملف CSV';
+
+  @override
+  String get sheetSummaryTitle => 'ملخص الرفع';
+
+  @override
+  String get sheetSummaryRead => 'صفوف اتقرت';
+
+  @override
+  String get sheetSummaryAdded => 'صفوف اتضافت';
+
+  @override
+  String get sheetSummaryDuplicates => 'صفوف مكررة اتجاهلت';
+
+  @override
+  String get sheetSummaryInvalid => 'صفوف غلط اتجاهلت';
+
+  @override
+  String get sheetSummaryApproved => 'طلبات اتقبلت تلقائي';
+
+  @override
+  String get sheetProblemsTitle => 'الصفوف اللي اتجاهلت';
+
+  @override
+  String sheetProblemRow(String row, String reason) {
+    return 'صف $row: $reason';
+  }
+
+  @override
+  String get sheetReasonColumns => 'عدد الأعمدة غلط';
+
+  @override
+  String get sheetReasonCode => 'الكود مش صالح';
+
+  @override
+  String get sheetReasonType => 'النوع مش معروف';
+
+  @override
+  String get sheetReasonOther => 'الصف مش صالح';
+
+  @override
+  String get sheetErrBadColumns => 'الأعمدة مش زي المتوقع، ومفيش حاجة اتضافت.';
+
+  @override
+  String get sheetErrNoRows => 'مفيش صفوف صالحة في الملف، ومفيش حاجة اتضافت.';
+
+  @override
+  String get sheetErrRead => 'الملف ماتقراش. ممكن تجرب ملف CSV تاني.';
+
+  @override
+  String get sheetBatchesTitle => 'الرفعات اللي فاتت';
+
+  @override
+  String get sheetBatchesEmpty => 'لسه مفيش رفعات.';
+
+  @override
+  String sheetBatchLine(int added, int approved, int skipped) {
+    return 'اتضاف $added، اتقبل $approved، اتجاهل $skipped';
+  }
+
+  @override
+  String verifNoticeApproved(String date) {
+    return 'تم قبول طلب التوثيق. متوثق لحد $date.';
+  }
+
+  @override
+  String verifNoticeRejected(String reason) {
+    return 'طلب التوثيق اترفض. السبب: $reason';
+  }
 }

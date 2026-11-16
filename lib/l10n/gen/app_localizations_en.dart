@@ -1151,4 +1151,211 @@ class AppLocalizationsEn extends AppLocalizations {
   String verifNationalIdMasked(String id) {
     return 'National ID: $id';
   }
+
+  @override
+  String get verifRevSection => 'Verification';
+
+  @override
+  String get verifRevQueueTitle => 'Verification requests';
+
+  @override
+  String get verifRevQueueEmpty => 'No requests waiting for review.';
+
+  @override
+  String verifRevWaitMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Waiting $count minutes',
+      one: 'Waiting 1 minute',
+      zero: 'Waiting less than a minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String verifRevWaitHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Waiting $count hours',
+      one: 'Waiting 1 hour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String verifRevWaitDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Waiting $count days',
+      one: 'Waiting 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get verifRevPricing => 'Priced as internal once approved';
+
+  @override
+  String verifRevRowSpoken(String name, String type, String unit, String wait) {
+    return 'Request from $name, $type, $unit, $wait';
+  }
+
+  @override
+  String get verifRevDetailTitle => 'Request details';
+
+  @override
+  String get verifRevPickPrompt =>
+      'Choosing a request from the list shows its details here.';
+
+  @override
+  String get verifRevName => 'Name';
+
+  @override
+  String get verifRevType => 'Type';
+
+  @override
+  String get verifRevCode => 'Code';
+
+  @override
+  String get verifRevUnit => 'Faculty or department';
+
+  @override
+  String get verifRevSubmitted => 'Sent';
+
+  @override
+  String get verifRevNationalId => 'National ID';
+
+  @override
+  String get verifRevPhoto => 'ID card photo';
+
+  @override
+  String verifRevPhotoSpoken(String name) {
+    return 'ID card photo of $name';
+  }
+
+  @override
+  String get verifRevPhotoMissing => 'The photo is not available.';
+
+  @override
+  String get verifRevApprove => 'Approve request';
+
+  @override
+  String get verifRevReject => 'Reject request';
+
+  @override
+  String get verifRevRejectTitle => 'Reject request';
+
+  @override
+  String get verifRevReasonLabel => 'Reason for rejection';
+
+  @override
+  String get verifRevReasonHelper =>
+      'At least 10 characters. The person will see the reason.';
+
+  @override
+  String get verifRevReasonConfirm => 'Confirm rejection';
+
+  @override
+  String get verifRevReasonCancel => 'Back';
+
+  @override
+  String get verifRevAlreadyDecided => 'This request was already decided.';
+
+  @override
+  String get verifRevOwnRequest => 'You cannot review your own request.';
+
+  @override
+  String get verifRevDecidedApproved =>
+      'The request was approved and the person now pays the internal price.';
+
+  @override
+  String get verifRevDecidedRejected =>
+      'The request was rejected and the person can see the reason.';
+
+  @override
+  String get verifRevUpload => 'Upload sheet';
+
+  @override
+  String get sheetTitle => 'Upload verification sheet';
+
+  @override
+  String get sheetHelp =>
+      'A UTF-8 CSV file with 3 columns in this order: national ID, code, type (student, staff or faculty). The first row may be headings.';
+
+  @override
+  String get sheetPick => 'Choose a CSV file';
+
+  @override
+  String get sheetSummaryTitle => 'Upload summary';
+
+  @override
+  String get sheetSummaryRead => 'Rows read';
+
+  @override
+  String get sheetSummaryAdded => 'Rows added';
+
+  @override
+  String get sheetSummaryDuplicates => 'Duplicate rows skipped';
+
+  @override
+  String get sheetSummaryInvalid => 'Invalid rows skipped';
+
+  @override
+  String get sheetSummaryApproved => 'Requests approved automatically';
+
+  @override
+  String get sheetProblemsTitle => 'Skipped rows';
+
+  @override
+  String sheetProblemRow(String row, String reason) {
+    return 'Row $row: $reason';
+  }
+
+  @override
+  String get sheetReasonColumns => 'Wrong number of columns';
+
+  @override
+  String get sheetReasonCode => 'The code is not valid';
+
+  @override
+  String get sheetReasonType => 'The type is not known';
+
+  @override
+  String get sheetReasonOther => 'The row is not valid';
+
+  @override
+  String get sheetErrBadColumns =>
+      'The columns are not the expected ones, and nothing was added.';
+
+  @override
+  String get sheetErrNoRows =>
+      'The file has no valid rows, and nothing was added.';
+
+  @override
+  String get sheetErrRead =>
+      'The file could not be read. You can try another CSV file.';
+
+  @override
+  String get sheetBatchesTitle => 'Earlier uploads';
+
+  @override
+  String get sheetBatchesEmpty => 'No uploads yet.';
+
+  @override
+  String sheetBatchLine(int added, int approved, int skipped) {
+    return 'Added $added, approved $approved, skipped $skipped';
+  }
+
+  @override
+  String verifNoticeApproved(String date) {
+    return 'Your verification request was approved. Verified until $date.';
+  }
+
+  @override
+  String verifNoticeRejected(String reason) {
+    return 'Your verification request was rejected. Reason: $reason';
+  }
 }

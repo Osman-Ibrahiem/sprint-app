@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sprint/core/adaptive/platform.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
+import 'package:sprint/core/tokens/sprint_spacing.g.dart';
+import 'package:sprint/core/widgets/sprint_text_field/sprint_text_field.dart';
 
 /// One button of a [showSprintDialog]. [value] is what the dialog returns.
 class SprintDialogAction<T> {
@@ -111,4 +113,140 @@ Widget _materialDialog<T>(
         ),
     ],
   );
+}
+
+/// A dialog with one text field, in the platform's form. The confirm button
+/// stays off until the trimmed text has at least [minLength] characters, and
+/// the dialog returns the trimmed text, or null when dismissed. The field
+/// shows [fieldLabel] and [helper] (for example a reason, FR-034).
+Future<String?> showSprintInputDialog({
+  required BuildContext context,
+  required String title,
+  required String fieldLabel,
+  required String confirmLabel,
+  required String cancelLabel,
+  String? helper,
+  int minLength = 1,
+}) {
+  Widget dialog(BuildContext ctx, {required bool apple, Key? key}) =>
+      _InputDialog(
+        key: key,
+        apple: apple,
+        title: title,
+        fieldLabel: fieldLabel,
+        helper: helper,
+        confirmLabel: confirmLabel,
+        cancelLabel: cancelLabel,
+        minLength: minLength,
+      );
+  switch (adaptiveStyleOf(context)) {
+    case AdaptiveStyle.apple:
+      return showCupertinoDialog<String>(
+        context: context,
+        barrierDismissible: true,
+        builder: (ctx) => dialog(ctx, apple: true),
+      );
+    case AdaptiveStyle.android:
+      return showDialog<String>(
+        context: context,
+        builder: (ctx) => dialog(ctx, apple: false),
+      );
+    case AdaptiveStyle.desktop:
+      return showDialog<String>(
+        context: context,
+        builder: (ctx) => dialog(
+          ctx,
+          apple: false,
+          key: const ValueKey('sprint-dialog-desktop'),
+        ),
+      );
+  }
+}
+
+class _InputDialog extends StatefulWidget {
+  const _InputDialog({
+    required this.apple,
+    required this.title,
+    required this.fieldLabel,
+    required this.confirmLabel,
+    required this.cancelLabel,
+    required this.minLength,
+    this.helper,
+    super.key,
+  });
+
+  final bool apple;
+  final String title;
+  final String fieldLabel;
+  final String? helper;
+  final String confirmLabel;
+  final String cancelLabel;
+  final int minLength;
+
+  @override
+  State<_InputDialog> createState() => _InputDialogState();
+}
+
+class _InputDialogState extends State<_InputDialog> {
+  final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  bool get _valid => _controller.text.trim().length >= widget.minLength;
+
+  void _confirm() {
+    if (_valid) Navigator.of(context).pop(_controller.text.trim());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final field = Padding(
+      padding: const EdgeInsetsDirectional.only(top: SprintSpacing.space3),
+      child: SprintTextField(
+        label: widget.fieldLabel,
+        helper: widget.helper,
+        controller: _controller,
+        onChanged: (_) => setState(() {}),
+        onSubmitted: (_) => _confirm(),
+      ),
+    );
+    if (widget.apple) {
+      return CupertinoAlertDialog(
+        title: Text(widget.title),
+        content: Material(type: MaterialType.transparency, child: field),
+        actions: [
+          CupertinoDialogAction(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(widget.cancelLabel),
+          ),
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            isDestructiveAction: true,
+            onPressed: _valid ? _confirm : null,
+            child: Text(widget.confirmLabel),
+          ),
+        ],
+      );
+    }
+    final colors = context.colors;
+    return AlertDialog(
+      title: Text(widget.title, style: context.text.title),
+      content: SingleChildScrollView(child: field),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(widget.cancelLabel, style: context.text.button),
+        ),
+        TextButton(
+          onPressed: _valid ? _confirm : null,
+          style: TextButton.styleFrom(foregroundColor: colors.danger),
+          child: Text(widget.confirmLabel, style: context.text.button),
+        ),
+      ],
+    );
+  }
 }

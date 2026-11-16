@@ -128,19 +128,19 @@ void main() {
     tester,
   ) async {
     await start(tester, SeedIds.userRejected);
-    // Answers are back, the photo is not.
+    // The code is back; the national ID (FR-033) and the photo are not.
     final fields = find.byType(TextField);
-    expect(
-      tester.widget<TextField>(fields.at(0)).controller!.text,
-      '29705051400066',
-    );
+    expect(tester.widget<TextField>(fields.at(0)).controller!.text, isEmpty);
     expect(tester.widget<TextField>(fields.at(1)).controller!.text, '20190066');
+    expect(find.textContaining('29705051400066'), findsNothing);
     expect(find.byKey(IdCardPhotoPicker.previewKey), findsNothing);
     expect(find.text(ar.verifRenewTitle), findsNothing);
 
     await tapText(tester, ar.verifSubmit);
+    expect(find.text(ar.verifErrNationalIdEmpty), findsOneWidget);
     expect(find.text(ar.verifErrPhotoEmpty), findsOneWidget);
 
+    await enterRequestFields(tester, nationalId: '29705051400066');
     await pickIdCardPhoto(tester, ar.verifPhotoGallery);
     await tapText(tester, ar.verifSubmit);
     expect(find.text(ar.verifResultPending), findsOneWidget);
@@ -158,7 +158,12 @@ void main() {
     // The title and the button both say "تجديد التوثيق".
     expect(find.text(ar.verifRenewTitle), findsNWidgets(2));
     expect(find.byKey(IdCardPhotoPicker.previewKey), findsNothing);
+    expect(
+      tester.widget<TextField>(find.byType(TextField).at(0)).controller!.text,
+      isEmpty,
+    );
 
+    await enterRequestFields(tester, nationalId: '29804040400044');
     await pickIdCardPhoto(tester, ar.verifPhotoGallery);
     final send = find.byType(SprintButton).last;
     await tester.ensureVisible(send);
