@@ -7,7 +7,7 @@ Run 2026-11-16 on a clean checkout of `003-auth-verification` (detached worktree
 changed files, `flutter analyze --fatal-infos` no issues, `flutter test` 1223 passed,
 `flutter build web --release --base-href /sprint-app/` built.
 
-## Devices walked (T085, partial)
+## Devices walked (T085)
 
 | Target | How | Result |
 | --- | --- | --- |
