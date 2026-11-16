@@ -148,6 +148,19 @@ iOS and Android devices or simulators; tablet and foldable hinge layouts.
 - `flutter analyze`: clean. `flutter test`: **866 passed**. The closure line on the futsal details
   was the place it showed in the browser; not re-checked in the browser after the fix.
 
+## Review fixes check
+
+- **Date**: 2026-11-16
+- Release web build in the browser pane, compact 375 wide, after the review fixes: the closure date
+  reads "19" and "20" with Western digits; the home type chips are not pre-selected, and tapping a type
+  with "free" on opens the list with only that type; the back chevron points left in English and right
+  in Arabic, and the "عرض المواعيد" arrow points left in Arabic.
+- Found while checking: Phosphor glyphs set `matchTextDirection`, so `DirectionalIcon` flipped twice in
+  RTL (no net flip). `DirectionalIcon` now fixes the icon's own direction, so it is the only place
+  that flips. A plain `Icon` of a Phosphor glyph still mirrors itself in RTL, including icons that
+  should not mirror (a Foundation-wide point, not changed here).
+- `flutter analyze`: clean. `flutter test`: **873 passed**.
+
 ## Not done yet
 
 - T062 is partly done (see the table above; the "Not walked" list is what remains).

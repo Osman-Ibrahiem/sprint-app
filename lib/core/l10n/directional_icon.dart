@@ -19,7 +19,15 @@ class DirectionalIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final i = Icon(icon, size: size, color: color);
+    // Phosphor glyphs set `matchTextDirection`, so a plain Icon already flips
+    // itself in RTL. Fixing the icon's own direction makes this widget the
+    // only place that decides, instead of flipping twice (a net no-op).
+    final i = Icon(
+      icon,
+      size: size,
+      color: color,
+      textDirection: TextDirection.ltr,
+    );
     final rtl = Directionality.of(context) == TextDirection.rtl;
     return mirror && rtl ? Transform.flip(flipX: true, child: i) : i;
   }
