@@ -6,6 +6,7 @@ import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// Facilities placeholder. The search field stands in for the catalogue search
 /// (FR-CAT) and lets the shell prove it keeps typed text across a resize.
@@ -44,7 +45,7 @@ class _FacilitiesPlaceholderState extends State<FacilitiesPlaceholder> {
             decoration: InputDecoration(
               hintText: l10n.facilitiesSearchHint,
               hintStyle: context.text.body.copyWith(color: colors.inkMuted),
-              prefixIcon: const Icon(Icons.search),
+              prefixIcon: const SprintIcon(Icons.search),
               filled: true,
               fillColor: colors.surfaceSunken,
               border: OutlineInputBorder(

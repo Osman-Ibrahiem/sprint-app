@@ -5,6 +5,7 @@ import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// A titled single-choice list. The chosen row shows a check and the word
 /// "مختار", so the state never relies on colour alone (FR-017).
@@ -63,7 +64,7 @@ class OptionGroup<T> extends StatelessWidget {
                                 .copyWith(color: colors.inkMuted),
                           ),
                           const SizedBox(width: SprintSpacing.space2),
-                          Icon(
+                          SprintIcon(
                             Icons.check,
                             size: SprintSize.iconMd,
                             color: colors.primary,

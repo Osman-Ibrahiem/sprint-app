@@ -4,6 +4,7 @@ import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// What a guest sees on My Bookings and Profile: a word and an icon, no
 /// redirect, so deep links stay stable (contracts/routes.md rule 3).
@@ -24,7 +25,7 @@ class SignInPrompt extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.lock_outline, size: SprintSize.iconLg, color: colors.ink),
+          SprintIcon(Icons.lock_outline, size: SprintSize.iconLg, color: colors.ink),
           const SizedBox(width: SprintSpacing.space3),
           Expanded(
             child: Column(

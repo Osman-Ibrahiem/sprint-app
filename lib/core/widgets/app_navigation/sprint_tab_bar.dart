@@ -12,6 +12,7 @@ import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/app_navigation/nav_destination.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// Bottom tab bar for compact windows. Solid `surface` on Android and the web,
 /// translucent with a blur on Apple platforms (adaptive.md). It extends behind
@@ -215,7 +216,7 @@ class _MoreItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            SprintIcon(
               Icons.more_horiz,
               size: SprintSize.iconLg,
               color: colors.inkMuted,

@@ -10,6 +10,7 @@ import 'package:sprint/features/catalogue/domain/facility.dart';
 import 'package:sprint/features/catalogue/presentation/providers/catalogue_providers.dart';
 import 'package:sprint/features/catalogue/presentation/widgets/facility_card_mapper.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// Type, owning unit and free / paid filters, the active filters as removable
 /// chips, "clear all" and the result count (FR-008 – FR-010).
@@ -234,7 +235,7 @@ class _Chip extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (selected && trailing == null) ...[
-              Icon(
+              SprintIcon(
                 PhosphorIconsRegular.check,
                 size: SprintSize.iconSm,
                 color: colors.onPrimarySoft,
@@ -249,8 +250,8 @@ class _Chip extends StatelessWidget {
             ),
             if (trailing != null) ...[
               const SizedBox(width: SprintSpacing.space1),
-              Icon(
-                trailing,
+              SprintIcon(
+                trailing!,
                 size: SprintSize.iconSm,
                 color: colors.onPrimarySoft,
               ),

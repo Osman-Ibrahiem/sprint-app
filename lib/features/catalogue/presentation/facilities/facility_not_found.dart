@@ -7,6 +7,7 @@ import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// A friendly screen for a missing or unpublished facility: never a blank page
 /// (FR-026).
@@ -26,7 +27,7 @@ class FacilityNotFound extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            SprintIcon(
               PhosphorIconsRegular.mapPin,
               size: SprintSize.iconLg,
               color: colors.inkMuted,
