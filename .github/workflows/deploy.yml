@@ -42,7 +42,7 @@ jobs:
       - name: Test
         run: flutter test
       - name: Build web
-        run: flutter build web --release --base-href /sprint-app/
+        run: flutter build web --release --base-href /sprint-app/ --dart-define=SPRINT_WEB_BASE=https://osman-ibrahiem.github.io/sprint-app/
       - name: Upload the site
         uses: actions/upload-pages-artifact@v3
         with:

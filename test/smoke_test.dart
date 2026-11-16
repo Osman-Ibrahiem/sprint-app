@@ -16,7 +16,7 @@ void main() {
     await tester.pumpAndSettle();
     // `main` loads the session first, so the scope wraps a ready container.
     expect(find.byType(UncontrolledProviderScope), findsOneWidget);
-    final home = find.text(ar.homeTitle);
+    final home = find.text(ar.catalogueHomeTitle);
     expect(home, findsOneWidget);
     final ctx = tester.element(home);
     expect(Directionality.of(ctx), TextDirection.rtl);

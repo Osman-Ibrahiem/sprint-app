@@ -971,6 +971,242 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mailboxCopied => 'Code copied.';
 
   @override
+  String get catalogueTypeSwimming => 'Swimming';
+
+  @override
+  String get catalogueTypeFootball => 'Football';
+
+  @override
+  String get catalogueTypeGym => 'Gym';
+
+  @override
+  String get catalogueTypeTennis => 'Tennis';
+
+  @override
+  String get catalogueTypeHall => 'Hall';
+
+  @override
+  String get catalogueTypeTraining => 'Training';
+
+  @override
+  String get catalogueErrorTitle => 'Something went wrong';
+
+  @override
+  String get catalogueErrorBody =>
+      'This content isn\'t showing right now. Trying again may fix it.';
+
+  @override
+  String get catalogueRetry => 'Try again';
+
+  @override
+  String get catalogueFacilityNotFoundTitle => 'Facility not found';
+
+  @override
+  String get catalogueFacilityNotFoundBody =>
+      'The link may be wrong, or the facility isn\'t published.';
+
+  @override
+  String get catalogueBackToFacilities => 'Back to facilities';
+
+  @override
+  String get cataloguePanePrompt => 'Pick a facility to see its details';
+
+  @override
+  String cataloguePriceRange(String min, String max) {
+    return 'EGP $min–$max';
+  }
+
+  @override
+  String get catalogueTagFree => 'Free';
+
+  @override
+  String get catalogueTagTrainer => 'With a trainer';
+
+  @override
+  String get catalogueHomeTitle => 'Discover facilities';
+
+  @override
+  String get catalogueHomeTypesTitle => 'Facility types';
+
+  @override
+  String get catalogueHomeFeaturedTitle => 'Featured facilities';
+
+  @override
+  String get catalogueHomeSeeAll => 'See all facilities';
+
+  @override
+  String get catalogueHomeGuestHint =>
+      'You can browse every facility without signing in.';
+
+  @override
+  String get catalogueFiltersTitle => 'Filters';
+
+  @override
+  String get catalogueFilterAllTypes => 'All types';
+
+  @override
+  String get catalogueFilterAllUnits => 'All units';
+
+  @override
+  String get catalogueFilterAny => 'Free or paid';
+
+  @override
+  String get catalogueFilterFree => 'Free';
+
+  @override
+  String get catalogueFilterPaid => 'Paid';
+
+  @override
+  String get catalogueFilterClearAll => 'Clear all';
+
+  @override
+  String catalogueFilterRemove(String name) {
+    return 'Remove filter $name';
+  }
+
+  @override
+  String catalogueResultCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count facilities',
+      one: '1 facility',
+      zero: 'No facilities',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catalogueEmptyTitle => 'No facilities match';
+
+  @override
+  String catalogueEmptyBody(String filters) {
+    return 'Nothing matches these filters: $filters';
+  }
+
+  @override
+  String get catalogueEmptyClear => 'Clear filters';
+
+  @override
+  String get catalogueSectionHours => 'Opening hours';
+
+  @override
+  String get catalogueSectionPrices => 'Prices';
+
+  @override
+  String get catalogueSectionTrainers => 'Trainers';
+
+  @override
+  String get catalogueSectionUnits => 'Units';
+
+  @override
+  String get catalogueSectionAvailability => 'Available today';
+
+  @override
+  String get catalogueSectionFacts => 'Booking info';
+
+  @override
+  String get cataloguePhotoPlaceholder => 'Facility photo';
+
+  @override
+  String cataloguePhotoPosition(int index, int count) {
+    return 'Photo $index of $count';
+  }
+
+  @override
+  String catalogueDayName(String day) {
+    String _temp0 = intl.Intl.selectLogic(day, {
+      '1': 'Monday',
+      '2': 'Tuesday',
+      '3': 'Wednesday',
+      '4': 'Thursday',
+      '5': 'Friday',
+      '6': 'Saturday',
+      'other': 'Sunday',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get catalogueHoursClosedDay => 'Closed';
+
+  @override
+  String get catalogueHoursToday => 'Today';
+
+  @override
+  String get catalogueClosedNow => 'Closed right now';
+
+  @override
+  String get catalogueClosedToday => 'Closed today';
+
+  @override
+  String get catalogueListSeparator => ', ';
+
+  @override
+  String catalogueClosureRange(String from, String to) {
+    return '$from to $to';
+  }
+
+  @override
+  String get cataloguePriceInternalLabel => 'Students and staff price';
+
+  @override
+  String get cataloguePriceExternalLabel => 'Standard price';
+
+  @override
+  String get cataloguePriceYours => 'Your price';
+
+  @override
+  String get cataloguePriceBasisShared => 'Per place';
+
+  @override
+  String get cataloguePriceBasisExclusive => 'Per booking';
+
+  @override
+  String get cataloguePriceAllUnits => 'All units';
+
+  @override
+  String get cataloguePriceNotSet => 'Price not set yet';
+
+  @override
+  String get catalogueFreeNoPayment =>
+      'This facility is free, with no payment.';
+
+  @override
+  String catalogueTrainerCapacity(int count) {
+    return 'Takes $count per session';
+  }
+
+  @override
+  String get catalogueTrainersNone => 'No trainers right now';
+
+  @override
+  String get catalogueTrainerFirst => 'Choose a trainer first';
+
+  @override
+  String get catalogueTrainerUnnamed => 'Trainer';
+
+  @override
+  String catalogueUnitOwnHours(String hours) {
+    return 'Own hours: $hours';
+  }
+
+  @override
+  String catalogueFactWindow(int days) {
+    return 'Book up to $days days ahead';
+  }
+
+  @override
+  String catalogueFactMaxRange(int hours) {
+    return 'Up to $hours hours per booking';
+  }
+
+  @override
+  String catalogueFactSession(int minutes) {
+    return 'Session length $minutes minutes';
+  }
+
+  @override
   String get verifTitle => 'Verification request';
 
   @override
@@ -1374,5 +1610,66 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String verifNoticeRejected(String reason) {
     return 'Your verification request was rejected. Reason: $reason';
+  }
+
+  @override
+  String get catalogueAvailabilityToday => 'Available today';
+
+  @override
+  String get catalogueScheduleAction => 'View times';
+
+  @override
+  String get catalogueScheduleSoonTitle => 'Coming soon';
+
+  @override
+  String get catalogueScheduleSoonBody =>
+      'The next 7 days of times will show here soon.';
+
+  @override
+  String get catalogueScheduleSoonBack => 'Back to the facility';
+
+  @override
+  String get catalogueUpcomingTitle => 'Your upcoming bookings';
+
+  @override
+  String get catalogueUpcomingSeeAll => 'See all';
+
+  @override
+  String get catalogueUpcomingNone =>
+      'No upcoming bookings. Pick a facility to start.';
+
+  @override
+  String catalogueBookingSpoken(
+    String facility,
+    String date,
+    String time,
+    String status,
+  ) {
+    return 'Booking at $facility, $date, at $time, $status';
+  }
+
+  @override
+  String get catalogueSuggestionsTitle => 'Suggested for you';
+
+  @override
+  String catalogueSuggestionReasonBookedType(String type) {
+    return 'Because you booked $type before';
+  }
+
+  @override
+  String get catalogueSuggestionReasonOther => 'You might like this';
+
+  @override
+  String get catalogueShareAction => 'Share facility';
+
+  @override
+  String get catalogueShareCopyLink => 'Copy link';
+
+  @override
+  String get catalogueShareCopied => 'Link copied';
+
+  @override
+  String catalogueShareText(String name) {
+    return 'Check out $name on Sprint';
   }
 }

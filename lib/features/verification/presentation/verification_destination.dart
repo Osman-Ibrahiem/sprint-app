@@ -21,7 +21,7 @@ final ShellDestination verificationDestination = ShellDestination(
   label: (l) => l.verifRevSection,
   builder: VerificationQueueScreen.new,
   access: _reviewerAccess,
-  routes: [
+  subRoutes: [
     // `upload` before `:id`, so it is never read as a request id.
     GatedRoute(
       path: 'upload',

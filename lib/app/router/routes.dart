@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sprint/app/shell/placeholders/no_access_screen.dart';
-import 'package:sprint/core/providers/session_provider.dart';
-import 'package:sprint/features/identity/domain/app_section.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/shell/placeholders/bookings_placeholder.dart';
-import 'package:sprint/app/shell/placeholders/facilities_placeholder.dart';
-import 'package:sprint/app/shell/placeholders/home_placeholder.dart';
+import 'package:sprint/app/shell/placeholders/no_access_screen.dart';
 import 'package:sprint/app/shell/placeholders/profile_placeholder.dart';
+import 'package:sprint/core/providers/session_provider.dart';
+import 'package:sprint/features/catalogue/domain/facility_link.dart';
+import 'package:sprint/features/catalogue/presentation/details/schedule_coming_soon_screen.dart';
+import 'package:sprint/features/catalogue/presentation/facilities/facilities_screen.dart';
+import 'package:sprint/features/catalogue/presentation/home/home_screen.dart';
+import 'package:sprint/features/identity/domain/app_section.dart';
 import 'package:sprint/features/verification/presentation/verification_request_screen.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
@@ -73,6 +75,10 @@ abstract final class AppPaths {
       if (from != null && from.isNotEmpty) 'from': from,
     },
   ).toString();
+  static String facilityDetails(String id) => FacilityLink.path(id);
+
+  static String facilitySchedule(String id) =>
+      '${FacilityLink.path(id)}/schedule';
 }
 
 /// Route names.
@@ -93,6 +99,8 @@ abstract final class AppRouteNames {
   static const verificationDetail = 'verificationDetail';
   static const verificationUpload = 'verificationUpload';
   static const demoMailbox = 'demoMailbox';
+  static const facilityDetails = 'facilityDetails';
+  static const facilitySchedule = 'facilitySchedule';
 }
 
 /// Marks an auth route pushed on top of a screen by the account gate
@@ -156,9 +164,9 @@ class ShellDestination {
     required this.selectedIcon,
     required this.label,
     required this.builder,
+    this.subRoutes = const [],
     this.mirrorInRtl = false,
     this.access = RouteAccess.open,
-    this.routes = const [],
   });
 
   final String name;
@@ -168,15 +176,17 @@ class ShellDestination {
   final String Function(AppLocalizations l10n) label;
   final Widget Function() builder;
 
+  /// Routes nested under this destination, so they stay inside the shell and
+  /// the tab keeps its own back stack (contracts/routes.md): detail routes
+  /// such as `/facilities/:id` or `/verification/:id`. A gated child (for
+  /// example `/profile/verification`) is a `GatedRoute` with its own access.
+  final List<RouteBase> subRoutes;
+
   /// Only directional icons mirror in RTL; none of the base four do.
   final bool mirrorInRtl;
 
   /// Who may open it; a staff destination sets `requiredSection`.
   final RouteAccess access;
-
-  /// Detail routes under [path] (for example `/verification/:id`), built as
-  /// `GatedRoute`s with the same [access].
-  final List<RouteBase> routes;
 }
 
 /// The four destinations every guest and booker sees, in order (the first is
@@ -189,7 +199,7 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
     icon: PhosphorIconsRegular.house,
     selectedIcon: PhosphorIconsFill.house,
     label: (l) => l.navHome,
-    builder: HomePlaceholder.new,
+    builder: HomeScreen.new,
   ),
   ShellDestination(
     name: AppRouteNames.facilities,
@@ -197,7 +207,25 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
     icon: PhosphorIconsRegular.squaresFour,
     selectedIcon: PhosphorIconsFill.squaresFour,
     label: (l) => l.navFacilities,
-    builder: FacilitiesPlaceholder.new,
+    builder: FacilitiesScreen.new,
+    subRoutes: [
+      GoRoute(
+        path: ':id',
+        name: AppRouteNames.facilityDetails,
+        builder: (context, state) => FacilitiesScreen(
+          selectedId: state.pathParameters['id'],
+        ),
+        routes: [
+          GoRoute(
+            path: 'schedule',
+            name: AppRouteNames.facilitySchedule,
+            builder: (context, state) => ScheduleComingSoonScreen(
+              facilityId: state.pathParameters['id']!,
+            ),
+          ),
+        ],
+      ),
+    ],
   ),
   ShellDestination(
     name: AppRouteNames.bookings,
@@ -214,7 +242,7 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
     selectedIcon: PhosphorIconsFill.user,
     label: (l) => l.navProfile,
     builder: ProfilePlaceholder.new,
-    routes: [
+    subRoutes: [
       // `/profile/verification`: needs an account (contracts/routes.md).
       GatedRoute(
         path: 'verification',

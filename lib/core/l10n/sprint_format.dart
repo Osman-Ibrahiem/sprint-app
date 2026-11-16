@@ -6,9 +6,11 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// The only place that formats prices, times, dates and numbers (FR-015).
 ///
-/// Always uses the plain `ar` / `en` locales, which print Western digits.
-/// Never `ar_EG`: it would print Arabic-Indic digits (research R5). Times and
-/// dates are shown in Cairo time. Screens never call `intl` directly.
+/// Always uses the plain `ar` / `en` locales and then maps any Arabic-Indic
+/// digit to 0-9: under the app's own localisation delegates the `ar` date
+/// symbols print Arabic-Indic digits, against the Western-digits rule
+/// (research R5). Times and dates are shown in Cairo time. Screens never call
+/// `intl` directly.
 class SprintFormat {
   const SprintFormat(String languageCode)
     : _lang = languageCode == 'en' ? 'en' : 'ar';

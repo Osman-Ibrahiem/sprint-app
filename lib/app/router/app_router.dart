@@ -144,7 +144,7 @@ GoRouter buildAppRouter({
           name: d.name,
           access: d.access,
           builder: (context, state) => d.builder(),
-          routes: d.routes,
+          routes: d.subRoutes,
         ),
       // Outside the shell and out of navigation; reached from Profile.
       GoRoute(
@@ -176,7 +176,7 @@ GoRouter buildAppRouter({
                   name: d.name,
                   access: d.access,
                   builder: (context, state) => d.builder(),
-                  routes: d.routes,
+                  routes: d.subRoutes,
                 ),
               ],
             ),

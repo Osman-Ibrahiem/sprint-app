@@ -1,4 +1,5 @@
 import 'package:sprint/core/seed/seed_bookings.dart';
+import 'package:sprint/core/seed/seed_catalogue_extras.dart';
 import 'package:sprint/core/seed/seed_misc.dart';
 import 'package:sprint/core/seed/seed_units.dart';
 import 'package:sprint/core/seed/seed_users.dart';
@@ -67,7 +68,7 @@ class SeedData {
       facilities: seedFacilities,
       units: seedUnits,
       hours: seedHours(),
-      closures: seedClosures(now),
+      closures: [...seedClosures(now), ...seedCatalogueExtraClosures(now)],
       prices: seedPrices,
       offers: seedOffers(now),
       trainers: seedTrainers,
