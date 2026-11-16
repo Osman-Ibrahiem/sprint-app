@@ -342,5 +342,181 @@
   },
   "timeAm": "AM",
   "timePm": "PM",
-  "slotAvailableWord": "Available"
+  "slotAvailableWord": "Available",
+  "catalogueTypeSwimming": "Swimming",
+  "catalogueTypeFootball": "Football",
+  "catalogueTypeGym": "Gym",
+  "catalogueTypeTennis": "Tennis",
+  "catalogueTypeHall": "Hall",
+  "catalogueTypeTraining": "Training",
+  "catalogueErrorTitle": "Something went wrong",
+  "catalogueErrorBody": "This content isn't showing right now. Trying again may fix it.",
+  "catalogueRetry": "Try again",
+  "catalogueFacilityNotFoundTitle": "Facility not found",
+  "catalogueFacilityNotFoundBody": "The link may be wrong, or the facility isn't published.",
+  "catalogueBackToFacilities": "Back to facilities",
+  "cataloguePanePrompt": "Pick a facility to see its details",
+  "cataloguePriceRange": "EGP {min}–{max}",
+  "@cataloguePriceRange": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "catalogueTagFree": "Free",
+  "catalogueTagTrainer": "With a trainer",
+  "catalogueHomeTitle": "Discover facilities",
+  "catalogueHomeTypesTitle": "Facility types",
+  "catalogueHomeFeaturedTitle": "Featured facilities",
+  "catalogueHomeSeeAll": "See all facilities",
+  "catalogueHomeGuestHint": "You can browse every facility without signing in.",
+  "catalogueFiltersTitle": "Filters",
+  "catalogueFilterAllTypes": "All types",
+  "catalogueFilterAllUnits": "All units",
+  "catalogueFilterAny": "Free or paid",
+  "catalogueFilterFree": "Free",
+  "catalogueFilterPaid": "Paid",
+  "catalogueFilterClearAll": "Clear all",
+  "catalogueFilterRemove": "Remove filter {name}",
+  "@catalogueFilterRemove": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "catalogueResultCount": "{count, plural, =0{No facilities} =1{1 facility} other{{count} facilities}}",
+  "@catalogueResultCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogueEmptyTitle": "No facilities match",
+  "catalogueEmptyBody": "Nothing matches these filters: {filters}",
+  "@catalogueEmptyBody": {
+    "placeholders": {
+      "filters": {
+        "type": "String"
+      }
+    }
+  },
+  "catalogueEmptyClear": "Clear filters",
+  "catalogueSectionHours": "Opening hours",
+  "catalogueSectionPrices": "Prices",
+  "catalogueSectionTrainers": "Trainers",
+  "catalogueSectionUnits": "Units",
+  "catalogueSectionAvailability": "Available today",
+  "catalogueSectionFacts": "Booking info",
+  "cataloguePhotoPlaceholder": "Facility photo",
+  "cataloguePhotoPosition": "Photo {index} of {count}",
+  "@cataloguePhotoPosition": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogueDayName": "{day, select, 1{Monday} 2{Tuesday} 3{Wednesday} 4{Thursday} 5{Friday} 6{Saturday} other{Sunday}}",
+  "@catalogueDayName": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "catalogueHoursClosedDay": "Closed",
+  "catalogueHoursToday": "Today",
+  "catalogueClosedNow": "Closed right now",
+  "catalogueClosedToday": "Closed today",
+  "catalogueListSeparator": ", ",
+  "catalogueClosureRange": "{from} to {to}",
+  "@catalogueClosureRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "cataloguePriceInternalLabel": "Students and staff price",
+  "cataloguePriceExternalLabel": "Standard price",
+  "cataloguePriceYours": "Your price",
+  "cataloguePriceBasisShared": "Per place",
+  "cataloguePriceBasisExclusive": "Per booking",
+  "cataloguePriceAllUnits": "All units",
+  "cataloguePriceNotSet": "Price not set yet",
+  "catalogueFreeNoPayment": "This facility is free, with no payment.",
+  "catalogueTrainerCapacity": "Takes {count} per session",
+  "@catalogueTrainerCapacity": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogueTrainersNone": "No trainers right now",
+  "catalogueTrainerFirst": "Choose a trainer first",
+  "catalogueTrainerUnnamed": "Trainer",
+  "catalogueUnitOwnHours": "Own hours: {hours}",
+  "@catalogueUnitOwnHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "catalogueFactWindow": "Book up to {days} days ahead",
+  "@catalogueFactWindow": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogueFactMaxRange": "Up to {hours} hours per booking",
+  "@catalogueFactMaxRange": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogueFactSession": "Session length {minutes} minutes",
+  "@catalogueFactSession": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogueAvailabilityToday": "Available today",
+  "catalogueScheduleAction": "View times",
+  "catalogueScheduleSoonTitle": "Coming soon",
+  "catalogueScheduleSoonBody": "The next 7 days of times will show here soon.",
+  "catalogueScheduleSoonBack": "Back to the facility",
+  "catalogueUpcomingTitle": "Your upcoming bookings",
+  "catalogueUpcomingSeeAll": "See all",
+  "catalogueUpcomingNone": "No upcoming bookings. Pick a facility to start.",
+  "catalogueBookingSpoken": "Booking at {facility}, {date}, at {time}, {status}",
+  "@catalogueBookingSpoken": {"placeholders": {"facility": {"type": "String"}, "date": {"type": "String"}, "time": {"type": "String"}, "status": {"type": "String"}}},
+  "catalogueSuggestionsTitle": "Suggested for you",
+  "catalogueSuggestionReasonBookedType": "Because you booked {type} before",
+  "@catalogueSuggestionReasonBookedType": {"placeholders": {"type": {"type": "String"}}},
+  "catalogueSuggestionReasonOther": "You might like this",
+  "catalogueShareAction": "Share facility",
+  "catalogueShareCopyLink": "Copy link",
+  "catalogueShareCopied": "Link copied",
+  "catalogueShareText": "Check out {name} on Sprint",
+  "@catalogueShareText": {"placeholders": {"name": {"type": "String"}}}
 }

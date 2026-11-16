@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sprint/app/shell/placeholders/home_placeholder.dart';
+import 'package:sprint/features/catalogue/presentation/home/home_screen.dart';
 
 import '../helpers/pump_app.dart';
 
@@ -8,7 +8,7 @@ void main() {
   testWidgets('/ redirects to /home', (tester) async {
     await pumpSprintApp(tester);
     expect(currentPath(tester), '/home');
-    expect(find.byType(HomePlaceholder), findsOneWidget);
+    expect(find.byType(HomeScreen), findsOneWidget);
   });
 
   testWidgets('unknown path shows not-found with a way back to Home',
@@ -21,7 +21,7 @@ void main() {
     await tester.tap(find.text(ar.backToHome));
     await tester.pumpAndSettle();
     expect(currentPath(tester), '/home');
-    expect(find.byType(HomePlaceholder), findsOneWidget);
+    expect(find.byType(HomeScreen), findsOneWidget);
   });
 
   for (final path in ['/bookings', '/profile']) {

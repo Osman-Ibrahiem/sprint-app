@@ -13,7 +13,7 @@ void main() {
     await tester.runAsync(app.main);
     await tester.pumpAndSettle();
     expect(find.byType(ProviderScope), findsOneWidget);
-    final home = find.text(ar.homeTitle);
+    final home = find.text(ar.catalogueHomeTitle);
     expect(home, findsOneWidget);
     final ctx = tester.element(home);
     expect(Directionality.of(ctx), TextDirection.rtl);

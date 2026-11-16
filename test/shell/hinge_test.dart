@@ -10,6 +10,30 @@ import 'package:sprint/core/widgets/app_navigation/sprint_tab_bar.dart';
 import '../helpers/pump_app.dart';
 
 void main() {
+  /// The part of [node] that is actually painted: its rect cut by every
+  /// ancestor clip (a scrolled row's offscreen children do not sit on a
+  /// hinge). The test cares about what a person can see.
+  Rect visibleRect(RenderObject node) {
+    final box = node as RenderBox;
+    var rect = box.localToGlobal(Offset.zero) & box.size;
+    RenderObject child = node;
+    var parent = node.parent;
+    while (parent != null) {
+      final clip = parent.describeApproximatePaintClip(child);
+      if (clip != null) {
+        final origin = MatrixUtils.transformPoint(
+          child.getTransformTo(null),
+          clip.topLeft,
+        );
+        rect = rect.intersect(origin & clip.size);
+        if (rect.isEmpty) return rect;
+      }
+      child = parent;
+      parent = parent.parent;
+    }
+    return rect;
+  }
+
   testWidgets('no text or control sits on a vertical hinge', (tester) async {
     const hinge = Rect.fromLTWH(390, 0, 20, 800);
     await pumpSprintApp(
@@ -33,8 +57,7 @@ void main() {
     ];
     for (final finder in candidates) {
       for (final element in finder.evaluate()) {
-        final box = element.renderObject! as RenderBox;
-        final rect = box.localToGlobal(Offset.zero) & box.size;
+        final rect = visibleRect(element.renderObject!);
         expect(
           rect.overlaps(hinge),
           isFalse,
@@ -118,8 +141,7 @@ void main() {
       find.byType(Scrollable),
     ]) {
       for (final element in finder.evaluate()) {
-        final box = element.renderObject! as RenderBox;
-        final rect = box.localToGlobal(Offset.zero) & box.size;
+        final rect = visibleRect(element.renderObject!);
         expect(rect.overlaps(hinge), isFalse,
             reason: '${element.widget.runtimeType} at $rect overlaps the hinge');
       }
@@ -146,8 +168,7 @@ void main() {
         .set(const Locale('en'));
     await tester.pumpAndSettle();
     for (final element in find.byType(Text).evaluate()) {
-      final box = element.renderObject! as RenderBox;
-      final rect = box.localToGlobal(Offset.zero) & box.size;
+      final rect = visibleRect(element.renderObject!);
       expect(rect.overlaps(hinge), isFalse, reason: 'text at $rect');
     }
     // The first pane is on the left in English: content sits before the hinge.
@@ -157,19 +178,11 @@ void main() {
     );
   });
 
-  testWidgets('folding mid-typing keeps the text and the focus',
-      (tester) async {
+  testWidgets('folding keeps the open facility and its route', (tester) async {
     await pumpSprintApp(tester, size: const Size(800, 800));
-    routerOf(tester).go('/facilities');
+    routerOf(tester).go('/facilities/f-pool');
     await tester.pumpAndSettle();
-    await tester.tap(find.byType(TextField));
-    await tester.pumpAndSettle();
-    await tester.enterText(find.byType(TextField), 'حمام');
-    await tester.pumpAndSettle();
-
-    bool focused() =>
-        tester.widget<EditableText>(find.byType(EditableText)).focusNode.hasFocus;
-    expect(focused(), isTrue);
+    expect(find.text('حمام السباحة الأولمبي'), findsWidgets);
 
     // Fold: a hinge appears.
     tester.view.displayFeatures = const [
@@ -180,14 +193,15 @@ void main() {
       ),
     ];
     await tester.pumpAndSettle();
-    expect(find.text('حمام'), findsOneWidget);
-    expect(focused(), isTrue, reason: 'focus kept after folding');
+    expect(find.text('حمام السباحة الأولمبي'), findsWidgets,
+        reason: 'the facility is kept after folding');
+    expect(currentPath(tester), '/facilities/f-pool');
 
     // Unfold: the hinge goes away.
     tester.view.displayFeatures = const [];
     await tester.pumpAndSettle();
-    expect(find.text('حمام'), findsOneWidget);
-    expect(focused(), isTrue, reason: 'focus kept after unfolding');
-    expect(currentPath(tester), '/facilities');
+    expect(find.text('حمام السباحة الأولمبي'), findsWidgets,
+        reason: 'the facility is kept after unfolding');
+    expect(currentPath(tester), '/facilities/f-pool');
   });
 }

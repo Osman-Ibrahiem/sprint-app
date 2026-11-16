@@ -4,7 +4,6 @@ import 'package:sprint/core/theme/sprint_theme.dart';
 import 'package:sprint/core/tokens/sprint_colors.g.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 
-import '../../helpers/pump_app.dart';
 
 /// FR-017: every interactive control shows the focus ring on keyboard focus.
 void main() {
@@ -53,17 +52,5 @@ void main() {
         expect(theme.switchTheme.trackOutlineWidth!.resolve({}), 0);
       });
     });
-  });
-
-  testWidgets('the Facilities search field shows the ring when focused',
-      (tester) async {
-    await pumpSprintApp(tester, size: const Size(400, 800));
-    routerOf(tester).go('/facilities');
-    await tester.pumpAndSettle();
-    await tester.tap(find.byType(TextField));
-    await tester.pumpAndSettle();
-    final field = tester.widget<TextField>(find.byType(TextField));
-    final border = field.decoration!.focusedBorder! as OutlineInputBorder;
-    expect(border.borderSide.width, SprintExtras.focusRingWidth);
   });
 }

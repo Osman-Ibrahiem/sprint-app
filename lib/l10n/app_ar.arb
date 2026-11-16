@@ -346,5 +346,181 @@
   },
   "timeAm": "صباحًا",
   "timePm": "مساءً",
-  "slotAvailableWord": "متاح"
+  "slotAvailableWord": "متاح",
+  "catalogueTypeSwimming": "سباحة",
+  "catalogueTypeFootball": "كرة قدم",
+  "catalogueTypeGym": "لياقة بدنية",
+  "catalogueTypeTennis": "تنس",
+  "catalogueTypeHall": "صالة",
+  "catalogueTypeTraining": "تدريب",
+  "catalogueErrorTitle": "حصلت مشكلة",
+  "catalogueErrorBody": "المحتوى مش ظاهر دلوقتي. المحاولة تاني ممكن تحل المشكلة.",
+  "catalogueRetry": "إعادة المحاولة",
+  "catalogueFacilityNotFoundTitle": "المنشأة مش موجودة",
+  "catalogueFacilityNotFoundBody": "الرابط ممكن يكون غلط أو المنشأة مش منشورة.",
+  "catalogueBackToFacilities": "الرجوع للمنشآت",
+  "cataloguePanePrompt": "اختار منشأة تشوف تفاصيلها",
+  "cataloguePriceRange": "{min}–{max} ج.م",
+  "@cataloguePriceRange": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "catalogueTagFree": "مجاني",
+  "catalogueTagTrainer": "بمدرب",
+  "catalogueHomeTitle": "اكتشف المنشآت",
+  "catalogueHomeTypesTitle": "أنواع المنشآت",
+  "catalogueHomeFeaturedTitle": "منشآت مميزة",
+  "catalogueHomeSeeAll": "عرض كل المنشآت",
+  "catalogueHomeGuestHint": "تقدر تشوف كل المنشآت من غير تسجيل.",
+  "catalogueFiltersTitle": "الفلاتر",
+  "catalogueFilterAllTypes": "كل الأنواع",
+  "catalogueFilterAllUnits": "كل الجهات",
+  "catalogueFilterAny": "مجاني أو مدفوع",
+  "catalogueFilterFree": "مجاني",
+  "catalogueFilterPaid": "مدفوع",
+  "catalogueFilterClearAll": "مسح الكل",
+  "catalogueFilterRemove": "إزالة فلتر {name}",
+  "@catalogueFilterRemove": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@catalogueResultCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogueResultCount": "{count, plural, =0{مفيش منشآت} =1{منشأة واحدة} =2{منشأتين} few{{count} منشآت} other{{count} منشأة}}",
+  "catalogueEmptyTitle": "مفيش منشآت مطابقة",
+  "catalogueEmptyBody": "مفيش حاجة بتطابق الفلاتر دي: {filters}",
+  "@catalogueEmptyBody": {
+    "placeholders": {
+      "filters": {
+        "type": "String"
+      }
+    }
+  },
+  "catalogueEmptyClear": "مسح الفلاتر",
+  "catalogueSectionHours": "مواعيد العمل",
+  "catalogueSectionPrices": "الأسعار",
+  "catalogueSectionTrainers": "المدربين",
+  "catalogueSectionUnits": "الوحدات",
+  "catalogueSectionAvailability": "المتاح النهارده",
+  "catalogueSectionFacts": "معلومات الحجز",
+  "cataloguePhotoPlaceholder": "صورة المنشأة",
+  "cataloguePhotoPosition": "صورة {index} من {count}",
+  "@cataloguePhotoPosition": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogueDayName": "{day, select, 1{الاثنين} 2{الثلاثاء} 3{الأربعاء} 4{الخميس} 5{الجمعة} 6{السبت} other{الأحد}}",
+  "@catalogueDayName": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "catalogueHoursClosedDay": "مقفول",
+  "catalogueHoursToday": "النهارده",
+  "catalogueClosedNow": "مقفول دلوقتي",
+  "catalogueClosedToday": "مقفول النهارده",
+  "catalogueListSeparator": "، ",
+  "catalogueClosureRange": "من {from} إلى {to}",
+  "@catalogueClosureRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "cataloguePriceInternalLabel": "سعر الطلبة والعاملين",
+  "cataloguePriceExternalLabel": "السعر العادي",
+  "cataloguePriceYours": "سعرك",
+  "cataloguePriceBasisShared": "للمكان الواحد",
+  "cataloguePriceBasisExclusive": "للحجز كله",
+  "cataloguePriceAllUnits": "كل الوحدات",
+  "cataloguePriceNotSet": "السعر لسه مش محدد",
+  "catalogueFreeNoPayment": "المنشأة دي مجانية ومفيش دفع.",
+  "catalogueTrainerCapacity": "بياخد {count} في الحصة",
+  "@catalogueTrainerCapacity": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogueTrainersNone": "مفيش مدربين دلوقتي",
+  "catalogueTrainerFirst": "لازم تختار المدرب الأول",
+  "catalogueTrainerUnnamed": "مدرب",
+  "catalogueUnitOwnHours": "مواعيد خاصة: {hours}",
+  "@catalogueUnitOwnHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "catalogueFactWindow": "الحجز لحد {days} أيام قدام",
+  "@catalogueFactWindow": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogueFactMaxRange": "أقصى مدة للحجز {hours} ساعات",
+  "@catalogueFactMaxRange": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogueFactSession": "مدة الحصة {minutes} دقيقة",
+  "@catalogueFactSession": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "catalogueAvailabilityToday": "المتاح النهارده",
+  "catalogueScheduleAction": "عرض المواعيد",
+  "catalogueScheduleSoonTitle": "قريبًا",
+  "catalogueScheduleSoonBody": "مواعيد الـ 7 أيام الجاية هتظهر هنا قريب.",
+  "catalogueScheduleSoonBack": "رجوع للمنشأة",
+  "catalogueUpcomingTitle": "حجوزاتك الجاية",
+  "catalogueUpcomingSeeAll": "عرض الكل",
+  "catalogueUpcomingNone": "مفيش حجوزات جاية. اختار منشأة وابدأ.",
+  "catalogueBookingSpoken": "حجز في {facility}، {date}، الساعة {time}، {status}",
+  "@catalogueBookingSpoken": {"placeholders": {"facility": {"type": "String"}, "date": {"type": "String"}, "time": {"type": "String"}, "status": {"type": "String"}}},
+  "catalogueSuggestionsTitle": "مقترحة ليك",
+  "catalogueSuggestionReasonBookedType": "لأنك حجزت {type} قبل كده",
+  "@catalogueSuggestionReasonBookedType": {"placeholders": {"type": {"type": "String"}}},
+  "catalogueSuggestionReasonOther": "ممكن تعجبك",
+  "catalogueShareAction": "مشاركة المنشأة",
+  "catalogueShareCopyLink": "نسخ اللينك",
+  "catalogueShareCopied": "اتنسخ اللينك",
+  "catalogueShareText": "شوف {name} على سبرنت",
+  "@catalogueShareText": {"placeholders": {"name": {"type": "String"}}}
 }
