@@ -353,5 +353,37 @@
   },
   "timeAm": "صباحًا",
   "timePm": "مساءً",
-  "slotAvailableWord": "متاح"
+  "slotAvailableWord": "متاح",
+  "signInTitle": "تسجيل الدخول",
+  "signInIdentifierLabel": "الإيميل أو رقم الموبايل",
+  "signInPasswordLabel": "الباسورد",
+  "signInButton": "تسجيل الدخول",
+  "signInBadCredentials": "بيانات الدخول مش صحيحة",
+  "signInLocked": "المحاولات كترت. الدخول متوقف مؤقتًا، وتقدر تحاول تاني بعد {minutes} دقيقة.",
+  "signInSuspended": "الحساب ده موقوف حاليًا. ممكن التواصل مع إدارة الجامعة.",
+  "signInUnexpected": "حصلت مشكلة غير متوقعة. ممكن المحاولة تاني بعد شوية.",
+  "signInForgot": "نسيت الباسورد؟",
+  "signInCreateAccount": "إنشاء حساب",
+  "signOutTitle": "تأكيد تسجيل الخروج",
+  "signOutBody": "هتفضل تقدر تتصفح التطبيق كزائر، وتسجّل دخول تاني في أي وقت.",
+  "signOutConfirm": "تسجيل الخروج",
+  "signOutKeep": "البقاء في الحساب",
+  "accountCardSpoken": "حسابك: {name}، {tier}",
+  "@signInLocked": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@accountCardSpoken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "tier": {
+        "type": "String"
+      }
+    }
+  }
 }

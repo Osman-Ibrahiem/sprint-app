@@ -349,5 +349,37 @@
   },
   "timeAm": "AM",
   "timePm": "PM",
-  "slotAvailableWord": "Available"
+  "slotAvailableWord": "Available",
+  "signInTitle": "Sign in",
+  "signInIdentifierLabel": "Email or mobile number",
+  "signInPasswordLabel": "Password",
+  "signInButton": "Sign in",
+  "signInBadCredentials": "The sign-in details are not correct",
+  "signInLocked": "Too many attempts. Sign in is paused, and you can try again in {minutes} minutes.",
+  "signInSuspended": "This account is suspended. You can contact the university administration.",
+  "signInUnexpected": "Something unexpected went wrong. You can try again in a moment.",
+  "signInForgot": "Forgot your password?",
+  "signInCreateAccount": "Create an account",
+  "signOutTitle": "Confirm sign out",
+  "signOutBody": "You can keep browsing as a guest and sign in again at any time.",
+  "signOutConfirm": "Sign out",
+  "signOutKeep": "Stay signed in",
+  "accountCardSpoken": "Your account: {name}, {tier}",
+  "@signInLocked": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@accountCardSpoken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "tier": {
+        "type": "String"
+      }
+    }
+  }
 }

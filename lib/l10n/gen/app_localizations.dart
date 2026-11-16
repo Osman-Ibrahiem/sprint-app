@@ -1139,6 +1139,96 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'متاح'**
   String get slotAvailableWord;
+
+  /// No description provided for @signInTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول'**
+  String get signInTitle;
+
+  /// No description provided for @signInIdentifierLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيميل أو رقم الموبايل'**
+  String get signInIdentifierLabel;
+
+  /// No description provided for @signInPasswordLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد'**
+  String get signInPasswordLabel;
+
+  /// No description provided for @signInButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول'**
+  String get signInButton;
+
+  /// No description provided for @signInBadCredentials.
+  ///
+  /// In ar, this message translates to:
+  /// **'بيانات الدخول مش صحيحة'**
+  String get signInBadCredentials;
+
+  /// No description provided for @signInLocked.
+  ///
+  /// In ar, this message translates to:
+  /// **'المحاولات كترت. الدخول متوقف مؤقتًا، وتقدر تحاول تاني بعد {minutes} دقيقة.'**
+  String signInLocked(int minutes);
+
+  /// No description provided for @signInSuspended.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحساب ده موقوف حاليًا. ممكن التواصل مع إدارة الجامعة.'**
+  String get signInSuspended;
+
+  /// No description provided for @signInUnexpected.
+  ///
+  /// In ar, this message translates to:
+  /// **'حصلت مشكلة غير متوقعة. ممكن المحاولة تاني بعد شوية.'**
+  String get signInUnexpected;
+
+  /// No description provided for @signInForgot.
+  ///
+  /// In ar, this message translates to:
+  /// **'نسيت الباسورد؟'**
+  String get signInForgot;
+
+  /// No description provided for @signInCreateAccount.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء حساب'**
+  String get signInCreateAccount;
+
+  /// No description provided for @signOutTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد تسجيل الخروج'**
+  String get signOutTitle;
+
+  /// No description provided for @signOutBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'هتفضل تقدر تتصفح التطبيق كزائر، وتسجّل دخول تاني في أي وقت.'**
+  String get signOutBody;
+
+  /// No description provided for @signOutConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الخروج'**
+  String get signOutConfirm;
+
+  /// No description provided for @signOutKeep.
+  ///
+  /// In ar, this message translates to:
+  /// **'البقاء في الحساب'**
+  String get signOutKeep;
+
+  /// No description provided for @accountCardSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابك: {name}، {tier}'**
+  String accountCardSpoken(String name, String tier);
 }
 
 class _AppLocalizationsDelegate

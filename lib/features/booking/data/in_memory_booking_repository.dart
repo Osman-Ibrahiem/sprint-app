@@ -18,7 +18,6 @@ import 'package:sprint/features/catalogue/domain/catalogue_repository.dart';
 import 'package:sprint/features/catalogue/domain/facility.dart';
 import 'package:sprint/features/identity/domain/identity_repository.dart';
 import 'package:sprint/features/identity/domain/permission_checker.dart';
-import 'package:sprint/features/verification/domain/tier.dart';
 import 'package:sprint/features/verification/domain/verification_repository.dart';
 import 'package:sprint/features/notifications/domain/notification.dart';
 import 'package:sprint/features/notifications/domain/notification_repository.dart';
@@ -214,11 +213,7 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
     if (clash != null) return Err(clash);
 
     // Price: the tier comes from verification now and is frozen (BR-17).
-    final tier = tierFor(
-      await identity.getUser(userId),
-      await verification.current(userId),
-      now,
-    );
+    final tier = await verification.tierFor(userId, now);
     final quoted = pricing.quote(
       facility: facility,
       prices: await catalogue.prices(unit.id),

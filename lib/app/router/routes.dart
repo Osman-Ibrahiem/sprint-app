@@ -54,6 +54,15 @@ abstract final class AppPaths {
   /// `/sign-in` with the place to return to after signing in.
   static String signInFrom(String from) =>
       Uri(path: signIn, queryParameters: {'from': from}).toString();
+
+  /// [path] keeping the place to return to (`from`), when there is one.
+  static String keepingFrom(String path, String? from, {String? email}) => Uri(
+    path: path,
+    queryParameters: {
+      'email': ?email,
+      if (from != null && from.isNotEmpty) 'from': from,
+    },
+  ).toString();
 }
 
 /// Route names.

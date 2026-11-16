@@ -612,4 +612,56 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get slotAvailableWord => 'Available';
+
+  @override
+  String get signInTitle => 'Sign in';
+
+  @override
+  String get signInIdentifierLabel => 'Email or mobile number';
+
+  @override
+  String get signInPasswordLabel => 'Password';
+
+  @override
+  String get signInButton => 'Sign in';
+
+  @override
+  String get signInBadCredentials => 'The sign-in details are not correct';
+
+  @override
+  String signInLocked(int minutes) {
+    return 'Too many attempts. Sign in is paused, and you can try again in $minutes minutes.';
+  }
+
+  @override
+  String get signInSuspended =>
+      'This account is suspended. You can contact the university administration.';
+
+  @override
+  String get signInUnexpected =>
+      'Something unexpected went wrong. You can try again in a moment.';
+
+  @override
+  String get signInForgot => 'Forgot your password?';
+
+  @override
+  String get signInCreateAccount => 'Create an account';
+
+  @override
+  String get signOutTitle => 'Confirm sign out';
+
+  @override
+  String get signOutBody =>
+      'You can keep browsing as a guest and sign in again at any time.';
+
+  @override
+  String get signOutConfirm => 'Sign out';
+
+  @override
+  String get signOutKeep => 'Stay signed in';
+
+  @override
+  String accountCardSpoken(String name, String tier) {
+    return 'Your account: $name, $tier';
+  }
 }

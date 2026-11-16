@@ -614,4 +614,56 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get slotAvailableWord => 'متاح';
+
+  @override
+  String get signInTitle => 'تسجيل الدخول';
+
+  @override
+  String get signInIdentifierLabel => 'الإيميل أو رقم الموبايل';
+
+  @override
+  String get signInPasswordLabel => 'الباسورد';
+
+  @override
+  String get signInButton => 'تسجيل الدخول';
+
+  @override
+  String get signInBadCredentials => 'بيانات الدخول مش صحيحة';
+
+  @override
+  String signInLocked(int minutes) {
+    return 'المحاولات كترت. الدخول متوقف مؤقتًا، وتقدر تحاول تاني بعد $minutes دقيقة.';
+  }
+
+  @override
+  String get signInSuspended =>
+      'الحساب ده موقوف حاليًا. ممكن التواصل مع إدارة الجامعة.';
+
+  @override
+  String get signInUnexpected =>
+      'حصلت مشكلة غير متوقعة. ممكن المحاولة تاني بعد شوية.';
+
+  @override
+  String get signInForgot => 'نسيت الباسورد؟';
+
+  @override
+  String get signInCreateAccount => 'إنشاء حساب';
+
+  @override
+  String get signOutTitle => 'تأكيد تسجيل الخروج';
+
+  @override
+  String get signOutBody =>
+      'هتفضل تقدر تتصفح التطبيق كزائر، وتسجّل دخول تاني في أي وقت.';
+
+  @override
+  String get signOutConfirm => 'تسجيل الخروج';
+
+  @override
+  String get signOutKeep => 'البقاء في الحساب';
+
+  @override
+  String accountCardSpoken(String name, String tier) {
+    return 'حسابك: $name، $tier';
+  }
 }

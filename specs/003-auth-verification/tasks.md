@@ -107,17 +107,17 @@ description: "Task list for the Auth and Verification feature"
 
 ### Tests for US2
 
-- [ ] T038 [P] [US2] Write `test/acceptance/us03_sign_in_test.dart` with one test per BRD US-03 scenario (loading then the right sections; the same message for any wrong detail) plus suspended, unconfirmed and lockout cases
-- [ ] T039 [P] [US2] Write `test/features/auth/sign_in_screen_test.dart`: Arabic and English, Light and Dark, compact and expanded, 200% text without overflow, Tab order and Enter submits, semantics labels, the error announced, no double submit while loading
-- [ ] T040 [P] [US2] Write `test/shell/session_shell_test.dart`: after sign in the shell shows the seed person's sections (booker four; verifier plus Verification; super admin plus Verification and Administration with the overflow on compact); after sign out staff destinations disappear and a staff deep link no longer opens
+- [X] T038 [P] [US2] Write `test/acceptance/us03_sign_in_test.dart` with one test per BRD US-03 scenario (loading then the right sections; the same message for any wrong detail) plus suspended, unconfirmed and lockout cases
+- [X] T039 [P] [US2] Write `test/features/auth/sign_in_screen_test.dart`: Arabic and English, Light and Dark, compact and expanded, 200% text without overflow, Tab order and Enter submits, semantics labels, the error announced, no double submit while loading
+- [X] T040 [P] [US2] Write `test/shell/session_shell_test.dart`: after sign in the shell shows the seed person's sections (booker four; verifier plus Verification; super admin plus Verification and Administration with the overflow on compact); after sign out staff destinations disappear and a staff deep link no longer opens
 
 ### Implementation for US2
 
-- [ ] T041 [US2] Add the US2 ARB keys to `lib/l10n/app_ar.arb` and `lib/l10n/app_en.arb` (sign-in title, identifier label "الإيميل أو رقم الموبايل", password label, "تسجيل الدخول", "بيانات الدخول مش صحيحة", locked message with remaining time, suspended message, "نسيت الباسورد؟", "إنشاء حساب", sign-out confirmation title, body and "تسجيل الخروج")
-- [ ] T042 [US2] Build `lib/features/auth/presentation/sign_in_screen.dart` on `AuthFormScaffold`: identifier field with email/username autofill, password with show/hide and `password` autofill, map each failure to its message, `needsConfirmation` goes to `/confirm-email`, success calls `TextInput.finishAutofillContext()` and goes to `from` or `/home`; links to forgot password and sign up keep `from`
-- [ ] T043 [US2] Register `/sign-in` in `lib/app/router/app_router.dart` outside the shell; a signed-in person opening it goes to `from` or `/home`
-- [ ] T044 [US2] Build `lib/features/auth/presentation/account_card.dart` (US2 part): name, masked phone and email in LTR isolates, tier, and "تسجيل الخروج" with an `AdaptiveDialog` confirmation; show it at the top of the Profile screen for signed-in people in `lib/app/shell/placeholders/profile_placeholder.dart` (status and verification actions are added in US5)
-- [ ] T045 [US2] Route the demo user switcher in `lib/features/demo/presentation/demo_user_switcher.dart` through `SessionNotifier.actAs`, unchanged in look (FR-015)
+- [X] T041 [US2] Add the US2 ARB keys to `lib/l10n/app_ar.arb` and `lib/l10n/app_en.arb` (sign-in title, identifier label "الإيميل أو رقم الموبايل", password label, "تسجيل الدخول", "بيانات الدخول مش صحيحة", locked message with remaining time, suspended message, "نسيت الباسورد؟", "إنشاء حساب", sign-out confirmation title, body and "تسجيل الخروج")
+- [X] T042 [US2] Build `lib/features/auth/presentation/sign_in_screen.dart` on `AuthFormScaffold`: identifier field with email/username autofill, password with show/hide and `password` autofill, map each failure to its message, `needsConfirmation` goes to `/confirm-email`, success calls `TextInput.finishAutofillContext()` and goes to `from` or `/home`; links to forgot password and sign up keep `from`
+- [X] T043 [US2] Register `/sign-in` in `lib/app/router/app_router.dart` outside the shell; a signed-in person opening it goes to `from` or `/home`
+- [X] T044 [US2] Build `lib/features/auth/presentation/account_card.dart` (US2 part): name, masked phone and email in LTR isolates, tier, and "تسجيل الخروج" with an `AdaptiveDialog` confirmation; show it at the top of the Profile screen for signed-in people in `lib/app/shell/placeholders/profile_placeholder.dart` (status and verification actions are added in US5)
+- [X] T045 [US2] Route the demo user switcher in `lib/features/demo/presentation/demo_user_switcher.dart` through `SessionNotifier.actAs`, unchanged in look (FR-015)
 
 **Checkpoint**: US2 testable alone with seed accounts.
 
@@ -223,9 +223,9 @@ description: "Task list for the Auth and Verification feature"
 
 **Independent Test**: Approve, reject and expire verifications for people with bookings; every booking keeps its tier and price.
 
-- [ ] T076 [P] [US7] Write `test/features/booking/tier_freeze_test.dart` (SC-007): for every seed booking record tier and price, then approve كريم, reject and expire others, renew one; assert no stored booking changed and `tierFor` for a new booking reflects the new state
-- [ ] T077 [US7] Switch `lib/features/booking/data/in_memory_booking_repository.dart` to `VerificationRepository.tierFor` when creating a booking; keep `tierAtBooking` and `priceAtBooking` frozen
-- [ ] T078 [P] [US7] Write `test/core/providers/session_tier_test.dart`: approval while signed in updates `Session.tier` without sign out (FR-042); passing `expiresAt` during a session turns the tier external through the scheduled timer
+- [X] T076 [P] [US7] Write `test/features/booking/tier_freeze_test.dart` (SC-007): for every seed booking record tier and price, then approve كريم, reject and expire others, renew one; assert no stored booking changed and `tierFor` for a new booking reflects the new state
+- [X] T077 [US7] Switch `lib/features/booking/data/in_memory_booking_repository.dart` to `VerificationRepository.tierFor` when creating a booking; keep `tierAtBooking` and `priceAtBooking` frozen
+- [X] T078 [P] [US7] Write `test/core/providers/session_tier_test.dart`: approval while signed in updates `Session.tier` without sign out (FR-042); passing `expiresAt` during a session turns the tier external through the scheduled timer
 
 ---
 

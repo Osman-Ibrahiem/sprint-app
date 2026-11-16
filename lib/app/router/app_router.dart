@@ -4,6 +4,7 @@ import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/app/shell/adaptive_shell.dart';
 import 'package:sprint/app/shell/placeholders/not_found_screen.dart';
 import 'package:sprint/core/providers/session_provider.dart';
+import 'package:sprint/features/auth/presentation/sign_in_screen.dart';
 import 'package:sprint/features/demo/demo_flags.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/component_gallery_screen.dart';
 import 'package:sprint/features/demo/presentation/demo_screen.dart';
@@ -67,6 +68,14 @@ GoRouter buildAppRouter({
     errorBuilder: (context, state) => const NotFoundScreen(),
     routes: [
       ...extraRoutes,
+      // Outside the shell: back gesture and app bar follow the platform
+      // (contracts/routes.md rule 6). A signed-in person is redirected away.
+      GoRoute(
+        path: AppPaths.signIn,
+        name: AppRouteNames.signIn,
+        builder: (context, state) =>
+            SignInScreen(from: state.uri.queryParameters['from']),
+      ),
       // Outside the shell and out of navigation; reached from Profile.
       GoRoute(
         path: AppPaths.demo,

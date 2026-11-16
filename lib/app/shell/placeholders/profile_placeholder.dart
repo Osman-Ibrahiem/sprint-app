@@ -5,12 +5,12 @@ import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/widgets/option_group.dart';
 import 'package:sprint/app/shell/placeholders/placeholder_page.dart';
 import 'package:sprint/app/shell/placeholders/sign_in_prompt.dart';
-import 'package:sprint/app/shell/placeholders/user_card.dart';
 import 'package:sprint/core/a11y/focusable_tap.dart';
 import 'package:sprint/core/l10n/directional_icon.dart';
 import 'package:sprint/core/l10n/locale_notifier.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/theme/theme_mode_notifier.dart';
+import 'package:sprint/features/auth/presentation/account_card.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
@@ -36,7 +36,10 @@ class ProfilePlaceholder extends ConsumerWidget {
       blocks: 0,
       leading: [
         const SizedBox(height: SprintSpacing.space4),
-        if (session.isGuest) const SignInPrompt() else UserCard(session: session),
+        if (session.isGuest)
+          const SignInPrompt()
+        else
+          AccountCard(session: session),
         const SizedBox(height: SprintSpacing.space6),
         OptionGroup<ThemeMode>(
           title: l10n.appearanceTitle,
@@ -54,10 +57,7 @@ class ProfilePlaceholder extends ConsumerWidget {
           selected: locale.languageCode,
           onSelected: (code) =>
               ref.read(localeProvider.notifier).set(Locale(code)),
-          options: [
-            ('ar', l10n.languageAr),
-            ('en', l10n.languageEn),
-          ],
+          options: [('ar', l10n.languageAr), ('en', l10n.languageEn)],
         ),
         const SizedBox(height: SprintSpacing.space6),
         DecoratedBox(
@@ -71,8 +71,9 @@ class ProfilePlaceholder extends ConsumerWidget {
             selected: false,
             onTap: () => context.push(AppPaths.demo),
             builder: (context, hovered) => Container(
-              constraints:
-                  const BoxConstraints(minHeight: SprintSize.controlHeight),
+              constraints: const BoxConstraints(
+                minHeight: SprintSize.controlHeight,
+              ),
               padding: const EdgeInsetsDirectional.symmetric(
                 horizontal: SprintSpacing.space4,
                 vertical: SprintSpacing.space2,
