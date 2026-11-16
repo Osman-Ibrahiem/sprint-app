@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'damage_report.freezed.dart';
+part 'damage_report.g.dart';
 
 /// BR-43.
 enum DamageReportStatus { open, inProgress, resolved, rejected }
@@ -16,4 +17,7 @@ abstract class DamageReport with _$DamageReport {
     required DamageReportStatus status,
     String? linkedClosureId,
   }) = _DamageReport;
+
+  factory DamageReport.fromJson(Map<String, dynamic> json) =>
+      _$DamageReportFromJson(json);
 }

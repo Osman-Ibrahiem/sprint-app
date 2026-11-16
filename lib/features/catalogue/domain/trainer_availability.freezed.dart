@@ -12,6 +12,7 @@ part of 'trainer_availability.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$TrainerAvailability {
 
@@ -22,6 +23,8 @@ mixin _$TrainerAvailability {
 @pragma('vm:prefer-inline')
 $TrainerAvailabilityCopyWith<TrainerAvailability> get copyWith => _$TrainerAvailabilityCopyWithImpl<TrainerAvailability>(this as TrainerAvailability, _$identity);
 
+  /// Serializes this TrainerAvailability to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is TrainerAvailability&&(identical(other.trainerId, _this.trainerId) || other.trainerId == _this.trainerId)&&(identical(other.unitId, _this.unitId) || other.unitId == _this.unitId)&&(identical(other.dayOfWeek, _this.dayOfWeek) || other.dayOfWeek == _this.dayOfWeek)&&(identical(other.fromMinutes, _this.fromMinutes) || other.fromMinutes == _this.fromMinutes)&&(identical(other.toMinutes, _this.toMinutes) || other.toMinutes == _this.toMinutes));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as TrainerAvailability;
@@ -213,11 +216,11 @@ return $default(_that.trainerId,_that.unitId,_that.dayOfWeek,_that.fromMinutes,_
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _TrainerAvailability implements TrainerAvailability {
   const _TrainerAvailability({required this.trainerId, required this.unitId, required this.dayOfWeek, required this.fromMinutes, required this.toMinutes});
-  
+  factory _TrainerAvailability.fromJson(Map<String, dynamic> json) => _$TrainerAvailabilityFromJson(json);
 
 @override final  String trainerId;
 @override final  String unitId;
@@ -231,14 +234,17 @@ class _TrainerAvailability implements TrainerAvailability {
 @pragma('vm:prefer-inline')
 _$TrainerAvailabilityCopyWith<_TrainerAvailability> get copyWith => __$TrainerAvailabilityCopyWithImpl<_TrainerAvailability>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$TrainerAvailabilityToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _TrainerAvailability&&(identical(other.trainerId, trainerId) || other.trainerId == trainerId)&&(identical(other.unitId, unitId) || other.unitId == unitId)&&(identical(other.dayOfWeek, dayOfWeek) || other.dayOfWeek == dayOfWeek)&&(identical(other.fromMinutes, fromMinutes) || other.fromMinutes == fromMinutes)&&(identical(other.toMinutes, toMinutes) || other.toMinutes == toMinutes));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,trainerId,unitId,dayOfWeek,fromMinutes,toMinutes);

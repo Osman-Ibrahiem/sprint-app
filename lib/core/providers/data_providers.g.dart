@@ -8,9 +8,241 @@ part of 'data_providers.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// Where the demo data is saved. `main` overrides it with the preferences
+/// store; tests get an in-memory one (research R1).
+
+@ProviderFor(snapshotStore)
+final snapshotStoreProvider = SnapshotStoreProvider._();
+
+/// Where the demo data is saved. `main` overrides it with the preferences
+/// store; tests get an in-memory one (research R1).
+
+final class SnapshotStoreProvider
+    extends
+        $FunctionalProvider<
+          DemoSnapshotStore,
+          DemoSnapshotStore,
+          DemoSnapshotStore
+        >
+    with $Provider<DemoSnapshotStore> {
+  /// Where the demo data is saved. `main` overrides it with the preferences
+  /// store; tests get an in-memory one (research R1).
+  SnapshotStoreProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'snapshotStoreProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$snapshotStoreHash();
+
+  @$internal
+  @override
+  $ProviderElement<DemoSnapshotStore> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  DemoSnapshotStore create(Ref ref) {
+    return snapshotStore(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DemoSnapshotStore value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DemoSnapshotStore>(value),
+    );
+  }
+}
+
+String _$snapshotStoreHash() => r'7210480c45db6b006b2056ef34590734c2fdb66a';
+
+/// The snapshot read from the store before the app starts, or null for a
+/// fresh seed. `main` overrides it; resetting the demo data clears it.
+
+@ProviderFor(InitialSnapshot)
+final initialSnapshotProvider = InitialSnapshotProvider._();
+
+/// The snapshot read from the store before the app starts, or null for a
+/// fresh seed. `main` overrides it; resetting the demo data clears it.
+final class InitialSnapshotProvider
+    extends $NotifierProvider<InitialSnapshot, Map<String, Object?>?> {
+  /// The snapshot read from the store before the app starts, or null for a
+  /// fresh seed. `main` overrides it; resetting the demo data clears it.
+  InitialSnapshotProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'initialSnapshotProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$initialSnapshotHash();
+
+  @$internal
+  @override
+  InitialSnapshot create() => InitialSnapshot();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Map<String, Object?>? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Map<String, Object?>?>(value),
+    );
+  }
+}
+
+String _$initialSnapshotHash() => r'c779c36e6d9461074c8c734d9057d9bf35084f69';
+
+/// The snapshot read from the store before the app starts, or null for a
+/// fresh seed. `main` overrides it; resetting the demo data clears it.
+
+abstract class _$InitialSnapshot extends $Notifier<Map<String, Object?>?> {
+  Map<String, Object?>? build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<Map<String, Object?>?, Map<String, Object?>?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<Map<String, Object?>?, Map<String, Object?>?>,
+              Map<String, Object?>?,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
+
+/// Photos the seed verification requests point at, by id. `main` loads the
+/// bundled placeholder ID card; tests get none unless they override it.
+
+@ProviderFor(seedPhotos)
+final seedPhotosProvider = SeedPhotosProvider._();
+
+/// Photos the seed verification requests point at, by id. `main` loads the
+/// bundled placeholder ID card; tests get none unless they override it.
+
+final class SeedPhotosProvider
+    extends
+        $FunctionalProvider<
+          Map<String, Uint8List>,
+          Map<String, Uint8List>,
+          Map<String, Uint8List>
+        >
+    with $Provider<Map<String, Uint8List>> {
+  /// Photos the seed verification requests point at, by id. `main` loads the
+  /// bundled placeholder ID card; tests get none unless they override it.
+  SeedPhotosProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'seedPhotosProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$seedPhotosHash();
+
+  @$internal
+  @override
+  $ProviderElement<Map<String, Uint8List>> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  Map<String, Uint8List> create(Ref ref) {
+    return seedPhotos(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Map<String, Uint8List> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Map<String, Uint8List>>(value),
+    );
+  }
+}
+
+String _$seedPhotosHash() => r'3b4b175ecad2e1a23eba72f5c43d5274bd57f293';
+
+/// How code emails are worded: the localised template, in the app's language
+/// at the moment the email is sent (no `BuildContext` needed). Override it to
+/// change the wording; the data layer calls it at send time, so changing it
+/// needs no rebuild of the layer.
+
+@ProviderFor(emailTemplate)
+final emailTemplateProvider = EmailTemplateProvider._();
+
+/// How code emails are worded: the localised template, in the app's language
+/// at the moment the email is sent (no `BuildContext` needed). Override it to
+/// change the wording; the data layer calls it at send time, so changing it
+/// needs no rebuild of the layer.
+
+final class EmailTemplateProvider
+    extends $FunctionalProvider<EmailTemplate, EmailTemplate, EmailTemplate>
+    with $Provider<EmailTemplate> {
+  /// How code emails are worded: the localised template, in the app's language
+  /// at the moment the email is sent (no `BuildContext` needed). Override it to
+  /// change the wording; the data layer calls it at send time, so changing it
+  /// needs no rebuild of the layer.
+  EmailTemplateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'emailTemplateProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$emailTemplateHash();
+
+  @$internal
+  @override
+  $ProviderElement<EmailTemplate> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  EmailTemplate create(Ref ref) {
+    return emailTemplate(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(EmailTemplate value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<EmailTemplate>(value),
+    );
+  }
+}
+
+String _$emailTemplateHash() => r'b5cd9ca14e0521f4e202cdf22add67b93913535c';
+
+/// Loads the layer from the snapshot (or the seed) and saves it again once per
+/// event-loop turn after any write.
 
 @ProviderFor(dataLayer)
 final dataLayerProvider = DataLayerProvider._();
+
+/// Loads the layer from the snapshot (or the seed) and saves it again once per
+/// event-loop turn after any write.
 
 final class DataLayerProvider
     extends
@@ -20,6 +252,8 @@ final class DataLayerProvider
           InMemoryDataLayer
         >
     with $Provider<InMemoryDataLayer> {
+  /// Loads the layer from the snapshot (or the seed) and saves it again once per
+  /// event-loop turn after any write.
   DataLayerProvider._()
     : super(
         from: null,
@@ -54,7 +288,62 @@ final class DataLayerProvider
   }
 }
 
-String _$dataLayerHash() => r'd82d359f03afbd9ead23d0f13dea203defa5a256';
+String _$dataLayerHash() => r'65c136383faf2abdef0aaf0df00a02e997f19649';
+
+/// "إرجاع الداتا التجريبية": clears the saved snapshot and photos (theme and
+/// language stay) and rebuilds every repository from the seed.
+
+@ProviderFor(resetDemoData)
+final resetDemoDataProvider = ResetDemoDataProvider._();
+
+/// "إرجاع الداتا التجريبية": clears the saved snapshot and photos (theme and
+/// language stay) and rebuilds every repository from the seed.
+
+final class ResetDemoDataProvider
+    extends
+        $FunctionalProvider<
+          Future<void> Function(),
+          Future<void> Function(),
+          Future<void> Function()
+        >
+    with $Provider<Future<void> Function()> {
+  /// "إرجاع الداتا التجريبية": clears the saved snapshot and photos (theme and
+  /// language stay) and rebuilds every repository from the seed.
+  ResetDemoDataProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'resetDemoDataProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$resetDemoDataHash();
+
+  @$internal
+  @override
+  $ProviderElement<Future<void> Function()> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  Future<void> Function() create(Ref ref) {
+    return resetDemoData(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Future<void> Function() value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Future<void> Function()>(value),
+    );
+  }
+}
+
+String _$resetDemoDataHash() => r'fee7cf15fbe3877a9d8a9eb00df0ce3b934085fa';
 
 @ProviderFor(settingsRepository)
 final settingsRepositoryProvider = SettingsRepositoryProvider._();
@@ -199,6 +488,196 @@ final class IdentityRepositoryProvider
 
 String _$identityRepositoryHash() =>
     r'c0f2f633796cc6b6389b546ce7b5cc5c30c57cae';
+
+@ProviderFor(authRepository)
+final authRepositoryProvider = AuthRepositoryProvider._();
+
+final class AuthRepositoryProvider
+    extends $FunctionalProvider<AuthRepository, AuthRepository, AuthRepository>
+    with $Provider<AuthRepository> {
+  AuthRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'authRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$authRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<AuthRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  AuthRepository create(Ref ref) {
+    return authRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AuthRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AuthRepository>(value),
+    );
+  }
+}
+
+String _$authRepositoryHash() => r'ed41290a1232dbc1d005d1ffafe31aee60e06950';
+
+/// Where code emails go (FR-023). P1 keeps them in the simulated mailbox.
+
+@ProviderFor(emailOutbox)
+final emailOutboxProvider = EmailOutboxProvider._();
+
+/// Where code emails go (FR-023). P1 keeps them in the simulated mailbox.
+
+final class EmailOutboxProvider
+    extends $FunctionalProvider<EmailOutbox, EmailOutbox, EmailOutbox>
+    with $Provider<EmailOutbox> {
+  /// Where code emails go (FR-023). P1 keeps them in the simulated mailbox.
+  EmailOutboxProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'emailOutboxProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$emailOutboxHash();
+
+  @$internal
+  @override
+  $ProviderElement<EmailOutbox> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  EmailOutbox create(Ref ref) {
+    return emailOutbox(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(EmailOutbox value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<EmailOutbox>(value),
+    );
+  }
+}
+
+String _$emailOutboxHash() => r'd2ec51597a6eeb18b5d34e894dff05c74df1826a';
+
+/// The mailbox the demo screens read codes from; null when demo tools are
+/// hidden (`HIDE_DEMO_TOOLS`), so a real build never exposes codes.
+
+@ProviderFor(simulatedMailbox)
+final simulatedMailboxProvider = SimulatedMailboxProvider._();
+
+/// The mailbox the demo screens read codes from; null when demo tools are
+/// hidden (`HIDE_DEMO_TOOLS`), so a real build never exposes codes.
+
+final class SimulatedMailboxProvider
+    extends
+        $FunctionalProvider<
+          SimulatedMailbox?,
+          SimulatedMailbox?,
+          SimulatedMailbox?
+        >
+    with $Provider<SimulatedMailbox?> {
+  /// The mailbox the demo screens read codes from; null when demo tools are
+  /// hidden (`HIDE_DEMO_TOOLS`), so a real build never exposes codes.
+  SimulatedMailboxProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'simulatedMailboxProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$simulatedMailboxHash();
+
+  @$internal
+  @override
+  $ProviderElement<SimulatedMailbox?> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  SimulatedMailbox? create(Ref ref) {
+    return simulatedMailbox(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SimulatedMailbox? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SimulatedMailbox?>(value),
+    );
+  }
+}
+
+String _$simulatedMailboxHash() => r'0a9e2a269a472217ae999eaab9d4806d46da9f51';
+
+@ProviderFor(verificationRepository)
+final verificationRepositoryProvider = VerificationRepositoryProvider._();
+
+final class VerificationRepositoryProvider
+    extends
+        $FunctionalProvider<
+          VerificationRepository,
+          VerificationRepository,
+          VerificationRepository
+        >
+    with $Provider<VerificationRepository> {
+  VerificationRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'verificationRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$verificationRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<VerificationRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  VerificationRepository create(Ref ref) {
+    return verificationRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(VerificationRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<VerificationRepository>(value),
+    );
+  }
+}
+
+String _$verificationRepositoryHash() =>
+    r'378575ff0cbc7a6acc9408d7777a8e3299ac7408';
 
 @ProviderFor(bookingRepository)
 final bookingRepositoryProvider = BookingRepositoryProvider._();

@@ -5,6 +5,8 @@ import 'package:sprint/features/catalogue/domain/bookable_unit.dart';
 import 'package:sprint/features/catalogue/domain/facility.dart';
 import 'package:sprint/features/catalogue/domain/operating_hours.dart';
 import 'package:sprint/features/catalogue/domain/price.dart';
+import 'package:sprint/features/identity/domain/user.dart';
+import 'package:sprint/features/identity/domain/verification.dart';
 
 /// A Cairo wall-clock moment as a UTC instant.
 DateTime cairo(int y, int m, int d, [int h = 0, int min = 0]) {
@@ -118,3 +120,38 @@ Booking booking({
     holdExpiresAt: holdExpiresAt,
   );
 }
+
+User user({
+  String id = 'user1',
+  UserStatus status = UserStatus.active,
+  String? nationalId,
+}) => User(
+  id: id,
+  name: 'منى عبد الله',
+  phone: '01000000001',
+  email: '$id@example.test',
+  createdAt: DateTime.utc(2026, 9),
+  nationalId: nationalId,
+  status: status,
+);
+
+Verification verification({
+  String id = 'ver1',
+  String userId = 'user1',
+  VerificationStatus status = VerificationStatus.approved,
+  DateTime? expiresAt,
+  String? reason,
+  String owningUnitId = 'ou-pe',
+}) => Verification(
+  id: id,
+  userId: userId,
+  type: VerificationType.student,
+  nationalId: '29901010100011',
+  code: '20210001',
+  owningUnitId: owningUnitId,
+  status: status,
+  method: VerificationMethod.manual,
+  submittedAt: DateTime.utc(2026, 10),
+  reason: reason,
+  expiresAt: expiresAt,
+);

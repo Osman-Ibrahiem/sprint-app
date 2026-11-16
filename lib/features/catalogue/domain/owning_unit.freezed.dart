@@ -12,6 +12,7 @@ part of 'owning_unit.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$OwningUnit {
 
@@ -22,6 +23,8 @@ mixin _$OwningUnit {
 @pragma('vm:prefer-inline')
 $OwningUnitCopyWith<OwningUnit> get copyWith => _$OwningUnitCopyWithImpl<OwningUnit>(this as OwningUnit, _$identity);
 
+  /// Serializes this OwningUnit to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is OwningUnit&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.type, _this.type) || other.type == _this.type));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as OwningUnit;
@@ -211,11 +214,11 @@ return $default(_that.id,_that.name,_that.type);case _:
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _OwningUnit implements OwningUnit {
   const _OwningUnit({required this.id, required this.name, required this.type});
-  
+  factory _OwningUnit.fromJson(Map<String, dynamic> json) => _$OwningUnitFromJson(json);
 
 @override final  String id;
 @override final  String name;
@@ -227,14 +230,17 @@ class _OwningUnit implements OwningUnit {
 @pragma('vm:prefer-inline')
 _$OwningUnitCopyWith<_OwningUnit> get copyWith => __$OwningUnitCopyWithImpl<_OwningUnit>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$OwningUnitToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _OwningUnit&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,id,name,type);

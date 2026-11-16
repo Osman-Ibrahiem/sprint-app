@@ -1,10 +1,18 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/app/shell/adaptive_shell.dart';
 import 'package:sprint/app/shell/placeholders/not_found_screen.dart';
+import 'package:sprint/core/providers/session_provider.dart';
+import 'package:sprint/features/auth/presentation/forgot_password_screen.dart';
+import 'package:sprint/features/auth/presentation/reset_password_screen.dart';
+import 'package:sprint/features/auth/presentation/confirm_email_screen.dart';
+import 'package:sprint/features/auth/presentation/sign_in_screen.dart';
+import 'package:sprint/features/auth/presentation/sign_up_screen.dart';
 import 'package:sprint/features/demo/demo_flags.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/component_gallery_screen.dart';
 import 'package:sprint/features/demo/presentation/demo_screen.dart';
+import 'package:sprint/features/demo/presentation/mailbox_screen.dart';
 
 /// Builds the app router. Web uses Flutter's default hash URL strategy
 /// (`/#/path`), so deep links and refreshes work under the Pages sub-path
@@ -12,24 +20,144 @@ import 'package:sprint/features/demo/presentation/demo_screen.dart';
 ///
 /// The route table is built from [destinations], never hard-coded per role
 /// (contracts/routes.md rule 4).
+///
+/// [destinations] are the ones the current person sees in the shell.
+/// [hiddenDestinations] are every other known section: registered outside the
+/// shell with the same access rule, so a deep link gives a guest the sign-in
+/// redirect and a signed-in person without the section `NoAccessScreen`
+/// instead of "not found" (FR-018, contracts/routes.md rule 2). They are not
+/// in navigation.
+///
+/// [session] is read on every redirect; [refreshListenable] re-runs the
+/// redirects when it changes (sign in, sign out, actAs), contracts/routes.md
+/// rules 2 and 5. [extraRoutes] are added outside the shell (auth screens).
 GoRouter buildAppRouter({
   List<ShellDestination>? destinations,
+  List<ShellDestination> hiddenDestinations = const [],
   String initialLocation = AppPaths.root,
   bool demoTools = demoToolsEnabled,
+  Session Function()? session,
+  Listenable? refreshListenable,
+  List<RouteBase> extraRoutes = const [],
 }) {
   final list = destinations ?? baseDestinations;
-  return GoRouter(
+  final sessionOf = session ?? () => Session.guest;
+  late final GoRouter router;
+
+  /// `from` is accepted only when it is a path this router recognises and is
+  /// not an auth route; otherwise Home (rule 3).
+  String safeFrom(String? from) {
+    if (from == null || !from.startsWith('/') || from.startsWith('//')) {
+      return AppPaths.home;
+    }
+    final uri = Uri.tryParse(from);
+    if (uri == null || uri.hasScheme || uri.hasAuthority) return AppPaths.home;
+    if (uri.path == AppPaths.root || AppPaths.auth.contains(uri.path)) {
+      return AppPaths.home;
+    }
+    return router.configuration.findMatch(uri).isError
+        ? AppPaths.home
+        : uri.toString();
+  }
+
+  String? redirect(BuildContext context, GoRouterState state) {
+    final path = state.uri.path;
+    if (path == AppPaths.root) return AppPaths.home;
+    final current = sessionOf();
+    if (AppPaths.authEntry.contains(path) && !current.isGuest) {
+      // An auth screen pushed by the account gate stays on top of the screen
+      // it came from; it pops itself when the person is in.
+      if (state.extra is GateExtra) return null;
+      return safeFrom(state.uri.queryParameters['from']);
+    }
+    final route = state.topRoute;
+    if (route is GatedRoute && route.access.needsAccount && current.isGuest) {
+      return AppPaths.signInFrom(state.uri.toString());
+    }
+    return null;
+  }
+
+  router = GoRouter(
     initialLocation: initialLocation,
-    redirect: (context, state) =>
-        state.uri.path == AppPaths.root ? AppPaths.home : null,
+    refreshListenable: refreshListenable,
+    redirect: redirect,
     errorBuilder: (context, state) => const NotFoundScreen(),
     routes: [
+      ...extraRoutes,
+      // Outside the shell: back gesture and app bar follow the platform
+      // (contracts/routes.md rule 6). A signed-in person is redirected away.
+      GoRoute(
+        path: AppPaths.signIn,
+        name: AppRouteNames.signIn,
+        builder: (context, state) => SignInScreen(
+          from: state.uri.queryParameters['from'],
+          gate: state.extra is GateExtra,
+        ),
+      ),
+      GoRoute(
+        path: AppPaths.forgotPassword,
+        name: AppRouteNames.forgotPassword,
+        builder: (context, state) =>
+            ForgotPasswordScreen(from: state.uri.queryParameters['from']),
+      ),
+      GoRoute(
+        path: AppPaths.resetPassword,
+        name: AppRouteNames.resetPassword,
+        redirect: (context, state) =>
+            (state.uri.queryParameters['identifier'] ?? '').isEmpty
+            ? AppPaths.forgotPassword
+            : null,
+        builder: (context, state) => ResetPasswordScreen(
+          identifier: state.uri.queryParameters['identifier']!,
+          from: state.uri.queryParameters['from'],
+          resendAfter: state.extra is DateTime
+              ? state.extra! as DateTime
+              : null,
+        ),
+      ),
+      GoRoute(
+        path: AppPaths.signUp,
+        name: AppRouteNames.signUp,
+        builder: (context, state) => SignUpScreen(
+          from: state.uri.queryParameters['from'],
+          gate: state.extra is GateExtra,
+        ),
+      ),
+      GoRoute(
+        path: AppPaths.confirmEmail,
+        name: AppRouteNames.confirmEmail,
+        // Nothing to confirm without the address the code went to.
+        redirect: (context, state) =>
+            (state.uri.queryParameters['email'] ?? '').isEmpty
+            ? AppPaths.signUp
+            : null,
+        builder: (context, state) => ConfirmEmailScreen(
+          email: state.uri.queryParameters['email']!,
+          from: state.uri.queryParameters['from'],
+          gate: state.extra is GateExtra,
+        ),
+      ),
+      // Known sections the current person does not see in the shell.
+      for (final d in hiddenDestinations)
+        GatedRoute(
+          path: d.path,
+          name: d.name,
+          access: d.access,
+          builder: (context, state) => d.builder(),
+          routes: d.subRoutes,
+        ),
       // Outside the shell and out of navigation; reached from Profile.
       GoRoute(
         path: AppPaths.demo,
         name: AppRouteNames.demo,
         builder: (context, state) => DemoScreen(showToolLinks: demoTools),
       ),
+      if (demoTools)
+        GoRoute(
+          path: AppPaths.demoMailbox,
+          name: AppRouteNames.demoMailbox,
+          builder: (context, state) => const MailboxScreen(),
+        ),
       if (demoTools)
         GoRoute(
           path: AppPaths.demoComponents,
@@ -43,9 +171,10 @@ GoRouter buildAppRouter({
           for (final d in list)
             StatefulShellBranch(
               routes: [
-                GoRoute(
+                GatedRoute(
                   path: d.path,
                   name: d.name,
+                  access: d.access,
                   builder: (context, state) => d.builder(),
                   routes: d.subRoutes,
                 ),
@@ -55,4 +184,5 @@ GoRouter buildAppRouter({
       ),
     ],
   );
+  return router;
 }

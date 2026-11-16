@@ -24,7 +24,7 @@ void main() {
     await pumpSprintApp(tester, size: const Size(400, 3000));
     await containerOf(tester)
         .read(sessionProvider.notifier)
-        .selectUser(SeedIds.bookerInternal);
+        .actAs(SeedIds.bookerInternal);
     await tester.pumpAndSettle();
 
     // Home: type chip, booking row.

@@ -12,6 +12,7 @@ part of 'unit_settings.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$UnitSettings {
 
@@ -22,6 +23,8 @@ mixin _$UnitSettings {
 @pragma('vm:prefer-inline')
 $UnitSettingsCopyWith<UnitSettings> get copyWith => _$UnitSettingsCopyWithImpl<UnitSettings>(this as UnitSettings, _$identity);
 
+  /// Serializes this UnitSettings to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is UnitSettings&&(identical(other.bookingMode, _this.bookingMode) || other.bookingMode == _this.bookingMode)&&(identical(other.capacity, _this.capacity) || other.capacity == _this.capacity)&&(identical(other.maxParticipants, _this.maxParticipants) || other.maxParticipants == _this.maxParticipants)&&(identical(other.bookingWindowDays, _this.bookingWindowDays) || other.bookingWindowDays == _this.bookingWindowDays)&&(identical(other.minLeadMinutes, _this.minLeadMinutes) || other.minLeadMinutes == _this.minLeadMinutes)&&(identical(other.slotGranularityMinutes, _this.slotGranularityMinutes) || other.slotGranularityMinutes == _this.slotGranularityMinutes)&&(identical(other.maxRangeHours, _this.maxRangeHours) || other.maxRangeHours == _this.maxRangeHours)&&(identical(other.sessionMinutes, _this.sessionMinutes) || other.sessionMinutes == _this.sessionMinutes)&&(identical(other.holdMinutes, _this.holdMinutes) || other.holdMinutes == _this.holdMinutes)&&(identical(other.maxActiveBookingsPerUser, _this.maxActiveBookingsPerUser) || other.maxActiveBookingsPerUser == _this.maxActiveBookingsPerUser)&&(identical(other.cancellationCutoffHours, _this.cancellationCutoffHours) || other.cancellationCutoffHours == _this.cancellationCutoffHours)&&(identical(other.refundPercent, _this.refundPercent) || other.refundPercent == _this.refundPercent)&&(identical(other.checkInOpensMinutes, _this.checkInOpensMinutes) || other.checkInOpensMinutes == _this.checkInOpensMinutes)&&(identical(other.reminderLeadMinutes, _this.reminderLeadMinutes) || other.reminderLeadMinutes == _this.reminderLeadMinutes));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as UnitSettings;
@@ -222,11 +225,11 @@ return $default(_that.bookingMode,_that.capacity,_that.maxParticipants,_that.boo
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _UnitSettings implements UnitSettings {
   const _UnitSettings({required this.bookingMode, required this.capacity, this.maxParticipants, required this.bookingWindowDays, required this.minLeadMinutes, required this.slotGranularityMinutes, required this.maxRangeHours, required this.sessionMinutes, required this.holdMinutes, this.maxActiveBookingsPerUser, required this.cancellationCutoffHours, required this.refundPercent, required this.checkInOpensMinutes, required this.reminderLeadMinutes});
-  
+  factory _UnitSettings.fromJson(Map<String, dynamic> json) => _$UnitSettingsFromJson(json);
 
 @override final  BookingMode bookingMode;
 @override final  int capacity;
@@ -249,14 +252,17 @@ class _UnitSettings implements UnitSettings {
 @pragma('vm:prefer-inline')
 _$UnitSettingsCopyWith<_UnitSettings> get copyWith => __$UnitSettingsCopyWithImpl<_UnitSettings>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$UnitSettingsToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _UnitSettings&&(identical(other.bookingMode, bookingMode) || other.bookingMode == bookingMode)&&(identical(other.capacity, capacity) || other.capacity == capacity)&&(identical(other.maxParticipants, maxParticipants) || other.maxParticipants == maxParticipants)&&(identical(other.bookingWindowDays, bookingWindowDays) || other.bookingWindowDays == bookingWindowDays)&&(identical(other.minLeadMinutes, minLeadMinutes) || other.minLeadMinutes == minLeadMinutes)&&(identical(other.slotGranularityMinutes, slotGranularityMinutes) || other.slotGranularityMinutes == slotGranularityMinutes)&&(identical(other.maxRangeHours, maxRangeHours) || other.maxRangeHours == maxRangeHours)&&(identical(other.sessionMinutes, sessionMinutes) || other.sessionMinutes == sessionMinutes)&&(identical(other.holdMinutes, holdMinutes) || other.holdMinutes == holdMinutes)&&(identical(other.maxActiveBookingsPerUser, maxActiveBookingsPerUser) || other.maxActiveBookingsPerUser == maxActiveBookingsPerUser)&&(identical(other.cancellationCutoffHours, cancellationCutoffHours) || other.cancellationCutoffHours == cancellationCutoffHours)&&(identical(other.refundPercent, refundPercent) || other.refundPercent == refundPercent)&&(identical(other.checkInOpensMinutes, checkInOpensMinutes) || other.checkInOpensMinutes == checkInOpensMinutes)&&(identical(other.reminderLeadMinutes, reminderLeadMinutes) || other.reminderLeadMinutes == reminderLeadMinutes));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,bookingMode,capacity,maxParticipants,bookingWindowDays,minLeadMinutes,slotGranularityMinutes,maxRangeHours,sessionMinutes,holdMinutes,maxActiveBookingsPerUser,cancellationCutoffHours,refundPercent,checkInOpensMinutes,reminderLeadMinutes);

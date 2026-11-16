@@ -46,7 +46,7 @@ class DemoUserSwitcher extends ConsumerWidget {
           selected: session.user?.id ?? '',
           onSelected: (id) => ref
               .read(sessionProvider.notifier)
-              .selectUser(id.isEmpty ? null : id),
+              .actAs(id.isEmpty ? null : id),
           options: [
             ('', l10n.demoGuest),
             for (final u in users) (u.id, labelOf(u)),

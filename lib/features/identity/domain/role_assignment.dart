@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'role_assignment.freezed.dart';
+part 'role_assignment.g.dart';
 
 /// BRD §6. A user may hold several.
 enum Role {
@@ -25,4 +26,7 @@ abstract class RoleAssignment with _$RoleAssignment {
     required RoleScopeType scopeType,
     String? scopeId,
   }) = _RoleAssignment;
+
+  factory RoleAssignment.fromJson(Map<String, dynamic> json) =>
+      _$RoleAssignmentFromJson(json);
 }

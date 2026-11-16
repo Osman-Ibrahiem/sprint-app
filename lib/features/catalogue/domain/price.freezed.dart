@@ -12,6 +12,7 @@ part of 'price.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Price {
 
@@ -22,6 +23,8 @@ mixin _$Price {
 @pragma('vm:prefer-inline')
 $PriceCopyWith<Price> get copyWith => _$PriceCopyWithImpl<Price>(this as Price, _$identity);
 
+  /// Serializes this Price to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Price&&(identical(other.unitId, _this.unitId) || other.unitId == _this.unitId)&&(identical(other.tier, _this.tier) || other.tier == _this.tier)&&(identical(other.amount, _this.amount) || other.amount == _this.amount)&&(identical(other.currency, _this.currency) || other.currency == _this.currency));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Price;
@@ -212,11 +215,11 @@ return $default(_that.unitId,_that.tier,_that.amount,_that.currency);case _:
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Price implements Price {
   const _Price({required this.unitId, required this.tier, required this.amount, this.currency = 'EGP'});
-  
+  factory _Price.fromJson(Map<String, dynamic> json) => _$PriceFromJson(json);
 
 @override final  String unitId;
 @override final  PriceTier tier;
@@ -229,14 +232,17 @@ class _Price implements Price {
 @pragma('vm:prefer-inline')
 _$PriceCopyWith<_Price> get copyWith => __$PriceCopyWithImpl<_Price>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$PriceToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _Price&&(identical(other.unitId, unitId) || other.unitId == unitId)&&(identical(other.tier, tier) || other.tier == tier)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.currency, currency) || other.currency == currency));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,unitId,tier,amount,currency);

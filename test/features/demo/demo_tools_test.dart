@@ -16,7 +16,7 @@ void main() {
     await tester.runAsync(
       () => containerOf(tester)
           .read(sessionProvider.notifier)
-          .selectUser(SeedIds.bookerInternal),
+          .actAs(SeedIds.bookerInternal),
     );
     await tester.pumpAndSettle();
     expect(find.text(ar.signInPromptTitle), findsNothing);
@@ -26,14 +26,14 @@ void main() {
     await tester.runAsync(
       () => containerOf(tester)
           .read(sessionProvider.notifier)
-          .selectUser(SeedIds.trainer1),
+          .actAs(SeedIds.trainer1),
     );
     await tester.pumpAndSettle();
     expect(find.textContaining(ar.roleTrainer), findsOneWidget);
     expect(find.textContaining(ar.tierExternal), findsOneWidget);
 
     await tester.runAsync(
-      () => containerOf(tester).read(sessionProvider.notifier).selectUser(null),
+      () => containerOf(tester).read(sessionProvider.notifier).actAs(null),
     );
     await tester.pumpAndSettle();
     expect(find.text(ar.signInPromptTitle), findsOneWidget);

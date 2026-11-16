@@ -12,6 +12,7 @@ part of 'refund.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Refund {
 
@@ -22,6 +23,8 @@ mixin _$Refund {
 @pragma('vm:prefer-inline')
 $RefundCopyWith<Refund> get copyWith => _$RefundCopyWithImpl<Refund>(this as Refund, _$identity);
 
+  /// Serializes this Refund to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Refund&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.paymentId, _this.paymentId) || other.paymentId == _this.paymentId)&&(identical(other.amount, _this.amount) || other.amount == _this.amount)&&(identical(other.reason, _this.reason) || other.reason == _this.reason)&&(identical(other.status, _this.status) || other.status == _this.status));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Refund;
@@ -213,11 +216,11 @@ return $default(_that.id,_that.paymentId,_that.amount,_that.reason,_that.status)
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Refund implements Refund {
   const _Refund({required this.id, required this.paymentId, required this.amount, required this.reason, required this.status});
-  
+  factory _Refund.fromJson(Map<String, dynamic> json) => _$RefundFromJson(json);
 
 @override final  String id;
 @override final  String paymentId;
@@ -231,14 +234,17 @@ class _Refund implements Refund {
 @pragma('vm:prefer-inline')
 _$RefundCopyWith<_Refund> get copyWith => __$RefundCopyWithImpl<_Refund>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$RefundToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _Refund&&(identical(other.id, id) || other.id == id)&&(identical(other.paymentId, paymentId) || other.paymentId == paymentId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.reason, reason) || other.reason == reason)&&(identical(other.status, status) || other.status == status));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,id,paymentId,amount,reason,status);

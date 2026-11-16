@@ -12,6 +12,7 @@ part of 'notification.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Notification {
 
@@ -22,6 +23,8 @@ mixin _$Notification {
 @pragma('vm:prefer-inline')
 $NotificationCopyWith<Notification> get copyWith => _$NotificationCopyWithImpl<Notification>(this as Notification, _$identity);
 
+  /// Serializes this Notification to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Notification&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.userId, _this.userId) || other.userId == _this.userId)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.channel, _this.channel) || other.channel == _this.channel)&&const DeepCollectionEquality().equals(other.payload, _this.payload)&&(identical(other.sentAt, _this.sentAt) || other.sentAt == _this.sentAt)&&(identical(other.readAt, _this.readAt) || other.readAt == _this.readAt));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Notification;
@@ -215,11 +218,11 @@ return $default(_that.id,_that.userId,_that.type,_that.channel,_that.payload,_th
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Notification implements Notification {
   const _Notification({required this.id, required this.userId, required this.type, this.channel = NotificationChannel.push,  Map<String, String> payload = const <String, String>{}, required this.sentAt, this.readAt}): _payload = payload;
-  
+  factory _Notification.fromJson(Map<String, dynamic> json) => _$NotificationFromJson(json);
 
 @override final  String id;
 @override final  String userId;
@@ -241,14 +244,17 @@ class _Notification implements Notification {
 @pragma('vm:prefer-inline')
 _$NotificationCopyWith<_Notification> get copyWith => __$NotificationCopyWithImpl<_Notification>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$NotificationToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _Notification&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.type, type) || other.type == type)&&(identical(other.channel, channel) || other.channel == channel)&&const DeepCollectionEquality().equals(other.payload, _payload)&&(identical(other.sentAt, sentAt) || other.sentAt == sentAt)&&(identical(other.readAt, readAt) || other.readAt == readAt));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,id,userId,type,channel,const DeepCollectionEquality().hash(_payload),sentAt,readAt);

@@ -12,6 +12,7 @@ part of 'operating_hours.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$OperatingHours {
 
@@ -22,6 +23,8 @@ mixin _$OperatingHours {
 @pragma('vm:prefer-inline')
 $OperatingHoursCopyWith<OperatingHours> get copyWith => _$OperatingHoursCopyWithImpl<OperatingHours>(this as OperatingHours, _$identity);
 
+  /// Serializes this OperatingHours to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is OperatingHours&&(identical(other.ownerId, _this.ownerId) || other.ownerId == _this.ownerId)&&(identical(other.dayOfWeek, _this.dayOfWeek) || other.dayOfWeek == _this.dayOfWeek)&&(identical(other.openMinutes, _this.openMinutes) || other.openMinutes == _this.openMinutes)&&(identical(other.closeMinutes, _this.closeMinutes) || other.closeMinutes == _this.closeMinutes));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as OperatingHours;
@@ -212,11 +215,11 @@ return $default(_that.ownerId,_that.dayOfWeek,_that.openMinutes,_that.closeMinut
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _OperatingHours implements OperatingHours {
   const _OperatingHours({required this.ownerId, required this.dayOfWeek, required this.openMinutes, required this.closeMinutes});
-  
+  factory _OperatingHours.fromJson(Map<String, dynamic> json) => _$OperatingHoursFromJson(json);
 
 @override final  String ownerId;
 @override final  int dayOfWeek;
@@ -229,14 +232,17 @@ class _OperatingHours implements OperatingHours {
 @pragma('vm:prefer-inline')
 _$OperatingHoursCopyWith<_OperatingHours> get copyWith => __$OperatingHoursCopyWithImpl<_OperatingHours>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$OperatingHoursToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _OperatingHours&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.dayOfWeek, dayOfWeek) || other.dayOfWeek == dayOfWeek)&&(identical(other.openMinutes, openMinutes) || other.openMinutes == openMinutes)&&(identical(other.closeMinutes, closeMinutes) || other.closeMinutes == closeMinutes));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,ownerId,dayOfWeek,openMinutes,closeMinutes);

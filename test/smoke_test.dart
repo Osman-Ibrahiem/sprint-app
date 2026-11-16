@@ -7,12 +7,15 @@ import 'package:sprint/main.dart' as app;
 import 'helpers/pump_app.dart';
 
 void main() {
-  testWidgets('app starts in Arabic RTL inside a ProviderScope', (tester) async {
+  testWidgets('app starts in Arabic RTL inside a provider scope', (
+    tester,
+  ) async {
     SharedPreferences.setMockInitialValues({});
     setWindow(tester);
     await tester.runAsync(app.main);
     await tester.pumpAndSettle();
-    expect(find.byType(ProviderScope), findsOneWidget);
+    // `main` loads the session first, so the scope wraps a ready container.
+    expect(find.byType(UncontrolledProviderScope), findsOneWidget);
     final home = find.text(ar.catalogueHomeTitle);
     expect(home, findsOneWidget);
     final ctx = tester.element(home);

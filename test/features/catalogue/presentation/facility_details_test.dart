@@ -141,7 +141,7 @@ void main() {
 
     await containerOf(tester)
         .read(sessionProvider.notifier)
-        .selectUser(SeedIds.bookerInternal);
+        .actAs(SeedIds.bookerInternal);
     await tester.pumpAndSettle();
     expect(find.textContaining(ar.cataloguePriceYours), findsWidgets);
     expect(find.text('40 ج.م'), findsWidgets);

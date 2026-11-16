@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'audit_log.freezed.dart';
+part 'audit_log.g.dart';
 
 /// One administrative change (BRD §5).
 @freezed
@@ -14,4 +15,7 @@ abstract class AuditLog with _$AuditLog {
     String? after,
     required DateTime at,
   }) = _AuditLog;
+
+  factory AuditLog.fromJson(Map<String, dynamic> json) =>
+      _$AuditLogFromJson(json);
 }

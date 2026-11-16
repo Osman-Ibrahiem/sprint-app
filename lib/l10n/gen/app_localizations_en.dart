@@ -46,7 +46,54 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInPromptBody =>
-      'Your bookings and account details will show here once you sign in. Sign-in isn\'t available in this version yet.';
+      'Your bookings and account details will show here once you sign in.';
+
+  @override
+  String get gateTitle => 'This step needs an account';
+
+  @override
+  String gateBody(String reason) {
+    return 'Sign in or create an account $reason';
+  }
+
+  @override
+  String get gateSignIn => 'Sign in';
+
+  @override
+  String get gateSignUp => 'Create an account';
+
+  @override
+  String get gateDismiss => 'Not now';
+
+  @override
+  String get gateReasonBook => 'to book';
+
+  @override
+  String get gateReasonBookings => 'to see your bookings';
+
+  @override
+  String get gateReasonVerification => 'to request verification';
+
+  @override
+  String get gateReasonProfile => 'to see your account details';
+
+  @override
+  String get gateDemoBookSlot => 'Book this slot';
+
+  @override
+  String get gateDemoTitle => 'Account gate try-out';
+
+  @override
+  String get gateDemoIntro =>
+      'Pick a slot, then tap book. A guest sees the account prompt, and after signing in comes back here with the slot still selected.';
+
+  @override
+  String get gateDemoReady =>
+      'Account ready. Nothing was booked; tap again to continue.';
+
+  @override
+  String get gateDemoDismissed =>
+      'Closed without signing in, and the slot is still selected.';
 
   @override
   String get notFoundTitle => 'This page doesn\'t exist';
@@ -56,6 +103,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get backToHome => 'Back to home';
+
+  @override
+  String get noAccessTitle => 'This page isn\'t available for your account';
+
+  @override
+  String get noAccessBody =>
+      'This page is for other permissions. If you need access, you can contact the university administrator.';
 
   @override
   String get homeTitle => 'Welcome to Sprint';
@@ -252,7 +306,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get demoUserTitle => 'View as another user';
 
   @override
-  String get demoUserNote => 'For reviewers only. There is no real sign-in.';
+  String get demoUserNote =>
+      'For reviewers only. Switches accounts without a password.';
 
   @override
   String get demoGuest => 'Guest (no account)';
@@ -304,6 +359,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fieldHidePassword => 'Hide';
+
+  @override
+  String get codeEntryLabel => 'Confirmation code';
+
+  @override
+  String get codeEntrySentTo => 'The code was sent to';
+
+  @override
+  String get codeEntryResend => 'Resend the code';
+
+  @override
+  String codeEntryResendIn(int seconds) {
+    return 'Resend the code in $seconds s';
+  }
 
   @override
   String get fieldSearchHint => 'Search';
@@ -593,6 +662,315 @@ class AppLocalizationsEn extends AppLocalizations {
   String get slotAvailableWord => 'Available';
 
   @override
+  String get signInTitle => 'Sign in';
+
+  @override
+  String get signInIdentifierLabel => 'Email or mobile number';
+
+  @override
+  String get signInPasswordLabel => 'Password';
+
+  @override
+  String get signInButton => 'Sign in';
+
+  @override
+  String get signInBadCredentials => 'The sign-in details are not correct';
+
+  @override
+  String signInLocked(int minutes) {
+    return 'Too many attempts. Sign in is paused, and you can try again in $minutes minutes.';
+  }
+
+  @override
+  String get signInSuspended =>
+      'This account is suspended. You can contact the university administration.';
+
+  @override
+  String get signInUnexpected =>
+      'Something unexpected went wrong. You can try again in a moment.';
+
+  @override
+  String get signInForgot => 'Forgot your password?';
+
+  @override
+  String get signInCreateAccount => 'Create an account';
+
+  @override
+  String get forgotTitle => 'Reset password';
+
+  @override
+  String get forgotIntro =>
+      'Enter the email or mobile number on the account, and we\'ll send a code to the account\'s email.';
+
+  @override
+  String get forgotSendButton => 'Send code';
+
+  @override
+  String get resetTitle => 'Choose a new password';
+
+  @override
+  String get resetSentNeutral =>
+      'If the account exists, a code is on its way to the registered email.';
+
+  @override
+  String get resetNewPasswordLabel => 'New password';
+
+  @override
+  String get resetPasswordHint =>
+      'At least 8 characters, with a letter and a digit';
+
+  @override
+  String get resetSaveButton => 'Save password';
+
+  @override
+  String resetCodeWrong(int tries) {
+    return 'That code is wrong. Tries left: $tries.';
+  }
+
+  @override
+  String get resetCodeExpired =>
+      'This code has expired. You can ask for a new one.';
+
+  @override
+  String get resetCodeDead =>
+      'No tries left on this code. You can ask for a new one.';
+
+  @override
+  String resetResendTooSoon(int seconds) {
+    return 'You can ask for a new code in $seconds seconds.';
+  }
+
+  @override
+  String get resetPasswordEmpty => 'A new password is required.';
+
+  @override
+  String get resetPasswordTooShort =>
+      'The password needs at least 8 characters.';
+
+  @override
+  String get resetPasswordNeedsLetter =>
+      'The password needs at least one letter.';
+
+  @override
+  String get resetPasswordNeedsDigit =>
+      'The password needs at least one digit.';
+
+  @override
+  String get signOutTitle => 'Confirm sign out';
+
+  @override
+  String get signOutBody =>
+      'You can keep browsing as a guest and sign in again at any time.';
+
+  @override
+  String get signOutConfirm => 'Sign out';
+
+  @override
+  String get signOutKeep => 'Stay signed in';
+
+  @override
+  String accountCardSpoken(String name, String tier) {
+    return 'Your account: $name, $tier';
+  }
+
+  @override
+  String get signUpTitle => 'Create an account';
+
+  @override
+  String get signUpButton => 'Create account';
+
+  @override
+  String get signUpNameLabel => 'Full name';
+
+  @override
+  String get signUpNameHelper => 'First and family name at least';
+
+  @override
+  String get signUpPhoneLabel => 'Mobile number';
+
+  @override
+  String get signUpPhoneHelper => 'An Egyptian number, for example 01012345678';
+
+  @override
+  String get signUpEmailLabel => 'Email';
+
+  @override
+  String get signUpEmailHelper =>
+      'We\'ll send the account confirmation code here';
+
+  @override
+  String get signUpPasswordLabel => 'Password';
+
+  @override
+  String get signUpPasswordHelper =>
+      'At least 8 characters, with a letter and a digit';
+
+  @override
+  String get signUpAlreadyHave => 'Already have an account?';
+
+  @override
+  String get validationNameEmpty => 'The name is required.';
+
+  @override
+  String get validationNameTooShort => 'The name is too short.';
+
+  @override
+  String get validationNameTooLong =>
+      'The name is too long, 60 characters at most.';
+
+  @override
+  String get validationNameNeedsTwoWords =>
+      'The name needs at least two words, first and family name.';
+
+  @override
+  String get validationNameInvalidCharacters =>
+      'The name takes letters and spaces only.';
+
+  @override
+  String get validationPhoneEmpty => 'The mobile number is required.';
+
+  @override
+  String get validationPhoneInvalid =>
+      'The mobile number must be 11 digits starting with 010, 011, 012 or 015.';
+
+  @override
+  String get validationEmailEmpty => 'The email is required.';
+
+  @override
+  String get validationEmailInvalid =>
+      'The email is not written correctly, for example name@example.com.';
+
+  @override
+  String get validationPasswordEmpty => 'The password is required.';
+
+  @override
+  String get validationPasswordTooShort =>
+      'The password needs at least 8 characters.';
+
+  @override
+  String get validationPasswordNeedsLetter =>
+      'The password needs at least one letter.';
+
+  @override
+  String get validationPasswordNeedsDigit =>
+      'The password needs at least one digit.';
+
+  @override
+  String get signUpEmailTaken => 'This email is already registered.';
+
+  @override
+  String get signUpPhoneTaken => 'This mobile number is already registered.';
+
+  @override
+  String get signUpTakenActions => 'You can sign in or reset the password.';
+
+  @override
+  String get confirmEmailTitle => 'Confirm your email';
+
+  @override
+  String get confirmEmailButton => 'Confirm';
+
+  @override
+  String get confirmCodeEmpty => 'The code has 6 digits.';
+
+  @override
+  String confirmCodeWrong(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tries left',
+      one: '1 try left',
+    );
+    return 'That code is not correct. $_temp0.';
+  }
+
+  @override
+  String get confirmCodeExpired =>
+      'This code has expired. You can send a new one.';
+
+  @override
+  String get confirmCodeDead =>
+      'No tries left on this code. You can send a new one.';
+
+  @override
+  String get confirmNoPending =>
+      'There is no pending confirmation for this email. You can create the account again.';
+
+  @override
+  String confirmResendTooSoon(int seconds) {
+    return 'You can send a new code in $seconds seconds.';
+  }
+
+  @override
+  String get confirmResent => 'We sent a new code.';
+
+  @override
+  String get emailConfirmSubject => 'Your Sprint account confirmation code';
+
+  @override
+  String emailConfirmBody(String code, int minutes) {
+    return 'Confirmation code: $code\nThe code is valid for $minutes minutes. If you did not create this account, you can ignore this message.';
+  }
+
+  @override
+  String get emailResetSubject => 'Your Sprint password reset code';
+
+  @override
+  String emailResetBody(String code, int minutes) {
+    return 'Reset code: $code\nThe code is valid for $minutes minutes. If you did not ask for a reset, you can ignore this message.';
+  }
+
+  @override
+  String get demoNoticeTitle => 'Demo only';
+
+  @override
+  String demoNoticeCode(String code) {
+    return 'Demo code: $code';
+  }
+
+  @override
+  String get demoNoticeDismiss => 'Hide';
+
+  @override
+  String get mailboxTitle => 'Demo mailbox';
+
+  @override
+  String get demoResetButton => 'Reset demo data';
+
+  @override
+  String get demoResetTitle => 'Reset the demo data?';
+
+  @override
+  String get demoResetBody =>
+      'Every booking, account and request made so far is removed and the data goes back to how it started. Theme and language stay as they are.';
+
+  @override
+  String get demoResetConfirm => 'Reset data';
+
+  @override
+  String get demoResetKeep => 'Cancel';
+
+  @override
+  String get mailboxNote =>
+      'Emails the app would have sent appear here. For reviewers only.';
+
+  @override
+  String get mailboxEmptyTitle => 'No messages yet';
+
+  @override
+  String get mailboxEmptyBody =>
+      'Any confirmation or reset code that is sent will appear here.';
+
+  @override
+  String get mailboxTo => 'To';
+
+  @override
+  String get mailboxCopyCode => 'Copy code';
+
+  @override
+  String get mailboxCopied => 'Code copied.';
+
+  @override
   String get catalogueTypeSwimming => 'Swimming';
 
   @override
@@ -826,6 +1204,412 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String catalogueFactSession(int minutes) {
     return 'Session length $minutes minutes';
+  }
+
+  @override
+  String get verifTitle => 'Verification request';
+
+  @override
+  String get verifRenewTitle => 'Renew verification';
+
+  @override
+  String get verifIntro =>
+      'Once verified you book at the internal price. We check your details and ID card photo.';
+
+  @override
+  String get verifTypeTitle => 'Account type';
+
+  @override
+  String get verifTypeStudent => 'Student';
+
+  @override
+  String get verifTypeStaff => 'Staff';
+
+  @override
+  String get verifTypeFaculty => 'Faculty member';
+
+  @override
+  String get verifNationalIdLabel => 'National ID';
+
+  @override
+  String get verifNationalIdHelper => '14 digits, as written on the card.';
+
+  @override
+  String get verifCodeLabel => 'University or staff code';
+
+  @override
+  String get verifCodeHelper =>
+      'Digits or English letters, up to 20 characters.';
+
+  @override
+  String get verifUnitTitle => 'Faculty or department';
+
+  @override
+  String get verifPhotoLabel => 'ID card photo';
+
+  @override
+  String get verifPhotoHelper =>
+      'A clear photo of the whole card. It is resized automatically before sending.';
+
+  @override
+  String get verifPhotoChoose => 'Choose photo';
+
+  @override
+  String get verifPhotoReplace => 'Change photo';
+
+  @override
+  String get verifPhotoSourceTitle => 'ID card photo';
+
+  @override
+  String get verifPhotoCamera => 'Take a photo';
+
+  @override
+  String get verifPhotoGallery => 'Choose from photos or files';
+
+  @override
+  String get verifPhotoCancel => 'Cancel';
+
+  @override
+  String get verifPhotoProcessing => 'Preparing the photo';
+
+  @override
+  String get verifPhotoPreviewSpoken => 'ID card photo preview';
+
+  @override
+  String get verifPhotoNotImage =>
+      'That file is not an image. Choose another one.';
+
+  @override
+  String get verifErrNationalIdEmpty => 'National ID is required.';
+
+  @override
+  String get verifErrNationalIdLength => 'National ID must be 14 digits.';
+
+  @override
+  String get verifErrNationalIdCentury =>
+      'The first digit of the national ID must be 2 or 3.';
+
+  @override
+  String get verifErrNationalIdBirthDate =>
+      'The birth date inside the national ID is not valid.';
+
+  @override
+  String get verifErrNationalIdFuture =>
+      'The birth date inside the national ID is in the future.';
+
+  @override
+  String get verifErrNationalIdGovernorate =>
+      'The governorate code inside the national ID is not valid.';
+
+  @override
+  String get verifErrCodeEmpty => 'The code is required.';
+
+  @override
+  String get verifErrCodeInvalid =>
+      'The code must be 1 to 20 digits or English letters.';
+
+  @override
+  String get verifErrUnitEmpty => 'Choose the faculty or department.';
+
+  @override
+  String get verifErrPhotoEmpty => 'The ID card photo is required.';
+
+  @override
+  String get verifSubmit => 'Send request';
+
+  @override
+  String get verifSubmitting => 'Sending the request';
+
+  @override
+  String verifResultApproved(String date) {
+    return 'Verified. Your price is internal until $date.';
+  }
+
+  @override
+  String get verifResultPending =>
+      'Request sent and under review. Until it is done you stay on the full price.';
+
+  @override
+  String verifResultRejected(String reason) {
+    return 'The request was refused. Reason: $reason';
+  }
+
+  @override
+  String get verifResultDone => 'Done';
+
+  @override
+  String get verifReasonDuplicate =>
+      'This national ID already has a verification request from another account.';
+
+  @override
+  String get verifStorageFull =>
+      'The photo was not saved, you can send it again';
+
+  @override
+  String get verifAlreadyPending => 'You already have a request under review.';
+
+  @override
+  String get verifCardTitle => 'Verification';
+
+  @override
+  String verifCardSpoken(String status) {
+    return 'Verification: $status';
+  }
+
+  @override
+  String get verifStatusNone => 'Not verified';
+
+  @override
+  String get verifStatusExpired => 'Verification expired';
+
+  @override
+  String get verifNoneBody =>
+      'Your account is on the full price. Once verified you book at the internal price.';
+
+  @override
+  String get verifPendingBody =>
+      'Your request is under review. Until it is done you stay on the full price.';
+
+  @override
+  String verifApprovedUntil(String date) {
+    return 'Verified until $date';
+  }
+
+  @override
+  String get verifRejectedBody => 'The request was refused.';
+
+  @override
+  String verifReasonLabel(String reason) {
+    return 'Reason: $reason';
+  }
+
+  @override
+  String verifExpiredBody(String date) {
+    return 'Verification expired on $date. The price is full until you renew.';
+  }
+
+  @override
+  String get verifActionRequest => 'Request verification';
+
+  @override
+  String get verifActionRenew => 'Renew verification';
+
+  @override
+  String get verifActionAgain => 'Send a new request';
+
+  @override
+  String get verifActionWait => 'Waiting for review';
+
+  @override
+  String verifNationalIdMasked(String id) {
+    return 'National ID: $id';
+  }
+
+  @override
+  String get verifRevSection => 'Verification';
+
+  @override
+  String get verifRevQueueTitle => 'Verification requests';
+
+  @override
+  String get verifRevQueueEmpty => 'No requests waiting for review.';
+
+  @override
+  String verifRevWaitMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Waiting $count minutes',
+      one: 'Waiting 1 minute',
+      zero: 'Waiting less than a minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String verifRevWaitHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Waiting $count hours',
+      one: 'Waiting 1 hour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String verifRevWaitDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Waiting $count days',
+      one: 'Waiting 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get verifRevPricing => 'Priced as internal once approved';
+
+  @override
+  String verifRevRowSpoken(String name, String type, String unit, String wait) {
+    return 'Request from $name, $type, $unit, $wait';
+  }
+
+  @override
+  String get verifRevDetailTitle => 'Request details';
+
+  @override
+  String get verifRevPickPrompt =>
+      'Choosing a request from the list shows its details here.';
+
+  @override
+  String get verifRevName => 'Name';
+
+  @override
+  String get verifRevType => 'Type';
+
+  @override
+  String get verifRevCode => 'Code';
+
+  @override
+  String get verifRevUnit => 'Faculty or department';
+
+  @override
+  String get verifRevSubmitted => 'Sent';
+
+  @override
+  String get verifRevNationalId => 'National ID';
+
+  @override
+  String get verifRevPhoto => 'ID card photo';
+
+  @override
+  String verifRevPhotoSpoken(String name) {
+    return 'ID card photo of $name';
+  }
+
+  @override
+  String get verifRevPhotoMissing => 'The photo is not available.';
+
+  @override
+  String get verifRevApprove => 'Approve request';
+
+  @override
+  String get verifRevReject => 'Reject request';
+
+  @override
+  String get verifRevRejectTitle => 'Reject request';
+
+  @override
+  String get verifRevReasonLabel => 'Reason for rejection';
+
+  @override
+  String get verifRevReasonHelper =>
+      'At least 10 characters. The person will see the reason.';
+
+  @override
+  String get verifRevReasonConfirm => 'Confirm rejection';
+
+  @override
+  String get verifRevReasonCancel => 'Back';
+
+  @override
+  String get verifRevAlreadyDecided => 'This request was already decided.';
+
+  @override
+  String get verifRevOwnRequest => 'You cannot review your own request.';
+
+  @override
+  String get verifRevDecidedApproved =>
+      'The request was approved and the person now pays the internal price.';
+
+  @override
+  String get verifRevDecidedRejected =>
+      'The request was rejected and the person can see the reason.';
+
+  @override
+  String get verifRevUpload => 'Upload sheet';
+
+  @override
+  String get sheetTitle => 'Upload verification sheet';
+
+  @override
+  String get sheetHelp =>
+      'A UTF-8 CSV file with 3 columns in this order: national ID, code, type (student, staff or faculty). The first row may be headings.';
+
+  @override
+  String get sheetPick => 'Choose a CSV file';
+
+  @override
+  String get sheetSummaryTitle => 'Upload summary';
+
+  @override
+  String get sheetSummaryRead => 'Rows read';
+
+  @override
+  String get sheetSummaryAdded => 'Rows added';
+
+  @override
+  String get sheetSummaryDuplicates => 'Duplicate rows skipped';
+
+  @override
+  String get sheetSummaryInvalid => 'Invalid rows skipped';
+
+  @override
+  String get sheetSummaryApproved => 'Requests approved automatically';
+
+  @override
+  String get sheetProblemsTitle => 'Skipped rows';
+
+  @override
+  String sheetProblemRow(String row, String reason) {
+    return 'Row $row: $reason';
+  }
+
+  @override
+  String get sheetReasonColumns => 'Wrong number of columns';
+
+  @override
+  String get sheetReasonCode => 'The code is not valid';
+
+  @override
+  String get sheetReasonType => 'The type is not known';
+
+  @override
+  String get sheetReasonOther => 'The row is not valid';
+
+  @override
+  String get sheetErrBadColumns =>
+      'The columns are not the expected ones, and nothing was added.';
+
+  @override
+  String get sheetErrNoRows =>
+      'The file has no valid rows, and nothing was added.';
+
+  @override
+  String get sheetErrRead =>
+      'The file could not be read. You can try another CSV file.';
+
+  @override
+  String get sheetBatchesTitle => 'Earlier uploads';
+
+  @override
+  String get sheetBatchesEmpty => 'No uploads yet.';
+
+  @override
+  String sheetBatchLine(int added, int approved, int skipped) {
+    return 'Added $added, approved $approved, skipped $skipped';
+  }
+
+  @override
+  String verifNoticeApproved(String date) {
+    return 'Your verification request was approved. Verified until $date.';
+  }
+
+  @override
+  String verifNoticeRejected(String reason) {
+    return 'Your verification request was rejected. Reason: $reason';
   }
 
   @override

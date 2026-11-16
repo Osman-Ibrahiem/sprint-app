@@ -12,6 +12,7 @@ part of 'attendance.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Attendance {
 
@@ -22,6 +23,8 @@ mixin _$Attendance {
 @pragma('vm:prefer-inline')
 $AttendanceCopyWith<Attendance> get copyWith => _$AttendanceCopyWithImpl<Attendance>(this as Attendance, _$identity);
 
+  /// Serializes this Attendance to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Attendance&&(identical(other.bookingId, _this.bookingId) || other.bookingId == _this.bookingId)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.method, _this.method) || other.method == _this.method)&&(identical(other.markedBy, _this.markedBy) || other.markedBy == _this.markedBy)&&(identical(other.markedAt, _this.markedAt) || other.markedAt == _this.markedAt));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Attendance;
@@ -213,11 +216,11 @@ return $default(_that.bookingId,_that.status,_that.method,_that.markedBy,_that.m
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Attendance implements Attendance {
   const _Attendance({required this.bookingId, required this.status, required this.method, required this.markedBy, required this.markedAt});
-  
+  factory _Attendance.fromJson(Map<String, dynamic> json) => _$AttendanceFromJson(json);
 
 @override final  String bookingId;
 @override final  AttendanceStatus status;
@@ -231,14 +234,17 @@ class _Attendance implements Attendance {
 @pragma('vm:prefer-inline')
 _$AttendanceCopyWith<_Attendance> get copyWith => __$AttendanceCopyWithImpl<_Attendance>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$AttendanceToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _Attendance&&(identical(other.bookingId, bookingId) || other.bookingId == bookingId)&&(identical(other.status, status) || other.status == status)&&(identical(other.method, method) || other.method == method)&&(identical(other.markedBy, markedBy) || other.markedBy == markedBy)&&(identical(other.markedAt, markedAt) || other.markedAt == markedAt));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,bookingId,status,method,markedBy,markedAt);

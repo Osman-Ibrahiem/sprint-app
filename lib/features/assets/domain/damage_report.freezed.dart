@@ -12,6 +12,7 @@ part of 'damage_report.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$DamageReport {
 
@@ -22,6 +23,8 @@ mixin _$DamageReport {
 @pragma('vm:prefer-inline')
 $DamageReportCopyWith<DamageReport> get copyWith => _$DamageReportCopyWithImpl<DamageReport>(this as DamageReport, _$identity);
 
+  /// Serializes this DamageReport to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is DamageReport&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.assetId, _this.assetId) || other.assetId == _this.assetId)&&(identical(other.reportedBy, _this.reportedBy) || other.reportedBy == _this.reportedBy)&&(identical(other.description, _this.description) || other.description == _this.description)&&const DeepCollectionEquality().equals(other.photos, _this.photos)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.linkedClosureId, _this.linkedClosureId) || other.linkedClosureId == _this.linkedClosureId));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as DamageReport;
@@ -215,11 +218,11 @@ return $default(_that.id,_that.assetId,_that.reportedBy,_that.description,_that.
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _DamageReport implements DamageReport {
   const _DamageReport({required this.id, required this.assetId, required this.reportedBy, required this.description,  List<String> photos = const <String>[], required this.status, this.linkedClosureId}): _photos = photos;
-  
+  factory _DamageReport.fromJson(Map<String, dynamic> json) => _$DamageReportFromJson(json);
 
 @override final  String id;
 @override final  String assetId;
@@ -241,14 +244,17 @@ class _DamageReport implements DamageReport {
 @pragma('vm:prefer-inline')
 _$DamageReportCopyWith<_DamageReport> get copyWith => __$DamageReportCopyWithImpl<_DamageReport>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$DamageReportToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _DamageReport&&(identical(other.id, id) || other.id == id)&&(identical(other.assetId, assetId) || other.assetId == assetId)&&(identical(other.reportedBy, reportedBy) || other.reportedBy == reportedBy)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.photos, _photos)&&(identical(other.status, status) || other.status == status)&&(identical(other.linkedClosureId, linkedClosureId) || other.linkedClosureId == linkedClosureId));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,id,assetId,reportedBy,description,const DeepCollectionEquality().hash(_photos),status,linkedClosureId);

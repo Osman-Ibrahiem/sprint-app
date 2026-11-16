@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'facility.freezed.dart';
+part 'facility.g.dart';
 
 enum FacilityType { swimming, football, gym, tennis, hall, training }
 
@@ -20,4 +21,7 @@ abstract class Facility with _$Facility {
     required bool requiresTrainer,
     @Default(true) bool isPublished,
   }) = _Facility;
+
+  factory Facility.fromJson(Map<String, dynamic> json) =>
+      _$FacilityFromJson(json);
 }

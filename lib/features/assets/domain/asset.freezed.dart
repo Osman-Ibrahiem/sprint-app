@@ -12,6 +12,7 @@ part of 'asset.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Asset {
 
@@ -22,6 +23,8 @@ mixin _$Asset {
 @pragma('vm:prefer-inline')
 $AssetCopyWith<Asset> get copyWith => _$AssetCopyWithImpl<Asset>(this as Asset, _$identity);
 
+  /// Serializes this Asset to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Asset&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.facilityId, _this.facilityId) || other.facilityId == _this.facilityId)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.code, _this.code) || other.code == _this.code)&&(identical(other.quantity, _this.quantity) || other.quantity == _this.quantity)&&(identical(other.custodianId, _this.custodianId) || other.custodianId == _this.custodianId)&&(identical(other.status, _this.status) || other.status == _this.status));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Asset;
@@ -215,11 +218,11 @@ return $default(_that.id,_that.facilityId,_that.name,_that.code,_that.quantity,_
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Asset implements Asset {
   const _Asset({required this.id, required this.facilityId, required this.name, required this.code, required this.quantity, required this.custodianId, required this.status});
-  
+  factory _Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);
 
 @override final  String id;
 @override final  String facilityId;
@@ -235,14 +238,17 @@ class _Asset implements Asset {
 @pragma('vm:prefer-inline')
 _$AssetCopyWith<_Asset> get copyWith => __$AssetCopyWithImpl<_Asset>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$AssetToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _Asset&&(identical(other.id, id) || other.id == id)&&(identical(other.facilityId, facilityId) || other.facilityId == facilityId)&&(identical(other.name, name) || other.name == name)&&(identical(other.code, code) || other.code == code)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.custodianId, custodianId) || other.custodianId == custodianId)&&(identical(other.status, status) || other.status == status));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,id,facilityId,name,code,quantity,custodianId,status);

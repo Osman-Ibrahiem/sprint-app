@@ -12,6 +12,7 @@ part of 'audit_log.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$AuditLog {
 
@@ -22,6 +23,8 @@ mixin _$AuditLog {
 @pragma('vm:prefer-inline')
 $AuditLogCopyWith<AuditLog> get copyWith => _$AuditLogCopyWithImpl<AuditLog>(this as AuditLog, _$identity);
 
+  /// Serializes this AuditLog to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is AuditLog&&(identical(other.actorId, _this.actorId) || other.actorId == _this.actorId)&&(identical(other.action, _this.action) || other.action == _this.action)&&(identical(other.entity, _this.entity) || other.entity == _this.entity)&&(identical(other.entityId, _this.entityId) || other.entityId == _this.entityId)&&(identical(other.before, _this.before) || other.before == _this.before)&&(identical(other.after, _this.after) || other.after == _this.after)&&(identical(other.at, _this.at) || other.at == _this.at));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as AuditLog;
@@ -215,11 +218,11 @@ return $default(_that.actorId,_that.action,_that.entity,_that.entityId,_that.bef
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _AuditLog implements AuditLog {
   const _AuditLog({required this.actorId, required this.action, required this.entity, required this.entityId, this.before, this.after, required this.at});
-  
+  factory _AuditLog.fromJson(Map<String, dynamic> json) => _$AuditLogFromJson(json);
 
 @override final  String actorId;
 @override final  String action;
@@ -235,14 +238,17 @@ class _AuditLog implements AuditLog {
 @pragma('vm:prefer-inline')
 _$AuditLogCopyWith<_AuditLog> get copyWith => __$AuditLogCopyWithImpl<_AuditLog>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$AuditLogToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuditLog&&(identical(other.actorId, actorId) || other.actorId == actorId)&&(identical(other.action, action) || other.action == action)&&(identical(other.entity, entity) || other.entity == entity)&&(identical(other.entityId, entityId) || other.entityId == entityId)&&(identical(other.before, before) || other.before == before)&&(identical(other.after, after) || other.after == after)&&(identical(other.at, at) || other.at == at));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,actorId,action,entity,entityId,before,after,at);

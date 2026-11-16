@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'trainer.freezed.dart';
+part 'trainer.g.dart';
 
 @freezed
 abstract class Trainer with _$Trainer {
@@ -11,4 +12,7 @@ abstract class Trainer with _$Trainer {
     required String bio,
     required int trainerCapacity,
   }) = _Trainer;
+
+  factory Trainer.fromJson(Map<String, dynamic> json) =>
+      _$TrainerFromJson(json);
 }

@@ -21,7 +21,7 @@ Future<void> openHome(WidgetTester tester, {String? userId}) async {
     overrides: [appClockProvider.overrideWithValue(Clock(() => _now))],
   );
   if (userId != null) {
-    await containerOf(tester).read(sessionProvider.notifier).selectUser(userId);
+    await containerOf(tester).read(sessionProvider.notifier).actAs(userId);
     await tester.pumpAndSettle();
   }
 }
@@ -81,7 +81,7 @@ void main() {
   ) async {
     await openHome(tester, userId: SeedIds.bookerInternal);
     expect(find.text(ar.catalogueUpcomingTitle), findsOneWidget);
-    await containerOf(tester).read(sessionProvider.notifier).selectUser(null);
+    await containerOf(tester).read(sessionProvider.notifier).actAs(null);
     await tester.pump();
     expect(find.text(ar.catalogueUpcomingTitle), findsNothing);
     expect(find.text(ar.catalogueUpcomingNone), findsNothing);

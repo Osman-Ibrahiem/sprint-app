@@ -83,7 +83,7 @@ void main() {
       addTearDown(open.dispose);
       await open
           .read(sessionProvider.notifier)
-          .selectUser(SeedIds.bookerInternal);
+          .actAs(SeedIds.bookerInternal);
       final before = await open.read(homeContentProvider.future);
       expect(before.upcoming, isNotEmpty);
       final facilityId = before.upcoming.first.booking.facilityId;
@@ -95,7 +95,7 @@ void main() {
       addTearDown(hidden.dispose);
       await hidden
           .read(sessionProvider.notifier)
-          .selectUser(SeedIds.bookerInternal);
+          .actAs(SeedIds.bookerInternal);
       final after = await hidden.read(homeContentProvider.future);
 
       expect(after.upcoming.length, before.upcoming.length);
@@ -117,7 +117,7 @@ void main() {
     addTearDown(container.dispose);
     await container
         .read(sessionProvider.notifier)
-        .selectUser(SeedIds.bookerInternal);
+        .actAs(SeedIds.bookerInternal);
 
     final content = await container.read(homeContentProvider.future);
 

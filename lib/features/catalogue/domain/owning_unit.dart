@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'owning_unit.freezed.dart';
+part 'owning_unit.g.dart';
 
 enum OwningUnitType { faculty, central }
 
@@ -12,4 +13,7 @@ abstract class OwningUnit with _$OwningUnit {
     required String name,
     required OwningUnitType type,
   }) = _OwningUnit;
+
+  factory OwningUnit.fromJson(Map<String, dynamic> json) =>
+      _$OwningUnitFromJson(json);
 }

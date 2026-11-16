@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
@@ -7,7 +8,49 @@ import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 import 'package:sprint/core/l10n/sprint_icon.dart';
 
-enum SprintTextFieldType { text, password, search, phone, email, nationalId }
+enum SprintTextFieldType {
+  text,
+  password,
+  search,
+  phone,
+  email,
+  nationalId,
+  code,
+}
+
+/// Longest confirmation code the `code` type accepts.
+const int sprintCodeLength = 6;
+
+/// Turns Arabic-Indic and Persian digits into 0-9 and drops everything that
+/// is not a digit, as the user types or pastes.
+class _CodeDigitsFormatter extends TextInputFormatter {
+  const _CodeDigitsFormatter();
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final out = StringBuffer();
+    for (final unit in newValue.text.runes) {
+      if (unit >= 0x0660 && unit <= 0x0669) {
+        out.writeCharCode(0x30 + unit - 0x0660);
+      } else if (unit >= 0x06F0 && unit <= 0x06F9) {
+        out.writeCharCode(0x30 + unit - 0x06F0);
+      } else if (unit >= 0x30 && unit <= 0x39) {
+        out.writeCharCode(unit);
+      }
+    }
+    var text = out.toString();
+    if (text.length > sprintCodeLength) {
+      text = text.substring(0, sprintCodeLength);
+    }
+    return TextEditingValue(
+      text: text,
+      selection: TextSelection.collapsed(offset: text.length),
+    );
+  }
+}
 
 /// The design system's input field (TextField README, FR-018 – FR-022).
 ///
@@ -25,6 +68,9 @@ class SprintTextField extends StatefulWidget {
     this.onChanged,
     this.onLeave,
     this.onSubmitted,
+    this.autofillHints,
+    this.textInputAction,
+    this.focusNode,
     super.key,
   });
 
@@ -39,6 +85,16 @@ class SprintTextField extends StatefulWidget {
   final VoidCallback? onLeave;
   final ValueChanged<String>? onSubmitted;
 
+  /// Overrides the type's default autofill hints (for example
+  /// `AutofillHints.newPassword` on sign up and reset).
+  final Iterable<String>? autofillHints;
+
+  /// `next` moves focus to the next field, `done` submits (FR-047).
+  final TextInputAction? textInputAction;
+
+  /// An external node for form order; the field does not dispose it.
+  final FocusNode? focusNode;
+
   static const fieldKey = ValueKey<String>('sprint-text-field');
 
   @override
@@ -48,18 +104,18 @@ class SprintTextField extends StatefulWidget {
 class _SprintTextFieldState extends State<SprintTextField> {
   late final TextEditingController _controller =
       widget.controller ?? TextEditingController();
-  final FocusNode _focusNode = FocusNode();
+  late final FocusNode _focusNode = widget.focusNode ?? FocusNode();
   bool _focused = false;
   bool _revealed = false;
 
   bool get _ltr => switch (widget.type) {
-        SprintTextFieldType.password ||
-        SprintTextFieldType.phone ||
-        SprintTextFieldType.email ||
-        SprintTextFieldType.nationalId =>
-          true,
-        SprintTextFieldType.text || SprintTextFieldType.search => false,
-      };
+    SprintTextFieldType.password ||
+    SprintTextFieldType.phone ||
+    SprintTextFieldType.email ||
+    SprintTextFieldType.nationalId ||
+    SprintTextFieldType.code => true,
+    SprintTextFieldType.text || SprintTextFieldType.search => false,
+  };
 
   bool get _isPassword => widget.type == SprintTextFieldType.password;
 
@@ -77,24 +133,27 @@ class _SprintTextFieldState extends State<SprintTextField> {
 
   @override
   void dispose() {
-    _focusNode
-      ..removeListener(_onFocusChanged)
-      ..dispose();
+    _focusNode.removeListener(_onFocusChanged);
+    if (widget.focusNode == null) _focusNode.dispose();
     if (widget.controller == null) _controller.dispose();
     super.dispose();
   }
 
   TextInputType get _keyboardType => switch (widget.type) {
-        SprintTextFieldType.phone => TextInputType.phone,
-        SprintTextFieldType.email => TextInputType.emailAddress,
-        SprintTextFieldType.nationalId => TextInputType.number,
-        _ => TextInputType.text,
-      };
+    SprintTextFieldType.phone => TextInputType.phone,
+    SprintTextFieldType.email => TextInputType.emailAddress,
+    SprintTextFieldType.nationalId ||
+    SprintTextFieldType.code => TextInputType.number,
+    _ => TextInputType.text,
+  };
 
-  Iterable<String>? get _autofillHints => switch (widget.type) {
+  Iterable<String>? get _autofillHints =>
+      widget.autofillHints ??
+      switch (widget.type) {
         SprintTextFieldType.password => const [AutofillHints.password],
         SprintTextFieldType.phone => const [AutofillHints.telephoneNumber],
         SprintTextFieldType.email => const [AutofillHints.email],
+        SprintTextFieldType.code => const [AutofillHints.oneTimeCode],
         _ => null,
       };
 
@@ -137,6 +196,10 @@ class _SprintTextFieldState extends State<SprintTextField> {
       obscureText: _isPassword && !_revealed,
       keyboardType: _keyboardType,
       autofillHints: _autofillHints,
+      textInputAction: widget.textInputAction,
+      inputFormatters: widget.type == SprintTextFieldType.code
+          ? const [_CodeDigitsFormatter()]
+          : null,
       enableSuggestions: !_isPassword,
       autocorrect: !_isPassword,
       textDirection: _ltr ? TextDirection.ltr : null,
@@ -146,10 +209,21 @@ class _SprintTextFieldState extends State<SprintTextField> {
       style: context.text.body.copyWith(color: textColor),
       onChanged: widget.onChanged,
       onSubmitted: widget.onSubmitted,
-      decoration: InputDecoration.collapsed(
-        hintText: widget.placeholder,
-        hintStyle: context.text.body.copyWith(color: colors.inkMuted),
-      ),
+      // The container above draws the one border and focus ring. Every border
+      // is cleared here, because `InputDecoration.collapsed` clears only
+      // `border` and the theme's enabled and focused borders would otherwise
+      // draw a second outline inside the field.
+      decoration:
+          InputDecoration.collapsed(
+            hintText: widget.placeholder,
+            hintStyle: context.text.body.copyWith(color: colors.inkMuted),
+          ).copyWith(
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
+            errorBorder: InputBorder.none,
+            focusedErrorBorder: InputBorder.none,
+          ),
     );
 
     return Semantics(
@@ -157,93 +231,90 @@ class _SprintTextFieldState extends State<SprintTextField> {
       textField: true,
       label: hasError ? '${widget.label}، ${widget.error}' : widget.label,
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              widget.label,
-              style: context.text.label.copyWith(color: labelColor),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            widget.label,
+            style: context.text.label.copyWith(color: labelColor),
+          ),
+          const SizedBox(height: SprintSpacing.space1),
+          DecoratedBox(
+            key: SprintTextField.fieldKey,
+            decoration: BoxDecoration(
+              color: fill,
+              borderRadius: search
+                  ? SprintRadius.fullBorder
+                  : SprintRadius.smBorder,
+              border: Border.all(color: borderColor, width: borderWidth),
             ),
-            const SizedBox(height: SprintSpacing.space1),
-            DecoratedBox(
-              key: SprintTextField.fieldKey,
-              decoration: BoxDecoration(
-                color: fill,
-                borderRadius: search
-                    ? SprintRadius.fullBorder
-                    : SprintRadius.smBorder,
-                border: Border.all(color: borderColor, width: borderWidth),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                minHeight: SprintSize.controlHeight,
               ),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  minHeight: SprintSize.controlHeight,
+              child: Padding(
+                padding: const EdgeInsetsDirectional.symmetric(
+                  horizontal: SprintSpacing.space3,
+                  vertical: SprintSpacing.space2,
                 ),
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.symmetric(
-                    horizontal: SprintSpacing.space3,
-                    vertical: SprintSpacing.space2,
-                  ),
-                  child: Row(
-                    children: [
-                      if (search) ...[
-                        SprintIcon(
-                          Icons.search,
+                child: Row(
+                  children: [
+                    if (search) ...[
+                      SprintIcon(
+                        Icons.search,
+                        size: SprintSize.iconMd,
+                        color: colors.inkMuted,
+                      ),
+                      const SizedBox(width: SprintSpacing.space2),
+                    ],
+                    Expanded(child: field),
+                    if (_isPassword)
+                      IconButton(
+                        tooltip: _revealed
+                            ? l10n.fieldHidePassword
+                            : l10n.fieldShowPassword,
+                        constraints: const BoxConstraints(
+                          minWidth: SprintSize.controlHeight,
+                          minHeight: SprintSize.controlHeight,
+                        ),
+                        padding: EdgeInsets.zero,
+                        onPressed: () => setState(() => _revealed = !_revealed),
+                        icon: SprintIcon(
+                          _revealed ? Icons.visibility_off : Icons.visibility,
                           size: SprintSize.iconMd,
                           color: colors.inkMuted,
                         ),
-                        const SizedBox(width: SprintSpacing.space2),
-                      ],
-                      Expanded(child: field),
-                      if (_isPassword)
-                        IconButton(
-                          tooltip: _revealed
-                              ? l10n.fieldHidePassword
-                              : l10n.fieldShowPassword,
-                          constraints: const BoxConstraints(
-                            minWidth: SprintSize.controlHeight,
-                            minHeight: SprintSize.controlHeight,
-                          ),
-                          padding: EdgeInsets.zero,
-                          onPressed: () =>
-                              setState(() => _revealed = !_revealed),
-                          icon: SprintIcon(
-                            _revealed
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            size: SprintSize.iconMd,
-                            color: colors.inkMuted,
-                          ),
-                        ),
-                    ],
-                  ),
+                      ),
+                  ],
                 ),
               ),
             ),
-            if (hasError || widget.helper != null) ...[
-              const SizedBox(height: SprintSpacing.space1),
-              Row(
-                children: [
-                  if (hasError) ...[
-                    SprintIcon(
-                      Icons.error_outline,
-                      size: SprintSize.iconSm,
-                      color: colors.danger,
-                    ),
-                    const SizedBox(width: SprintSpacing.space1),
-                  ],
-                  Expanded(
-                    child: Text(
-                      hasError ? widget.error! : widget.helper!,
-                      style: context.text.caption.copyWith(
-                        color: hasError ? colors.danger : colors.inkMuted,
-                      ),
+          ),
+          if (hasError || widget.helper != null) ...[
+            const SizedBox(height: SprintSpacing.space1),
+            Row(
+              children: [
+                if (hasError) ...[
+                  SprintIcon(
+                    Icons.error_outline,
+                    size: SprintSize.iconSm,
+                    color: colors.danger,
+                  ),
+                  const SizedBox(width: SprintSpacing.space1),
+                ],
+                Expanded(
+                  child: Text(
+                    hasError ? widget.error! : widget.helper!,
+                    style: context.text.caption.copyWith(
+                      color: hasError ? colors.danger : colors.inkMuted,
                     ),
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ],
-        ),
+        ],
+      ),
     );
   }
 }

@@ -167,8 +167,92 @@ abstract class AppLocalizations {
   /// No description provided for @signInPromptBody.
   ///
   /// In ar, this message translates to:
-  /// **'حجوزاتك وبيانات حسابك هتظهر هنا بعد تسجيل الدخول. التسجيل لسه مش متاح في النسخة دي.'**
+  /// **'حجوزاتك وبيانات حسابك هتظهر هنا بعد تسجيل الدخول.'**
   String get signInPromptBody;
+
+  /// No description provided for @gateTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخطوة دي محتاجة حساب'**
+  String get gateTitle;
+
+  /// No description provided for @gateBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول أو إنشاء حساب {reason}'**
+  String gateBody(String reason);
+
+  /// No description provided for @gateSignIn.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول'**
+  String get gateSignIn;
+
+  /// No description provided for @gateSignUp.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء حساب'**
+  String get gateSignUp;
+
+  /// No description provided for @gateDismiss.
+  ///
+  /// In ar, this message translates to:
+  /// **'مش دلوقتي'**
+  String get gateDismiss;
+
+  /// No description provided for @gateReasonBook.
+  ///
+  /// In ar, this message translates to:
+  /// **'عشان تحجز'**
+  String get gateReasonBook;
+
+  /// No description provided for @gateReasonBookings.
+  ///
+  /// In ar, this message translates to:
+  /// **'عشان تشوف حجوزاتك'**
+  String get gateReasonBookings;
+
+  /// No description provided for @gateReasonVerification.
+  ///
+  /// In ar, this message translates to:
+  /// **'عشان تطلب التوثيق'**
+  String get gateReasonVerification;
+
+  /// No description provided for @gateReasonProfile.
+  ///
+  /// In ar, this message translates to:
+  /// **'عشان تشوف بيانات حسابك'**
+  String get gateReasonProfile;
+
+  /// No description provided for @gateDemoBookSlot.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجز الميعاد ده'**
+  String get gateDemoBookSlot;
+
+  /// No description provided for @gateDemoTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تجربة طلب الحساب'**
+  String get gateDemoTitle;
+
+  /// No description provided for @gateDemoIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد اختيار ميعاد والضغط على الحجز، الزائر بتظهر له نافذة الحساب، وبعد الدخول بيرجع هنا والميعاد لسه مختار.'**
+  String get gateDemoIntro;
+
+  /// No description provided for @gateDemoReady.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحساب جاهز. الحجز ماتمش لوحده، ومحتاج ضغطة جديدة.'**
+  String get gateDemoReady;
+
+  /// No description provided for @gateDemoDismissed.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتقفلت من غير تسجيل دخول، ولسه الميعاد مختار.'**
+  String get gateDemoDismissed;
 
   /// No description provided for @notFoundTitle.
   ///
@@ -187,6 +271,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الرجوع للرئيسية'**
   String get backToHome;
+
+  /// No description provided for @noAccessTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفحة دي مش متاحة لحسابك'**
+  String get noAccessTitle;
+
+  /// No description provided for @noAccessBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفحة دي مخصوصة لصلاحيات تانية. لو محتاج الوصول ليها ممكن تتواصل مع مسؤول الجامعة.'**
+  String get noAccessBody;
 
   /// No description provided for @homeTitle.
   ///
@@ -563,7 +659,7 @@ abstract class AppLocalizations {
   /// No description provided for @demoUserNote.
   ///
   /// In ar, this message translates to:
-  /// **'للمراجعين فقط. من غير تسجيل دخول حقيقي.'**
+  /// **'للمراجعين فقط. التبديل بين الحسابات من غير باسورد.'**
   String get demoUserNote;
 
   /// No description provided for @demoGuest.
@@ -655,6 +751,30 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'إخفاء'**
   String get fieldHidePassword;
+
+  /// No description provided for @codeEntryLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود التأكيد'**
+  String get codeEntryLabel;
+
+  /// No description provided for @codeEntrySentTo.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعتنا كود على'**
+  String get codeEntrySentTo;
+
+  /// No description provided for @codeEntryResend.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال الكود تاني'**
+  String get codeEntryResend;
+
+  /// No description provided for @codeEntryResendIn.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال الكود تاني بعد {seconds} ثانية'**
+  String codeEntryResendIn(int seconds);
 
   /// No description provided for @fieldSearchHint.
   ///
@@ -1104,6 +1224,522 @@ abstract class AppLocalizations {
   /// **'متاح'**
   String get slotAvailableWord;
 
+  /// No description provided for @signInTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول'**
+  String get signInTitle;
+
+  /// No description provided for @signInIdentifierLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيميل أو رقم الموبايل'**
+  String get signInIdentifierLabel;
+
+  /// No description provided for @signInPasswordLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد'**
+  String get signInPasswordLabel;
+
+  /// No description provided for @signInButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول'**
+  String get signInButton;
+
+  /// No description provided for @signInBadCredentials.
+  ///
+  /// In ar, this message translates to:
+  /// **'بيانات الدخول مش صحيحة'**
+  String get signInBadCredentials;
+
+  /// No description provided for @signInLocked.
+  ///
+  /// In ar, this message translates to:
+  /// **'المحاولات كترت. الدخول متوقف مؤقتًا، وتقدر تحاول تاني بعد {minutes} دقيقة.'**
+  String signInLocked(int minutes);
+
+  /// No description provided for @signInSuspended.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحساب ده موقوف حاليًا. ممكن التواصل مع إدارة الجامعة.'**
+  String get signInSuspended;
+
+  /// No description provided for @signInUnexpected.
+  ///
+  /// In ar, this message translates to:
+  /// **'حصلت مشكلة غير متوقعة. ممكن المحاولة تاني بعد شوية.'**
+  String get signInUnexpected;
+
+  /// No description provided for @signInForgot.
+  ///
+  /// In ar, this message translates to:
+  /// **'نسيت الباسورد؟'**
+  String get signInForgot;
+
+  /// No description provided for @signInCreateAccount.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء حساب'**
+  String get signInCreateAccount;
+
+  /// No description provided for @forgotTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'استرجاع الباسورد'**
+  String get forgotTitle;
+
+  /// No description provided for @forgotIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب الإيميل أو رقم الموبايل المسجّل، وهنبعت كود على إيميل الحساب.'**
+  String get forgotIntro;
+
+  /// No description provided for @forgotSendButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال الكود'**
+  String get forgotSendButton;
+
+  /// No description provided for @resetTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'باسورد جديد'**
+  String get resetTitle;
+
+  /// No description provided for @resetSentNeutral.
+  ///
+  /// In ar, this message translates to:
+  /// **'لو الحساب موجود هيوصله كود على الإيميل المسجّل.'**
+  String get resetSentNeutral;
+
+  /// No description provided for @resetNewPasswordLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد الجديد'**
+  String get resetNewPasswordLabel;
+
+  /// No description provided for @resetPasswordHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'8 حروف على الأقل، فيها حرف ورقم'**
+  String get resetPasswordHint;
+
+  /// No description provided for @resetSaveButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ الباسورد'**
+  String get resetSaveButton;
+
+  /// No description provided for @resetCodeWrong.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود غلط. المحاولات المتبقية: {tries}.'**
+  String resetCodeWrong(int tries);
+
+  /// No description provided for @resetCodeExpired.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود انتهت صلاحيته. ممكن تطلب كود جديد.'**
+  String get resetCodeExpired;
+
+  /// No description provided for @resetCodeDead.
+  ///
+  /// In ar, this message translates to:
+  /// **'محاولات الكود خلصت. ممكن تطلب كود جديد.'**
+  String get resetCodeDead;
+
+  /// No description provided for @resetResendTooSoon.
+  ///
+  /// In ar, this message translates to:
+  /// **'ممكن تطلب كود جديد بعد {seconds} ثانية.'**
+  String resetResendTooSoon(int seconds);
+
+  /// No description provided for @resetPasswordEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد الجديد مطلوب.'**
+  String get resetPasswordEmpty;
+
+  /// No description provided for @resetPasswordTooShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد لازم يكون 8 حروف على الأقل.'**
+  String get resetPasswordTooShort;
+
+  /// No description provided for @resetPasswordNeedsLetter.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد لازم فيه حرف واحد على الأقل.'**
+  String get resetPasswordNeedsLetter;
+
+  /// No description provided for @resetPasswordNeedsDigit.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد لازم فيه رقم واحد على الأقل.'**
+  String get resetPasswordNeedsDigit;
+
+  /// No description provided for @signOutTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد تسجيل الخروج'**
+  String get signOutTitle;
+
+  /// No description provided for @signOutBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'هتفضل تقدر تتصفح التطبيق كزائر، وتسجّل دخول تاني في أي وقت.'**
+  String get signOutBody;
+
+  /// No description provided for @signOutConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الخروج'**
+  String get signOutConfirm;
+
+  /// No description provided for @signOutKeep.
+  ///
+  /// In ar, this message translates to:
+  /// **'البقاء في الحساب'**
+  String get signOutKeep;
+
+  /// No description provided for @accountCardSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابك: {name}، {tier}'**
+  String accountCardSpoken(String name, String tier);
+
+  /// No description provided for @signUpTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء حساب'**
+  String get signUpTitle;
+
+  /// No description provided for @signUpButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء الحساب'**
+  String get signUpButton;
+
+  /// No description provided for @signUpNameLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم بالكامل'**
+  String get signUpNameLabel;
+
+  /// No description provided for @signUpNameHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم الأول واسم العيلة على الأقل'**
+  String get signUpNameHelper;
+
+  /// No description provided for @signUpPhoneLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الموبايل'**
+  String get signUpPhoneLabel;
+
+  /// No description provided for @signUpPhoneHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم مصري، مثال 01012345678'**
+  String get signUpPhoneHelper;
+
+  /// No description provided for @signUpEmailLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيميل'**
+  String get signUpEmailLabel;
+
+  /// No description provided for @signUpEmailHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'هنبعت عليه كود تأكيد الحساب'**
+  String get signUpEmailHelper;
+
+  /// No description provided for @signUpPasswordLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد'**
+  String get signUpPasswordLabel;
+
+  /// No description provided for @signUpPasswordHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'8 حروف على الأقل، فيها حرف ورقم'**
+  String get signUpPasswordHelper;
+
+  /// No description provided for @signUpAlreadyHave.
+  ///
+  /// In ar, this message translates to:
+  /// **'عندك حساب؟'**
+  String get signUpAlreadyHave;
+
+  /// No description provided for @validationNameEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم مطلوب.'**
+  String get validationNameEmpty;
+
+  /// No description provided for @validationNameTooShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم قصير أوي.'**
+  String get validationNameTooShort;
+
+  /// No description provided for @validationNameTooLong.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم طويل، الحد الأقصى 60 حرف.'**
+  String get validationNameTooLong;
+
+  /// No description provided for @validationNameNeedsTwoWords.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم لازم يكون كلمتين على الأقل، الاسم الأول واسم العيلة.'**
+  String get validationNameNeedsTwoWords;
+
+  /// No description provided for @validationNameInvalidCharacters.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم يقبل حروف ومسافات بس.'**
+  String get validationNameInvalidCharacters;
+
+  /// No description provided for @validationPhoneEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الموبايل مطلوب.'**
+  String get validationPhoneEmpty;
+
+  /// No description provided for @validationPhoneInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الموبايل لازم يكون 11 رقم ويبدأ بـ 010 أو 011 أو 012 أو 015.'**
+  String get validationPhoneInvalid;
+
+  /// No description provided for @validationEmailEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيميل مطلوب.'**
+  String get validationEmailEmpty;
+
+  /// No description provided for @validationEmailInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيميل مش مكتوب صح، مثال name@example.com.'**
+  String get validationEmailInvalid;
+
+  /// No description provided for @validationPasswordEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد مطلوب.'**
+  String get validationPasswordEmpty;
+
+  /// No description provided for @validationPasswordTooShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد لازم يكون 8 حروف على الأقل.'**
+  String get validationPasswordTooShort;
+
+  /// No description provided for @validationPasswordNeedsLetter.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد لازم فيه حرف واحد على الأقل.'**
+  String get validationPasswordNeedsLetter;
+
+  /// No description provided for @validationPasswordNeedsDigit.
+  ///
+  /// In ar, this message translates to:
+  /// **'الباسورد لازم فيه رقم واحد على الأقل.'**
+  String get validationPasswordNeedsDigit;
+
+  /// No description provided for @signUpEmailTaken.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيميل ده مسجل قبل كده.'**
+  String get signUpEmailTaken;
+
+  /// No description provided for @signUpPhoneTaken.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الموبايل ده مسجل قبل كده.'**
+  String get signUpPhoneTaken;
+
+  /// No description provided for @signUpTakenActions.
+  ///
+  /// In ar, this message translates to:
+  /// **'ممكن تسجيل الدخول أو استرجاع الباسورد.'**
+  String get signUpTakenActions;
+
+  /// No description provided for @confirmEmailTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد الإيميل'**
+  String get confirmEmailTitle;
+
+  /// No description provided for @confirmEmailButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد'**
+  String get confirmEmailButton;
+
+  /// No description provided for @confirmCodeEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود مكوّن من 6 أرقام.'**
+  String get confirmCodeEmpty;
+
+  /// No description provided for @confirmCodeWrong.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود مش صحيح. {count, plural, =1{فاضلك محاولة واحدة} =2{فاضلك محاولتين} other{فاضلك {count} محاولات}}.'**
+  String confirmCodeWrong(int count);
+
+  /// No description provided for @confirmCodeExpired.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود انتهت صلاحيته. ممكن إرسال كود جديد.'**
+  String get confirmCodeExpired;
+
+  /// No description provided for @confirmCodeDead.
+  ///
+  /// In ar, this message translates to:
+  /// **'المحاولات خلصت على الكود ده. ممكن إرسال كود جديد.'**
+  String get confirmCodeDead;
+
+  /// No description provided for @confirmNoPending.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش تأكيد معلّق للإيميل ده. ممكن إنشاء حساب من جديد.'**
+  String get confirmNoPending;
+
+  /// No description provided for @confirmResendTooSoon.
+  ///
+  /// In ar, this message translates to:
+  /// **'ممكن إرسال كود جديد بعد {seconds} ثانية.'**
+  String confirmResendTooSoon(int seconds);
+
+  /// No description provided for @confirmResent.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعتنا كود جديد.'**
+  String get confirmResent;
+
+  /// No description provided for @emailConfirmSubject.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود تأكيد حسابك في سبرنت'**
+  String get emailConfirmSubject;
+
+  /// No description provided for @emailConfirmBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود التأكيد: {code}\nالكود صالح لمدة {minutes} دقيقة. لو مش إنت اللي عملت الحساب، ممكن تتجاهل الرسالة دي.'**
+  String emailConfirmBody(String code, int minutes);
+
+  /// No description provided for @emailResetSubject.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود استرجاع الباسورد في سبرنت'**
+  String get emailResetSubject;
+
+  /// No description provided for @emailResetBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود الاسترجاع: {code}\nالكود صالح لمدة {minutes} دقيقة. لو مش إنت اللي طلبت الاسترجاع، ممكن تتجاهل الرسالة دي.'**
+  String emailResetBody(String code, int minutes);
+
+  /// No description provided for @demoNoticeTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'للعرض بس'**
+  String get demoNoticeTitle;
+
+  /// No description provided for @demoNoticeCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود التجربة: {code}'**
+  String demoNoticeCode(String code);
+
+  /// No description provided for @demoNoticeDismiss.
+  ///
+  /// In ar, this message translates to:
+  /// **'إخفاء'**
+  String get demoNoticeDismiss;
+
+  /// No description provided for @mailboxTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'صندوق البريد التجريبي'**
+  String get mailboxTitle;
+
+  /// No description provided for @demoResetButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرجاع الداتا التجريبية'**
+  String get demoResetButton;
+
+  /// No description provided for @demoResetTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرجاع الداتا التجريبية؟'**
+  String get demoResetTitle;
+
+  /// No description provided for @demoResetBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل الحجوزات والحسابات والطلبات اللي اتعملت هتتمسح، والداتا هترجع زي أول مرة. المظهر واللغة هيفضلوا زي ما هما.'**
+  String get demoResetBody;
+
+  /// No description provided for @demoResetConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرجاع الداتا'**
+  String get demoResetConfirm;
+
+  /// No description provided for @demoResetKeep.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء'**
+  String get demoResetKeep;
+
+  /// No description provided for @mailboxNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرسائل اللي التطبيق كان هيبعتها بالإيميل بتظهر هنا. للمراجعين فقط.'**
+  String get mailboxNote;
+
+  /// No description provided for @mailboxEmptyTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش رسائل لسه'**
+  String get mailboxEmptyTitle;
+
+  /// No description provided for @mailboxEmptyBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'أي كود تأكيد أو استرجاع هيتبعت هيظهر هنا.'**
+  String get mailboxEmptyBody;
+
+  /// No description provided for @mailboxTo.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلى'**
+  String get mailboxTo;
+
+  /// No description provided for @mailboxCopyCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'نسخ الكود'**
+  String get mailboxCopyCode;
+
+  /// No description provided for @mailboxCopied.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود اتنسخ.'**
+  String get mailboxCopied;
+
   /// No description provided for @catalogueTypeSwimming.
   ///
   /// In ar, this message translates to:
@@ -1487,6 +2123,672 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'مدة الحصة {minutes} دقيقة'**
   String catalogueFactSession(int minutes);
+
+  /// No description provided for @verifTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب التوثيق'**
+  String get verifTitle;
+
+  /// No description provided for @verifRenewTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تجديد التوثيق'**
+  String get verifRenewTitle;
+
+  /// No description provided for @verifIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد التوثيق بتحجز بالسعر الداخلي. بنراجع البيانات وصورة البطاقة.'**
+  String get verifIntro;
+
+  /// No description provided for @verifTypeTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'نوع الحساب'**
+  String get verifTypeTitle;
+
+  /// No description provided for @verifTypeStudent.
+  ///
+  /// In ar, this message translates to:
+  /// **'طالب'**
+  String get verifTypeStudent;
+
+  /// No description provided for @verifTypeStaff.
+  ///
+  /// In ar, this message translates to:
+  /// **'موظف'**
+  String get verifTypeStaff;
+
+  /// No description provided for @verifTypeFaculty.
+  ///
+  /// In ar, this message translates to:
+  /// **'عضو هيئة تدريس'**
+  String get verifTypeFaculty;
+
+  /// No description provided for @verifNationalIdLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرقم القومي'**
+  String get verifNationalIdLabel;
+
+  /// No description provided for @verifNationalIdHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'14 رقم زي ما هو مكتوب في البطاقة.'**
+  String get verifNationalIdHelper;
+
+  /// No description provided for @verifCodeLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود الجامعي أو الوظيفي'**
+  String get verifCodeLabel;
+
+  /// No description provided for @verifCodeHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'أرقام أو حروف إنجليزي، لحد 20 خانة.'**
+  String get verifCodeHelper;
+
+  /// No description provided for @verifUnitTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكلية أو الإدارة'**
+  String get verifUnitTitle;
+
+  /// No description provided for @verifPhotoLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة البطاقة'**
+  String get verifPhotoLabel;
+
+  /// No description provided for @verifPhotoHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة واضحة للبطاقة كلها. بنصغّرها تلقائي قبل الإرسال.'**
+  String get verifPhotoHelper;
+
+  /// No description provided for @verifPhotoChoose.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار الصورة'**
+  String get verifPhotoChoose;
+
+  /// No description provided for @verifPhotoReplace.
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيير الصورة'**
+  String get verifPhotoReplace;
+
+  /// No description provided for @verifPhotoSourceTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة البطاقة'**
+  String get verifPhotoSourceTitle;
+
+  /// No description provided for @verifPhotoCamera.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصوير بالكاميرا'**
+  String get verifPhotoCamera;
+
+  /// No description provided for @verifPhotoGallery.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار من الصور أو الملفات'**
+  String get verifPhotoGallery;
+
+  /// No description provided for @verifPhotoCancel.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء'**
+  String get verifPhotoCancel;
+
+  /// No description provided for @verifPhotoProcessing.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري تجهيز الصورة'**
+  String get verifPhotoProcessing;
+
+  /// No description provided for @verifPhotoPreviewSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'معاينة صورة البطاقة'**
+  String get verifPhotoPreviewSpoken;
+
+  /// No description provided for @verifPhotoNotImage.
+  ///
+  /// In ar, this message translates to:
+  /// **'الملف ده مش صورة. اختار صورة تانية.'**
+  String get verifPhotoNotImage;
+
+  /// No description provided for @verifErrNationalIdEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرقم القومي مطلوب.'**
+  String get verifErrNationalIdEmpty;
+
+  /// No description provided for @verifErrNationalIdLength.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرقم القومي لازم يكون 14 رقم.'**
+  String get verifErrNationalIdLength;
+
+  /// No description provided for @verifErrNationalIdCentury.
+  ///
+  /// In ar, this message translates to:
+  /// **'أول رقم في الرقم القومي لازم يكون 2 أو 3.'**
+  String get verifErrNationalIdCentury;
+
+  /// No description provided for @verifErrNationalIdBirthDate.
+  ///
+  /// In ar, this message translates to:
+  /// **'تاريخ الميلاد جوه الرقم القومي مش صحيح.'**
+  String get verifErrNationalIdBirthDate;
+
+  /// No description provided for @verifErrNationalIdFuture.
+  ///
+  /// In ar, this message translates to:
+  /// **'تاريخ الميلاد جوه الرقم القومي لسه ماجاش.'**
+  String get verifErrNationalIdFuture;
+
+  /// No description provided for @verifErrNationalIdGovernorate.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود المحافظة جوه الرقم القومي مش صحيح.'**
+  String get verifErrNationalIdGovernorate;
+
+  /// No description provided for @verifErrCodeEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود مطلوب.'**
+  String get verifErrCodeEmpty;
+
+  /// No description provided for @verifErrCodeInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود لازم يكون من 1 لـ 20 رقم أو حرف إنجليزي.'**
+  String get verifErrCodeInvalid;
+
+  /// No description provided for @verifErrUnitEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختار الكلية أو الإدارة.'**
+  String get verifErrUnitEmpty;
+
+  /// No description provided for @verifErrPhotoEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة البطاقة مطلوبة.'**
+  String get verifErrPhotoEmpty;
+
+  /// No description provided for @verifSubmit.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال الطلب'**
+  String get verifSubmit;
+
+  /// No description provided for @verifSubmitting.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري إرسال الطلب'**
+  String get verifSubmitting;
+
+  /// No description provided for @verifResultApproved.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم التوثيق. سعرك داخلي لحد {date}.'**
+  String verifResultApproved(String date);
+
+  /// No description provided for @verifResultPending.
+  ///
+  /// In ar, this message translates to:
+  /// **'الطلب اتبعت وبيتراجع. لحد ما يخلص هتفضل بالسعر الكامل.'**
+  String get verifResultPending;
+
+  /// No description provided for @verifResultRejected.
+  ///
+  /// In ar, this message translates to:
+  /// **'الطلب اترفض. السبب: {reason}'**
+  String verifResultRejected(String reason);
+
+  /// No description provided for @verifResultDone.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمام'**
+  String get verifResultDone;
+
+  /// No description provided for @verifReasonDuplicate.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرقم القومي ده عليه طلب توثيق من حساب تاني.'**
+  String get verifReasonDuplicate;
+
+  /// No description provided for @verifStorageFull.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصورة متحفظتش، ممكن تبعتها تاني'**
+  String get verifStorageFull;
+
+  /// No description provided for @verifAlreadyPending.
+  ///
+  /// In ar, this message translates to:
+  /// **'عندك طلب قيد المراجعة بالفعل.'**
+  String get verifAlreadyPending;
+
+  /// No description provided for @verifCardTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوثيق'**
+  String get verifCardTitle;
+
+  /// No description provided for @verifCardSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوثيق: {status}'**
+  String verifCardSpoken(String status);
+
+  /// No description provided for @verifStatusNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'غير موثّق'**
+  String get verifStatusNone;
+
+  /// No description provided for @verifStatusExpired.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوثيق انتهى'**
+  String get verifStatusExpired;
+
+  /// No description provided for @verifNoneBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابك بالسعر الكامل. بعد التوثيق بتحجز بالسعر الداخلي.'**
+  String get verifNoneBody;
+
+  /// No description provided for @verifPendingBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبك قيد المراجعة. لحد ما يخلص هتفضل بالسعر الكامل.'**
+  String get verifPendingBody;
+
+  /// No description provided for @verifApprovedUntil.
+  ///
+  /// In ar, this message translates to:
+  /// **'متوثق لحد {date}'**
+  String verifApprovedUntil(String date);
+
+  /// No description provided for @verifRejectedBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'الطلب اترفض.'**
+  String get verifRejectedBody;
+
+  /// No description provided for @verifReasonLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'السبب: {reason}'**
+  String verifReasonLabel(String reason);
+
+  /// No description provided for @verifExpiredBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوثيق انتهى يوم {date}. السعر دلوقتي كامل لحد التجديد.'**
+  String verifExpiredBody(String date);
+
+  /// No description provided for @verifActionRequest.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب التوثيق'**
+  String get verifActionRequest;
+
+  /// No description provided for @verifActionRenew.
+  ///
+  /// In ar, this message translates to:
+  /// **'تجديد التوثيق'**
+  String get verifActionRenew;
+
+  /// No description provided for @verifActionAgain.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال طلب جديد'**
+  String get verifActionAgain;
+
+  /// No description provided for @verifActionWait.
+  ///
+  /// In ar, this message translates to:
+  /// **'في انتظار المراجعة'**
+  String get verifActionWait;
+
+  /// No description provided for @verifNationalIdMasked.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرقم القومي: {id}'**
+  String verifNationalIdMasked(String id);
+
+  /// No description provided for @verifRevSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوثيق'**
+  String get verifRevSection;
+
+  /// No description provided for @verifRevQueueTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبات التوثيق'**
+  String get verifRevQueueTitle;
+
+  /// No description provided for @verifRevQueueEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش طلبات مستنية المراجعة.'**
+  String get verifRevQueueEmpty;
+
+  /// No description provided for @verifRevWaitMinutes.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =0{مستني من أقل من دقيقة} =1{مستني من دقيقة} =2{مستني من دقيقتين} other{مستني من {count} دقايق}}'**
+  String verifRevWaitMinutes(int count);
+
+  /// No description provided for @verifRevWaitHours.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{مستني من ساعة} =2{مستني من ساعتين} other{مستني من {count} ساعات}}'**
+  String verifRevWaitHours(int count);
+
+  /// No description provided for @verifRevWaitDays.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{مستني من يوم} =2{مستني من يومين} other{مستني من {count} أيام}}'**
+  String verifRevWaitDays(int count);
+
+  /// No description provided for @verifRevPricing.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد القبول هيتحاسب بالسعر الداخلي'**
+  String get verifRevPricing;
+
+  /// No description provided for @verifRevRowSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب {name}، {type}، {unit}، {wait}'**
+  String verifRevRowSpoken(String name, String type, String unit, String wait);
+
+  /// No description provided for @verifRevDetailTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفاصيل الطلب'**
+  String get verifRevDetailTitle;
+
+  /// No description provided for @verifRevPickPrompt.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار طلب من القائمة بيعرض تفاصيله هنا.'**
+  String get verifRevPickPrompt;
+
+  /// No description provided for @verifRevName.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم'**
+  String get verifRevName;
+
+  /// No description provided for @verifRevType.
+  ///
+  /// In ar, this message translates to:
+  /// **'النوع'**
+  String get verifRevType;
+
+  /// No description provided for @verifRevCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود'**
+  String get verifRevCode;
+
+  /// No description provided for @verifRevUnit.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكلية أو الإدارة'**
+  String get verifRevUnit;
+
+  /// No description provided for @verifRevSubmitted.
+  ///
+  /// In ar, this message translates to:
+  /// **'وقت الإرسال'**
+  String get verifRevSubmitted;
+
+  /// No description provided for @verifRevNationalId.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرقم القومي'**
+  String get verifRevNationalId;
+
+  /// No description provided for @verifRevPhoto.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة البطاقة'**
+  String get verifRevPhoto;
+
+  /// No description provided for @verifRevPhotoSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة بطاقة {name}'**
+  String verifRevPhotoSpoken(String name);
+
+  /// No description provided for @verifRevPhotoMissing.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصورة مش موجودة.'**
+  String get verifRevPhotoMissing;
+
+  /// No description provided for @verifRevApprove.
+  ///
+  /// In ar, this message translates to:
+  /// **'قبول الطلب'**
+  String get verifRevApprove;
+
+  /// No description provided for @verifRevReject.
+  ///
+  /// In ar, this message translates to:
+  /// **'رفض الطلب'**
+  String get verifRevReject;
+
+  /// No description provided for @verifRevRejectTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'رفض الطلب'**
+  String get verifRevRejectTitle;
+
+  /// No description provided for @verifRevReasonLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'سبب الرفض'**
+  String get verifRevReasonLabel;
+
+  /// No description provided for @verifRevReasonHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'10 حروف على الأقل، والسبب هيظهر لصاحب الطلب.'**
+  String get verifRevReasonHelper;
+
+  /// No description provided for @verifRevReasonConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد الرفض'**
+  String get verifRevReasonConfirm;
+
+  /// No description provided for @verifRevReasonCancel.
+  ///
+  /// In ar, this message translates to:
+  /// **'رجوع'**
+  String get verifRevReasonCancel;
+
+  /// No description provided for @verifRevAlreadyDecided.
+  ///
+  /// In ar, this message translates to:
+  /// **'الطلب ده اتقرر فيه قبل كده.'**
+  String get verifRevAlreadyDecided;
+
+  /// No description provided for @verifRevOwnRequest.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبك أنت مينفعش تراجعه بنفسك.'**
+  String get verifRevOwnRequest;
+
+  /// No description provided for @verifRevDecidedApproved.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم قبول الطلب، وصاحبه بقى بالسعر الداخلي.'**
+  String get verifRevDecidedApproved;
+
+  /// No description provided for @verifRevDecidedRejected.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم رفض الطلب، والسبب ظاهر لصاحبه.'**
+  String get verifRevDecidedRejected;
+
+  /// No description provided for @verifRevUpload.
+  ///
+  /// In ar, this message translates to:
+  /// **'رفع الشيت'**
+  String get verifRevUpload;
+
+  /// No description provided for @sheetTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'رفع شيت التوثيق'**
+  String get sheetTitle;
+
+  /// No description provided for @sheetHelp.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملف CSV بترميز UTF-8 فيه 3 أعمدة بالترتيب: الرقم القومي، الكود، النوع (طالب أو موظف أو عضو هيئة تدريس). الصف الأول ممكن يبقى عناوين.'**
+  String get sheetHelp;
+
+  /// No description provided for @sheetPick.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار ملف CSV'**
+  String get sheetPick;
+
+  /// No description provided for @sheetSummaryTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملخص الرفع'**
+  String get sheetSummaryTitle;
+
+  /// No description provided for @sheetSummaryRead.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفوف اتقرت'**
+  String get sheetSummaryRead;
+
+  /// No description provided for @sheetSummaryAdded.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفوف اتضافت'**
+  String get sheetSummaryAdded;
+
+  /// No description provided for @sheetSummaryDuplicates.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفوف مكررة اتجاهلت'**
+  String get sheetSummaryDuplicates;
+
+  /// No description provided for @sheetSummaryInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفوف غلط اتجاهلت'**
+  String get sheetSummaryInvalid;
+
+  /// No description provided for @sheetSummaryApproved.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبات اتقبلت تلقائي'**
+  String get sheetSummaryApproved;
+
+  /// No description provided for @sheetProblemsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفوف اللي اتجاهلت'**
+  String get sheetProblemsTitle;
+
+  /// No description provided for @sheetProblemRow.
+  ///
+  /// In ar, this message translates to:
+  /// **'صف {row}: {reason}'**
+  String sheetProblemRow(String row, String reason);
+
+  /// No description provided for @sheetReasonColumns.
+  ///
+  /// In ar, this message translates to:
+  /// **'عدد الأعمدة غلط'**
+  String get sheetReasonColumns;
+
+  /// No description provided for @sheetReasonCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود مش صالح'**
+  String get sheetReasonCode;
+
+  /// No description provided for @sheetReasonType.
+  ///
+  /// In ar, this message translates to:
+  /// **'النوع مش معروف'**
+  String get sheetReasonType;
+
+  /// No description provided for @sheetReasonOther.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصف مش صالح'**
+  String get sheetReasonOther;
+
+  /// No description provided for @sheetErrBadColumns.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأعمدة مش زي المتوقع، ومفيش حاجة اتضافت.'**
+  String get sheetErrBadColumns;
+
+  /// No description provided for @sheetErrNoRows.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش صفوف صالحة في الملف، ومفيش حاجة اتضافت.'**
+  String get sheetErrNoRows;
+
+  /// No description provided for @sheetErrRead.
+  ///
+  /// In ar, this message translates to:
+  /// **'الملف ماتقراش. ممكن تجرب ملف CSV تاني.'**
+  String get sheetErrRead;
+
+  /// No description provided for @sheetBatchesTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرفعات اللي فاتت'**
+  String get sheetBatchesTitle;
+
+  /// No description provided for @sheetBatchesEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'لسه مفيش رفعات.'**
+  String get sheetBatchesEmpty;
+
+  /// No description provided for @sheetBatchLine.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتضاف {added}، اتقبل {approved}، اتجاهل {skipped}'**
+  String sheetBatchLine(int added, int approved, int skipped);
+
+  /// No description provided for @verifNoticeApproved.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم قبول طلب التوثيق. متوثق لحد {date}.'**
+  String verifNoticeApproved(String date);
+
+  /// No description provided for @verifNoticeRejected.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب التوثيق اترفض. السبب: {reason}'**
+  String verifNoticeRejected(String reason);
 
   /// No description provided for @catalogueAvailabilityToday.
   ///

@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'bookable_unit.freezed.dart';
+part 'bookable_unit.g.dart';
 
 /// A lane, pitch or hall. Its booking mode, capacity and max participants are
 /// unit-scope settings, never fields here (constitution III).
@@ -12,4 +13,7 @@ abstract class BookableUnit with _$BookableUnit {
     required String name,
     @Default(true) bool isActive,
   }) = _BookableUnit;
+
+  factory BookableUnit.fromJson(Map<String, dynamic> json) =>
+      _$BookableUnitFromJson(json);
 }

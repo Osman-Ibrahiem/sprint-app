@@ -65,4 +65,14 @@ abstract final class SprintExtras {
 
   /// AppNavigation README: a badge count above 99 reads "99+".
   static const int navigationBadgeCap = 99;
+
+  /// Auth forms (feature 003, contracts/ui.md): the centred form column is
+  /// capped at 480, and the ID card preview is 200 high. Follow-up: promote
+  /// both to `tokens.json` and the generator, then remove them here.
+  static const double authFormMaxWidth = 480;
+  static const double idCardPreviewHeight = 200;
+
+  /// One tick of a visible countdown (resend code). A clock step, not
+  /// motion, so it is not a `SprintMotion` token.
+  static const Duration countdownTick = Duration(seconds: 1);
 }

@@ -64,7 +64,7 @@ final class DestinationRegistryProvider
 }
 
 String _$destinationRegistryHash() =>
-    r'd821bea68ab083ffb30ce26466e17fccc194713c';
+    r'c89249d7ced846e8643b287a9f012714e5687193';
 
 /// The shell destinations for the current user's roles (FR-007, FR-031).
 

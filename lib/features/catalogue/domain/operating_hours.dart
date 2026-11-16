@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'operating_hours.freezed.dart';
+part 'operating_hours.g.dart';
 
 /// Weekly hours of a unit or a facility, in Cairo wall-clock minutes from
 /// midnight. [dayOfWeek] is 1 (Monday) to 7 (Sunday), as in `DateTime`.
@@ -12,4 +13,7 @@ abstract class OperatingHours with _$OperatingHours {
     required int openMinutes,
     required int closeMinutes,
   }) = _OperatingHours;
+
+  factory OperatingHours.fromJson(Map<String, dynamic> json) =>
+      _$OperatingHoursFromJson(json);
 }

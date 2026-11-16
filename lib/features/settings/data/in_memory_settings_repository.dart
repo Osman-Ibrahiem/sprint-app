@@ -26,6 +26,22 @@ class InMemorySettingsRepository implements SettingsRepository {
   final Map<String, Object?> _values = {};
   final _changes = StreamController<void>.broadcast();
 
+  Stream<void> get changes => _changes.stream;
+
+  /// Every stored value with its scope, for the demo snapshot.
+  List<SettingEntry> get entries => [
+    for (final e in _values.entries)
+      () {
+        final p = e.key.split('|');
+        final scope = switch (p[1]) {
+          'facility' => SettingScope.facility(p[2]),
+          'unit' => SettingScope.unit(p[2]),
+          _ => const SettingScope.university(),
+        };
+        return SettingEntry(p[0], e.value, scope);
+      }(),
+  ];
+
   /// Refuses changes that clash with existing bookings (BR-04). Can be set
   /// after construction, because the guard reads bookings, which need this
   /// repository first.

@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'price.freezed.dart';
+part 'price.g.dart';
 
 /// Two tiers only (BR-15). The tier comes from verification at booking time
 /// and is frozen on the booking (BR-17).
@@ -15,4 +16,6 @@ abstract class Price with _$Price {
     required int amount,
     @Default('EGP') String currency,
   }) = _Price;
+
+  factory Price.fromJson(Map<String, dynamic> json) => _$PriceFromJson(json);
 }

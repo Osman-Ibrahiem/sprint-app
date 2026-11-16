@@ -12,6 +12,7 @@ part of 'facility.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Facility {
 
@@ -22,6 +23,8 @@ mixin _$Facility {
 @pragma('vm:prefer-inline')
 $FacilityCopyWith<Facility> get copyWith => _$FacilityCopyWithImpl<Facility>(this as Facility, _$identity);
 
+  /// Serializes this Facility to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Facility&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.owningUnitId, _this.owningUnitId) || other.owningUnitId == _this.owningUnitId)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.description, _this.description) || other.description == _this.description)&&const DeepCollectionEquality().equals(other.photos, _this.photos)&&(identical(other.location, _this.location) || other.location == _this.location)&&(identical(other.isFree, _this.isFree) || other.isFree == _this.isFree)&&(identical(other.requiresTrainer, _this.requiresTrainer) || other.requiresTrainer == _this.requiresTrainer)&&(identical(other.isPublished, _this.isPublished) || other.isPublished == _this.isPublished));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Facility;
@@ -218,11 +221,11 @@ return $default(_that.id,_that.owningUnitId,_that.name,_that.type,_that.descript
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Facility implements Facility {
   const _Facility({required this.id, required this.owningUnitId, required this.name, required this.type, required this.description,  List<String> photos = const <String>[], required this.location, required this.isFree, required this.requiresTrainer, this.isPublished = true}): _photos = photos;
-  
+  factory _Facility.fromJson(Map<String, dynamic> json) => _$FacilityFromJson(json);
 
 @override final  String id;
 @override final  String owningUnitId;
@@ -247,14 +250,17 @@ class _Facility implements Facility {
 @pragma('vm:prefer-inline')
 _$FacilityCopyWith<_Facility> get copyWith => __$FacilityCopyWithImpl<_Facility>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$FacilityToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _Facility&&(identical(other.id, id) || other.id == id)&&(identical(other.owningUnitId, owningUnitId) || other.owningUnitId == owningUnitId)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.photos, _photos)&&(identical(other.location, location) || other.location == location)&&(identical(other.isFree, isFree) || other.isFree == isFree)&&(identical(other.requiresTrainer, requiresTrainer) || other.requiresTrainer == requiresTrainer)&&(identical(other.isPublished, isPublished) || other.isPublished == isPublished));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,id,owningUnitId,name,type,description,const DeepCollectionEquality().hash(_photos),location,isFree,requiresTrainer,isPublished);

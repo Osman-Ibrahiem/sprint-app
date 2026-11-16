@@ -28,5 +28,9 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSCameraUsageDescription</key>
+	<string>تصوير بطاقة الهوية لطلب التوثيق. Camera access to photograph your ID card for verification.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>اختيار صورة بطاقة الهوية لطلب التوثيق. Photo library access to choose your ID card photo for verification.</string>
 </dict>
 </plist>

@@ -3,13 +3,18 @@ import 'package:sprint/app/router/destinations.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/features/identity/domain/app_section.dart';
+import 'package:sprint/features/verification/presentation/verification_destination.dart';
 
 part 'destinations_provider.g.dart';
 
 /// Which section has a screen. Override in tests to prove role-specific
 /// destinations; features add their own as they arrive.
 @Riverpod(keepAlive: true)
-Map<AppSection, ShellDestination> destinationRegistry(Ref ref) => baseRegistry;
+Map<AppSection, ShellDestination> destinationRegistry(Ref ref) => {
+  ...baseRegistry,
+  // Feature 003: reviewers (FR-031).
+  AppSection.verification: verificationDestination,
+};
 
 /// The shell destinations for the current user's roles (FR-007, FR-031).
 @Riverpod(keepAlive: true)

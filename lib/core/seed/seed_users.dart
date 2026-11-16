@@ -1,26 +1,31 @@
 import 'package:sprint/core/seed/seed_ids.dart';
-import 'package:sprint/core/time/cairo_time.dart';
 import 'package:sprint/features/catalogue/domain/trainer.dart';
 import 'package:sprint/features/catalogue/domain/trainer_availability.dart';
 import 'package:sprint/features/identity/domain/role_assignment.dart';
 import 'package:sprint/features/identity/domain/user.dart';
-import 'package:sprint/features/identity/domain/verification.dart';
 
 // All people are fictional: example.test addresses and 0100000xxxx numbers.
 
-const seedUsers = <User>[
-  User(id: SeedIds.bookerInternal, name: 'منى عبد الله', phone: '01000000001', email: 'mona@example.test', nationalId: '29901010100011'),
-  User(id: SeedIds.bookerExternal, name: 'كريم السيد', phone: '01000000002', email: 'karim@example.test', nationalId: '29902020200022'),
-  User(id: SeedIds.trainer1, name: 'الكابتن هشام فؤاد', phone: '01000000003', email: 'hisham@example.test'),
-  User(id: SeedIds.trainer2, name: 'الكابتن نهى سعيد', phone: '01000000004', email: 'noha@example.test'),
-  User(id: SeedIds.trainer3, name: 'الكابتن طارق حسين', phone: '01000000005', email: 'tarek@example.test'),
-  User(id: SeedIds.hallManager, name: 'سامي رمضان', phone: '01000000006', email: 'sami@example.test'),
-  User(id: SeedIds.verifier, name: 'ريم مصطفى', phone: '01000000007', email: 'reem@example.test'),
-  User(id: SeedIds.unitAdmin, name: 'د. عادل منصور', phone: '01000000008', email: 'adel@example.test'),
-  User(id: SeedIds.superAdmin, name: 'د. هالة إبراهيم', phone: '01000000009', email: 'hala@example.test'),
-  User(id: SeedIds.viewer, name: 'أ. ياسر جمال', phone: '01000000010', email: 'yasser@example.test'),
-  User(id: SeedIds.userUnverified, name: 'دينا محمود', phone: '01000000011', email: 'dina@example.test', nationalId: '30003030300033'),
-  User(id: SeedIds.userExpired, name: 'عمر شوقي', phone: '01000000012', email: 'omar@example.test', nationalId: '29804040400044'),
+/// When the seed people signed up (fixed, so snapshots stay comparable).
+final _joined = DateTime.utc(2026, 9, 1);
+
+final seedUsers = <User>[
+  User(id: SeedIds.bookerInternal, name: 'منى عبد الله', phone: '01000000001', email: 'mona@example.test', createdAt: _joined, nationalId: '29901010100011'),
+  User(id: SeedIds.bookerExternal, name: 'كريم السيد', phone: '01000000002', email: 'karim@example.test', createdAt: _joined, nationalId: '29902020200022'),
+  User(id: SeedIds.trainer1, name: 'الكابتن هشام فؤاد', phone: '01000000003', email: 'hisham@example.test', createdAt: _joined),
+  User(id: SeedIds.trainer2, name: 'الكابتن نهى سعيد', phone: '01000000004', email: 'noha@example.test', createdAt: _joined),
+  User(id: SeedIds.trainer3, name: 'الكابتن طارق حسين', phone: '01000000005', email: 'tarek@example.test', createdAt: _joined),
+  User(id: SeedIds.hallManager, name: 'سامي رمضان', phone: '01000000006', email: 'sami@example.test', createdAt: _joined),
+  User(id: SeedIds.verifier, name: 'ريم مصطفى', phone: '01000000007', email: 'reem@example.test', createdAt: _joined),
+  User(id: SeedIds.unitAdmin, name: 'د. عادل منصور', phone: '01000000008', email: 'adel@example.test', createdAt: _joined),
+  User(id: SeedIds.superAdmin, name: 'د. هالة إبراهيم', phone: '01000000009', email: 'hala@example.test', createdAt: _joined),
+  User(id: SeedIds.viewer, name: 'أ. ياسر جمال', phone: '01000000010', email: 'yasser@example.test', createdAt: _joined),
+  User(id: SeedIds.userUnverified, name: 'دينا محمود', phone: '01000000011', email: 'dina@example.test', createdAt: _joined, nationalId: '30003030300033'),
+  User(id: SeedIds.userExpired, name: 'عمر شوقي', phone: '01000000012', email: 'omar@example.test', createdAt: _joined, nationalId: '29804040400044'),
+  User(id: SeedIds.userEngPending, name: 'ليلى حسن', phone: '01000000013', email: 'laila@example.test', createdAt: _joined, nationalId: '30101011100055'),
+  User(id: SeedIds.userRejected, name: 'ياسمين طارق', phone: '01000000014', email: 'yasmin@example.test', createdAt: _joined, nationalId: '29705051400066'),
+  User(id: SeedIds.userUnconfirmed, name: 'أحمد رضا', phone: '01000000015', email: 'ahmed@example.test', createdAt: _joined, nationalId: '29606061200077', status: UserStatus.unconfirmed),
+  User(id: SeedIds.userSuspended, name: 'هبة فتحي', phone: '01000000016', email: 'heba@example.test', createdAt: _joined, nationalId: '29507071300088', status: UserStatus.suspended),
 ];
 
 List<RoleAssignment> seedRoleAssignments() {
@@ -38,36 +43,6 @@ List<RoleAssignment> seedRoleAssignments() {
     r(SeedIds.unitAdmin, Role.unitAdmin, RoleScopeType.owningUnit, SeedIds.ouPe),
     r(SeedIds.superAdmin, Role.superAdmin, uni),
     r(SeedIds.viewer, Role.viewer, RoleScopeType.owningUnit, SeedIds.ouPe),
-  ];
-}
-
-/// An approved student (internal), a pending request, and an approval that has
-/// expired (so that user is external again, BR-25).
-List<Verification> seedVerifications(DateTime now) {
-  final today = CairoTime.toCairo(now);
-  DateTime day(int offset) =>
-      CairoTime.atWallClock(today.year, today.month, today.day + offset);
-  return [
-    Verification(
-      userId: SeedIds.bookerInternal,
-      type: VerificationType.student,
-      status: VerificationStatus.approved,
-      method: VerificationMethod.auto,
-      expiresAt: day(200),
-    ),
-    Verification(
-      userId: SeedIds.userUnverified,
-      type: VerificationType.student,
-      status: VerificationStatus.pending,
-      method: VerificationMethod.manual,
-    ),
-    Verification(
-      userId: SeedIds.userExpired,
-      type: VerificationType.staff,
-      status: VerificationStatus.approved,
-      method: VerificationMethod.manual,
-      expiresAt: day(-30),
-    ),
   ];
 }
 

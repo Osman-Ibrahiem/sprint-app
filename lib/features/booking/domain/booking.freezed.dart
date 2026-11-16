@@ -12,6 +12,7 @@ part of 'booking.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Booking {
 
@@ -22,6 +23,8 @@ mixin _$Booking {
 @pragma('vm:prefer-inline')
 $BookingCopyWith<Booking> get copyWith => _$BookingCopyWithImpl<Booking>(this as Booking, _$identity);
 
+  /// Serializes this Booking to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Booking&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.code, _this.code) || other.code == _this.code)&&(identical(other.userId, _this.userId) || other.userId == _this.userId)&&(identical(other.facilityId, _this.facilityId) || other.facilityId == _this.facilityId)&&(identical(other.unitId, _this.unitId) || other.unitId == _this.unitId)&&(identical(other.trainerId, _this.trainerId) || other.trainerId == _this.trainerId)&&(identical(other.start, _this.start) || other.start == _this.start)&&(identical(other.end, _this.end) || other.end == _this.end)&&(identical(other.seats, _this.seats) || other.seats == _this.seats)&&(identical(other.tierAtBooking, _this.tierAtBooking) || other.tierAtBooking == _this.tierAtBooking)&&(identical(other.priceAtBooking, _this.priceAtBooking) || other.priceAtBooking == _this.priceAtBooking)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.qrToken, _this.qrToken) || other.qrToken == _this.qrToken)&&(identical(other.holdExpiresAt, _this.holdExpiresAt) || other.holdExpiresAt == _this.holdExpiresAt)&&(identical(other.cancelledBy, _this.cancelledBy) || other.cancelledBy == _this.cancelledBy)&&(identical(other.cancelReason, _this.cancelReason) || other.cancelReason == _this.cancelReason));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Booking;
@@ -224,11 +227,11 @@ return $default(_that.id,_that.code,_that.userId,_that.facilityId,_that.unitId,_
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Booking extends Booking {
   const _Booking({required this.id, required this.code, required this.userId, required this.facilityId, required this.unitId, this.trainerId, required this.start, required this.end, required this.seats, required this.tierAtBooking, required this.priceAtBooking, required this.status, required this.qrToken, this.holdExpiresAt, this.cancelledBy, this.cancelReason}): super._();
-  
+  factory _Booking.fromJson(Map<String, dynamic> json) => _$BookingFromJson(json);
 
 @override final  String id;
 @override final  String code;
@@ -253,14 +256,17 @@ class _Booking extends Booking {
 @pragma('vm:prefer-inline')
 _$BookingCopyWith<_Booking> get copyWith => __$BookingCopyWithImpl<_Booking>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$BookingToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _Booking&&(identical(other.id, id) || other.id == id)&&(identical(other.code, code) || other.code == code)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.facilityId, facilityId) || other.facilityId == facilityId)&&(identical(other.unitId, unitId) || other.unitId == unitId)&&(identical(other.trainerId, trainerId) || other.trainerId == trainerId)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end)&&(identical(other.seats, seats) || other.seats == seats)&&(identical(other.tierAtBooking, tierAtBooking) || other.tierAtBooking == tierAtBooking)&&(identical(other.priceAtBooking, priceAtBooking) || other.priceAtBooking == priceAtBooking)&&(identical(other.status, status) || other.status == status)&&(identical(other.qrToken, qrToken) || other.qrToken == qrToken)&&(identical(other.holdExpiresAt, holdExpiresAt) || other.holdExpiresAt == holdExpiresAt)&&(identical(other.cancelledBy, cancelledBy) || other.cancelledBy == cancelledBy)&&(identical(other.cancelReason, cancelReason) || other.cancelReason == cancelReason));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,id,code,userId,facilityId,unitId,trainerId,start,end,seats,tierAtBooking,priceAtBooking,status,qrToken,holdExpiresAt,cancelledBy,cancelReason);

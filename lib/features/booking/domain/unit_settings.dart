@@ -7,6 +7,7 @@ import 'package:sprint/features/settings/domain/settings_repository.dart';
 export 'package:sprint/features/settings/domain/booking_mode.dart';
 
 part 'unit_settings.freezed.dart';
+part 'unit_settings.g.dart';
 
 /// Every setting the booking rules need, already resolved for one unit. The
 /// rule services take this snapshot, so they stay pure and never read a
@@ -29,6 +30,9 @@ abstract class UnitSettings with _$UnitSettings {
     required int checkInOpensMinutes,
     required int reminderLeadMinutes,
   }) = _UnitSettings;
+
+  factory UnitSettings.fromJson(Map<String, dynamic> json) =>
+      _$UnitSettingsFromJson(json);
 
   /// The BRD defaults, straight from the registry. Used in tests and as a
   /// starting point; real values come from [resolve].

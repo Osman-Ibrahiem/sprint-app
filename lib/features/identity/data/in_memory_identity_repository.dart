@@ -1,27 +1,33 @@
+import 'package:sprint/core/data/change_signal.dart';
 import 'package:sprint/features/identity/domain/identity_repository.dart';
 import 'package:sprint/features/identity/domain/role_assignment.dart';
 import 'package:sprint/features/identity/domain/user.dart';
-import 'package:sprint/features/identity/domain/verification.dart';
 
-class InMemoryIdentityRepository implements IdentityRepository {
+class InMemoryIdentityRepository
+    with ChangeSignal
+    implements IdentityRepository {
   InMemoryIdentityRepository({
     required Iterable<User> users,
     required Iterable<RoleAssignment> roleAssignments,
-    required Iterable<Verification> verifications,
-  })  : _users = [...users],
-        _assignments = [...roleAssignments],
-        _verifications = {for (final v in verifications) v.userId: v};
+  }) : _users = [...users],
+       _assignments = [...roleAssignments];
 
   final List<User> _users;
   final List<RoleAssignment> _assignments;
-  final Map<String, Verification> _verifications;
-  String? _currentId; // the launch state is a guest
 
-  @override
-  Future<User?> currentUser() async => getUser(_currentId ?? '');
+  /// Everything, for the demo snapshot.
+  List<User> get allUsers => List.unmodifiable(_users);
+  List<RoleAssignment> get allAssignments => List.unmodifiable(_assignments);
 
-  @override
-  Future<void> setCurrentUser(String? userId) async => _currentId = userId;
+  /// Sets the national ID of a person when a verification is approved
+  /// (FR-026, BR-27). Not part of the interface: only the verification
+  /// repository calls it.
+  void setNationalId(String userId, String nationalId) {
+    final i = _users.indexWhere((u) => u.id == userId);
+    if (i < 0) return;
+    _users[i] = _users[i].copyWith(nationalId: nationalId);
+    notifyChanged();
+  }
 
   @override
   Future<List<User>> users() async => List.unmodifiable(_users);
@@ -38,11 +44,22 @@ class InMemoryIdentityRepository implements IdentityRepository {
   Future<List<RoleAssignment>> roleAssignments(String userId) async =>
       _assignments.where((a) => a.userId == userId).toList();
 
-  @override
-  Future<Verification?> verification(String userId) async =>
-      _verifications[userId];
+  /// Writes for the auth repository (feature 003): sign up adds a person,
+  /// confirming an email activates them and gives them the `BOOKER` role.
+  void addUser(User user) {
+    _users.add(user);
+    notifyChanged();
+  }
 
-  /// Seeding hook for tests and the demo; not part of the interface.
-  Future<void> putVerification(Verification v) async =>
-      _verifications[v.userId] = v;
+  void updateUser(User user) {
+    final i = _users.indexWhere((u) => u.id == user.id);
+    if (i < 0) return;
+    _users[i] = user;
+    notifyChanged();
+  }
+
+  void addRoleAssignment(RoleAssignment assignment) {
+    if (!_assignments.contains(assignment)) _assignments.add(assignment);
+    notifyChanged();
+  }
 }

@@ -7,7 +7,8 @@ class FakePaymentProvider implements PaymentProvider {
   FakePaymentProvider({
     this.delay = const Duration(milliseconds: 600),
     this.name = 'FAKE',
-  });
+    int startAt = 0,
+  }) : _n = startAt;
 
   final Duration delay;
   final String name;
@@ -15,7 +16,7 @@ class FakePaymentProvider implements PaymentProvider {
   /// When true, the next payment fails once, then this resets.
   bool failNext = false;
 
-  int _n = 0;
+  int _n;
   final Set<String> _failing = {};
 
   @override

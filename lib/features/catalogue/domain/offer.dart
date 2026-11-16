@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sprint/features/catalogue/domain/price.dart';
 
 part 'offer.freezed.dart';
+part 'offer.g.dart';
 
 enum OfferScope { university, facility, unit }
 
@@ -22,4 +23,6 @@ abstract class Offer with _$Offer {
     required DateTime validFrom,
     required DateTime validTo,
   }) = _Offer;
+
+  factory Offer.fromJson(Map<String, dynamic> json) => _$OfferFromJson(json);
 }
