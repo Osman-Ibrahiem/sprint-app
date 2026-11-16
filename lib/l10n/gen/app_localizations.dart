@@ -188,6 +188,18 @@ abstract class AppLocalizations {
   /// **'الرجوع للرئيسية'**
   String get backToHome;
 
+  /// No description provided for @noAccessTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفحة دي مش متاحة لحسابك'**
+  String get noAccessTitle;
+
+  /// No description provided for @noAccessBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفحة دي مخصوصة لصلاحيات تانية. لو محتاج الوصول ليها ممكن تتواصل مع مسؤول الجامعة.'**
+  String get noAccessBody;
+
   /// No description provided for @homeTitle.
   ///
   /// In ar, this message translates to:
@@ -655,6 +667,30 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'إخفاء'**
   String get fieldHidePassword;
+
+  /// No description provided for @codeEntryLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود التأكيد'**
+  String get codeEntryLabel;
+
+  /// No description provided for @codeEntrySentTo.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود اتبعت على'**
+  String get codeEntrySentTo;
+
+  /// No description provided for @codeEntryResend.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال الكود تاني'**
+  String get codeEntryResend;
+
+  /// No description provided for @codeEntryResendIn.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال الكود تاني بعد {seconds} ثانية'**
+  String codeEntryResendIn(int seconds);
 
   /// No description provided for @fieldSearchHint.
   ///

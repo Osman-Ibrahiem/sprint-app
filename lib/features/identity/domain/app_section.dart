@@ -31,7 +31,10 @@ List<AppSection> sectionsFor(Iterable<RoleAssignment> assignments) {
         sections.add(AppSection.facilityOps);
       case Role.verifier:
         sections.add(AppSection.verification);
-      case Role.unitAdmin || Role.superAdmin:
+      case Role.superAdmin:
+        // Super admins also review verification requests (research R10).
+        sections.addAll({AppSection.administration, AppSection.verification});
+      case Role.unitAdmin:
         sections.add(AppSection.administration);
       case Role.viewer:
         sections.add(AppSection.reports);

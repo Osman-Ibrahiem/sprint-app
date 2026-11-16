@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sprint/app/shell/placeholders/no_access_screen.dart';
+import 'package:sprint/core/providers/session_provider.dart';
+import 'package:sprint/features/identity/domain/app_section.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/shell/placeholders/bookings_placeholder.dart';
 import 'package:sprint/app/shell/placeholders/facilities_placeholder.dart';
@@ -15,6 +20,40 @@ abstract final class AppPaths {
   static const profile = '/profile';
   static const demo = '/demo';
   static const demoComponents = '/demo/components';
+
+  // Feature 003 (contracts/routes.md).
+  static const signIn = '/sign-in';
+  static const signUp = '/sign-up';
+  static const confirmEmail = '/confirm-email';
+  static const forgotPassword = '/forgot-password';
+  static const resetPassword = '/reset-password';
+  static const profileVerification = '/profile/verification';
+  static const verification = '/verification';
+  static const verificationUpload = '/verification/upload';
+
+  /// Route pattern for one request; build a location with
+  /// [verificationDetailFor].
+  static const verificationDetail = '/verification/:id';
+  static const demoMailbox = '/demo/mailbox';
+
+  static String verificationDetailFor(String id) =>
+      '$verification/${Uri.encodeComponent(id)}';
+
+  /// The guest-only auth routes, which a signed-in person leaves at once.
+  static const authEntry = {signIn, signUp};
+
+  /// Every auth route: never a valid `from` target (no loops).
+  static const auth = {
+    signIn,
+    signUp,
+    confirmEmail,
+    forgotPassword,
+    resetPassword,
+  };
+
+  /// `/sign-in` with the place to return to after signing in.
+  static String signInFrom(String from) =>
+      Uri(path: signIn, queryParameters: {'from': from}).toString();
 }
 
 /// Route names.
@@ -25,6 +64,58 @@ abstract final class AppRouteNames {
   static const profile = 'profile';
   static const demo = 'demo';
   static const demoComponents = 'demoComponents';
+  static const signIn = 'signIn';
+  static const signUp = 'signUp';
+  static const confirmEmail = 'confirmEmail';
+  static const forgotPassword = 'forgotPassword';
+  static const resetPassword = 'resetPassword';
+  static const profileVerification = 'profileVerification';
+  static const verification = 'verification';
+  static const verificationDetail = 'verificationDetail';
+  static const verificationUpload = 'verificationUpload';
+  static const demoMailbox = 'demoMailbox';
+}
+
+/// What a route needs from the person (contracts/routes.md rule 2). A guest
+/// is sent to sign in; a signed-in person without [requiredSection] sees
+/// `NoAccessScreen` at the same location.
+class RouteAccess {
+  const RouteAccess({this.requiresAccount = false, this.requiredSection});
+
+  static const open = RouteAccess();
+
+  /// A signed-in account is needed. Implied by [requiredSection].
+  final bool requiresAccount;
+  final AppSection? requiredSection;
+
+  bool get needsAccount => requiresAccount || requiredSection != null;
+
+  bool allows(Session session) =>
+      requiredSection == null ||
+      sectionsFor(session.roles).contains(requiredSection);
+}
+
+/// A route with an access rule. The router's redirect reads [access]; the
+/// body shows `NoAccessScreen` for a signed-in person without the section.
+class GatedRoute extends GoRoute {
+  GatedRoute({
+    required super.path,
+    super.name,
+    required Widget Function(BuildContext, GoRouterState) builder,
+    this.access = RouteAccess.open,
+    super.routes,
+  }) : super(
+         builder: (context, state) => access.requiredSection == null
+             ? builder(context, state)
+             : Consumer(
+                 builder: (context, ref, _) =>
+                     access.allows(ref.watch(currentSessionProvider))
+                     ? builder(context, state)
+                     : const NoAccessScreen(),
+               ),
+       );
+
+  final RouteAccess access;
 }
 
 /// One top-level shell destination. The shell and the router are built from a
@@ -38,6 +129,7 @@ class ShellDestination {
     required this.label,
     required this.builder,
     this.mirrorInRtl = false,
+    this.access = RouteAccess.open,
   });
 
   final String name;
@@ -49,6 +141,9 @@ class ShellDestination {
 
   /// Only directional icons mirror in RTL; none of the base four do.
   final bool mirrorInRtl;
+
+  /// Who may open it; a staff destination sets `requiredSection`.
+  final RouteAccess access;
 }
 
 /// The four destinations every guest and booker sees, in order (the first is

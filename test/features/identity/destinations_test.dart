@@ -7,11 +7,8 @@ import 'package:sprint/features/identity/domain/role_assignment.dart';
 
 /// The shell destinations are computed from role assignments (FR-007, FR-031).
 void main() {
-  RoleAssignment grant(Role r) => RoleAssignment(
-        userId: 'u',
-        role: r,
-        scopeType: RoleScopeType.university,
-      );
+  RoleAssignment grant(Role r) =>
+      RoleAssignment(userId: 'u', role: r, scopeType: RoleScopeType.university);
 
   const base = [
     AppSection.home,
@@ -30,22 +27,41 @@ void main() {
     });
 
     test('a trainer gets the base four plus trainer sessions', () {
-      expect(
-        sectionsFor([grant(Role.trainer)]),
-        [...base, AppSection.trainerSessions],
-      );
+      expect(sectionsFor([grant(Role.trainer)]), [
+        ...base,
+        AppSection.trainerSessions,
+      ]);
     });
 
     test('staff roles add their own sections', () {
-      expect(sectionsFor([grant(Role.facilityManager)]),
-          contains(AppSection.facilityOps));
-      expect(sectionsFor([grant(Role.verifier)]),
-          contains(AppSection.verification));
-      expect(sectionsFor([grant(Role.unitAdmin)]),
-          contains(AppSection.administration));
-      expect(sectionsFor([grant(Role.superAdmin)]),
-          contains(AppSection.administration));
+      expect(
+        sectionsFor([grant(Role.facilityManager)]),
+        contains(AppSection.facilityOps),
+      );
+      expect(
+        sectionsFor([grant(Role.verifier)]),
+        contains(AppSection.verification),
+      );
+      expect(
+        sectionsFor([grant(Role.unitAdmin)]),
+        contains(AppSection.administration),
+      );
+      expect(
+        sectionsFor([grant(Role.superAdmin)]),
+        contains(AppSection.administration),
+      );
       expect(sectionsFor([grant(Role.viewer)]), contains(AppSection.reports));
+    });
+
+    test('a super admin also gets verification, a unit admin does not', () {
+      expect(
+        sectionsFor([grant(Role.superAdmin)]),
+        contains(AppSection.verification),
+      );
+      expect(
+        sectionsFor([grant(Role.unitAdmin)]),
+        isNot(contains(AppSection.verification)),
+      );
     });
 
     test('several roles never duplicate a section and keep a stable order', () {
@@ -75,7 +91,10 @@ void main() {
     );
 
     test('guest and booker both get the four registered destinations', () {
-      for (final roles in [const <RoleAssignment>[], [grant(Role.booker)]]) {
+      for (final roles in [
+        const <RoleAssignment>[],
+        [grant(Role.booker)],
+      ]) {
         final d = destinationsFor(sectionsFor(roles), registry: baseRegistry);
         expect(d.map((x) => x.path), [
           AppPaths.home,

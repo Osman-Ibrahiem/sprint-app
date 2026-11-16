@@ -58,6 +58,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backToHome => 'Back to home';
 
   @override
+  String get noAccessTitle => 'This page isn\'t available for your account';
+
+  @override
+  String get noAccessBody =>
+      'This page is for other permissions. If you need access, you can contact the university administrator.';
+
+  @override
   String get homeTitle => 'Welcome to Sprint';
 
   @override
@@ -304,6 +311,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fieldHidePassword => 'Hide';
+
+  @override
+  String get codeEntryLabel => 'Confirmation code';
+
+  @override
+  String get codeEntrySentTo => 'The code was sent to';
+
+  @override
+  String get codeEntryResend => 'Resend the code';
+
+  @override
+  String codeEntryResendIn(int seconds) {
+    return 'Resend the code in $seconds s';
+  }
 
   @override
   String get fieldSearchHint => 'Search';

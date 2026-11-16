@@ -10,8 +10,12 @@ void main() {
     RoleScopeType scope = RoleScopeType.university,
     String? scopeId,
     String user = 'u',
-  }) =>
-      RoleAssignment(userId: user, role: role, scopeType: scope, scopeId: scopeId);
+  }) => RoleAssignment(
+    userId: user,
+    role: role,
+    scopeType: scope,
+    scopeId: scopeId,
+  );
 
   PermissionSubject subject(List<RoleAssignment> a, {String user = 'u'}) =>
       PermissionSubject(userId: user, assignments: a);
@@ -29,9 +33,25 @@ void main() {
     AppAction.browse: [true, true, true, true, true, true, true],
     AppAction.book: [false, true, true, true, true, true, true],
     AppAction.requestVerification: [false, true, true, true, true, true, true],
-    AppAction.reviewVerification: [false, false, false, false, true, false, true],
+    AppAction.reviewVerification: [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+    ],
     AppAction.scanAttendance: [false, false, true, true, false, false, false],
-    AppAction.viewFacilityBookings: [false, false, true, true, false, true, true],
+    AppAction.viewFacilityBookings: [
+      false,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+    ],
     AppAction.cancelAsAdmin: [false, false, false, true, false, true, true],
     AppAction.manageHours: [false, false, false, true, false, true, true],
     AppAction.manageSettings: [false, false, false, false, false, true, true],
@@ -86,13 +106,19 @@ void main() {
         grant(Role.unitAdmin, scope: RoleScopeType.owningUnit, scopeId: 'ou1'),
       ]);
       expect(
-        checker.can(s, AppAction.manageSettings,
-            const PermissionTarget(owningUnitId: 'ou1', facilityId: 'f1')),
+        checker.can(
+          s,
+          AppAction.manageSettings,
+          const PermissionTarget(owningUnitId: 'ou1', facilityId: 'f1'),
+        ),
         isTrue,
       );
       expect(
-        checker.can(s, AppAction.manageSettings,
-            const PermissionTarget(owningUnitId: 'ou2', facilityId: 'f2')),
+        checker.can(
+          s,
+          AppAction.manageSettings,
+          const PermissionTarget(owningUnitId: 'ou2', facilityId: 'f2'),
+        ),
         isFalse,
       );
       // A target that names no unit cannot be matched.
@@ -104,16 +130,26 @@ void main() {
 
     test('FACILITY covers that facility only', () {
       final s = subject([
-        grant(Role.facilityManager, scope: RoleScopeType.facility, scopeId: 'f1'),
+        grant(
+          Role.facilityManager,
+          scope: RoleScopeType.facility,
+          scopeId: 'f1',
+        ),
       ]);
       expect(
-        checker.can(s, AppAction.manageHours,
-            const PermissionTarget(owningUnitId: 'ou1', facilityId: 'f1')),
+        checker.can(
+          s,
+          AppAction.manageHours,
+          const PermissionTarget(owningUnitId: 'ou1', facilityId: 'f1'),
+        ),
         isTrue,
       );
       expect(
-        checker.can(s, AppAction.manageHours,
-            const PermissionTarget(owningUnitId: 'ou1', facilityId: 'f2')),
+        checker.can(
+          s,
+          AppAction.manageHours,
+          const PermissionTarget(owningUnitId: 'ou1', facilityId: 'f2'),
+        ),
         isFalse,
       );
     });
@@ -127,15 +163,26 @@ void main() {
       ]);
       const inOu1 = PermissionTarget(owningUnitId: 'ou1', facilityId: 'f1');
       expect(checker.can(dean, AppAction.viewFacilityBookings, inOu1), isTrue);
-      expect(checker.can(stadium, AppAction.viewFacilityBookings, inOu1), isFalse);
+      expect(
+        checker.can(stadium, AppAction.viewFacilityBookings, inOu1),
+        isFalse,
+      );
     });
 
     test('a user with several roles gets the union', () {
       final s = subject([
         grant(Role.trainer, scope: RoleScopeType.facility, scopeId: 'f1'),
-        grant(Role.facilityManager, scope: RoleScopeType.facility, scopeId: 'f2'),
+        grant(
+          Role.facilityManager,
+          scope: RoleScopeType.facility,
+          scopeId: 'f2',
+        ),
       ]);
-      const f1 = PermissionTarget(owningUnitId: 'ou1', facilityId: 'f1', trainerUserId: 'u');
+      const f1 = PermissionTarget(
+        owningUnitId: 'ou1',
+        facilityId: 'f1',
+        trainerUserId: 'u',
+      );
       const f2 = PermissionTarget(owningUnitId: 'ou1', facilityId: 'f2');
       expect(checker.can(s, AppAction.reportDamage, f1), isTrue);
       expect(checker.can(s, AppAction.manageHours, f1), isFalse);
@@ -148,8 +195,16 @@ void main() {
       final s = subject([
         grant(Role.trainer, scope: RoleScopeType.facility, scopeId: 'f1'),
       ]);
-      const mine = PermissionTarget(owningUnitId: 'ou1', facilityId: 'f1', trainerUserId: 'u');
-      const theirs = PermissionTarget(owningUnitId: 'ou1', facilityId: 'f1', trainerUserId: 'someone');
+      const mine = PermissionTarget(
+        owningUnitId: 'ou1',
+        facilityId: 'f1',
+        trainerUserId: 'u',
+      );
+      const theirs = PermissionTarget(
+        owningUnitId: 'ou1',
+        facilityId: 'f1',
+        trainerUserId: 'someone',
+      );
       for (final a in [
         AppAction.scanAttendance,
         AppAction.viewFacilityBookings,
@@ -169,8 +224,11 @@ void main() {
       expect(checker.can(s, AppAction.viewFacilityBookings, t), isTrue);
       expect(checker.can(s, AppAction.viewReports, t), isTrue);
       for (final a in AppAction.values) {
-        if ({AppAction.browse, AppAction.viewFacilityBookings, AppAction.viewReports}
-            .contains(a)) {
+        if ({
+          AppAction.browse,
+          AppAction.viewFacilityBookings,
+          AppAction.viewReports,
+        }.contains(a)) {
           continue;
         }
         if (a == AppAction.book || a == AppAction.requestVerification) continue;
@@ -183,13 +241,19 @@ void main() {
         grant(Role.verifier, scope: RoleScopeType.owningUnit, scopeId: 'ou1'),
       ]);
       expect(
-        checker.can(unit, AppAction.reviewVerification,
-            const PermissionTarget(owningUnitId: 'ou1')),
+        checker.can(
+          unit,
+          AppAction.reviewVerification,
+          const PermissionTarget(owningUnitId: 'ou1'),
+        ),
         isTrue,
       );
       expect(
-        checker.can(unit, AppAction.reviewVerification,
-            const PermissionTarget(owningUnitId: 'ou2')),
+        checker.can(
+          unit,
+          AppAction.reviewVerification,
+          const PermissionTarget(owningUnitId: 'ou2'),
+        ),
         isFalse,
       );
     });
@@ -199,22 +263,34 @@ void main() {
         grant(Role.unitAdmin, scope: RoleScopeType.owningUnit, scopeId: 'ou1'),
       ]);
       expect(
-        checker.can(s, AppAction.assignRoles,
-            const PermissionTarget(owningUnitId: 'ou1')),
+        checker.can(
+          s,
+          AppAction.assignRoles,
+          const PermissionTarget(owningUnitId: 'ou1'),
+        ),
         isTrue,
       );
       expect(
-        checker.can(s, AppAction.assignRoles,
-            const PermissionTarget(owningUnitId: 'ou2')),
+        checker.can(
+          s,
+          AppAction.assignRoles,
+          const PermissionTarget(owningUnitId: 'ou2'),
+        ),
         isFalse,
       );
-      expect(checker.can(s, AppAction.createSubUnit, const PermissionTarget()),
-          isFalse);
+      expect(
+        checker.can(s, AppAction.createSubUnit, const PermissionTarget()),
+        isFalse,
+      );
     });
 
     test('any signed-in user can book even without a staff role', () {
       expect(
-        checker.can(subject(const []), AppAction.book, const PermissionTarget()),
+        checker.can(
+          subject(const []),
+          AppAction.book,
+          const PermissionTarget(),
+        ),
         isTrue,
       );
     });

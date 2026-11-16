@@ -15,13 +15,12 @@ void main() {
     Widget field, {
     Locale locale = const Locale('ar'),
     double textScale = 1,
-  }) =>
-      pumpWidgetUnderAndSettle(
-        tester,
-        field,
-        locale: locale,
-        textScale: textScale,
-      );
+  }) => pumpWidgetUnderAndSettle(
+    tester,
+    field,
+    locale: locale,
+    textScale: textScale,
+  );
 
   BoxDecoration fieldDecoration(WidgetTester tester) {
     final box = tester.widget<DecoratedBox>(
@@ -48,8 +47,9 @@ void main() {
   });
 
   testWidgets('an error replaces the helper with an icon and message, a 2px '
-      'danger border and danger-soft fill, and is in the semantics',
-      (tester) async {
+      'danger border and danger-soft fill, and is in the semantics', (
+    tester,
+  ) async {
     await pump(
       tester,
       const SprintTextField(
@@ -86,10 +86,7 @@ void main() {
   });
 
   testWidgets('disabled uses surface-sunken and ink-disabled', (tester) async {
-    await pump(
-      tester,
-      const SprintTextField(label: 'الاسم', enabled: false),
-    );
+    await pump(tester, const SprintTextField(label: 'الاسم', enabled: false));
     expect(fieldDecoration(tester).color, colors.surfaceSunken);
     final label = tester.widget<Text>(find.text('الاسم'));
     expect(label.style!.color, colors.inkDisabled);
@@ -103,18 +100,16 @@ void main() {
       SprintTextFieldType.nationalId,
       SprintTextFieldType.password,
     ]) {
-      await pump(
-        tester,
-        SprintTextField(label: 'الحقل', type: type),
-      );
+      await pump(tester, SprintTextField(label: 'الحقل', type: type));
       final field = tester.widget<TextField>(find.byType(TextField));
       expect(field.textDirection, TextDirection.ltr, reason: type.name);
       expect(field.textAlign, TextAlign.right, reason: type.name);
     }
   });
 
-  testWidgets('keyboard type and autofill hints follow the type table',
-      (tester) async {
+  testWidgets('keyboard type and autofill hints follow the type table', (
+    tester,
+  ) async {
     final cases = {
       SprintTextFieldType.text: TextInputType.text,
       SprintTextFieldType.password: TextInputType.text,
@@ -124,10 +119,7 @@ void main() {
       SprintTextFieldType.nationalId: TextInputType.number,
     };
     for (final entry in cases.entries) {
-      await pump(
-        tester,
-        SprintTextField(label: 'الحقل', type: entry.key),
-      );
+      await pump(tester, SprintTextField(label: 'الحقل', type: entry.key));
       final field = tester.widget<TextField>(find.byType(TextField));
       expect(field.keyboardType, entry.value, reason: entry.key.name);
     }
@@ -155,7 +147,10 @@ void main() {
       'labels', (tester) async {
     await pump(
       tester,
-      const SprintTextField(label: 'كلمة السر', type: SprintTextFieldType.password),
+      const SprintTextField(
+        label: 'كلمة السر',
+        type: SprintTextFieldType.password,
+      ),
     );
     expect(
       tester.getSize(find.byTooltip('إظهار')).height,
@@ -164,11 +159,15 @@ void main() {
     await tester.tap(find.byTooltip('إظهار'));
     await tester.pumpAndSettle();
     expect(find.byTooltip('إخفاء'), findsOneWidget);
-    expect(tester.widget<TextField>(find.byType(TextField)).obscureText, isFalse);
+    expect(
+      tester.widget<TextField>(find.byType(TextField)).obscureText,
+      isFalse,
+    );
   });
 
-  testWidgets('search is a pill on surface-sunken with a search icon',
-      (tester) async {
+  testWidgets('search is a pill on surface-sunken with a search icon', (
+    tester,
+  ) async {
     await pump(
       tester,
       const SprintTextField(label: 'بحث', type: SprintTextFieldType.search),
@@ -208,8 +207,9 @@ void main() {
     expect(leaves, 1);
   });
 
-  testWidgets('200% text keeps the label and helper readable and unclipped',
-      (tester) async {
+  testWidgets('200% text keeps the label and helper readable and unclipped', (
+    tester,
+  ) async {
     await pump(
       tester,
       const SprintTextField(
@@ -231,5 +231,81 @@ void main() {
       locale: const Locale('en'),
     );
     expect(find.text('Email'), findsOneWidget);
+  });
+
+  group('code type', () {
+    testWidgets('is LTR with a numeric keyboard and the one-time-code hint', (
+      tester,
+    ) async {
+      await pump(
+        tester,
+        const SprintTextField(
+          label: 'كود التأكيد',
+          type: SprintTextFieldType.code,
+        ),
+      );
+      final field = tester.widget<TextField>(find.byType(TextField));
+      expect(field.textDirection, TextDirection.ltr);
+      expect(field.keyboardType, TextInputType.number);
+      expect(field.autofillHints, contains(AutofillHints.oneTimeCode));
+    });
+
+    testWidgets('converts Arabic-Indic digits, drops non-digits, caps at 6', (
+      tester,
+    ) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+      await pump(
+        tester,
+        SprintTextField(
+          label: 'كود التأكيد',
+          type: SprintTextFieldType.code,
+          controller: controller,
+        ),
+      );
+      await tester.enterText(find.byType(TextField), '١٢ab٣-4567');
+      expect(controller.text, '123456');
+    });
+
+    testWidgets('screen readers get one field carrying the label', (
+      tester,
+    ) async {
+      final handle = tester.ensureSemantics();
+      await pump(
+        tester,
+        const SprintTextField(
+          label: 'كود التأكيد',
+          type: SprintTextFieldType.code,
+        ),
+      );
+      final semantics = tester.getSemantics(find.byType(SprintTextField));
+      expect(semantics.label, contains('كود التأكيد'));
+      expect(find.byType(TextField), findsOneWidget);
+      handle.dispose();
+    });
+  });
+
+  testWidgets('autofillHints, textInputAction and focusNode are honoured', (
+    tester,
+  ) async {
+    final node = FocusNode();
+    addTearDown(node.dispose);
+    await pump(
+      tester,
+      SprintTextField(
+        label: 'الباسورد',
+        type: SprintTextFieldType.password,
+        autofillHints: const [AutofillHints.newPassword],
+        textInputAction: TextInputAction.next,
+        focusNode: node,
+      ),
+    );
+    final field = tester.widget<TextField>(find.byType(TextField));
+    expect(field.autofillHints, [AutofillHints.newPassword]);
+    expect(field.textInputAction, TextInputAction.next);
+    expect(field.focusNode, node);
+    node.requestFocus();
+    await tester.pump();
+    expect(node.hasFocus, isTrue);
   });
 }

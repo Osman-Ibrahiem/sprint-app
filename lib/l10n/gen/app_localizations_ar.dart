@@ -56,6 +56,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get backToHome => 'الرجوع للرئيسية';
 
   @override
+  String get noAccessTitle => 'الصفحة دي مش متاحة لحسابك';
+
+  @override
+  String get noAccessBody =>
+      'الصفحة دي مخصوصة لصلاحيات تانية. لو محتاج الوصول ليها ممكن تتواصل مع مسؤول الجامعة.';
+
+  @override
   String get homeTitle => 'أهلًا في سبرنت';
 
   @override
@@ -302,6 +309,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get fieldHidePassword => 'إخفاء';
+
+  @override
+  String get codeEntryLabel => 'كود التأكيد';
+
+  @override
+  String get codeEntrySentTo => 'الكود اتبعت على';
+
+  @override
+  String get codeEntryResend => 'إرسال الكود تاني';
+
+  @override
+  String codeEntryResendIn(int seconds) {
+    return 'إرسال الكود تاني بعد $seconds ثانية';
+  }
 
   @override
   String get fieldSearchHint => 'البحث';

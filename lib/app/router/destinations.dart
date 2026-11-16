@@ -16,8 +16,7 @@ final Map<AppSection, ShellDestination> baseRegistry = {
 List<ShellDestination> destinationsFor(
   List<AppSection> sections, {
   required Map<AppSection, ShellDestination> registry,
-}) =>
-    [
-      for (final s in sections)
-        if (registry[s] != null) registry[s]!,
-    ];
+}) => [
+  for (final s in sections)
+    if (registry[s] != null) registry[s]!,
+];
