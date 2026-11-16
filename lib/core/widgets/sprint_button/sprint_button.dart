@@ -60,18 +60,18 @@ class SprintButton extends StatelessWidget {
     final (background, foreground, border) = switch (variant) {
       SprintButtonVariant.primary => (colors.primary, colors.onPrimary, null),
       SprintButtonVariant.secondary => (
-          colors.surface,
-          colors.ink,
-          Border.all(
-            color: colors.controlBorder,
-            width: SprintExtras.hairlineWidth,
-          ),
+        colors.surface,
+        colors.ink,
+        Border.all(
+          color: colors.controlBorder,
+          width: SprintExtras.hairlineWidth,
         ),
+      ),
       SprintButtonVariant.tonal => (
-          colors.primarySoft,
-          colors.onPrimarySoft,
-          null,
-        ),
+        colors.primarySoft,
+        colors.onPrimarySoft,
+        null,
+      ),
       SprintButtonVariant.ghost => (null, colors.primary, null),
       SprintButtonVariant.danger => (colors.danger, colors.onDanger, null),
     };
@@ -81,8 +81,8 @@ class SprintButton extends StatelessWidget {
     final spokenLabel = busy
         ? (loadingLabel ?? l10n.buttonBusy)
         : enabled
-            ? label
-            : '$label${l10n.buttonDisabledSuffix}';
+        ? label
+        : '$label${l10n.buttonDisabledSuffix}';
 
     final showIcon = icon != null && !busy;
     final leading = busy
@@ -91,13 +91,13 @@ class SprintButton extends StatelessWidget {
             size: SprintSize.iconMd,
           )
         : showIcon && icon!.position == SprintButtonIconPosition.start
-            ? DirectionalIcon(
-                icon!.icon,
-                mirror: icon!.mirrorInRtl,
-                size: SprintSize.iconMd,
-                color: foreground,
-              )
-            : null;
+        ? DirectionalIcon(
+            icon!.icon,
+            mirror: icon!.mirrorInRtl,
+            size: SprintSize.iconMd,
+            color: foreground,
+          )
+        : null;
     final trailing = showIcon && icon!.position == SprintButtonIconPosition.end
         ? DirectionalIcon(
             icon!.icon,
@@ -131,7 +131,10 @@ class SprintButton extends StatelessWidget {
               : SprintSize.controlHeightSm,
         ),
         child: DecoratedBox(
-          decoration: BoxDecoration(border: border),
+          decoration: BoxDecoration(
+            border: border,
+            borderRadius: SprintRadius.mdBorder,
+          ),
           child: Padding(
             padding: EdgeInsetsDirectional.symmetric(
               horizontal: SprintSpacing.space4,

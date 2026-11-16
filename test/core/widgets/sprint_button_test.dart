@@ -5,6 +5,7 @@ import 'package:sprint/core/adaptive/adaptive_loader.dart';
 import 'package:sprint/core/adaptive/adaptive_pressable.dart';
 import 'package:sprint/core/adaptive/platform.dart';
 import 'package:sprint/core/tokens/sprint_colors.g.dart';
+import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 
@@ -32,8 +33,33 @@ void main() {
     );
   }
 
-  testWidgets('the five variants use the Button README token colours',
-      (tester) async {
+  testWidgets('the secondary outline follows the rounded corners', (
+    tester,
+  ) async {
+    await pump(
+      tester,
+      SprintButton(
+        label: 'x',
+        variant: SprintButtonVariant.secondary,
+        onPressed: () {},
+      ),
+    );
+    final box = tester.widget<DecoratedBox>(
+      find
+          .descendant(
+            of: find.byKey(SprintButton.visualKey),
+            matching: find.byType(DecoratedBox),
+          )
+          .first,
+    );
+    final decoration = box.decoration as BoxDecoration;
+    expect(decoration.border, isNotNull);
+    expect(decoration.borderRadius, SprintRadius.mdBorder);
+  });
+
+  testWidgets('the five variants use the Button README token colours', (
+    tester,
+  ) async {
     final expected = {
       SprintButtonVariant.primary: colors.primary,
       SprintButtonVariant.secondary: colors.surface,
@@ -82,8 +108,9 @@ void main() {
     );
   });
 
-  testWidgets('start and end icons show, and directional icons mirror in RTL',
-      (tester) async {
+  testWidgets('start and end icons show, and directional icons mirror in RTL', (
+    tester,
+  ) async {
     await pump(
       tester,
       SprintButton(
@@ -117,8 +144,9 @@ void main() {
     expect(presses, 0);
   });
 
-  testWidgets('disabled keeps the label and announces it unavailable',
-      (tester) async {
+  testWidgets('disabled keeps the label and announces it unavailable', (
+    tester,
+  ) async {
     await pump(tester, const SprintButton(label: 'إلغاء الحجز'));
     expect(find.text('إلغاء الحجز'), findsOneWidget);
     final semantics = tester.getSemantics(find.byType(SprintButton));
@@ -126,8 +154,9 @@ void main() {
     expect(semantics.label, contains('غير متاح'));
   });
 
-  testWidgets('a label with a price renders in full with Western digits',
-      (tester) async {
+  testWidgets('a label with a price renders in full with Western digits', (
+    tester,
+  ) async {
     await pump(
       tester,
       SprintButton(label: 'تأكيد الحجز · 120 ج.م', onPressed: () {}),
@@ -142,8 +171,9 @@ void main() {
         SprintButton(label: 'تأكيد', onPressed: () => presses++),
         style: style,
       );
-      final gesture =
-          await tester.startGesture(tester.getCenter(find.byType(SprintButton)));
+      final gesture = await tester.startGesture(
+        tester.getCenter(find.byType(SprintButton)),
+      );
       await tester.pumpAndSettle();
       if (style == AdaptiveStyle.apple) {
         expect(find.byKey(AdaptivePressable.fadeKey), findsOneWidget);
@@ -186,8 +216,9 @@ void main() {
     }
   });
 
-  testWidgets('at 200% text the button grows instead of clipping',
-      (tester) async {
+  testWidgets('at 200% text the button grows instead of clipping', (
+    tester,
+  ) async {
     await pump(
       tester,
       SprintButton(label: 'تأكيد الحجز · 120 ج.م', onPressed: () {}),
@@ -200,8 +231,9 @@ void main() {
     );
   });
 
-  testWidgets('English label renders and the button stays pressable',
-      (tester) async {
+  testWidgets('English label renders and the button stays pressable', (
+    tester,
+  ) async {
     await pump(
       tester,
       SprintButton(label: 'Confirm booking', onPressed: () => presses++),
