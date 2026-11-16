@@ -9,7 +9,8 @@ import 'package:sprint/features/auth/presentation/account_gate.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// What a guest sees on My Bookings and Profile: a word and an icon, with
-/// "تسجيل الدخول" and "إنشاء حساب" that open the account gate. No redirect, so
+/// "تسجيل الدخول" and "إنشاء حساب" that go straight to that screen through the
+/// account gate, without asking the same choice again. No redirect, so
 /// deep links stay stable (contracts/routes.md rule 3, FR-019). [reason] is
 /// the localised phrase the gate shows; it defaults to the bookings one.
 class SignInPrompt extends ConsumerWidget {
@@ -60,14 +61,24 @@ class SignInPrompt extends ConsumerWidget {
           SprintButton(
             key: signInKey,
             label: l10n.gateSignIn,
-            onPressed: () => requireAccount(context, ref, why),
+            onPressed: () => requireAccount(
+              context,
+              ref,
+              why,
+              choice: AccountGateChoice.signIn,
+            ),
           ),
           const SizedBox(height: SprintSpacing.space2),
           SprintButton(
             key: signUpKey,
             label: l10n.gateSignUp,
             variant: SprintButtonVariant.secondary,
-            onPressed: () => requireAccount(context, ref, why),
+            onPressed: () => requireAccount(
+              context,
+              ref,
+              why,
+              choice: AccountGateChoice.signUp,
+            ),
           ),
         ],
       ),

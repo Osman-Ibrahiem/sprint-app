@@ -153,18 +153,32 @@ void main() {
     expect(slotState(tester), SlotState.selected);
   });
 
-  testWidgets('the guest prompt on My Bookings opens the gate (FR-019)', (
+  testWidgets(
+    'the guest prompt on My Bookings goes straight to sign in (FR-019)',
+    (tester) async {
+      await pumpSprintApp(tester);
+      routerOf(tester).go('/bookings');
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(SignInPrompt.signInKey));
+      await tester.pumpAndSettle();
+      // The person already chose: the gate does not ask again.
+      expect(find.text(ar.gateTitle), findsNothing);
+      expect(topUri(tester).path, '/sign-in');
+      routerOf(tester).pop();
+      await tester.pumpAndSettle();
+      expect(currentPath(tester), '/bookings');
+    },
+  );
+
+  testWidgets('the guest prompt goes straight to sign up (FR-019)', (
     tester,
   ) async {
     await pumpSprintApp(tester);
     routerOf(tester).go('/bookings');
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(SignInPrompt.signInKey));
+    await tester.tap(find.byKey(SignInPrompt.signUpKey));
     await tester.pumpAndSettle();
-    expect(find.text(ar.gateBody(ar.gateReasonBookings)), findsOneWidget);
-    expect(currentPath(tester), '/bookings');
-    await tester.tap(find.byKey(AccountGatePrompt.dismissKey));
-    await tester.pumpAndSettle();
-    expect(currentPath(tester), '/bookings');
+    expect(find.text(ar.gateTitle), findsNothing);
+    expect(topUri(tester).path, '/sign-up');
   });
 }

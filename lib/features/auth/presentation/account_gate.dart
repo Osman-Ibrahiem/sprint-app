@@ -24,13 +24,18 @@ enum AccountGateChoice { signIn, signUp }
 ///
 /// The gate never runs the action itself: the caller shows it ready to
 /// continue and waits for a new tap (FR-017).
+///
+/// When the person has already picked sign in or sign up (the two buttons of
+/// `SignInPrompt`), pass it as [choice] and the prompt is skipped, so the same
+/// question is never asked twice.
 Future<bool> requireAccount(
   BuildContext context,
   WidgetRef ref,
-  String reason,
-) async {
+  String reason, {
+  AccountGateChoice? choice,
+}) async {
   if (!ref.read(currentSessionProvider).isGuest) return true;
-  final choice = await showSprintSheet<AccountGateChoice>(
+  choice ??= await showSprintSheet<AccountGateChoice>(
     context: context,
     builder: (ctx) => AccountGatePrompt(
       reason: reason,

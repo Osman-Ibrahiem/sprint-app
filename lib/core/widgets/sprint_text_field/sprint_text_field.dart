@@ -208,10 +208,21 @@ class _SprintTextFieldState extends State<SprintTextField> {
       style: context.text.body.copyWith(color: textColor),
       onChanged: widget.onChanged,
       onSubmitted: widget.onSubmitted,
-      decoration: InputDecoration.collapsed(
-        hintText: widget.placeholder,
-        hintStyle: context.text.body.copyWith(color: colors.inkMuted),
-      ),
+      // The container above draws the one border and focus ring. Every border
+      // is cleared here, because `InputDecoration.collapsed` clears only
+      // `border` and the theme's enabled and focused borders would otherwise
+      // draw a second outline inside the field.
+      decoration:
+          InputDecoration.collapsed(
+            hintText: widget.placeholder,
+            hintStyle: context.text.body.copyWith(color: colors.inkMuted),
+          ).copyWith(
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
+            errorBorder: InputBorder.none,
+            focusedErrorBorder: InputBorder.none,
+          ),
     );
 
     return Semantics(

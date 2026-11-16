@@ -85,6 +85,21 @@ void main() {
     expect(border.top.width, SprintExtras.focusRingWidth);
   });
 
+  testWidgets('the inner text field draws no border of its own, so the '
+      'theme never adds a second outline or focus ring', (tester) async {
+    await pump(
+      tester,
+      const SprintTextField(label: 'الاسم', placeholder: 'اسمك'),
+    );
+    InputDecoration inner() =>
+        tester.widget<InputDecorator>(find.byType(InputDecorator)).decoration;
+    expect(inner().enabledBorder, InputBorder.none);
+    await tester.tap(find.byType(TextField));
+    await tester.pumpAndSettle();
+    expect(inner().focusedBorder, InputBorder.none);
+    expect(inner().border, InputBorder.none);
+  });
+
   testWidgets('disabled uses surface-sunken and ink-disabled', (tester) async {
     await pump(tester, const SprintTextField(label: 'الاسم', enabled: false));
     expect(fieldDecoration(tester).color, colors.surfaceSunken);
