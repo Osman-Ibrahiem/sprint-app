@@ -256,23 +256,30 @@ void main() {
       );
     });
 
+    test('alreadyVerified while an approval still runs, so the tier never '
+        'drops for a new request (FR-030)', () async {
+      await repo.uploadSheet('uniVerifier', 's.csv', csv(2));
+      expect(ok(await submit('alice', 2)).status, VerificationStatus.approved);
+      expect(fail(await submit('alice', 2)), isA<AlreadyVerified>());
+      expect(await repo.history('alice'), hasLength(1));
+    });
+
     test('alreadyPending while one is pending (FR-027)', () async {
       await submit('alice', 1);
       expect(fail(await submit('alice', 3)), isA<AlreadyPending>());
       expect(await repo.history('alice'), hasLength(1));
     });
 
-    test(
-      'a failed photo save reports storageFull and keeps the request',
-      () async {
-        store.full = true;
-        final r = await submit('alice', 1);
-        expect(fail(r), isA<StorageFull>());
-        final kept = (await repo.current('alice'))!;
-        expect(kept.status, VerificationStatus.pending);
-        expect(kept.photoId, isNull);
-      },
-    );
+    test('a failed photo save reports storageFull and stores nothing, so a '
+        'retry never makes a second request', () async {
+      store.full = true;
+      final r = await submit('alice', 1);
+      expect(fail(r), isA<StorageFull>());
+      expect(await repo.current('alice'), isNull);
+      store.full = false;
+      expect(ok(await submit('alice', 1)).status, VerificationStatus.pending);
+      expect(await repo.history('alice'), hasLength(1));
+    });
   });
 
   group('review scope: FR-032', () {

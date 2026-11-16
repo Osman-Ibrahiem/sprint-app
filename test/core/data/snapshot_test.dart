@@ -32,7 +32,10 @@ Map<String, Object?> _viaJson(Map<String, Object?> snapshot) =>
 Map<String, Object?> _data(InMemoryDataLayer l) =>
     Map<String, Object?>.from(_viaJson(l.toSnapshot())['data']! as Map);
 
-Future<void> _turn() => Future<void>.delayed(Duration.zero);
+/// Long enough for the debounced save to run.
+Future<void> _turn() => Future<void>.delayed(
+  InMemoryDataLayer.saveDebounce + const Duration(milliseconds: 50),
+);
 
 AuditLog _entry() => AuditLog(
   actorId: 'a',

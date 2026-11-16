@@ -293,11 +293,16 @@ class InMemoryDataLayer {
 
   DemoSnapshotStore? _store;
   final List<StreamSubscription<void>> _subscriptions = [];
-  bool _savePending = false;
+  Timer? _saveTimer;
 
-  /// Saves the snapshot once per event-loop turn after any repository's
-  /// `changes` fires. Saving runs off the frame: it is scheduled on a timer,
-  /// never inside the write that caused it.
+  /// How long writes must pause before the snapshot is saved. Encoding runs
+  /// on the UI isolate and covers every repository, so a burst of writes
+  /// (typing a wrong code, a sheet upload) saves once, not once per write.
+  static const Duration saveDebounce = Duration(milliseconds: 300);
+
+  /// Saves the snapshot [saveDebounce] after the last of any repository's
+  /// `changes`. Saving runs off the frame: it is scheduled on a timer, never
+  /// inside the write that caused it.
   void attachStore(DemoSnapshotStore store) {
     detachStore();
     _store = store;
@@ -325,15 +330,16 @@ class InMemoryDataLayer {
       unawaited(s.cancel());
     }
     _subscriptions.clear();
+    _saveTimer?.cancel();
+    _saveTimer = null;
     _store = null;
     photos.target = null;
   }
 
   void _scheduleSave() {
-    if (_savePending) return;
-    _savePending = true;
-    Timer(Duration.zero, () {
-      _savePending = false;
+    _saveTimer?.cancel();
+    _saveTimer = Timer(saveDebounce, () {
+      _saveTimer = null;
       final store = _store;
       if (store != null) unawaited(store.save(toSnapshot()));
     });

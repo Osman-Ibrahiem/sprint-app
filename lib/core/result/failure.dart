@@ -160,6 +160,12 @@ final class AlreadyPending extends Failure {
   const AlreadyPending();
 }
 
+/// The person's approval is still valid: nothing to request until it expires
+/// (FR-030).
+final class AlreadyVerified extends Failure {
+  const AlreadyVerified();
+}
+
 final class NotSignedIn extends Failure {
   const NotSignedIn();
 }

@@ -143,9 +143,20 @@ class InMemoryVerificationRepository
     )) {
       return const Err(AlreadyPending());
     }
+    // A person whose approval still runs has nothing to request: a new request
+    // would become the current one and drop the tier (BR-21, FR-030 renews
+    // only after expiry).
+    if ((await current(userId))?.isActiveAt(now) ?? false) {
+      return const Err(AlreadyVerified());
+    }
 
     final verificationId = _nextId();
     final photoId = 'photo-$verificationId';
+    // The photo first: when it cannot be saved nothing else happens, so a
+    // retry never makes a second request (research R7).
+    if (await snapshotStore.savePhoto(photoId, photo) case Err()) {
+      return const Err(StorageFull());
+    }
     var request = Verification(
       id: verificationId,
       userId: userId,
@@ -196,15 +207,6 @@ class InMemoryVerificationRepository
       );
     } else {
       _all.add(request);
-    }
-
-    final saved = await snapshotStore.savePhoto(photoId, photo);
-    if (saved case Err()) {
-      // The request stays; only the picture is missing (research R7).
-      request = request.copyWith(photoId: null);
-      _replace(request);
-      notifyChanged();
-      return const Err(StorageFull());
     }
     notifyChanged();
     return Ok(request);

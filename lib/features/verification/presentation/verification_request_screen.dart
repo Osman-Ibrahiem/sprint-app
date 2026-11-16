@@ -40,7 +40,7 @@ final owningUnitsProvider = FutureProvider.autoDispose<List<OwningUnit>>(
 enum _Field { nationalId, code, unit, photo }
 
 /// What the person is told after sending (FR-026, US-04).
-enum _Outcome { approved, pending, rejected, storageFull, alreadyPending }
+enum _Outcome { approved, pending, rejected, alreadyPending }
 
 /// `/profile/verification`: send a verification request, or renew after it
 /// expired or send a new one after a refusal (FR-024 – FR-030, BRD US-04).
@@ -202,8 +202,11 @@ class _VerificationRequestScreenState
         case Err(:final failure):
           switch (failure) {
             case StorageFull():
-              // The request itself was kept; only the picture is missing.
-              _outcome = _Outcome.storageFull;
+              // Nothing was sent: the photo could not be saved, so the form
+              // stays with the reason on the photo field.
+              _errors[_Field.photo] = l10n.verifStorageFull;
+            case AlreadyVerified():
+              _outcome = _Outcome.approved;
             case AlreadyPending():
               _outcome = _Outcome.alreadyPending;
             case InvalidField(:final field, :final reason):
@@ -436,11 +439,6 @@ class _ResultPanel extends StatelessWidget {
         l10n.verifResultRejected(
           verificationReasonText(l10n, verification?.reason ?? ''),
         ),
-      ),
-      // The request is kept; the picture is not.
-      _Outcome.storageFull => (
-        VerificationState.underReview,
-        l10n.verifStorageFull,
       ),
     };
     return Scaffold(

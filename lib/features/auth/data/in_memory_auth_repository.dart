@@ -104,8 +104,7 @@ class InMemoryAuthRepository with ChangeSignal implements AuthRepository {
   String? get signedInUserId => _currentId;
 
   /// Every credential, for the demo snapshot.
-  List<Credential> get allCredentials =>
-      List.unmodifiable(_credentials.values);
+  List<Credential> get allCredentials => List.unmodifiable(_credentials.values);
 
   /// Everything this repository owns, for the demo snapshot. People and roles
   /// are in the identity repository's part of the snapshot.
@@ -211,9 +210,21 @@ class InMemoryAuthRepository with ChangeSignal implements AuthRepository {
         : CodeWrong(AuthLimits.maxCodeTries - tries);
   }
 
-  Failure _checkUnknownCode(String key) {
-    final tries = (_unknownTries[key] ?? 0) + 1;
-    _unknownTries[key] = tries;
+  /// The key for an identifier that cannot get a [purpose] code, used for its
+  /// resend wait and wrong tries.
+  static String _unknownKey(CodePurpose purpose, String key) =>
+      '${purpose.name}:$key';
+
+  /// A code entered for an identifier with no live code to check: answers
+  /// like a real code does, counting tries until it is dead (SC-009). A new
+  /// code request for the same identifier starts the count again, as it does
+  /// for a real account.
+  Failure _checkUnknownCode(CodePurpose purpose, String key) {
+    final k = _unknownKey(purpose, key);
+    final before = _unknownTries[k] ?? 0;
+    if (before >= AuthLimits.maxCodeTries) return const CodeDead();
+    final tries = before + 1;
+    _unknownTries[k] = tries;
     notifyChanged();
     return tries >= AuthLimits.maxCodeTries
         ? const CodeDead()
@@ -297,7 +308,14 @@ class InMemoryAuthRepository with ChangeSignal implements AuthRepository {
     final key = normalizeEmail(email).valueOrNull;
     final user = key == null ? null : await _byEmail(key);
     if (user == null || user.status != UserStatus.unconfirmed) {
-      return const Err(NoPendingConfirmation());
+      // Same answers as a real unconfirmed account, so this never tells
+      // whether one exists (SC-009).
+      return Err(
+        _checkUnknownCode(
+          CodePurpose.confirmEmail,
+          key ?? email.trim().toLowerCase(),
+        ),
+      );
     }
     final failure = _checkCode(user, CodePurpose.confirmEmail, code);
     if (failure != null) return Err(failure);
@@ -335,14 +353,20 @@ class InMemoryAuthRepository with ChangeSignal implements AuthRepository {
     required User? user,
     required String key,
   }) async {
-    final unknownKey = '${purpose.name}:$key';
+    final unknownKey = _unknownKey(purpose, key);
+    // Waits that have run out no longer matter; drop them so the map (and the
+    // saved snapshot) does not grow with every identifier ever typed.
+    final now = _clock.now();
+    _unknownResends.removeWhere((_, after) => !after.isAfter(now));
     final wait = user == null
         ? _waitFor(_unknownResends[unknownKey])
         : _waitFor(_liveCode(user.id, purpose)?.resendAfter);
     if (wait != null) return Err(ResendTooSoon(wait));
     if (user == null) {
-      final after = _clock.now().add(AuthLimits.resendWait);
+      final after = now.add(AuthLimits.resendWait);
       _unknownResends[unknownKey] = after;
+      // A new "code" starts a new count of wrong tries, as for a real account.
+      _unknownTries.remove(unknownKey);
       return _success(CodeSent(after));
     }
     return _success(CodeSent(await _sendCode(user, purpose)));
@@ -357,13 +381,11 @@ class InMemoryAuthRepository with ChangeSignal implements AuthRepository {
   }) async {
     final key = normalizeIdentifier(identifier);
     final now = _clock.now();
-    final throttle = _throttles.putIfAbsent(key, SignInThrottle.new);
-    final lockedUntil = throttle.lockedUntil;
+    final lockedUntil = _throttles[key]?.lockedUntil;
     if (lockedUntil != null) {
       if (now.isBefore(lockedUntil)) return Err(LockedOut(lockedUntil));
-      throttle
-        ..lockedUntil = null
-        ..failures = 0;
+      // The lock ran out: start counting again from nothing.
+      _throttles.remove(key);
     }
 
     final user = await _byIdentifier(identifier);
@@ -375,6 +397,8 @@ class InMemoryAuthRepository with ChangeSignal implements AuthRepository {
       hash: credential?.hash ?? _dummyHash,
     );
     if (user == null || credential == null || !correct) {
+      // An entry exists only while there are failures to count.
+      final throttle = _throttles.putIfAbsent(key, SignInThrottle.new);
       throttle.failures++;
       if (throttle.failures >= AuthLimits.maxPasswordFailures) {
         throttle.lockedUntil = now.add(AuthLimits.lockoutDuration);
@@ -386,9 +410,7 @@ class InMemoryAuthRepository with ChangeSignal implements AuthRepository {
     }
 
     // The password was right: only now may the status show (FR-011).
-    throttle
-      ..failures = 0
-      ..lockedUntil = null;
+    _throttles.remove(key);
     if (user.status == UserStatus.suspended) {
       notifyChanged();
       return const Err(Suspended());
@@ -437,9 +459,12 @@ class InMemoryAuthRepository with ChangeSignal implements AuthRepository {
     }
     final user = await _byIdentifier(identifier);
     if (user == null || user.status != UserStatus.active) {
-      final key = normalizeIdentifier(identifier);
-      final dead = (_unknownTries[key] ?? 0) >= AuthLimits.maxCodeTries;
-      return Err(dead ? const CodeDead() : _checkUnknownCode(key));
+      return Err(
+        _checkUnknownCode(
+          CodePurpose.resetPassword,
+          normalizeIdentifier(identifier),
+        ),
+      );
     }
     final failure = _checkCode(user, CodePurpose.resetPassword, code);
     if (failure != null) return Err(failure);

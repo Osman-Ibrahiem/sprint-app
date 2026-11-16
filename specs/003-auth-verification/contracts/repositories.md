@@ -9,7 +9,7 @@ Interfaces in Dart terms (names are final; exact signatures are fixed at impleme
 | Method | Success | Failures |
 | --- | --- | --- |
 | `signUp(name, phone, email, password)` | `PendingConfirmation(userId, email)`; sends a `confirmEmail` code | `invalidField(field, reason)`, `emailTaken`, `phoneTaken` |
-| `confirmEmail(email, code)` | `SignedIn(userId)`; status → `active`; session set | `codeWrong(triesLeft)`, `codeExpired`, `codeDead`, `noPendingConfirmation` |
+| `confirmEmail(email, code)` | `SignedIn(userId)`; status → `active`; session set | `codeWrong(triesLeft)`, `codeExpired`, `codeDead`; an unknown or already active email answers like a wrong code, counting tries, so it never tells whether an account waits (SC-009) |
 | `resendCode(email, purpose)` | `CodeSent(resendAfter)` | `resendTooSoon(wait)`; unknown email returns `CodeSent` too (SC-009) |
 | `signIn(identifier, password)` | `SignedIn(userId)` | `badCredentials` (wrong password, unknown email, unknown phone: one failure), `lockedOut(until)`, `suspended`, `needsConfirmation(email)` (also sends a new code) |
 | `signOut()` | `Done` | none |
@@ -38,7 +38,7 @@ Keeps `users()`, `getUser(id)`, `roleAssignments(userId)`, and adds `changes`. `
 | --- | --- | --- |
 | `current(userId)` | `Verification?` (latest) | none |
 | `history(userId)` | list, newest first | none |
-| `submit(userId, type, nationalId, code, owningUnitId, photo)` | the new `Verification` with status `approved`, `pending` or `rejected` per FR-026 (duplicate = another account's pending or approved request, incl. expired); on approval `User.nationalId` is set | `invalidField(field, reason)`, `alreadyPending`, `notSignedIn` |
+| `submit(userId, type, nationalId, code, owningUnitId, photo)` | the new `Verification` with status `approved`, `pending` or `rejected` per FR-026 (duplicate = another account's pending or approved request, incl. expired); on approval `User.nationalId` is set | `invalidField(field, reason)`, `alreadyPending`, `alreadyVerified` (an approval still runs; renew after expiry), `storageFull` (photo not saved, nothing stored), `notSignedIn` |
 | `queue(reviewerId)` | pending in the reviewer's scope, oldest first | `noAccess` |
 | `request(reviewerId, verificationId)` | full request incl. national ID and photo | `noAccess` (not a reviewer, or out of scope) |
 | `approve(reviewerId, verificationId)` | approved, with `expiresAt` | `noAccess`, `alreadyDecided`, `ownRequest` |
@@ -60,7 +60,7 @@ Side effects: approve, reject, auto-approve and sheet upload append to `AuditLog
 | --- | --- |
 | `load()` | `Map<String, Object?>?`; null when missing or unreadable |
 | `save(Map<String, Object?>)` | debounced by the caller |
-| `loadPhoto(id)` / `savePhoto(id, bytes)` | separate keys; `savePhoto` can fail with `storageFull` |
+| `loadPhoto(id)` / `savePhoto(id, bytes)` | separate keys; `savePhoto` can fail with `storageFull`; `submit` saves the photo first and stores nothing when it fails |
 | `clear()` | snapshot and photos; theme and language untouched |
 
 `InMemoryDataLayer` gains `toSnapshot()`, `fromSnapshot(...)` and `reset()`; `dataLayerProvider` loads at startup and saves on any repository's `changes`.

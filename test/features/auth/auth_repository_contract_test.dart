@@ -187,9 +187,9 @@ void authRepositoryContract(String name, AuthHarness Function() create) {
           expect(roles.single.role, Role.booker);
           expect(roles.single.scopeType, RoleScopeType.university);
           expect(roles.single.scopeId, isNull);
-          // The code is used up and the account is no longer pending.
+          // The code is used up: the same code now answers like a wrong one.
           final again = await auth.confirmEmail(email: email, code: code);
-          expect(_fail(again), isA<NoPendingConfirmation>());
+          expect(_fail(again), isA<CodeWrong>());
         },
       );
 
@@ -239,15 +239,20 @@ void authRepositoryContract(String name, AuthHarness Function() create) {
         );
       });
 
-      test('unknown or already active emails have nothing pending', () async {
-        expect(
-          _fail(await auth.confirmEmail(email: 'who@example.com', code: '1')),
-          isA<NoPendingConfirmation>(),
-        );
-        expect(
-          _fail(await auth.confirmEmail(email: activeEmail, code: '123456')),
-          isA<NoPendingConfirmation>(),
-        );
+      test('unknown or already active emails answer like a wrong code, so '
+          'they never tell whether an account waits (SC-009)', () async {
+        for (final email in ['who@example.com', activeEmail]) {
+          for (var i = 1; i < AuthLimits.maxCodeTries; i++) {
+            final f = _fail(
+              await auth.confirmEmail(email: email, code: '123456'),
+            );
+            expect((f as CodeWrong).triesLeft, AuthLimits.maxCodeTries - i);
+          }
+          expect(
+            _fail(await auth.confirmEmail(email: email, code: '123456')),
+            isA<CodeDead>(),
+          );
+        }
       });
     });
 
@@ -543,6 +548,29 @@ void authRepositoryContract(String name, AuthHarness Function() create) {
         expect(f, isA<CodeWrong>());
         expect((f as CodeWrong).triesLeft, AuthLimits.maxCodeTries - 1);
       });
+
+      test('a new code request restarts the tries for an unknown identifier, '
+          'as it does for a real account (SC-009)', () async {
+        Future<Failure?> tryReset(String id) async => _fail(
+          await auth.resetPassword(
+            identifier: id,
+            code: '000000',
+            newPassword: 'Good-pass-3',
+          ),
+        );
+        for (final id in ['ghost@example.com', activeEmail]) {
+          expect((await auth.requestPasswordReset(id)).isOk, isTrue);
+          for (var i = 0; i < AuthLimits.maxCodeTries; i++) {
+            await tryReset(id);
+          }
+          expect(await tryReset(id), isA<CodeDead>());
+          h.advance(AuthLimits.resendWait);
+          expect((await auth.requestPasswordReset(id)).isOk, isTrue);
+          final f = await tryReset(id);
+          expect(f, isA<CodeWrong>(), reason: id);
+          expect((f! as CodeWrong).triesLeft, AuthLimits.maxCodeTries - 1);
+        }
+      });
     });
 
     test('changes fires after a successful write', () async {
@@ -558,4 +586,18 @@ void authRepositoryContract(String name, AuthHarness Function() create) {
 
 void main() {
   authRepositoryContract('in memory', createInMemoryHarness);
+
+  test('in memory: sign-in counters exist only while failures count, so the '
+      'saved snapshot does not grow with every identifier typed', () async {
+    final auth = createInMemoryHarness().auth as InMemoryAuthRepository;
+    Map<String, dynamic> throttles() =>
+        auth.toJson()['throttles'] as Map<String, dynamic>;
+
+    await auth.signIn(identifier: activeEmail, password: seedPassword);
+    expect(throttles(), isEmpty);
+    await auth.signIn(identifier: activeEmail, password: 'wrong-pass-1');
+    expect(throttles().keys, [activeEmail]);
+    await auth.signIn(identifier: activeEmail, password: seedPassword);
+    expect(throttles(), isEmpty);
+  });
 }

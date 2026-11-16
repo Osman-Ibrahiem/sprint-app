@@ -25,6 +25,19 @@ void main() {
     expect(r.rows.single.type, VerificationType.faculty);
   });
 
+  test(
+    'a first row with a mistyped national ID is a problem, not a header',
+    () {
+      final r = parser.parse(
+        '2990101123456,2021001,student\n$id2,2021002,staff\n',
+      );
+      expect(r.headerSkipped, isFalse);
+      expect(r.problems.single.rowNumber, 1);
+      expect(r.problems.single.reasonCode, startsWith('nationalId.'));
+      expect(r.rows.single.rowNumber, 2);
+    },
+  );
+
   test('a UTF-8 BOM is stripped', () {
     final r = parser.parse('﻿$id1,2021001,student');
     expect(r.headerSkipped, isFalse);

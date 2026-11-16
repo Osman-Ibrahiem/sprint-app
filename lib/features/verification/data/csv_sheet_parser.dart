@@ -66,9 +66,12 @@ class CsvSheetParser implements VerificationSheetParser {
       if (cells.every((c) => c.isEmpty)) continue;
       final rowNumber = i + 1;
 
+      // A header names the columns: its first cell has no digit at all. A
+      // first row with digits is data, so a typo in its national ID is
+      // reported like any other row instead of being taken for a header.
       if (!seenFirst) {
         seenFirst = true;
-        if (!RegExp(r'^\d{14}$').hasMatch(normalizeDigits(cells.first))) {
+        if (!RegExp(r'\d').hasMatch(normalizeDigits(cells.first))) {
           headerSkipped = true;
           continue;
         }

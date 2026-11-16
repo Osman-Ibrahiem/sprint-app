@@ -89,8 +89,17 @@ class SessionNotifier extends _$SessionNotifier {
     }
     final wait = at.difference(ref.read(appClockProvider).now());
     if (wait.isNegative || wait == Duration.zero) return;
-    _expiry = Timer(wait, _reload);
+    // Capped: on the web a Timer becomes `setTimeout`, which wraps any delay
+    // above about 24.8 days, firing at once and looping. A capped timer that
+    // fires early just reloads and schedules the rest.
+    _expiry = Timer(
+      wait < maxExpiryTimerWait ? wait : maxExpiryTimerWait,
+      _reload,
+    );
   }
+
+  /// The longest single wait for the expiry timer (see [_scheduleExpiry]).
+  static const Duration maxExpiryTimerWait = Duration(days: 1);
 
   Future<void> _reload() async {
     final generation = ++_generation;

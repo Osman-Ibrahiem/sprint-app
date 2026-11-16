@@ -78,4 +78,52 @@ void main() {
       expect(s.tier, PriceTier.external);
     });
   });
+
+  test('a far expiry is waited for in capped steps (web setTimeout wraps '
+      'delays over about 24.8 days) and still turns the tier external', () {
+    fakeAsync((async) {
+      final start = DateTime.utc(2026, 11, 16, 9);
+      final c = ProviderContainer(
+        overrides: [
+          appClockProvider.overrideWithValue(
+            Clock(() => start.add(async.elapsed)),
+          ),
+        ],
+      );
+      addTearDown(c.dispose);
+      c.read(sessionProvider);
+      async.flushMicrotasks();
+      c.read(sessionProvider.notifier).actAs(SeedIds.bookerInternal);
+      async.flushMicrotasks();
+
+      final repo = c.read(
+        verificationRepositoryProvider,
+      ) as InMemoryVerificationRepository;
+      repo.put(
+        c
+            .read(currentSessionProvider)
+            .verification!
+            .copyWith(expiresAt: start.add(const Duration(days: 40))),
+      );
+      async.flushMicrotasks();
+      // No timer may be longer than the cap (setTimeout takes 2^31 - 1 ms).
+      for (final t in async.pendingTimers) {
+        expect(
+          t.duration,
+          lessThanOrEqualTo(SessionNotifier.maxExpiryTimerWait),
+        );
+      }
+      expect(
+        SessionNotifier.maxExpiryTimerWait.inMilliseconds,
+        lessThan(0x7fffffff),
+      );
+
+      async.elapse(const Duration(days: 39));
+      async.flushMicrotasks();
+      expect(c.read(currentSessionProvider).tier, PriceTier.internal);
+      async.elapse(const Duration(days: 1, minutes: 1));
+      async.flushMicrotasks();
+      expect(c.read(currentSessionProvider).tier, PriceTier.external);
+    });
+  });
 }
