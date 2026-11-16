@@ -27,6 +27,9 @@ These were decided in this specification so the plan does not have to guess.
 ### Session 2026-11-16
 
 - Q: In a facility with several units (for example 6 lanes), how does the user reach each unit's slots? → A: A unit picker above one slot grid. Each unit is marked when it has places that day, and the first unit with availability is selected.
+- Q: How is "the slot was booked by someone else while my screen was open" (US-06) shown, when all data is on one device? → A: No special demo tool. The UI is being built now to show Dr. Sara; the defense will be a recorded video of the working system after the backend is connected, so every flow must be complete and recordable. In this feature the conflict is proven by automated tests and can be shown by booking from a second seeded account with the existing demo account switch.
+- Q: When is a booker told that the chosen time overlaps another booking of theirs (BR-13)? → A: As soon as they tap the slot. The slot keeps its normal look, tapping it shows a message naming the overlapping booking, and it is not selected.
+- Q: In a trainer facility, after choosing the trainer, does the booker pick the lane or see all of the trainer's sessions in one grid? → A: One grid of the trainer's sessions with no unit picker. The unit of each session comes from the trainer's schedule and is named in the summary.
 - Q: What does the booker see right after a free booking is confirmed? → A: A simple success screen with the booking code and details and an action to home, with no QR. The full ticket with the QR stays in feature 6.
 
 ## User Scenarios & Testing *(mandatory)*
@@ -69,7 +72,7 @@ A signed-in booker picks an available slot in an exclusive unit (a whole pitch) 
 3. **Given** a selection, **When** the booker continues, **Then** the summary shows: facility, unit, date, start and end time, what the booking covers ("الملعب كله" with the maximum participants for `EXCLUSIVE`, "مكان واحد" for `SHARED`), the tier in words, the price with its basis (BR-16), and the cancellation policy built from the cutoff-hours and refund-percent settings (BR-30, BR-31).
 4. **Given** the summary of a paid booking, **When** the booker taps "متابعة للدفع", **Then** availability is checked again; if the slot is still free a "قريبًا" checkout screen opens with a way back to the summary, and no booking is stored.
 5. **Given** the chosen slot was taken or filled since the screen opened, **When** the booker continues from the schedule or from the summary, **Then** a message says the slot was booked or is now full, the selection is cleared, and the schedule shows the slot's new state (US-06 second scenario, FR-AVL-02).
-6. **Given** the booker already has a booking that overlaps the chosen time, in this or any other facility, **When** they select or continue, **Then** the choice is refused with a message that names the existing booking's facility and time (BR-13).
+6. **Given** the booker already has a booking that overlaps the chosen time, in this or any other facility, **When** they tap the slot (or the slot that would complete a range), **Then** it is not selected and a message at once names the existing booking's facility and time (BR-13). The slot keeps its normal look before the tap.
 7. **Given** the active-bookings cap setting has a value and the booker has reached it, **When** they continue, **Then** the choice is refused with a message that states the cap (BR-14). With the default (no cap) this never appears.
 8. **Given** the summary, **When** the booker goes back, **Then** the schedule shows the same day, unit and selected slot.
 
@@ -127,7 +130,7 @@ In a facility that requires a trainer (swimming lessons), the booker first choos
 **Acceptance Scenarios**:
 
 1. **Given** a trainer facility, **When** "عرض المواعيد" is tapped, **Then** the first step is choosing a trainer: each trainer shows a name, a short bio, and whether they have sessions in the booking window.
-2. **Given** a trainer is chosen, **When** the schedule shows, **Then** only slots inside that trainer's availability show, each of the fixed session length from settings (60 minutes by default), and the days without any session for that trainer are marked as having no availability (BR-09).
+2. **Given** a trainer is chosen, **When** the schedule shows, **Then** one grid shows that trainer's sessions for the selected day across all the units they work in, with no unit picker; only slots inside the trainer's availability show, each of the fixed session length from settings (60 minutes by default), and the days without any session for that trainer are marked as having no availability (BR-09).
 3. **Given** a session, **When** its places are counted, **Then** the places left are the smaller of the unit's places left and the trainer's remaining capacity (BR-09).
 4. **Given** the trainer has reached their capacity for a session, **When** the slot shows, **Then** it shows "مكتمل" even though the lane has places (US-09).
 5. **Given** a chosen trainer, **When** the booker changes the trainer, **Then** the slot selection is cleared and the schedule reloads for the new trainer, keeping the selected day when that day is still valid.
@@ -191,7 +194,7 @@ The schedule, the trainer step and the summary work in Arabic RTL and English, i
 - In a shared free unit, hours inside a range have different places left: the range is accepted while every hour has at least one place.
 - The booker opens a schedule link for a facility that is missing or unpublished: the catalogue's not-found screen shows.
 - The address names a day outside the window, an unknown unit or trainer, or a slot that no longer exists: the schedule opens on its defaults and says the earlier choice is no longer available.
-- A trainer works in more than one unit of the facility: their sessions show for each unit they work in, and the summary names the unit.
+- A trainer works in more than one unit of the facility: their sessions still show in one grid ordered by time, each session belongs to the unit the trainer's schedule gives it, and the summary names that unit.
 - A signed-in user with a non-booker role (trainer, manager, verifier, admin) books: they can, the same as a booker (BRD §6 matrix).
 - The booker signs out on the summary: the summary closes and the schedule shows as a guest with the selection kept.
 - The demo data is reset (feature 003's action) while a schedule is open: the schedule reloads from the seed and the selection is cleared.
@@ -212,7 +215,7 @@ The schedule, the trainer step and the summary work in Arabic RTL and English, i
 - **FR-005**: For the selected day and unit, the schedule MUST show every slot generated from the unit's operating hours minus closures (BR-05) with one of these states and its word: available, few left, full, past, and selected.
 - **FR-006**: In a `SHARED` unit an available slot MUST show the places left, and MUST show the few-left state when the places left are at or below the few-left threshold setting (BR-03, BR-45). In an `EXCLUSIVE` unit no count is shown (BR-02).
 - **FR-007**: A slot whose start has passed, or is closer than the minimum-lead setting, MUST show as past and MUST NOT be selectable (BR-07). Full slots MUST NOT be selectable.
-- **FR-008**: The schedule MUST list only active units of a published facility, and each unit's slots MUST follow that unit's own booking mode, capacity and hours. A facility with several units MUST show a unit picker above a single slot grid, each unit marked in words when it has places on the selected day, with the first unit that has availability selected by default; a facility with one unit shows no picker.
+- **FR-008**: The schedule MUST list only active units of a published facility, and each unit's slots MUST follow that unit's own booking mode, capacity and hours. Outside the trainer path, a facility with several units MUST show a unit picker above a single slot grid, each unit marked in words when it has places on the selected day, with the first unit that has availability selected by default; a facility with one unit shows no picker.
 - **FR-009**: Availability MUST be reloaded when the schedule opens, when the day, unit or trainer changes, on a manual refresh, when the app returns to the foreground, and immediately before continuing to the summary and before confirming (FR-AVL-02).
 - **FR-010**: When a selected slot or range is no longer available after a reload, the selection MUST be cleared, a message MUST say what changed, and the grid MUST show the new state.
 - **FR-011**: The schedule MUST show skeletons while loading and an error with a retry action when loading fails; a day with nothing left to book MUST say so in words and suggest another day.
@@ -225,7 +228,7 @@ The schedule, the trainer step and the summary work in Arabic RTL and English, i
 - **FR-015**: In the range path the booker MUST be able to select one or more consecutive slots on one day of one unit, in steps of the granularity setting, up to the maximum-range setting (BR-08). The start, end and length MUST show in words.
 - **FR-016**: A range MUST be refused when any hour inside it is not bookable, naming the conflicting hour, and when it exceeds the maximum, stating the maximum (US-08).
 - **FR-017**: In the trainer path the booker MUST choose a trainer before any slot shows. Trainers MUST show a name and short bio and whether they have sessions in the window (BR-09).
-- **FR-018**: With a trainer chosen, the schedule MUST show only slots inside the trainer's availability, of the session-length setting, with places left equal to the smaller of the unit's places left and the trainer's remaining capacity; a session at the trainer's capacity MUST show as full (BR-09, US-09).
+- **FR-018**: With a trainer chosen, the schedule MUST show one grid of that trainer's sessions for the selected day, ordered by time, with no unit picker; the unit of each session comes from the trainer's availability and MUST be named in the summary. It MUST show only slots inside the trainer's availability, of the session-length setting, with places left equal to the smaller of the unit's places left and the trainer's remaining capacity; a session at the trainer's capacity MUST show as full (BR-09, US-09).
 - **FR-019**: Changing the trainer, the unit or the day MUST clear a selection that no longer applies, and MUST keep the day when it is still valid.
 - **FR-020**: With a selection, exactly one main action ("متابعة") MUST be visible, with the selected time and the price or "مجاني". Without a selection it MUST NOT be active.
 
@@ -249,7 +252,7 @@ The schedule, the trainer step and the summary work in Arabic RTL and English, i
 **Refusals and conflicts (BR-11, BR-13, BR-14)**
 
 - **FR-032**: Every refusal from the availability and booking repositories MUST be shown in words that say what happened and what to do next: slot taken, slot full, slot passed, outside the booking window, closed, range too long, overlap with the booker's own booking (naming that booking's facility and time), active-bookings cap reached (stating the cap), and not permitted.
-- **FR-033**: An overlap with the booker's own booking and a reached cap MUST be detected no later than continuing to the summary, for paid and free bookings alike (BR-13, BR-14).
+- **FR-033**: For a signed-in booker, an overlap with one of their own bookings MUST be reported when they tap the slot, or the slot that would complete a range: the slot is not selected and the message names the overlapping booking (BR-13). For a guest it MUST be reported on returning from sign-in, clearing the selection. A reached active-bookings cap MUST be reported no later than continuing to the summary (BR-14). Both apply to paid and free bookings alike, and both MUST be checked again before the summary hand-off and before confirming.
 - **FR-034**: When two bookers confirm the same exclusive slot or the last shared place at the same moment, exactly one booking MUST be created; the other booker MUST get the taken or full message (BR-11, US-06, NFR-09).
 
 **Data, settings and rules (constitution III, IV)**
@@ -257,6 +260,7 @@ The schedule, the trainer step and the summary work in Arabic RTL and English, i
 - **FR-035**: All slots, places left, prices, tiers and refusals MUST come through the existing repository interfaces (availability, booking, catalogue, settings, session); screens MUST NOT touch the in-memory implementations or re-implement a rule.
 - **FR-036**: Every value the BRD marks as a setting and this flow uses (booking mode, capacity, maximum participants, booking window, few-left threshold, minimum lead, granularity, maximum range, session length, active-bookings cap, cancellation cutoff, refund percent) MUST be read from the settings repository with university → facility → unit inheritance, never hard-coded.
 - **FR-037**: The seed data MUST let every scenario here be shown without editing data by hand: an exclusive unit with free and booked slots, a shared unit with slots that are available, few-left and full, a free facility with a taken hour, a trainer facility with a trainer at capacity while the lane has places, a closure inside the window, and seeded accounts in each tier with and without overlapping bookings. Existing seed MUST be reused; additions MUST be marked as placeholders until Dr. Sara's data arrives.
+- **FR-038a**: The taken-slot and full-slot refusals (US-06, FR-034) MUST be covered by automated tests, and MUST be reproducible by hand on one device by booking the same slot from a second seeded account through the existing demo account switch. No dedicated simulation tool is added.
 - **FR-038**: Bookings created here MUST be kept with the rest of the demo data on the device and removed by the demo-data reset (decisions.md 2026-11-16).
 
 **Quality, language and accessibility (constitution II, V)**
@@ -295,7 +299,7 @@ The schedule, the trainer step and the summary work in Arabic RTL and English, i
 - **SC-009**: Every refusal in FR-032 shows a message that names the reason; no refusal ends in a blank screen, a silent failure or a technical error text.
 - **SC-010**: The schedule, trainer step and summary show no overflow or clipped text at all four window size classes, in Arabic and English, in light and dark, at 200% text scale, and every action is reachable by keyboard and by screen reader.
 - **SC-011**: The selection is identical after going to the summary and back, rotating, resizing and folding, in 100% of the tested transitions.
-- **SC-012**: The three booking paths can be shown at the defense from a cold start on seed data alone in under 4 minutes.
+- **SC-012**: The three booking paths can be walked from a cold start on seed data alone in under 4 minutes, each from the facility page to its end (summary hand-off or confirmed booking) with no dead end, so the flow can be shown to Dr. Sara now and recorded on video for the defense later.
 
 ## Out of scope
 
@@ -322,12 +326,13 @@ This feature is UI-only on mock data and delivers the schedule, selection and su
 
 - **The rules already exist behind the repositories.** The Foundation built the slot generation, availability, conflict, pricing and hold rules and the booking and availability repositories on seed data. This feature builds the screens on them and extends the rules or seed only where a scenario here cannot be shown otherwise.
 - **Paid bookings create nothing here** (see Scope decisions). The consequence is that US-06's "one of two simultaneous bookers wins" is demonstrated in this feature through the re-check before the summary hand-off and through free bookings; the paid version with a Hold is demonstrated in feature 6.
-- **Overlaps with the booker's own bookings are reported when choosing, not drawn on the chip.** The slot component has no state for it, and adding one changes the design system, which is a separate decision.
+- **Overlaps with the booker's own bookings are reported at the tap, not drawn on the chip (settled in clarify, 2026-11-16).** The slot component has no state for it, and adding one changes the design system, which is a separate decision.
 - **Closed slots are not drawn.** A closure removes its slots from the grid (BRD §5: "the slots in it disappear"); only a wholly closed day is shown as closed, on the day strip.
 - **A range is within one unit and one day.** BR-08 speaks of consecutive hours; ranges across units or across midnight are not offered.
-- **The trainer path is one session per booking**, in a unit where the chosen trainer works, at that unit's price for the booker's tier. There is no separate trainer fee in the BRD.
+- **The trainer path is one session per booking**, in the unit the chosen trainer's schedule gives that session (a trainer is in one unit at a time), at that unit's price for the booker's tier. There is no separate trainer fee in the BRD.
 - **"Refreshed live or on opening" (FR-AVL-02) means on opening and at the moments in FR-009** in P1. Live push of other people's bookings needs the backend.
 - **The current user, their tier and the account gate come from feature 003** as built; this feature does not change them.
+- **The defense is shown as a recorded video of the working system** (Osman, 2026-11-16), after the backend is connected. This UI phase is for showing Dr. Sara, so each flow must run to its end without dead ends, and no on-stage demo tools are built for it.
 - **Platforms checked** are web, macOS, Android and iOS, as in earlier features.
 - **The stack and architecture** are those fixed in `CLAUDE.md` and the constitution. This spec states outcomes; where the code lives and how it is built belongs to the plan.
 - **Open BRD §11 items stay settings.** The maximum free range (default 3 hours), lanes starting `SHARED`, and pricing an exclusive pitch on the booker's tier only (BR-18) are used at their BRD defaults and are not decided here.
