@@ -304,7 +304,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get demoUserTitle => 'عرض كمستخدم تاني';
 
   @override
-  String get demoUserNote => 'للمراجعين فقط. من غير تسجيل دخول حقيقي.';
+  String get demoUserNote =>
+      'للمراجعين فقط. التبديل بين الحسابات من غير باسورد.';
 
   @override
   String get demoGuest => 'ضيف (من غير حساب)';

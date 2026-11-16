@@ -108,7 +108,7 @@
   "profileRoles": "Roles: {roles}",
   "profileTier": "Tier: {tier}",
   "demoUserTitle": "View as another user",
-  "demoUserNote": "For reviewers only. There is no real sign-in.",
+  "demoUserNote": "For reviewers only. Switches accounts without a password.",
   "demoGuest": "Guest (no account)",
   "demoSettingsTitle": "Settings and inheritance",
   "demoSettingsPick": "Choose a unit",

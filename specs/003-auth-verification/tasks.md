@@ -249,7 +249,7 @@ description: "Task list for the Auth and Verification feature"
 - [X] T085 Run the quickstart checks on web, macOS, one Android and one iOS target (camera on the phones, file pick on web and macOS, reload persistence, reset) and record results with dates in `specs/003-auth-verification/evidence.md` (SC-001 – SC-004, SC-008)
 - [ ] T086 Measure the published web build as in `specs/001-foundation/evidence.md` (splash within 1 second, interactive within 5 seconds on Fast 4G) and record it in `evidence.md`
 - [X] T087 Run `flutter analyze --fatal-infos`, `dart run build_runner build --delete-conflicting-outputs`, `flutter gen-l10n`, `flutter test` and `flutter build web --release --base-href /sprint-app/` (the constitution's web build gate, which PR checks no longer run since PR #9) from a clean checkout and confirm `git diff --exit-code` shows no stale generated files (CI parity)
-- [ ] T088 [P] After merge only: update `CLAUDE.md` "Current state" (feature 003 built, next is feature 4) and the Foundation comments that say real sign-in arrives later (`identity_repository.dart`, `session_provider.dart`, `sign_in_prompt.dart`)
+- [X] T088 [P] In the PR (Osman, 2026-11-16) instead of after merge: update `CLAUDE.md` "Current state" (feature 003 built, next is feature 4) and the Foundation comments that say real sign-in arrives later (`identity_repository.dart`, `session_provider.dart`, `sign_in_prompt.dart`)
 - [ ] T089 Open the PR into `develop` titled "feat(003): auth and verification", description citing US-01 – US-05, US-23, FR-AUTH-01 – FR-AUTH-04, FR-VER-01 – FR-VER-04, BR-17, BR-21 – BR-27, NFR-06, NFR-12, the two decisions added, the `SprintTextField` additions and the new packages
 
 ---

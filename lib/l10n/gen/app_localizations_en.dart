@@ -306,7 +306,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get demoUserTitle => 'View as another user';
 
   @override
-  String get demoUserNote => 'For reviewers only. There is no real sign-in.';
+  String get demoUserNote =>
+      'For reviewers only. Switches accounts without a password.';
 
   @override
   String get demoGuest => 'Guest (no account)';

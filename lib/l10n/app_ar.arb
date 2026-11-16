@@ -112,7 +112,7 @@
   "profileRoles": "الأدوار: {roles}",
   "profileTier": "الشريحة: {tier}",
   "demoUserTitle": "عرض كمستخدم تاني",
-  "demoUserNote": "للمراجعين فقط. من غير تسجيل دخول حقيقي.",
+  "demoUserNote": "للمراجعين فقط. التبديل بين الحسابات من غير باسورد.",
   "demoGuest": "ضيف (من غير حساب)",
   "demoSettingsTitle": "الإعدادات والوراثة",
   "demoSettingsPick": "اختيار وحدة",

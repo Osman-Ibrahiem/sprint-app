@@ -659,7 +659,7 @@ abstract class AppLocalizations {
   /// No description provided for @demoUserNote.
   ///
   /// In ar, this message translates to:
-  /// **'للمراجعين فقط. من غير تسجيل دخول حقيقي.'**
+  /// **'للمراجعين فقط. التبديل بين الحسابات من غير باسورد.'**
   String get demoUserNote;
 
   /// No description provided for @demoGuest.
