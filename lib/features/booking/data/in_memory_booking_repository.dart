@@ -6,6 +6,7 @@ import 'package:sprint/features/attendance/domain/attendance.dart';
 import 'package:sprint/features/attendance/domain/attendance_repository.dart';
 import 'package:sprint/features/booking/domain/availability_service.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
+import 'package:sprint/features/booking/domain/booking_quote.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
 import 'package:sprint/features/booking/domain/cancellation_policy.dart';
 import 'package:sprint/features/booking/domain/conflict_checker.dart';
@@ -16,6 +17,7 @@ import 'package:sprint/features/booking/domain/unit_settings.dart';
 import 'package:sprint/features/catalogue/domain/bookable_unit.dart';
 import 'package:sprint/features/catalogue/domain/catalogue_repository.dart';
 import 'package:sprint/features/catalogue/domain/facility.dart';
+import 'package:sprint/features/catalogue/domain/price.dart';
 import 'package:sprint/features/identity/domain/identity_repository.dart';
 import 'package:sprint/features/identity/domain/permission_checker.dart';
 import 'package:sprint/features/verification/domain/verification_repository.dart';
@@ -52,6 +54,7 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
     this.holds = const HoldPolicy(),
     this.cancellation = const CancellationPolicy(),
     this.permissions = const PermissionChecker(),
+    this.applyOffers = false,
   }) : _bookings = {for (final b in seed) b.id: b} {
     for (final b in seed) {
       final n = int.tryParse(b.code.replaceAll(RegExp('[^0-9]'), ''));
@@ -80,16 +83,21 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
   final CancellationPolicy cancellation;
   final PermissionChecker permissions;
 
+  /// Offers (BR-20) are priced in only when this is on. Off until the offers
+  /// feature shows them (decisions.md 2026-11-17), so the summary never shows
+  /// a price the schedule did not.
+  final bool applyOffers;
+
   final Map<String, Booking> _bookings;
   int _nextCode = 1001;
   int _nextId = 1;
   Future<void> _tail = Future<void>.value();
 
   /// Runs [op] after every earlier write has finished.
-  Future<T> _serial<T>(Future<T> Function() op) {
+  Future<T> _serial<T>(Future<T> Function() op, {bool notify = true}) {
     final run = _tail.then((_) async {
       final result = await op();
-      notifyChanged();
+      if (notify) notifyChanged();
       return result;
     });
     _tail = run.then<void>((_) {}, onError: (_) {});
@@ -135,7 +143,33 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
   Future<Result<Booking>> create(BookingRequest request) =>
       _serial(() => _create(request));
 
-  Future<Result<Booking>> _create(BookingRequest r) async {
+  @override
+  Future<Result<BookingQuote>> quote(BookingRequest request) => _serial(
+        () async {
+          final checked = await _check(request);
+          if (checked is Err<_Checked>) return Err(checked.failure);
+          final c = (checked as Ok<_Checked>).value;
+          return Ok(BookingQuote(
+            facilityId: c.facility.id,
+            unitId: c.unit.id,
+            trainerId: c.trainerId,
+            start: request.start,
+            end: request.end,
+            tier: c.tier,
+            amount: c.quote.amount,
+            mode: c.cfg.bookingMode,
+            maxParticipants: c.cfg.maxParticipants,
+            cancellationCutoffHours: c.cfg.cancellationCutoffHours,
+            refundPercent: c.cfg.refundPercent,
+          ));
+        },
+        notify: false,
+      );
+
+  /// Every check of a booking request, shared by [quote] and [create] so the
+  /// two can never drift (research R6). Order: permission, unit and facility,
+  /// trainer, structure, own overlap, cap, places, price.
+  Future<Result<_Checked>> _check(BookingRequest r) async {
     final now = clock.now();
     final userId = r.userId;
     if (userId == null) return const Err(NotPermitted());
@@ -192,9 +226,15 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
           ? const []
           : await catalogue.trainerAvailability(trainer.id, unitId: unit.id),
     );
-    if (structural != null) return Err(structural);
+    if (structural != null) {
+      return Err(
+        structural is RangeTooLong
+            ? RangeTooLong(maxHours: cfg.maxRangeHours)
+            : structural,
+      );
+    }
 
-    // Overlaps, capacity and limits, in the same step as the write (BR-11).
+    // Overlaps, capacity and limits, slot by slot (BR-11, BR-08).
     final seats = cfg.bookingMode == BookingMode.exclusive ? 1 : r.seats;
     final clash = conflicts.check(
       proposal: BookingProposal(
@@ -204,6 +244,9 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
         end: r.end,
         seats: seats,
         trainerId: trainer?.id,
+        slotMinutes: facility.requiresTrainer
+            ? cfg.sessionMinutes
+            : cfg.slotGranularityMinutes,
       ),
       existing: _bookings.values.toList(),
       settings: cfg,
@@ -221,24 +264,43 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
       mode: cfg.bookingMode,
       start: r.start,
       seats: seats,
-      offers: await catalogue.offers(facilityId: facility.id, unitId: unit.id),
+      offers: applyOffers
+          ? await catalogue.offers(facilityId: facility.id, unitId: unit.id)
+          : const [],
     );
     if (quoted is Err<PriceQuote>) return Err(quoted.failure);
-    final quote = (quoted as Ok<PriceQuote>).value;
+    return Ok(_Checked(
+      now: now,
+      userId: userId,
+      unit: unit,
+      facility: facility,
+      trainerId: trainer?.id,
+      cfg: cfg,
+      seats: seats,
+      tier: tier,
+      quote: (quoted as Ok<PriceQuote>).value,
+    ));
+  }
+
+  Future<Result<Booking>> _create(BookingRequest r) async {
+    final checked = await _check(r);
+    if (checked is Err<_Checked>) return Err(checked.failure);
+    final c = (checked as Ok<_Checked>).value;
+    final quote = c.quote;
 
     final id = 'bk-new-${_nextId++}';
     final code = 'SP-${_nextCode++}';
     final booking = Booking(
       id: id,
       code: code,
-      userId: userId,
-      facilityId: facility.id,
-      unitId: unit.id,
-      trainerId: trainer?.id,
+      userId: c.userId,
+      facilityId: c.facility.id,
+      unitId: c.unit.id,
+      trainerId: c.trainerId,
       start: r.start,
       end: r.end,
-      seats: seats,
-      tierAtBooking: tier,
+      seats: c.seats,
+      tierAtBooking: c.tier,
       priceAtBooking: quote.amount,
       // Free bookings confirm at once (BR-19); paid ones hold the place until
       // the provider answers (BR-12, BR-28).
@@ -247,7 +309,7 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
           : BookingStatus.confirmed,
       qrToken: qrTokenFor(id, code),
       holdExpiresAt: quote.requiresPayment
-          ? holds.expiryFrom(now, holdMinutes: cfg.holdMinutes)
+          ? holds.expiryFrom(c.now, holdMinutes: c.cfg.holdMinutes)
           : null,
     );
     _bookings[id] = booking;
@@ -537,4 +599,29 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
     }
     return null;
   }
+}
+
+/// A request that passed every check, with what the checks resolved.
+class _Checked {
+  const _Checked({
+    required this.now,
+    required this.userId,
+    required this.unit,
+    required this.facility,
+    required this.trainerId,
+    required this.cfg,
+    required this.seats,
+    required this.tier,
+    required this.quote,
+  });
+
+  final DateTime now;
+  final String userId;
+  final BookableUnit unit;
+  final Facility facility;
+  final String? trainerId;
+  final UnitSettings cfg;
+  final int seats;
+  final PriceTier tier;
+  final PriceQuote quote;
 }

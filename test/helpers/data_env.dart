@@ -5,17 +5,21 @@ import 'package:sprint/core/time/cairo_time.dart';
 
 /// A data layer over the seed with a clock the test can move.
 class DataEnv {
-  DataEnv._(this._now) {
+  DataEnv._(this._now, {bool applyOffers = false}) {
     layer = InMemoryDataLayer.create(
       clock: Clock(() => _now),
       paymentDelay: Duration.zero,
+      applyOffers: applyOffers,
     );
   }
 
   /// 2026-11-14 08:00 in Cairo, a Saturday.
-  factory DataEnv([DateTime? now]) {
+  factory DataEnv([DateTime? now, bool applyOffers = false]) {
     CairoTime.ensureInitialized();
-    return DataEnv._(now ?? CairoTime.atWallClock(2026, 11, 14, 8));
+    return DataEnv._(
+      now ?? CairoTime.atWallClock(2026, 11, 14, 8),
+      applyOffers: applyOffers,
+    );
   }
 
   DateTime _now;

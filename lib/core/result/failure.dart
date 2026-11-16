@@ -6,17 +6,26 @@ sealed class Failure {
 
 /// Exclusive slot already booked, or a live hold sits on it (BR-02, BR-12).
 final class SlotTaken extends Failure {
-  const SlotTaken();
+  const SlotTaken({this.at});
+
+  /// The start (UTC) of the slot that failed, when a range was asked for.
+  final DateTime? at;
 }
 
 /// Shared slot has no places left (BR-03).
 final class SlotFull extends Failure {
-  const SlotFull();
+  const SlotFull({this.at});
+
+  /// The start (UTC) of the slot that failed, when a range was asked for.
+  final DateTime? at;
 }
 
 /// The slot has started or starts inside `minLeadMinutes` (BR-07).
 final class SlotPast extends Failure {
-  const SlotPast();
+  const SlotPast({this.at});
+
+  /// The start (UTC) of the slot that failed, when a range was asked for.
+  final DateTime? at;
 }
 
 /// Beyond `bookingWindowDays` (BR-06).
@@ -26,23 +35,35 @@ final class OutsideWindow extends Failure {
 
 /// Outside opening hours, on a closure, or not on the slot grid (BR-05).
 final class ClosedSlot extends Failure {
-  const ClosedSlot();
+  const ClosedSlot({this.at});
+
+  /// The start (UTC) of the slot that failed, when a range was asked for.
+  final DateTime? at;
 }
 
 /// Longer than `maxRangeHours`, or more than one slot where one is allowed
 /// (BR-08).
 final class RangeTooLong extends Failure {
-  const RangeTooLong();
+  const RangeTooLong({this.maxHours});
+
+  /// The `maxRangeHours` that was exceeded, when the range path refused.
+  final int? maxHours;
 }
 
 /// The same user already holds an overlapping booking (BR-13).
 final class OverlapsOwnBooking extends Failure {
-  const OverlapsOwnBooking();
+  const OverlapsOwnBooking({this.bookingId});
+
+  /// The booking the request overlaps, so the message can name it.
+  final String? bookingId;
 }
 
 /// `maxActiveBookingsPerUser` reached (BR-14).
 final class TooManyActiveBookings extends Failure {
-  const TooManyActiveBookings();
+  const TooManyActiveBookings({this.max});
+
+  /// The cap that was reached.
+  final int? max;
 }
 
 /// The hold ran out (BR-12).
