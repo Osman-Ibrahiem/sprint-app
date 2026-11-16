@@ -124,9 +124,13 @@ void main() {
 
     routerOf(tester).go('/verification');
     await tester.pumpAndSettle();
-    // The route table is built from the person's sections, so the staff
-    // screen no longer exists for a guest.
+    // The staff screen is no longer in navigation, and a deep link to it now
+    // sends the guest to sign-in (FR-018).
     expect(find.text('screen-Verification'), findsNothing);
-    expect(find.byType(NotFoundScreen), findsOneWidget);
+    expect(find.byType(NotFoundScreen), findsNothing);
+    expect(
+      routerOf(tester).routerDelegate.currentConfiguration.uri.toString(),
+      '/sign-in?from=%2Fverification',
+    );
   });
 }

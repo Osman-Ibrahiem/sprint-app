@@ -31,8 +31,15 @@ GoRouter appRouter(Ref ref) {
   ref.onDispose(refresh.dispose);
   ref.listen(currentSessionProvider, (_, _) => refresh.notify());
   final last = ref.read(_lastLocationProvider);
+  final visible = ref.read(destinationsProvider);
+  final shown = {for (final d in visible) d.path};
   final router = buildAppRouter(
-    destinations: ref.read(destinationsProvider),
+    destinations: visible,
+    // Every other known section is still a route, gated by its access rule.
+    hiddenDestinations: [
+      for (final d in ref.read(destinationRegistryProvider).values)
+        if (!shown.contains(d.path)) d,
+    ],
     initialLocation: last.value ?? AppPaths.root,
     session: () => ref.read(currentSessionProvider),
     refreshListenable: refresh,

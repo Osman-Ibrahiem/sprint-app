@@ -22,9 +22,13 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 /// soon as the session changes, so this screen never navigates on success by
 /// itself except as a fallback.
 class SignInScreen extends ConsumerStatefulWidget {
-  const SignInScreen({this.from, super.key});
+  const SignInScreen({this.from, this.gate = false, super.key});
 
   final String? from;
+
+  /// Pushed on top of a screen by the account gate: on success it pops with
+  /// `true` instead of going to [from] (research R6).
+  final bool gate;
 
   static const errorKey = ValueKey<String>('sign-in-error');
 
@@ -89,19 +93,25 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
       case Ok():
         TextInput.finishAutofillContext();
         setState(() => _loading = false);
+        if (widget.gate) {
+          context.pop(true);
+          return;
+        }
         // The session change normally redirected already (and unmounted us);
         // going to /sign-in again makes the router pick `from` or Home.
         context.go(AppPaths.keepingFrom(AppPaths.signIn, widget.from));
       case Err(:final failure):
         if (failure is NeedsConfirmation) {
           setState(() => _loading = false);
-          context.push(
+          final confirmed = await context.push<bool>(
             AppPaths.keepingFrom(
               AppPaths.confirmEmail,
               widget.from,
               email: failure.email,
             ),
+            extra: widget.gate ? const GateExtra() : null,
           );
+          if (mounted && widget.gate && confirmed == true) context.pop(true);
           return;
         }
         setState(() {
@@ -137,9 +147,15 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
             variant: SprintButtonVariant.secondary,
             onPressed: _loading
                 ? null
-                : () => context.push(
-                    AppPaths.keepingFrom(AppPaths.signUp, widget.from),
-                  ),
+                : () async {
+                    final done = await context.push<bool>(
+                      AppPaths.keepingFrom(AppPaths.signUp, widget.from),
+                      extra: widget.gate ? const GateExtra() : null,
+                    );
+                    if (context.mounted && widget.gate && done == true) {
+                      context.pop(true);
+                    }
+                  },
           ),
         ],
       ),

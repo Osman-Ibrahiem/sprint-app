@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sprint/core/adaptive/platform.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
+import 'package:sprint/core/tokens/sprint_extras.dart';
+import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 
@@ -35,24 +37,25 @@ Future<T?> showSprintSheet<T>({
     case AdaptiveStyle.apple:
       return showCupertinoModalPopup<T>(
         context: context,
-        builder: builder ??
+        builder:
+            builder ??
             (ctx) => CupertinoActionSheet(
-                  title: title == null ? null : Text(title),
-                  actions: [
-                    for (final a in actions)
-                      CupertinoActionSheetAction(
-                        isDestructiveAction: a.isDestructive,
-                        onPressed: () => Navigator.of(ctx).pop(a.value),
-                        child: Text(a.label),
-                      ),
-                  ],
-                  cancelButton: cancelLabel == null
-                      ? null
-                      : CupertinoActionSheetAction(
-                          onPressed: () => Navigator.of(ctx).pop(),
-                          child: Text(cancelLabel),
-                        ),
-                ),
+              title: title == null ? null : Text(title),
+              actions: [
+                for (final a in actions)
+                  CupertinoActionSheetAction(
+                    isDestructiveAction: a.isDestructive,
+                    onPressed: () => Navigator.of(ctx).pop(a.value),
+                    child: Text(a.label),
+                  ),
+              ],
+              cancelButton: cancelLabel == null
+                  ? null
+                  : CupertinoActionSheetAction(
+                      onPressed: () => Navigator.of(ctx).pop(),
+                      child: Text(cancelLabel),
+                    ),
+            ),
       );
     case AdaptiveStyle.android:
       return showModalBottomSheet<T>(
@@ -81,8 +84,10 @@ Future<T?> showSprintSheet<T>({
           Overlay.of(context).context.findRenderObject()! as RenderBox;
       final rect = Rect.fromPoints(
         target.localToGlobal(Offset.zero, ancestor: overlay),
-        target.localToGlobal(target.size.bottomRight(Offset.zero),
-            ancestor: overlay),
+        target.localToGlobal(
+          target.size.bottomRight(Offset.zero),
+          ancestor: overlay,
+        ),
       );
       final colors = context.colors;
       return showMenu<T>(
@@ -116,40 +121,74 @@ class _SheetBody<T> extends StatelessWidget {
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (title != null)
-            Padding(
-              padding: const EdgeInsetsDirectional.symmetric(
-                horizontal: SprintSpacing.space5,
-                vertical: SprintSpacing.space2,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (title != null)
+              Padding(
+                padding: const EdgeInsetsDirectional.symmetric(
+                  horizontal: SprintSpacing.space5,
+                  vertical: SprintSpacing.space2,
+                ),
+                child: Text(title!, style: context.text.headline),
               ),
-              child: Text(title!, style: context.text.headline),
-            ),
-          for (final a in actions)
-            InkWell(
-              onTap: () => Navigator.of(context).pop(a.value),
-              child: ConstrainedBox(
-                constraints:
-                    const BoxConstraints(minHeight: SprintSize.controlHeight),
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.symmetric(
-                    horizontal: SprintSpacing.space5,
-                    vertical: SprintSpacing.space3,
+            for (final a in actions)
+              InkWell(
+                onTap: () => Navigator.of(context).pop(a.value),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minHeight: SprintSize.controlHeight,
                   ),
-                  child: Text(
-                    a.label,
-                    style: context.text.body.copyWith(
-                      color: a.isDestructive ? colors.danger : colors.ink,
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.symmetric(
+                      horizontal: SprintSpacing.space5,
+                      vertical: SprintSpacing.space3,
+                    ),
+                    child: Text(
+                      a.label,
+                      style: context.text.body.copyWith(
+                        color: a.isDestructive ? colors.danger : colors.ink,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
+  }
+}
+
+/// The surface for custom content passed as `builder` to [showSprintSheet]:
+/// a rounded sheet surface for the Apple modal popup (which has none), the
+/// bottom sheet's own on Android, and a width-capped dialog on desktop.
+class SprintSheetSurface extends StatelessWidget {
+  const SprintSheetSurface({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return switch (adaptiveStyleOf(context)) {
+      AdaptiveStyle.apple => Material(
+        color: colors.surface,
+        borderRadius: const BorderRadiusDirectional.vertical(
+          top: Radius.circular(SprintRadius.lg),
+        ),
+        child: child,
+      ),
+      AdaptiveStyle.android => child,
+      AdaptiveStyle.desktop => Dialog(
+        backgroundColor: colors.surface,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: SprintExtras.authFormMaxWidth,
+          ),
+          child: child,
+        ),
+      ),
+    };
   }
 }

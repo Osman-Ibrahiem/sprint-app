@@ -44,7 +44,54 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get signInPromptBody =>
-      'حجوزاتك وبيانات حسابك هتظهر هنا بعد تسجيل الدخول. التسجيل لسه مش متاح في النسخة دي.';
+      'حجوزاتك وبيانات حسابك هتظهر هنا بعد تسجيل الدخول.';
+
+  @override
+  String get gateTitle => 'الخطوة دي محتاجة حساب';
+
+  @override
+  String gateBody(String reason) {
+    return 'تسجيل الدخول أو إنشاء حساب $reason';
+  }
+
+  @override
+  String get gateSignIn => 'تسجيل الدخول';
+
+  @override
+  String get gateSignUp => 'إنشاء حساب';
+
+  @override
+  String get gateDismiss => 'مش دلوقتي';
+
+  @override
+  String get gateReasonBook => 'عشان تحجز';
+
+  @override
+  String get gateReasonBookings => 'عشان تشوف حجوزاتك';
+
+  @override
+  String get gateReasonVerification => 'عشان تطلب التوثيق';
+
+  @override
+  String get gateReasonProfile => 'عشان تشوف بيانات حسابك';
+
+  @override
+  String get gateDemoBookSlot => 'حجز الميعاد ده';
+
+  @override
+  String get gateDemoTitle => 'تجربة طلب الحساب';
+
+  @override
+  String get gateDemoIntro =>
+      'بعد اختيار ميعاد والضغط على الحجز، الزائر بتظهر له نافذة الحساب، وبعد الدخول بيرجع هنا والميعاد لسه مختار.';
+
+  @override
+  String get gateDemoReady =>
+      'الحساب جاهز. الحجز ماتمش لوحده، ومحتاج ضغطة جديدة.';
+
+  @override
+  String get gateDemoDismissed =>
+      'اتقفلت من غير تسجيل دخول، ولسه الميعاد مختار.';
 
   @override
   String get notFoundTitle => 'الصفحة دي مش موجودة';

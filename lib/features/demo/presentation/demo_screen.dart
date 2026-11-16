@@ -15,6 +15,7 @@ import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/features/demo/demo_flags.dart';
 import 'package:sprint/features/demo/presentation/adaptive_controls_demo.dart';
 import 'package:sprint/features/demo/presentation/demo_user_switcher.dart';
+import 'package:sprint/features/demo/presentation/gate_demo.dart';
 import 'package:sprint/features/demo/presentation/settings_inspector.dart';
 import 'package:sprint/features/demo/presentation/token_gallery.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
@@ -78,6 +79,8 @@ class DemoScreen extends ConsumerWidget {
                   const DemoUserSwitcher(),
                   const SizedBox(height: SprintSpacing.space6),
                   const SettingsInspector(),
+                  const SizedBox(height: SprintSpacing.space6),
+                  const GateDemo(),
                   const SizedBox(height: SprintSpacing.space6),
                   SprintButton(
                     label: l10n.mailboxTitle,

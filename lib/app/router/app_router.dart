@@ -21,11 +21,19 @@ import 'package:sprint/features/demo/presentation/mailbox_screen.dart';
 /// The route table is built from [destinations], never hard-coded per role
 /// (contracts/routes.md rule 4).
 ///
+/// [destinations] are the ones the current person sees in the shell.
+/// [hiddenDestinations] are every other known section: registered outside the
+/// shell with the same access rule, so a deep link gives a guest the sign-in
+/// redirect and a signed-in person without the section `NoAccessScreen`
+/// instead of "not found" (FR-018, contracts/routes.md rule 2). They are not
+/// in navigation.
+///
 /// [session] is read on every redirect; [refreshListenable] re-runs the
 /// redirects when it changes (sign in, sign out, actAs), contracts/routes.md
 /// rules 2 and 5. [extraRoutes] are added outside the shell (auth screens).
 GoRouter buildAppRouter({
   List<ShellDestination>? destinations,
+  List<ShellDestination> hiddenDestinations = const [],
   String initialLocation = AppPaths.root,
   bool demoTools = demoToolsEnabled,
   Session Function()? session,
@@ -57,6 +65,9 @@ GoRouter buildAppRouter({
     if (path == AppPaths.root) return AppPaths.home;
     final current = sessionOf();
     if (AppPaths.authEntry.contains(path) && !current.isGuest) {
+      // An auth screen pushed by the account gate stays on top of the screen
+      // it came from; it pops itself when the person is in.
+      if (state.extra is GateExtra) return null;
       return safeFrom(state.uri.queryParameters['from']);
     }
     final route = state.topRoute;
@@ -78,8 +89,10 @@ GoRouter buildAppRouter({
       GoRoute(
         path: AppPaths.signIn,
         name: AppRouteNames.signIn,
-        builder: (context, state) =>
-            SignInScreen(from: state.uri.queryParameters['from']),
+        builder: (context, state) => SignInScreen(
+          from: state.uri.queryParameters['from'],
+          gate: state.extra is GateExtra,
+        ),
       ),
       GoRoute(
         path: AppPaths.forgotPassword,
@@ -105,8 +118,10 @@ GoRouter buildAppRouter({
       GoRoute(
         path: AppPaths.signUp,
         name: AppRouteNames.signUp,
-        builder: (context, state) =>
-            SignUpScreen(from: state.uri.queryParameters['from']),
+        builder: (context, state) => SignUpScreen(
+          from: state.uri.queryParameters['from'],
+          gate: state.extra is GateExtra,
+        ),
       ),
       GoRoute(
         path: AppPaths.confirmEmail,
@@ -119,8 +134,18 @@ GoRouter buildAppRouter({
         builder: (context, state) => ConfirmEmailScreen(
           email: state.uri.queryParameters['email']!,
           from: state.uri.queryParameters['from'],
+          gate: state.extra is GateExtra,
         ),
       ),
+      // Known sections the current person does not see in the shell.
+      for (final d in hiddenDestinations)
+        GatedRoute(
+          path: d.path,
+          name: d.name,
+          access: d.access,
+          builder: (context, state) => d.builder(),
+          routes: d.routes,
+        ),
       // Outside the shell and out of navigation; reached from Profile.
       GoRoute(
         path: AppPaths.demo,
@@ -151,6 +176,7 @@ GoRouter buildAppRouter({
                   name: d.name,
                   access: d.access,
                   builder: (context, state) => d.builder(),
+                  routes: d.routes,
                 ),
               ],
             ),

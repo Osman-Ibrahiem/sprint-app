@@ -46,7 +46,54 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInPromptBody =>
-      'Your bookings and account details will show here once you sign in. Sign-in isn\'t available in this version yet.';
+      'Your bookings and account details will show here once you sign in.';
+
+  @override
+  String get gateTitle => 'This step needs an account';
+
+  @override
+  String gateBody(String reason) {
+    return 'Sign in or create an account $reason';
+  }
+
+  @override
+  String get gateSignIn => 'Sign in';
+
+  @override
+  String get gateSignUp => 'Create an account';
+
+  @override
+  String get gateDismiss => 'Not now';
+
+  @override
+  String get gateReasonBook => 'to book';
+
+  @override
+  String get gateReasonBookings => 'to see your bookings';
+
+  @override
+  String get gateReasonVerification => 'to request verification';
+
+  @override
+  String get gateReasonProfile => 'to see your account details';
+
+  @override
+  String get gateDemoBookSlot => 'Book this slot';
+
+  @override
+  String get gateDemoTitle => 'Account gate try-out';
+
+  @override
+  String get gateDemoIntro =>
+      'Pick a slot, then tap book. A guest sees the account prompt, and after signing in comes back here with the slot still selected.';
+
+  @override
+  String get gateDemoReady =>
+      'Account ready. Nothing was booked; tap again to continue.';
+
+  @override
+  String get gateDemoDismissed =>
+      'Closed without signing in, and the slot is still selected.';
 
   @override
   String get notFoundTitle => 'This page doesn\'t exist';

@@ -94,6 +94,15 @@ abstract final class AppRouteNames {
   static const demoMailbox = 'demoMailbox';
 }
 
+/// Marks an auth route pushed on top of a screen by the account gate
+/// (`requireAccount`, research R6). Such a route pops with `true` when the
+/// person is signed in, instead of going to `from`, and the router does not
+/// redirect it away, so the screen underneath keeps its state. Passed as the
+/// route's `extra`, so a browser refresh falls back to the plain flow.
+class GateExtra {
+  const GateExtra();
+}
+
 /// What a route needs from the person (contracts/routes.md rule 2). A guest
 /// is sent to sign in; a signed-in person without [requiredSection] sees
 /// `NoAccessScreen` at the same location.
@@ -148,6 +157,7 @@ class ShellDestination {
     required this.builder,
     this.mirrorInRtl = false,
     this.access = RouteAccess.open,
+    this.routes = const [],
   });
 
   final String name;
@@ -162,6 +172,10 @@ class ShellDestination {
 
   /// Who may open it; a staff destination sets `requiredSection`.
   final RouteAccess access;
+
+  /// Detail routes under [path] (for example `/verification/:id`), built as
+  /// `GatedRoute`s with the same [access].
+  final List<RouteBase> routes;
 }
 
 /// The four destinations every guest and booker sees, in order (the first is

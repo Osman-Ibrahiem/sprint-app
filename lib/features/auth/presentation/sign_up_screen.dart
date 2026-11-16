@@ -22,9 +22,13 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 /// again on submit; every problem shows next to its field in words. A good
 /// submit sends the code and opens `/confirm-email`, keeping [from].
 class SignUpScreen extends ConsumerStatefulWidget {
-  const SignUpScreen({this.from, super.key});
+  const SignUpScreen({this.from, this.gate = false, super.key});
 
   final String? from;
+
+  /// Pushed on top of a screen by the account gate (research R6): confirming
+  /// the email pops back with `true`.
+  final bool gate;
 
   static const takenKey = ValueKey<String>('sign-up-taken');
   static const takenSignInKey = ValueKey<String>('sign-up-taken-sign-in');
@@ -139,13 +143,15 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       case Ok(:final value):
         TextInput.finishAutofillContext();
         setState(() => _loading = false);
-        context.push(
+        final confirmed = await context.push<bool>(
           AppPaths.keepingFrom(
             AppPaths.confirmEmail,
             widget.from,
             email: value.email,
           ),
+          extra: widget.gate ? const GateExtra() : null,
         );
+        if (mounted && widget.gate && confirmed == true) context.pop(true);
       case Err(:final failure):
         setState(() {
           _loading = false;
@@ -260,6 +266,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       variant: SprintButtonVariant.ghost,
                       onPressed: () => context.pushReplacement(
                         AppPaths.keepingFrom(AppPaths.signIn, widget.from),
+                        extra: widget.gate ? const GateExtra() : null,
                       ),
                     ),
                     SprintButton(
@@ -289,6 +296,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 ? null
                 : () => context.pushReplacement(
                     AppPaths.keepingFrom(AppPaths.signIn, widget.from),
+                    extra: widget.gate ? const GateExtra() : null,
                   ),
           ),
         ],

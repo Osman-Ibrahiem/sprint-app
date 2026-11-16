@@ -23,10 +23,18 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 /// session and goes to [from] or Home; every failure says what happened and
 /// what is possible next.
 class ConfirmEmailScreen extends ConsumerStatefulWidget {
-  const ConfirmEmailScreen({required this.email, this.from, super.key});
+  const ConfirmEmailScreen({
+    required this.email,
+    this.from,
+    this.gate = false,
+    super.key,
+  });
 
   final String email;
   final String? from;
+
+  /// Reached from the account gate: success pops with `true` (research R6).
+  final bool gate;
 
   static const statusKey = ValueKey<String>('confirm-email-status');
 
@@ -92,6 +100,10 @@ class _ConfirmEmailScreenState extends ConsumerState<ConfirmEmailScreen> {
         if (!mounted) return;
         TextInput.finishAutofillContext();
         setState(() => _loading = false);
+        if (widget.gate) {
+          context.pop(true);
+          return;
+        }
         // The router sends a signed-in person from an auth route to `from`
         // (validated) or Home, and drops the confirmation page off the stack.
         context.go(AppPaths.keepingFrom(AppPaths.signIn, widget.from));

@@ -156,15 +156,15 @@ description: "Task list for the Auth and Verification feature"
 
 ### Tests for US3
 
-- [ ] T055 [P] [US3] Write `test/shell/account_gate_test.dart`: `requireAccount` on a guest shows the prompt over the current screen; sign in returns `true` and the screen's state (a selected item and scroll offset) is kept; dismiss returns `false` and nothing changes; sign up through the code returns too; the action is not run by the gate
-- [ ] T056 [P] [US3] Write `test/shell/gated_routes_test.dart`: guest deep link to a gated route goes to `/sign-in?from=…` and back after sign in; `from` with an external URL or unknown path goes to `/home`; base tabs never redirect; a booker opening `/verification` sees `NoAccessScreen` at the same location
+- [X] T055 [P] [US3] Write `test/shell/account_gate_test.dart`: `requireAccount` on a guest shows the prompt over the current screen; sign in returns `true` and the screen's state (a selected item and scroll offset) is kept; dismiss returns `false` and nothing changes; sign up through the code returns too; the action is not run by the gate
+- [X] T056 [P] [US3] Write `test/shell/gated_routes_test.dart`: guest deep link to a gated route goes to `/sign-in?from=…` and back after sign in; `from` with an external URL or unknown path goes to `/home`; base tabs never redirect; a booker opening `/verification` sees `NoAccessScreen` at the same location
 
 ### Implementation for US3
 
-- [ ] T057 [US3] Add the US3 ARB keys to `lib/l10n/app_ar.arb` and `lib/l10n/app_en.arb` (gate title, the reasons passed by callers such as "عشان تحجز" and "عشان تشوف حجوزاتك" and "عشان تطلب التوثيق", "تسجيل الدخول", "إنشاء حساب", dismiss, no-access title and body)
-- [ ] T058 [US3] Build `lib/features/auth/presentation/account_gate.dart`: `requireAccount(context, ref, reason)` returning `Future<bool>`, showing `AccountGatePrompt` in an `AdaptiveSheet`, pushing `/sign-in` or `/sign-up` on top with `context.push` and awaiting the result; the auth screens pop with `true` when opened this way instead of navigating to `from`
-- [ ] T059 [US3] Update `lib/app/shell/placeholders/sign_in_prompt.dart` to add "تسجيل الدخول" and "إنشاء حساب" that open the gate (FR-019), keeping no redirect on base tabs
-- [ ] T060 [US3] Add a "book this slot" stand-in to `lib/features/demo/presentation/demo_screen.dart` that keeps a selected `SlotChip` and calls `requireAccount`, so the gate can be shown before feature 5 exists
+- [X] T057 [US3] Add the US3 ARB keys to `lib/l10n/app_ar.arb` and `lib/l10n/app_en.arb` (gate title, the reasons passed by callers such as "عشان تحجز" and "عشان تشوف حجوزاتك" and "عشان تطلب التوثيق", "تسجيل الدخول", "إنشاء حساب", dismiss, no-access title and body)
+- [X] T058 [US3] Build `lib/features/auth/presentation/account_gate.dart`: `requireAccount(context, ref, reason)` returning `Future<bool>`, showing `AccountGatePrompt` in an `AdaptiveSheet`, pushing `/sign-in` or `/sign-up` on top with `context.push` and awaiting the result; the auth screens pop with `true` when opened this way instead of navigating to `from`
+- [X] T059 [US3] Update `lib/app/shell/placeholders/sign_in_prompt.dart` to add "تسجيل الدخول" and "إنشاء حساب" that open the gate (FR-019), keeping no redirect on base tabs
+- [X] T060 [US3] Add a "book this slot" stand-in to `lib/features/demo/presentation/demo_screen.dart` that keeps a selected `SlotChip` and calls `requireAccount`, so the gate can be shown before feature 5 exists
 
 **Checkpoint**: Features 4 to 10 can now gate any action with one call.
 

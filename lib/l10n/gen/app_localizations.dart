@@ -167,8 +167,92 @@ abstract class AppLocalizations {
   /// No description provided for @signInPromptBody.
   ///
   /// In ar, this message translates to:
-  /// **'حجوزاتك وبيانات حسابك هتظهر هنا بعد تسجيل الدخول. التسجيل لسه مش متاح في النسخة دي.'**
+  /// **'حجوزاتك وبيانات حسابك هتظهر هنا بعد تسجيل الدخول.'**
   String get signInPromptBody;
+
+  /// No description provided for @gateTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخطوة دي محتاجة حساب'**
+  String get gateTitle;
+
+  /// No description provided for @gateBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول أو إنشاء حساب {reason}'**
+  String gateBody(String reason);
+
+  /// No description provided for @gateSignIn.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول'**
+  String get gateSignIn;
+
+  /// No description provided for @gateSignUp.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء حساب'**
+  String get gateSignUp;
+
+  /// No description provided for @gateDismiss.
+  ///
+  /// In ar, this message translates to:
+  /// **'مش دلوقتي'**
+  String get gateDismiss;
+
+  /// No description provided for @gateReasonBook.
+  ///
+  /// In ar, this message translates to:
+  /// **'عشان تحجز'**
+  String get gateReasonBook;
+
+  /// No description provided for @gateReasonBookings.
+  ///
+  /// In ar, this message translates to:
+  /// **'عشان تشوف حجوزاتك'**
+  String get gateReasonBookings;
+
+  /// No description provided for @gateReasonVerification.
+  ///
+  /// In ar, this message translates to:
+  /// **'عشان تطلب التوثيق'**
+  String get gateReasonVerification;
+
+  /// No description provided for @gateReasonProfile.
+  ///
+  /// In ar, this message translates to:
+  /// **'عشان تشوف بيانات حسابك'**
+  String get gateReasonProfile;
+
+  /// No description provided for @gateDemoBookSlot.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجز الميعاد ده'**
+  String get gateDemoBookSlot;
+
+  /// No description provided for @gateDemoTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تجربة طلب الحساب'**
+  String get gateDemoTitle;
+
+  /// No description provided for @gateDemoIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد اختيار ميعاد والضغط على الحجز، الزائر بتظهر له نافذة الحساب، وبعد الدخول بيرجع هنا والميعاد لسه مختار.'**
+  String get gateDemoIntro;
+
+  /// No description provided for @gateDemoReady.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحساب جاهز. الحجز ماتمش لوحده، ومحتاج ضغطة جديدة.'**
+  String get gateDemoReady;
+
+  /// No description provided for @gateDemoDismissed.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتقفلت من غير تسجيل دخول، ولسه الميعاد مختار.'**
+  String get gateDemoDismissed;
 
   /// No description provided for @notFoundTitle.
   ///

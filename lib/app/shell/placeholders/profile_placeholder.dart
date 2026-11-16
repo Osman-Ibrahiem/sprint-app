@@ -37,7 +37,7 @@ class ProfilePlaceholder extends ConsumerWidget {
       leading: [
         const SizedBox(height: SprintSpacing.space4),
         if (session.isGuest)
-          const SignInPrompt()
+          SignInPrompt(reason: l10n.gateReasonProfile)
         else
           AccountCard(session: session),
         const SizedBox(height: SprintSpacing.space6),
