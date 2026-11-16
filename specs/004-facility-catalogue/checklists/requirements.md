@@ -33,5 +33,5 @@
 
 - Validation pass 1 (2026-11-16): all items pass. Zero `[NEEDS CLARIFICATION]` markers: every open point has a documented default in Assumptions.
 - The spec names "the catalogue repository interface", "the settings repository" and "l10n files". These are project rules fixed by the constitution (principles III, IV, V), not implementation choices, and the 001 and 002 specs do the same.
-- Points worth confirming in `/speckit-clarify` (low impact, defaults already set): (1) suggestion rule and cap on home, (2) how unit-specific hours are shown, (3) whether the disabled "عرض المواعيد" action should stay visible until feature 5 or be hidden, (4) the exact share-link path.
+- Clarify session 2026-11-16: the four flagged points were settled (the "قريبًا" screen behind an enabled "عرض المواعيد" action, share link `/facilities/<id>`, four suggestions by earlier sport types, a short line for units with different hours). All checklist items still pass.
 - Scope boundary with feature 5 (7-day slots and sign-in-then-return) and feature 3 (auth screens) is stated in Scope decisions and Out of scope.

@@ -14,10 +14,19 @@
 
 These were decided in this specification so the plan does not have to guess.
 
-- **Catalogue only, not slot browsing.** US-01 also promises "the slots for 7 days" and "tapping an available slot asks a guest to sign in, then returns to the same slot". That half is availability (FR-AVL-01) and the booking entry (FR-BKG-01) and belongs to feature 5. This feature gives the facility page a clearly marked place where the availability section will go and shows today's availability summary on the cards. It does not build the day strip with slots or the sign-in-and-return behaviour.
+- **Catalogue only, not slot browsing.** US-01 also promises "the slots for 7 days" and "tapping an available slot asks a guest to sign in, then returns to the same slot". That half is availability (FR-AVL-01) and the booking entry (FR-BKG-01) and belongs to feature 5. This feature gives the facility page an availability section with today's summary and a "عرض المواعيد" action that opens a "قريبًا" screen, and shows today's availability summary on the cards. It does not build the day strip with slots or the sign-in-and-return behaviour.
 - **Home, list and details are all built here.** The Foundation left `/home` and `/facilities` as placeholders (`home_placeholder`, `facilities_placeholder`). This feature replaces them with the real screens and adds the facility details screen.
 - **Read-only.** Nothing in this feature creates or changes a booking, a price, a facility or a setting. Admin editing of facilities, hours, closures and prices is feature 9.
 - **Presentation reads, never decides.** Screens read facilities, units, hours, closures, prices and trainers through the existing catalogue repository interface, and today's availability through the existing availability service on seed data. They never compute a price tier or an availability rule themselves.
+
+## Clarifications
+
+### Session 2026-11-16
+
+- Q: Until feature 5 exists, should the facility page show a disabled "عرض المواعيد" button, hide it, or keep it enabled? → A: Keep it enabled. It opens a simple "قريبًا" screen that says the 7-day slots arrive soon and offers a way back to the facility.
+- Q: What does the share link of a facility look like? → A: `/facilities/<id>`, using the facility's stable internal id (not a readable slug), so a renamed facility keeps working links.
+- Q: How many suggestions does home show for a signed-in user, and in what order? → A: Four. First facilities of the sport types the user booked before (reason in words), then the rest in a fixed order, never repeating a facility the user already has an upcoming booking in.
+- Q: When a unit's hours differ from its facility's, how does the page show it? → A: The page shows the facility's weekly hours, and under the name of each unit whose hours differ it shows a short line with that unit's own hours. Units with the same hours show nothing extra.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -76,7 +85,7 @@ On a facility page, the user sees photos, a description, where it is, the weekly
 6. **Given** a free facility, **When** the page shows, **Then** it shows "مجاني" and no price, and says no payment step is needed (BR-19).
 7. **Given** a facility with `requiresTrainer`, **When** the page shows, **Then** it lists its trainers with name, short bio and their capacity, and says booking goes through choosing a trainer first (BR-09). A facility with no trainers says so instead of an empty block.
 8. **Given** a facility with several units (lanes, pitches), **When** the page shows, **Then** it lists the active units by name and does not show inactive ones.
-9. **Given** the page, **When** the availability section is reached, **Then** a clearly labelled placeholder shows where the 7-day slots will appear, plus today's availability summary, and a primary "عرض المواعيد" action that is disabled with a visible reason ("المواعيد قريبًا") until feature 5. This feature adds no fake booking path.
+9. **Given** the page, **When** the availability section is reached, **Then** today's availability summary shows with an enabled primary "عرض المواعيد" action. **When** the user taps it, **Then** a simple "قريبًا" screen opens, saying the 7-day slots arrive soon, with a way back to the facility. Feature 5 replaces that screen with the real day strip. This feature adds no fake booking path: the screen has no slots and no booking action.
 10. **Given** a compact screen, **When** the user scrolls, **Then** the page keeps a sticky header or action area, and system back or the back gesture returns to the list or home with scroll position and filters kept.
 
 ---
@@ -159,7 +168,7 @@ The same screens work in Arabic RTL and English, in light and dark, with large t
 - **FR-001**: The home destination MUST show, to a signed-out guest, a discovery layout: facility types to jump into, a featured facilities section as `FacilityCard`s, and an action to see all facilities.
 - **FR-002**: Home MUST NOT require sign-in for any content in FR-001, and MUST NOT show a sign-in wall before content.
 - **FR-003**: For a signed-in user, home MUST show upcoming `CONFIRMED` bookings first, soonest first, and MUST link to My bookings (feature 7) for the rest.
-- **FR-004**: Home MUST show suggested facilities for a signed-in user, chosen by a simple, deterministic, explainable rule based on the facility types of the user's previous bookings, with the reason in words. Suggestions MUST NOT use AI.
+- **FR-004**: Home MUST show suggested facilities for a signed-in user, chosen by a simple, deterministic, explainable rule: at most 4 facilities, first those of the facility types of the user's previous bookings (each with the reason in words, such as "لأنك حجزت سباحة قبل كده"), then the remaining published facilities in a fixed order, never repeating a facility where the user already has an upcoming booking. Suggestions MUST NOT use AI.
 - **FR-005**: When a signed-in user has no upcoming bookings, home MUST show discovery with a short, friendly note, not an empty section.
 - **FR-006**: Home MUST show skeleton placeholders shaped like the content while loading.
 
@@ -182,13 +191,13 @@ The same screens work in Arabic RTL and English, in light and dark, with large t
 - **FR-018**: For a signed-in user it MUST highlight the user's own tier with a word, while keeping the other tier visible.
 - **FR-019**: For a free facility it MUST show "مجاني", no price, and that no payment step is needed (BR-19).
 - **FR-020**: For a facility that requires a trainer it MUST list its trainers with name, short bio and trainer capacity, and MUST state that booking starts by choosing a trainer (BR-09, BR-10). For a facility with no trainers it MUST say so.
-- **FR-021**: It MUST list the facility's active units by name, and MUST NOT list inactive ones.
-- **FR-022**: It MUST show an availability placeholder section with today's availability summary and a disabled "عرض المواعيد" action with a visible reason, to be replaced by feature 5. It MUST NOT present a working booking path.
+- **FR-021**: It MUST list the facility's active units by name, and MUST NOT list inactive ones. Under the name of a unit whose weekly hours differ from the facility's, it MUST show a short line with that unit's own hours; units with the same hours show nothing extra.
+- **FR-022**: It MUST show today's availability summary and an enabled "عرض المواعيد" action that opens a simple "قريبًا" screen with a way back, to be replaced by feature 5's day strip. That screen MUST NOT show slots or any booking action, and this feature MUST NOT present a working booking path.
 - **FR-023**: Back navigation (button, system back, back gesture) MUST return to the previous screen with its state kept.
 
 **Share link (FR-CAT-04)**
 
-- **FR-024**: Each facility page MUST offer a share action producing a link that identifies the facility, using the platform's share mechanism or copy-link.
+- **FR-024**: Each facility page MUST offer a share action producing a link of the form `/facilities/<id>` (the facility's stable id, never its name), using the platform's share mechanism or copy-link.
 - **FR-025**: Opening that link signed out MUST land on the facility page on the web and on the matching app route, and the web address MUST always reflect the facility on screen so a reload reopens it.
 - **FR-026**: A link to a missing or unpublished facility MUST show a friendly not-found screen with a way back to the list.
 
@@ -262,10 +271,10 @@ This feature is UI-only and delivers the catalogue screens, not booking. These a
 - **Current user and tier come from the Foundation's session.** Until feature 3 merges, a seeded identity or the demo role switch supplies the signed-in user and their tier; once 003 merges, the same session provider supplies the real flow. This feature must work with either, and does not wait for 003.
 - **A signed-in user's tier follows their verification status at the time of viewing** (BR-17). It is frozen on a booking only when a booking is created, which is feature 6, so the page only shows "سعرك" for the tier as it is now.
 - **Today's availability uses the existing availability service.** The level (plenty, few, none) uses the `fewLeftThreshold` setting (BR-45) and the FacilityCard rules from feature 2, as the 002 spec assumed the catalogue feature would decide the level.
-- **Suggestions are a simple rule, not a recommender.** The rule is: facility types of the user's earlier bookings first, then the remaining published facilities, capped at a small number. The exact cap and ordering are for the plan; no personal data leaves the device, and there is no AI.
-- **Hours are shown as the facility's weekly hours.** When units have different hours from the facility, the page shows the facility's hours and notes differing unit hours on that unit; the exact presentation is for the plan.
+- **Suggestions are a simple rule, not a recommender (settled in clarify, 2026-11-16).** Four facilities: types of the user's earlier bookings first, then the rest in a fixed order, skipping facilities with an upcoming booking. No personal data leaves the device, and there is no AI.
+- **Hours are shown as the facility's weekly hours (settled in clarify, 2026-11-16).** A unit with different hours gets a short line under its name; the rest show nothing extra.
 - **Photos are placeholders for now.** The seed has no real images; the placeholder from the design system shows, and the carousel is built so real images drop in.
-- **The share link format** is a path that identifies the facility by its id under the facilities route, so the web address, the in-app route and the share link are the same thing. The exact path is for the plan.
+- **The share link format is settled (clarify, 2026-11-16):** `/facilities/<id>`, so the web address, the in-app route and the share link are the same thing, and a renamed facility keeps its links.
 - **Platforms checked** are web, macOS, Android and iOS, as in the Foundation. Windows and Linux are scaffolded but not built or run.
 - **The stack and architecture** are those fixed in `CLAUDE.md` and the constitution. This spec states outcomes; where the code lives and how it is built belongs to the plan.
 - **Parallel work with feature 003.** Feature 003 (auth and verification) is being specified and built in another working copy on its own branch. To keep merges easy, this feature adds new l10n keys with a catalogue prefix, adds new seed in new files where it can, adds new routes without reordering existing ones, and does not edit `CLAUDE.md`; the "built" note for this feature goes in after merge.
