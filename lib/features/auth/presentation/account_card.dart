@@ -15,6 +15,7 @@ import 'package:sprint/features/identity/domain/role_assignment.dart';
 import 'package:sprint/features/verification/presentation/verification_notice.dart';
 import 'package:sprint/features/verification/presentation/verification_slot.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// Profile's account block for a signed-in person: name, masked phone and
 /// email in LTR isolates, roles, tier, and sign out behind a confirmation
@@ -75,7 +76,7 @@ class AccountCard extends ConsumerWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
+                SprintIcon(
                   Icons.person_outline,
                   size: SprintSize.iconLg,
                   color: colors.ink,

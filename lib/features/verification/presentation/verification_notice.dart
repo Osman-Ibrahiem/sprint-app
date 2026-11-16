@@ -12,6 +12,7 @@ import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/features/notifications/domain/notification.dart' as app;
 import 'package:sprint/features/verification/presentation/verification_texts.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 const _approved = 'verification.approved';
 const _rejected = 'verification.rejected';
@@ -93,7 +94,7 @@ class _VerificationNoticeState extends ConsumerState<VerificationNotice> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
+              SprintIcon(
                 approved
                     ? PhosphorIconsRegular.sealCheck
                     : PhosphorIconsRegular.xCircle,

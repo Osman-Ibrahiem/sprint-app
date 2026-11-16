@@ -18,6 +18,7 @@ import 'package:sprint/features/verification/presentation/sheet_file_picker.dart
 import 'package:sprint/features/verification/presentation/sheet_upload_summary.dart';
 import 'package:sprint/features/verification/presentation/verification_providers.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 enum _Problem { badColumns, noValidRows, unreadable, unexpected }
 
@@ -117,7 +118,7 @@ class _SheetUploadScreenState extends ConsumerState<SheetUploadScreen> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
+                      SprintIcon(
                         PhosphorIconsRegular.fileCsv,
                         size: SprintSize.iconMd,
                         color: colors.inkMuted,
@@ -150,7 +151,7 @@ class _SheetUploadScreenState extends ConsumerState<SheetUploadScreen> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
+                          SprintIcon(
                             Icons.error_outline,
                             size: SprintSize.iconMd,
                             color: colors.danger,

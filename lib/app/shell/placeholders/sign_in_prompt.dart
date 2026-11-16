@@ -7,6 +7,7 @@ import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/features/auth/presentation/account_gate.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// What a guest sees on My Bookings and Profile: a word and an icon, with
 /// "تسجيل الدخول" and "إنشاء حساب" that go straight to that screen through the
@@ -39,7 +40,7 @@ class SignInPrompt extends ConsumerWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
+              SprintIcon(
                 Icons.lock_outline,
                 size: SprintSize.iconLg,
                 color: colors.ink,

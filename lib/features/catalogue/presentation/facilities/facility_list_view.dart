@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -241,7 +242,7 @@ class _Empty extends ConsumerWidget {
       padding: const EdgeInsetsDirectional.all(SprintSpacing.space6),
       child: Column(
         children: [
-          Icon(
+          SprintIcon(
             PhosphorIconsRegular.magnifyingGlass,
             size: SprintSize.iconLg,
             color: colors.inkMuted,

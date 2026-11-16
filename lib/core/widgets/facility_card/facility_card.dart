@@ -10,6 +10,7 @@ import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/facility_card/facility_card_data.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 export 'package:sprint/core/widgets/facility_card/facility_card_data.dart';
 
@@ -219,7 +220,7 @@ class FacilityCard extends StatelessWidget {
     };
     return Row(
       children: [
-        Icon(icon, size: SprintSize.iconSm, color: color),
+        SprintIcon(icon, size: SprintSize.iconSm, color: color),
         const SizedBox(width: SprintSpacing.space1),
         Flexible(
           child: Text(word, style: context.text.caption.copyWith(color: color)),

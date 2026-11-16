@@ -11,6 +11,7 @@ import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/features/auth/domain/email_code.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// "للعرض بس": a small dismissible notice on a code screen that shows the
 /// newest code sent to [email] for [purpose], read from the simulated mailbox
@@ -68,7 +69,7 @@ class _DemoCodeNoticeState extends ConsumerState<DemoCodeNotice> {
       ),
       child: Row(
         children: [
-          Icon(
+          SprintIcon(
             Icons.science_outlined,
             size: SprintSize.iconMd,
             color: colors.ink,

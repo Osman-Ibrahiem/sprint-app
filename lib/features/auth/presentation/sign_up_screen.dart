@@ -16,6 +16,7 @@ import 'package:sprint/features/auth/domain/validators.dart';
 import 'package:sprint/features/auth/presentation/widgets/auth_form_scaffold.dart';
 import 'package:sprint/features/auth/presentation/widgets/validation_messages.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// Create an account with name, mobile number, email and password (FR-001 –
 /// FR-003, BRD US-02). Each field is checked when the person leaves it and
@@ -223,7 +224,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 container: true,
                 child: Row(
                   children: [
-                    Icon(
+                    SprintIcon(
                       Icons.error_outline,
                       size: SprintSize.iconMd,
                       color: colors.danger,

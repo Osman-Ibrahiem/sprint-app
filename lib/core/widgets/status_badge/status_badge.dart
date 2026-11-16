@@ -8,6 +8,7 @@ import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/status_badge/sprint_status.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// A small icon-and-word status pill, never pressable (StatusBadge README,
 /// FR-032 – FR-034).
@@ -49,7 +50,7 @@ class StatusBadge extends StatelessWidget {
               key: ValueKey<SprintStatus>(status),
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(status.icon, size: SprintSize.iconSm, color: foreground),
+                SprintIcon(status.icon, size: SprintSize.iconSm, color: foreground),
                 const SizedBox(width: SprintSpacing.space1),
                 Flexible(
                   child: Text(

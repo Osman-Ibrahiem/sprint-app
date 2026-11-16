@@ -17,6 +17,7 @@ import 'package:sprint/features/auth/presentation/widgets/auth_form_scaffold.dar
 import 'package:sprint/features/auth/presentation/widgets/code_entry.dart';
 import 'package:sprint/features/auth/presentation/widgets/demo_code_notice.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// The 6-digit code step of sign up (FR-001, FR-005, FR-006, BRD US-02), also
 /// reached from sign in with an unconfirmed account. A right code creates the
@@ -176,7 +177,7 @@ class _ConfirmEmailScreenState extends ConsumerState<ConfirmEmailScreen> {
             child: Row(
               key: ConfirmEmailScreen.statusKey,
               children: [
-                Icon(
+                SprintIcon(
                   Icons.check_circle_outline,
                   size: SprintSize.iconMd,
                   color: colors.success,

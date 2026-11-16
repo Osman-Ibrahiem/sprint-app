@@ -10,6 +10,7 @@ import 'package:sprint/features/verification/domain/national_id.dart';
 import 'package:sprint/features/verification/domain/sheet_batch.dart';
 import 'package:sprint/features/verification/presentation/verification_texts.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// The words for a row's reason code from the parser (FR-038).
 String sheetReasonText(AppLocalizations l10n, String code) {
@@ -65,7 +66,7 @@ class SheetUploadSummary extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(
+              SprintIcon(
                 PhosphorIconsRegular.checkCircle,
                 size: SprintSize.iconMd,
                 color: colors.success,
@@ -96,7 +97,7 @@ class SheetUploadSummary extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
+                        SprintIcon(
                           Icons.error_outline,
                           size: SprintSize.iconSm,
                           color: colors.danger,

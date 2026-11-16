@@ -9,6 +9,7 @@ import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// What the person chose in the gate prompt.
 enum AccountGateChoice { signIn, signUp }
@@ -88,7 +89,7 @@ class AccountGatePrompt extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Icon(
+            SprintIcon(
               Icons.lock_outline,
               size: SprintSize.iconLg,
               color: colors.ink,

@@ -10,6 +10,7 @@ import 'package:sprint/core/widgets/status_badge/sprint_status.dart';
 import 'package:sprint/features/verification/domain/verification_state.dart';
 import 'package:sprint/features/verification/presentation/verification_texts.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// The verification status as a word and an icon in `StatusBadge`'s look
 /// (FR-029): never colour alone. The five states reuse the design system's
@@ -64,7 +65,11 @@ class VerificationStatusBadge extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(iconOf(state), size: SprintSize.iconSm, color: foreground),
+              SprintIcon(
+                iconOf(state),
+                size: SprintSize.iconSm,
+                color: foreground,
+              ),
               const SizedBox(width: SprintSpacing.space1),
               Flexible(
                 child: Text(

@@ -17,6 +17,7 @@ import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/features/auth/data/simulated_mailbox.dart';
 import 'package:sprint/features/auth/domain/simulated_email.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// "صندوق البريد التجريبي" at `/demo/mailbox`: every email the app would have
 /// sent, newest first, with the code copyable (FR-023). The route exists only
@@ -78,7 +79,7 @@ class _MailboxScreenState extends ConsumerState<MailboxScreen> {
                   Column(
                     key: MailboxScreen.emptyKey,
                     children: [
-                      Icon(
+                      SprintIcon(
                         Icons.mail_outline,
                         size: SprintSize.iconLg,
                         color: colors.inkMuted,

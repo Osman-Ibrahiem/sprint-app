@@ -31,6 +31,7 @@ import 'package:sprint/features/verification/presentation/id_card_photo_picker.d
 import 'package:sprint/features/verification/presentation/verification_status_badge.dart';
 import 'package:sprint/features/verification/presentation/verification_texts.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// The faculties and departments a request can name (FR-024).
 final owningUnitsProvider = FutureProvider.autoDispose<List<OwningUnit>>(
@@ -277,7 +278,7 @@ class _VerificationRequestScreenState
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(
+            SprintIcon(
               Icons.error_outline,
               size: SprintSize.iconSm,
               color: colors.danger,
@@ -306,7 +307,7 @@ class _VerificationRequestScreenState
               container: true,
               child: Row(
                 children: [
-                  Icon(
+                  SprintIcon(
                     Icons.error_outline,
                     size: SprintSize.iconMd,
                     color: colors.danger,

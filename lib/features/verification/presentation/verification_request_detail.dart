@@ -28,6 +28,7 @@ import 'package:sprint/features/verification/presentation/verification_request_s
 import 'package:sprint/features/verification/presentation/verification_status_badge.dart';
 import 'package:sprint/features/verification/presentation/verification_texts.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// `/verification/:id`. On expanded windows the request opens beside the list
 /// (the queue with this request selected); on compact and medium it is its
@@ -182,7 +183,7 @@ class _PaneNoAccess extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
+          SprintIcon(
             Icons.lock_outline,
             size: SprintSize.iconLg,
             color: context.colors.inkMuted,
@@ -347,7 +348,7 @@ class _DetailBody extends ConsumerWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
+                        SprintIcon(
                           Icons.error_outline,
                           size: SprintSize.iconMd,
                           color: colors.danger,

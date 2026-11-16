@@ -15,6 +15,7 @@ import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/core/widgets/sprint_text_field/sprint_text_field.dart';
 import 'package:sprint/features/auth/presentation/widgets/auth_form_scaffold.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// One sign-in form for an email or a mobile number (FR-007 – FR-011,
 /// BRD US-03). [from] is the in-app path to return to; the router validates
@@ -193,7 +194,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(
+                  SprintIcon(
                     Icons.error_outline,
                     size: SprintSize.iconMd,
                     color: colors.danger,

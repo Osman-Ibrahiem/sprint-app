@@ -22,6 +22,7 @@ import 'package:sprint/features/verification/presentation/verification_request_d
 import 'package:sprint/features/verification/presentation/verification_request_screen.dart';
 import 'package:sprint/features/verification/presentation/verification_texts.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// The Verification section: pending requests in the reviewer's scope, oldest
 /// first, with type, faculty or department, waiting time and how the person
@@ -211,7 +212,7 @@ class _QueueList extends ConsumerWidget {
             ),
             child: Column(
               children: [
-                Icon(
+                SprintIcon(
                   PhosphorIconsRegular.checkCircle,
                   size: SprintSize.iconLg,
                   color: colors.inkMuted,
@@ -303,7 +304,7 @@ class _QueueRow extends ConsumerWidget {
               const SizedBox(height: SprintSpacing.space1),
               Row(
                 children: [
-                  Icon(
+                  SprintIcon(
                     PhosphorIconsRegular.clock,
                     size: SprintSize.iconSm,
                     color: colors.inkMuted,

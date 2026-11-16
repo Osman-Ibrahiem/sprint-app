@@ -5,6 +5,7 @@ import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// Shown, at the same location, to a signed-in person who lacks the section
 /// a route needs: a word and an icon, never a redirect (FR-018,
@@ -23,7 +24,7 @@ class NoAccessScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                SprintIcon(
                   Icons.lock_outline,
                   size: SprintSize.iconLg,
                   color: context.colors.inkMuted,

@@ -16,6 +16,7 @@ import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// Longest side of the stored ID card photo, in pixels (research R7).
 const int idCardMaxSide = 1280;
@@ -190,7 +191,7 @@ class _IdCardPhotoPickerState extends ConsumerState<IdCardPhotoPicker> {
                     key: IdCardPhotoPicker.previewKey,
                     fit: BoxFit.contain,
                     errorBuilder: (_, _, _) => Center(
-                      child: Icon(
+                      child: SprintIcon(
                         PhosphorIconsRegular.identificationCard,
                         size: SprintSize.iconLg,
                         color: colors.inkMuted,
@@ -199,7 +200,7 @@ class _IdCardPhotoPickerState extends ConsumerState<IdCardPhotoPicker> {
                   ),
                 )
               : Center(
-                  child: Icon(
+                  child: SprintIcon(
                     PhosphorIconsRegular.identificationCard,
                     size: SprintSize.iconLg,
                     color: colors.inkMuted,
@@ -218,7 +219,7 @@ class _IdCardPhotoPickerState extends ConsumerState<IdCardPhotoPicker> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (message != null) ...[
-              Icon(
+              SprintIcon(
                 Icons.error_outline,
                 size: SprintSize.iconSm,
                 color: colors.danger,

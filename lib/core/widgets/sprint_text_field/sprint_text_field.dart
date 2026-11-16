@@ -6,6 +6,7 @@ import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 enum SprintTextFieldType {
   text,
@@ -259,7 +260,7 @@ class _SprintTextFieldState extends State<SprintTextField> {
                 child: Row(
                   children: [
                     if (search) ...[
-                      Icon(
+                      SprintIcon(
                         Icons.search,
                         size: SprintSize.iconMd,
                         color: colors.inkMuted,
@@ -278,7 +279,7 @@ class _SprintTextFieldState extends State<SprintTextField> {
                         ),
                         padding: EdgeInsets.zero,
                         onPressed: () => setState(() => _revealed = !_revealed),
-                        icon: Icon(
+                        icon: SprintIcon(
                           _revealed ? Icons.visibility_off : Icons.visibility,
                           size: SprintSize.iconMd,
                           color: colors.inkMuted,
@@ -294,7 +295,7 @@ class _SprintTextFieldState extends State<SprintTextField> {
             Row(
               children: [
                 if (hasError) ...[
-                  Icon(
+                  SprintIcon(
                     Icons.error_outline,
                     size: SprintSize.iconSm,
                     color: colors.danger,
