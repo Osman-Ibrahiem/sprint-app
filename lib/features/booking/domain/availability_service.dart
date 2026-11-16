@@ -21,7 +21,8 @@ class AvailabilityService {
   const AvailabilityService({this.fewLeftThreshold = 2});
 
   /// A shared slot with this many places or fewer left shows as "few left".
-  /// A display hint, not a BRD setting (README: "فاضل مكانين").
+  /// It is the `fewLeftThreshold` setting (BR-45): repositories pass the value
+  /// resolved for the unit. The default here is the BRD default, for tests.
   final int fewLeftThreshold;
 
   List<Slot> slots({

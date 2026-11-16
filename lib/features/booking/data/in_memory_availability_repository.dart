@@ -6,6 +6,7 @@ import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/domain/slot.dart';
 import 'package:sprint/features/booking/domain/unit_settings.dart';
 import 'package:sprint/features/catalogue/domain/catalogue_repository.dart';
+import 'package:sprint/features/settings/domain/setting_registry.dart';
 import 'package:sprint/features/settings/domain/settings_repository.dart';
 
 class InMemoryAvailabilityRepository implements AvailabilityRepository {
@@ -14,14 +15,12 @@ class InMemoryAvailabilityRepository implements AvailabilityRepository {
     required this.settings,
     required this.bookingsForUnit,
     required this.clock,
-    this.service = const AvailabilityService(),
   });
 
   final CatalogueRepository catalogue;
   final SettingsRepository settings;
   final Future<List<Booking>> Function(String unitId) bookingsForUnit;
   final Clock clock;
-  final AvailabilityService service;
 
   @override
   Future<List<Slot>> slots(
@@ -44,7 +43,14 @@ class InMemoryAvailabilityRepository implements AvailabilityRepository {
 
     final f = CairoTime.toCairo(from);
     final t = CairoTime.toCairo(to);
-    return service.slots(
+    // BR-45: the few-left threshold is a setting, resolved unit -> facility ->
+    // university, never the service's default.
+    final threshold = await settings.resolve(
+      SettingKeys.fewLeftThreshold,
+      unitId: unit.id,
+      facilityId: facility.id,
+    );
+    return AvailabilityService(fewLeftThreshold: threshold).slots(
       facility: facility,
       unit: unit,
       hours: [
