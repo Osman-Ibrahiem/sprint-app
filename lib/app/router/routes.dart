@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/shell/placeholders/bookings_placeholder.dart';
-import 'package:sprint/app/shell/placeholders/facilities_placeholder.dart';
-import 'package:sprint/app/shell/placeholders/home_placeholder.dart';
 import 'package:sprint/app/shell/placeholders/profile_placeholder.dart';
+import 'package:sprint/features/catalogue/domain/facility_link.dart';
+import 'package:sprint/features/catalogue/presentation/facilities/facilities_screen.dart';
+import 'package:sprint/features/catalogue/presentation/home/home_screen.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// Route paths. Screens never build path strings by hand.
@@ -15,6 +17,11 @@ abstract final class AppPaths {
   static const profile = '/profile';
   static const demo = '/demo';
   static const demoComponents = '/demo/components';
+
+  static String facilityDetails(String id) => FacilityLink.path(id);
+
+  static String facilitySchedule(String id) =>
+      '${FacilityLink.path(id)}/schedule';
 }
 
 /// Route names.
@@ -25,6 +32,8 @@ abstract final class AppRouteNames {
   static const profile = 'profile';
   static const demo = 'demo';
   static const demoComponents = 'demoComponents';
+  static const facilityDetails = 'facilityDetails';
+  static const facilitySchedule = 'facilitySchedule';
 }
 
 /// One top-level shell destination. The shell and the router are built from a
@@ -37,6 +46,7 @@ class ShellDestination {
     required this.selectedIcon,
     required this.label,
     required this.builder,
+    this.subRoutes = const [],
     this.mirrorInRtl = false,
   });
 
@@ -46,6 +56,10 @@ class ShellDestination {
   final IconData selectedIcon;
   final String Function(AppLocalizations l10n) label;
   final Widget Function() builder;
+
+  /// Routes nested under this destination, so they stay inside the shell and
+  /// the tab keeps its own back stack (contracts/routes.md).
+  final List<RouteBase> subRoutes;
 
   /// Only directional icons mirror in RTL; none of the base four do.
   final bool mirrorInRtl;
@@ -61,7 +75,7 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
     icon: PhosphorIconsRegular.house,
     selectedIcon: PhosphorIconsFill.house,
     label: (l) => l.navHome,
-    builder: HomePlaceholder.new,
+    builder: HomeScreen.new,
   ),
   ShellDestination(
     name: AppRouteNames.facilities,
@@ -69,7 +83,16 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
     icon: PhosphorIconsRegular.squaresFour,
     selectedIcon: PhosphorIconsFill.squaresFour,
     label: (l) => l.navFacilities,
-    builder: FacilitiesPlaceholder.new,
+    builder: FacilitiesScreen.new,
+    subRoutes: [
+      GoRoute(
+        path: ':id',
+        name: AppRouteNames.facilityDetails,
+        builder: (context, state) => FacilitiesScreen(
+          selectedId: state.pathParameters['id'],
+        ),
+      ),
+    ],
   ),
   ShellDestination(
     name: AppRouteNames.bookings,

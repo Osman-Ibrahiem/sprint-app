@@ -1103,6 +1103,132 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'متاح'**
   String get slotAvailableWord;
+
+  /// No description provided for @catalogueTypeSwimming.
+  ///
+  /// In ar, this message translates to:
+  /// **'سباحة'**
+  String get catalogueTypeSwimming;
+
+  /// No description provided for @catalogueTypeFootball.
+  ///
+  /// In ar, this message translates to:
+  /// **'كرة قدم'**
+  String get catalogueTypeFootball;
+
+  /// No description provided for @catalogueTypeGym.
+  ///
+  /// In ar, this message translates to:
+  /// **'لياقة بدنية'**
+  String get catalogueTypeGym;
+
+  /// No description provided for @catalogueTypeTennis.
+  ///
+  /// In ar, this message translates to:
+  /// **'تنس'**
+  String get catalogueTypeTennis;
+
+  /// No description provided for @catalogueTypeHall.
+  ///
+  /// In ar, this message translates to:
+  /// **'صالة'**
+  String get catalogueTypeHall;
+
+  /// No description provided for @catalogueTypeTraining.
+  ///
+  /// In ar, this message translates to:
+  /// **'تدريب'**
+  String get catalogueTypeTraining;
+
+  /// No description provided for @catalogueErrorTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'حصلت مشكلة'**
+  String get catalogueErrorTitle;
+
+  /// No description provided for @catalogueErrorBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'المحتوى مش ظاهر دلوقتي. المحاولة تاني ممكن تحل المشكلة.'**
+  String get catalogueErrorBody;
+
+  /// No description provided for @catalogueRetry.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة المحاولة'**
+  String get catalogueRetry;
+
+  /// No description provided for @catalogueFacilityNotFoundTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنشأة مش موجودة'**
+  String get catalogueFacilityNotFoundTitle;
+
+  /// No description provided for @catalogueFacilityNotFoundBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرابط ممكن يكون غلط أو المنشأة مش منشورة.'**
+  String get catalogueFacilityNotFoundBody;
+
+  /// No description provided for @catalogueBackToFacilities.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرجوع للمنشآت'**
+  String get catalogueBackToFacilities;
+
+  /// No description provided for @cataloguePanePrompt.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختار منشأة تشوف تفاصيلها'**
+  String get cataloguePanePrompt;
+
+  /// No description provided for @cataloguePriceRange.
+  ///
+  /// In ar, this message translates to:
+  /// **'{min}–{max} ج.م'**
+  String cataloguePriceRange(String min, String max);
+
+  /// No description provided for @catalogueTagFree.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجاني'**
+  String get catalogueTagFree;
+
+  /// No description provided for @catalogueTagTrainer.
+  ///
+  /// In ar, this message translates to:
+  /// **'بمدرب'**
+  String get catalogueTagTrainer;
+
+  /// No description provided for @catalogueHomeTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتشف المنشآت'**
+  String get catalogueHomeTitle;
+
+  /// No description provided for @catalogueHomeTypesTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنواع المنشآت'**
+  String get catalogueHomeTypesTitle;
+
+  /// No description provided for @catalogueHomeFeaturedTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'منشآت مميزة'**
+  String get catalogueHomeFeaturedTitle;
+
+  /// No description provided for @catalogueHomeSeeAll.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض كل المنشآت'**
+  String get catalogueHomeSeeAll;
+
+  /// No description provided for @catalogueHomeGuestHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'تقدر تشوف كل المنشآت من غير تسجيل.'**
+  String get catalogueHomeGuestHint;
 }
 
 class _AppLocalizationsDelegate

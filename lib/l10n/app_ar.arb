@@ -346,5 +346,36 @@
   },
   "timeAm": "صباحًا",
   "timePm": "مساءً",
-  "slotAvailableWord": "متاح"
+  "slotAvailableWord": "متاح",
+  "catalogueTypeSwimming": "سباحة",
+  "catalogueTypeFootball": "كرة قدم",
+  "catalogueTypeGym": "لياقة بدنية",
+  "catalogueTypeTennis": "تنس",
+  "catalogueTypeHall": "صالة",
+  "catalogueTypeTraining": "تدريب",
+  "catalogueErrorTitle": "حصلت مشكلة",
+  "catalogueErrorBody": "المحتوى مش ظاهر دلوقتي. المحاولة تاني ممكن تحل المشكلة.",
+  "catalogueRetry": "إعادة المحاولة",
+  "catalogueFacilityNotFoundTitle": "المنشأة مش موجودة",
+  "catalogueFacilityNotFoundBody": "الرابط ممكن يكون غلط أو المنشأة مش منشورة.",
+  "catalogueBackToFacilities": "الرجوع للمنشآت",
+  "cataloguePanePrompt": "اختار منشأة تشوف تفاصيلها",
+  "cataloguePriceRange": "{min}–{max} ج.م",
+  "@cataloguePriceRange": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "catalogueTagFree": "مجاني",
+  "catalogueTagTrainer": "بمدرب",
+  "catalogueHomeTitle": "اكتشف المنشآت",
+  "catalogueHomeTypesTitle": "أنواع المنشآت",
+  "catalogueHomeFeaturedTitle": "منشآت مميزة",
+  "catalogueHomeSeeAll": "عرض كل المنشآت",
+  "catalogueHomeGuestHint": "تقدر تشوف كل المنشآت من غير تسجيل."
 }

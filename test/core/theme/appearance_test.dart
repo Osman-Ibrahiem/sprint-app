@@ -74,7 +74,7 @@ void main() {
   testWidgets('the app follows the chosen mode', (tester) async {
     await pumpSprintApp(tester);
     Brightness brightness() =>
-        Theme.of(tester.element(find.text(ar.homeTitle))).brightness;
+        Theme.of(tester.element(find.text(ar.catalogueHomeTitle))).brightness;
 
     containerOf(tester).read(themeModeProvider.notifier).set(ThemeMode.dark);
     await tester.pumpAndSettle();

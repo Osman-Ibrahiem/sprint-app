@@ -56,7 +56,7 @@ void main() {
     TextDirection dir() =>
         Directionality.of(tester.element(find.byType(Scaffold).first));
     expect(dir(), TextDirection.rtl);
-    expect(find.text(ar.homeTitle), findsOneWidget);
+    expect(find.text(ar.catalogueHomeTitle), findsOneWidget);
 
     await containerOf(tester)
         .read(localeProvider.notifier)
@@ -65,7 +65,7 @@ void main() {
 
     final en = lookupAppLocalizations(const Locale('en'));
     expect(dir(), TextDirection.ltr);
-    expect(find.text(en.homeTitle), findsOneWidget);
-    expect(find.text(ar.homeTitle), findsNothing);
+    expect(find.text(en.catalogueHomeTitle), findsOneWidget);
+    expect(find.text(ar.catalogueHomeTitle), findsNothing);
   });
 }

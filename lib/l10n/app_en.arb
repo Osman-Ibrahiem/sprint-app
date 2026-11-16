@@ -342,5 +342,36 @@
   },
   "timeAm": "AM",
   "timePm": "PM",
-  "slotAvailableWord": "Available"
+  "slotAvailableWord": "Available",
+  "catalogueTypeSwimming": "Swimming",
+  "catalogueTypeFootball": "Football",
+  "catalogueTypeGym": "Gym",
+  "catalogueTypeTennis": "Tennis",
+  "catalogueTypeHall": "Hall",
+  "catalogueTypeTraining": "Training",
+  "catalogueErrorTitle": "Something went wrong",
+  "catalogueErrorBody": "This content isn't showing right now. Trying again may fix it.",
+  "catalogueRetry": "Try again",
+  "catalogueFacilityNotFoundTitle": "Facility not found",
+  "catalogueFacilityNotFoundBody": "The link may be wrong, or the facility isn't published.",
+  "catalogueBackToFacilities": "Back to facilities",
+  "cataloguePanePrompt": "Pick a facility to see its details",
+  "cataloguePriceRange": "EGP {min}–{max}",
+  "@cataloguePriceRange": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "catalogueTagFree": "Free",
+  "catalogueTagTrainer": "With a trainer",
+  "catalogueHomeTitle": "Discover facilities",
+  "catalogueHomeTypesTitle": "Facility types",
+  "catalogueHomeFeaturedTitle": "Featured facilities",
+  "catalogueHomeSeeAll": "See all facilities",
+  "catalogueHomeGuestHint": "You can browse every facility without signing in."
 }

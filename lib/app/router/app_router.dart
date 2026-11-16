@@ -47,6 +47,7 @@ GoRouter buildAppRouter({
                   path: d.path,
                   name: d.name,
                   builder: (context, state) => d.builder(),
+                  routes: d.subRoutes,
                 ),
               ],
             ),

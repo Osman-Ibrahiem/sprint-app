@@ -593,4 +593,71 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get slotAvailableWord => 'متاح';
+
+  @override
+  String get catalogueTypeSwimming => 'سباحة';
+
+  @override
+  String get catalogueTypeFootball => 'كرة قدم';
+
+  @override
+  String get catalogueTypeGym => 'لياقة بدنية';
+
+  @override
+  String get catalogueTypeTennis => 'تنس';
+
+  @override
+  String get catalogueTypeHall => 'صالة';
+
+  @override
+  String get catalogueTypeTraining => 'تدريب';
+
+  @override
+  String get catalogueErrorTitle => 'حصلت مشكلة';
+
+  @override
+  String get catalogueErrorBody =>
+      'المحتوى مش ظاهر دلوقتي. المحاولة تاني ممكن تحل المشكلة.';
+
+  @override
+  String get catalogueRetry => 'إعادة المحاولة';
+
+  @override
+  String get catalogueFacilityNotFoundTitle => 'المنشأة مش موجودة';
+
+  @override
+  String get catalogueFacilityNotFoundBody =>
+      'الرابط ممكن يكون غلط أو المنشأة مش منشورة.';
+
+  @override
+  String get catalogueBackToFacilities => 'الرجوع للمنشآت';
+
+  @override
+  String get cataloguePanePrompt => 'اختار منشأة تشوف تفاصيلها';
+
+  @override
+  String cataloguePriceRange(String min, String max) {
+    return '$min–$max ج.م';
+  }
+
+  @override
+  String get catalogueTagFree => 'مجاني';
+
+  @override
+  String get catalogueTagTrainer => 'بمدرب';
+
+  @override
+  String get catalogueHomeTitle => 'اكتشف المنشآت';
+
+  @override
+  String get catalogueHomeTypesTitle => 'أنواع المنشآت';
+
+  @override
+  String get catalogueHomeFeaturedTitle => 'منشآت مميزة';
+
+  @override
+  String get catalogueHomeSeeAll => 'عرض كل المنشآت';
+
+  @override
+  String get catalogueHomeGuestHint => 'تقدر تشوف كل المنشآت من غير تسجيل.';
 }

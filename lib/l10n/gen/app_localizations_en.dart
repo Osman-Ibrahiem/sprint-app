@@ -591,4 +591,72 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get slotAvailableWord => 'Available';
+
+  @override
+  String get catalogueTypeSwimming => 'Swimming';
+
+  @override
+  String get catalogueTypeFootball => 'Football';
+
+  @override
+  String get catalogueTypeGym => 'Gym';
+
+  @override
+  String get catalogueTypeTennis => 'Tennis';
+
+  @override
+  String get catalogueTypeHall => 'Hall';
+
+  @override
+  String get catalogueTypeTraining => 'Training';
+
+  @override
+  String get catalogueErrorTitle => 'Something went wrong';
+
+  @override
+  String get catalogueErrorBody =>
+      'This content isn\'t showing right now. Trying again may fix it.';
+
+  @override
+  String get catalogueRetry => 'Try again';
+
+  @override
+  String get catalogueFacilityNotFoundTitle => 'Facility not found';
+
+  @override
+  String get catalogueFacilityNotFoundBody =>
+      'The link may be wrong, or the facility isn\'t published.';
+
+  @override
+  String get catalogueBackToFacilities => 'Back to facilities';
+
+  @override
+  String get cataloguePanePrompt => 'Pick a facility to see its details';
+
+  @override
+  String cataloguePriceRange(String min, String max) {
+    return 'EGP $min–$max';
+  }
+
+  @override
+  String get catalogueTagFree => 'Free';
+
+  @override
+  String get catalogueTagTrainer => 'With a trainer';
+
+  @override
+  String get catalogueHomeTitle => 'Discover facilities';
+
+  @override
+  String get catalogueHomeTypesTitle => 'Facility types';
+
+  @override
+  String get catalogueHomeFeaturedTitle => 'Featured facilities';
+
+  @override
+  String get catalogueHomeSeeAll => 'See all facilities';
+
+  @override
+  String get catalogueHomeGuestHint =>
+      'You can browse every facility without signing in.';
 }
