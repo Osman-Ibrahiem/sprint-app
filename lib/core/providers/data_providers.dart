@@ -1,5 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sprint/core/data/demo_snapshot_store.dart';
 import 'package:sprint/core/data/in_memory_data_layer.dart';
+import 'package:sprint/core/data/in_memory_snapshot_store.dart';
 import 'package:sprint/core/time/clock_provider.dart';
 import 'package:sprint/features/assets/domain/asset_repository.dart';
 import 'package:sprint/features/attendance/domain/attendance_repository.dart';
@@ -18,9 +20,41 @@ part 'data_providers.g.dart';
 // The single place to swap the in-memory layer for a real backend (FR-026).
 // Screens only ever read the interfaces below.
 
+/// Where the demo data is saved. `main` overrides it with the preferences
+/// store; tests get an in-memory one (research R1).
 @Riverpod(keepAlive: true)
-InMemoryDataLayer dataLayer(Ref ref) =>
-    InMemoryDataLayer.create(clock: ref.watch(appClockProvider));
+DemoSnapshotStore snapshotStore(Ref ref) => InMemorySnapshotStore();
+
+/// The snapshot read from the store before the app starts, or null for a
+/// fresh seed. `main` overrides it; resetting the demo data clears it.
+@Riverpod(keepAlive: true)
+class InitialSnapshot extends _$InitialSnapshot {
+  @override
+  Map<String, Object?>? build() => null;
+
+  void clear() => state = null;
+}
+
+/// Loads the layer from the snapshot (or the seed) and saves it again once per
+/// event-loop turn after any write.
+@Riverpod(keepAlive: true)
+InMemoryDataLayer dataLayer(Ref ref) {
+  final layer = InMemoryDataLayer.fromSnapshot(
+    clock: ref.watch(appClockProvider),
+    snapshot: ref.watch(initialSnapshotProvider),
+  )..attachStore(ref.watch(snapshotStoreProvider));
+  ref.onDispose(layer.detachStore);
+  return layer;
+}
+
+/// "إرجاع الداتا التجريبية": clears the saved snapshot and photos (theme and
+/// language stay) and rebuilds every repository from the seed.
+@Riverpod(keepAlive: true)
+Future<void> Function() resetDemoData(Ref ref) => () async {
+  await ref.read(dataLayerProvider).reset();
+  ref.read(initialSnapshotProvider.notifier).clear();
+  ref.invalidate(dataLayerProvider);
+};
 
 @Riverpod(keepAlive: true)
 SettingsRepository settingsRepository(Ref ref) =>

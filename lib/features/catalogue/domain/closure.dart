@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'closure.freezed.dart';
+part 'closure.g.dart';
 
 enum ClosureScope { facility, unit }
 
@@ -16,4 +17,7 @@ abstract class Closure with _$Closure {
     required DateTime to,
     required String reason,
   }) = _Closure;
+
+  factory Closure.fromJson(Map<String, dynamic> json) =>
+      _$ClosureFromJson(json);
 }

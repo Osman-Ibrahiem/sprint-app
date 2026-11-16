@@ -12,6 +12,7 @@ part of 'payment.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Payment {
 
@@ -22,6 +23,8 @@ mixin _$Payment {
 @pragma('vm:prefer-inline')
 $PaymentCopyWith<Payment> get copyWith => _$PaymentCopyWithImpl<Payment>(this as Payment, _$identity);
 
+  /// Serializes this Payment to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Payment&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.bookingId, _this.bookingId) || other.bookingId == _this.bookingId)&&(identical(other.provider, _this.provider) || other.provider == _this.provider)&&(identical(other.providerRef, _this.providerRef) || other.providerRef == _this.providerRef)&&(identical(other.amount, _this.amount) || other.amount == _this.amount)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.paidAt, _this.paidAt) || other.paidAt == _this.paidAt)&&(identical(other.owningUnitId, _this.owningUnitId) || other.owningUnitId == _this.owningUnitId));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Payment;
@@ -216,11 +219,11 @@ return $default(_that.id,_that.bookingId,_that.provider,_that.providerRef,_that.
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Payment implements Payment {
   const _Payment({required this.id, required this.bookingId, required this.provider, required this.providerRef, required this.amount, required this.status, this.paidAt, required this.owningUnitId});
-  
+  factory _Payment.fromJson(Map<String, dynamic> json) => _$PaymentFromJson(json);
 
 @override final  String id;
 @override final  String bookingId;
@@ -237,14 +240,17 @@ class _Payment implements Payment {
 @pragma('vm:prefer-inline')
 _$PaymentCopyWith<_Payment> get copyWith => __$PaymentCopyWithImpl<_Payment>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$PaymentToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _Payment&&(identical(other.id, id) || other.id == id)&&(identical(other.bookingId, bookingId) || other.bookingId == bookingId)&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.providerRef, providerRef) || other.providerRef == providerRef)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.status, status) || other.status == status)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.owningUnitId, owningUnitId) || other.owningUnitId == owningUnitId));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,id,bookingId,provider,providerRef,amount,status,paidAt,owningUnitId);

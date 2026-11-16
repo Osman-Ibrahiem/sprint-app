@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'asset.freezed.dart';
+part 'asset.g.dart';
 
 /// BR-42.
 enum AssetStatus { ok, damaged, underRepair, lost, retired }
@@ -16,4 +17,6 @@ abstract class Asset with _$Asset {
     required String custodianId,
     required AssetStatus status,
   }) = _Asset;
+
+  factory Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);
 }

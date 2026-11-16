@@ -1,3 +1,4 @@
+import 'package:sprint/core/data/change_signal.dart';
 import 'package:sprint/features/catalogue/domain/bookable_unit.dart';
 import 'package:sprint/features/catalogue/domain/catalogue_repository.dart';
 import 'package:sprint/features/catalogue/domain/closure.dart';
@@ -9,7 +10,9 @@ import 'package:sprint/features/catalogue/domain/price.dart';
 import 'package:sprint/features/catalogue/domain/trainer.dart';
 import 'package:sprint/features/catalogue/domain/trainer_availability.dart';
 
-class InMemoryCatalogueRepository implements CatalogueRepository {
+class InMemoryCatalogueRepository
+    with ChangeSignal
+    implements CatalogueRepository {
   InMemoryCatalogueRepository({
     required Iterable<OwningUnit> owningUnits,
     required Iterable<Facility> facilities,
@@ -39,6 +42,18 @@ class InMemoryCatalogueRepository implements CatalogueRepository {
   final List<Offer> _offers;
   final List<Trainer> _trainers;
   final List<TrainerAvailability> _availability;
+
+  /// Everything, for the demo snapshot.
+  List<OwningUnit> get allOwningUnits => List.unmodifiable(_owningUnits);
+  List<Facility> get allFacilities => List.unmodifiable(_facilities);
+  List<BookableUnit> get allUnits => List.unmodifiable(_units);
+  List<OperatingHours> get allHours => List.unmodifiable(_hours);
+  List<Closure> get allClosures => List.unmodifiable(_closures);
+  List<Price> get allPrices => List.unmodifiable(_prices);
+  List<Offer> get allOffers => List.unmodifiable(_offers);
+  List<Trainer> get allTrainers => List.unmodifiable(_trainers);
+  List<TrainerAvailability> get allTrainerAvailability =>
+      List.unmodifiable(_availability);
 
   @override
   Future<List<OwningUnit>> listOwningUnits() async => List.unmodifiable(_owningUnits);

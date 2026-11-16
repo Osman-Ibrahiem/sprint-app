@@ -12,6 +12,7 @@ part of 'closure.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Closure {
 
@@ -22,6 +23,8 @@ mixin _$Closure {
 @pragma('vm:prefer-inline')
 $ClosureCopyWith<Closure> get copyWith => _$ClosureCopyWithImpl<Closure>(this as Closure, _$identity);
 
+  /// Serializes this Closure to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Closure&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.scope, _this.scope) || other.scope == _this.scope)&&(identical(other.scopeId, _this.scopeId) || other.scopeId == _this.scopeId)&&(identical(other.from, _this.from) || other.from == _this.from)&&(identical(other.to, _this.to) || other.to == _this.to)&&(identical(other.reason, _this.reason) || other.reason == _this.reason));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Closure;
@@ -214,11 +217,11 @@ return $default(_that.id,_that.scope,_that.scopeId,_that.from,_that.to,_that.rea
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Closure implements Closure {
   const _Closure({required this.id, required this.scope, required this.scopeId, required this.from, required this.to, required this.reason});
-  
+  factory _Closure.fromJson(Map<String, dynamic> json) => _$ClosureFromJson(json);
 
 @override final  String id;
 @override final  ClosureScope scope;
@@ -233,14 +236,17 @@ class _Closure implements Closure {
 @pragma('vm:prefer-inline')
 _$ClosureCopyWith<_Closure> get copyWith => __$ClosureCopyWithImpl<_Closure>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$ClosureToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _Closure&&(identical(other.id, id) || other.id == id)&&(identical(other.scope, scope) || other.scope == scope)&&(identical(other.scopeId, scopeId) || other.scopeId == scopeId)&&(identical(other.from, from) || other.from == from)&&(identical(other.to, to) || other.to == to)&&(identical(other.reason, reason) || other.reason == reason));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,id,scope,scopeId,from,to,reason);

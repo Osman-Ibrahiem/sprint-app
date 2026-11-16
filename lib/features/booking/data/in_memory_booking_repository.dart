@@ -1,3 +1,4 @@
+import 'package:sprint/core/data/change_signal.dart';
 import 'package:clock/clock.dart';
 import 'package:sprint/core/result/failure.dart';
 import 'package:sprint/core/result/result.dart';
@@ -32,7 +33,7 @@ import 'package:sprint/features/settings/domain/settings_repository.dart';
 /// conflicts, pricing, holds, cancellation and refunds. Every write runs in a
 /// serial queue, so two "simultaneous" creates for the last place cannot both
 /// win (BR-11, research R8).
-class InMemoryBookingRepository implements BookingRepository {
+class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
   InMemoryBookingRepository({
     required Iterable<Booking> seed,
     required this.catalogue,
@@ -54,6 +55,10 @@ class InMemoryBookingRepository implements BookingRepository {
     for (final b in seed) {
       final n = int.tryParse(b.code.replaceAll(RegExp('[^0-9]'), ''));
       if (n != null && n >= _nextCode) _nextCode = n + 1;
+      // Restored snapshots keep their `bk-new-N` ids; new ones must not clash.
+      final m = RegExp(r'^bk-new-(\d+)$').firstMatch(b.id);
+      final k = m == null ? null : int.parse(m.group(1)!);
+      if (k != null && k >= _nextId) _nextId = k + 1;
     }
   }
 
@@ -80,10 +85,17 @@ class InMemoryBookingRepository implements BookingRepository {
 
   /// Runs [op] after every earlier write has finished.
   Future<T> _serial<T>(Future<T> Function() op) {
-    final run = _tail.then((_) => op());
+    final run = _tail.then((_) async {
+      final result = await op();
+      notifyChanged();
+      return result;
+    });
     _tail = run.then<void>((_) {}, onError: (_) {});
     return run;
   }
+
+  /// Everything, for the demo snapshot.
+  List<Booking> get allBookings => _bookings.values.toList();
 
   /// All bookings of a unit, for availability.
   Future<List<Booking>> bookingsForUnit(String unitId) async =>

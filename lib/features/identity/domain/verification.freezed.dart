@@ -12,6 +12,7 @@ part of 'verification.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Verification {
 
@@ -22,6 +23,8 @@ mixin _$Verification {
 @pragma('vm:prefer-inline')
 $VerificationCopyWith<Verification> get copyWith => _$VerificationCopyWithImpl<Verification>(this as Verification, _$identity);
 
+  /// Serializes this Verification to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Verification&&(identical(other.userId, _this.userId) || other.userId == _this.userId)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.method, _this.method) || other.method == _this.method)&&(identical(other.reason, _this.reason) || other.reason == _this.reason)&&(identical(other.expiresAt, _this.expiresAt) || other.expiresAt == _this.expiresAt));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Verification;
@@ -214,11 +217,11 @@ return $default(_that.userId,_that.type,_that.status,_that.method,_that.reason,_
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Verification extends Verification {
   const _Verification({required this.userId, required this.type, required this.status, required this.method, this.reason, this.expiresAt}): super._();
-  
+  factory _Verification.fromJson(Map<String, dynamic> json) => _$VerificationFromJson(json);
 
 @override final  String userId;
 @override final  VerificationType type;
@@ -233,14 +236,17 @@ class _Verification extends Verification {
 @pragma('vm:prefer-inline')
 _$VerificationCopyWith<_Verification> get copyWith => __$VerificationCopyWithImpl<_Verification>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$VerificationToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _Verification&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.type, type) || other.type == type)&&(identical(other.status, status) || other.status == status)&&(identical(other.method, method) || other.method == method)&&(identical(other.reason, reason) || other.reason == reason)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,userId,type,status,method,reason,expiresAt);

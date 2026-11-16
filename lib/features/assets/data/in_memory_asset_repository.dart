@@ -1,8 +1,9 @@
+import 'package:sprint/core/data/change_signal.dart';
 import 'package:sprint/features/assets/domain/asset.dart';
 import 'package:sprint/features/assets/domain/asset_repository.dart';
 import 'package:sprint/features/assets/domain/damage_report.dart';
 
-class InMemoryAssetRepository implements AssetRepository {
+class InMemoryAssetRepository with ChangeSignal implements AssetRepository {
   InMemoryAssetRepository({
     Iterable<Asset> assets = const [],
     Iterable<DamageReport> reports = const [],
@@ -21,9 +22,18 @@ class InMemoryAssetRepository implements AssetRepository {
       _reports.values.where((r) => assetId == null || r.assetId == assetId).toList();
 
   @override
-  Future<void> saveAsset(Asset asset) async => _assets[asset.id] = asset;
+  Future<void> saveAsset(Asset asset) async {
+    _assets[asset.id] = asset;
+    notifyChanged();
+  }
 
   @override
-  Future<void> saveDamageReport(DamageReport report) async =>
-      _reports[report.id] = report;
+  Future<void> saveDamageReport(DamageReport report) async {
+    _reports[report.id] = report;
+    notifyChanged();
+  }
+
+  /// Everything, for the demo snapshot.
+  List<Asset> get allAssets => _assets.values.toList();
+  List<DamageReport> get allReports => _reports.values.toList();
 }

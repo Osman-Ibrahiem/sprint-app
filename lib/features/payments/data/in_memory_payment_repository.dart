@@ -1,8 +1,9 @@
+import 'package:sprint/core/data/change_signal.dart';
 import 'package:sprint/features/payments/domain/payment.dart';
 import 'package:sprint/features/payments/domain/payment_repository.dart';
 import 'package:sprint/features/payments/domain/refund.dart';
 
-class InMemoryPaymentRepository implements PaymentRepository {
+class InMemoryPaymentRepository with ChangeSignal implements PaymentRepository {
   InMemoryPaymentRepository({
     Iterable<Payment> payments = const [],
     Iterable<Refund> refunds = const [],
@@ -24,11 +25,17 @@ class InMemoryPaymentRepository implements PaymentRepository {
   Future<void> savePayment(Payment payment) async {
     _payments.removeWhere((p) => p.id == payment.id);
     _payments.add(payment);
+    notifyChanged();
   }
 
   @override
   Future<void> saveRefund(Refund refund) async {
     _refunds.removeWhere((r) => r.id == refund.id);
     _refunds.add(refund);
+    notifyChanged();
   }
+
+  /// Everything, for the demo snapshot.
+  List<Payment> get allPayments => List.unmodifiable(_payments);
+  List<Refund> get allRefunds => List.unmodifiable(_refunds);
 }

@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'notification.freezed.dart';
+part 'notification.g.dart';
 
 /// Push only in P1 (BR-39); SMS joins in P2.
 enum NotificationChannel { push }
@@ -16,4 +17,7 @@ abstract class Notification with _$Notification {
     required DateTime sentAt,
     DateTime? readAt,
   }) = _Notification;
+
+  factory Notification.fromJson(Map<String, dynamic> json) =>
+      _$NotificationFromJson(json);
 }

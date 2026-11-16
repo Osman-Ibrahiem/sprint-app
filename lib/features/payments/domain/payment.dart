@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'payment.freezed.dart';
+part 'payment.g.dart';
 
 /// What a payment provider reports (BR-28: a booking is confirmed only from
 /// this, never from the UI).
@@ -19,4 +20,7 @@ abstract class Payment with _$Payment {
     DateTime? paidAt,
     required String owningUnitId,
   }) = _Payment;
+
+  factory Payment.fromJson(Map<String, dynamic> json) =>
+      _$PaymentFromJson(json);
 }

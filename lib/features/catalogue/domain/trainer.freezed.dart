@@ -12,6 +12,7 @@ part of 'trainer.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Trainer {
 
@@ -22,6 +23,8 @@ mixin _$Trainer {
 @pragma('vm:prefer-inline')
 $TrainerCopyWith<Trainer> get copyWith => _$TrainerCopyWithImpl<Trainer>(this as Trainer, _$identity);
 
+  /// Serializes this Trainer to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Trainer&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.userId, _this.userId) || other.userId == _this.userId)&&const DeepCollectionEquality().equals(other.facilityIds, _this.facilityIds)&&(identical(other.bio, _this.bio) || other.bio == _this.bio)&&(identical(other.trainerCapacity, _this.trainerCapacity) || other.trainerCapacity == _this.trainerCapacity));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Trainer;
@@ -213,11 +216,11 @@ return $default(_that.id,_that.userId,_that.facilityIds,_that.bio,_that.trainerC
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Trainer implements Trainer {
   const _Trainer({required this.id, required this.userId, required  List<String> facilityIds, required this.bio, required this.trainerCapacity}): _facilityIds = facilityIds;
-  
+  factory _Trainer.fromJson(Map<String, dynamic> json) => _$TrainerFromJson(json);
 
 @override final  String id;
 @override final  String userId;
@@ -237,14 +240,17 @@ class _Trainer implements Trainer {
 @pragma('vm:prefer-inline')
 _$TrainerCopyWith<_Trainer> get copyWith => __$TrainerCopyWithImpl<_Trainer>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$TrainerToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _Trainer&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&const DeepCollectionEquality().equals(other.facilityIds, _facilityIds)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.trainerCapacity, trainerCapacity) || other.trainerCapacity == trainerCapacity));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,id,userId,const DeepCollectionEquality().hash(_facilityIds),bio,trainerCapacity);

@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sprint/features/catalogue/domain/price.dart';
 
 part 'verification.freezed.dart';
+part 'verification.g.dart';
 
 enum VerificationType { student, staff, faculty }
 
@@ -23,6 +24,9 @@ abstract class Verification with _$Verification {
     String? reason,
     DateTime? expiresAt,
   }) = _Verification;
+
+  factory Verification.fromJson(Map<String, dynamic> json) =>
+      _$VerificationFromJson(json);
 
   /// Approved and not past its expiry (BR-25).
   bool isActiveAt(DateTime now) =>

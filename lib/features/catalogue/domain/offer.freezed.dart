@@ -12,6 +12,7 @@ part of 'offer.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Offer {
 
@@ -22,6 +23,8 @@ mixin _$Offer {
 @pragma('vm:prefer-inline')
 $OfferCopyWith<Offer> get copyWith => _$OfferCopyWithImpl<Offer>(this as Offer, _$identity);
 
+  /// Serializes this Offer to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Offer&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.scope, _this.scope) || other.scope == _this.scope)&&(identical(other.scopeId, _this.scopeId) || other.scopeId == _this.scopeId)&&(identical(other.discountPercent, _this.discountPercent) || other.discountPercent == _this.discountPercent)&&const DeepCollectionEquality().equals(other.days, _this.days)&&(identical(other.fromMinutes, _this.fromMinutes) || other.fromMinutes == _this.fromMinutes)&&(identical(other.toMinutes, _this.toMinutes) || other.toMinutes == _this.toMinutes)&&(identical(other.tier, _this.tier) || other.tier == _this.tier)&&(identical(other.validFrom, _this.validFrom) || other.validFrom == _this.validFrom)&&(identical(other.validTo, _this.validTo) || other.validTo == _this.validTo));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Offer;
@@ -218,11 +221,11 @@ return $default(_that.id,_that.scope,_that.scopeId,_that.discountPercent,_that.d
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Offer implements Offer {
   const _Offer({required this.id, required this.scope, this.scopeId, required this.discountPercent, required  Set<int> days, required this.fromMinutes, required this.toMinutes, this.tier, required this.validFrom, required this.validTo}): _days = days;
-  
+  factory _Offer.fromJson(Map<String, dynamic> json) => _$OfferFromJson(json);
 
 @override final  String id;
 @override final  OfferScope scope;
@@ -247,14 +250,17 @@ class _Offer implements Offer {
 @pragma('vm:prefer-inline')
 _$OfferCopyWith<_Offer> get copyWith => __$OfferCopyWithImpl<_Offer>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$OfferToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _Offer&&(identical(other.id, id) || other.id == id)&&(identical(other.scope, scope) || other.scope == scope)&&(identical(other.scopeId, scopeId) || other.scopeId == scopeId)&&(identical(other.discountPercent, discountPercent) || other.discountPercent == discountPercent)&&const DeepCollectionEquality().equals(other.days, _days)&&(identical(other.fromMinutes, fromMinutes) || other.fromMinutes == fromMinutes)&&(identical(other.toMinutes, toMinutes) || other.toMinutes == toMinutes)&&(identical(other.tier, tier) || other.tier == tier)&&(identical(other.validFrom, validFrom) || other.validFrom == validFrom)&&(identical(other.validTo, validTo) || other.validTo == validTo));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,id,scope,scopeId,discountPercent,const DeepCollectionEquality().hash(_days),fromMinutes,toMinutes,tier,validFrom,validTo);

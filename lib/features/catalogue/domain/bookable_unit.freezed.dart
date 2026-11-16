@@ -12,6 +12,7 @@ part of 'bookable_unit.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$BookableUnit {
 
@@ -22,6 +23,8 @@ mixin _$BookableUnit {
 @pragma('vm:prefer-inline')
 $BookableUnitCopyWith<BookableUnit> get copyWith => _$BookableUnitCopyWithImpl<BookableUnit>(this as BookableUnit, _$identity);
 
+  /// Serializes this BookableUnit to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is BookableUnit&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.facilityId, _this.facilityId) || other.facilityId == _this.facilityId)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.isActive, _this.isActive) || other.isActive == _this.isActive));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as BookableUnit;
@@ -212,11 +215,11 @@ return $default(_that.id,_that.facilityId,_that.name,_that.isActive);case _:
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _BookableUnit implements BookableUnit {
   const _BookableUnit({required this.id, required this.facilityId, required this.name, this.isActive = true});
-  
+  factory _BookableUnit.fromJson(Map<String, dynamic> json) => _$BookableUnitFromJson(json);
 
 @override final  String id;
 @override final  String facilityId;
@@ -229,14 +232,17 @@ class _BookableUnit implements BookableUnit {
 @pragma('vm:prefer-inline')
 _$BookableUnitCopyWith<_BookableUnit> get copyWith => __$BookableUnitCopyWithImpl<_BookableUnit>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$BookableUnitToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _BookableUnit&&(identical(other.id, id) || other.id == id)&&(identical(other.facilityId, facilityId) || other.facilityId == facilityId)&&(identical(other.name, name) || other.name == name)&&(identical(other.isActive, isActive) || other.isActive == isActive));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,id,facilityId,name,isActive);

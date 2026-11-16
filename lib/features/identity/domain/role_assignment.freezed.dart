@@ -12,6 +12,7 @@ part of 'role_assignment.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$RoleAssignment {
 
@@ -22,6 +23,8 @@ mixin _$RoleAssignment {
 @pragma('vm:prefer-inline')
 $RoleAssignmentCopyWith<RoleAssignment> get copyWith => _$RoleAssignmentCopyWithImpl<RoleAssignment>(this as RoleAssignment, _$identity);
 
+  /// Serializes this RoleAssignment to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is RoleAssignment&&(identical(other.userId, _this.userId) || other.userId == _this.userId)&&(identical(other.role, _this.role) || other.role == _this.role)&&(identical(other.scopeType, _this.scopeType) || other.scopeType == _this.scopeType)&&(identical(other.scopeId, _this.scopeId) || other.scopeId == _this.scopeId));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as RoleAssignment;
@@ -212,11 +215,11 @@ return $default(_that.userId,_that.role,_that.scopeType,_that.scopeId);case _:
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _RoleAssignment implements RoleAssignment {
   const _RoleAssignment({required this.userId, required this.role, required this.scopeType, this.scopeId});
-  
+  factory _RoleAssignment.fromJson(Map<String, dynamic> json) => _$RoleAssignmentFromJson(json);
 
 @override final  String userId;
 @override final  Role role;
@@ -229,14 +232,17 @@ class _RoleAssignment implements RoleAssignment {
 @pragma('vm:prefer-inline')
 _$RoleAssignmentCopyWith<_RoleAssignment> get copyWith => __$RoleAssignmentCopyWithImpl<_RoleAssignment>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$RoleAssignmentToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _RoleAssignment&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.role, role) || other.role == role)&&(identical(other.scopeType, scopeType) || other.scopeType == scopeType)&&(identical(other.scopeId, scopeId) || other.scopeId == scopeId));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,userId,role,scopeType,scopeId);

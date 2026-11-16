@@ -4,6 +4,7 @@ import 'package:sprint/core/result/result.dart';
 import 'package:sprint/features/catalogue/domain/price.dart';
 
 part 'booking.freezed.dart';
+part 'booking.g.dart';
 
 /// BRD §5. Terminal: expired, cancelled, attended, noShow.
 enum BookingStatus {
@@ -41,6 +42,9 @@ abstract class Booking with _$Booking {
     CancelledBy? cancelledBy,
     String? cancelReason,
   }) = _Booking;
+
+  factory Booking.fromJson(Map<String, dynamic> json) =>
+      _$BookingFromJson(json);
 
   /// Whether this booking takes a place in its slot at [now]: confirmed or
   /// finished bookings do, and so does a pending one whose hold is live

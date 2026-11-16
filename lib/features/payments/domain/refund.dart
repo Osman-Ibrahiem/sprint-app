@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'refund.freezed.dart';
+part 'refund.g.dart';
 
 enum RefundStatus { succeeded, failed }
 
@@ -14,4 +15,6 @@ abstract class Refund with _$Refund {
     required String reason,
     required RefundStatus status,
   }) = _Refund;
+
+  factory Refund.fromJson(Map<String, dynamic> json) => _$RefundFromJson(json);
 }

@@ -8,9 +8,131 @@ part of 'data_providers.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// Where the demo data is saved. `main` overrides it with the preferences
+/// store; tests get an in-memory one (research R1).
+
+@ProviderFor(snapshotStore)
+final snapshotStoreProvider = SnapshotStoreProvider._();
+
+/// Where the demo data is saved. `main` overrides it with the preferences
+/// store; tests get an in-memory one (research R1).
+
+final class SnapshotStoreProvider
+    extends
+        $FunctionalProvider<
+          DemoSnapshotStore,
+          DemoSnapshotStore,
+          DemoSnapshotStore
+        >
+    with $Provider<DemoSnapshotStore> {
+  /// Where the demo data is saved. `main` overrides it with the preferences
+  /// store; tests get an in-memory one (research R1).
+  SnapshotStoreProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'snapshotStoreProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$snapshotStoreHash();
+
+  @$internal
+  @override
+  $ProviderElement<DemoSnapshotStore> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  DemoSnapshotStore create(Ref ref) {
+    return snapshotStore(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DemoSnapshotStore value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DemoSnapshotStore>(value),
+    );
+  }
+}
+
+String _$snapshotStoreHash() => r'7210480c45db6b006b2056ef34590734c2fdb66a';
+
+/// The snapshot read from the store before the app starts, or null for a
+/// fresh seed. `main` overrides it; resetting the demo data clears it.
+
+@ProviderFor(InitialSnapshot)
+final initialSnapshotProvider = InitialSnapshotProvider._();
+
+/// The snapshot read from the store before the app starts, or null for a
+/// fresh seed. `main` overrides it; resetting the demo data clears it.
+final class InitialSnapshotProvider
+    extends $NotifierProvider<InitialSnapshot, Map<String, Object?>?> {
+  /// The snapshot read from the store before the app starts, or null for a
+  /// fresh seed. `main` overrides it; resetting the demo data clears it.
+  InitialSnapshotProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'initialSnapshotProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$initialSnapshotHash();
+
+  @$internal
+  @override
+  InitialSnapshot create() => InitialSnapshot();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Map<String, Object?>? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Map<String, Object?>?>(value),
+    );
+  }
+}
+
+String _$initialSnapshotHash() => r'c779c36e6d9461074c8c734d9057d9bf35084f69';
+
+/// The snapshot read from the store before the app starts, or null for a
+/// fresh seed. `main` overrides it; resetting the demo data clears it.
+
+abstract class _$InitialSnapshot extends $Notifier<Map<String, Object?>?> {
+  Map<String, Object?>? build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<Map<String, Object?>?, Map<String, Object?>?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<Map<String, Object?>?, Map<String, Object?>?>,
+              Map<String, Object?>?,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
+
+/// Loads the layer from the snapshot (or the seed) and saves it again once per
+/// event-loop turn after any write.
 
 @ProviderFor(dataLayer)
 final dataLayerProvider = DataLayerProvider._();
+
+/// Loads the layer from the snapshot (or the seed) and saves it again once per
+/// event-loop turn after any write.
 
 final class DataLayerProvider
     extends
@@ -20,6 +142,8 @@ final class DataLayerProvider
           InMemoryDataLayer
         >
     with $Provider<InMemoryDataLayer> {
+  /// Loads the layer from the snapshot (or the seed) and saves it again once per
+  /// event-loop turn after any write.
   DataLayerProvider._()
     : super(
         from: null,
@@ -54,7 +178,62 @@ final class DataLayerProvider
   }
 }
 
-String _$dataLayerHash() => r'd82d359f03afbd9ead23d0f13dea203defa5a256';
+String _$dataLayerHash() => r'13ec77f28cfeedf6d23af788f0018c981daf3408';
+
+/// "إرجاع الداتا التجريبية": clears the saved snapshot and photos (theme and
+/// language stay) and rebuilds every repository from the seed.
+
+@ProviderFor(resetDemoData)
+final resetDemoDataProvider = ResetDemoDataProvider._();
+
+/// "إرجاع الداتا التجريبية": clears the saved snapshot and photos (theme and
+/// language stay) and rebuilds every repository from the seed.
+
+final class ResetDemoDataProvider
+    extends
+        $FunctionalProvider<
+          Future<void> Function(),
+          Future<void> Function(),
+          Future<void> Function()
+        >
+    with $Provider<Future<void> Function()> {
+  /// "إرجاع الداتا التجريبية": clears the saved snapshot and photos (theme and
+  /// language stay) and rebuilds every repository from the seed.
+  ResetDemoDataProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'resetDemoDataProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$resetDemoDataHash();
+
+  @$internal
+  @override
+  $ProviderElement<Future<void> Function()> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  Future<void> Function() create(Ref ref) {
+    return resetDemoData(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Future<void> Function() value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Future<void> Function()>(value),
+    );
+  }
+}
+
+String _$resetDemoDataHash() => r'fee7cf15fbe3877a9d8a9eb00df0ce3b934085fa';
 
 @ProviderFor(settingsRepository)
 final settingsRepositoryProvider = SettingsRepositoryProvider._();

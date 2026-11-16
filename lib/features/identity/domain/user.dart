@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user.freezed.dart';
+part 'user.g.dart';
 
 enum UserStatus { active, suspended }
 
@@ -17,4 +18,6 @@ abstract class User with _$User {
     String? nationalId,
     @Default(UserStatus.active) UserStatus status,
   }) = _User;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }

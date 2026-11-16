@@ -87,3 +87,8 @@ final class Conflict extends Failure {
   const Conflict(this.details);
   final String details;
 }
+
+/// The device storage has no room left (demo snapshot photos, research R7).
+final class StorageFull extends Failure {
+  const StorageFull();
+}
