@@ -9,6 +9,7 @@ import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/core/adaptive/adaptive_back_button.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// Where "عرض المواعيد" lands until the booking feature ships: no slots and no
 /// booking action (FR-022).
@@ -36,7 +37,7 @@ class ScheduleComingSoonScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
+                  SprintIcon(
                     PhosphorIconsRegular.calendarBlank,
                     size: SprintSize.iconLg,
                     color: colors.inkMuted,

@@ -14,6 +14,7 @@ import 'package:sprint/features/catalogue/presentation/providers/catalogue_provi
 import 'package:sprint/features/catalogue/presentation/providers/share_provider.dart';
 import 'package:sprint/core/adaptive/adaptive_back_button.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// The facilities master-detail screen. One URL always means the same facility
 /// at every width (R2): compact shows the list or the details alone, medium and
@@ -106,7 +107,7 @@ class _DetailsSlot extends ConsumerWidget {
               IconButton(
                 key: shareKey,
                 tooltip: l10n.catalogueShareAction,
-                icon: const Icon(PhosphorIconsRegular.shareNetwork),
+                icon: const SprintIcon(PhosphorIconsRegular.shareNetwork),
                 onPressed: () => ref
                     .read(shareActionProvider)
                     .share(
@@ -117,7 +118,7 @@ class _DetailsSlot extends ConsumerWidget {
               IconButton(
                 key: copyKey,
                 tooltip: l10n.catalogueShareCopyLink,
-                icon: const Icon(PhosphorIconsRegular.link),
+                icon: const SprintIcon(PhosphorIconsRegular.link),
                 onPressed: () async {
                   await ref.read(shareActionProvider).copy(shareUrlFor(id));
                   if (!context.mounted) return;

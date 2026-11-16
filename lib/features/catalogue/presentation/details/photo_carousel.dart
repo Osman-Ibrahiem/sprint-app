@@ -6,6 +6,7 @@ import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// Swipeable photos with a position indicator; a labelled placeholder when
 /// there are none; no controls for one photo (R6).
@@ -40,7 +41,7 @@ class _PhotoCarouselState extends State<PhotoCarousel> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            SprintIcon(
               PhosphorIconsRegular.image,
               size: SprintSize.iconLg,
               color: colors.inkMuted,

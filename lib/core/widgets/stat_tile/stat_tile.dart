@@ -8,6 +8,7 @@ import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/stat_tile/stat_delta.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 export 'package:sprint/core/widgets/stat_tile/stat_delta.dart';
 
@@ -136,7 +137,7 @@ class StatTile extends StatelessWidget {
             key: deltaKey,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(deltaIcon, size: SprintSize.iconSm, color: deltaColor),
+              SprintIcon(deltaIcon, size: SprintSize.iconSm, color: deltaColor),
               const SizedBox(width: SprintSpacing.space1),
               Expanded(
                 child: Text(

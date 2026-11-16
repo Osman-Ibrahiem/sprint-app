@@ -5,6 +5,7 @@ import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// Shown for any unknown route, with a way back to Home (FR-008).
 class NotFoundScreen extends StatelessWidget {
@@ -21,7 +22,7 @@ class NotFoundScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                SprintIcon(
                   Icons.explore_off_outlined,
                   size: SprintSize.iconLg,
                   color: context.colors.inkMuted,

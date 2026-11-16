@@ -36,7 +36,11 @@ class AdaptiveSwitch extends StatelessWidget {
             onChanged: onChanged,
             thumbIcon: WidgetStateProperty.resolveWith(
               (states) => states.contains(WidgetState.selected)
-                  ? const Icon(Icons.check, size: SprintSize.iconSm)
+                  ? const Icon(
+                      Icons.check,
+                      size: SprintSize.iconSm,
+                      textDirection: TextDirection.ltr,
+                    )
                   : null,
             ),
           );

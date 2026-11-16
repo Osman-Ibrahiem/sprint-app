@@ -21,6 +21,7 @@ import 'package:sprint/features/catalogue/presentation/providers/catalogue_provi
 import 'package:sprint/features/catalogue/presentation/widgets/catalogue_error_view.dart';
 import 'package:sprint/features/catalogue/presentation/widgets/facility_card_mapper.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// The first screen: a guest discovers facility types and featured facilities
 /// and reaches any facility in two taps (FR-001, FR-002, FR-006).
@@ -238,7 +239,7 @@ class _TypeChip extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            SprintIcon(
               icon,
               size: SprintSize.iconMd,
               color: selected ? colors.onPrimarySoft : colors.inkMuted,
@@ -252,7 +253,7 @@ class _TypeChip extends StatelessWidget {
             ),
             if (selected) ...[
               const SizedBox(width: SprintSpacing.space1),
-              Icon(
+              SprintIcon(
                 PhosphorIconsRegular.check,
                 size: SprintSize.iconSm,
                 color: colors.onPrimarySoft,
