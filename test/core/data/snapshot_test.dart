@@ -90,22 +90,22 @@ void main() {
     test('restoring a snapshot restores the signed-in user (FR-013)', () async {
       final layer = _seeded();
       // TODO(T025): the session moves to AuthRepository; point this at it.
-      await layer.identity.setCurrentUser(SeedIds.userUnverified);
+      await layer.auth.actAs(SeedIds.userUnverified);
 
       final back = InMemoryDataLayer.fromSnapshot(
         clock: _clock(),
         snapshot: _viaJson(layer.toSnapshot()),
         paymentDelay: Duration.zero,
       );
-      expect((await back.identity.currentUser())?.id, SeedIds.userUnverified);
+      expect((await back.auth.currentUserId()), SeedIds.userUnverified);
 
-      await layer.identity.setCurrentUser(null);
+      await layer.auth.actAs(null);
       final guest = InMemoryDataLayer.fromSnapshot(
         clock: _clock(),
         snapshot: _viaJson(layer.toSnapshot()),
         paymentDelay: Duration.zero,
       );
-      expect(await guest.identity.currentUser(), isNull);
+      expect(await guest.auth.currentUserId(), isNull);
     });
 
     test('a saved password never appears in the snapshot JSON (FR-044)', () {
@@ -164,7 +164,7 @@ void main() {
 
       await layer.audit.append(_entry());
       await layer.audit.append(_entry());
-      await layer.identity.setCurrentUser(SeedIds.userUnverified);
+      await layer.auth.actAs(SeedIds.userUnverified);
       await layer.notifications.markRead(
         layer.notifications.all.first.id,
         cairo(2026, 11, 14, 10),
@@ -206,7 +206,7 @@ void main() {
         () => layer.assets.saveAsset(layer.assets.allAssets.first),
       );
       await expectSave(
-        () => layer.identity.setCurrentUser(SeedIds.userUnverified),
+        () => layer.auth.actAs(SeedIds.userUnverified),
       );
       await expectSave(
         () => layer.settings.set(

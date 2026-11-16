@@ -234,10 +234,15 @@ void main() {
       await env.layer.catalogue.upsertPrice(
         const Price(unitId: Ids.futsal2, tier: PriceTier.internal, amount: 999),
       );
-      await env.layer.identity.putVerification(
+      await env.layer.verification.put(
         Verification(
+          id: 'ver-test',
           userId: Ids.bookerInternal,
           type: VerificationType.student,
+          nationalId: '29901010100011',
+          code: '1',
+          owningUnitId: Ids.ouPe,
+          submittedAt: env.now,
           status: VerificationStatus.rejected,
           method: VerificationMethod.manual,
           reason: 'x',

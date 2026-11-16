@@ -6,6 +6,7 @@ import 'package:sprint/core/time/clock_provider.dart';
 import 'package:sprint/features/assets/domain/asset_repository.dart';
 import 'package:sprint/features/attendance/domain/attendance_repository.dart';
 import 'package:sprint/features/audit/domain/audit_log_repository.dart';
+import 'package:sprint/features/auth/domain/auth_repository.dart';
 import 'package:sprint/features/booking/domain/availability_repository.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
 import 'package:sprint/features/catalogue/domain/catalogue_repository.dart';
@@ -14,6 +15,7 @@ import 'package:sprint/features/notifications/domain/notification_repository.dar
 import 'package:sprint/features/payments/domain/payment_provider.dart';
 import 'package:sprint/features/payments/domain/payment_repository.dart';
 import 'package:sprint/features/settings/domain/settings_repository.dart';
+import 'package:sprint/features/verification/domain/verification_repository.dart';
 
 part 'data_providers.g.dart';
 
@@ -67,6 +69,13 @@ CatalogueRepository catalogueRepository(Ref ref) =>
 @Riverpod(keepAlive: true)
 IdentityRepository identityRepository(Ref ref) =>
     ref.watch(dataLayerProvider).identity;
+
+@Riverpod(keepAlive: true)
+AuthRepository authRepository(Ref ref) => ref.watch(dataLayerProvider).auth;
+
+@Riverpod(keepAlive: true)
+VerificationRepository verificationRepository(Ref ref) =>
+    ref.watch(dataLayerProvider).verification;
 
 @Riverpod(keepAlive: true)
 BookingRepository bookingRepository(Ref ref) =>

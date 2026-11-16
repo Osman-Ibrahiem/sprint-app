@@ -18,7 +18,8 @@ import 'package:sprint/features/catalogue/domain/catalogue_repository.dart';
 import 'package:sprint/features/catalogue/domain/facility.dart';
 import 'package:sprint/features/identity/domain/identity_repository.dart';
 import 'package:sprint/features/identity/domain/permission_checker.dart';
-import 'package:sprint/features/identity/domain/verification.dart';
+import 'package:sprint/features/verification/domain/tier.dart';
+import 'package:sprint/features/verification/domain/verification_repository.dart';
 import 'package:sprint/features/notifications/domain/notification.dart';
 import 'package:sprint/features/notifications/domain/notification_repository.dart';
 import 'package:sprint/features/payments/domain/payment.dart';
@@ -39,6 +40,7 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
     required this.catalogue,
     required this.settings,
     required this.identity,
+    required this.verification,
     required this.payments,
     required this.notifications,
     required this.attendance,
@@ -65,6 +67,7 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
   final CatalogueRepository catalogue;
   final SettingsRepository settings;
   final IdentityRepository identity;
+  final VerificationRepository verification;
   final PaymentRepository payments;
   final NotificationRepository notifications;
   final AttendanceRepository attendance;
@@ -211,7 +214,11 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
     if (clash != null) return Err(clash);
 
     // Price: the tier comes from verification now and is frozen (BR-17).
-    final tier = tierAt(await identity.verification(userId), now);
+    final tier = tierFor(
+      await identity.getUser(userId),
+      await verification.current(userId),
+      now,
+    );
     final quoted = pricing.quote(
       facility: facility,
       prices: await catalogue.prices(unit.id),

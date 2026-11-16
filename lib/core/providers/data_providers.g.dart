@@ -379,6 +379,95 @@ final class IdentityRepositoryProvider
 String _$identityRepositoryHash() =>
     r'c0f2f633796cc6b6389b546ce7b5cc5c30c57cae';
 
+@ProviderFor(authRepository)
+final authRepositoryProvider = AuthRepositoryProvider._();
+
+final class AuthRepositoryProvider
+    extends $FunctionalProvider<AuthRepository, AuthRepository, AuthRepository>
+    with $Provider<AuthRepository> {
+  AuthRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'authRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$authRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<AuthRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  AuthRepository create(Ref ref) {
+    return authRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AuthRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AuthRepository>(value),
+    );
+  }
+}
+
+String _$authRepositoryHash() => r'ed41290a1232dbc1d005d1ffafe31aee60e06950';
+
+@ProviderFor(verificationRepository)
+final verificationRepositoryProvider = VerificationRepositoryProvider._();
+
+final class VerificationRepositoryProvider
+    extends
+        $FunctionalProvider<
+          VerificationRepository,
+          VerificationRepository,
+          VerificationRepository
+        >
+    with $Provider<VerificationRepository> {
+  VerificationRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'verificationRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$verificationRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<VerificationRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  VerificationRepository create(Ref ref) {
+    return verificationRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(VerificationRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<VerificationRepository>(value),
+    );
+  }
+}
+
+String _$verificationRepositoryHash() =>
+    r'378575ff0cbc7a6acc9408d7777a8e3299ac7408';
+
 @ProviderFor(bookingRepository)
 final bookingRepositoryProvider = BookingRepositoryProvider._();
 

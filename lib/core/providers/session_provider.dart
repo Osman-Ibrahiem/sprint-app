@@ -3,7 +3,7 @@ import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/features/catalogue/domain/price.dart';
 import 'package:sprint/features/identity/domain/role_assignment.dart';
 import 'package:sprint/features/identity/domain/user.dart';
-import 'package:sprint/features/identity/domain/verification.dart';
+import 'package:sprint/features/verification/domain/tier.dart';
 
 part 'session_provider.g.dart';
 
@@ -28,19 +28,24 @@ class SessionNotifier extends _$SessionNotifier {
 
   Future<Session> _load() async {
     final identity = ref.read(identityRepositoryProvider);
-    final user = await identity.currentUser();
+    final userId = await ref.read(authRepositoryProvider).currentUserId();
+    final user = userId == null ? null : await identity.getUser(userId);
     if (user == null) return Session.guest;
     final now = ref.read(dataLayerProvider).clock.now();
     return Session(
       user: user,
       roles: await identity.roleAssignments(user.id),
-      tier: tierAt(await identity.verification(user.id), now),
+      tier: tierFor(
+        user,
+        await ref.read(verificationRepositoryProvider).current(user.id),
+        now,
+      ),
     );
   }
 
   /// Demo only: act as [userId], or as a guest when null (FR-031).
   Future<void> selectUser(String? userId) async {
-    await ref.read(identityRepositoryProvider).setCurrentUser(userId);
+    await ref.read(authRepositoryProvider).actAs(userId);
     state = AsyncData(await _load());
   }
 }

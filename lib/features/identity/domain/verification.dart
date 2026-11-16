@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sprint/features/catalogue/domain/price.dart';
 
 part 'verification.freezed.dart';
 part 'verification.g.dart';
@@ -17,16 +16,34 @@ abstract class Verification with _$Verification {
   const Verification._();
 
   const factory Verification({
+    required String id,
     required String userId,
     required VerificationType type,
+    required String nationalId,
+
+    /// University or staff code: 1 to 20 digits or letters.
+    required String code,
+    required String owningUnitId,
     required VerificationStatus status,
     required VerificationMethod method,
+    required DateTime submittedAt,
+    String? photoId,
+    String? reviewerId,
+
+    /// Required (at least 10 characters) when rejected (BR-26).
     String? reason,
+    DateTime? decidedAt,
     DateTime? expiresAt,
   }) = _Verification;
 
   factory Verification.fromJson(Map<String, dynamic> json) =>
       _$VerificationFromJson(json);
+
+  /// Approved and past its expiry: the derived `expired` state (BR-25).
+  bool isExpiredAt(DateTime now) =>
+      status == VerificationStatus.approved &&
+      expiresAt != null &&
+      !now.isBefore(expiresAt!);
 
   /// Approved and not past its expiry (BR-25).
   bool isActiveAt(DateTime now) =>
@@ -35,9 +52,3 @@ abstract class Verification with _$Verification {
       now.isBefore(expiresAt!);
 }
 
-/// The tier of a user at [now]: internal only with an active verification,
-/// otherwise external (BR-21, BR-24, BR-25).
-PriceTier tierAt(Verification? verification, DateTime now) =>
-    verification != null && verification.isActiveAt(now)
-        ? PriceTier.internal
-        : PriceTier.external;

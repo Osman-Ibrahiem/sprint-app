@@ -10,12 +10,14 @@ import 'package:sprint/features/audit/data/in_memory_audit_log_repository.dart';
 import 'package:sprint/features/booking/data/in_memory_availability_repository.dart';
 import 'package:sprint/features/booking/data/in_memory_booking_repository.dart';
 import 'package:sprint/features/catalogue/data/in_memory_catalogue_repository.dart';
+import 'package:sprint/features/auth/data/in_memory_auth_repository.dart';
 import 'package:sprint/features/identity/data/in_memory_identity_repository.dart';
 import 'package:sprint/features/notifications/data/in_memory_notification_repository.dart';
 import 'package:sprint/features/payments/data/fake_payment_provider.dart';
 import 'package:sprint/features/payments/data/in_memory_payment_repository.dart';
 import 'package:sprint/features/payments/domain/payment.dart';
 import 'package:sprint/features/settings/data/in_memory_settings_repository.dart';
+import 'package:sprint/features/verification/data/in_memory_verification_repository.dart';
 
 /// Every in-memory repository over one seed, wired together. This is the one
 /// place that knows the data is in memory; screens read the interfaces through
@@ -29,6 +31,8 @@ class InMemoryDataLayer {
     required this.settings,
     required this.catalogue,
     required this.identity,
+    required this.auth,
+    required this.verification,
     required this.payments,
     required this.paymentProvider,
     required this.notifications,
@@ -66,8 +70,14 @@ class InMemoryDataLayer {
     final identity = InMemoryIdentityRepository(
       users: data.users,
       roleAssignments: data.roleAssignments,
-      verifications: data.verifications,
+    );
+    final auth = InMemoryAuthRepository(
+      identity: identity,
       currentUserId: currentUserId,
+    );
+    final verification = InMemoryVerificationRepository(
+      verifications: data.verifications,
+      identity: identity,
     );
     final payments = InMemoryPaymentRepository(
       payments: data.payments,
@@ -88,6 +98,7 @@ class InMemoryDataLayer {
       catalogue: catalogue,
       settings: settings,
       identity: identity,
+      verification: verification,
       payments: payments,
       notifications: notifications,
       attendance: attendance,
@@ -109,6 +120,8 @@ class InMemoryDataLayer {
       settings: settings,
       catalogue: catalogue,
       identity: identity,
+      auth: auth,
+      verification: verification,
       payments: payments,
       paymentProvider: provider,
       notifications: notifications,
@@ -167,6 +180,8 @@ class InMemoryDataLayer {
   final InMemorySettingsRepository settings;
   final InMemoryCatalogueRepository catalogue;
   final InMemoryIdentityRepository identity;
+  final InMemoryAuthRepository auth;
+  final InMemoryVerificationRepository verification;
   final InMemoryPaymentRepository payments;
   final FakePaymentProvider paymentProvider;
   final InMemoryNotificationRepository notifications;
@@ -190,7 +205,7 @@ class InMemoryDataLayer {
       trainers: catalogue.allTrainers,
       trainerAvailability: catalogue.allTrainerAvailability,
       users: identity.allUsers,
-      verifications: identity.allVerifications,
+      verifications: verification.allVerifications,
       roleAssignments: identity.allAssignments,
       bookings: bookings.allBookings,
       payments: payments.allPayments,
@@ -208,7 +223,7 @@ class InMemoryDataLayer {
       'savedAt': clock.now().toUtc().toIso8601String(),
       'data': {
         ...SnapshotCodec.encode(data),
-        'session': {'currentUserId': identity.currentUserId},
+        'session': {'currentUserId': auth.signedInUserId},
       },
     };
   }
@@ -228,6 +243,8 @@ class InMemoryDataLayer {
       settings.changes,
       catalogue.changes,
       identity.changes,
+      auth.changes,
+      verification.changes,
       payments.changes,
       notifications.changes,
       attendance.changes,
