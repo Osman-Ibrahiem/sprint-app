@@ -944,4 +944,200 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get mailboxCopied => 'الكود اتنسخ.';
+
+  @override
+  String get verifTitle => 'طلب التوثيق';
+
+  @override
+  String get verifRenewTitle => 'تجديد التوثيق';
+
+  @override
+  String get verifIntro =>
+      'بعد التوثيق بتحجز بالسعر الداخلي. بنراجع البيانات وصورة البطاقة.';
+
+  @override
+  String get verifTypeTitle => 'نوع الحساب';
+
+  @override
+  String get verifTypeStudent => 'طالب';
+
+  @override
+  String get verifTypeStaff => 'موظف';
+
+  @override
+  String get verifTypeFaculty => 'عضو هيئة تدريس';
+
+  @override
+  String get verifNationalIdLabel => 'الرقم القومي';
+
+  @override
+  String get verifNationalIdHelper => '14 رقم زي ما هو مكتوب في البطاقة.';
+
+  @override
+  String get verifCodeLabel => 'الكود الجامعي أو الوظيفي';
+
+  @override
+  String get verifCodeHelper => 'أرقام أو حروف إنجليزي، لحد 20 خانة.';
+
+  @override
+  String get verifUnitTitle => 'الكلية أو الإدارة';
+
+  @override
+  String get verifPhotoLabel => 'صورة البطاقة';
+
+  @override
+  String get verifPhotoHelper =>
+      'صورة واضحة للبطاقة كلها. بنصغّرها تلقائي قبل الإرسال.';
+
+  @override
+  String get verifPhotoChoose => 'اختيار الصورة';
+
+  @override
+  String get verifPhotoReplace => 'تغيير الصورة';
+
+  @override
+  String get verifPhotoSourceTitle => 'صورة البطاقة';
+
+  @override
+  String get verifPhotoCamera => 'تصوير بالكاميرا';
+
+  @override
+  String get verifPhotoGallery => 'اختيار من الصور أو الملفات';
+
+  @override
+  String get verifPhotoCancel => 'إلغاء';
+
+  @override
+  String get verifPhotoProcessing => 'جاري تجهيز الصورة';
+
+  @override
+  String get verifPhotoPreviewSpoken => 'معاينة صورة البطاقة';
+
+  @override
+  String get verifPhotoNotImage => 'الملف ده مش صورة. اختار صورة تانية.';
+
+  @override
+  String get verifErrNationalIdEmpty => 'الرقم القومي مطلوب.';
+
+  @override
+  String get verifErrNationalIdLength => 'الرقم القومي لازم يكون 14 رقم.';
+
+  @override
+  String get verifErrNationalIdCentury =>
+      'أول رقم في الرقم القومي لازم يكون 2 أو 3.';
+
+  @override
+  String get verifErrNationalIdBirthDate =>
+      'تاريخ الميلاد جوه الرقم القومي مش صحيح.';
+
+  @override
+  String get verifErrNationalIdFuture =>
+      'تاريخ الميلاد جوه الرقم القومي لسه ماجاش.';
+
+  @override
+  String get verifErrNationalIdGovernorate =>
+      'كود المحافظة جوه الرقم القومي مش صحيح.';
+
+  @override
+  String get verifErrCodeEmpty => 'الكود مطلوب.';
+
+  @override
+  String get verifErrCodeInvalid =>
+      'الكود لازم يكون من 1 لـ 20 رقم أو حرف إنجليزي.';
+
+  @override
+  String get verifErrUnitEmpty => 'اختار الكلية أو الإدارة.';
+
+  @override
+  String get verifErrPhotoEmpty => 'صورة البطاقة مطلوبة.';
+
+  @override
+  String get verifSubmit => 'إرسال الطلب';
+
+  @override
+  String get verifSubmitting => 'جاري إرسال الطلب';
+
+  @override
+  String verifResultApproved(String date) {
+    return 'تم التوثيق. سعرك داخلي لحد $date.';
+  }
+
+  @override
+  String get verifResultPending =>
+      'الطلب اتبعت وبيتراجع. لحد ما يخلص هتفضل بالسعر الكامل.';
+
+  @override
+  String verifResultRejected(String reason) {
+    return 'الطلب اترفض. السبب: $reason';
+  }
+
+  @override
+  String get verifResultDone => 'تمام';
+
+  @override
+  String get verifReasonDuplicate =>
+      'الرقم القومي ده عليه طلب توثيق من حساب تاني.';
+
+  @override
+  String get verifStorageFull => 'الصورة متحفظتش، ممكن تبعتها تاني';
+
+  @override
+  String get verifAlreadyPending => 'عندك طلب قيد المراجعة بالفعل.';
+
+  @override
+  String get verifCardTitle => 'التوثيق';
+
+  @override
+  String verifCardSpoken(String status) {
+    return 'التوثيق: $status';
+  }
+
+  @override
+  String get verifStatusNone => 'غير موثّق';
+
+  @override
+  String get verifStatusExpired => 'التوثيق انتهى';
+
+  @override
+  String get verifNoneBody =>
+      'حسابك بالسعر الكامل. بعد التوثيق بتحجز بالسعر الداخلي.';
+
+  @override
+  String get verifPendingBody =>
+      'طلبك قيد المراجعة. لحد ما يخلص هتفضل بالسعر الكامل.';
+
+  @override
+  String verifApprovedUntil(String date) {
+    return 'متوثق لحد $date';
+  }
+
+  @override
+  String get verifRejectedBody => 'الطلب اترفض.';
+
+  @override
+  String verifReasonLabel(String reason) {
+    return 'السبب: $reason';
+  }
+
+  @override
+  String verifExpiredBody(String date) {
+    return 'التوثيق انتهى يوم $date. السعر دلوقتي كامل لحد التجديد.';
+  }
+
+  @override
+  String get verifActionRequest => 'طلب التوثيق';
+
+  @override
+  String get verifActionRenew => 'تجديد التوثيق';
+
+  @override
+  String get verifActionAgain => 'إرسال طلب جديد';
+
+  @override
+  String get verifActionWait => 'في انتظار المراجعة';
+
+  @override
+  String verifNationalIdMasked(String id) {
+    return 'الرقم القومي: $id';
+  }
 }

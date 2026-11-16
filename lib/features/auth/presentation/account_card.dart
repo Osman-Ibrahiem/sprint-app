@@ -5,18 +5,20 @@ import 'package:sprint/core/l10n/ltr_isolate.dart';
 import 'package:sprint/core/l10n/role_labels.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
+import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/features/auth/domain/masking.dart';
 import 'package:sprint/features/identity/domain/role_assignment.dart';
+import 'package:sprint/features/verification/presentation/verification_slot.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// Profile's account block for a signed-in person: name, masked phone and
 /// email in LTR isolates, roles, tier, and sign out behind a confirmation
-/// (FR-016, FR-019, US-03). Verification status and its next action join in
-/// the verification story.
+/// (FR-016, FR-019, US-03), and the verification slot with its status and next
+/// action (FR-029, US-04).
 class AccountCard extends ConsumerWidget {
   const AccountCard({required this.session, super.key});
 
@@ -109,7 +111,11 @@ class AccountCard extends ConsumerWidget {
               ],
             ),
           ),
-          const SizedBox(height: SprintSpacing.space3),
+          const SizedBox(height: SprintSpacing.space4),
+          Divider(height: SprintExtras.hairlineWidth, color: colors.line),
+          const SizedBox(height: SprintSpacing.space4),
+          VerificationSlot(session: session),
+          const SizedBox(height: SprintSpacing.space4),
           SprintButton(
             key: signOutKey,
             label: l10n.signOutConfirm,

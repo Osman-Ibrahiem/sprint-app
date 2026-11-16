@@ -952,4 +952,203 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mailboxCopied => 'Code copied.';
+
+  @override
+  String get verifTitle => 'Verification request';
+
+  @override
+  String get verifRenewTitle => 'Renew verification';
+
+  @override
+  String get verifIntro =>
+      'Once verified you book at the internal price. We check your details and ID card photo.';
+
+  @override
+  String get verifTypeTitle => 'Account type';
+
+  @override
+  String get verifTypeStudent => 'Student';
+
+  @override
+  String get verifTypeStaff => 'Staff';
+
+  @override
+  String get verifTypeFaculty => 'Faculty member';
+
+  @override
+  String get verifNationalIdLabel => 'National ID';
+
+  @override
+  String get verifNationalIdHelper => '14 digits, as written on the card.';
+
+  @override
+  String get verifCodeLabel => 'University or staff code';
+
+  @override
+  String get verifCodeHelper =>
+      'Digits or English letters, up to 20 characters.';
+
+  @override
+  String get verifUnitTitle => 'Faculty or department';
+
+  @override
+  String get verifPhotoLabel => 'ID card photo';
+
+  @override
+  String get verifPhotoHelper =>
+      'A clear photo of the whole card. It is resized automatically before sending.';
+
+  @override
+  String get verifPhotoChoose => 'Choose photo';
+
+  @override
+  String get verifPhotoReplace => 'Change photo';
+
+  @override
+  String get verifPhotoSourceTitle => 'ID card photo';
+
+  @override
+  String get verifPhotoCamera => 'Take a photo';
+
+  @override
+  String get verifPhotoGallery => 'Choose from photos or files';
+
+  @override
+  String get verifPhotoCancel => 'Cancel';
+
+  @override
+  String get verifPhotoProcessing => 'Preparing the photo';
+
+  @override
+  String get verifPhotoPreviewSpoken => 'ID card photo preview';
+
+  @override
+  String get verifPhotoNotImage =>
+      'That file is not an image. Choose another one.';
+
+  @override
+  String get verifErrNationalIdEmpty => 'National ID is required.';
+
+  @override
+  String get verifErrNationalIdLength => 'National ID must be 14 digits.';
+
+  @override
+  String get verifErrNationalIdCentury =>
+      'The first digit of the national ID must be 2 or 3.';
+
+  @override
+  String get verifErrNationalIdBirthDate =>
+      'The birth date inside the national ID is not valid.';
+
+  @override
+  String get verifErrNationalIdFuture =>
+      'The birth date inside the national ID is in the future.';
+
+  @override
+  String get verifErrNationalIdGovernorate =>
+      'The governorate code inside the national ID is not valid.';
+
+  @override
+  String get verifErrCodeEmpty => 'The code is required.';
+
+  @override
+  String get verifErrCodeInvalid =>
+      'The code must be 1 to 20 digits or English letters.';
+
+  @override
+  String get verifErrUnitEmpty => 'Choose the faculty or department.';
+
+  @override
+  String get verifErrPhotoEmpty => 'The ID card photo is required.';
+
+  @override
+  String get verifSubmit => 'Send request';
+
+  @override
+  String get verifSubmitting => 'Sending the request';
+
+  @override
+  String verifResultApproved(String date) {
+    return 'Verified. Your price is internal until $date.';
+  }
+
+  @override
+  String get verifResultPending =>
+      'Request sent and under review. Until it is done you stay on the full price.';
+
+  @override
+  String verifResultRejected(String reason) {
+    return 'The request was refused. Reason: $reason';
+  }
+
+  @override
+  String get verifResultDone => 'Done';
+
+  @override
+  String get verifReasonDuplicate =>
+      'This national ID already has a verification request from another account.';
+
+  @override
+  String get verifStorageFull =>
+      'The photo was not saved, you can send it again';
+
+  @override
+  String get verifAlreadyPending => 'You already have a request under review.';
+
+  @override
+  String get verifCardTitle => 'Verification';
+
+  @override
+  String verifCardSpoken(String status) {
+    return 'Verification: $status';
+  }
+
+  @override
+  String get verifStatusNone => 'Not verified';
+
+  @override
+  String get verifStatusExpired => 'Verification expired';
+
+  @override
+  String get verifNoneBody =>
+      'Your account is on the full price. Once verified you book at the internal price.';
+
+  @override
+  String get verifPendingBody =>
+      'Your request is under review. Until it is done you stay on the full price.';
+
+  @override
+  String verifApprovedUntil(String date) {
+    return 'Verified until $date';
+  }
+
+  @override
+  String get verifRejectedBody => 'The request was refused.';
+
+  @override
+  String verifReasonLabel(String reason) {
+    return 'Reason: $reason';
+  }
+
+  @override
+  String verifExpiredBody(String date) {
+    return 'Verification expired on $date. The price is full until you renew.';
+  }
+
+  @override
+  String get verifActionRequest => 'Request verification';
+
+  @override
+  String get verifActionRenew => 'Renew verification';
+
+  @override
+  String get verifActionAgain => 'Send a new request';
+
+  @override
+  String get verifActionWait => 'Waiting for review';
+
+  @override
+  String verifNationalIdMasked(String id) {
+    return 'National ID: $id';
+  }
 }

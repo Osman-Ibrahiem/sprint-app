@@ -1709,6 +1709,348 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الكود اتنسخ.'**
   String get mailboxCopied;
+
+  /// No description provided for @verifTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب التوثيق'**
+  String get verifTitle;
+
+  /// No description provided for @verifRenewTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تجديد التوثيق'**
+  String get verifRenewTitle;
+
+  /// No description provided for @verifIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد التوثيق بتحجز بالسعر الداخلي. بنراجع البيانات وصورة البطاقة.'**
+  String get verifIntro;
+
+  /// No description provided for @verifTypeTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'نوع الحساب'**
+  String get verifTypeTitle;
+
+  /// No description provided for @verifTypeStudent.
+  ///
+  /// In ar, this message translates to:
+  /// **'طالب'**
+  String get verifTypeStudent;
+
+  /// No description provided for @verifTypeStaff.
+  ///
+  /// In ar, this message translates to:
+  /// **'موظف'**
+  String get verifTypeStaff;
+
+  /// No description provided for @verifTypeFaculty.
+  ///
+  /// In ar, this message translates to:
+  /// **'عضو هيئة تدريس'**
+  String get verifTypeFaculty;
+
+  /// No description provided for @verifNationalIdLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرقم القومي'**
+  String get verifNationalIdLabel;
+
+  /// No description provided for @verifNationalIdHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'14 رقم زي ما هو مكتوب في البطاقة.'**
+  String get verifNationalIdHelper;
+
+  /// No description provided for @verifCodeLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود الجامعي أو الوظيفي'**
+  String get verifCodeLabel;
+
+  /// No description provided for @verifCodeHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'أرقام أو حروف إنجليزي، لحد 20 خانة.'**
+  String get verifCodeHelper;
+
+  /// No description provided for @verifUnitTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكلية أو الإدارة'**
+  String get verifUnitTitle;
+
+  /// No description provided for @verifPhotoLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة البطاقة'**
+  String get verifPhotoLabel;
+
+  /// No description provided for @verifPhotoHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة واضحة للبطاقة كلها. بنصغّرها تلقائي قبل الإرسال.'**
+  String get verifPhotoHelper;
+
+  /// No description provided for @verifPhotoChoose.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار الصورة'**
+  String get verifPhotoChoose;
+
+  /// No description provided for @verifPhotoReplace.
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيير الصورة'**
+  String get verifPhotoReplace;
+
+  /// No description provided for @verifPhotoSourceTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة البطاقة'**
+  String get verifPhotoSourceTitle;
+
+  /// No description provided for @verifPhotoCamera.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصوير بالكاميرا'**
+  String get verifPhotoCamera;
+
+  /// No description provided for @verifPhotoGallery.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار من الصور أو الملفات'**
+  String get verifPhotoGallery;
+
+  /// No description provided for @verifPhotoCancel.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء'**
+  String get verifPhotoCancel;
+
+  /// No description provided for @verifPhotoProcessing.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري تجهيز الصورة'**
+  String get verifPhotoProcessing;
+
+  /// No description provided for @verifPhotoPreviewSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'معاينة صورة البطاقة'**
+  String get verifPhotoPreviewSpoken;
+
+  /// No description provided for @verifPhotoNotImage.
+  ///
+  /// In ar, this message translates to:
+  /// **'الملف ده مش صورة. اختار صورة تانية.'**
+  String get verifPhotoNotImage;
+
+  /// No description provided for @verifErrNationalIdEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرقم القومي مطلوب.'**
+  String get verifErrNationalIdEmpty;
+
+  /// No description provided for @verifErrNationalIdLength.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرقم القومي لازم يكون 14 رقم.'**
+  String get verifErrNationalIdLength;
+
+  /// No description provided for @verifErrNationalIdCentury.
+  ///
+  /// In ar, this message translates to:
+  /// **'أول رقم في الرقم القومي لازم يكون 2 أو 3.'**
+  String get verifErrNationalIdCentury;
+
+  /// No description provided for @verifErrNationalIdBirthDate.
+  ///
+  /// In ar, this message translates to:
+  /// **'تاريخ الميلاد جوه الرقم القومي مش صحيح.'**
+  String get verifErrNationalIdBirthDate;
+
+  /// No description provided for @verifErrNationalIdFuture.
+  ///
+  /// In ar, this message translates to:
+  /// **'تاريخ الميلاد جوه الرقم القومي لسه ماجاش.'**
+  String get verifErrNationalIdFuture;
+
+  /// No description provided for @verifErrNationalIdGovernorate.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود المحافظة جوه الرقم القومي مش صحيح.'**
+  String get verifErrNationalIdGovernorate;
+
+  /// No description provided for @verifErrCodeEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود مطلوب.'**
+  String get verifErrCodeEmpty;
+
+  /// No description provided for @verifErrCodeInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود لازم يكون من 1 لـ 20 رقم أو حرف إنجليزي.'**
+  String get verifErrCodeInvalid;
+
+  /// No description provided for @verifErrUnitEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختار الكلية أو الإدارة.'**
+  String get verifErrUnitEmpty;
+
+  /// No description provided for @verifErrPhotoEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة البطاقة مطلوبة.'**
+  String get verifErrPhotoEmpty;
+
+  /// No description provided for @verifSubmit.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال الطلب'**
+  String get verifSubmit;
+
+  /// No description provided for @verifSubmitting.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري إرسال الطلب'**
+  String get verifSubmitting;
+
+  /// No description provided for @verifResultApproved.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم التوثيق. سعرك داخلي لحد {date}.'**
+  String verifResultApproved(String date);
+
+  /// No description provided for @verifResultPending.
+  ///
+  /// In ar, this message translates to:
+  /// **'الطلب اتبعت وبيتراجع. لحد ما يخلص هتفضل بالسعر الكامل.'**
+  String get verifResultPending;
+
+  /// No description provided for @verifResultRejected.
+  ///
+  /// In ar, this message translates to:
+  /// **'الطلب اترفض. السبب: {reason}'**
+  String verifResultRejected(String reason);
+
+  /// No description provided for @verifResultDone.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمام'**
+  String get verifResultDone;
+
+  /// No description provided for @verifReasonDuplicate.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرقم القومي ده عليه طلب توثيق من حساب تاني.'**
+  String get verifReasonDuplicate;
+
+  /// No description provided for @verifStorageFull.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصورة متحفظتش، ممكن تبعتها تاني'**
+  String get verifStorageFull;
+
+  /// No description provided for @verifAlreadyPending.
+  ///
+  /// In ar, this message translates to:
+  /// **'عندك طلب قيد المراجعة بالفعل.'**
+  String get verifAlreadyPending;
+
+  /// No description provided for @verifCardTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوثيق'**
+  String get verifCardTitle;
+
+  /// No description provided for @verifCardSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوثيق: {status}'**
+  String verifCardSpoken(String status);
+
+  /// No description provided for @verifStatusNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'غير موثّق'**
+  String get verifStatusNone;
+
+  /// No description provided for @verifStatusExpired.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوثيق انتهى'**
+  String get verifStatusExpired;
+
+  /// No description provided for @verifNoneBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابك بالسعر الكامل. بعد التوثيق بتحجز بالسعر الداخلي.'**
+  String get verifNoneBody;
+
+  /// No description provided for @verifPendingBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبك قيد المراجعة. لحد ما يخلص هتفضل بالسعر الكامل.'**
+  String get verifPendingBody;
+
+  /// No description provided for @verifApprovedUntil.
+  ///
+  /// In ar, this message translates to:
+  /// **'متوثق لحد {date}'**
+  String verifApprovedUntil(String date);
+
+  /// No description provided for @verifRejectedBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'الطلب اترفض.'**
+  String get verifRejectedBody;
+
+  /// No description provided for @verifReasonLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'السبب: {reason}'**
+  String verifReasonLabel(String reason);
+
+  /// No description provided for @verifExpiredBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوثيق انتهى يوم {date}. السعر دلوقتي كامل لحد التجديد.'**
+  String verifExpiredBody(String date);
+
+  /// No description provided for @verifActionRequest.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب التوثيق'**
+  String get verifActionRequest;
+
+  /// No description provided for @verifActionRenew.
+  ///
+  /// In ar, this message translates to:
+  /// **'تجديد التوثيق'**
+  String get verifActionRenew;
+
+  /// No description provided for @verifActionAgain.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال طلب جديد'**
+  String get verifActionAgain;
+
+  /// No description provided for @verifActionWait.
+  ///
+  /// In ar, this message translates to:
+  /// **'في انتظار المراجعة'**
+  String get verifActionWait;
+
+  /// No description provided for @verifNationalIdMasked.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرقم القومي: {id}'**
+  String verifNationalIdMasked(String id);
 }
 
 class _AppLocalizationsDelegate

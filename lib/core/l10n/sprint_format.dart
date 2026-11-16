@@ -49,6 +49,14 @@ class SprintFormat {
     );
   }
 
+  /// "31 أغسطس 2027" / "31 Aug 2027", for the Cairo calendar day.
+  String dateWithYear(DateTime instant) {
+    final pattern = _lang == 'en' ? 'd MMM y' : 'd MMMM y';
+    return _western(
+      DateFormat(pattern, _lang).format(CairoTime.toCairo(instant)),
+    );
+  }
+
   /// A Cairo-local time, without the conversion [time] applies. Screens that
   /// already hold Cairo wall-clock times use the methods below.
   String _localTime(DateTime t) =>

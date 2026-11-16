@@ -9,6 +9,7 @@ import 'package:sprint/app/shell/placeholders/bookings_placeholder.dart';
 import 'package:sprint/app/shell/placeholders/facilities_placeholder.dart';
 import 'package:sprint/app/shell/placeholders/home_placeholder.dart';
 import 'package:sprint/app/shell/placeholders/profile_placeholder.dart';
+import 'package:sprint/features/verification/presentation/verification_request_screen.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// Route paths. Screens never build path strings by hand.
@@ -213,5 +214,14 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
     selectedIcon: PhosphorIconsFill.user,
     label: (l) => l.navProfile,
     builder: ProfilePlaceholder.new,
+    routes: [
+      // `/profile/verification`: needs an account (contracts/routes.md).
+      GatedRoute(
+        path: 'verification',
+        name: AppRouteNames.profileVerification,
+        access: const RouteAccess(requiresAccount: true),
+        builder: (context, state) => const VerificationRequestScreen(),
+      ),
+    ],
   ),
 ];
