@@ -20,6 +20,15 @@ These were decided in this specification so that the plan does not have to guess
 - **Profile here is account and verification only.** The Profile tab shows who is signed in, the tier, the verification status and its actions, and sign out. Editing name, phone or photo, notification preferences and the rest of the profile are feature 7 (US-13, US-14).
 - **One code by email for both confirmation and password reset.** FR-AUTH-03 allows a link or a code. A short numeric code works the same on every platform without deep-link handling and is easy to show in a demo, so both flows use it.
 
+## Clarifications
+
+### Session 2026-11-16
+
+- Q: When a verifier's scope is one owning unit, which requests do they see and decide, and which requests does their uploaded sheet match? → A: Only requests whose chosen faculty or department belongs to their unit, and their sheet matches only those; a university-scope verifier and `SUPER_ADMIN` see and match all.
+- Q: How do reviewers read the simulated email codes at the defense? → A: Both: a simulated mailbox screen in the demo area and a demo-only notice showing the code on the code entry screen, both hidden by the demo release switch.
+- Q: Do accounts and requests created during a demo survive closing the app or reloading the page? → A: Yes. All demo data and the session are saved on the device, and a confirmed "reset demo data" action in the demo area returns to the seed data. This replaces the Foundation's rule that only theme and language are saved.
+- Q: Are the code and sign-in security numbers (15-minute code, 5 wrong tries, 60-second resend wait, 5-minute lockout after 5 wrong passwords) fixed or admin settings? → A: Fixed product constants, not settings; they protect accounts and are not business rules, so Principle III does not apply.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Create an account and confirm the email (Priority: P1)
@@ -189,6 +198,8 @@ Whatever happens to a person's verification, a booking keeps the tier and price 
 - **FR-011**: A suspended account MUST be refused with a message that says it is suspended.
 - **FR-012**: After sign in, the app MUST build its sections from the person's role assignments and scopes, using the Foundation's role-driven sections, with no extra code per role.
 - **FR-013**: The session MUST be kept across app restarts until sign out, on every platform.
+- **FR-013a**: The demo data MUST persist on the device across app restarts and web page reloads: accounts, passwords (hashed), verification requests, sheet rows and uploads, simulated emails, notifications, audit entries and the session, and any data later features change in the same data layer. Persistence MUST sit behind the same repository interfaces so the backend replaces it without touching screens. If saved data cannot be read (missing, corrupt, older format), the app MUST start from the seed data instead of failing.
+- **FR-013b**: The demo area MUST offer "إرجاع الداتا التجريبية", behind the demo release switch, which asks for confirmation with the platform's dialog, then erases the saved data, signs out, and restarts from the seed data. Theme and language choices are kept.
 - **FR-014**: Sign out MUST be reached from Profile, MUST ask for confirmation with the platform's dialog, and MUST return the app to guest mode and remove every staff-only section and route.
 - **FR-015**: The Foundation's demo user switcher MUST go through the same session as real sign in, stay behind the demo release switch, and every seed person MUST also be able to sign in through the form with a demo password documented in the seed data.
 
@@ -207,7 +218,7 @@ Whatever happens to a person's verification, a booking keeps the tier and price 
 
 **Simulated email (P1 only)**
 
-- **FR-023**: Every email the system would send (confirmation code, reset code) MUST be written to a simulated mailbox behind an interface, so a real email service can replace it without touching any screen. [NEEDS CLARIFICATION: How do reviewers read simulated emails at the defense: (A) a "simulated mailbox" screen in the demo area, behind the demo release switch; (B) a small dismissible notice on the code screen itself showing the code, demo builds only; or (C) both?]
+- **FR-023**: Every email the system would send (confirmation code, reset code) MUST be written to a simulated mailbox behind an interface, so a real email service can replace it without touching any screen. Reviewers MUST be able to read the code in two ways, both only behind the Foundation's demo release switch: (a) a simulated mailbox screen in the demo area listing every sent email with its recipient, subject, body and time; (b) a small dismissible notice on the code entry screen, marked as demo only, showing the current code. With the demo switch off, neither appears.
 
 **Verification request (FR-VER-01, FR-VER-04, BR-22 – BR-27, US-04)**
 
@@ -222,7 +233,7 @@ Whatever happens to a person's verification, a booking keeps the tier and price 
 **Verifier review and sheet upload (FR-VER-02, FR-VER-03, US-05)**
 
 - **FR-031**: People with `VERIFIER` (in their scope) or `SUPER_ADMIN` MUST see a Verification section with the queue of pending requests, oldest first, showing type, faculty or department, waiting time and how it would be priced.
-- **FR-032**: The verifier's scope MUST decide which requests they see and which they can decide. [NEEDS CLARIFICATION: A verifier scoped to an owning unit (e.g. the Faculty of Physical Education) sees: (A) only requests whose chosen faculty or department belongs to that unit, and their sheet uploads match only requests of that unit; or (B) all requests in the university, with the scope only limiting audit and reports?]
+- **FR-032**: The verifier's scope MUST decide which requests they see and which they can decide. A verifier scoped to an owning unit MUST see and decide only requests whose chosen faculty or department belongs to that unit, and the rows of a sheet they upload MUST be tagged with that unit and match only requests of that unit. A verifier scoped to the university and a `SUPER_ADMIN` MUST see and decide every request, and their sheets match every request. A request outside a verifier's scope MUST NOT be reachable by them, including by direct link.
 - **FR-033**: A request's detail MUST show the full national ID and the ID card photo only to `VERIFIER` and `SUPER_ADMIN`; everywhere else the national ID MUST be masked so only its last 4 digits show (NFR-06).
 - **FR-034**: Approve MUST make the person internal with an expiry from FR-028; reject MUST require a reason of at least 10 characters. Both MUST create an in-app notification for the person and an audit log entry with who, when and the before and after status (NFR-12).
 - **FR-035**: A verifier MUST NOT decide their own request, and a decision on a request already decided MUST be refused with a message.
@@ -244,7 +255,7 @@ Whatever happens to a person's verification, a booking keeps the tier and price 
 - **FR-045**: Every screen MUST use the Feature 002 widgets (`SprintButton` for actions, `SprintTextField` for inputs, `StatusBadge`-style word and icon for statuses), tokens only, platform-native dialogs, sheets and loaders, and all text from l10n files in Arabic and English, in a light Egyptian dialect with verbal-noun buttons ("تسجيل الدخول", "إنشاء الحساب", "إرسال الطلب", "قبول الطلب", "رفض الطلب").
 - **FR-046**: Emails, mobile numbers, national IDs and codes MUST be shown in left-to-right isolates inside Arabic text, and their fields MUST use the right keyboard type and autofill hints.
 - **FR-047**: Every form MUST be usable at 200% text, at compact width, with a keyboard (tab order, Enter submits, visible focus ring) and with a screen reader (labels, errors announced).
-- **FR-048**: The seed data MUST include, besides the Foundation's people: one pending request in a second faculty, one rejected request with its reason, one unconfirmed account, one suspended account, and a sample sheet with rows that match some pending requests and rows that do not; all people fictional, with valid-format national IDs.
+- **FR-048**: The seed data MUST include, besides the Foundation's people: one pending request in a second faculty (outside the seed verifier's unit, so only `SUPER_ADMIN` or a university-scope verifier can decide it), one rejected request with its reason, one unconfirmed account, one suspended account, and a sample sheet with rows that match some pending requests and rows that do not; all people fictional, with valid-format national IDs.
 
 ### Key Entities
 
@@ -253,7 +264,7 @@ Whatever happens to a person's verification, a booking keeps the tier and price 
 - **Email code**: a 6-digit code for one purpose (confirm email, reset password) tied to one account, with its expiry, wrong-try count and the time a new one can be sent.
 - **Simulated email**: a message the system would have sent: to, subject, body with the code, sent time. P1 only.
 - **Verification request (Verification)**: type, national ID, code, faculty or department (an owning unit), ID card photo, status (pending, approved, rejected, expired as derived), method (automatic or manual), reviewer, reason, decided time, expiry. Extends the Foundation's `Verification`.
-- **Sheet row (VerificationWhitelist)**: national ID, code, type, who uploaded it, the upload batch.
+- **Sheet row (VerificationWhitelist)**: national ID, code, type, who uploaded it, the upload batch, and the owning unit it applies to (none for a university-scope upload).
 - **Sheet upload**: one upload: who, when, file name, and its summary counts.
 - **Audit entry**: who did what to which request or batch, when, with the before and after status (from the Foundation's audit log).
 - **Notification**: the in-app notice of an approval or rejection (from the Foundation's notifications).
@@ -293,7 +304,7 @@ This feature is UI-only on mock data. These are explicitly not part of it:
 ## Assumptions
 
 - **Seed people sign in with one demo password**, documented in the seed data and in the quickstart, never shown in the UI. The demo user switcher stays for fast role switching (see Scope decisions).
-- **Code rules are product constants, not settings**: 6 digits, 15 minutes, 5 wrong tries, 60-second resend wait, 5-minute lockout after 5 wrong passwords. The BRD does not mark them as settings; if Osman wants them adjustable, they move to the settings registry in clarify.
+- **Code rules are product constants, not settings (settled in clarify, 2026-11-16)**: 6 digits, 15 minutes, 5 wrong tries, 60-second resend wait, 5-minute lockout after 5 wrong passwords. They protect accounts and are not business rules, so they are not in the settings registry or BRD §4; each is defined once, in one place.
 - **Password rules**: at least 8 characters with a letter and a digit. The BRD does not set them; this is a common minimum that is not a burden on a phone keyboard.
 - **Egyptian mobile numbers only** in P1, since outside visitors are assumed to be local (`docs/decisions.md`, 2026-11-08: outside visitors are the same age as the students).
 - **Faculty or department** is chosen from the owning units in the seed data; real faculties come with Dr. Sara's data.
@@ -302,5 +313,6 @@ This feature is UI-only on mock data. These are explicitly not part of it:
 - **Approval notifications are in-app records only** in P1; push delivery comes with the notifications feature and the backend.
 - **The ID card photo stays in memory** for the session of the fake repository; there is no file storage in P1.
 - **Landing after sign in** is the screen the person came from, otherwise Home. Staff do not land on their own section by default; their sections appear in the navigation.
+- **Saved demo data replaces a Foundation rule.** `specs/001-foundation/spec.md` said only theme and language survive a restart and seed data resets on every start. Clarify (2026-11-16) changed that so a sign-in and the data a reviewer creates survive a reload; the decision is added to `docs/decisions.md` in this feature's pull request.
 - **The stack and architecture** are those in `CLAUDE.md` and the constitution. This spec states outcomes; where things live and how they are built belongs to the plan.
 - **Platforms checked**: web, macOS, Android and iOS, as in features 1 and 2.

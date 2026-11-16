@@ -13,7 +13,7 @@
 
 ## Requirement Completeness
 
-- [ ] No [NEEDS CLARIFICATION] markers remain
+- [x] No [NEEDS CLARIFICATION] markers remain
 - [x] Requirements are testable and unambiguous
 - [x] Success criteria are measurable
 - [x] Success criteria are technology-agnostic (no implementation details)
@@ -31,5 +31,5 @@
 
 ## Notes
 
-- Two [NEEDS CLARIFICATION] markers remain: FR-023 (how reviewers read simulated emails) and FR-032 (what an owning-unit verifier sees). Both go to Osman before `/speckit-clarify`.
+- The two [NEEDS CLARIFICATION] markers (FR-023, FR-032) were resolved in `/speckit-clarify` on 2026-11-16.
 - Names of existing domain entities (`User`, `Verification`, `Session`) and Feature 002 widgets are cited only to tie the spec to what is already built; they are not implementation choices.
