@@ -9,7 +9,8 @@
 - `helper` اختياري تحت الحقل بخط `caption` ولون `ink-muted`.
 - `error`: لو موجود بيبدّل الـ helper، بلون `danger` ومعاه أيقونة. الرسالة بتقول إيه اللي غلط وإزاي يتصلح.
 - `type`: `text` | `password` (فيه "إظهار") | `search` (pill على `surface-sunken`) | `phone` و `email` و `nationalId` (بيتكتبوا LTR).
-- `keyboardType` و `autofillHints` حسب النوع.
+- `code`: كود تأكيد من أرقام (لحد 6). كيبورد أرقام و`oneTimeCode` autofill، بيتكتب LTR، والـ screen reader بيقراه كحقل واحد مش خانات.
+- `keyboardType` و `autofillHints` حسب النوع، و`autofillHints` ممكن تتبعت اختياري بدل الافتراضي. كمان `textInputAction` و`focusNode` اختياريين لترتيب الكيبورد في الفورم.
 
 ## الحالات
 
