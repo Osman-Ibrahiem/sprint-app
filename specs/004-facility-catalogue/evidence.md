@@ -70,10 +70,8 @@ run, so later regressions are visible.
   clipped by scroll viewports).
 - Found and fixed while testing: a price-row overflow in `FacilityCard` at 200% text, and an
   hours-row overflow in a narrow pane.
-- Known issue, not fixed here: `SprintFormat.time/date/localTime` use intl's plain `ar` locale, which
-  prints Arabic-Indic digits in this environment, against the Western-digits rule (research R5 says
-  it should not). The catalogue avoids it with `clock_text.dart`; the shared formatter needs its own
-  fix and test.
+- Known issue (fixed later the same day, see "Digits fix" below): `SprintFormat.time/date/localTime` printed
+  Arabic-Indic digits under the app's localisation delegates.
 - Hinge: the shell splits the window at a hinge and gives each side its own width class, so a facility
   screen may show one pane there; nothing overlaps the hinge (T059).
 
@@ -129,11 +127,6 @@ iOS and Android devices or simulators; tablet and foldable hinge layouts.
 
 ### Things noticed while walking (not fixed here)
 
-- The closure line on the futsal details ("من الخميس 19 نوفمبر إلى الجمعة 20 نوفمبر") goes through
-  `SprintFormat.date`, so it is affected by the known issue recorded under T061: the digits looked
-  Arabic-Indic in the browser. In a plain test with `initializeDateFormatting('ar')` the same call
-  gives Western digits (0x31 0x39), so the difference comes from how the app initialises date data.
-  Not confirmed pixel-for-pixel; needs a test that runs under the app's own localisation delegates.
 - The type chip "Swimming" shows as selected on the home screen after the list filter was used,
   because the kept filter is shared. Home is for discovery, so a pre-selected type there may confuse.
   A decision for the spec owner.
@@ -143,6 +136,17 @@ iOS and Android devices or simulators; tablet and foldable hinge layouts.
   odd ("6 · كلية التربية الرياضية units"). Seed names are Arabic only; not checked on a real device.
 - In English the details app bar back arrow could not be confirmed as pointing left at this
   resolution; worth a look on a larger capture.
+
+## Digits fix
+
+- **Date**: 2026-11-16
+- Reproduced under `MaterialApp` with the app's own delegates: `SprintFormat.date/time/dateTimeLine`
+  gave "الخميس ١٩ نوفمبر" and "٤:٠٠ م" (a plain test that only calls `initializeDateFormatting` hid it).
+- Fix in `lib/core/l10n/sprint_format.dart`: every `intl` output goes through one `_western` step that
+  maps U+0660 to U+0669 to 0 to 9. New test `test/core/l10n/sprint_format_digits_test.dart` runs every
+  method in ar and en under the app delegates.
+- `flutter analyze`: clean. `flutter test`: **866 passed**. The closure line on the futsal details
+  was the place it showed in the browser; not re-checked in the browser after the fix.
 
 ## Not done yet
 
