@@ -114,7 +114,7 @@ A booker with the external tier asks to be priced as internal. They fill in the 
 1. **Given** an external booker, **When** they submit a complete request whose national ID and code match a sheet row of the same type, **Then** they are verified automatically, the tier shows internal, and the expiry date is shown.
 2. **Given** a request with no matching row, **When** it is submitted, **Then** its status is "under review", the tier stays external, and booking at full price is still possible.
 3. **Given** a national ID already linked to another account, **When** the request is submitted, **Then** it is refused automatically with a reason that says the national ID is already registered on another account.
-4. **Given** an incomplete or invalid request (missing photo, national ID that is not 14 digits or fails its date and checksum rules), **When** submit is tried, **Then** each problem is shown next to its field and nothing is sent.
+4. **Given** an incomplete or invalid request (missing photo, national ID that is not 14 digits or has an impossible birth date or governorate code), **When** submit is tried, **Then** each problem is shown next to its field and nothing is sent.
 5. **Given** a rejected request, **Then** the reason is shown, and the person can send a new request.
 6. **Given** a verification whose expiry date has passed, **Then** the tier shows external again, the status says expired, and a renewal starts from the previous answers with a new ID card photo (BR-25, FR-VER-04).
 7. **Given** a request under review, **Then** a second request cannot be sent until the first is decided.
