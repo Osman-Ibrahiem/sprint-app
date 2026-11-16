@@ -254,7 +254,7 @@ class FacilityCard extends StatelessWidget {
           textBaseline: TextBaseline.alphabetic,
           children: [
             if (price.amount != null)
-              Text(price.amount!, style: context.text.number),
+              Flexible(child: Text(price.amount!, style: context.text.number)),
             if (price.oldAmount != null) ...[
               const SizedBox(width: SprintSpacing.space2),
               Text(

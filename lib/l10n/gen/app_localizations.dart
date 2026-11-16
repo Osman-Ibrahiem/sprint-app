@@ -1229,6 +1229,359 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تقدر تشوف كل المنشآت من غير تسجيل.'**
   String get catalogueHomeGuestHint;
+
+  /// No description provided for @catalogueFiltersTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الفلاتر'**
+  String get catalogueFiltersTitle;
+
+  /// No description provided for @catalogueFilterAllTypes.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل الأنواع'**
+  String get catalogueFilterAllTypes;
+
+  /// No description provided for @catalogueFilterAllUnits.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل الجهات'**
+  String get catalogueFilterAllUnits;
+
+  /// No description provided for @catalogueFilterAny.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجاني أو مدفوع'**
+  String get catalogueFilterAny;
+
+  /// No description provided for @catalogueFilterFree.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجاني'**
+  String get catalogueFilterFree;
+
+  /// No description provided for @catalogueFilterPaid.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدفوع'**
+  String get catalogueFilterPaid;
+
+  /// No description provided for @catalogueFilterClearAll.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسح الكل'**
+  String get catalogueFilterClearAll;
+
+  /// No description provided for @catalogueFilterRemove.
+  ///
+  /// In ar, this message translates to:
+  /// **'إزالة فلتر {name}'**
+  String catalogueFilterRemove(String name);
+
+  /// No description provided for @catalogueResultCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =0{مفيش منشآت} =1{منشأة واحدة} =2{منشأتين} few{{count} منشآت} other{{count} منشأة}}'**
+  String catalogueResultCount(int count);
+
+  /// No description provided for @catalogueEmptyTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش منشآت مطابقة'**
+  String get catalogueEmptyTitle;
+
+  /// No description provided for @catalogueEmptyBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش حاجة بتطابق الفلاتر دي: {filters}'**
+  String catalogueEmptyBody(String filters);
+
+  /// No description provided for @catalogueEmptyClear.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسح الفلاتر'**
+  String get catalogueEmptyClear;
+
+  /// No description provided for @catalogueSectionHours.
+  ///
+  /// In ar, this message translates to:
+  /// **'مواعيد العمل'**
+  String get catalogueSectionHours;
+
+  /// No description provided for @catalogueSectionPrices.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأسعار'**
+  String get catalogueSectionPrices;
+
+  /// No description provided for @catalogueSectionTrainers.
+  ///
+  /// In ar, this message translates to:
+  /// **'المدربين'**
+  String get catalogueSectionTrainers;
+
+  /// No description provided for @catalogueSectionUnits.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوحدات'**
+  String get catalogueSectionUnits;
+
+  /// No description provided for @catalogueSectionAvailability.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتاح النهارده'**
+  String get catalogueSectionAvailability;
+
+  /// No description provided for @catalogueSectionFacts.
+  ///
+  /// In ar, this message translates to:
+  /// **'معلومات الحجز'**
+  String get catalogueSectionFacts;
+
+  /// No description provided for @cataloguePhotoPlaceholder.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة المنشأة'**
+  String get cataloguePhotoPlaceholder;
+
+  /// No description provided for @cataloguePhotoPosition.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة {index} من {count}'**
+  String cataloguePhotoPosition(int index, int count);
+
+  /// No description provided for @catalogueDayName.
+  ///
+  /// In ar, this message translates to:
+  /// **'{day, select, 1{الاثنين} 2{الثلاثاء} 3{الأربعاء} 4{الخميس} 5{الجمعة} 6{السبت} other{الأحد}}'**
+  String catalogueDayName(String day);
+
+  /// No description provided for @catalogueHoursClosedDay.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقفول'**
+  String get catalogueHoursClosedDay;
+
+  /// No description provided for @catalogueHoursToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'النهارده'**
+  String get catalogueHoursToday;
+
+  /// No description provided for @catalogueClosedNow.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقفول دلوقتي'**
+  String get catalogueClosedNow;
+
+  /// No description provided for @catalogueClosedToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقفول النهارده'**
+  String get catalogueClosedToday;
+
+  /// No description provided for @catalogueClosureRange.
+  ///
+  /// In ar, this message translates to:
+  /// **'من {from} إلى {to}'**
+  String catalogueClosureRange(String from, String to);
+
+  /// No description provided for @cataloguePriceInternalLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'سعر الطلبة والعاملين'**
+  String get cataloguePriceInternalLabel;
+
+  /// No description provided for @cataloguePriceExternalLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر العادي'**
+  String get cataloguePriceExternalLabel;
+
+  /// No description provided for @cataloguePriceYours.
+  ///
+  /// In ar, this message translates to:
+  /// **'سعرك'**
+  String get cataloguePriceYours;
+
+  /// No description provided for @cataloguePriceBasisShared.
+  ///
+  /// In ar, this message translates to:
+  /// **'للمكان الواحد'**
+  String get cataloguePriceBasisShared;
+
+  /// No description provided for @cataloguePriceBasisExclusive.
+  ///
+  /// In ar, this message translates to:
+  /// **'للحجز كله'**
+  String get cataloguePriceBasisExclusive;
+
+  /// No description provided for @cataloguePriceAllUnits.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل الوحدات'**
+  String get cataloguePriceAllUnits;
+
+  /// No description provided for @cataloguePriceNotSet.
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر لسه مش محدد'**
+  String get cataloguePriceNotSet;
+
+  /// No description provided for @catalogueFreeNoPayment.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنشأة دي مجانية ومفيش دفع.'**
+  String get catalogueFreeNoPayment;
+
+  /// No description provided for @catalogueTrainerCapacity.
+  ///
+  /// In ar, this message translates to:
+  /// **'بياخد {count} في الحصة'**
+  String catalogueTrainerCapacity(int count);
+
+  /// No description provided for @catalogueTrainersNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش مدربين دلوقتي'**
+  String get catalogueTrainersNone;
+
+  /// No description provided for @catalogueTrainerFirst.
+  ///
+  /// In ar, this message translates to:
+  /// **'لازم تختار المدرب الأول'**
+  String get catalogueTrainerFirst;
+
+  /// No description provided for @catalogueTrainerUnnamed.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدرب'**
+  String get catalogueTrainerUnnamed;
+
+  /// No description provided for @catalogueUnitOwnHours.
+  ///
+  /// In ar, this message translates to:
+  /// **'مواعيد خاصة: {hours}'**
+  String catalogueUnitOwnHours(String hours);
+
+  /// No description provided for @catalogueFactWindow.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز لحد {days} أيام قدام'**
+  String catalogueFactWindow(int days);
+
+  /// No description provided for @catalogueFactMaxRange.
+  ///
+  /// In ar, this message translates to:
+  /// **'أقصى مدة للحجز {hours} ساعات'**
+  String catalogueFactMaxRange(int hours);
+
+  /// No description provided for @catalogueFactSession.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدة الحصة {minutes} دقيقة'**
+  String catalogueFactSession(int minutes);
+
+  /// No description provided for @catalogueAvailabilityToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتاح النهارده'**
+  String get catalogueAvailabilityToday;
+
+  /// No description provided for @catalogueScheduleAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض المواعيد'**
+  String get catalogueScheduleAction;
+
+  /// No description provided for @catalogueScheduleSoonTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'قريبًا'**
+  String get catalogueScheduleSoonTitle;
+
+  /// No description provided for @catalogueScheduleSoonBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'مواعيد الـ 7 أيام الجاية هتظهر هنا قريب.'**
+  String get catalogueScheduleSoonBody;
+
+  /// No description provided for @catalogueScheduleSoonBack.
+  ///
+  /// In ar, this message translates to:
+  /// **'رجوع للمنشأة'**
+  String get catalogueScheduleSoonBack;
+
+  /// No description provided for @catalogueUpcomingTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجوزاتك الجاية'**
+  String get catalogueUpcomingTitle;
+
+  /// No description provided for @catalogueUpcomingSeeAll.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض الكل'**
+  String get catalogueUpcomingSeeAll;
+
+  /// No description provided for @catalogueUpcomingNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش حجوزات جاية. اختار منشأة وابدأ.'**
+  String get catalogueUpcomingNone;
+
+  /// No description provided for @catalogueBookingSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجز في {facility}، {date}، الساعة {time}، {status}'**
+  String catalogueBookingSpoken(
+    String facility,
+    String date,
+    String time,
+    String status,
+  );
+
+  /// No description provided for @catalogueSuggestionsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقترحة ليك'**
+  String get catalogueSuggestionsTitle;
+
+  /// No description provided for @catalogueSuggestionReasonBookedType.
+  ///
+  /// In ar, this message translates to:
+  /// **'لأنك حجزت {type} قبل كده'**
+  String catalogueSuggestionReasonBookedType(String type);
+
+  /// No description provided for @catalogueSuggestionReasonOther.
+  ///
+  /// In ar, this message translates to:
+  /// **'ممكن تعجبك'**
+  String get catalogueSuggestionReasonOther;
+
+  /// No description provided for @catalogueShareAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'مشاركة المنشأة'**
+  String get catalogueShareAction;
+
+  /// No description provided for @catalogueShareCopyLink.
+  ///
+  /// In ar, this message translates to:
+  /// **'نسخ اللينك'**
+  String get catalogueShareCopyLink;
+
+  /// No description provided for @catalogueShareCopied.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتنسخ اللينك'**
+  String get catalogueShareCopied;
+
+  /// No description provided for @catalogueShareText.
+  ///
+  /// In ar, this message translates to:
+  /// **'شوف {name} على سبرنت'**
+  String catalogueShareText(String name);
 }
 
 class _AppLocalizationsDelegate

@@ -325,4 +325,37 @@ void main() {
       expect(ordered, isTrue, reason: '${a.facility.name} before ${b.facility.name}');
     }
   });
+
+  test('facilityDetails is null for a missing id', () async {
+    final container = _container(now);
+    addTearDown(container.dispose);
+    expect(await container.read(facilityDetailsProvider('nope').future), isNull);
+  });
+
+  test('facilityDetails gathers hours, price groups, units and facts', () async {
+    final container = _container(now);
+    addTearDown(container.dispose);
+    final d = await container
+        .read(facilityDetailsProvider(SeedIds.poolFacility).future);
+    expect(d, isNotNull);
+    expect(d!.hours.days, hasLength(7));
+    expect(d.priceGroups, isNotEmpty);
+    expect(d.units, isNotEmpty);
+    expect(d.trainers, isEmpty);
+    expect(d.facts.bookingWindowDays, greaterThan(0));
+  });
+
+  test('facilityDetails has trainers for the academy and no prices when free',
+      () async {
+    final container = _container(now);
+    addTearDown(container.dispose);
+    final academy = await container
+        .read(facilityDetailsProvider(SeedIds.academyFacility).future);
+    expect(academy!.trainers, hasLength(3));
+    expect(academy.facts.sessionMinutes, isNotNull);
+    final hall =
+        await container.read(facilityDetailsProvider(SeedIds.hallFacility).future);
+    expect(hall!.priceGroups, isEmpty);
+    expect(hall.facts.maxRangeHours, isNotNull);
+  });
 }

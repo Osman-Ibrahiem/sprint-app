@@ -660,4 +660,230 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get catalogueHomeGuestHint => 'تقدر تشوف كل المنشآت من غير تسجيل.';
+
+  @override
+  String get catalogueFiltersTitle => 'الفلاتر';
+
+  @override
+  String get catalogueFilterAllTypes => 'كل الأنواع';
+
+  @override
+  String get catalogueFilterAllUnits => 'كل الجهات';
+
+  @override
+  String get catalogueFilterAny => 'مجاني أو مدفوع';
+
+  @override
+  String get catalogueFilterFree => 'مجاني';
+
+  @override
+  String get catalogueFilterPaid => 'مدفوع';
+
+  @override
+  String get catalogueFilterClearAll => 'مسح الكل';
+
+  @override
+  String catalogueFilterRemove(String name) {
+    return 'إزالة فلتر $name';
+  }
+
+  @override
+  String catalogueResultCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count منشأة',
+      few: '$count منشآت',
+      two: 'منشأتين',
+      one: 'منشأة واحدة',
+      zero: 'مفيش منشآت',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catalogueEmptyTitle => 'مفيش منشآت مطابقة';
+
+  @override
+  String catalogueEmptyBody(String filters) {
+    return 'مفيش حاجة بتطابق الفلاتر دي: $filters';
+  }
+
+  @override
+  String get catalogueEmptyClear => 'مسح الفلاتر';
+
+  @override
+  String get catalogueSectionHours => 'مواعيد العمل';
+
+  @override
+  String get catalogueSectionPrices => 'الأسعار';
+
+  @override
+  String get catalogueSectionTrainers => 'المدربين';
+
+  @override
+  String get catalogueSectionUnits => 'الوحدات';
+
+  @override
+  String get catalogueSectionAvailability => 'المتاح النهارده';
+
+  @override
+  String get catalogueSectionFacts => 'معلومات الحجز';
+
+  @override
+  String get cataloguePhotoPlaceholder => 'صورة المنشأة';
+
+  @override
+  String cataloguePhotoPosition(int index, int count) {
+    return 'صورة $index من $count';
+  }
+
+  @override
+  String catalogueDayName(String day) {
+    String _temp0 = intl.Intl.selectLogic(day, {
+      '1': 'الاثنين',
+      '2': 'الثلاثاء',
+      '3': 'الأربعاء',
+      '4': 'الخميس',
+      '5': 'الجمعة',
+      '6': 'السبت',
+      'other': 'الأحد',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get catalogueHoursClosedDay => 'مقفول';
+
+  @override
+  String get catalogueHoursToday => 'النهارده';
+
+  @override
+  String get catalogueClosedNow => 'مقفول دلوقتي';
+
+  @override
+  String get catalogueClosedToday => 'مقفول النهارده';
+
+  @override
+  String catalogueClosureRange(String from, String to) {
+    return 'من $from إلى $to';
+  }
+
+  @override
+  String get cataloguePriceInternalLabel => 'سعر الطلبة والعاملين';
+
+  @override
+  String get cataloguePriceExternalLabel => 'السعر العادي';
+
+  @override
+  String get cataloguePriceYours => 'سعرك';
+
+  @override
+  String get cataloguePriceBasisShared => 'للمكان الواحد';
+
+  @override
+  String get cataloguePriceBasisExclusive => 'للحجز كله';
+
+  @override
+  String get cataloguePriceAllUnits => 'كل الوحدات';
+
+  @override
+  String get cataloguePriceNotSet => 'السعر لسه مش محدد';
+
+  @override
+  String get catalogueFreeNoPayment => 'المنشأة دي مجانية ومفيش دفع.';
+
+  @override
+  String catalogueTrainerCapacity(int count) {
+    return 'بياخد $count في الحصة';
+  }
+
+  @override
+  String get catalogueTrainersNone => 'مفيش مدربين دلوقتي';
+
+  @override
+  String get catalogueTrainerFirst => 'لازم تختار المدرب الأول';
+
+  @override
+  String get catalogueTrainerUnnamed => 'مدرب';
+
+  @override
+  String catalogueUnitOwnHours(String hours) {
+    return 'مواعيد خاصة: $hours';
+  }
+
+  @override
+  String catalogueFactWindow(int days) {
+    return 'الحجز لحد $days أيام قدام';
+  }
+
+  @override
+  String catalogueFactMaxRange(int hours) {
+    return 'أقصى مدة للحجز $hours ساعات';
+  }
+
+  @override
+  String catalogueFactSession(int minutes) {
+    return 'مدة الحصة $minutes دقيقة';
+  }
+
+  @override
+  String get catalogueAvailabilityToday => 'المتاح النهارده';
+
+  @override
+  String get catalogueScheduleAction => 'عرض المواعيد';
+
+  @override
+  String get catalogueScheduleSoonTitle => 'قريبًا';
+
+  @override
+  String get catalogueScheduleSoonBody =>
+      'مواعيد الـ 7 أيام الجاية هتظهر هنا قريب.';
+
+  @override
+  String get catalogueScheduleSoonBack => 'رجوع للمنشأة';
+
+  @override
+  String get catalogueUpcomingTitle => 'حجوزاتك الجاية';
+
+  @override
+  String get catalogueUpcomingSeeAll => 'عرض الكل';
+
+  @override
+  String get catalogueUpcomingNone => 'مفيش حجوزات جاية. اختار منشأة وابدأ.';
+
+  @override
+  String catalogueBookingSpoken(
+    String facility,
+    String date,
+    String time,
+    String status,
+  ) {
+    return 'حجز في $facility، $date، الساعة $time، $status';
+  }
+
+  @override
+  String get catalogueSuggestionsTitle => 'مقترحة ليك';
+
+  @override
+  String catalogueSuggestionReasonBookedType(String type) {
+    return 'لأنك حجزت $type قبل كده';
+  }
+
+  @override
+  String get catalogueSuggestionReasonOther => 'ممكن تعجبك';
+
+  @override
+  String get catalogueShareAction => 'مشاركة المنشأة';
+
+  @override
+  String get catalogueShareCopyLink => 'نسخ اللينك';
+
+  @override
+  String get catalogueShareCopied => 'اتنسخ اللينك';
+
+  @override
+  String catalogueShareText(String name) {
+    return 'شوف $name على سبرنت';
+  }
 }

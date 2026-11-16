@@ -15,6 +15,8 @@ import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/features/catalogue/domain/facility.dart';
 import 'package:sprint/features/catalogue/domain/facility_summary.dart';
 import 'package:sprint/features/catalogue/domain/home_content.dart';
+import 'package:sprint/features/catalogue/presentation/home/suggestions_section.dart';
+import 'package:sprint/features/catalogue/presentation/home/upcoming_bookings_section.dart';
 import 'package:sprint/features/catalogue/presentation/providers/catalogue_providers.dart';
 import 'package:sprint/features/catalogue/presentation/widgets/catalogue_error_view.dart';
 import 'package:sprint/features/catalogue/presentation/widgets/facility_card_mapper.dart';
@@ -92,6 +94,14 @@ class _Loaded extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (!session.isGuest) ...[
+          UpcomingBookingsSection(bookings: content.upcoming),
+          const SizedBox(height: SprintSpacing.space6),
+          if (content.suggestions.isNotEmpty) ...[
+            SuggestionsSection(suggestions: content.suggestions),
+            const SizedBox(height: SprintSpacing.space6),
+          ],
+        ],
         if (content.types.isNotEmpty) ...[
           _SectionTitle(text: l10n.catalogueHomeTypesTitle),
           const SizedBox(height: SprintSpacing.space2),

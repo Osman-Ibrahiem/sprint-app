@@ -5,16 +5,14 @@ import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/adaptive/adaptive_app_bar.dart';
 import 'package:sprint/core/l10n/directional_icon.dart';
-import 'package:sprint/core/motion/skeleton.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
-import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/window/display_feature_layout.dart';
 import 'package:sprint/core/window/window_size.dart';
-import 'package:sprint/features/catalogue/domain/facility.dart';
-import 'package:sprint/features/catalogue/presentation/facilities/facility_not_found.dart';
+import 'package:sprint/features/catalogue/presentation/details/facility_details_view.dart';
+import 'package:sprint/features/catalogue/presentation/facilities/facility_list_view.dart';
 import 'package:sprint/features/catalogue/presentation/providers/catalogue_providers.dart';
-import 'package:sprint/features/catalogue/presentation/widgets/catalogue_error_view.dart';
+import 'package:sprint/features/catalogue/presentation/providers/share_provider.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// The facilities master-detail screen. One URL always means the same facility
@@ -25,6 +23,8 @@ class FacilitiesScreen extends StatelessWidget {
 
   static const listSlotKey = ValueKey<String>('facilities-list-slot');
   static const detailsSlotKey = ValueKey<String>('facilities-details-slot');
+  static const shareKey = _DetailsSlot.shareKey;
+  static const copyKey = _DetailsSlot.copyKey;
 
   /// The facility shown in the details slot, or null for none.
   final String? selectedId;
@@ -34,7 +34,7 @@ class FacilitiesScreen extends StatelessWidget {
     final size = WindowSize.of(context);
     final list = KeyedSubtree(
       key: listSlotKey,
-      child: const _ListPlaceholder(),
+      child: FacilityListView(selectedId: selectedId),
     );
 
     if (selectedId == null) {
@@ -54,25 +54,6 @@ class FacilitiesScreen extends StatelessWidget {
     );
     if (size.isCompact) return details;
     return DisplayFeatureLayout(start: list, end: details);
-  }
-}
-
-/// Stand-in for the list until US2 replaces it.
-class _ListPlaceholder extends StatelessWidget {
-  const _ListPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
-      children: const [
-        Skeleton(height: SprintSize.controlHeight * 2),
-        SizedBox(height: SprintSpacing.space4),
-        Skeleton(height: SprintSize.controlHeight * 2),
-        SizedBox(height: SprintSpacing.space4),
-        Skeleton(height: SprintSize.controlHeight * 2),
-      ],
-    );
   }
 }
 
@@ -98,6 +79,9 @@ class _PanePrompt extends StatelessWidget {
 class _DetailsSlot extends ConsumerWidget {
   const _DetailsSlot({required this.id});
 
+  static const shareKey = ValueKey<String>('details-share');
+  static const copyKey = ValueKey<String>('details-copy-link');
+
   final String id;
 
   @override
@@ -122,36 +106,33 @@ class _DetailsSlot extends ConsumerWidget {
                 ? context.pop()
                 : context.go(AppPaths.facilities),
           ),
-        ),
-        Expanded(
-          child: switch (facility) {
-            AsyncData(:final value) =>
-              value == null ? const FacilityNotFound() : _NameOnly(facility: value),
-            AsyncError() => CatalogueErrorView(
-                onRetry: () => ref.invalidate(facilityByIdProvider(id)),
+          actions: [
+            if (facility.value != null) ...[
+              IconButton(
+                key: shareKey,
+                tooltip: l10n.catalogueShareAction,
+                icon: const Icon(PhosphorIconsRegular.shareNetwork),
+                onPressed: () => ref.read(shareActionProvider).share(
+                      text: l10n.catalogueShareText(facility.value!.name),
+                      url: shareUrlFor(id),
+                    ),
               ),
-            _ => const Center(child: Skeleton(height: SprintSize.controlHeight * 3)),
-          },
+              IconButton(
+                key: copyKey,
+                tooltip: l10n.catalogueShareCopyLink,
+                icon: const Icon(PhosphorIconsRegular.link),
+                onPressed: () async {
+                  await ref.read(shareActionProvider).copy(shareUrlFor(id));
+                  if (!context.mounted) return;
+                  ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+                    SnackBar(content: Text(l10n.catalogueShareCopied)),
+                  );
+                },
+              ),
+            ],
+          ],
         ),
-      ],
-    );
-  }
-}
-
-/// The name-only details stand-in, replaced by US3.
-class _NameOnly extends StatelessWidget {
-  const _NameOnly({required this.facility});
-
-  final Facility facility;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
-      children: [
-        Text(facility.name, style: context.text.titleLg),
-        const SizedBox(height: SprintSpacing.space2),
-        Text(facility.description, style: context.text.body),
+        Expanded(child: FacilityDetailsView(id: id)),
       ],
     );
   }

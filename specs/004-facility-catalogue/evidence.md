@@ -57,3 +57,28 @@ run, so later regressions are visible.
 - `flutter analyze`: clean. `flutter test test/shell test/features/catalogue/presentation`:
   **75 tests passed**; the home test file is 6/6. The whole suite is **768 tests passed**.
 
+
+## US2 to US6 and final gate (T061)
+
+- **Date**: 2026-11-16
+- `flutter analyze --fatal-infos`: no issues.
+- `flutter test`: **864 tests passed** (all Foundation guards included: tokens, direction, strings,
+  ARB parity, fonts, no platform checks, presentation-only, catalogue domain purity).
+- `flutter build web --release --base-href /sprint-app/ --dart-define=SPRINT_WEB_BASE=...`: built.
+- Matrix test (T056): 4 widths x ar/en x light/dark x text scale 1.0/2.0 over home, list and two
+  details pages: no overflow; every pressable at least 48dp (render size, since semantics rects are
+  clipped by scroll viewports).
+- Found and fixed while testing: a price-row overflow in `FacilityCard` at 200% text, and an
+  hours-row overflow in a narrow pane.
+- Known issue, not fixed here: `SprintFormat.time/date/localTime` use intl's plain `ar` locale, which
+  prints Arabic-Indic digits in this environment, against the Western-digits rule (research R5 says
+  it should not). The catalogue avoids it with `clock_text.dart`; the shared formatter needs its own
+  fix and test.
+- Hinge: the shell splits the window at a hinge and gives each side its own width class, so a facility
+  screen may show one pane there; nothing overlaps the hinge (T059).
+
+## Not done yet
+
+- T062 (hand walk of quickstart on web) and T063 (web load and filter timing) need a browser session.
+- T064 waits for feature 003 to merge into `develop` (it has not).
+- T065 (open the PR) is left for Osman.

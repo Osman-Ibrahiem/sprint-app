@@ -4,6 +4,7 @@ import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/shell/placeholders/bookings_placeholder.dart';
 import 'package:sprint/app/shell/placeholders/profile_placeholder.dart';
 import 'package:sprint/features/catalogue/domain/facility_link.dart';
+import 'package:sprint/features/catalogue/presentation/details/schedule_coming_soon_screen.dart';
 import 'package:sprint/features/catalogue/presentation/facilities/facilities_screen.dart';
 import 'package:sprint/features/catalogue/presentation/home/home_screen.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
@@ -91,6 +92,15 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
         builder: (context, state) => FacilitiesScreen(
           selectedId: state.pathParameters['id'],
         ),
+        routes: [
+          GoRoute(
+            path: 'schedule',
+            name: AppRouteNames.facilitySchedule,
+            builder: (context, state) => ScheduleComingSoonScreen(
+              facilityId: state.pathParameters['id']!,
+            ),
+          ),
+        ],
       ),
     ],
   ),

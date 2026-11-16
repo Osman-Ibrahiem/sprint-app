@@ -366,4 +366,93 @@ final class HomeContentProvider
   }
 }
 
-String _$homeContentHash() => r'6c6bf9510a317e011563eac9c5f10e5cd32e2a55';
+String _$homeContentHash() => r'18b43b9fc089c4fec84a5c4127937ef6a4083498';
+
+/// The details page of one published facility, or null for a missing or
+/// unpublished id (FR-014 – FR-021, FR-026 – FR-028).
+
+@ProviderFor(facilityDetails)
+final facilityDetailsProvider = FacilityDetailsFamily._();
+
+/// The details page of one published facility, or null for a missing or
+/// unpublished id (FR-014 – FR-021, FR-026 – FR-028).
+
+final class FacilityDetailsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<FacilityDetails?>,
+          FacilityDetails?,
+          FutureOr<FacilityDetails?>
+        >
+    with $FutureModifier<FacilityDetails?>, $FutureProvider<FacilityDetails?> {
+  /// The details page of one published facility, or null for a missing or
+  /// unpublished id (FR-014 – FR-021, FR-026 – FR-028).
+  FacilityDetailsProvider._({
+    required FacilityDetailsFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'facilityDetailsProvider',
+         isAutoDispose: false,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$facilityDetailsHash();
+
+  @override
+  String toString() {
+    return r'facilityDetailsProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<FacilityDetails?> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<FacilityDetails?> create(Ref ref) {
+    final argument = this.argument as String;
+    return facilityDetails(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FacilityDetailsProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$facilityDetailsHash() => r'141dd0b220066387ad08d809ed36e6f94a712a58';
+
+/// The details page of one published facility, or null for a missing or
+/// unpublished id (FR-014 – FR-021, FR-026 – FR-028).
+
+final class FacilityDetailsFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<FacilityDetails?>, String> {
+  FacilityDetailsFamily._()
+    : super(
+        retry: null,
+        name: r'facilityDetailsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: false,
+      );
+
+  /// The details page of one published facility, or null for a missing or
+  /// unpublished id (FR-014 – FR-021, FR-026 – FR-028).
+
+  FacilityDetailsProvider call(String id) =>
+      FacilityDetailsProvider._(argument: id, from: this);
+
+  @override
+  String toString() => r'facilityDetailsProvider';
+}
