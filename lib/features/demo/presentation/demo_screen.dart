@@ -4,7 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/app/shell/placeholders/placeholder_page.dart';
 import 'package:sprint/core/adaptive/adaptive_app_bar.dart';
+import 'package:sprint/core/adaptive/adaptive_dialog.dart';
 import 'package:sprint/core/l10n/locale_notifier.dart';
+import 'package:sprint/core/providers/data_providers.dart';
+import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/theme/theme_mode_notifier.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
@@ -30,6 +33,36 @@ class DemoScreen extends ConsumerWidget {
   /// Reviewer controls (user switcher, settings, gallery) can be compiled out
   /// with `HIDE_DEMO_TOOLS=true`; tests pass this explicitly.
   final bool showToolLinks;
+
+  static const resetKey = ValueKey<String>('demo-reset-data');
+
+  /// "إرجاع الداتا التجريبية" (FR-013b): after a confirmation, clears the saved
+  /// data, rebuilds every repository from the seed, signs out and goes home.
+  /// Theme and language are separate preferences and stay.
+  Future<void> _confirmReset(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context);
+    final router = GoRouter.of(context);
+    final confirmed = await showSprintDialog<bool>(
+      context: context,
+      title: l10n.demoResetTitle,
+      message: l10n.demoResetBody,
+      actions: [
+        SprintDialogAction(label: l10n.demoResetKeep, value: false),
+        SprintDialogAction(
+          label: l10n.demoResetConfirm,
+          value: true,
+          isDestructive: true,
+          isDefault: true,
+        ),
+      ],
+    );
+    if (!(confirmed ?? false)) return;
+    await ref.read(resetDemoDataProvider)();
+    // The session listens to the old repositories; start it again on the new.
+    ref.invalidate(sessionProvider);
+    await ref.read(sessionProvider.future);
+    router.go(AppPaths.home);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -94,6 +127,14 @@ class DemoScreen extends ConsumerWidget {
                     variant: SprintButtonVariant.secondary,
                     icon: const SprintButtonIcon(Icons.widgets_outlined),
                     onPressed: () => context.push(AppPaths.demoComponents),
+                  ),
+                  const SizedBox(height: SprintSpacing.space3),
+                  SprintButton(
+                    key: resetKey,
+                    label: l10n.demoResetButton,
+                    variant: SprintButtonVariant.secondary,
+                    icon: const SprintButtonIcon(Icons.restart_alt),
+                    onPressed: () => _confirmReset(context, ref),
                   ),
                 ],
                 const SizedBox(height: SprintSpacing.space6),

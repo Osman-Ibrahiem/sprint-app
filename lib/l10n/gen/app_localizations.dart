@@ -1674,6 +1674,36 @@ abstract class AppLocalizations {
   /// **'صندوق البريد التجريبي'**
   String get mailboxTitle;
 
+  /// No description provided for @demoResetButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرجاع الداتا التجريبية'**
+  String get demoResetButton;
+
+  /// No description provided for @demoResetTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرجاع الداتا التجريبية؟'**
+  String get demoResetTitle;
+
+  /// No description provided for @demoResetBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل الحجوزات والحسابات والطلبات اللي اتعملت هتتمسح، والداتا هترجع زي أول مرة. المظهر واللغة هيفضلوا زي ما هما.'**
+  String get demoResetBody;
+
+  /// No description provided for @demoResetConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرجاع الداتا'**
+  String get demoResetConfirm;
+
+  /// No description provided for @demoResetKeep.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء'**
+  String get demoResetKeep;
+
   /// No description provided for @mailboxNote.
   ///
   /// In ar, this message translates to:

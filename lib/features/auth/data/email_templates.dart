@@ -1,3 +1,4 @@
+import 'package:sprint/core/l10n/ltr_isolate.dart';
 import 'package:sprint/features/auth/domain/auth_limits.dart';
 import 'package:sprint/features/auth/domain/email_code.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
@@ -24,11 +25,11 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
   return switch (purpose) {
     CodePurpose.confirmEmail => (
       subject: l10n.emailConfirmSubject,
-      body: l10n.emailConfirmBody(code, minutes),
+      body: l10n.emailConfirmBody(ltrIsolate(code), minutes),
     ),
     CodePurpose.resetPassword => (
       subject: l10n.emailResetSubject,
-      body: l10n.emailResetBody(code, minutes),
+      body: l10n.emailResetBody(ltrIsolate(code), minutes),
     ),
   };
 }

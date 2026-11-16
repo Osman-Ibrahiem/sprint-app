@@ -934,6 +934,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mailboxTitle => 'Demo mailbox';
 
   @override
+  String get demoResetButton => 'Reset demo data';
+
+  @override
+  String get demoResetTitle => 'Reset the demo data?';
+
+  @override
+  String get demoResetBody =>
+      'Every booking, account and request made so far is removed and the data goes back to how it started. Theme and language stay as they are.';
+
+  @override
+  String get demoResetConfirm => 'Reset data';
+
+  @override
+  String get demoResetKeep => 'Cancel';
+
+  @override
   String get mailboxNote =>
       'Emails the app would have sent appear here. For reviewers only.';
 

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sprint/core/data/demo_snapshot_store.dart';
 import 'package:sprint/core/data/in_memory_data_layer.dart';
@@ -43,6 +45,11 @@ class InitialSnapshot extends _$InitialSnapshot {
   void clear() => state = null;
 }
 
+/// Photos the seed verification requests point at, by id. `main` loads the
+/// bundled placeholder ID card; tests get none unless they override it.
+@Riverpod(keepAlive: true)
+Map<String, Uint8List> seedPhotos(Ref ref) => const {};
+
 /// How code emails are worded: the localised template, in the app's language
 /// at the moment the email is sent (no `BuildContext` needed). Override it to
 /// change the wording; the data layer calls it at send time, so changing it
@@ -59,12 +66,15 @@ EmailTemplate emailTemplate(Ref ref) =>
 /// event-loop turn after any write.
 @Riverpod(keepAlive: true)
 InMemoryDataLayer dataLayer(Ref ref) {
-  final layer = InMemoryDataLayer.fromSnapshot(
-    clock: ref.watch(appClockProvider),
-    snapshot: ref.watch(initialSnapshotProvider),
-    emailTemplate: (purpose, code) =>
-        ref.read(emailTemplateProvider)(purpose, code),
-  )..attachStore(ref.watch(snapshotStoreProvider));
+  final layer =
+      InMemoryDataLayer.fromSnapshot(
+          clock: ref.watch(appClockProvider),
+          snapshot: ref.watch(initialSnapshotProvider),
+          emailTemplate: (purpose, code) =>
+              ref.read(emailTemplateProvider)(purpose, code),
+        )
+        ..attachStore(ref.watch(snapshotStoreProvider))
+        ..photos.seedPhotos = ref.watch(seedPhotosProvider);
   ref.onDispose(layer.detachStore);
   return layer;
 }

@@ -356,6 +356,11 @@ class ForwardingPhotoStore implements DemoSnapshotStore {
   DemoSnapshotStore? target;
   final Map<String, Uint8List> _memory = {};
 
+  /// Photos the seed points at (the placeholder ID card). `main` loads them
+  /// from the bundled asset; tests leave it empty or pass bytes. Used only
+  /// when no saved photo exists under the id, so nothing is written to storage.
+  Map<String, Uint8List> seedPhotos = const {};
+
   @override
   Future<Map<String, Object?>?> load() async => null;
 
@@ -364,7 +369,7 @@ class ForwardingPhotoStore implements DemoSnapshotStore {
 
   @override
   Future<Uint8List?> loadPhoto(String id) async =>
-      await target?.loadPhoto(id) ?? _memory[id];
+      await target?.loadPhoto(id) ?? _memory[id] ?? seedPhotos[id];
 
   @override
   Future<Result<void>> savePhoto(String id, Uint8List bytes) async {

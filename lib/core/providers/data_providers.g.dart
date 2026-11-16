@@ -125,6 +125,61 @@ abstract class _$InitialSnapshot extends $Notifier<Map<String, Object?>?> {
   }
 }
 
+/// Photos the seed verification requests point at, by id. `main` loads the
+/// bundled placeholder ID card; tests get none unless they override it.
+
+@ProviderFor(seedPhotos)
+final seedPhotosProvider = SeedPhotosProvider._();
+
+/// Photos the seed verification requests point at, by id. `main` loads the
+/// bundled placeholder ID card; tests get none unless they override it.
+
+final class SeedPhotosProvider
+    extends
+        $FunctionalProvider<
+          Map<String, Uint8List>,
+          Map<String, Uint8List>,
+          Map<String, Uint8List>
+        >
+    with $Provider<Map<String, Uint8List>> {
+  /// Photos the seed verification requests point at, by id. `main` loads the
+  /// bundled placeholder ID card; tests get none unless they override it.
+  SeedPhotosProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'seedPhotosProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$seedPhotosHash();
+
+  @$internal
+  @override
+  $ProviderElement<Map<String, Uint8List>> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  Map<String, Uint8List> create(Ref ref) {
+    return seedPhotos(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Map<String, Uint8List> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Map<String, Uint8List>>(value),
+    );
+  }
+}
+
+String _$seedPhotosHash() => r'3b4b175ecad2e1a23eba72f5c43d5274bd57f293';
+
 /// How code emails are worded: the localised template, in the app's language
 /// at the moment the email is sent (no `BuildContext` needed). Override it to
 /// change the wording; the data layer calls it at send time, so changing it
@@ -233,7 +288,7 @@ final class DataLayerProvider
   }
 }
 
-String _$dataLayerHash() => r'955245d4a6ed63baa23c1f980524b0c24fc543ce';
+String _$dataLayerHash() => r'65c136383faf2abdef0aaf0df00a02e997f19649';
 
 /// "إرجاع الداتا التجريبية": clears the saved snapshot and photos (theme and
 /// language stay) and rebuilds every repository from the seed.

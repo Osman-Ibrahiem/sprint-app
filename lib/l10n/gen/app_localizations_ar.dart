@@ -927,6 +927,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get mailboxTitle => 'صندوق البريد التجريبي';
 
   @override
+  String get demoResetButton => 'إرجاع الداتا التجريبية';
+
+  @override
+  String get demoResetTitle => 'إرجاع الداتا التجريبية؟';
+
+  @override
+  String get demoResetBody =>
+      'كل الحجوزات والحسابات والطلبات اللي اتعملت هتتمسح، والداتا هترجع زي أول مرة. المظهر واللغة هيفضلوا زي ما هما.';
+
+  @override
+  String get demoResetConfirm => 'إرجاع الداتا';
+
+  @override
+  String get demoResetKeep => 'إلغاء';
+
+  @override
   String get mailboxNote =>
       'الرسائل اللي التطبيق كان هيبعتها بالإيميل بتظهر هنا. للمراجعين فقط.';
 
