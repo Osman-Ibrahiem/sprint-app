@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'dart:typed_data';
+
 import 'package:clock/clock.dart';
 import 'package:sprint/core/data/demo_snapshot_store.dart';
 import 'package:sprint/core/data/snapshot_codec.dart';
+import 'package:sprint/core/result/result.dart';
 import 'package:sprint/core/seed/seed_data.dart';
 import 'package:sprint/features/assets/data/in_memory_asset_repository.dart';
 import 'package:sprint/features/attendance/data/in_memory_attendance_repository.dart';
@@ -10,7 +13,9 @@ import 'package:sprint/features/audit/data/in_memory_audit_log_repository.dart';
 import 'package:sprint/features/booking/data/in_memory_availability_repository.dart';
 import 'package:sprint/features/booking/data/in_memory_booking_repository.dart';
 import 'package:sprint/features/catalogue/data/in_memory_catalogue_repository.dart';
+import 'package:sprint/features/auth/data/email_templates.dart';
 import 'package:sprint/features/auth/data/in_memory_auth_repository.dart';
+import 'package:sprint/features/auth/data/simulated_mailbox.dart';
 import 'package:sprint/features/identity/data/in_memory_identity_repository.dart';
 import 'package:sprint/features/notifications/data/in_memory_notification_repository.dart';
 import 'package:sprint/features/payments/data/fake_payment_provider.dart';
@@ -32,6 +37,8 @@ class InMemoryDataLayer {
     required this.catalogue,
     required this.identity,
     required this.auth,
+    required this.mailbox,
+    required this.photos,
     required this.verification,
     required this.payments,
     required this.paymentProvider,
@@ -48,6 +55,9 @@ class InMemoryDataLayer {
     Duration paymentDelay = const Duration(milliseconds: 600),
     DateTime? seededAt,
     String? currentUserId,
+    Map<String, Object?>? authState,
+    List<Object?>? mailboxEmails,
+    EmailTemplate emailTemplate = defaultEmailTemplate,
   }) {
     final data = seed ?? SeedData.build(clock.now());
     final audit = InMemoryAuditLogRepository(data.auditLog);
@@ -71,14 +81,32 @@ class InMemoryDataLayer {
       users: data.users,
       roleAssignments: data.roleAssignments,
     );
-    final auth = InMemoryAuthRepository(
-      identity: identity,
-      currentUserId: currentUserId,
+    final mailbox = SimulatedMailbox(
+      template: emailTemplate,
+      emails: mailboxEmails == null
+          ? const []
+          : SimulatedMailbox.emailsFromJson(mailboxEmails),
     );
-    final verification = InMemoryVerificationRepository(
-      verifications: data.verifications,
-      identity: identity,
-    );
+    final auth = authState == null
+        ? InMemoryAuthRepository(
+            identity: identity,
+            mailbox: mailbox,
+            clock: clock,
+            credentials: data.credentials,
+            currentUserId: currentUserId,
+          )
+        : InMemoryAuthRepository.fromJson(
+            {
+              ...authState,
+              'credentials': [for (final c in data.credentials) c.toJson()],
+              'currentUserId': currentUserId,
+            },
+            identity: identity,
+            mailbox: mailbox,
+            clock: clock,
+          );
+    final photos = ForwardingPhotoStore();
+
     final payments = InMemoryPaymentRepository(
       payments: data.payments,
       refunds: data.refunds,
@@ -88,6 +116,18 @@ class InMemoryDataLayer {
       startAt: _highestSession(data.payments),
     );
     final notifications = InMemoryNotificationRepository(data.notifications);
+    final verification = InMemoryVerificationRepository(
+      verifications: data.verifications,
+      identity: identity,
+      settings: settings,
+      audit: audit,
+      notifications: notifications,
+      snapshotStore: photos,
+      sheetRows: data.sheetRows,
+      batches: data.sheetBatches,
+      owningUnits: data.owningUnits,
+      clock: clock,
+    );
     final attendance = InMemoryAttendanceRepository(data.attendance);
     final assets = InMemoryAssetRepository(
       assets: data.assets,
@@ -121,6 +161,8 @@ class InMemoryDataLayer {
       catalogue: catalogue,
       identity: identity,
       auth: auth,
+      mailbox: mailbox,
+      photos: photos,
       verification: verification,
       payments: payments,
       paymentProvider: provider,
@@ -138,6 +180,7 @@ class InMemoryDataLayer {
     required Clock clock,
     Map<String, Object?>? snapshot,
     Duration paymentDelay = const Duration(milliseconds: 600),
+    EmailTemplate emailTemplate = defaultEmailTemplate,
   }) {
     if (snapshot != null) {
       try {
@@ -150,13 +193,20 @@ class InMemoryDataLayer {
             paymentDelay: paymentDelay,
             seededAt: DateTime.parse(snapshot['seededAt']! as String),
             currentUserId: session?['currentUserId'] as String?,
+            authState: Map<String, Object?>.from(data['auth']! as Map),
+            mailboxEmails: data['mailbox']! as List<Object?>,
+            emailTemplate: emailTemplate,
           );
         }
       } on Object {
         // Corrupt snapshot: fall through to the seed.
       }
     }
-    return InMemoryDataLayer.create(clock: clock, paymentDelay: paymentDelay);
+    return InMemoryDataLayer.create(
+      clock: clock,
+      paymentDelay: paymentDelay,
+      emailTemplate: emailTemplate,
+    );
   }
 
   /// The only snapshot format this build reads.
@@ -181,6 +231,10 @@ class InMemoryDataLayer {
   final InMemoryCatalogueRepository catalogue;
   final InMemoryIdentityRepository identity;
   final InMemoryAuthRepository auth;
+
+  /// The simulated mailbox auth sends code emails to (FR-023).
+  final SimulatedMailbox mailbox;
+  final ForwardingPhotoStore photos;
   final InMemoryVerificationRepository verification;
   final InMemoryPaymentRepository payments;
   final FakePaymentProvider paymentProvider;
@@ -216,6 +270,9 @@ class InMemoryDataLayer {
       damageReports: assets.allReports,
       settings: settings.entries,
       auditLog: audit.all,
+      credentials: auth.allCredentials,
+      sheetRows: verification.allSheetRows,
+      sheetBatches: verification.allBatches,
     );
     return {
       'schemaVersion': schemaVersion,
@@ -224,6 +281,12 @@ class InMemoryDataLayer {
       'data': {
         ...SnapshotCodec.encode(data),
         'session': {'currentUserId': auth.signedInUserId},
+        'auth': {
+          for (final e in auth.toJson().entries)
+            if (e.key != 'credentials' && e.key != 'currentUserId')
+              e.key: e.value,
+        },
+        'mailbox': mailbox.toJson(),
       },
     };
   }
@@ -238,12 +301,14 @@ class InMemoryDataLayer {
   void attachStore(DemoSnapshotStore store) {
     detachStore();
     _store = store;
+    photos.target = store;
     for (final changes in [
       audit.changes,
       settings.changes,
       catalogue.changes,
       identity.changes,
       auth.changes,
+      mailbox.changes,
       verification.changes,
       payments.changes,
       notifications.changes,
@@ -261,6 +326,7 @@ class InMemoryDataLayer {
     }
     _subscriptions.clear();
     _store = null;
+    photos.target = null;
   }
 
   void _scheduleSave() {
@@ -281,4 +347,33 @@ class InMemoryDataLayer {
     detachStore();
     await store?.clear();
   }
+}
+
+/// Photos for the verification repository, forwarded to whichever snapshot
+/// store is attached (the repository is built before the store is attached).
+/// Without a store they live in memory.
+class ForwardingPhotoStore implements DemoSnapshotStore {
+  DemoSnapshotStore? target;
+  final Map<String, Uint8List> _memory = {};
+
+  @override
+  Future<Map<String, Object?>?> load() async => null;
+
+  @override
+  Future<void> save(Map<String, Object?> snapshot) async {}
+
+  @override
+  Future<Uint8List?> loadPhoto(String id) async =>
+      await target?.loadPhoto(id) ?? _memory[id];
+
+  @override
+  Future<Result<void>> savePhoto(String id, Uint8List bytes) async {
+    final t = target;
+    if (t != null) return t.savePhoto(id, bytes);
+    _memory[id] = bytes;
+    return const Ok(null);
+  }
+
+  @override
+  Future<void> clear() async => _memory.clear();
 }

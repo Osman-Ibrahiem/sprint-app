@@ -46,6 +46,26 @@ abstract final class SeedIds {
   static const viewer = 'usr-viewer';
   static const userUnverified = 'usr-unverified';
   static const userExpired = 'usr-expired';
+  static const userEngPending = 'usr-eng-pending';
+  static const userRejected = 'usr-rejected';
+  static const userUnconfirmed = 'usr-unconfirmed';
+  static const userSuspended = 'usr-suspended';
+
+  // Verification requests
+  static const verBookerInternal = 'ver-booker-internal';
+  static const verUnverified = 'ver-unverified';
+  static const verExpired = 'ver-expired';
+  static const verEngPending = 'ver-eng-pending';
+  static const verRejected = 'ver-rejected';
+
+  // Sheet batches
+  static const sheetBatchPe = 'sheet-batch-pe';
+
+  /// The one password every seed person signs in with (hashed in the seed).
+  static const demoPassword = 'Sprint2026';
+
+  /// Card photo id of the bundled placeholder image.
+  static const placeholderPhotoId = 'demo-id-card';
 
   // Trainers
   static const trainerRecord1 = 'tr-1';

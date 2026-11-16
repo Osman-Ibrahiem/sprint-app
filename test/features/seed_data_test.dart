@@ -1,11 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/core/seed/seed_data.dart';
+import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/core/time/cairo_time.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/catalogue/domain/facility.dart';
 import 'package:sprint/features/catalogue/domain/owning_unit.dart';
 import 'package:sprint/features/catalogue/domain/price.dart';
+import 'package:sprint/features/auth/domain/password_hasher.dart';
+import 'package:sprint/features/auth/domain/validators.dart';
 import 'package:sprint/features/identity/domain/role_assignment.dart';
+import 'package:sprint/features/identity/domain/user.dart';
+import 'package:sprint/features/identity/domain/verification.dart';
+import 'package:sprint/features/verification/domain/national_id.dart';
 
 /// FR-021, FR-022: realistic and complete seed data.
 void main() {
@@ -20,8 +28,14 @@ void main() {
   });
 
   test('at least a faculty and a central unit own facilities', () {
-    expect(seed.owningUnits.any((o) => o.type == OwningUnitType.faculty), isTrue);
-    expect(seed.owningUnits.any((o) => o.type == OwningUnitType.central), isTrue);
+    expect(
+      seed.owningUnits.any((o) => o.type == OwningUnitType.faculty),
+      isTrue,
+    );
+    expect(
+      seed.owningUnits.any((o) => o.type == OwningUnitType.central),
+      isTrue,
+    );
     for (final f in seed.facilities) {
       expect(seed.owningUnits.any((o) => o.id == f.owningUnitId), isTrue);
     }
@@ -47,9 +61,16 @@ void main() {
         expect(int_ / ext, inInclusiveRange(0.35, 0.55), reason: u.id);
       }
     }
-    expect(seed.facilities.where((f) => f.isFree).every(
-        (f) => seed.units.where((u) => u.facilityId == f.id).every(
-            (u) => !seed.prices.any((p) => p.unitId == u.id))), isTrue);
+    expect(
+      seed.facilities
+          .where((f) => f.isFree)
+          .every(
+            (f) => seed.units
+                .where((u) => u.facilityId == f.id)
+                .every((u) => !seed.prices.any((p) => p.unitId == u.id)),
+          ),
+      isTrue,
+    );
   });
 
   test('users cover every role and both tiers', () {
@@ -72,7 +93,9 @@ void main() {
 
   test('one slot is full in the seed (capacity case)', () {
     final byUnitStart = <String, int>{};
-    for (final b in seed.bookings.where((b) => b.status == BookingStatus.confirmed)) {
+    for (final b in seed.bookings.where(
+      (b) => b.status == BookingStatus.confirmed,
+    )) {
       final k = '${b.unitId}@${b.start.toIso8601String()}';
       byUnitStart[k] = (byUnitStart[k] ?? 0) + b.seats;
     }
@@ -81,10 +104,16 @@ void main() {
 
   test('a hall is closed on one weekday and one closure is in the future', () {
     final hall = seed.facilities.firstWhere((f) => f.isFree);
-    final days = seed.hours.where((h) => h.ownerId == hall.id).map((h) => h.dayOfWeek).toSet();
+    final days = seed.hours
+        .where((h) => h.ownerId == hall.id)
+        .map((h) => h.dayOfWeek)
+        .toSet();
     expect(days.length, 6);
     expect(seed.closures, isNotEmpty);
-    expect(seed.closures.first.from.isAfter(CairoTime.atWallClock(2026, 11, 14, 8)), isTrue);
+    expect(
+      seed.closures.first.from.isAfter(CairoTime.atWallClock(2026, 11, 14, 8)),
+      isTrue,
+    );
   });
 
   test('other sets are present', () {
@@ -103,5 +132,93 @@ void main() {
       expect(u.phone, startsWith('0100000'));
     }
     expect(seed.facilities.first.type, isA<FacilityType>());
+  });
+
+  group('auth and verification seed (FR-048)', () {
+    test('emails, phones and national IDs are unique and IDs valid', () {
+      final emails = seed.users.map((u) => u.email).toSet();
+      final phones = seed.users.map((u) => u.phone).toSet();
+      final ids = seed.users.map((u) => u.nationalId).whereType<String>();
+      expect(emails.length, seed.users.length);
+      expect(phones.length, seed.users.length);
+      expect(ids.toSet().length, ids.length);
+      for (final id in ids) {
+        expect(validateNationalId(id).isValid, isTrue, reason: id);
+      }
+      for (final v in seed.verifications) {
+        expect(validateNationalId(v.nationalId).isValid, isTrue, reason: v.id);
+      }
+    });
+
+    test('every person has the demo password, hashed', () {
+      expect(
+        seed.credentials.map((c) => c.userId).toSet(),
+        seed.users.map((u) => u.id).toSet(),
+      );
+      for (final c in seed.credentials) {
+        expect(c.hash, isNot(SeedIds.demoPassword));
+        expect(
+          PasswordHasher.verify(
+            SeedIds.demoPassword,
+            salt: c.salt,
+            hash: c.hash,
+          ),
+          isTrue,
+        );
+      }
+    });
+
+    test('statuses and requests cover the demo cases', () {
+      User u(String id) => seed.users.firstWhere((x) => x.id == id);
+      Verification v(String id) =>
+          seed.verifications.firstWhere((x) => x.id == id);
+      expect(u(SeedIds.userUnconfirmed).status, UserStatus.unconfirmed);
+      expect(u(SeedIds.userSuspended).status, UserStatus.suspended);
+      expect(v(SeedIds.verEngPending).status, VerificationStatus.pending);
+      expect(v(SeedIds.verEngPending).owningUnitId, SeedIds.ouEng);
+      expect(v(SeedIds.verUnverified).owningUnitId, SeedIds.ouPe);
+      final rejected = v(SeedIds.verRejected);
+      expect(rejected.status, VerificationStatus.rejected);
+      expect((rejected.reason ?? '').length, greaterThanOrEqualTo(10));
+      for (final x in seed.verifications) {
+        expect(x.photoId, isNotNull, reason: x.id);
+        expect(x.code, isNotEmpty);
+      }
+    });
+
+    test('seed batch holds كريم\'s row and not دينا\'s', () {
+      final batch = seed.sheetBatches.single;
+      expect(batch.uploadedBy, SeedIds.verifier);
+      expect(batch.owningUnitId, SeedIds.ouPe);
+      final ids = seed.sheetRows.map((r) => r.nationalId);
+      expect(ids, contains('29902020200022'));
+      expect(ids, isNot(contains('30003030300033')));
+      expect(seed.emailCodes, isEmpty);
+    });
+
+    test(
+      'sample CSV: matches دينا, repeats كريم, one bad date, one stranger',
+      () {
+        final lines = File('assets/demo/verification_sheet_sample.csv')
+            .readAsLinesSync()
+            .skip(1)
+            .where((l) => l.trim().isNotEmpty)
+            .map((l) => l.split(','))
+            .toList();
+        expect(lines.length, 4);
+        final results = {for (final c in lines) c[0]: validateNationalId(c[0])};
+        expect(results['30003030300033']!.isValid, isTrue);
+        expect(results['29902020200022']!.isValid, isTrue);
+        expect(results['29311111500099']!.isValid, isTrue);
+        expect(
+          results['29902301200100'],
+          const Invalid<String, NationalIdProblem>(
+            NationalIdProblem.invalidBirthDate,
+          ),
+        );
+        final dina = lines.firstWhere((c) => c[0] == '30003030300033');
+        expect(dina[1], '20220002');
+      },
+    );
   });
 }

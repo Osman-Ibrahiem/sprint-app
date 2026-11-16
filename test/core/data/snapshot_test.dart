@@ -10,6 +10,7 @@ import 'package:sprint/core/data/preferences_snapshot_store.dart';
 import 'package:sprint/core/result/failure.dart';
 import 'package:sprint/core/result/result.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
+import 'package:sprint/features/auth/domain/email_code.dart';
 import 'package:sprint/features/audit/domain/audit_log.dart';
 import 'package:sprint/features/settings/domain/setting_definition.dart';
 import 'package:sprint/features/settings/domain/setting_registry.dart';
@@ -89,7 +90,6 @@ void main() {
 
     test('restoring a snapshot restores the signed-in user (FR-013)', () async {
       final layer = _seeded();
-      // TODO(T025): the session moves to AuthRepository; point this at it.
       await layer.auth.actAs(SeedIds.userUnverified);
 
       final back = InMemoryDataLayer.fromSnapshot(
@@ -108,11 +108,46 @@ void main() {
       expect(await guest.auth.currentUserId(), isNull);
     });
 
-    test('a saved password never appears in the snapshot JSON (FR-044)', () {
-      // TODO(T025): sign up with a known password through AuthRepository and
-      // assert jsonEncode(layer.toSnapshot()) does not contain it. The auth
-      // repository does not exist yet, so there is nothing to sign up with.
-    }, skip: 'waits for AuthRepository (T025)');
+    test(
+      'a saved password never appears in the snapshot JSON (FR-044)',
+      () async {
+        const password = 'Zq7!unique-Pass-93';
+        final layer = _seeded();
+        final r = await layer.auth.signUp(
+          name: 'منى أحمد',
+          phone: '01512345678',
+          email: 'mona.snapshot@example.com',
+          password: password,
+        );
+        expect(r.isOk, isTrue, reason: '$r');
+
+        final text = jsonEncode(layer.toSnapshot());
+        expect(text, isNot(contains(password)));
+
+        // The new account, its code and its email all come back.
+        final back = InMemoryDataLayer.fromSnapshot(
+          clock: _clock(),
+          snapshot: _viaJson(layer.toSnapshot()),
+          paymentDelay: Duration.zero,
+        );
+        expect(
+          back.mailbox.latestCodeFor(
+            'mona.snapshot@example.com',
+            CodePurpose.confirmEmail,
+          ),
+          hasLength(6),
+        );
+        final code = back.mailbox.latestCodeFor(
+          'mona.snapshot@example.com',
+          CodePurpose.confirmEmail,
+        )!;
+        final signedIn = await back.auth.confirmEmail(
+          email: 'mona.snapshot@example.com',
+          code: code,
+        );
+        expect(signedIn.isOk, isTrue, reason: '$signedIn');
+      },
+    );
   });
 
   group('falls back to the seed', () {
@@ -205,9 +240,7 @@ void main() {
       await expectSave(
         () => layer.assets.saveAsset(layer.assets.allAssets.first),
       );
-      await expectSave(
-        () => layer.auth.actAs(SeedIds.userUnverified),
-      );
+      await expectSave(() => layer.auth.actAs(SeedIds.userUnverified));
       await expectSave(
         () => layer.settings.set(
           SettingKeys.refundPercent,

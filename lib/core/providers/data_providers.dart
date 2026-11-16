@@ -6,10 +6,14 @@ import 'package:sprint/core/time/clock_provider.dart';
 import 'package:sprint/features/assets/domain/asset_repository.dart';
 import 'package:sprint/features/attendance/domain/attendance_repository.dart';
 import 'package:sprint/features/audit/domain/audit_log_repository.dart';
+import 'package:sprint/features/auth/data/email_templates.dart';
+import 'package:sprint/features/auth/data/simulated_mailbox.dart';
 import 'package:sprint/features/auth/domain/auth_repository.dart';
+import 'package:sprint/features/auth/domain/email_outbox.dart';
 import 'package:sprint/features/booking/domain/availability_repository.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
 import 'package:sprint/features/catalogue/domain/catalogue_repository.dart';
+import 'package:sprint/features/demo/demo_flags.dart';
 import 'package:sprint/features/identity/domain/identity_repository.dart';
 import 'package:sprint/features/notifications/domain/notification_repository.dart';
 import 'package:sprint/features/payments/domain/payment_provider.dart';
@@ -37,6 +41,12 @@ class InitialSnapshot extends _$InitialSnapshot {
   void clear() => state = null;
 }
 
+/// How code emails are worded. Override it with a localised template (reading
+/// the app's current language when called); the data layer calls it at send
+/// time, so changing it needs no rebuild of the layer.
+@Riverpod(keepAlive: true)
+EmailTemplate emailTemplate(Ref ref) => defaultEmailTemplate;
+
 /// Loads the layer from the snapshot (or the seed) and saves it again once per
 /// event-loop turn after any write.
 @Riverpod(keepAlive: true)
@@ -44,6 +54,8 @@ InMemoryDataLayer dataLayer(Ref ref) {
   final layer = InMemoryDataLayer.fromSnapshot(
     clock: ref.watch(appClockProvider),
     snapshot: ref.watch(initialSnapshotProvider),
+    emailTemplate: (purpose, code) =>
+        ref.read(emailTemplateProvider)(purpose, code),
   )..attachStore(ref.watch(snapshotStoreProvider));
   ref.onDispose(layer.detachStore);
   return layer;
@@ -72,6 +84,16 @@ IdentityRepository identityRepository(Ref ref) =>
 
 @Riverpod(keepAlive: true)
 AuthRepository authRepository(Ref ref) => ref.watch(dataLayerProvider).auth;
+
+/// Where code emails go (FR-023). P1 keeps them in the simulated mailbox.
+@Riverpod(keepAlive: true)
+EmailOutbox emailOutbox(Ref ref) => ref.watch(dataLayerProvider).mailbox;
+
+/// The mailbox the demo screens read codes from; null when demo tools are
+/// hidden (`HIDE_DEMO_TOOLS`), so a real build never exposes codes.
+@Riverpod(keepAlive: true)
+SimulatedMailbox? simulatedMailbox(Ref ref) =>
+    demoToolsEnabled ? ref.watch(dataLayerProvider).mailbox : null;
 
 @Riverpod(keepAlive: true)
 VerificationRepository verificationRepository(Ref ref) =>

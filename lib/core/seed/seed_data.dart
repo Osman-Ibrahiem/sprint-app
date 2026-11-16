@@ -2,7 +2,12 @@ import 'package:sprint/core/seed/seed_bookings.dart';
 import 'package:sprint/core/seed/seed_misc.dart';
 import 'package:sprint/core/seed/seed_units.dart';
 import 'package:sprint/core/seed/seed_users.dart';
+import 'package:sprint/core/seed/seed_verification.dart';
 import 'package:sprint/features/assets/domain/asset.dart';
+import 'package:sprint/features/auth/domain/credential.dart';
+import 'package:sprint/features/auth/domain/email_code.dart';
+import 'package:sprint/features/verification/domain/sheet_batch.dart';
+import 'package:sprint/features/verification/domain/sheet_row.dart';
 import 'package:sprint/features/assets/domain/damage_report.dart';
 import 'package:sprint/features/attendance/domain/attendance.dart';
 import 'package:sprint/features/audit/domain/audit_log.dart';
@@ -49,6 +54,10 @@ class SeedData {
     required this.damageReports,
     required this.settings,
     required this.auditLog,
+    this.credentials = const [],
+    this.sheetRows = const [],
+    this.sheetBatches = const [],
+    this.emailCodes = const [],
   });
 
   factory SeedData.build(DateTime now) {
@@ -75,6 +84,10 @@ class SeedData {
       damageReports: seedDamageReports,
       settings: seedSettings(),
       auditLog: seedAuditLog(now),
+      credentials: seedCredentials(),
+      sheetRows: seedSheetRows(),
+      sheetBatches: [seedSheetBatch(now)],
+      emailCodes: const [],
     );
   }
 
@@ -99,4 +112,8 @@ class SeedData {
   final List<DamageReport> damageReports;
   final List<SettingEntry> settings;
   final List<AuditLog> auditLog;
+  final List<Credential> credentials;
+  final List<SheetRow> sheetRows;
+  final List<SheetBatch> sheetBatches;
+  final List<EmailCode> emailCodes;
 }

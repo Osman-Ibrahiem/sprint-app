@@ -14,6 +14,7 @@ import 'package:sprint/features/catalogue/domain/owning_unit.dart';
 import 'package:sprint/features/catalogue/domain/price.dart';
 import 'package:sprint/features/catalogue/domain/trainer.dart';
 import 'package:sprint/features/catalogue/domain/trainer_availability.dart';
+import 'package:sprint/features/auth/domain/credential.dart';
 import 'package:sprint/features/identity/domain/role_assignment.dart';
 import 'package:sprint/features/identity/domain/user.dart';
 import 'package:sprint/features/identity/domain/verification.dart';
@@ -21,6 +22,8 @@ import 'package:sprint/features/notifications/domain/notification.dart';
 import 'package:sprint/features/payments/domain/payment.dart';
 import 'package:sprint/features/payments/domain/refund.dart';
 import 'package:sprint/features/settings/domain/setting_definition.dart';
+import 'package:sprint/features/verification/domain/sheet_batch.dart';
+import 'package:sprint/features/verification/domain/sheet_row.dart';
 
 /// Turns every repository list of a [SeedData] into JSON and back (research
 /// R1). The names are the keys of the snapshot's `data` object.
@@ -47,6 +50,9 @@ abstract final class SnapshotCodec {
     'damageReports': _l(d.damageReports, (e) => e.toJson()),
     'settings': _l(d.settings, _encodeSetting),
     'auditLog': _l(d.auditLog, (e) => e.toJson()),
+    'credentials': _l(d.credentials, (e) => e.toJson()),
+    'sheetRows': _l(d.sheetRows, (e) => e.toJson()),
+    'sheetBatches': _l(d.sheetBatches, (e) => e.toJson()),
   };
 
   /// Throws when [data] is malformed; the caller falls back to the seed.
@@ -76,6 +82,9 @@ abstract final class SnapshotCodec {
     damageReports: _r(data, 'damageReports', DamageReport.fromJson),
     settings: _r(data, 'settings', _decodeSetting),
     auditLog: _r(data, 'auditLog', AuditLog.fromJson),
+    credentials: _r(data, 'credentials', Credential.fromJson),
+    sheetRows: _r(data, 'sheetRows', SheetRow.fromJson),
+    sheetBatches: _r(data, 'sheetBatches', SheetBatch.fromJson),
   );
 
   static List<Map<String, Object?>> _l<T>(

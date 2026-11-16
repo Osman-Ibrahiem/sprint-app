@@ -1,10 +1,8 @@
 import 'package:sprint/core/seed/seed_ids.dart';
-import 'package:sprint/core/time/cairo_time.dart';
 import 'package:sprint/features/catalogue/domain/trainer.dart';
 import 'package:sprint/features/catalogue/domain/trainer_availability.dart';
 import 'package:sprint/features/identity/domain/role_assignment.dart';
 import 'package:sprint/features/identity/domain/user.dart';
-import 'package:sprint/features/identity/domain/verification.dart';
 
 // All people are fictional: example.test addresses and 0100000xxxx numbers.
 
@@ -24,6 +22,10 @@ final seedUsers = <User>[
   User(id: SeedIds.viewer, name: 'أ. ياسر جمال', phone: '01000000010', email: 'yasser@example.test', createdAt: _joined),
   User(id: SeedIds.userUnverified, name: 'دينا محمود', phone: '01000000011', email: 'dina@example.test', createdAt: _joined, nationalId: '30003030300033'),
   User(id: SeedIds.userExpired, name: 'عمر شوقي', phone: '01000000012', email: 'omar@example.test', createdAt: _joined, nationalId: '29804040400044'),
+  User(id: SeedIds.userEngPending, name: 'ليلى حسن', phone: '01000000013', email: 'laila@example.test', createdAt: _joined, nationalId: '30101011100055'),
+  User(id: SeedIds.userRejected, name: 'ياسمين طارق', phone: '01000000014', email: 'yasmin@example.test', createdAt: _joined, nationalId: '29705051400066'),
+  User(id: SeedIds.userUnconfirmed, name: 'أحمد رضا', phone: '01000000015', email: 'ahmed@example.test', createdAt: _joined, nationalId: '29606061200077', status: UserStatus.unconfirmed),
+  User(id: SeedIds.userSuspended, name: 'هبة فتحي', phone: '01000000016', email: 'heba@example.test', createdAt: _joined, nationalId: '29507071300088', status: UserStatus.suspended),
 ];
 
 List<RoleAssignment> seedRoleAssignments() {
@@ -41,54 +43,6 @@ List<RoleAssignment> seedRoleAssignments() {
     r(SeedIds.unitAdmin, Role.unitAdmin, RoleScopeType.owningUnit, SeedIds.ouPe),
     r(SeedIds.superAdmin, Role.superAdmin, uni),
     r(SeedIds.viewer, Role.viewer, RoleScopeType.owningUnit, SeedIds.ouPe),
-  ];
-}
-
-/// An approved student (internal), a pending request, and an approval that has
-/// expired (so that user is external again, BR-25).
-List<Verification> seedVerifications(DateTime now) {
-  final today = CairoTime.toCairo(now);
-  DateTime day(int offset) =>
-      CairoTime.atWallClock(today.year, today.month, today.day + offset);
-  return [
-    Verification(
-      id: 'ver-booker-internal',
-      userId: SeedIds.bookerInternal,
-      type: VerificationType.student,
-      nationalId: '29901010100011',
-      code: '20210001',
-      owningUnitId: SeedIds.ouPe,
-      status: VerificationStatus.approved,
-      method: VerificationMethod.auto,
-      submittedAt: day(-90),
-      decidedAt: day(-90),
-      expiresAt: day(200),
-    ),
-    Verification(
-      id: 'ver-unverified',
-      userId: SeedIds.userUnverified,
-      type: VerificationType.student,
-      nationalId: '30003030300033',
-      code: '20220002',
-      owningUnitId: SeedIds.ouPe,
-      status: VerificationStatus.pending,
-      method: VerificationMethod.manual,
-      submittedAt: day(-1),
-    ),
-    Verification(
-      id: 'ver-expired',
-      userId: SeedIds.userExpired,
-      type: VerificationType.staff,
-      nationalId: '29804040400044',
-      code: 'ST-0044',
-      owningUnitId: SeedIds.ouPe,
-      status: VerificationStatus.approved,
-      method: VerificationMethod.manual,
-      reviewerId: SeedIds.verifier,
-      submittedAt: day(-400),
-      decidedAt: day(-395),
-      expiresAt: day(-30),
-    ),
   ];
 }
 

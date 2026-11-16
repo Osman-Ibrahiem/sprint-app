@@ -125,6 +125,58 @@ abstract class _$InitialSnapshot extends $Notifier<Map<String, Object?>?> {
   }
 }
 
+/// How code emails are worded. Override it with a localised template (reading
+/// the app's current language when called); the data layer calls it at send
+/// time, so changing it needs no rebuild of the layer.
+
+@ProviderFor(emailTemplate)
+final emailTemplateProvider = EmailTemplateProvider._();
+
+/// How code emails are worded. Override it with a localised template (reading
+/// the app's current language when called); the data layer calls it at send
+/// time, so changing it needs no rebuild of the layer.
+
+final class EmailTemplateProvider
+    extends $FunctionalProvider<EmailTemplate, EmailTemplate, EmailTemplate>
+    with $Provider<EmailTemplate> {
+  /// How code emails are worded. Override it with a localised template (reading
+  /// the app's current language when called); the data layer calls it at send
+  /// time, so changing it needs no rebuild of the layer.
+  EmailTemplateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'emailTemplateProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$emailTemplateHash();
+
+  @$internal
+  @override
+  $ProviderElement<EmailTemplate> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  EmailTemplate create(Ref ref) {
+    return emailTemplate(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(EmailTemplate value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<EmailTemplate>(value),
+    );
+  }
+}
+
+String _$emailTemplateHash() => r'5115245e09db3a8f5262594d31af04046c90f646';
+
 /// Loads the layer from the snapshot (or the seed) and saves it again once per
 /// event-loop turn after any write.
 
@@ -178,7 +230,7 @@ final class DataLayerProvider
   }
 }
 
-String _$dataLayerHash() => r'13ec77f28cfeedf6d23af788f0018c981daf3408';
+String _$dataLayerHash() => r'955245d4a6ed63baa23c1f980524b0c24fc543ce';
 
 /// "إرجاع الداتا التجريبية": clears the saved snapshot and photos (theme and
 /// language stay) and rebuilds every repository from the seed.
@@ -419,6 +471,107 @@ final class AuthRepositoryProvider
 }
 
 String _$authRepositoryHash() => r'ed41290a1232dbc1d005d1ffafe31aee60e06950';
+
+/// Where code emails go (FR-023). P1 keeps them in the simulated mailbox.
+
+@ProviderFor(emailOutbox)
+final emailOutboxProvider = EmailOutboxProvider._();
+
+/// Where code emails go (FR-023). P1 keeps them in the simulated mailbox.
+
+final class EmailOutboxProvider
+    extends $FunctionalProvider<EmailOutbox, EmailOutbox, EmailOutbox>
+    with $Provider<EmailOutbox> {
+  /// Where code emails go (FR-023). P1 keeps them in the simulated mailbox.
+  EmailOutboxProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'emailOutboxProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$emailOutboxHash();
+
+  @$internal
+  @override
+  $ProviderElement<EmailOutbox> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  EmailOutbox create(Ref ref) {
+    return emailOutbox(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(EmailOutbox value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<EmailOutbox>(value),
+    );
+  }
+}
+
+String _$emailOutboxHash() => r'd2ec51597a6eeb18b5d34e894dff05c74df1826a';
+
+/// The mailbox the demo screens read codes from; null when demo tools are
+/// hidden (`HIDE_DEMO_TOOLS`), so a real build never exposes codes.
+
+@ProviderFor(simulatedMailbox)
+final simulatedMailboxProvider = SimulatedMailboxProvider._();
+
+/// The mailbox the demo screens read codes from; null when demo tools are
+/// hidden (`HIDE_DEMO_TOOLS`), so a real build never exposes codes.
+
+final class SimulatedMailboxProvider
+    extends
+        $FunctionalProvider<
+          SimulatedMailbox?,
+          SimulatedMailbox?,
+          SimulatedMailbox?
+        >
+    with $Provider<SimulatedMailbox?> {
+  /// The mailbox the demo screens read codes from; null when demo tools are
+  /// hidden (`HIDE_DEMO_TOOLS`), so a real build never exposes codes.
+  SimulatedMailboxProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'simulatedMailboxProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$simulatedMailboxHash();
+
+  @$internal
+  @override
+  $ProviderElement<SimulatedMailbox?> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  SimulatedMailbox? create(Ref ref) {
+    return simulatedMailbox(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SimulatedMailbox? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SimulatedMailbox?>(value),
+    );
+  }
+}
+
+String _$simulatedMailboxHash() => r'0a9e2a269a472217ae999eaab9d4806d46da9f51';
 
 @ProviderFor(verificationRepository)
 final verificationRepositoryProvider = VerificationRepositoryProvider._();
