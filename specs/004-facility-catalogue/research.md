@@ -66,8 +66,8 @@ rejected. Facts about the existing code were read on 2026-11-16 from the `develo
 
 ## R5. State that survives navigation
 
-- **Decision**: three small keep-alive Riverpod notifiers: the facility filter (`FacilityFilter`
-  Freezed value), the list scroll offset, and nothing else. The list restores its offset when it is
+- **Decision**: two small keep-alive Riverpod notifiers: the facility filter (`FacilityFilter`
+  Freezed value) and the list scroll offset, and nothing else. The list restores its offset when it is
   built again (a medium+ selection replaces the route's page and would otherwise reset it). Filters
   are not written to disk or the URL.
 - **Why**: FR-013 and SC-006 only need the state to survive moving within the app, rotating,

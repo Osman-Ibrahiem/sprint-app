@@ -25,7 +25,7 @@ This feature adds view models and pure rules, all Freezed or plain immutable cla
 | `owningUnitName` | `OwningUnit.name` |
 | `activeUnitCount` | units where `isActive` |
 | `today` | `TodayAvailability` |
-| `priceByTier` | lowest and highest `Price.amount` per `PriceTier` over active units, or null for a free facility |
+| `priceInternal`, `priceExternal` | a `TierPriceRange { min, max }` of `Price.amount` per `PriceTier` over active units (`isSingle` when min equals max), or null for a free facility or when no active unit has a price yet |
 | `kind` | `FacilityKind.free` if `isFree`, `withTrainer` if `requiresTrainer`, else `paid` (the 002 enum) |
 
 ## TodayAvailability

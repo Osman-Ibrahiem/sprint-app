@@ -32,7 +32,7 @@ These were decided in this specification so the plan does not have to guess.
 
 ### User Story 1 - A guest opens the app and discovers facilities (Priority: P1)
 
-Someone opens Sprint for the first time with no account. The home screen shows them what the university offers: the facility types, a handful of facilities with today's availability and the price, and an obvious way to see all of them. They never hit a sign-in wall.
+Someone opens Sprint for the first time with no account. The home screen shows them what the university offers: the facility types, up to 6 featured facilities with today's availability and the price, and an obvious way to see all of them. They never hit a sign-in wall.
 
 **Why this priority**: US-01 and FR-CAT-03. For the defense, the first thirty seconds must show a working, attractive product without logging in. Everything else in the catalogue hangs off this screen.
 
@@ -149,7 +149,7 @@ The same screens work in Arabic RTL and English, in light and dark, with large t
 - A facility has no photos: the "صورة المنشأة" placeholder shows. One photo: no carousel controls. Several: swipeable with a position indicator, each with an Arabic description for screen readers.
 - A facility's units all have no price: the page says the price is not set yet instead of showing 0.
 - A facility is `isPublished = false`: it is not in lists, home, suggestions or shared links.
-- A facility is closed today (hours or closure): the card and the page say "مقفول النهارده" and the availability summary is "مفيش مواعيد النهارده".
+- A facility is closed today (hours or closure): the page says "مقفول النهارده", and the card (a design-system widget with fixed availability words) shows "مفيش مواعيد النهارده", the same as when every slot today is taken or past.
 - Every slot today is in the past: availability reads "مفيش مواعيد النهارده", not "0".
 - Filters are applied, the user opens a facility and goes back: filters and scroll position are still there.
 - The user changes the app language or theme while on a screen: it updates in place, with the selected facility and filters kept.
@@ -165,7 +165,7 @@ The same screens work in Arabic RTL and English, in light and dark, with large t
 
 **Home (FR-CAT-03, US-01)**
 
-- **FR-001**: The home destination MUST show, to a signed-out guest, a discovery layout: facility types to jump into, a featured facilities section as `FacilityCard`s, and an action to see all facilities.
+- **FR-001**: The home destination MUST show, to a signed-out guest, a discovery layout: facility types to jump into, a featured section of up to 6 facilities as `FacilityCard`s, and an action to see all facilities.
 - **FR-002**: Home MUST NOT require sign-in for any content in FR-001, and MUST NOT show a sign-in wall before content.
 - **FR-003**: For a signed-in user, home MUST show upcoming `CONFIRMED` bookings first, soonest first, and MUST link to My bookings (feature 7) for the rest.
 - **FR-004**: Home MUST show suggested facilities for a signed-in user, chosen by a simple, deterministic, explainable rule: at most 4 facilities, first those of the facility types of the user's previous bookings (each with the reason in words, such as "لأنك حجزت سباحة قبل كده"), then the remaining published facilities in a fixed order, never repeating a facility where the user already has an upcoming booking. Suggestions MUST NOT use AI.

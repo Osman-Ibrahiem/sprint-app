@@ -105,11 +105,16 @@ lib/
 │       │                            #   builders point at the new screens (additive edits)
 │       └── app_router.dart          # + passes d.subRoutes into the branch GoRoute
 ├── core/
+│   ├── adaptive/
+│   │   └── web_origin.dart          # NEW: the only place that reads the web origin (share link, R7)
 │   └── seed/
 │       └── seed_catalogue_extras.dart   # NEW: extra cases only (R6); wired in by one line
 └── features/catalogue/
     ├── domain/                      # NEW pure files beside the existing entities
     │   ├── facility_filter.dart         # type / owningUnitId / free? (Freezed)
+    │   ├── facility_summary.dart        # list and card row, TierPriceRange, kind
+    │   ├── home_content.dart            # HomeContent, Suggestion view models
+    │   ├── facility_details.dart        # FacilityDetails, TrainerView view models
     │   ├── today_availability.dart      # slots -> level + count (BR-45), pure
     │   ├── suggestion_rule.dart         # up to 4 suggestions + reason, pure (FR-004)
     │   ├── price_groups.dart            # units + prices + modes -> price rows (BR-15, BR-16)
@@ -138,7 +143,9 @@ lib/
         │   ├── availability_section.dart
         │   └── schedule_coming_soon_screen.dart
         └── widgets/
-            └── section_card.dart            # shared titled section container
+            ├── section_card.dart            # shared titled section container
+            ├── catalogue_error_view.dart    # error with retry (FR-033)
+            └── facility_card_mapper.dart    # FacilitySummary + Session -> FacilityCard inputs
 
 lib/l10n/app_ar.arb, app_en.arb      # + ~70 keys, all prefixed `catalogue`
 
