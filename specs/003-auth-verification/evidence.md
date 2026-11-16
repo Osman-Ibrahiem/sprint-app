@@ -13,7 +13,7 @@ changed files, `flutter analyze --fatal-infos` no issues, `flutter test` 1223 pa
 | --- | --- | --- |
 | Web | Release build served locally, in-app browser pane at 800 px (medium width, dark, Arabic) | See the web checks below |
 | macOS | `flutter build macos --debug`, launched | Starts on Home with the rail, dark theme, Arabic. Not walked further: no way to drive the window from here |
-| Android, iOS | not run yet | Camera capture needs Osman's devices |
+| Android, iOS | Run by Osman on his devices, reported 2026-11-16 | Camera capture and the quickstart checks OK |
 
 ### Web checks, 2026-11-16
 
@@ -27,7 +27,7 @@ changed files, `flutter analyze --fatal-infos` no issues, `flutter test` 1223 pa
 | US3 gate | Guest opens `/#/verification` → `/sign-in?from=/verification`; signing in as a booker shows the no-access screen | OK |
 | US6 review | Verifier (PE) queue lists only دينا محمود (Engineering request hidden); approve → "موثّق" and the queue empties | OK |
 | US5 request | Form validation (photo required) shows the error | OK |
-| US5 photo, US6 sheet upload | Need the browser's file chooser | Not checked (needs a person) |
+| US5 photo, US6 sheet upload | Need the browser's file chooser | Not checked here; covered by Osman's device run |
 | Sign out | Confirm dialog, back to guest | OK |
 | US4 reset, FR-013b reset, US7 freeze | not walked (covered by tests) | Not checked by hand |
 
@@ -39,3 +39,7 @@ changed files, `flutter analyze --fatal-infos` no issues, `flutter test` 1223 pa
 ## Web load (T086)
 
 Not measured yet: needs the deployed build.
+
+## Copy review (T083)
+
+`copy-review.md` reviewed and accepted by Osman on 2026-11-16.
