@@ -10,14 +10,14 @@ Business-level model for this feature. It extends the Foundation's entities (`sp
 | name | string | 2–60 chars, at least two words (R5) |
 | phone | string | normalised `01xxxxxxxxx`, **unique** (FR-003) |
 | email | string | trimmed, lower-case, **unique** (FR-003) |
-| nationalId | string? | set when a verification request is sent; unique across accounts (BR-27); shown masked except to `VERIFIER` and `SUPER_ADMIN` (FR-033) |
+| nationalId | string? | set only when a verification is approved; unique across accounts (BR-27); shown masked except to `VERIFIER` and `SUPER_ADMIN` (FR-033) |
 | status | `UserStatus` | **extended**: `unconfirmed`, `active`, `suspended` |
 | createdAt | datetime | **new** |
 
 **State transitions** (`UserStatus`):
 
 ```text
-[sign up] → unconfirmed ──(correct code)──► active
+[sign up] → unconfirmed ──(correct code)──► active   (+ RoleAssignment BOOKER at UNIVERSITY, FR-004)
 active ──(admin, feature 9; seed only here)──► suspended
 ```
 
@@ -32,8 +32,16 @@ Kept apart from `User` so the real backend's auth provider replaces it alone.
 | userId | string | one per user |
 | salt | string | base64, 16 bytes (R3) |
 | hash | string | iterated SHA-256 (R3); never logged or shown |
-| failedAttempts | int | reset on success; 5 in a row → lock (R4) |
-| lockedUntil | datetime? | now + 5 min after the 5th failure |
+
+## SignInThrottle (new)
+
+Counted per normalised identifier, whether or not an account exists (FR-010, SC-009).
+
+| Field | Type | Rule |
+| --- | --- | --- |
+| identifier | string | normalised email or `01xxxxxxxxx` |
+| failedAttempts | int | reset on a successful sign in; 5 in a row → lock (R4) |
+| lockedUntil | datetime? | now + 5 min after the 5th failure; cleared by a password reset of that account |
 
 ## EmailCode (new)
 
@@ -96,7 +104,7 @@ The person's **current** verification is the latest by `submittedAt`. Earlier on
 **State transitions**:
 
 ```text
-[submit] ─┬─ national ID used by another account ──► rejected (auto, reason "duplicate national ID")   BR-27
+[submit] ─┬─ national ID in another account's pending or approved (incl. expired) request ──► rejected (auto, reason "duplicate national ID")   BR-27
           ├─ matches a sheet row in scope ─────────► approved (auto, expiresAt from setting)           BR-23
           └─ otherwise ─────────────────────────────► pending                                           BR-24
 pending ──(verifier approves)──► approved (manual)
@@ -106,7 +114,7 @@ approved ──(now ≥ expiresAt)──► expired (derived, never stored)     
 rejected | expired ──(new request / renewal)──► new Verification, back to [submit]
 ```
 
-Rules: one `pending` per person at a time (FR-027); a reviewer never decides their own (FR-035); deciding a non-pending request fails with `alreadyDecided`.
+Rules: a rejected request never blocks a national ID; `User.nationalId` is set from the request on approval (FR-026, BR-27); one `pending` per person at a time (FR-027); a reviewer never decides their own (FR-035); deciding a non-pending request fails with `alreadyDecided`.
 
 **Expiry** (FR-028): read `verificationExpiry` (`MonthDay`, default 31 August) at university scope; `expiresAt` = that month and day at 23:59:59 Cairo time, in the approval's year if still ahead, otherwise the next year.
 
@@ -166,7 +174,7 @@ All fictional; national IDs pass R5.
 - A new person with a **rejected** request and its reason.
 - A new **unconfirmed** account (signing in sends it to the confirm step).
 - A new **suspended** account.
-- A sample sheet batch already uploaded by the seed verifier for `ou-pe`, plus a sample CSV file in `assets/demo/` for the live upload demo, with rows that match the `ou-pe` pending request, one duplicate, one invalid row and one row for a person with no request.
+- A sample sheet batch already uploaded by the seed verifier for `ou-pe`, containing كريم السيد's row (national ID, code, type `student`), so his live request with unit `ou-pe` is approved at once; the batch does not contain دينا محمود's row, plus a sample CSV file in `assets/demo/` for the live upload demo, with a row that matches دينا محمود's pending `ou-pe` request, كريم's row again (counted as a duplicate of the seed batch), one row with an impossible birth date, and one row for a person with no request.
 - Bookings of `usr-booker-ext` stay external, used by the freeze test (SC-007).
 
 ## Snapshot (new, R1)

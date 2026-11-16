@@ -103,7 +103,7 @@ A person who forgot their password asks for a reset from the sign-in form, recei
 
 ### User Story 5 - Request verification and see its status (Priority: P1)
 
-A booker with the external tier asks to be priced as internal. They fill in the request: type (student, staff or faculty member), national ID, university or staff code, faculty or department, and a photo of their ID card (BR-22). If the national ID and the code match a row in an uploaded sheet, they are verified at once and see the internal tier (BR-23). If not, the request waits for a verifier, and meanwhile they keep booking at full price (BR-24). If the national ID already belongs to another account, the request is refused at once with a clear reason (BR-27). The Profile tab always shows the tier and the request's status in a word and an icon, with the rejection reason or the expiry date when there is one.
+A booker with the external tier asks to be priced as internal. They fill in the request: type (student, staff or faculty member), national ID, university or staff code, faculty or department, and a photo of their ID card (BR-22). If the national ID and the code match a row in an uploaded sheet, they are verified at once and see the internal tier (BR-23). If not, the request waits for a verifier, and meanwhile they keep booking at full price (BR-24). If the national ID is already used in another account's pending or approved request, the request is refused at once with a clear reason (BR-27). The Profile tab always shows the tier and the request's status in a word and an icon, with the rejection reason or the expiry date when there is one.
 
 **Why this priority**: The two price tiers are the core of the pricing rules and of the thesis problem (fair access for students), and US-04 is a Must for the defense.
 
@@ -113,7 +113,7 @@ A booker with the external tier asks to be priced as internal. They fill in the 
 
 1. **Given** an external booker, **When** they submit a complete request whose national ID and code match a sheet row of the same type, **Then** they are verified automatically, the tier shows internal, and the expiry date is shown.
 2. **Given** a request with no matching row, **When** it is submitted, **Then** its status is "under review", the tier stays external, and booking at full price is still possible.
-3. **Given** a national ID already linked to another account, **When** the request is submitted, **Then** it is refused automatically with a reason that says the national ID is already registered on another account.
+3. **Given** a national ID used in another account's pending or approved request, **When** the request is submitted, **Then** it is refused automatically with a reason that says the national ID is already registered on another account.
 4. **Given** an incomplete or invalid request (missing photo, national ID that is not 14 digits or has an impossible birth date or governorate code), **When** submit is tried, **Then** each problem is shown next to its field and nothing is sent.
 5. **Given** a rejected request, **Then** the reason is shown, and the person can send a new request.
 6. **Given** a verification whose expiry date has passed, **Then** the tier shows external again, the status says expired, and a renewal starts from the previous answers with a new ID card photo (BR-25, FR-VER-04).
@@ -162,12 +162,13 @@ Whatever happens to a person's verification, a booking keeps the tier and price 
 - **Email typed in a different case or with spaces**: emails are compared without case and trimmed; the mobile number is accepted with or without the country prefix (`+20`, `0020`) and with spaces, and stored in one form (`01xxxxxxxxx`).
 - **Mobile number that is not Egyptian**: refused with a message naming the expected form (11 digits starting with 010, 011, 012 or 015). Outside visitors are assumed to have Egyptian numbers in P1.
 - **Arabic-Indic digits typed** (٠١٢٣…) in the mobile number, the code, the national ID or the university code: accepted and converted to Western digits, because many Arabic keyboards type them.
-- **Many sign-in attempts with a wrong password**: after 5 failures in a row for the same account, sign in for it waits 5 minutes, with the remaining time shown; the message still does not confirm the account exists for unknown identifiers.
+- **Many sign-in attempts with a wrong password**: after 5 failures in a row for the same email or mobile number, sign in with it waits 5 minutes, with the remaining time shown. Failures are counted per identifier whether or not an account exists, so the wait itself never confirms that an account exists.
 - **Code asked for again and again**: a new code can be sent only after a 60-second wait (shown as a countdown); each new code replaces the previous one; a code lasts 15 minutes and allows 5 wrong tries.
 - **Password visibility**: the password field can be shown or hidden; the platform's password manager and autofill can fill and save it.
 - **The ID card photo**: taken with the camera on phones or picked from files on every platform; very large photos are reduced before they are kept; only images are accepted; the person can see and replace it before sending.
 - **A sheet row that duplicates an existing row**: skipped and counted as a duplicate, not added twice.
 - **A sheet row whose national ID is already verified on another account**: it does not verify a second account (BR-27); the matching request is refused with the same reason as in User Story 5.
+- **A rejected request with a mistyped national ID**: it does not block that national ID for anyone else; only a pending or approved (including expired) request ties a national ID to an account.
 - **A sheet uploaded while a person is submitting a request**: the request is matched against the sheet as it is at the moment it is received.
 - **A verifier reviews a request that another verifier decided a moment before**: the second decision is refused with a message that the request was already decided, and the queue refreshes.
 - **A verifier's own request**: a verifier cannot approve or reject their own verification request.
@@ -185,7 +186,7 @@ Whatever happens to a person's verification, a booking keeps the tier and price 
 - **FR-001**: The system MUST let a guest create an account with name, mobile number, email and password, and MUST create it only after the email is confirmed with a code.
 - **FR-002**: The system MUST validate each field before submitting: name of 2 to 60 letters with at least two words; Egyptian mobile number (11 digits starting 010, 011, 012 or 015, after normalising); a valid email; a password of at least 8 characters with at least one letter and one digit. Each problem MUST appear next to its field, in a word, not colour alone.
 - **FR-003**: The system MUST refuse sign up when the email or mobile number already belongs to an account, and MUST say which one is taken and offer sign in and password reset.
-- **FR-004**: Every new account MUST start with the external tier and the booker role at university scope, with no verification (BR-21).
+- **FR-004**: Every new account MUST start with the external tier and the booker role at university scope, with no verification (BR-21). The booker role MUST be assigned when the email is confirmed, so the account can book in later features.
 - **FR-005**: Confirmation and reset codes MUST be 6 digits, valid for 15 minutes, allow 5 wrong tries, replace any earlier code when a new one is sent, and be resent only after 60 seconds.
 - **FR-006**: An account that exists but is not yet confirmed MUST NOT be signed in; signing in with it MUST lead to the confirmation step with a new code.
 
@@ -194,8 +195,8 @@ Whatever happens to a person's verification, a booking keeps the tier and price 
 - **FR-007**: The system MUST offer one sign-in form that accepts an email or a mobile number in the same field, and a password.
 - **FR-008**: While sign in is processed, the main button MUST show its loading state and the form MUST not be submitted twice.
 - **FR-009**: A wrong password, an unknown email and an unknown mobile number MUST all produce the same message, which MUST NOT say which part is wrong.
-- **FR-010**: After 5 wrong passwords in a row for one account, sign in for that account MUST be blocked for 5 minutes, and the remaining time MUST be shown.
-- **FR-011**: A suspended account MUST be refused with a message that says it is suspended.
+- **FR-010**: After 5 wrong passwords in a row for one identifier (normalised email or mobile number), sign in with that identifier MUST be blocked for 5 minutes and the remaining time MUST be shown. Failures MUST be counted the same way for identifiers with no account, so the lockout never reveals that an account exists.
+- **FR-011**: A suspended account MUST be refused with a message that says it is suspended. The account status (suspended, unconfirmed) MUST be checked only after the password is correct, so a wrong password always gets the generic message of FR-009.
 - **FR-012**: After sign in, the app MUST build its sections from the person's role assignments and scopes, using the Foundation's role-driven sections, with no extra code per role.
 - **FR-013**: The session MUST be kept across app restarts until sign out, on every platform.
 - **FR-013a**: The demo data MUST persist on the device across app restarts and web page reloads: accounts, passwords (hashed), verification requests, sheet rows and uploads, simulated emails, notifications, audit entries and the session, and any data later features change in the same data layer. Persistence MUST sit behind the same repository interfaces so the backend replaces it without touching screens. If saved data cannot be read (missing, corrupt, older format), the app MUST start from the seed data instead of failing.
@@ -224,7 +225,7 @@ Whatever happens to a person's verification, a booking keeps the tier and price 
 
 - **FR-024**: A signed-in person with no pending request MUST be able to send a verification request with: type (student, staff, faculty member), national ID, university or staff code, faculty or department (from the owning units list), and an ID card photo (BR-22).
 - **FR-025**: The national ID MUST be validated as 14 digits with a valid century digit, birth date and governorate code before submitting.
-- **FR-026**: When received, a request MUST be checked in this order: (1) if its national ID belongs to another account, refuse it automatically with that reason (BR-27); (2) if its national ID, code and type match a sheet row, approve it automatically (method automatic) (BR-23); (3) otherwise, mark it pending for manual review.
+- **FR-026**: When received, a request MUST be checked in this order: (1) if another account has a pending or approved (including expired) request with the same national ID, refuse it automatically with that reason (BR-27); a rejected request never blocks a national ID; (2) if its national ID, code and type match a sheet row, approve it automatically (method automatic) (BR-23); (3) otherwise, mark it pending for manual review.
 - **FR-027**: While a request is pending, the person MUST stay external (BR-24) and MUST NOT be able to send another request.
 - **FR-028**: An approved verification MUST get its expiry date from the `verificationExpiry` setting (the next occurrence of that month and day after the approval, BRD default 31 August) (BR-25). This value MUST NOT be hard-coded.
 - **FR-029**: Profile MUST show the tier and the verification status (none, under review, approved with expiry date, rejected with reason, expired) using `StatusBadge`-style word plus icon, and the next possible action (request, wait, renew, request again).

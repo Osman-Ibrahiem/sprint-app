@@ -22,7 +22,7 @@ Freezed models get `fromJson` and `toJson` through `json_serializable` (`json_an
 **Decision**: Split the Foundation's `IdentityRepository` by responsibility and keep it backward compatible:
 
 - `AuthRepository` (new): sign up, confirm email, resend code, sign in, sign out, request reset, reset password, current account id, and the demo-only `actAs(userId)` used by the user switcher.
-- `IdentityRepository` (existing): read people and role assignments. `currentUser()` and `setCurrentUser()` move to `AuthRepository`; the existing calls are kept as thin delegations during this feature and removed in the same PR once callers move.
+- `IdentityRepository` (existing): read people and role assignments. `currentUser()` and `setCurrentUser()` move to `AuthRepository`, and every caller is moved in the same change (no temporary delegations).
 - `VerificationRepository` (new, in `features/verification/`): submit, current request for a person, queue for a reviewer, decide, upload sheet, sheet batches, tier lookup.
 - `EmailOutbox` (new interface): `send(Email)`. P1: `SimulatedMailbox`, which also lists messages for the demo mailbox screen. Later: a real email provider.
 
@@ -42,7 +42,7 @@ Every repository exposes `Stream<void> changes` so the session and screens refre
 
 ## R4. Codes, resend wait and lockout (FR-005, FR-010)
 
-**Decision**: Codes are 6 digits from `Random.secure()`, one active code per account and purpose (`confirmEmail`, `resetPassword`); a new code replaces the old. Constants live in one file, `lib/features/auth/domain/auth_limits.dart`: code life 15 minutes, 5 wrong tries, resend wait 60 seconds, lockout 5 minutes after 5 wrong passwords in a row. All times come from the app clock (`appClockProvider`), so tests move time instead of waiting. Lockout counters and codes are part of the snapshot (R1). Unknown identifiers on sign in and reset go through the same code path and return the same result type, so timing and message do not reveal existence (SC-009).
+**Decision**: Codes are 6 digits from `Random.secure()`, one active code per account and purpose (`confirmEmail`, `resetPassword`); a new code replaces the old. Constants live in one file, `lib/features/auth/domain/auth_limits.dart`: code life 15 minutes, 5 wrong tries, resend wait 60 seconds, lockout 5 minutes after 5 wrong passwords in a row. All times come from the app clock (`appClockProvider`), so tests move time instead of waiting. Lockout counters are kept per normalised identifier, whether or not an account exists, so the lockout itself never reveals an account (FR-010). On sign in the password is checked first; only a correct password reveals `suspended` or `needsConfirmation` (FR-011). Counters, codes and the signed-in user id are part of the snapshot (R1). Unknown identifiers on sign in and reset go through the same code path and return the same result type, so timing and message do not reveal existence (SC-009). New accounts get the `BOOKER` role at university scope when their email is confirmed (FR-004).
 
 **Why**: Settled as constants in clarify (2026-11-16). One file keeps them in one place.
 
@@ -89,7 +89,7 @@ Sheet rows are tagged with the uploader's scope (unit id, or none for university
 
 ## R9. Session and tier that stay current (FR-012, FR-040 – FR-042)
 
-**Decision**: `SessionNotifier` (Foundation) gains `signIn`, `signOut` and `actAs`, and listens to `AuthRepository.changes`, `IdentityRepository.changes` and `VerificationRepository.changes` to reload. `Session.tier` is no longer a stored field: `Session` keeps the person's `Verification` and computes the tier through one function, `tierFor(user, verification, now)`, which extends the Foundation's `tierAt` with the account status (suspended is external). A `tierNowProvider` re-reads it when the clock passes the verification's `expiresAt` (a single timer scheduled for that moment), so expiry during a session shows at once (edge case).
+**Decision**: `SessionNotifier` (Foundation) gains `signIn`, `signOut` and `actAs`, and listens to `AuthRepository.changes`, `IdentityRepository.changes` and `VerificationRepository.changes` to reload. `Session.tier` is no longer a stored field: `Session` keeps the person's `Verification` and computes the tier through one function, `tierFor(user, verification, now)`, which extends the Foundation's `tierAt` with the account status (suspended is external). `SessionNotifier` schedules a single timer for the verification's `expiresAt` and reloads when it fires, so expiry during a session shows at once (edge case).
 
 `InMemoryBookingRepository` already freezes `tierAtBooking` and `priceAtBooking`; it switches to `tierFor` so feature 5 uses the same answer. A test proves no booking changes when verifications change (SC-007).
 
@@ -105,7 +105,9 @@ Scope filtering (FR-032) is enforced inside `VerificationRepository.queue(review
 
 ## R12. Screens and adaptive layout
 
-**Decision**: Auth screens (sign in, sign up, confirm, forgot, reset) are full-screen routes outside the shell with an `AdaptiveAppBar` and a single centred column (max content width from tokens, about 480) on every size class; the shell's navigation is not shown while signing in. The verification queue is a shell destination: list on compact and medium, list and detail side by side from expanded (FR-039), with the detail as its own route on compact so the back gesture works natively. The request form and the profile account card live under Profile. Dialogs (sign out, reject reason, reset demo data) use `AdaptiveDialog`; pickers use the platform sheet (`AdaptiveSheet`).
+**Decision**: Auth screens (sign in, sign up, confirm, forgot, reset) are full-screen routes outside the shell with an `AdaptiveAppBar` and a single centred column capped at `SprintExtras.authFormMaxWidth` (480) on every size class; the shell's navigation is not shown while signing in. The verification queue is a shell destination: list on compact and medium, list and detail side by side from expanded (FR-039), with the detail as its own route on compact so the back gesture works natively. The request form and the profile account card live under Profile. Dialogs (sign out, reject reason, reset demo data) use `AdaptiveDialog`; pickers use the platform sheet (`AdaptiveSheet`).
+
+**Form width and photo preview**: `tokens.json` has no form-width token, and this feature does not edit `tokens.json`. Following feature 002 (research R3 there), the auth form cap (`authFormMaxWidth = 480`) and the ID card preview height (`idCardPreviewHeight = 200`) are named constants in `lib/core/tokens/sprint_extras.dart`, with a follow-up to promote them to `tokens.json` (see plan Complexity Tracking).
 
 ## R13. Widget changes needed from Feature 002
 

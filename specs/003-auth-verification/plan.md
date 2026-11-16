@@ -82,6 +82,7 @@ lib/
 │   ├── providers/
 │   │   ├── data_providers.dart                # + auth, verification, outbox providers; load at startup
 │   │   └── session_provider.dart              # signIn / signOut / actAs; listens to changes (R9)
+│   ├── tokens/sprint_extras.dart              # + authFormMaxWidth, idCardPreviewHeight (R12)
 │   ├── seed/
 │   │   ├── seed_users.dart                    # + new people, statuses
 │   │   ├── seed_credentials.dart              # NEW: demo password (hashed at build) (R3)
@@ -93,13 +94,13 @@ lib/
 │   │   │                                      #   credential, email_code, simulated_email, password_hasher
 │   │   ├── data/                              # in_memory_auth_repository, simulated_mailbox
 │   │   └── presentation/                      # sign_in, sign_up, confirm_email, forgot_password,
-│   │                                          #   reset_password screens; account_gate; code_entry;
+│   │                                          #   reset_password screens; account_gate; code_entry; account_card;
 │   │                                          #   demo_code_notice; auth_form_scaffold
 │   ├── verification/                          # NEW
 │   │   ├── domain/                            # verification_repository, national_id, sheet_parser,
 │   │   │                                      #   reviewer_scope, tier (tierFor), sheet_batch, sheet_row
 │   │   ├── data/                              # in_memory_verification_repository, csv_sheet_parser
-│   │   └── presentation/                      # request_form, account_card, status_badge mapping,
+│   │   └── presentation/                      # request_form, status_badge mapping (shown on account_card),
 │   │                                          #   queue, request_detail, sheet_upload, photo picker
 │   ├── identity/                              # narrowed interface; models get JSON; User status extended
 │   ├── booking/data/in_memory_booking_repository.dart  # uses tierFor (R9)
@@ -127,4 +128,5 @@ assets/demo/                                   # verification_sheet_sample.csv, 
 | Deviation | Why needed | Simpler alternative rejected because |
 | --- | --- | --- |
 | JSON serialisation for every Foundation model, not only this feature's | Clarify answer: all demo data and the session survive a restart (FR-013a); a session pointing at a person who vanished on reload breaks the demo | Persisting only identity data loses bookings made in features 5 to 7 on reload while the account survives |
+| Auth form width and ID card preview height are `SprintExtras` constants, not tokens (Principle II note) | `tokens.json` has no form-width token and this feature does not edit it (research R12) | Adding tokens means a Figma and handoff round trip outside this feature; 002 set the precedent of named constants with a follow-up |
 | Code and lockout numbers are constants, not settings (Principle III note) | Osman's clarify answer (2026-11-16): security limits, not business rules | Making them settings adds admin UI and inheritance for values nobody at the university changes |

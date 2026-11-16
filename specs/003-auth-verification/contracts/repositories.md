@@ -18,7 +18,7 @@ Interfaces in Dart terms (names are final; exact signatures are fixed at impleme
 | `currentUserId()` | `String?` | none |
 | `actAs(userId?)` | `Done`; demo-only user switcher (FR-015) | none |
 
-Rules: identifiers are normalised before lookup (R5); time comes from the app clock; `badCredentials` and the reset response never depend on whether the account exists.
+Rules: identifiers are normalised before lookup (R5); time comes from the app clock; `badCredentials`, `lockedOut` and the reset response never depend on whether the account exists. `signIn` checks, in order: lockout of the identifier → password (wrong or unknown → `badCredentials`, counted per identifier) → account status (`suspended`, `needsConfirmation`) → success (counter reset). `confirmEmail` also creates the `BOOKER` role assignment at university scope (FR-004). The signed-in user id, the throttles and the codes are part of the snapshot.
 
 ## EmailOutbox (new) — `lib/features/auth/domain/email_outbox.dart`
 
@@ -38,7 +38,7 @@ Keeps `users()`, `getUser(id)`, `roleAssignments(userId)`, and adds `changes`. `
 | --- | --- | --- |
 | `current(userId)` | `Verification?` (latest) | none |
 | `history(userId)` | list, newest first | none |
-| `submit(userId, type, nationalId, code, owningUnitId, photo)` | the new `Verification` with status `approved`, `pending` or `rejected` per FR-026 | `invalidField(field, reason)`, `alreadyPending`, `notSignedIn` |
+| `submit(userId, type, nationalId, code, owningUnitId, photo)` | the new `Verification` with status `approved`, `pending` or `rejected` per FR-026 (duplicate = another account's pending or approved request, incl. expired); on approval `User.nationalId` is set | `invalidField(field, reason)`, `alreadyPending`, `notSignedIn` |
 | `queue(reviewerId)` | pending in the reviewer's scope, oldest first | `noAccess` |
 | `request(reviewerId, verificationId)` | full request incl. national ID and photo | `noAccess` (not a reviewer, or out of scope) |
 | `approve(reviewerId, verificationId)` | approved, with `expiresAt` | `noAccess`, `alreadyDecided`, `ownRequest` |
