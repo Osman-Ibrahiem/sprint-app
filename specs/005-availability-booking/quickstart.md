@@ -68,6 +68,7 @@ Seed days are relative to today; "day +3" is three days from now.
    the hour was just booked and the slot shows "مكتمل".
 7. **Free range (US4)**: "الصالة المغطاة", قاعة 2: tap 4:00 م then 6:00 م (ends 7:00 م): three chips
    in a range, the length shows in words. Try to extend to a fourth hour: refused with the maximum.
+   (If day +4 is a Friday the hall is closed that day and the seeded 10:00 ص booking has no slots around it: skip the next check and rely on the automated test.)
    On قاعة 1, day +4, try 9:00 ص to 11:00 ص: refused, naming 10:00 ص. Confirm a valid range: the
    success screen shows the code and details with no QR; home shows the booking under upcoming; back
    from success lands on the schedule, where the hours are now taken.

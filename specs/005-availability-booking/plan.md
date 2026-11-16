@@ -58,7 +58,7 @@ primary action per screen; 48dp targets; text to 200%; reduced motion honoured; 
 
 **Scale/Scope**: 4 screens (schedule with its trainer step, summary, checkout placeholder, success),
 about 9 new pure domain files, 1 providers file, 1 new adaptive primitive, 3 new child routes, about
-90 new ARB keys in Arabic and English, 1 new seed file, edits to 9 existing files (R15), and the
+90 new ARB keys in Arabic and English, 1 new seed file, edits to 11 existing files (R15), and the
 removal of feature 004's coming-soon screen.
 
 No "NEEDS CLARIFICATION" remains; see [research.md](research.md) R1 – R15.
