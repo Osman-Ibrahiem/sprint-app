@@ -39,8 +39,8 @@ description: "Task list for the Availability and Booking feature"
 
 **Purpose**: A known-green baseline and the guard that protects the new folder.
 
-- [ ] T001 Run `flutter pub get`, `dart run build_runner build --delete-conflicting-outputs`, `flutter analyze` and `flutter test` on the clean branch. All must pass. Create `specs/005-availability-booking/evidence.md` with a "Baseline" section recording the date and the number of passing tests.
-- [ ] T002 [P] Add the guard test `test/guards/booking_domain_pure_test.dart`, modelled on `test/guards/catalogue_domain_pure_test.dart`: every `.dart` file in `lib/features/booking/domain/` fails the test if it imports `package:flutter`, `package:flutter_riverpod`, `package:riverpod_annotation` or anything under `features/*/data/`; and no `.dart` file under `lib/features/booking/presentation/` may import a file whose name starts with `in_memory_` or mention `InMemoryDataLayer`. It passes now (the presentation folder does not exist yet) and protects every later task.
+- [X] T001 Run `flutter pub get`, `dart run build_runner build --delete-conflicting-outputs`, `flutter analyze` and `flutter test` on the clean branch. All must pass. Create `specs/005-availability-booking/evidence.md` with a "Baseline" section recording the date and the number of passing tests.
+- [X] T002 [P] Add the guard test `test/guards/booking_domain_pure_test.dart`, modelled on `test/guards/catalogue_domain_pure_test.dart`: every `.dart` file in `lib/features/booking/domain/` fails the test if it imports `package:flutter`, `package:flutter_riverpod`, `package:riverpod_annotation` or anything under `features/*/data/`; and no `.dart` file under `lib/features/booking/presentation/` may import a file whose name starts with `in_memory_` or mention `InMemoryDataLayer`. It passes now (the presentation folder does not exist yet) and protects every later task.
 
 ---
 
