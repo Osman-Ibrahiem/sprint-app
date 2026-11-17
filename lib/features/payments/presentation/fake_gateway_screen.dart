@@ -116,8 +116,10 @@ class _GatewayFormState extends ConsumerState<_GatewayForm> {
 
   /// Groups what is typed into [c] as it changes (digits keep their order in
   /// a left-to-right field, also in Arabic), and re-checks it once submitted.
+  final Map<TextEditingController, VoidCallback> _listeners = {};
+
   void _bind(TextEditingController c, String Function(String) group) {
-    c.addListener(() {
+    void listener() {
       final grouped = group(c.text);
       if (grouped != c.text) {
         c.value = TextEditingValue(
@@ -126,11 +128,17 @@ class _GatewayFormState extends ConsumerState<_GatewayForm> {
         );
       }
       _refresh();
-    });
+    }
+
+    _listeners[c] = listener;
+    c.addListener(listener);
   }
 
   @override
   void dispose() {
+    // Stop listening first: clearing notifies, and this state is going away.
+    _listeners.forEach((c, l) => c.removeListener(l));
+    _name.removeListener(_refresh);
     _number.clear();
     _expiry.clear();
     _cvc.clear();
