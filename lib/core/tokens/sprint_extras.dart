@@ -78,7 +78,7 @@ abstract final class SprintExtras {
 
   /// Booking schedule (feature 005): the side panel on wide windows, and the
   /// narrowest pane that still has room for it beside the slot grid.
-  static const double bookingPanelWidth = 240;
+  static const double bookingPanelWidth = 200;
   static const double bookingPanelMinPaneWidth = 480;
 
   /// From this text scale the booking bar stacks its text above its action
