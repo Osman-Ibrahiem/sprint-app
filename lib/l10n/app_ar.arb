@@ -1049,17 +1049,6 @@
   "bookingPanelTitle": "اختيارك",
   "bookingSelectionPrompt": "لسه مفيش ميعاد مختار",
   "bookingGateReason": "عشان تحجز",
-  "bookingPriceWithBasis": "السعر {price} {basis}",
-  "@bookingPriceWithBasis": {
-    "placeholders": {
-      "price": {
-        "type": "String"
-      },
-      "basis": {
-        "type": "String"
-      }
-    }
-  },
   "bookingFailSlotTaken": "الميعاد ده اتحجز لسه. فيه مواعيد تانية متاحة.",
   "bookingFailSlotTakenAt": "الساعة {time} اتحجزت لسه، فالنطاق ده مش متاح.",
   "@bookingFailSlotTakenAt": {
@@ -1175,7 +1164,6 @@
   "bookingPriceChanged": "السعر اتغيّر عن اللي ظهر في المواعيد. ده السعر الحالي.",
   "bookingPayAction": "متابعة للدفع",
   "bookingConfirmAction": "تأكيد الحجز",
-  "bookingConfirming": "جاري التأكيد",
   "bookingFreeNoPayment": "الحجز مجاني ومفيش خطوة دفع.",
   "bookingCheckoutSoonTitle": "الدفع قريبًا",
   "bookingCheckoutSoonBody": "خطوة الدفع هتتضاف قريب. اختيارك محفوظ في الملخص.",
@@ -1202,16 +1190,5 @@
   },
   "bookingNoTrainersTitle": "مفيش مدربين متاحين",
   "bookingNoTrainersBody": "المنشأة دي لسه ملهاش مدربين للحجز.",
-  "bookingTrainerNoSessionsBody": "المدرب ده ملوش حصص في الأيام الجاية.",
-  "bookingSessionIn": "{time} في {unit}",
-  "@bookingSessionIn": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      },
-      "unit": {
-        "type": "String"
-      }
-    }
-  }
+  "bookingTrainerNoSessionsBody": "المدرب ده ملوش حصص في الأيام الجاية."
 }

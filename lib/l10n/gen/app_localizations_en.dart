@@ -1763,11 +1763,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bookingGateReason => 'to book';
 
   @override
-  String bookingPriceWithBasis(String price, String basis) {
-    return 'Price $price $basis';
-  }
-
-  @override
   String get bookingFailSlotTaken =>
       'This time was just booked. Other times are available.';
 
@@ -1950,9 +1945,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bookingConfirmAction => 'Confirm booking';
 
   @override
-  String get bookingConfirming => 'Confirming';
-
-  @override
   String get bookingFreeNoPayment =>
       'This booking is free and has no payment step.';
 
@@ -2019,9 +2011,4 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get bookingTrainerNoSessionsBody =>
       'This trainer has no sessions in the coming days.';
-
-  @override
-  String bookingSessionIn(String time, String unit) {
-    return '$time in $unit';
-  }
 }

@@ -1751,11 +1751,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bookingGateReason => 'عشان تحجز';
 
   @override
-  String bookingPriceWithBasis(String price, String basis) {
-    return 'السعر $price $basis';
-  }
-
-  @override
   String get bookingFailSlotTaken =>
       'الميعاد ده اتحجز لسه. فيه مواعيد تانية متاحة.';
 
@@ -1935,9 +1930,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bookingConfirmAction => 'تأكيد الحجز';
 
   @override
-  String get bookingConfirming => 'جاري التأكيد';
-
-  @override
   String get bookingFreeNoPayment => 'الحجز مجاني ومفيش خطوة دفع.';
 
   @override
@@ -2001,9 +1993,4 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get bookingTrainerNoSessionsBody =>
       'المدرب ده ملوش حصص في الأيام الجاية.';
-
-  @override
-  String bookingSessionIn(String time, String unit) {
-    return '$time في $unit';
-  }
 }

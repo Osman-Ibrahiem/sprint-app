@@ -3017,12 +3017,6 @@ abstract class AppLocalizations {
   /// **'عشان تحجز'**
   String get bookingGateReason;
 
-  /// No description provided for @bookingPriceWithBasis.
-  ///
-  /// In ar, this message translates to:
-  /// **'السعر {price} {basis}'**
-  String bookingPriceWithBasis(String price, String basis);
-
   /// No description provided for @bookingFailSlotTaken.
   ///
   /// In ar, this message translates to:
@@ -3275,12 +3269,6 @@ abstract class AppLocalizations {
   /// **'تأكيد الحجز'**
   String get bookingConfirmAction;
 
-  /// No description provided for @bookingConfirming.
-  ///
-  /// In ar, this message translates to:
-  /// **'جاري التأكيد'**
-  String get bookingConfirming;
-
   /// No description provided for @bookingFreeNoPayment.
   ///
   /// In ar, this message translates to:
@@ -3400,12 +3388,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'المدرب ده ملوش حصص في الأيام الجاية.'**
   String get bookingTrainerNoSessionsBody;
-
-  /// No description provided for @bookingSessionIn.
-  ///
-  /// In ar, this message translates to:
-  /// **'{time} في {unit}'**
-  String bookingSessionIn(String time, String unit);
 }
 
 class _AppLocalizationsDelegate

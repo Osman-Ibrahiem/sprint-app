@@ -1045,17 +1045,6 @@
   "bookingPanelTitle": "Your choice",
   "bookingSelectionPrompt": "No time chosen yet",
   "bookingGateReason": "to book",
-  "bookingPriceWithBasis": "Price {price} {basis}",
-  "@bookingPriceWithBasis": {
-    "placeholders": {
-      "price": {
-        "type": "String"
-      },
-      "basis": {
-        "type": "String"
-      }
-    }
-  },
   "bookingFailSlotTaken": "This time was just booked. Other times are available.",
   "bookingFailSlotTakenAt": "{time} was just booked, so this range is not available.",
   "@bookingFailSlotTakenAt": {
@@ -1171,7 +1160,6 @@
   "bookingPriceChanged": "The price changed from what the schedule showed. This is the current price.",
   "bookingPayAction": "Continue to payment",
   "bookingConfirmAction": "Confirm booking",
-  "bookingConfirming": "Confirming",
   "bookingFreeNoPayment": "This booking is free and has no payment step.",
   "bookingCheckoutSoonTitle": "Payment is coming soon",
   "bookingCheckoutSoonBody": "The payment step arrives soon. Your choice is kept in the summary.",
@@ -1198,16 +1186,5 @@
   },
   "bookingNoTrainersTitle": "No trainers available",
   "bookingNoTrainersBody": "This facility has no trainers to book yet.",
-  "bookingTrainerNoSessionsBody": "This trainer has no sessions in the coming days.",
-  "bookingSessionIn": "{time} in {unit}",
-  "@bookingSessionIn": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      },
-      "unit": {
-        "type": "String"
-      }
-    }
-  }
+  "bookingTrainerNoSessionsBody": "This trainer has no sessions in the coming days."
 }
