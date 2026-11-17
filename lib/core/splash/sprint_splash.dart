@@ -23,7 +23,8 @@ class SprintSplashGate extends StatefulWidget {
 
   /// How long step 3 stays on screen: two `duration-base` and one `duration-fast`.
   static final Duration defaultHold =
-      SprintMotion.durationBase * 2 + SprintMotion.durationFast;
+      (SprintMotion.durationBase * 2 + SprintMotion.durationFast) *
+      SprintSplash.slowdown;
 
   final Widget child;
   final bool enabled;
@@ -92,7 +93,13 @@ class SprintSplash extends StatefulWidget {
 
   /// Step 1 stays this long before the move (600ms, as in the Figma notes).
   static final Duration nativeHold =
-      SprintMotion.durationSlow + SprintMotion.durationBase;
+      (SprintMotion.durationSlow + SprintMotion.durationBase) * slowdown;
+
+  /// For reviewing the motion: `--dart-define=SPLASH_SLOW=4` plays it 4x slower.
+  static const int slowdown = int.fromEnvironment(
+    'SPLASH_SLOW',
+    defaultValue: 1,
+  );
 
   static const double _boltRise = 86; // centre -> step 3 position
   static const double _wordmarkGap = 20; // bolt bottom -> wordmark top
@@ -118,11 +125,13 @@ class _SprintSplashState extends State<SprintSplash>
   // 0..350ms bolt move + wordmark fade; then 250ms content fade.
   late final AnimationController _intro = AnimationController(
     vsync: this,
-    duration: SprintMotion.durationSlow + SprintMotion.durationBase,
+    duration:
+        (SprintMotion.durationSlow + SprintMotion.durationBase) *
+        SprintSplash.slowdown,
   );
   late final AnimationController _loader = AnimationController(
     vsync: this,
-    duration: SprintMotion.durationPulse,
+    duration: SprintMotion.durationPulse * SprintSplash.slowdown,
   );
   Timer? _timer;
   bool _started = false;
@@ -161,7 +170,7 @@ class _SprintSplashState extends State<SprintSplash>
   }
 
   double _span(double from, double to, Curve curve) {
-    final total = _intro.duration!.inMicroseconds;
+    final total = _intro.duration!.inMicroseconds ~/ SprintSplash.slowdown;
     final t = ((_intro.value * total - from * 1000) / ((to - from) * 1000))
         .clamp(0.0, 1.0);
     return curve.transform(t);
@@ -177,115 +186,122 @@ class _SprintSplashState extends State<SprintSplash>
     final soft = colors.onPrimarySoft;
     final text = SprintTextStyles(main);
 
-    return ColoredBox(
-      color: bg,
-      child: LayoutBuilder(
-        builder: (context, box) {
-          final centerY = box.maxHeight / 2;
-          final wide = box.maxWidth >= SprintSplash._wideFrom;
-          final top3 =
-              centerY - SprintSplash.boltSize / 2 - SprintSplash._boltRise;
-          return AnimatedBuilder(
-            animation: _intro,
-            builder: (context, _) {
-              final move = _span(
-                0,
-                SprintMotion.durationSlow.inMilliseconds.toDouble(),
-                SprintMotion.easeEnter,
-              );
-              final content = _span(
-                SprintMotion.durationSlow.inMilliseconds.toDouble(),
-                _intro.duration!.inMilliseconds.toDouble(),
-                Curves.linear,
-              );
-              final boltTop =
-                  centerY -
-                  SprintSplash.boltSize / 2 -
-                  SprintSplash._boltRise * move;
-              final wordmarkTop =
-                  top3 + SprintSplash.boltSize + SprintSplash._wordmarkGap;
-              // The wordmark starts at 40% and settles 10px lower than step 3.
-              final wordmarkOpacity =
-                  math.min(1.0, move * 8) * 0.4 + 0.6 * move;
-              final wordmarkShift = 10 * (1 - move);
-              return Stack(
-                children: [
-                  Positioned(
-                    top: boltTop,
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child: SvgPicture.asset(
-                        SprintSplash.markAsset,
-                        width: SprintSplash.boltSize,
-                        height: SprintSplash.boltSize,
-                        excludeFromSemantics: true,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: wordmarkTop + wordmarkShift,
-                    left: 0,
-                    right: 0,
-                    child: Opacity(
-                      opacity: wordmarkOpacity,
-                      child: Semantics(
-                        header: true,
-                        child: Text(
-                          l10n.appName,
-                          textAlign: TextAlign.center,
-                          style: text.display,
+    // Material gives the text a style without the yellow debug underline (the
+    // splash sits above the Navigator, outside any Scaffold).
+    return Material(
+      type: MaterialType.transparency,
+      child: ColoredBox(
+        color: bg,
+        child: LayoutBuilder(
+          builder: (context, box) {
+            final centerY = box.maxHeight / 2;
+            final wide = box.maxWidth >= SprintSplash._wideFrom;
+            final top3 =
+                centerY - SprintSplash.boltSize / 2 - SprintSplash._boltRise;
+            return AnimatedBuilder(
+              animation: _intro,
+              builder: (context, _) {
+                final move = _span(
+                  0,
+                  SprintMotion.durationSlow.inMilliseconds.toDouble(),
+                  SprintMotion.easeEnter,
+                );
+                final content = _span(
+                  SprintMotion.durationSlow.inMilliseconds.toDouble(),
+                  (SprintMotion.durationSlow + SprintMotion.durationBase)
+                      .inMilliseconds
+                      .toDouble(),
+                  Curves.linear,
+                );
+                final boltTop =
+                    centerY -
+                    SprintSplash.boltSize / 2 -
+                    SprintSplash._boltRise * move;
+                final wordmarkTop =
+                    top3 + SprintSplash.boltSize + SprintSplash._wordmarkGap;
+                // The wordmark starts at 40% and settles 10px lower than step 3.
+                final wordmarkOpacity =
+                    math.min(1.0, move * 8) * 0.4 + 0.6 * move;
+                final wordmarkShift = 10 * (1 - move);
+                return Stack(
+                  children: [
+                    Positioned(
+                      top: boltTop,
+                      left: 0,
+                      right: 0,
+                      child: Center(
+                        child: SvgPicture.asset(
+                          SprintSplash.markAsset,
+                          width: SprintSplash.boltSize,
+                          height: SprintSplash.boltSize,
+                          excludeFromSemantics: true,
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    top: wordmarkTop + 44 + SprintSplash._taglineGap,
-                    left: 0,
-                    right: 0,
-                    child: Opacity(
-                      opacity: content,
-                      child: Text(
-                        l10n.splashTagline,
-                        textAlign: TextAlign.center,
-                        style: text.body,
+                    Positioned(
+                      top: wordmarkTop + wordmarkShift,
+                      left: 0,
+                      right: 0,
+                      child: Opacity(
+                        opacity: wordmarkOpacity,
+                        child: Semantics(
+                          header: true,
+                          child: Text(
+                            l10n.appName,
+                            textAlign: TextAlign.center,
+                            style: text.display,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    // Always at the bottom, above the caption (Osman's call).
-                    bottom: wide
-                        ? SprintSplash._loaderBottomWide
-                        : SprintSplash._loaderBottom,
-                    left: 0,
-                    right: 0,
-                    child: Opacity(
-                      opacity: content,
-                      child: ExcludeSemantics(
-                        child: Center(child: _LaneLoader(animation: _loader)),
+                    Positioned(
+                      top: wordmarkTop + 44 + SprintSplash._taglineGap,
+                      left: 0,
+                      right: 0,
+                      child: Opacity(
+                        opacity: content,
+                        child: Text(
+                          l10n.splashTagline,
+                          textAlign: TextAlign.center,
+                          style: text.body,
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: wide
-                        ? SprintSplash._captionBottomWide
-                        : SprintSplash._captionBottom,
-                    left: 0,
-                    right: 0,
-                    child: Opacity(
-                      opacity: content,
-                      child: Text(
-                        l10n.splashCaption,
-                        textAlign: TextAlign.center,
-                        style: text.micro.copyWith(color: soft),
+                    Positioned(
+                      // Always at the bottom, above the caption (Osman's call).
+                      bottom: wide
+                          ? SprintSplash._loaderBottomWide
+                          : SprintSplash._loaderBottom,
+                      left: 0,
+                      right: 0,
+                      child: Opacity(
+                        opacity: content,
+                        child: ExcludeSemantics(
+                          child: Center(child: _LaneLoader(animation: _loader)),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
-          );
-        },
+                    Positioned(
+                      bottom: wide
+                          ? SprintSplash._captionBottomWide
+                          : SprintSplash._captionBottom,
+                      left: 0,
+                      right: 0,
+                      child: Opacity(
+                        opacity: content,
+                        child: Text(
+                          l10n.splashCaption,
+                          textAlign: TextAlign.center,
+                          style: text.micro.copyWith(color: soft),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
