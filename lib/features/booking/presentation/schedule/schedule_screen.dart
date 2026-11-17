@@ -14,6 +14,8 @@ import 'package:sprint/features/booking/domain/own_overlap.dart';
 import 'package:sprint/features/booking/domain/range_selection.dart';
 import 'package:sprint/features/booking/domain/slot_selection.dart';
 import 'package:sprint/features/booking/presentation/schedule/selection_bar.dart';
+import 'package:sprint/features/booking/presentation/schedule/selection_panel.dart';
+import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/core/l10n/sprint_format.dart';
 import 'package:sprint/core/adaptive/adaptive_app_bar.dart';
 import 'package:sprint/core/adaptive/adaptive_back_button.dart';
@@ -555,7 +557,6 @@ class _Loaded extends ConsumerWidget {
       ),
     );
 
-    if (!selection.hasTime) return list;
     final String? priceText = schedule.facility.isFree
         ? l10n.bookingFree
         : session.isGuest
@@ -563,6 +564,45 @@ class _Loaded extends ConsumerWidget {
         : unit?.priceFor(session.tier) == null
         ? null
         : SprintFormat.of(context).price(unit!.priceFor(session.tier)!);
+
+    // Expanded and large windows keep the selection beside the grid; compact
+    // and medium ones use the bottom bar (FR-042). The window decides, but a
+    // pane too narrow for both (a hinge, a split) keeps the bar.
+    final view = View.of(context);
+    final windowWidth = view.physicalSize.width / view.devicePixelRatio;
+    final paneWidth = MediaQuery.sizeOf(context).width;
+    final sidePanel =
+        WindowSize.fromWidth(windowWidth).isWide &&
+        paneWidth >= SprintExtras.bookingPanelMinPaneWidth;
+
+    if (sidePanel) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(child: list),
+          SizedBox(
+            width: SprintExtras.bookingPanelWidth,
+            child: SingleChildScrollView(
+              padding: const EdgeInsetsDirectional.only(
+                top: SprintSpacing.space4,
+                end: SprintSpacing.space4,
+                bottom: SprintSpacing.space4,
+              ),
+              child: SelectionPanel(
+                start: selection.hasTime ? selection.startInstant : null,
+                end: selection.hasTime ? selection.endInstant : null,
+                unitName: unit?.name,
+                trainerName: schedule.trainer?.name,
+                priceText: priceText,
+                loading: continuing,
+                onContinue: () => onContinue(selection),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+    if (!selection.hasTime) return list;
     return Column(
       children: [
         Expanded(child: list),

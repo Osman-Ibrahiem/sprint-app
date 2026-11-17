@@ -67,41 +67,64 @@ class SelectionBar extends StatelessWidget {
       padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
       child: SafeArea(
         top: false,
-        child: Row(
-          children: [
-            Expanded(
-              child: Semantics(
-                container: true,
-                liveRegion: true,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      selectionTimeText(context, start, end),
-                      style: context.text.bodyStrong,
-                    ),
-                    if (priceText != null)
-                      Text(
-                        priceText!,
-                        style: context.text.number.copyWith(
-                          color: colors.inkMuted,
-                        ),
-                      ),
-                  ],
+        child: _layout(
+          context,
+          info: Semantics(
+            container: true,
+            liveRegion: true,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  selectionTimeText(context, start, end),
+                  style: context.text.bodyStrong,
                 ),
-              ),
+                if (priceText != null)
+                  Text(
+                    priceText!,
+                    style: context.text.number.copyWith(color: colors.inkMuted),
+                  ),
+              ],
             ),
-            const SizedBox(width: SprintSpacing.space3),
-            SprintButton(
-              key: actionKey,
-              label: l10n.bookingContinue,
-              loading: loading,
-              onPressed: loading ? null : onContinue,
-            ),
-          ],
+          ),
+          action: SprintButton(
+            key: actionKey,
+            label: l10n.bookingContinue,
+            loading: loading,
+            onPressed: loading ? null : onContinue,
+          ),
         ),
       ),
     );
   }
+}
+
+/// Beside each other normally, stacked from large text on (FR-041).
+Widget _layout(
+  BuildContext context, {
+  required Widget info,
+  required Widget action,
+}) {
+  final stacked =
+      MediaQuery.textScalerOf(context).scale(1) >=
+      SprintExtras.bookingBarStackTextScale;
+  if (stacked) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        info,
+        const SizedBox(height: SprintSpacing.space3),
+        action,
+      ],
+    );
+  }
+  return Row(
+    children: [
+      Expanded(child: info),
+      const SizedBox(width: SprintSpacing.space3),
+      action,
+    ],
+  );
 }

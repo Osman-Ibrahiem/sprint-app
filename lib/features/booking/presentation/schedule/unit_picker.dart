@@ -28,6 +28,8 @@ class UnitPicker extends StatelessWidget {
   final bool Function(String unitId) hasPlaces;
   final ValueChanged<String> onSelected;
 
+  static ValueKey<String> chipKey(String unitId) => ValueKey('unit-$unitId');
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -56,6 +58,7 @@ class UnitPicker extends StatelessWidget {
               for (var i = 0; i < units.length; i++) ...[
                 if (i > 0) const SizedBox(width: SprintSpacing.space2),
                 _UnitChip(
+                  key: chipKey(units[i].id),
                   unit: units[i],
                   selected: units[i].id == selectedId,
                   hasPlaces: hasPlaces(units[i].id),
@@ -72,6 +75,7 @@ class UnitPicker extends StatelessWidget {
 
 class _UnitChip extends StatelessWidget {
   const _UnitChip({
+    super.key,
     required this.unit,
     required this.selected,
     required this.hasPlaces,

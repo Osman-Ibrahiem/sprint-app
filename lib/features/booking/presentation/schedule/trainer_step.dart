@@ -152,14 +152,13 @@ class ChosenTrainerRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final name = trainer.name ?? l10n.bookingTrainerNoName;
-    return Row(
+    // A Wrap, so a narrow pane puts the action under the name.
+    return Wrap(
+      alignment: WrapAlignment.spaceBetween,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: SprintSpacing.space2,
       children: [
-        Expanded(
-          child: Text(
-            l10n.bookingTrainerChosen(name),
-            style: context.text.headline,
-          ),
-        ),
+        Text(l10n.bookingTrainerChosen(name), style: context.text.headline),
         SprintButton(
           key: changeKey,
           label: l10n.bookingTrainerChange,

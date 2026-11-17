@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sprint/core/time/cairo_time.dart';
+import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/slot_chip/slot_chip.dart';
 import 'package:sprint/core/widgets/slot_chip/slot_state.dart' as chip;
@@ -44,13 +45,25 @@ class SlotGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: SprintSpacing.space2,
-      runSpacing: SprintSpacing.space2,
-      children: [
-        for (final s in slots)
-          _chip(s),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // As many columns as fit at the chip's minimum width (SlotChip README),
+        // each stretched to share the row. The chip itself centres inside its
+        // box and would otherwise take the whole row.
+        const gap = SprintSpacing.space2;
+        const minWidth = SprintExtras.slotChipMinWidth;
+        final columns = ((constraints.maxWidth + gap) / (minWidth + gap))
+            .floor()
+            .clamp(1, 1 << 20);
+        final width = (constraints.maxWidth - gap * (columns - 1)) / columns;
+        return Wrap(
+          spacing: gap,
+          runSpacing: gap,
+          children: [
+            for (final s in slots) SizedBox(width: width, child: _chip(s)),
+          ],
+        );
+      },
     );
   }
 
