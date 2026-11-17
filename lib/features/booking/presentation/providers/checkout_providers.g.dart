@@ -819,3 +819,91 @@ final class HoldHousekeepingProvider
 }
 
 String _$holdHousekeepingHash() => r'3daf4813cc3e94facb3923961d5b85608c7b9d74';
+
+/// The checkout location of the booking a provider session belongs to, when
+/// the signed-in person has such a booking (a session the fake no longer
+/// knows after a restart); null otherwise (FR-024).
+
+@ProviderFor(bookingOfSession)
+final bookingOfSessionProvider = BookingOfSessionFamily._();
+
+/// The checkout location of the booking a provider session belongs to, when
+/// the signed-in person has such a booking (a session the fake no longer
+/// knows after a restart); null otherwise (FR-024).
+
+final class BookingOfSessionProvider
+    extends $FunctionalProvider<AsyncValue<String?>, String?, FutureOr<String?>>
+    with $FutureModifier<String?>, $FutureProvider<String?> {
+  /// The checkout location of the booking a provider session belongs to, when
+  /// the signed-in person has such a booking (a session the fake no longer
+  /// knows after a restart); null otherwise (FR-024).
+  BookingOfSessionProvider._({
+    required BookingOfSessionFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'bookingOfSessionProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$bookingOfSessionHash();
+
+  @override
+  String toString() {
+    return r'bookingOfSessionProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<String?> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<String?> create(Ref ref) {
+    final argument = this.argument as String;
+    return bookingOfSession(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is BookingOfSessionProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$bookingOfSessionHash() => r'a56027d57bf881ff0b1b1407618bbbb5fd3c66ab';
+
+/// The checkout location of the booking a provider session belongs to, when
+/// the signed-in person has such a booking (a session the fake no longer
+/// knows after a restart); null otherwise (FR-024).
+
+final class BookingOfSessionFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<String?>, String> {
+  BookingOfSessionFamily._()
+    : super(
+        retry: null,
+        name: r'bookingOfSessionProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// The checkout location of the booking a provider session belongs to, when
+  /// the signed-in person has such a booking (a session the fake no longer
+  /// knows after a restart); null otherwise (FR-024).
+
+  BookingOfSessionProvider call(String sessionId) =>
+      BookingOfSessionProvider._(argument: sessionId, from: this);
+
+  @override
+  String toString() => r'bookingOfSessionProvider';
+}

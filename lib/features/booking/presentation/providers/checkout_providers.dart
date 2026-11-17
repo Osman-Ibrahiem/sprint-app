@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/result/result.dart';
@@ -271,4 +272,25 @@ bool holdHousekeeping(Ref ref) {
     unawaited(sub.cancel());
   });
   return true;
+}
+
+/// The checkout location of the booking a provider session belongs to, when
+/// the signed-in person has such a booking (a session the fake no longer
+/// knows after a restart); null otherwise (FR-024).
+@riverpod
+Future<String?> bookingOfSession(Ref ref, String sessionId) async {
+  final user = ref.watch(currentSessionProvider).user;
+  if (user == null) return null;
+  final bookings = ref.watch(bookingRepositoryProvider);
+  final payments = ref.watch(paymentRepositoryProvider);
+  for (final b in await bookings.listForUser(user.id)) {
+    for (final p in await payments.payments(b.id)) {
+      if (p.providerRef == sessionId) {
+        return b.status == BookingStatus.confirmed
+            ? AppPaths.bookingConfirmed(b.id)
+            : AppPaths.bookingCheckoutFor(b.facilityId, b.id);
+      }
+    }
+  }
+  return null;
 }
