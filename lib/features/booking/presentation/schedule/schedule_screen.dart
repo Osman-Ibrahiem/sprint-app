@@ -36,6 +36,7 @@ import 'package:sprint/features/booking/presentation/schedule/price_line.dart';
 import 'package:sprint/features/booking/presentation/schedule/schedule_day_section.dart';
 import 'package:sprint/features/booking/presentation/schedule/schedule_notice_view.dart';
 import 'package:sprint/features/booking/presentation/schedule/slot_grid.dart';
+import 'package:sprint/features/booking/presentation/schedule/trainer_step.dart';
 import 'package:sprint/features/booking/presentation/schedule/unit_picker.dart';
 import 'package:sprint/features/booking/presentation/widgets/booking_error_view.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
@@ -70,6 +71,7 @@ class ScheduleScreen extends ConsumerStatefulWidget {
   static const emptyKey = ValueKey<String>('schedule-empty');
   static const nothingLeftKey = ValueKey<String>('schedule-nothing-left');
   static const loadingKey = ValueKey<String>('schedule-loading');
+  static const trainerStepKey = ValueKey<String>('schedule-trainer-step');
 
   @override
   ConsumerState<ScheduleScreen> createState() => _ScheduleScreenState();
@@ -408,10 +410,57 @@ class _Loaded extends ConsumerWidget {
     }
     final selection = resolved.selection;
 
-    // The trainer step is built with the trainer path.
-    if (schedule.needsTrainer) return const SizedBox.shrink();
+    final isTrainerPath = schedule.path == BookingPath.trainer;
+
+    // The trainer path starts with who gives the session (FR-017).
+    if (schedule.needsTrainer) {
+      if (schedule.trainers.isEmpty) {
+        return _Empty(
+          key: ScheduleScreen.emptyKey,
+          title: l10n.bookingNoTrainersTitle,
+          body: l10n.bookingNoTrainersBody,
+          actionLabel: l10n.bookingBackToFacility,
+          onAction: onBack,
+        );
+      }
+      return ListView(
+        key: ScheduleScreen.trainerStepKey,
+        padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
+        children: [
+          if (notice != null) ...[
+            ScheduleNoticeView(notice: notice!, onDismiss: onDismissNotice),
+            const SizedBox(height: SprintSpacing.space3),
+          ],
+          TrainerList(
+            trainers: schedule.trainers,
+            onSelected: (t) => onChange(selection.withTrainer(t.id)),
+          ),
+        ],
+      );
+    }
+
+    final chosenTrainer = isTrainerPath
+        ? ChosenTrainerRow(
+            trainer: schedule.trainer!,
+            onChange: () => onChange(selection.withTrainer(null)),
+          )
+        : null;
 
     if (schedule.units.isEmpty || schedule.days.every((d) => d.isClosed)) {
+      if (chosenTrainer != null) {
+        return ListView(
+          key: ScheduleScreen.emptyKey,
+          padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
+          children: [
+            chosenTrainer,
+            const SizedBox(height: SprintSpacing.space4),
+            Text(
+              l10n.bookingTrainerNoSessionsBody,
+              style: context.text.body.copyWith(color: colors.inkMuted),
+            ),
+          ],
+        );
+      }
       return _Empty(
         key: ScheduleScreen.emptyKey,
         title: l10n.bookingNoUnitsTitle,
@@ -422,8 +471,10 @@ class _Loaded extends ConsumerWidget {
     }
 
     final day = selection.day ?? schedule.defaultDay;
-    final unit = schedule.unit(selection.unitId);
     final grid = schedule.gridFor(selection);
+    final unit = schedule.unit(
+      selection.unitId ?? (isTrainerPath && grid.isNotEmpty ? grid.first.unitId : null),
+    );
     final anyBookable = grid.any((s) => s.isBookable);
     final anyDayHasRoom = schedule.days.any((d) => d.hasAvailability);
 
@@ -438,6 +489,10 @@ class _Loaded extends ConsumerWidget {
             ScheduleNoticeView(notice: notice!, onDismiss: onDismissNotice),
             const SizedBox(height: SprintSpacing.space3),
           ],
+          if (chosenTrainer != null) ...[
+            chosenTrainer,
+            const SizedBox(height: SprintSpacing.space3),
+          ],
           ScheduleDaySection(
             days: schedule.days,
             today: schedule.today,
@@ -445,13 +500,15 @@ class _Loaded extends ConsumerWidget {
             onSelected: (d) => onChange(selection.withDay(d)),
           ),
           const SizedBox(height: SprintSpacing.space4),
-          UnitPicker(
-            units: schedule.units,
-            selectedId: unit?.id,
-            hasPlaces: (id) => schedule.unitHasPlacesOn(id, day),
-            onSelected: (id) => onChange(selection.withUnit(id)),
-          ),
-          const SizedBox(height: SprintSpacing.space3),
+          if (!isTrainerPath) ...[
+            UnitPicker(
+              units: schedule.units,
+              selectedId: unit?.id,
+              hasPlaces: (id) => schedule.unitHasPlacesOn(id, day),
+              onSelected: (id) => onChange(selection.withUnit(id)),
+            ),
+            const SizedBox(height: SprintSpacing.space3),
+          ],
           PriceLine(
             unit: unit,
             isFree: schedule.facility.isFree,

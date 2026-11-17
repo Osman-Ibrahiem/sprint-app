@@ -31,9 +31,10 @@ abstract final class SelectionResolver {
         dropped = true;
       }
       if (trainerId == null) {
-        // The trainer step: nothing else applies yet.
+        // The trainer step: only the day is kept, so choosing a trainer keeps
+        // it when it is still valid (FR-019).
         return ResolvedSelection(
-          ScheduleSelection.empty,
+          ScheduleSelection(day: asked.day),
           droppedChoice: dropped,
         );
       }

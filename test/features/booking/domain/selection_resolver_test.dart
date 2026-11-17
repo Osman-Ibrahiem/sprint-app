@@ -106,7 +106,7 @@ void main() {
     test('no trainer chosen: nothing else applies, and no notice', () {
       final s = buildSchedule(requiresTrainer: true, trainers: const [trainerA]);
       final r = SelectionResolver.resolve(sel(day: 1, from: 9, to: 10), s);
-      expect(r.selection, ScheduleSelection.empty);
+      expect(r.selection, sel(day: 1), reason: 'only the day is kept');
       expect(r.droppedChoice, isFalse);
     });
 

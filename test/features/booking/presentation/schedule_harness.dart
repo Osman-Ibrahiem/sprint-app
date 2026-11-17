@@ -12,6 +12,16 @@ import 'package:sprint/core/widgets/day_strip/day_strip.dart';
 import 'package:sprint/core/widgets/slot_chip/slot_chip.dart';
 import 'package:sprint/core/widgets/slot_chip/slot_state.dart' as chip;
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
+import 'package:sprint/features/catalogue/domain/bookable_unit.dart';
+import 'package:sprint/features/catalogue/domain/catalogue_repository.dart';
+import 'package:sprint/features/catalogue/domain/closure.dart';
+import 'package:sprint/features/catalogue/domain/facility.dart';
+import 'package:sprint/features/catalogue/domain/offer.dart';
+import 'package:sprint/features/catalogue/domain/operating_hours.dart';
+import 'package:sprint/features/catalogue/domain/owning_unit.dart';
+import 'package:sprint/features/catalogue/domain/price.dart';
+import 'package:sprint/features/catalogue/domain/trainer.dart';
+import 'package:sprint/features/catalogue/domain/trainer_availability.dart';
 import 'package:flutter_riverpod/misc.dart' as rp;
 
 import '../../../helpers/pump_app.dart';
@@ -92,3 +102,52 @@ Uri currentUri(WidgetTester tester) {
 
 int stackDepth(WidgetTester tester) =>
     routerOf(tester).routerDelegate.currentConfiguration.matches.length;
+
+/// A catalogue override for a facility without trainers.
+rp.Override noTrainersCatalogue() => catalogueRepositoryProvider.overrideWith(
+  (ref) => _NoTrainers(ref.watch(dataLayerProvider).catalogue),
+);
+
+class _NoTrainers implements CatalogueRepository {
+  _NoTrainers(this._inner);
+  final CatalogueRepository _inner;
+
+  @override
+  Future<List<Trainer>> trainers(String facilityId) async => const [];
+  @override
+  Future<List<Facility>> listFacilities({
+    FacilityType? type,
+    String? owningUnitId,
+    bool? free,
+    bool includeUnpublished = false,
+  }) => _inner.listFacilities(
+    type: type,
+    owningUnitId: owningUnitId,
+    free: free,
+    includeUnpublished: includeUnpublished,
+  );
+  @override
+  Future<List<OwningUnit>> listOwningUnits() => _inner.listOwningUnits();
+  @override
+  Future<Facility?> getFacility(String id) => _inner.getFacility(id);
+  @override
+  Future<List<BookableUnit>> listUnits(String facilityId) =>
+      _inner.listUnits(facilityId);
+  @override
+  Future<BookableUnit?> getUnit(String id) => _inner.getUnit(id);
+  @override
+  Future<List<OperatingHours>> hours(String ownerId) => _inner.hours(ownerId);
+  @override
+  Future<List<Closure>> closures({String? facilityId, String? unitId}) =>
+      _inner.closures(facilityId: facilityId, unitId: unitId);
+  @override
+  Future<List<Price>> prices(String unitId) => _inner.prices(unitId);
+  @override
+  Future<List<TrainerAvailability>> trainerAvailability(
+    String trainerId, {
+    String? unitId,
+  }) => _inner.trainerAvailability(trainerId, unitId: unitId);
+  @override
+  Future<List<Offer>> offers({String? facilityId, String? unitId}) =>
+      _inner.offers(facilityId: facilityId, unitId: unitId);
+}
