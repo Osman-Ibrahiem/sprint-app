@@ -174,8 +174,8 @@ description: "Task list for feature 006 — checkout with hold and sandbox payme
 
 **Independent Test**: each outcome on `/demo` drives the matching screen; reset returns to success.
 
-- [ ] T046 [P] [US7] `test/features/demo/demo_payment_section_test.dart`: section visible with demo tools, hidden with `HIDE_DEMO_TOOLS`; choosing نجاح/فشل/تأخير and a delay preset (5 s, 30 s, 90 s, "بعد الحد الأقصى" = resolved `holdMaxMinutes` + 1 min) updates `FakeGatewayController.outcome` and persists in the snapshot; reset → نجاح.
-- [ ] T047 [US7] "الدفع التجريبي" section in `lib/features/demo/presentation/demo_screen.dart` (segmented choice through the existing `OptionGroup`, delay presets, current choice shown in words), reading and writing `fakeGatewayProvider`; shown only when `paymentProvider` is `fake`.
+- [X] T046 [P] [US7] `test/features/demo/demo_payment_section_test.dart`: section visible with demo tools, hidden with `HIDE_DEMO_TOOLS`; choosing نجاح/فشل/تأخير and a delay preset (5 s, 30 s, 90 s, "بعد الحد الأقصى" = resolved `holdMaxMinutes` + 1 min) updates `FakeGatewayController.outcome` and persists in the snapshot; reset → نجاح.
+- [X] T047 [US7] "الدفع التجريبي" section in `lib/features/demo/presentation/demo_screen.dart` (segmented choice through the existing `OptionGroup`, delay presets, current choice shown in words), reading and writing `fakeGatewayProvider`; shown only when `paymentProvider` is `fake`.
 
 ---
 

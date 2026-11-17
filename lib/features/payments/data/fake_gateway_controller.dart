@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:sprint/core/data/change_signal.dart';
 import 'package:sprint/features/payments/domain/payment_provider.dart';
 
 /// What the fake provider does once the simulated page confirms (R5). It is a
@@ -19,15 +20,18 @@ class FakeOutcome {
   final String name;
   final Duration? delay;
 
-  Map<String, Object?> toJson() =>
-      {'kind': name, if (delay != null) 'delayMs': delay!.inMilliseconds};
+  Map<String, Object?> toJson() => {
+    'kind': name,
+    if (delay != null) 'delayMs': delay!.inMilliseconds,
+  };
 
   factory FakeOutcome.fromJson(Map<String, Object?> j) => switch (j['kind']) {
-        'fail' => const FakeOutcome.fail(),
-        'delay' =>
-          FakeOutcome.delay(Duration(milliseconds: (j['delayMs']! as num).toInt())),
-        _ => const FakeOutcome.succeed(),
-      };
+    'fail' => const FakeOutcome.fail(),
+    'delay' => FakeOutcome.delay(
+      Duration(milliseconds: (j['delayMs']! as num).toInt()),
+    ),
+    _ => const FakeOutcome.succeed(),
+  };
 
   @override
   bool operator ==(Object other) =>
@@ -82,16 +86,26 @@ class _Session {
 /// Fake only. The simulated provider page and `/demo` drive the fake
 /// provider through this; booking code never imports it (BR-28, FR-009). The
 /// only card data it ever sees is the last four digits.
-class FakeGatewayController {
+class FakeGatewayController with ChangeSignal {
   FakeGatewayController({
     this.baseDelay = const Duration(milliseconds: 600),
-    this.outcome = const FakeOutcome.succeed(),
-  });
+    FakeOutcome outcome = const FakeOutcome.succeed(),
+    // ignore: prefer_initializing_formals
+  }) : _outcome = outcome;
 
   /// How long the provider takes to answer after the page confirms.
   final Duration baseDelay;
 
-  FakeOutcome outcome;
+  FakeOutcome _outcome;
+
+  /// The demo outcome. Changing it fires [changes], so the demo snapshot is
+  /// saved with the choice.
+  FakeOutcome get outcome => _outcome;
+  set outcome(FakeOutcome value) {
+    if (value == _outcome) return;
+    _outcome = value;
+    notifyChanged();
+  }
 
   final Map<String, _Session> _sessions = {};
 

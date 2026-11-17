@@ -337,6 +337,7 @@ class InMemoryDataLayer {
       mailbox.changes,
       verification.changes,
       payments.changes,
+      paymentProvider.gateway.changes,
       notifications.changes,
       attendance.changes,
       assets.changes,
