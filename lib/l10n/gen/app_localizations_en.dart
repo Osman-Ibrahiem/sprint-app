@@ -1747,7 +1747,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String bookingTimeWithLength(String time, String length) {
-    return '$time, $length';
+    return 'Time $time, length $length';
   }
 
   @override
@@ -1764,7 +1764,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String bookingPriceWithBasis(String price, String basis) {
-    return '$price $basis';
+    return 'Price $price $basis';
   }
 
   @override
@@ -2022,6 +2022,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String bookingSessionIn(String time, String unit) {
-    return '$time, $unit';
+    return '$time in $unit';
   }
 }

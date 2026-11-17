@@ -1030,7 +1030,7 @@
       }
     }
   },
-  "bookingTimeWithLength": "{time}, {length}",
+  "bookingTimeWithLength": "Time {time}, length {length}",
   "@bookingTimeWithLength": {
     "placeholders": {
       "time": {
@@ -1045,7 +1045,7 @@
   "bookingPanelTitle": "Your choice",
   "bookingSelectionPrompt": "No time chosen yet",
   "bookingGateReason": "to book",
-  "bookingPriceWithBasis": "{price} {basis}",
+  "bookingPriceWithBasis": "Price {price} {basis}",
   "@bookingPriceWithBasis": {
     "placeholders": {
       "price": {
@@ -1199,7 +1199,7 @@
   "bookingNoTrainersTitle": "No trainers available",
   "bookingNoTrainersBody": "This facility has no trainers to book yet.",
   "bookingTrainerNoSessionsBody": "This trainer has no sessions in the coming days.",
-  "bookingSessionIn": "{time}, {unit}",
+  "bookingSessionIn": "{time} in {unit}",
   "@bookingSessionIn": {
     "placeholders": {
       "time": {

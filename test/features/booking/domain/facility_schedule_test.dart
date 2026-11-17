@@ -184,11 +184,15 @@ void main() {
     });
   });
 
-  test('nextSlotStartAfter finds the earliest later start', () {
+  test('nextFlipAfter finds the next instant a slot turns to past', () {
     final s = buildSchedule(slots: {
       'u1': [slotAt(0, 7, state: SlotState.past), slotAt(0, 9), slotAt(1, 9)],
     });
-    expect(s.nextSlotStartAfter(fixtureNow), cairo(2026, 11, 14, 9));
-    expect(s.nextSlotStartAfter(cairo(2026, 11, 20)), isNull);
+    expect(s.nextFlipAfter(fixtureNow), cairo(2026, 11, 14, 9));
+    expect(
+      s.nextFlipAfter(fixtureNow, lead: const Duration(minutes: 30)),
+      cairo(2026, 11, 14, 8, 30),
+    );
+    expect(s.nextFlipAfter(cairo(2026, 11, 20)), isNull);
   });
 }

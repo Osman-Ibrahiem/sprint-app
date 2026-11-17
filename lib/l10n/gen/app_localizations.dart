@@ -2990,7 +2990,7 @@ abstract class AppLocalizations {
   /// No description provided for @bookingTimeWithLength.
   ///
   /// In ar, this message translates to:
-  /// **'{time}، {length}'**
+  /// **'الوقت {time}، المدة {length}'**
   String bookingTimeWithLength(String time, String length);
 
   /// No description provided for @bookingFree.
@@ -3020,7 +3020,7 @@ abstract class AppLocalizations {
   /// No description provided for @bookingPriceWithBasis.
   ///
   /// In ar, this message translates to:
-  /// **'{price} {basis}'**
+  /// **'السعر {price} {basis}'**
   String bookingPriceWithBasis(String price, String basis);
 
   /// No description provided for @bookingFailSlotTaken.
@@ -3404,7 +3404,7 @@ abstract class AppLocalizations {
   /// No description provided for @bookingSessionIn.
   ///
   /// In ar, this message translates to:
-  /// **'{time}، {unit}'**
+  /// **'{time} في {unit}'**
   String bookingSessionIn(String time, String unit);
 }
 

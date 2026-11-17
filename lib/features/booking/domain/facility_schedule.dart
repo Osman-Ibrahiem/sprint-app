@@ -211,14 +211,17 @@ class FacilitySchedule {
     return units.isEmpty ? null : units.first.id;
   }
 
-  /// The start of the next slot after [now], for the "past" timer.
-  DateTime? nextSlotStartAfter(DateTime now) {
+  /// The next instant after [now] at which a slot turns to "past": a slot is
+  /// past once its start is no later than `now + lead` (BR-07). Drives the
+  /// timer that refreshes the schedule without a tap.
+  DateTime? nextFlipAfter(DateTime now, {Duration lead = Duration.zero}) {
     DateTime? next;
     for (final byDay in slotsByUnitAndDay.values) {
       for (final list in byDay.values) {
         for (final s in list) {
-          if (s.start.isAfter(now) && (next == null || s.start.isBefore(next))) {
-            next = s.start;
+          final flip = s.start.subtract(lead);
+          if (flip.isAfter(now) && (next == null || flip.isBefore(next))) {
+            next = flip;
           }
         }
       }
