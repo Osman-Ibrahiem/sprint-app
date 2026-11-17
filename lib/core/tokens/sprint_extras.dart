@@ -87,4 +87,25 @@ abstract final class SprintExtras {
 
   /// How many slot-shaped skeletons the schedule shows while it loads.
   static const int bookingSkeletonChips = 8;
+
+  /// Checkout, provider page and confirmation (feature 006, design-pack
+  /// adaptive.md). Widths the tokens lack, from the Figma frames.
+  /// TODO(tokens): promote these to `tokens.json` with the other `SprintExtras`
+  /// sizes (decisions.md 2026-11-15 follow-up), then remove them here.
+
+  /// The payment column of the two-column checkout (Figma "الدفع" 372).
+  static const double checkoutPaymentColumn = 372;
+
+  /// The narrowest the booking-summary column may get beside it (Figma 260);
+  /// it takes the rest of the pane when the pane is wider.
+  static const double checkoutSummaryColumnMin = 260;
+
+  /// The centred single column of the provider page, processing, awaiting and
+  /// receipt screens (Figma 480).
+  static const double centredColumn = 480;
+
+  /// One column of the two-column confirmation from the expanded class (Figma
+  /// 358), and the gap between them (48).
+  static const double confirmationColumn = 358;
+  static const double confirmationGap = 48;
 }
