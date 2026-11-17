@@ -10,6 +10,7 @@ import 'package:sprint/core/data/preferences_snapshot_store.dart';
 import 'package:sprint/core/result/failure.dart';
 import 'package:sprint/core/result/result.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
+import 'package:sprint/features/payments/data/fake_gateway_controller.dart';
 import 'package:sprint/features/auth/domain/email_code.dart';
 import 'package:sprint/features/audit/domain/audit_log.dart';
 import 'package:sprint/features/settings/domain/setting_definition.dart';
@@ -50,7 +51,7 @@ void main() {
     test('the whole seeded layer survives a snapshot unchanged', () {
       final layer = _seeded();
       final snap = _viaJson(layer.toSnapshot());
-      expect(snap['schemaVersion'], 1);
+      expect(snap['schemaVersion'], 2);
       expect(snap['seededAt'], isA<String>());
       expect(snap['savedAt'], isA<String>());
 
@@ -165,7 +166,7 @@ void main() {
       final l = InMemoryDataLayer.fromSnapshot(
         clock: _clock(),
         snapshot: {
-          'schemaVersion': 1,
+          'schemaVersion': 2,
           'seededAt': 'nope',
           'data': {'bookings': 'not a list'},
         },
@@ -173,8 +174,8 @@ void main() {
       expect(_data(l), fresh);
     });
 
-    test('schemaVersion 2', () {
-      final snap = _viaJson(_seeded().toSnapshot())..['schemaVersion'] = 2;
+    test('the old schemaVersion 1 starts from the seed', () {
+      final snap = _viaJson(_seeded().toSnapshot())..['schemaVersion'] = 1;
       final l = InMemoryDataLayer.fromSnapshot(clock: _clock(), snapshot: snap);
       expect(_data(l), fresh);
     });
@@ -194,6 +195,24 @@ void main() {
     );
   });
 
+  test('the fake provider outcome is saved and restored (R5)', () {
+    final layer = _seeded();
+    layer.paymentProvider.gateway.outcome =
+        const FakeOutcome.delay(Duration(seconds: 30));
+    final back = InMemoryDataLayer.fromSnapshot(
+      clock: _clock(),
+      snapshot: _viaJson(layer.toSnapshot()),
+      paymentDelay: Duration.zero,
+    );
+    expect(
+      back.paymentProvider.gateway.outcome,
+      const FakeOutcome.delay(Duration(seconds: 30)),
+    );
+    // A fresh layer (reset demo data) is back to success.
+    expect(_seeded().paymentProvider.gateway.outcome,
+        const FakeOutcome.succeed());
+  });
+
   group('saving', () {
     test('several writes in one turn trigger exactly one save', () async {
       final layer = _seeded();
@@ -209,7 +228,7 @@ void main() {
       );
       await _turn();
       expect(store.saveCount, 1);
-      expect(store.snapshot!['schemaVersion'], 1);
+      expect(store.snapshot!['schemaVersion'], 2);
 
       await layer.audit.append(_entry());
       await _turn();

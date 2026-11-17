@@ -22,6 +22,33 @@ class InMemoryPaymentRepository with ChangeSignal implements PaymentRepository {
       _refunds.where((r) => r.paymentId == paymentId).toList();
 
   @override
+  Future<Payment?> latestPayment(String bookingId) async {
+    Payment? latest;
+    for (final p in _payments) {
+      if (p.bookingId != bookingId) continue;
+      if (latest == null || !p.startedAt.isBefore(latest.startedAt)) latest = p;
+    }
+    return latest;
+  }
+
+  @override
+  Future<String> nextReceiptNumber(DateTime paidAtCairo) async {
+    final day = '${(paidAtCairo.year % 100).toString().padLeft(2, '0')}'
+        '${paidAtCairo.month.toString().padLeft(2, '0')}'
+        '${paidAtCairo.day.toString().padLeft(2, '0')}';
+    final prefix = 'RC-$day-';
+    var highest = 0;
+    for (final p in _payments) {
+      final n = p.receiptNumber;
+      if (n != null && n.startsWith(prefix)) {
+        final k = int.tryParse(n.substring(prefix.length));
+        if (k != null && k > highest) highest = k;
+      }
+    }
+    return '$prefix${(highest + 1).toString().padLeft(4, '0')}';
+  }
+
+  @override
   Future<void> savePayment(Payment payment) async {
     _payments.removeWhere((p) => p.id == payment.id);
     _payments.add(payment);

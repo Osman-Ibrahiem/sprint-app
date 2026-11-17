@@ -77,7 +77,9 @@ SeedBookingSet seedBookingExtras(DateTime now) {
       providerRef: 'fake-$id',
       amount: price,
       status: PaymentStatus.succeeded,
+      startedAt: now.subtract(const Duration(days: 1)),
       paidAt: now.subtract(const Duration(days: 1)),
+      cardLast4: '4242',
       owningUnitId: SeedIds.ouPe,
     ));
   }

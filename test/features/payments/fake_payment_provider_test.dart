@@ -1,4 +1,6 @@
+import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sprint/features/payments/data/fake_gateway_controller.dart';
 import 'package:sprint/features/payments/data/fake_payment_provider.dart';
 import 'package:sprint/features/payments/domain/payment.dart';
 import 'package:sprint/features/payments/domain/payment_provider.dart';
@@ -6,60 +8,188 @@ import 'package:sprint/features/payments/domain/payment_provider.dart';
 /// A second implementation, to prove callers cannot tell providers apart.
 class _OtherProvider implements PaymentProvider {
   @override
-  Future<PaymentSession> start(PaymentRequest request) async =>
-      PaymentSession(id: 'x-1', bookingId: request.bookingId);
+  Future<PaymentSession> start(PaymentRequest request) async => PaymentSession(
+        id: 'x-1',
+        bookingId: request.bookingId,
+        checkoutLocation: Uri.parse('https://gateway.example/x-1'),
+      );
 
   @override
-  Stream<PaymentStatus> watch(PaymentSession session) =>
-      Stream.fromIterable([PaymentStatus.pending, PaymentStatus.succeeded]);
+  PaymentSession sessionFor(Payment payment) => PaymentSession(
+        id: payment.providerRef,
+        bookingId: payment.bookingId,
+        checkoutLocation: Uri.parse('https://gateway.example/${payment.providerRef}'),
+      );
+
+  @override
+  Stream<PaymentUpdate> watch(PaymentSession session) => Stream.fromIterable(
+      [const PaymentUpdate(PaymentStatus.pending), const PaymentUpdate(PaymentStatus.succeeded)]);
+
+  @override
+  Future<PaymentUpdate> status(PaymentSession session) async =>
+      const PaymentUpdate(PaymentStatus.succeeded);
 
   @override
   Future<RefundResult> refund(Payment payment, int amount) async =>
       RefundResult(reference: 'r-x', amount: amount, succeeded: true);
 }
 
-/// Caller code: it only knows the interface.
-Future<List<PaymentStatus>> pay(PaymentProvider p, {int amount = 120}) async {
-  final session = await p.start(
-    PaymentRequest(amount: amount, bookingId: 'b1', owningUnitId: 'ou1'),
-  );
-  return p.watch(session).toList();
-}
+const _req =
+    PaymentRequest(amount: 120, bookingId: 'b1', owningUnitId: 'ou1');
 
 void main() {
-  const payment = Payment(
+  final payment = Payment(
     id: 'p1',
     bookingId: 'b1',
     provider: 'FAKE',
     providerRef: 'ref',
     amount: 120,
     status: PaymentStatus.succeeded,
+    startedAt: DateTime.utc(2026, 11, 18),
     owningUnitId: 'ou1',
   );
 
-  test('success: pending then succeeded', () async {
-    final p = FakePaymentProvider(delay: Duration.zero);
-    expect(await pay(p), [PaymentStatus.pending, PaymentStatus.succeeded]);
+  /// Collects what `watch` yields.
+  List<PaymentUpdate> collect(PaymentProvider p, PaymentSession s) {
+    final out = <PaymentUpdate>[];
+    p.watch(s).listen(out.add);
+    return out;
+  }
+
+  test('start gives a session whose location is the in-app sandbox page', () {
+    fakeAsync((async) {
+      final p = FakePaymentProvider();
+      late PaymentSession s;
+      p.start(_req).then((v) => s = v);
+      async.flushMicrotasks();
+      expect(s.bookingId, 'b1');
+      expect(s.id, isNotEmpty);
+      expect(s.checkoutLocation.path, '/pay/sandbox/${s.id}');
+    });
   });
 
-  test('forced failure: pending then failed, then back to success', () async {
-    final p = FakePaymentProvider(delay: Duration.zero)..failNext = true;
-    expect(await pay(p), [PaymentStatus.pending, PaymentStatus.failed]);
-    // The hook is one-shot.
-    expect(await pay(p), [PaymentStatus.pending, PaymentStatus.succeeded]);
+  test('watch yields pending and nothing else until the page acts', () {
+    fakeAsync((async) {
+      final p = FakePaymentProvider();
+      late PaymentSession s;
+      p.start(_req).then((v) => s = v);
+      async.flushMicrotasks();
+      final seen = collect(p, s);
+      async.elapse(const Duration(minutes: 5));
+      expect(seen.map((u) => u.status), [PaymentStatus.pending]);
+    });
   });
 
-  test('a session belongs to its booking', () async {
-    final p = FakePaymentProvider(delay: Duration.zero);
-    final s = await p.start(
-      const PaymentRequest(amount: 50, bookingId: 'bk-9', owningUnitId: 'ou1'),
-    );
-    expect(s.bookingId, 'bk-9');
-    expect(s.id, isNotEmpty);
+  test('confirm with outcome succeed: succeeded with the last four, after 600 ms',
+      () {
+    fakeAsync((async) {
+      final p = FakePaymentProvider();
+      late PaymentSession s;
+      p.start(_req).then((v) => s = v);
+      async.flushMicrotasks();
+      final seen = collect(p, s);
+      p.gateway.confirm(s.id, cardLast4: '4242');
+      async.elapse(const Duration(milliseconds: 599));
+      expect(seen.map((u) => u.status), [PaymentStatus.pending]);
+      async.elapse(const Duration(milliseconds: 2));
+      expect(seen.last, const PaymentUpdate(PaymentStatus.succeeded, cardLast4: '4242'));
+      expect(seen.length, 2);
+    });
+  });
+
+  test('confirm with outcome fail: failed, no card digits', () {
+    fakeAsync((async) {
+      final p = FakePaymentProvider();
+      p.gateway.outcome = const FakeOutcome.fail();
+      late PaymentSession s;
+      p.start(_req).then((v) => s = v);
+      async.flushMicrotasks();
+      final seen = collect(p, s);
+      p.gateway.confirm(s.id, cardLast4: '4242');
+      async.elapse(const Duration(seconds: 1));
+      expect(seen.last, const PaymentUpdate(PaymentStatus.failed));
+    });
+  });
+
+  test('confirm with outcome delay(d): succeeded only after d', () {
+    fakeAsync((async) {
+      final p = FakePaymentProvider();
+      p.gateway.outcome = const FakeOutcome.delay(Duration(seconds: 30));
+      late PaymentSession s;
+      p.start(_req).then((v) => s = v);
+      async.flushMicrotasks();
+      final seen = collect(p, s);
+      p.gateway.confirm(s.id, cardLast4: '1881');
+      async.elapse(const Duration(seconds: 29));
+      expect(seen.map((u) => u.status), [PaymentStatus.pending]);
+      async.elapse(const Duration(seconds: 2));
+      expect(seen.last.status, PaymentStatus.succeeded);
+      expect(seen.last.cardLast4, '1881');
+    });
+  });
+
+  test('cancel on the page: cancelled at once', () {
+    fakeAsync((async) {
+      final p = FakePaymentProvider();
+      late PaymentSession s;
+      p.start(_req).then((v) => s = v);
+      async.flushMicrotasks();
+      final seen = collect(p, s);
+      p.gateway.cancel(s.id);
+      async.flushMicrotasks();
+      expect(seen.last, const PaymentUpdate(PaymentStatus.cancelled));
+    });
+  });
+
+  test('status returns the latest update and never changes the payment', () {
+    fakeAsync((async) {
+      final p = FakePaymentProvider();
+      late PaymentSession s;
+      p.start(_req).then((v) => s = v);
+      async.flushMicrotasks();
+      PaymentUpdate? u;
+      p.status(s).then((v) => u = v);
+      async.flushMicrotasks();
+      expect(u!.status, PaymentStatus.pending);
+      p.gateway.confirm(s.id, cardLast4: '4242');
+      async.elapse(const Duration(seconds: 1));
+      p.status(s).then((v) => u = v);
+      async.flushMicrotasks();
+      expect(u, const PaymentUpdate(PaymentStatus.succeeded, cardLast4: '4242'));
+    });
+  });
+
+  test('an unknown session (after a restart) re-simulates by the outcome', () {
+    fakeAsync((async) {
+      final p = FakePaymentProvider();
+      final ghost = PaymentSession(
+        id: 'FAKE-pay-77',
+        bookingId: 'b9',
+        checkoutLocation: Uri(path: '/pay/sandbox/FAKE-pay-77'),
+      );
+      PaymentUpdate? u;
+      p.status(ghost).then((v) => u = v);
+      async.flushMicrotasks();
+      expect(u!.status, PaymentStatus.pending);
+      async.elapse(const Duration(seconds: 1));
+      p.status(ghost).then((v) => u = v);
+      async.flushMicrotasks();
+      expect(u!.status, PaymentStatus.succeeded);
+
+      p.gateway.outcome = const FakeOutcome.fail();
+      final ghost2 = PaymentSession(
+        id: 'FAKE-pay-78',
+        bookingId: 'b9',
+        checkoutLocation: Uri(path: '/pay/sandbox/FAKE-pay-78'),
+      );
+      final seen = collect(p, ghost2);
+      async.elapse(const Duration(seconds: 1));
+      expect(seen.last.status, PaymentStatus.failed);
+    });
   });
 
   test('refund returns a successful result for the amount', () async {
-    final p = FakePaymentProvider(delay: Duration.zero);
+    final p = FakePaymentProvider();
     final r = await p.refund(payment, 60);
     expect(r.succeeded, isTrue);
     expect(r.amount, 60);
@@ -67,29 +197,26 @@ void main() {
   });
 
   test('a refund above the paid amount is refused', () async {
-    final p = FakePaymentProvider(delay: Duration.zero);
+    final p = FakePaymentProvider();
     final r = await p.refund(payment, 121);
     expect(r.succeeded, isFalse);
   });
 
-  test('the caller cannot tell which provider answered (FR-025)', () async {
-    final a = await pay(FakePaymentProvider(delay: Duration.zero));
-    final b = await pay(_OtherProvider());
-    expect(a, b);
-
-    final sa = await FakePaymentProvider(delay: Duration.zero).start(
-      const PaymentRequest(amount: 1, bookingId: 'b', owningUnitId: 'o'),
+  test('a session belongs to its booking', () async {
+    final p = FakePaymentProvider();
+    final s = await p.start(
+      const PaymentRequest(amount: 50, bookingId: 'bk-9', owningUnitId: 'ou1'),
     );
-    final sb = await _OtherProvider().start(
-      const PaymentRequest(amount: 1, bookingId: 'b', owningUnitId: 'o'),
-    );
-    expect(sa.runtimeType, sb.runtimeType);
+    expect(s.bookingId, 'bk-9');
+    expect(p.gateway.session(s.id)!.amount, 50);
+    expect(p.gateway.session(s.id)!.bookingId, 'bk-9');
+    expect(p.gateway.session('nope'), isNull);
   });
 
-  test('the delay is honoured before the final status', () async {
-    final p = FakePaymentProvider(delay: const Duration(milliseconds: 30));
-    final sw = Stopwatch()..start();
-    await pay(p);
-    expect(sw.elapsedMilliseconds, greaterThanOrEqualTo(25));
+  test('the caller cannot tell which provider answered (FR-025)', () async {
+    final sa = await FakePaymentProvider().start(_req);
+    final sb = await _OtherProvider().start(_req);
+    expect(sa.runtimeType, sb.runtimeType);
+    expect((await _OtherProvider().status(sb)).status, PaymentStatus.succeeded);
   });
 }

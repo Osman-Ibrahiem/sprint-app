@@ -15,6 +15,7 @@ abstract final class SettingKeys {
   static const maxRangeHours = SettingKey<int>('maxRangeHours');
   static const sessionMinutes = SettingKey<int>('sessionMinutes');
   static const holdMinutes = SettingKey<int>('holdMinutes');
+  static const holdMaxMinutes = SettingKey<int>('holdMaxMinutes'); // BR-46
   static const maxActiveBookingsPerUser =
       SettingKey<int?>('maxActiveBookingsPerUser');
   static const cancellationCutoffHours = SettingKey<int>('cancellationCutoffHours');
@@ -107,6 +108,12 @@ final Map<String, SettingDefinition<dynamic>> settingRegistry = {
       defaultValue: 10,
       allowedScopes: _uniFacility,
       validate: _range(1, 60),
+    ),
+    SettingDefinition<int>(
+      key: SettingKeys.holdMaxMinutes, // BR-46
+      defaultValue: 20,
+      allowedScopes: _uniFacility,
+      validate: _range(1, 120),
     ),
     SettingDefinition<int?>(
       key: SettingKeys.maxActiveBookingsPerUser, // BR-14

@@ -16,7 +16,11 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Payment {
 
- String get id; String get bookingId; String get provider; String get providerRef; int get amount; PaymentStatus get status; DateTime? get paidAt; String get owningUnitId;
+ String get id; String get bookingId; String get provider; String get providerRef; int get amount; PaymentStatus get status;/// When the provider page was opened.
+ DateTime get startedAt; DateTime? get paidAt; String get owningUnitId;/// The only card data ever stored (FR-009): four digits, reported by the
+/// provider with `succeeded`.
+ String? get cardLast4;/// `RC-yyMMdd-NNNN`, assigned on `succeeded` (FR-025).
+ String? get receiptNumber;
 /// Create a copy of Payment
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +34,20 @@ $PaymentCopyWith<Payment> get copyWith => _$PaymentCopyWithImpl<Payment>(this as
 @override
 bool operator ==(Object other) {
   final _this = this as Payment;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Payment&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.bookingId, _this.bookingId) || other.bookingId == _this.bookingId)&&(identical(other.provider, _this.provider) || other.provider == _this.provider)&&(identical(other.providerRef, _this.providerRef) || other.providerRef == _this.providerRef)&&(identical(other.amount, _this.amount) || other.amount == _this.amount)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.paidAt, _this.paidAt) || other.paidAt == _this.paidAt)&&(identical(other.owningUnitId, _this.owningUnitId) || other.owningUnitId == _this.owningUnitId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Payment&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.bookingId, _this.bookingId) || other.bookingId == _this.bookingId)&&(identical(other.provider, _this.provider) || other.provider == _this.provider)&&(identical(other.providerRef, _this.providerRef) || other.providerRef == _this.providerRef)&&(identical(other.amount, _this.amount) || other.amount == _this.amount)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.startedAt, _this.startedAt) || other.startedAt == _this.startedAt)&&(identical(other.paidAt, _this.paidAt) || other.paidAt == _this.paidAt)&&(identical(other.owningUnitId, _this.owningUnitId) || other.owningUnitId == _this.owningUnitId)&&(identical(other.cardLast4, _this.cardLast4) || other.cardLast4 == _this.cardLast4)&&(identical(other.receiptNumber, _this.receiptNumber) || other.receiptNumber == _this.receiptNumber));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Payment;
-  return Object.hash(runtimeType,_this.id,_this.bookingId,_this.provider,_this.providerRef,_this.amount,_this.status,_this.paidAt,_this.owningUnitId);
+  return Object.hash(runtimeType,_this.id,_this.bookingId,_this.provider,_this.providerRef,_this.amount,_this.status,_this.startedAt,_this.paidAt,_this.owningUnitId,_this.cardLast4,_this.receiptNumber);
 }
 
 @override
 String toString() {
   final _this = this as Payment;
-  return 'Payment(id: ${_this.id}, bookingId: ${_this.bookingId}, provider: ${_this.provider}, providerRef: ${_this.providerRef}, amount: ${_this.amount}, status: ${_this.status}, paidAt: ${_this.paidAt}, owningUnitId: ${_this.owningUnitId})';
+  return 'Payment(id: ${_this.id}, bookingId: ${_this.bookingId}, provider: ${_this.provider}, providerRef: ${_this.providerRef}, amount: ${_this.amount}, status: ${_this.status}, startedAt: ${_this.startedAt}, paidAt: ${_this.paidAt}, owningUnitId: ${_this.owningUnitId}, cardLast4: ${_this.cardLast4}, receiptNumber: ${_this.receiptNumber})';
 }
 
 
@@ -54,7 +58,7 @@ abstract mixin class $PaymentCopyWith<$Res>  {
   factory $PaymentCopyWith(Payment value, $Res Function(Payment) _then) = _$PaymentCopyWithImpl;
 @useResult
 $Res call({
- String id, String bookingId, String provider, String providerRef, int amount, PaymentStatus status, DateTime? paidAt, String owningUnitId
+ String id, String bookingId, String provider, String providerRef, int amount, PaymentStatus status, DateTime startedAt, DateTime? paidAt, String owningUnitId, String? cardLast4, String? receiptNumber
 });
 
 
@@ -71,7 +75,7 @@ class _$PaymentCopyWithImpl<$Res>
 
 /// Create a copy of Payment
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? bookingId = null,Object? provider = null,Object? providerRef = null,Object? amount = null,Object? status = null,Object? paidAt = freezed,Object? owningUnitId = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? bookingId = null,Object? provider = null,Object? providerRef = null,Object? amount = null,Object? status = null,Object? startedAt = null,Object? paidAt = freezed,Object? owningUnitId = null,Object? cardLast4 = freezed,Object? receiptNumber = freezed,}) {
   return _then(Payment(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,bookingId: null == bookingId ? _self.bookingId : bookingId // ignore: cast_nullable_to_non_nullable
@@ -79,9 +83,12 @@ as String,provider: null == provider ? _self.provider : provider // ignore: cast
 as String,providerRef: null == providerRef ? _self.providerRef : providerRef // ignore: cast_nullable_to_non_nullable
 as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as PaymentStatus,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
+as PaymentStatus,startedAt: null == startedAt ? _self.startedAt : startedAt // ignore: cast_nullable_to_non_nullable
+as DateTime,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,owningUnitId: null == owningUnitId ? _self.owningUnitId : owningUnitId // ignore: cast_nullable_to_non_nullable
-as String,
+as String,cardLast4: freezed == cardLast4 ? _self.cardLast4 : cardLast4 // ignore: cast_nullable_to_non_nullable
+as String?,receiptNumber: freezed == receiptNumber ? _self.receiptNumber : receiptNumber // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -166,10 +173,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String bookingId,  String provider,  String providerRef,  int amount,  PaymentStatus status,  DateTime? paidAt,  String owningUnitId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String bookingId,  String provider,  String providerRef,  int amount,  PaymentStatus status,  DateTime startedAt,  DateTime? paidAt,  String owningUnitId,  String? cardLast4,  String? receiptNumber)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Payment() when $default != null:
-return $default(_that.id,_that.bookingId,_that.provider,_that.providerRef,_that.amount,_that.status,_that.paidAt,_that.owningUnitId);case _:
+return $default(_that.id,_that.bookingId,_that.provider,_that.providerRef,_that.amount,_that.status,_that.startedAt,_that.paidAt,_that.owningUnitId,_that.cardLast4,_that.receiptNumber);case _:
   return orElse();
 
 }
@@ -187,10 +194,10 @@ return $default(_that.id,_that.bookingId,_that.provider,_that.providerRef,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String bookingId,  String provider,  String providerRef,  int amount,  PaymentStatus status,  DateTime? paidAt,  String owningUnitId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String bookingId,  String provider,  String providerRef,  int amount,  PaymentStatus status,  DateTime startedAt,  DateTime? paidAt,  String owningUnitId,  String? cardLast4,  String? receiptNumber)  $default,) {final _that = this;
 switch (_that) {
 case _Payment():
-return $default(_that.id,_that.bookingId,_that.provider,_that.providerRef,_that.amount,_that.status,_that.paidAt,_that.owningUnitId);case _:
+return $default(_that.id,_that.bookingId,_that.provider,_that.providerRef,_that.amount,_that.status,_that.startedAt,_that.paidAt,_that.owningUnitId,_that.cardLast4,_that.receiptNumber);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -207,10 +214,10 @@ return $default(_that.id,_that.bookingId,_that.provider,_that.providerRef,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String bookingId,  String provider,  String providerRef,  int amount,  PaymentStatus status,  DateTime? paidAt,  String owningUnitId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String bookingId,  String provider,  String providerRef,  int amount,  PaymentStatus status,  DateTime startedAt,  DateTime? paidAt,  String owningUnitId,  String? cardLast4,  String? receiptNumber)?  $default,) {final _that = this;
 switch (_that) {
 case _Payment() when $default != null:
-return $default(_that.id,_that.bookingId,_that.provider,_that.providerRef,_that.amount,_that.status,_that.paidAt,_that.owningUnitId);case _:
+return $default(_that.id,_that.bookingId,_that.provider,_that.providerRef,_that.amount,_that.status,_that.startedAt,_that.paidAt,_that.owningUnitId,_that.cardLast4,_that.receiptNumber);case _:
   return null;
 
 }
@@ -222,7 +229,7 @@ return $default(_that.id,_that.bookingId,_that.provider,_that.providerRef,_that.
 @JsonSerializable()
 
 class _Payment implements Payment {
-  const _Payment({required this.id, required this.bookingId, required this.provider, required this.providerRef, required this.amount, required this.status, this.paidAt, required this.owningUnitId});
+  const _Payment({required this.id, required this.bookingId, required this.provider, required this.providerRef, required this.amount, required this.status, required this.startedAt, this.paidAt, required this.owningUnitId, this.cardLast4, this.receiptNumber});
   factory _Payment.fromJson(Map<String, dynamic> json) => _$PaymentFromJson(json);
 
 @override final  String id;
@@ -231,8 +238,15 @@ class _Payment implements Payment {
 @override final  String providerRef;
 @override final  int amount;
 @override final  PaymentStatus status;
+/// When the provider page was opened.
+@override final  DateTime startedAt;
 @override final  DateTime? paidAt;
 @override final  String owningUnitId;
+/// The only card data ever stored (FR-009): four digits, reported by the
+/// provider with `succeeded`.
+@override final  String? cardLast4;
+/// `RC-yyMMdd-NNNN`, assigned on `succeeded` (FR-025).
+@override final  String? receiptNumber;
 
 /// Create a copy of Payment
 /// with the given fields replaced by the non-null parameter values.
@@ -247,18 +261,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Payment&&(identical(other.id, id) || other.id == id)&&(identical(other.bookingId, bookingId) || other.bookingId == bookingId)&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.providerRef, providerRef) || other.providerRef == providerRef)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.status, status) || other.status == status)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.owningUnitId, owningUnitId) || other.owningUnitId == owningUnitId));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Payment&&(identical(other.id, id) || other.id == id)&&(identical(other.bookingId, bookingId) || other.bookingId == bookingId)&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.providerRef, providerRef) || other.providerRef == providerRef)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.status, status) || other.status == status)&&(identical(other.startedAt, startedAt) || other.startedAt == startedAt)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.owningUnitId, owningUnitId) || other.owningUnitId == owningUnitId)&&(identical(other.cardLast4, cardLast4) || other.cardLast4 == cardLast4)&&(identical(other.receiptNumber, receiptNumber) || other.receiptNumber == receiptNumber));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,bookingId,provider,providerRef,amount,status,paidAt,owningUnitId);
+    return Object.hash(runtimeType,id,bookingId,provider,providerRef,amount,status,startedAt,paidAt,owningUnitId,cardLast4,receiptNumber);
 }
 
 @override
 String toString() {
-    return 'Payment(id: $id, bookingId: $bookingId, provider: $provider, providerRef: $providerRef, amount: $amount, status: $status, paidAt: $paidAt, owningUnitId: $owningUnitId)';
+    return 'Payment(id: $id, bookingId: $bookingId, provider: $provider, providerRef: $providerRef, amount: $amount, status: $status, startedAt: $startedAt, paidAt: $paidAt, owningUnitId: $owningUnitId, cardLast4: $cardLast4, receiptNumber: $receiptNumber)';
 }
 
 
@@ -269,7 +283,7 @@ abstract mixin class _$PaymentCopyWith<$Res> implements $PaymentCopyWith<$Res> {
   factory _$PaymentCopyWith(_Payment value, $Res Function(_Payment) _then) = __$PaymentCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String bookingId, String provider, String providerRef, int amount, PaymentStatus status, DateTime? paidAt, String owningUnitId
+ String id, String bookingId, String provider, String providerRef, int amount, PaymentStatus status, DateTime startedAt, DateTime? paidAt, String owningUnitId, String? cardLast4, String? receiptNumber
 });
 
 
@@ -286,7 +300,7 @@ class __$PaymentCopyWithImpl<$Res>
 
 /// Create a copy of Payment
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? bookingId = null,Object? provider = null,Object? providerRef = null,Object? amount = null,Object? status = null,Object? paidAt = freezed,Object? owningUnitId = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? bookingId = null,Object? provider = null,Object? providerRef = null,Object? amount = null,Object? status = null,Object? startedAt = null,Object? paidAt = freezed,Object? owningUnitId = null,Object? cardLast4 = freezed,Object? receiptNumber = freezed,}) {
   return _then(_Payment(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,bookingId: null == bookingId ? _self.bookingId : bookingId // ignore: cast_nullable_to_non_nullable
@@ -294,9 +308,12 @@ as String,provider: null == provider ? _self.provider : provider // ignore: cast
 as String,providerRef: null == providerRef ? _self.providerRef : providerRef // ignore: cast_nullable_to_non_nullable
 as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as PaymentStatus,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
+as PaymentStatus,startedAt: null == startedAt ? _self.startedAt : startedAt // ignore: cast_nullable_to_non_nullable
+as DateTime,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,owningUnitId: null == owningUnitId ? _self.owningUnitId : owningUnitId // ignore: cast_nullable_to_non_nullable
-as String,
+as String,cardLast4: freezed == cardLast4 ? _self.cardLast4 : cardLast4 // ignore: cast_nullable_to_non_nullable
+as String?,receiptNumber: freezed == receiptNumber ? _self.receiptNumber : receiptNumber // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

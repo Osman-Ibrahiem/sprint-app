@@ -17,6 +17,7 @@ _UnitSettings _$UnitSettingsFromJson(Map<String, dynamic> json) =>
       maxRangeHours: (json['maxRangeHours'] as num).toInt(),
       sessionMinutes: (json['sessionMinutes'] as num).toInt(),
       holdMinutes: (json['holdMinutes'] as num).toInt(),
+      holdMaxMinutes: (json['holdMaxMinutes'] as num).toInt(),
       maxActiveBookingsPerUser: (json['maxActiveBookingsPerUser'] as num?)
           ?.toInt(),
       cancellationCutoffHours: (json['cancellationCutoffHours'] as num).toInt(),
@@ -36,6 +37,7 @@ Map<String, dynamic> _$UnitSettingsToJson(_UnitSettings instance) =>
       'maxRangeHours': instance.maxRangeHours,
       'sessionMinutes': instance.sessionMinutes,
       'holdMinutes': instance.holdMinutes,
+      'holdMaxMinutes': instance.holdMaxMinutes,
       'maxActiveBookingsPerUser': instance.maxActiveBookingsPerUser,
       'cancellationCutoffHours': instance.cancellationCutoffHours,
       'refundPercent': instance.refundPercent,

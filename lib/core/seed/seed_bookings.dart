@@ -108,7 +108,9 @@ SeedBookingSet seedBookings(DateTime now) {
         providerRef: 'fake-$id',
         amount: price,
         status: PaymentStatus.succeeded,
+        startedAt: start.subtract(const Duration(days: 1)),
         paidAt: start.subtract(const Duration(days: 1)),
+        cardLast4: '4242',
         owningUnitId: ownerOfFacility[facility]!,
       ));
       if (status == BookingStatus.cancelled) {

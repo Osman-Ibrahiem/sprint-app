@@ -61,6 +61,7 @@ UnitSettings settings({
   int? maxRangeHours,
   int? sessionMinutes,
   int? holdMinutes,
+  int? holdMaxMinutes,
   int? maxActive,
   int? cancellationCutoffHours,
   int? refundPercent,
@@ -77,6 +78,7 @@ UnitSettings settings({
     maxRangeHours: maxRangeHours ?? d.maxRangeHours,
     sessionMinutes: sessionMinutes ?? d.sessionMinutes,
     holdMinutes: holdMinutes ?? d.holdMinutes,
+    holdMaxMinutes: holdMaxMinutes ?? d.holdMaxMinutes,
     maxActiveBookingsPerUser: maxActive ?? d.maxActiveBookingsPerUser,
     cancellationCutoffHours:
         cancellationCutoffHours ?? d.cancellationCutoffHours,
@@ -99,6 +101,8 @@ Booking booking({
   int seats = 1,
   BookingStatus status = BookingStatus.confirmed,
   DateTime? holdExpiresAt,
+  DateTime? holdStartedAt,
+  DateTime? holdMaxExpiresAt,
   PriceTier tier = PriceTier.external,
   int price = 100,
 }) {
@@ -118,6 +122,8 @@ Booking booking({
     status: status,
     qrToken: 'qr$_n',
     holdExpiresAt: holdExpiresAt,
+    holdStartedAt: holdStartedAt,
+    holdMaxExpiresAt: holdMaxExpiresAt,
   );
 }
 
