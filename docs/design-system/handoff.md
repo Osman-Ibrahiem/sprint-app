@@ -77,6 +77,21 @@
 - **Android adaptive:** طبقة 108dp. خلفية `primary`، وطبقة أمامية بالبرق جوه المنطقة الآمنة (دايرة 66dp)، وطبقة monochrome للأيقونات الملونة بالثيم. معاينة بالدايرة والمربع المدور.
 - **Android 12 splash icon:** لوحة 288dp بتتقص لدايرة 192dp. البرق من غير خلفية بنفس حجم برق الـ Flutter splash (60 × 66)، و`windowSplashScreenBackground` = `primary` فالدايرة تختفي.
 
+### الدفع والـ Hold والتأكيد (US-10 وUS-12)
+
+شاشات في Figma: Compact في قسم "Checkout & payment · Compact"، و Medium و Expanded & Large في الصفحات بتاعتهم (Light و Dark). كلها مبنية من مكونات موجودة (Button وTextField وStatusBadge وLottieMoment).
+
+| الشاشة | المحتوى |
+| --- | --- |
+| Checkout · hold | ملخص الحجز وسياسة الإلغاء ووسيلة الدفع وبانر الـ Hold (BR-12). على Medium وأكبر: عمود الدفع والـ Hold على جنب والملخص في النص |
+| Checkout · last minute | نفس الشاشة لما يفضل أقل من دقيقة: البانر `danger-soft` والنص بالثواني |
+| Payment · gateway (sandbox) | صفحة المزوّد (خارج التطبيق): المبلغ وحقول البطاقة بالنص الإرشادي ووسم وضع الاختبار. بتتبدل بمنصة الجامعة في P2 من غير تغيير الفلو (BR-29) |
+| Payment · processing | "بنأكد الدفع": مؤشر تحميل وكارت الحجز بشارة "في انتظار الدفع" من غير زرار رجوع، لأن التأكيد بييجي من المزوّد بس (BR-28) |
+| Payment · awaiting confirmation | لو التأكيد اتأخر: "لسه مستنيين تأكيد الدفع" مع "تحديث الحالة"، والمكان متحجز لحد نهاية الـ Hold |
+| Receipt | إيصال إلكتروني (FR-PAY-03): رقم الإيصال ورقم الحجز والتاريخ والوحدة والشريحة ووسيلة الدفع والإجمالي، وحفظ PDF ومشاركة |
+
+الشاشات الموجودة قبل كده ومش اتكررت: Checkout · payment failed وHold expired وBooking confirmed (QR ورقم الحجز).
+
 ## Flutter
 
 ### الـ tokens في الكود
