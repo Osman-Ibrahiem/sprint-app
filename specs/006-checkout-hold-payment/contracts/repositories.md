@@ -70,8 +70,8 @@ Outcome handling (internal, `_applyOutcome`, the future webhook):
 | Booking now | Update | Effect |
 | --- | --- | --- |
 | `PENDING_PAYMENT` | `succeeded` | payment succeeded (+ `paidAt`, `cardLast4`, `receiptNumber`); booking `CONFIRMED`; `booking.confirmed` record |
-| `PENDING_PAYMENT` | `failed` | payment failed; booking unchanged |
-| `PENDING_PAYMENT` | `cancelled` | payment cancelled; booking unchanged |
+| `PENDING_PAYMENT` | `failed` | payment failed; booking unchanged, except: Hold was extended and `holdStartedAt + holdMinutes` (capped at `start`) has passed → booking `EXPIRED` (BR-46) |
+| `PENDING_PAYMENT` | `cancelled` | payment cancelled; same rule as `failed` |
 | not pending | `succeeded` | payment succeeded; `refund(payment, amount)`; `Refund(reason: late_confirmation)`; `payment.refunded_auto` record |
 | not pending | `failed` / `cancelled` | payment updated; nothing else |
 

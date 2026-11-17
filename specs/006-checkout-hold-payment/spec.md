@@ -18,7 +18,7 @@ These are settled (BRD and `docs/decisions.md` 2026-11-17) and are not reopened 
 - **The Hold starts when the booker enters payment** (BR-12), not when they press "الدفع". Its length is `holdMinutes` (10 by default) and every countdown is computed from the booking's hold expiry, never from a local timer alone.
 - **The extended Hold (BR-46).** While a payment is pending at the provider, the Hold extends until the provider answers, up to `holdMaxMinutes` from entering payment (20 by default). If the provider confirms in time, the booking is `CONFIRMED`. If the confirmation arrives after the maximum and the place was taken, the payment is refunded 100% automatically. The screens show the outcome; the rule lives behind the repositories.
 - **Leaving and cancelling (BR-47).** Leaving the payment screen while holding asks first ("ترك الدفع؟"), and leaving releases the Hold at once (`EXPIRED`). "إلغاء" on the provider page is a cancellation, not a failure: the booker returns to the payment screen with a "الدفع اتلغى" banner and the Hold keeps running. There is no way out while "بنأكد الدفع" shows.
-- **Failure keeps the Hold.** A failed payment returns the booker to the same summary with "إعادة المحاولة" while the Hold lasts (US-10). There is no attempt limit; the Hold is the only limit. (US-10 and BR-47 govern here; BR-12's "if payment fails the Hold is cancelled" is read as "a failure that outlives the Hold".)
+- **Failure keeps the Hold.** A failed payment returns the booker to the same summary with "إعادة المحاولة" while the Hold lasts (US-10). There is no attempt limit; the Hold is the only limit. BR-12's "لو الدفع فشل … الـ Hold بيتلغي" is reworded in the BRD in this PR to match US-10 (decisions.md 2026-11-17).
 - **The provider page is simulated inside the app in P1.** It has card fields with test data only. Card data is never stored, logged or passed to the payment provider interface, which only knows the amount and the booking. In P2 the real provider page replaces it without changing the flow.
 - **The receipt is a PDF generated on the device** (FR-PAY-03), with sharing as text when generation fails.
 - **One confirmation ticket for paid and free bookings.** The 005 free-booking success screen is replaced by the same confirmation screen, without the "paid" row and the receipt entry.
@@ -31,6 +31,8 @@ These are settled (BRD and `docs/decisions.md` 2026-11-17) and are not reopened 
 
 - Q: Are "إضافة للتقويم" and the real Lottie moments part of 006? → A: No. Both are deferred to feature 11 (Osman's instruction for this spec). 006 shows static placeholders (icon and text) for success and payment failure, and no "إضافة للتقويم" action.
 - Q: When the Hold maximum has passed and the booking is `EXPIRED`, and the provider then confirms while the place is still free, is the booking confirmed? → A: No. An `EXPIRED` booking never comes back; any late success after the maximum (or after "ترك الدفع") is refunded 100% automatically, whether the place was taken or not.
+- Q: When the Hold was extended for a pending payment (BR-46) and the provider then answers with failure or cancel, does the booker keep the extra time to retry? → A: No. The extension lasts only until the provider answers. If the normal Hold has already passed when a failed or cancelled answer arrives, the booking becomes `EXPIRED` at once and the expired state shows; if the normal Hold has not passed yet, the Hold keeps its normal expiry (/speckit-analyze H1, approved by Osman 2026-11-17).
+- Q: Which booking code format does the demo use? → A: The existing generator's `SP-1xxx` for every booking, seed included. The `SPR-4F7K2` style in Figma is a sample only (/speckit-analyze H2).
 - Q: What does the fake provider's "delay" outcome end with? → A: Success after the chosen delay. The delay length is chosen in `/demo` so both "confirmed within the maximum" and "after the maximum, refunded" can be recorded; failure is its own outcome.
 
 ## User Scenarios & Testing *(mandatory)*
@@ -67,7 +69,7 @@ The provider reports a failure. The booker returns to the same summary, titled "
 
 **Acceptance Scenarios**:
 
-1. **Given** the provider reports failure, **When** the booker returns, **Then** the booking stays `PENDING_PAYMENT`, the payment is recorded `failed`, the Hold expiry is unchanged, and the screen shows the failure message (icon and words, not colour alone), the Hold banner, the summary, the policy, the payment method and "إعادة المحاولة · {amount}".
+1. **Given** the provider reports failure, **When** the booker returns, **Then** the booking stays `PENDING_PAYMENT`, the payment is recorded `failed`, the Hold expiry is unchanged (unless the Hold had been extended and its normal expiry has passed, in which case the booking is `EXPIRED` and the expired state shows, FR-016), and the screen shows the failure message (icon and words, not colour alone), the Hold banner, the summary, the policy, the payment method and "إعادة المحاولة · {amount}".
 2. **Given** the failure state, **When** the booker retries, **Then** a new payment starts and the flow continues as in Story 1; there is no limit on attempts while the Hold lasts.
 3. **Given** the failure state, **When** the Hold runs out on screen, **Then** the screen turns into the "المهلة خلصت" state without any action from the booker.
 
@@ -199,8 +201,8 @@ Every screen in this flow works on compact, medium, expanded and large windows, 
 
 - **Two bookers race for the last place.** The second "متابعة للدفع" is refused because the first booking's live Hold takes the place; the second booker sees "الميعاد ده اتحجز" on the 005 summary or schedule (US-06).
 - **The booker already has an overlapping booking or live Hold** when entering payment: refused with the 005 overlap message (BR-13).
-- **The tier changes between summary and payment** (verification approved in between): the booking freezes the tier at creation; if the amount differs from the summary, the payment screen shows the frozen amount and the summary line says so in words.
-- **The settings change while a Hold is live** (`holdMinutes`, `holdMaxMinutes`): the live booking keeps its expiry and maximum; new bookings use the new values.
+- **The tier changes between summary and payment** (verification approved in between): the booking freezes the tier and price at creation (BR-17), and the payment screen always shows that frozen amount, which is the amount charged. No separate notice is shown; the window is a few seconds and the summary already re-quotes on every open.
+- **The settings change while a Hold is live** (`holdMinutes`, `holdMaxMinutes`): the live booking keeps its expiry and maximum (both stored on the booking at creation); new bookings use the new values.
 - **`holdMaxMinutes` set lower than `holdMinutes`**: the maximum is treated as equal to `holdMinutes` (no extension).
 - **The payment link opened by another account, by a guest, or for a booking that is no longer `PENDING_PAYMENT`**: an account gate, a no-access screen, or the screen matching the booking's current status (confirmed → confirmation; expired → expired state; cancelled → not found).
 - **Refresh or restart on the provider page or processing screen**: the flow resumes from the stored booking and payment (pending → processing or awaiting; no new payment is started).
@@ -231,15 +233,15 @@ Every screen in this flow works on compact, medium, expanded and large windows, 
 
 **Outcomes**
 
-- **FR-011**: On success the booking MUST become `CONFIRMED`, the payment MUST be recorded `succeeded` with its paid time, amount, provider and the facility's owning unit (BR-33), and an in-app confirmation record MUST be written (FR-NTF-01).
-- **FR-012**: On failure the booking MUST stay `PENDING_PAYMENT` with the same Hold, the payment MUST be recorded `failed`, and the screen MUST show the failure state with "إعادة المحاولة · {amount}"; retries are unlimited while the Hold lasts.
-- **FR-013**: "إلغاء" on the provider page MUST record the payment as cancelled (distinct from failed), keep the booking and Hold unchanged, and show the payment screen with the "الدفع اتلغى" banner (BR-47).
+- **FR-011**: On success the booking MUST become `CONFIRMED`, the payment MUST be recorded `succeeded` with its paid time, amount, provider and the facility's owning unit (BR-33), and an in-app confirmation record MUST be written (FR-NTF-01). This is the only notification of a normal payment flow: a failure or a cancel is shown on screen and is not written as a notification.
+- **FR-012**: On failure the booking MUST stay `PENDING_PAYMENT` with the same Hold (except as FR-016 says for an extended Hold), the payment MUST be recorded `failed`, and the screen MUST show the failure state with "إعادة المحاولة · {amount}"; retries are unlimited while the Hold lasts.
+- **FR-013**: "إلغاء" on the provider page MUST record the payment as cancelled (distinct from failed), keep the booking and Hold unchanged (except as FR-016 says for an extended Hold), and show the payment screen with the "الدفع اتلغى" banner (BR-47).
 - **FR-014**: After the provider page, the processing screen MUST show with no back action until an answer arrives; if none arrives within a processing wait (20 seconds by default, a constant of the presentation, not a business setting), the awaiting screen MUST show.
 - **FR-015**: The awaiting screen MUST keep listening for the outcome, offer "تحديث الحالة" (an immediate status read that never confirms by itself) and "الرجوع للحجوزات" (to the "حجوزاتي" tab, leaving the booking pending and updated in the background).
 
 **Extended Hold and automatic refund (BR-46)**
 
-- **FR-016**: While a payment is pending, a Hold that reaches its expiry MUST be extended until the provider answers, never beyond entry time + `holdMaxMinutes`, and never beyond the slot's start; the place stays held meanwhile.
+- **FR-016**: While a payment is pending, a Hold that reaches its expiry MUST be extended until the provider answers, never beyond entry time + `holdMaxMinutes`, and never beyond the slot's start; the place stays held meanwhile. The extension ends with the answer: an extended Hold ends with the provider's answer: if the normal Hold (`holdStartedAt + holdMinutes`) has already passed when a `failed` or `cancelled` answer arrives, the booking becomes `EXPIRED` at once (BR-46 "لحد رد المزوّد"); a success confirms as in FR-011.
 - **FR-017**: When the maximum passes with the payment still pending, the booking MUST become `EXPIRED` and the place released.
 - **FR-018**: A success that arrives for a booking that is no longer `PENDING_PAYMENT` (expired by the maximum, or left with "ترك الدفع") MUST trigger an automatic 100% refund through the provider, recorded and attributed to the owning unit, and an in-app record telling the booker the money was returned.
 
@@ -318,6 +320,6 @@ This feature is UI-first on mock data. These are explicitly not part of it:
 - **Add to calendar and Lottie are deferred to feature 11** (settled in clarify 2026-11-17): in 006 the success and failure moments are static placeholders and there is no "إضافة للتقويم" action.
 - **`holdMaxMinutes` is a new setting** (BR-46, default 20) with the same inheritance as `holdMinutes`.
 - **The processing-to-awaiting wait (20 seconds) is a presentation constant**, not a business setting, because the BRD does not define it.
-- **Seed and demo data**: the sample booking is "حمام السباحة الأوليمبي · حارة 3 · الكابتن أحمد سامي · 5:00 – 6:00 م · داخلي موثّق 80 ج.م", code `SPR-4F7K2`, receipt `RC-261108-0482`; the free sample `SPR-Q4N7A`.
+- **Seed and demo data**: the sample booking is "حمام السباحة الأوليمبي · حارة 3 · الكابتن أحمد سامي · 5:00 – 6:00 م · داخلي موثّق 80 ج.م", with a code from the existing seed generator (`SP-1xxx`), receipt `RC-261108-0482`; and one free confirmed sample. Figma's `SPR-4F7K2` and `SPR-Q4N7A` are samples only (clarify 2026-11-17).
 - **The 005 summary keeps its role.** It is the screen the booker returns to after "ترك الدفع"; the failure state reuses the payment screen with the title "ملخص الحجز".
 - **The rules already exist behind the repositories.** The Foundation built the Hold policy, the provider interface, the fake provider and the booking repository's pay step; this feature extends them (pending payments, extension, cancelled status, refunds on late success, demo control) rather than duplicating rules in the screens.

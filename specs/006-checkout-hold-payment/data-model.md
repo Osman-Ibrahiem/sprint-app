@@ -20,7 +20,8 @@ Normal expiry is also capped at `start` (edge case "very late booking").
                  ▼                                   ▼
         PENDING_PAYMENT ── provider succeeded ──▶ CONFIRMED ──▶ ATTENDED / NO_SHOW / CANCELLED (features 7–8)
           │   │   ▲
-          │   │   └─ provider failed / cancelled: stays PENDING_PAYMENT, Hold unchanged (US-10, BR-47)
+          │   │   └─ provider failed / cancelled: stays PENDING_PAYMENT, Hold unchanged (US-10, BR-47),
+          │   │      unless the Hold was extended and its normal expiry has passed → EXPIRED (BR-46, analyze H1)
           │   └── Hold reached, payment pending, before max: holdExpiresAt := holdMaxExpiresAt (BR-46)
           ▼
         EXPIRED  ◀── Hold reached with no pending payment (BR-12)

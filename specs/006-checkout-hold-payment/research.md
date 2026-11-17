@@ -53,7 +53,7 @@ The repository, not the screen, listens to the provider and applies each outcome
   - otherwise → expire.
 - `expireHolds()` applies it on every read/write of bookings and on a 1-second ticker owned by a keep-alive provider while any of the current user's bookings is `PENDING_PAYMENT` (FR-004).
 - When the maximum passes with a payment still pending, the booking is `EXPIRED` and the payment stays `pending`. A later `succeeded` on a non-`PENDING_PAYMENT` booking (expired by maximum or by "ترك الدفع") always triggers `refund(payment, payment.amount)`, a `Refund` with reason `late_confirmation`, and an in-app record `payment.refunded_auto` (clarify 2026-11-17: never re-confirm).
-- A `failed` outcome no longer expires the booking (US-10); the Hold keeps its expiry.
+- A `failed` or `cancelled` outcome no longer expires the booking (US-10, BR-47); the Hold keeps its expiry. **Exception (analyze H1, BR-46 "لحد رد المزوّد"):** if the Hold had been extended and its normal expiry (`holdStartedAt + holdMinutes`, capped at `start`) has passed when the failed or cancelled answer arrives, the booking expires at once. The extension never buys retry time.
 
 **Rationale**: Jumping straight to the maximum is equivalent to "extend until the provider answers, at most the maximum" and avoids repeated small extensions that make the countdown jump. Storing the maximum on the booking freezes it like the price (BR-17 spirit).
 
@@ -115,7 +115,7 @@ The repository, not the screen, listens to the provider and applies each outcome
 
 ## R11. Notifications
 
-**Decision**: Reuse `_notify` with types `booking.confirmed` (paid and free, already used), `payment.refunded_auto` (new). Remove the old `payment.failed` record on failure (the booker is on the screen; failure is not a notification in the BRD). Push itself is out of scope.
+**Decision**: Reuse `_notify` with types `booking.confirmed` (paid and free, already used), `payment.refunded_auto` (new). Remove the old `payment.failed` record on failure (the booker is on the screen; failure is not a notification in the BRD; spec FR-011). Push itself is out of scope.
 
 ## R12. Layout
 
@@ -123,7 +123,7 @@ The repository, not the screen, listens to the provider and applies each outcome
 
 ## R13. Snapshot and seed
 
-**Decision**: New fields (`Booking.holdStartedAt`, `holdMaxExpiresAt`, `Payment.cardLast4`, `PaymentStatus.cancelled`, receipt sequence, fake outcome) bump `InMemoryDataLayer.schemaVersion` from 1 to 2, so old snapshots restart from the seed (existing behaviour). Seed adds the sample bookings of the design pack: a `CONFIRMED` paid booking `SPR-4F7K2` with a `succeeded` payment and receipt `RC-261108-0482`, and a free `SPR-Q4N7A`. New bookings keep the existing code generator.
+**Decision**: New fields (`Booking.holdStartedAt`, `holdMaxExpiresAt`, `Payment.cardLast4`, `PaymentStatus.cancelled`, receipt sequence, fake outcome) bump `InMemoryDataLayer.schemaVersion` from 1 to 2, so old snapshots restart from the seed (existing behaviour). Seed adds the sample bookings of the design pack with codes from the existing generator (`SP-1xxx`, analyze H2): a `CONFIRMED` paid booking with a `succeeded` payment (`cardLast4` 4242) and receipt `RC-261108-0482`, and a free confirmed booking. Figma's `SPR-…` codes are samples only.
 
 ## R14. Settings
 
