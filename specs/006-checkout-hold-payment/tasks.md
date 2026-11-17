@@ -185,8 +185,8 @@ description: "Task list for feature 006 — checkout with hold and sandbox payme
 
 **Independent Test**: book a free range; ticket with QR, "السعر · مجاني", no receipt entry, `booking.confirmed` record.
 
-- [ ] T048 [P] [US8] Update `test/acceptance/us08_free_range_test.dart` to end on `BookingConfirmedScreen` with "مجاني" and no receipt row; add a widget case in `booking_confirmed_screen_test.dart`.
-- [ ] T049 [US8] Point the free path in `booking_summary_screen.dart` to `bookingConfirmed`, and the price row in `booking_confirmed_screen.dart` to "السعر · مجاني" when `priceAtBooking == 0`.
+- [X] T048 [P] [US8] Update `test/acceptance/us08_free_range_test.dart` to end on `BookingConfirmedScreen` with "مجاني" and no receipt row; add a widget case in `booking_confirmed_screen_test.dart`.
+- [X] T049 [US8] Point the free path in `booking_summary_screen.dart` to `bookingConfirmed`, and the price row in `booking_confirmed_screen.dart` to "السعر · مجاني" when `priceAtBooking == 0`.
 
 ---
 

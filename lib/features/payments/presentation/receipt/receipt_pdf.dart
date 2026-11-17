@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/features/payments/presentation/receipt/receipt_document.dart';
 
 /// Makes the receipt's PDF. Injected through a provider so a test can make it
@@ -32,30 +33,30 @@ Future<Uint8List> buildReceiptPdf(
       pw.Text(
         text,
         textDirection: ltr ? pw.TextDirection.ltr : direction,
-        style: pw.TextStyle(font: strong ? bold : regular, fontSize: 12),
+        style: pw.TextStyle(font: strong ? bold : regular, fontSize: SprintExtras.receiptPdfBodySize),
       );
 
   pdf.addPage(
     pw.Page(
       pageFormat: PdfPageFormat.a5,
       textDirection: direction,
-      margin: const pw.EdgeInsets.all(32),
+      margin: pw.EdgeInsets.all(SprintExtras.receiptPdfMargin),
       build: (context) => pw.Column(
         crossAxisAlignment: pw.CrossAxisAlignment.stretch,
         children: [
           pw.Text(
             document.title,
             textDirection: direction,
-            style: pw.TextStyle(font: bold, fontSize: 20),
+            style: pw.TextStyle(font: bold, fontSize: SprintExtras.receiptPdfTitleSize),
           ),
           if (document.isTest) ...[
-            pw.SizedBox(height: 6),
+            pw.SizedBox(height: SprintExtras.receiptPdfTagGap),
             cell(document.testTag),
           ],
-          pw.SizedBox(height: 16),
+          pw.SizedBox(height: SprintExtras.receiptPdfSectionGap),
           for (final (label, value) in document.rows)
             pw.Padding(
-              padding: const pw.EdgeInsets.only(bottom: 8),
+              padding: pw.EdgeInsets.only(bottom: SprintExtras.receiptPdfRowGap),
               child: pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [cell(label), cell(value, ltr: false)],

@@ -112,4 +112,13 @@ abstract final class SprintExtras {
 
   static const double confirmationColumn = 358;
   static const double confirmationGap = 48;
+
+  /// The receipt PDF (feature 006, R9): print metrics in points, not screen
+  /// layout. TODO(tokens): promote with the others (decisions.md 2026-11-15).
+  static const double receiptPdfMargin = 32;
+  static const double receiptPdfTitleSize = 20;
+  static const double receiptPdfBodySize = 12;
+  static const double receiptPdfRowGap = 8;
+  static const double receiptPdfSectionGap = 16;
+  static const double receiptPdfTagGap = 6;
 }
