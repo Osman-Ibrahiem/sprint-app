@@ -1350,7 +1350,6 @@
   "receiptShare": "Share receipt",
   "receiptNavTitle": "Receipt",
   "receiptPdfFailed": "The PDF couldn't be made. A text copy was shared instead",
-  "receiptCopied": "Receipt copied",
   "receiptNotFoundTitle": "Receipt not found",
   "receiptNotFoundBody": "There is no receipt for this booking. A receipt appears after a successful payment.",
   "confirmedTitle": "Your booking is confirmed",

@@ -2234,9 +2234,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get receiptPdfFailed => 'الـ PDF ماتعملش. اتشاركت نسخة نصية بدله';
 
   @override
-  String get receiptCopied => 'الإيصال اتنسخ';
-
-  @override
   String get receiptNotFoundTitle => 'الإيصال مش موجود';
 
   @override

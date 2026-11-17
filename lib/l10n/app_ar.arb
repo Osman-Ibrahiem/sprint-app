@@ -1354,7 +1354,6 @@
   "receiptShare": "مشاركة الإيصال",
   "receiptNavTitle": "الإيصال",
   "receiptPdfFailed": "الـ PDF ماتعملش. اتشاركت نسخة نصية بدله",
-  "receiptCopied": "الإيصال اتنسخ",
   "receiptNotFoundTitle": "الإيصال مش موجود",
   "receiptNotFoundBody": "مفيش إيصال للحجز ده. الإيصال بيظهر بعد دفع ناجح.",
   "confirmedTitle": "حجزك اتأكد",

@@ -2255,9 +2255,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'The PDF couldn\'t be made. A text copy was shared instead';
 
   @override
-  String get receiptCopied => 'Receipt copied';
-
-  @override
   String get receiptNotFoundTitle => 'Receipt not found';
 
   @override

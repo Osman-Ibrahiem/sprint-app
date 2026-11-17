@@ -3791,12 +3791,6 @@ abstract class AppLocalizations {
   /// **'الـ PDF ماتعملش. اتشاركت نسخة نصية بدله'**
   String get receiptPdfFailed;
 
-  /// No description provided for @receiptCopied.
-  ///
-  /// In ar, this message translates to:
-  /// **'الإيصال اتنسخ'**
-  String get receiptCopied;
-
   /// No description provided for @receiptNotFoundTitle.
   ///
   /// In ar, this message translates to:
