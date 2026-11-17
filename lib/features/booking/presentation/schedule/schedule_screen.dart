@@ -480,6 +480,13 @@ class _Loaded extends ConsumerWidget {
             ),
             const SizedBox(height: SprintSpacing.space3),
           ],
+          if (schedule.path == BookingPath.range && unit != null) ...[
+            Text(
+              l10n.bookingRangeHint(unit.maxRangeHours),
+              style: context.text.body.copyWith(color: colors.inkMuted),
+            ),
+            const SizedBox(height: SprintSpacing.space3),
+          ],
           SlotGrid(
             slots: grid,
             units: {for (final u in schedule.units) u.id: u},

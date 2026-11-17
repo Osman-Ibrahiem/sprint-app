@@ -268,3 +268,35 @@ Future<Result<BookingSummaryView>> bookingSummary(
     ),
   );
 }
+
+/// A confirmed booking with the names the success screen shows.
+class BookingDoneView {
+  const BookingDoneView({
+    required this.booking,
+    required this.facilityName,
+    required this.unitName,
+  });
+
+  final Booking booking;
+  final String facilityName;
+  final String unitName;
+}
+
+/// The booking behind the success screen, or null when it is missing or not
+/// the signed-in person's (FR-030). Never shows someone else's booking.
+@riverpod
+Future<BookingDoneView?> bookingDone(Ref ref, String bookingId) async {
+  final session = ref.watch(currentSessionProvider);
+  final bookings = ref.watch(bookingRepositoryProvider);
+  final catalogue = ref.watch(catalogueRepositoryProvider);
+  final user = session.user;
+  if (user == null) return null;
+  final result = await bookings.get(bookingId);
+  if (result is! Ok<Booking> || result.value.userId != user.id) return null;
+  final booking = result.value;
+  return BookingDoneView(
+    booking: booking,
+    facilityName: (await catalogue.getFacility(booking.facilityId))?.name ?? '',
+    unitName: (await catalogue.getUnit(booking.unitId))?.name ?? '',
+  );
+}

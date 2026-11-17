@@ -54,6 +54,7 @@ class BookingSummaryScreen extends ConsumerStatefulWidget {
 
 class _BookingSummaryScreenState extends ConsumerState<BookingSummaryScreen> {
   bool _busy = false;
+  bool _failed = false;
 
   BookingSummaryProvider get _provider => bookingSummaryProvider(
     widget.facilityId,
@@ -93,6 +94,39 @@ class _BookingSummaryScreenState extends ConsumerState<BookingSummaryScreen> {
         context.push(
           AppPaths.bookingCheckout(widget.facilityId, widget.selection),
         );
+    }
+  }
+
+  /// Free booking: creates it once and goes to the success screen (BR-19,
+  /// FR-029). The flag is set before the first await, so a second tap while
+  /// this runs does nothing and at most one booking is created.
+  Future<void> _confirm() async {
+    if (_busy) return;
+    final user = ref.read(currentSessionProvider).user;
+    final request = user == null ? null : widget.selection.toRequest(user.id);
+    if (request == null) return;
+    setState(() {
+      _busy = true;
+      _failed = false;
+    });
+    try {
+      final result = await ref.read(bookingRepositoryProvider).create(request);
+      if (!mounted) return;
+      switch (result) {
+        case Err(:final failure):
+          setState(() => _busy = false);
+          _backWithNotice(failure);
+        case Ok(:final value):
+          // Stay busy: this screen is being left, and back from the success
+          // screen must not offer to confirm again.
+          context.go(AppPaths.bookingDone(widget.facilityId, value.id));
+      }
+    } on Object {
+      if (!mounted) return;
+      setState(() {
+        _busy = false;
+        _failed = true;
+      });
     }
   }
 
@@ -136,9 +170,10 @@ class _BookingSummaryScreenState extends ConsumerState<BookingSummaryScreen> {
         Expanded(child: body),
         if (view != null)
           _ActionBar(
-            label: l10n.bookingPayAction,
+            label: view.isFree ? l10n.bookingConfirmAction : l10n.bookingPayAction,
             busy: _busy,
-            onPressed: _continueToPayment,
+            failedText: _failed ? l10n.bookingFailGeneric : null,
+            onPressed: view.isFree ? _confirm : _continueToPayment,
           ),
       ],
     );
@@ -257,11 +292,16 @@ class _ActionBar extends StatelessWidget {
     required this.label,
     required this.busy,
     required this.onPressed,
+    this.failedText,
   });
 
   final String label;
   final bool busy;
   final VoidCallback onPressed;
+
+  /// A failure that is not a booking rule: said above the action, which stays
+  /// ready to retry.
+  final String? failedText;
 
   @override
   Widget build(BuildContext context) {
@@ -276,14 +316,27 @@ class _ActionBar extends StatelessWidget {
       padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
       child: SafeArea(
         top: false,
-        child: SizedBox(
-          width: double.infinity,
-          child: SprintButton(
-            key: BookingSummaryScreen.actionKey,
-            label: label,
-            loading: busy,
-            onPressed: busy ? null : onPressed,
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (failedText != null) ...[
+              Semantics(
+                liveRegion: true,
+                child: Text(
+                  failedText!,
+                  style: context.text.body.copyWith(color: colors.danger),
+                ),
+              ),
+              const SizedBox(height: SprintSpacing.space2),
+            ],
+            SprintButton(
+              key: BookingSummaryScreen.actionKey,
+              label: label,
+              loading: busy,
+              onPressed: busy ? null : onPressed,
+            ),
+          ],
         ),
       ),
     );

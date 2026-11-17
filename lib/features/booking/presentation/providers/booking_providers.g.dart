@@ -286,3 +286,92 @@ final class BookingSummaryFamily extends $Family
   @override
   String toString() => r'bookingSummaryProvider';
 }
+
+/// The booking behind the success screen, or null when it is missing or not
+/// the signed-in person's (FR-030). Never shows someone else's booking.
+
+@ProviderFor(bookingDone)
+final bookingDoneProvider = BookingDoneFamily._();
+
+/// The booking behind the success screen, or null when it is missing or not
+/// the signed-in person's (FR-030). Never shows someone else's booking.
+
+final class BookingDoneProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<BookingDoneView?>,
+          BookingDoneView?,
+          FutureOr<BookingDoneView?>
+        >
+    with $FutureModifier<BookingDoneView?>, $FutureProvider<BookingDoneView?> {
+  /// The booking behind the success screen, or null when it is missing or not
+  /// the signed-in person's (FR-030). Never shows someone else's booking.
+  BookingDoneProvider._({
+    required BookingDoneFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'bookingDoneProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$bookingDoneHash();
+
+  @override
+  String toString() {
+    return r'bookingDoneProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<BookingDoneView?> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<BookingDoneView?> create(Ref ref) {
+    final argument = this.argument as String;
+    return bookingDone(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is BookingDoneProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$bookingDoneHash() => r'fb3468b27250aeb77a8ea728c3500b659e54fffc';
+
+/// The booking behind the success screen, or null when it is missing or not
+/// the signed-in person's (FR-030). Never shows someone else's booking.
+
+final class BookingDoneFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<BookingDoneView?>, String> {
+  BookingDoneFamily._()
+    : super(
+        retry: null,
+        name: r'bookingDoneProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// The booking behind the success screen, or null when it is missing or not
+  /// the signed-in person's (FR-030). Never shows someone else's booking.
+
+  BookingDoneProvider call(String bookingId) =>
+      BookingDoneProvider._(argument: bookingId, from: this);
+
+  @override
+  String toString() => r'bookingDoneProvider';
+}
