@@ -15,6 +15,7 @@ import 'package:sprint/features/booking/domain/checkout_view.dart';
 import 'package:sprint/features/booking/domain/unit_settings.dart';
 import 'package:sprint/features/booking/presentation/providers/checkout_providers.dart';
 import 'package:sprint/features/payments/data/fake_gateway_controller.dart';
+import 'package:sprint/features/payments/domain/payment_provider.dart';
 
 /// The checkout providers (contracts/repositories.md, "Riverpod providers").
 void main() {
@@ -71,7 +72,7 @@ void main() {
     await settle(20);
     expect(c.read(checkoutViewProvider(b.id)), CheckoutView.holding);
 
-    final s = (await layer.bookings.startPayment(b.id, b.userId) as Ok).value;
+    final s = (await layer.bookings.startPayment(b.id, b.userId) as Ok<PaymentSession>).value;
     await settle(20);
     expect(c.read(checkoutViewProvider(b.id)), CheckoutView.processing);
 
@@ -141,7 +142,7 @@ void main() {
   test('receipt: only for a paid, confirmed booking of the person', () async {
     final b = await create();
     expect(await c.read(receiptProvider(b.id).future), isNull);
-    final s = (await layer.bookings.startPayment(b.id, b.userId) as Ok).value;
+    final s = (await layer.bookings.startPayment(b.id, b.userId) as Ok<PaymentSession>).value;
     layer.paymentProvider.gateway.confirm(s.id, cardLast4: '4242');
     await settle();
     final r = (await c.read(receiptProvider(b.id).future))!;
