@@ -80,6 +80,10 @@ SeedBookingSet seedBookingExtras(DateTime now) {
       startedAt: now.subtract(const Duration(days: 1)),
       paidAt: now.subtract(const Duration(days: 1)),
       cardLast4: '4242',
+      receiptNumber: seedReceiptNumber(
+        now.subtract(const Duration(days: 1)),
+        580 + n,
+      ),
       owningUnitId: SeedIds.ouPe,
     ));
   }
