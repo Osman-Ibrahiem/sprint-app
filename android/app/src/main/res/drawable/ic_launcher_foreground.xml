@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive icon foreground: the volt bolt. The bolt is 190 of 432 (at 4x) tall, inside the 66dp safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path android:fillColor="@color/sprint_volt" android:pathData="M54.60,32.76 C56.88,30.25 58.07,30.88 57.23,34.18 L54.77,43.87 C54.09,46.57 55.80,48.77 58.59,48.77 L71.10,48.77 C74.58,48.77 75.52,50.89 73.17,53.46 L53.40,75.24 C51.12,77.75 49.93,77.12 50.77,73.82 L53.23,64.13 C53.91,61.43 52.20,59.23 49.41,59.23 L36.90,59.23 C33.42,59.23 32.48,57.11 34.83,54.54Z" />
+</vector>

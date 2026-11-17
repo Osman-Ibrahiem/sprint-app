@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Dark splash: bg token. The bolt stays volt. -->
-<resources>
-    <color name="sprint_splash_bg">#0B0F1A</color>
-</resources>

@@ -80,7 +80,7 @@ class _SprintSplashGateState extends State<SprintSplashGate> {
 }
 
 /// The in-app splash: bolt, wordmark, tagline, lane loader and caption on the
-/// brand background (`primary` in light, `bg` in dark). Positions follow the
+/// brand background (`primary`, in both themes). Positions follow the
 /// Figma page "Splash" and scale with the window height, never the device.
 class SprintSplash extends StatefulWidget {
   const SprintSplash({this.hold, this.onDone, super.key});
@@ -108,10 +108,6 @@ class SprintSplash extends StatefulWidget {
   static const double _wideFrom = 600; // medium window class
 
   static const markAsset = 'docs/design-system/logo/sprint-mark.svg';
-
-  /// Background of the splash for a theme (matches the native launch screens).
-  static Color backgroundFor(Brightness b, SprintColors c) =>
-      b == Brightness.light ? c.primary : c.bg;
 
   @override
   State<SprintSplash> createState() => _SprintSplashState();
@@ -174,14 +170,11 @@ class _SprintSplashState extends State<SprintSplash>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    // The native launch screen follows the system setting, so the splash does
-    // too (not the saved in-app override); otherwise the colour jumps.
-    final brightness = MediaQuery.platformBrightnessOf(context);
-    final light = brightness == Brightness.light;
-    final colors = light ? SprintColors.light : SprintColors.dark;
-    final bg = SprintSplash.backgroundFor(brightness, colors);
-    final main = light ? colors.onPrimary : colors.ink;
-    final soft = light ? colors.onPrimarySoft : colors.inkMuted;
+    // One fixed look in both themes, the same as the native launch screens.
+    final colors = SprintColors.light;
+    final bg = colors.primary;
+    final main = colors.onPrimary;
+    final soft = colors.onPrimarySoft;
     final text = SprintTextStyles(main);
 
     return ColoredBox(

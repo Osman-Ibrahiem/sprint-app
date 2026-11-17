@@ -11,8 +11,7 @@
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="حجز ودفع المنشآت الرياضية بجامعة طنطا إلكترونيًا.">
-  <meta name="theme-color" content="#2445e0" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0b0f1a" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#2445e0">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -39,8 +38,8 @@
   <!--
     First screen, shown by the browser alone until the first Flutter frame:
     step 1 of the splash sequence (Figma "Splash"), the bare volt bolt centred
-    on the brand background. Colours are the `primary` (light) and `bg` (dark)
-    tokens of docs/design-system/tokens.json and the `volt` bolt of the logo
+    on the brand background. One colour in both themes: the light `primary`
+    token of docs/design-system/tokens.json, and the `volt` bolt of the logo
     file; test/web/splash_test.dart keeps them in step. The Flutter splash
     starts at step 2 with the same background and the same 88px bolt in the
     same place, so nothing jumps. No text and no motion.
@@ -55,9 +54,6 @@
     }
     #sprint-splash svg { width: 88px; height: 88px; }
     #sprint-splash.sprint-splash-hide { opacity: 0; }
-    @media (prefers-color-scheme: dark) {
-      #sprint-splash { background: #0b0f1a; }
-    }
     @media (prefers-reduced-motion: reduce) {
       #sprint-splash { transition: none; }
     }

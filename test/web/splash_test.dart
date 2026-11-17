@@ -18,12 +18,10 @@ void main() {
         t['name'] as String: t['value'] as Map<String, dynamic>,
   };
 
-  test('splash background is primary in light and bg in dark', () {
-    final lightBg = (colors['primary']!['light'] as String).toLowerCase();
-    final darkBg = (colors['bg']!['dark'] as String).toLowerCase();
-    expect(html.toLowerCase(), contains('background: $lightBg;'));
-    final dark = html.toLowerCase().split('prefers-color-scheme: dark').last;
-    expect(dark, contains('background: $darkBg;'));
+  test('splash background is the light primary token in both themes', () {
+    final primary = (colors['primary']!['light'] as String).toLowerCase();
+    expect(html.toLowerCase(), contains('background: $primary;'));
+    expect(html, isNot(contains('prefers-color-scheme: dark')));
   });
 
   test('splash shows the bare 88px volt bolt of the logo file, no tile', () {
