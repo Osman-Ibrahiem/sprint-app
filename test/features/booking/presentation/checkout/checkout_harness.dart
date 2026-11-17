@@ -6,7 +6,9 @@ import 'package:flutter_riverpod/misc.dart' as rp;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/data/in_memory_data_layer.dart';
+import 'package:sprint/core/l10n/locale_notifier.dart';
 import 'package:sprint/core/providers/data_providers.dart';
+import 'package:sprint/core/theme/theme_mode_notifier.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/result/result.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
@@ -57,6 +59,7 @@ class CheckoutEnv {
   /// confirms it (the booker's side of a payment), then lets time pass by
   /// [wait].
   Future<void> payOnPage({Duration wait = const Duration(seconds: 1)}) async {
+    await tester.ensureVisible(find.byKey(CheckoutScreen.payKey));
     await tester.tap(find.byKey(CheckoutScreen.payKey));
     await tester.pumpAndSettle();
     final fields = find.byType(TextField);
@@ -65,6 +68,11 @@ class CheckoutEnv {
     await tester.enterText(fields.at(2), '123');
     await tester.enterText(fields.at(3), 'منى عبد الله');
     await tester.pump();
+    await tester.scrollUntilVisible(
+      find.byKey(confirmKey),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
     await tester.ensureVisible(find.byKey(confirmKey));
     await tester.tap(find.byKey(confirmKey));
     await tester.pumpAndSettle();
@@ -118,6 +126,13 @@ class CheckoutEnv {
     );
     final env = CheckoutEnv._(tester, time, layer, booking);
     await containerOf(tester).read(sessionProvider.notifier).actAs(user);
+    final container = containerOf(tester);
+    if (locale != null) {
+      await container.read(localeProvider.notifier).set(locale);
+    }
+    if (dark) {
+      await container.read(themeModeProvider.notifier).set(ThemeMode.dark);
+    }
     await tester.pumpAndSettle();
     routerOf(tester).go(env.checkoutPath);
     await tester.pumpAndSettle();

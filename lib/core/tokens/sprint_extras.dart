@@ -113,6 +113,11 @@ abstract final class SprintExtras {
   static const double confirmationColumn = 358;
   static const double confirmationGap = 48;
 
+  /// The narrowest pane that fits both confirmation columns and the margins
+  /// (2 x 358 + 48 + 2 x 24).
+  static const double confirmationTwoColumnsMinWidth =
+      confirmationColumn * 2 + confirmationGap + 48;
+
   /// The receipt PDF (feature 006, R9): print metrics in points, not screen
   /// layout. TODO(tokens): promote with the others (decisions.md 2026-11-15).
   static const double receiptPdfMargin = 32;

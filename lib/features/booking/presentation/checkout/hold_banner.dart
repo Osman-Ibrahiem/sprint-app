@@ -78,44 +78,46 @@ class _HoldBannerState extends State<HoldBanner> {
         color: _last ? colors.dangerSoft : colors.warningSoft,
         borderRadius: SprintRadius.mdBorder,
       ),
-      child: Stack(
-        children: [
-          ExcludeSemantics(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SprintIcon(
-                  _last
-                      ? PhosphorIconsRegular.warningCircle
-                      : PhosphorIconsRegular.clock,
-                  size: SprintSize.iconMd,
-                  color: _last ? colors.danger : colors.warning,
+      // The banner itself is the live region: its words are hidden from the
+      // reader and `_spoken` stands in for them, changing only every 30
+      // seconds and once at the last minute.
+      child: Semantics(
+        key: HoldBanner.liveRegionKey,
+        liveRegion: true,
+        container: true,
+        label: _spoken,
+        child: ExcludeSemantics(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SprintIcon(
+                _last
+                    ? PhosphorIconsRegular.warningCircle
+                    : PhosphorIconsRegular.clock,
+                size: SprintSize.iconMd,
+                color: _last ? colors.danger : colors.warning,
+              ),
+              const SizedBox(width: SprintSpacing.space2),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      key: HoldBanner.titleKey,
+                      style: context.text.bodyStrong,
+                    ),
+                    Text(
+                      body,
+                      key: HoldBanner.bodyKey,
+                      style: context.text.body,
+                    ),
+                  ],
                 ),
-                const SizedBox(width: SprintSpacing.space2),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        key: HoldBanner.titleKey,
-                        style: context.text.bodyStrong,
-                      ),
-                      Text(body, key: HoldBanner.bodyKey, style: context.text.body),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-          Semantics(
-            key: HoldBanner.liveRegionKey,
-            liveRegion: true,
-            container: true,
-            label: _spoken,
-            child: const SizedBox.shrink(),
-          ),
-        ],
+        ),
       ),
     );
   }

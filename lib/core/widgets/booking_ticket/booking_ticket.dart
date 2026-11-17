@@ -302,7 +302,9 @@ class _BookingTicketState extends State<BookingTicket> {
         ),
       );
     }
-    return ExcludeSemantics(
+    return Semantics(
+      image: true,
+      label: l10n.ticketQrLabel,
       child: SizedBox(
         key: BookingTicket.qrKey,
         width: side,

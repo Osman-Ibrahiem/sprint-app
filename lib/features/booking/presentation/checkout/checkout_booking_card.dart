@@ -38,13 +38,14 @@ class CheckoutBookingCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          // Wraps, never clips: the badge drops under the name when the text
+          // is large or the card narrow.
+          Wrap(
+            spacing: SprintSpacing.space2,
+            runSpacing: SprintSpacing.space1,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Expanded(
-                child: Text(view.facilityName, style: context.text.bodyStrong),
-              ),
-              const SizedBox(width: SprintSpacing.space2),
+              Text(view.facilityName, style: context.text.bodyStrong),
               StatusBadge(status: status),
             ],
           ),

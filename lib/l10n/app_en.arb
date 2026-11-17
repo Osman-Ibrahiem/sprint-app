@@ -1416,5 +1416,6 @@
         "type": "int"
       }
     }
-  }
+  },
+  "ticketQrLabel": "Attendance code, shown to the trainer at the entrance"
 }

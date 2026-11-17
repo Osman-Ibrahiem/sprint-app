@@ -140,9 +140,14 @@ class _BookingConfirmedScreenState
           leading: const SizedBox.shrink(),
         ),
         Expanded(
-          child: WindowSize.of(context).isWide
-              ? _wide(message, ticket, receipt, home)
-              : _narrow(context, message, ticket, receipt, home),
+          // Two columns need the room for both (358 + 48 + 358 and the
+          // margins): a sidebar leaves less than the window class suggests.
+          child: LayoutBuilder(
+            builder: (context, box) =>
+                box.maxWidth >= SprintExtras.confirmationTwoColumnsMinWidth
+                ? _wide(message, ticket, receipt, home)
+                : _narrow(context, message, ticket, receipt, home),
+          ),
         ),
       ],
     );

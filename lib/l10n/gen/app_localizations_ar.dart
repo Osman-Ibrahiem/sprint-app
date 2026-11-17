@@ -2324,4 +2324,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String demoPaymentDelayCurrent(int seconds) {
     return 'تأخير $seconds ثانية، وبعدها نجاح';
   }
+
+  @override
+  String get ticketQrLabel => 'رمز الحضور، بيتعرض للمدرب عند الدخول';
 }

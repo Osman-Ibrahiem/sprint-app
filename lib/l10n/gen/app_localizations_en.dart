@@ -2342,4 +2342,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String demoPaymentDelayCurrent(int seconds) {
     return 'Delay of $seconds seconds, then success';
   }
+
+  @override
+  String get ticketQrLabel =>
+      'Attendance code, shown to the trainer at the entrance';
 }

@@ -3898,6 +3898,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تأخير {seconds} ثانية، وبعدها نجاح'**
   String demoPaymentDelayCurrent(int seconds);
+
+  /// No description provided for @ticketQrLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'رمز الحضور، بيتعرض للمدرب عند الدخول'**
+  String get ticketQrLabel;
 }
 
 class _AppLocalizationsDelegate
