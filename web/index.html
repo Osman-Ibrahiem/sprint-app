@@ -42,7 +42,7 @@
     token of docs/design-system/tokens.json, and the `volt` bolt of the logo
     file; test/web/splash_test.dart keeps them in step. The Flutter splash
     starts at step 2 with the same background and the same 88px bolt in the
-    same place, so nothing jumps. No text and no motion.
+    same place, so nothing jumps. No text.
   -->
   <style>
     html, body { margin: 0; height: 100%; }
@@ -50,13 +50,14 @@
       position: fixed; inset: 0; z-index: 1;
       display: flex; align-items: center; justify-content: center;
       background: #2445e0;
-      opacity: 1; transition: opacity 150ms ease-out;
     }
     #sprint-splash svg { width: 88px; height: 88px; }
-    #sprint-splash.sprint-splash-hide { opacity: 0; }
-    @media (prefers-reduced-motion: reduce) {
-      #sprint-splash { transition: none; }
+    /* A soft pulse so the wait for the engine does not look frozen. The
+       Flutter splash takes over at the first frame with no fade. */
+    @media (prefers-reduced-motion: no-preference) {
+      #sprint-splash svg { animation: sprint-pulse 1200ms ease-in-out infinite; }
     }
+    @keyframes sprint-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
   </style>
 </head>
 <body>
@@ -75,10 +76,9 @@
       function remove() {
         if (gone) return;
         gone = true;
-        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (reduce) { splash.remove(); return; }
-        splash.classList.add('sprint-splash-hide');
-        setTimeout(function () { splash.remove(); }, 200);
+        // The Flutter splash underneath starts with the same bolt in the same
+        // place, so the handoff is a plain removal, no fade.
+        splash.remove();
       }
       window.addEventListener('flutter-first-frame', remove);
       setTimeout(remove, 30000);

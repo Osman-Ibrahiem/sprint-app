@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
@@ -149,7 +150,9 @@ class _SprintSplashState extends State<SprintSplash>
     } else {
       _loader.repeat();
       // Step 1 (the native look) stays for a moment before the bolt rises.
-      _timer = Timer(SprintSplash.nativeHold, () {
+      // On the web the HTML splash has already been waiting for the engine,
+      // so there is no extra hold.
+      _timer = Timer(kIsWeb ? Duration.zero : SprintSplash.nativeHold, () {
         _intro.forward().whenComplete(_scheduleDone);
       });
     }
