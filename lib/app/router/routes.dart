@@ -13,6 +13,7 @@ import 'package:sprint/features/booking/presentation/schedule/schedule_screen.da
 import 'package:sprint/features/booking/presentation/summary/booking_summary_screen.dart';
 import 'package:sprint/features/catalogue/domain/facility_link.dart';
 import 'package:sprint/features/catalogue/presentation/facilities/facilities_screen.dart';
+import 'package:sprint/features/catalogue/presentation/facilities/facility_not_found.dart';
 import 'package:sprint/features/catalogue/presentation/home/home_screen.dart';
 import 'package:sprint/features/identity/domain/app_section.dart';
 import 'package:sprint/features/verification/presentation/verification_request_screen.dart';
@@ -259,8 +260,11 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
               );
               return FacilitiesScreen(
                 selectedId: id,
-                paneBuilder: (_) =>
-                    ScheduleScreen(facilityId: id, selection: selection),
+                paneBuilder: (_) => ScheduleScreen(
+                  facilityId: id,
+                  selection: selection,
+                  notFound: (_) => const FacilityNotFound(),
+                ),
               );
             },
             routes: [
