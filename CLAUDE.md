@@ -42,6 +42,18 @@ Owner: Osman (decides, reviews). Claude Code plans and reviews; OpenCode impleme
 - `develop` deploys to GitHub Pages via CI.
 - Commit messages and PR descriptions reference BRD IDs.
 
+## Design source (feature 006 onward)
+
+Figma is the live source for screens, with every variant: compact, medium, expanded, large, light and dark. File: https://www.figma.com/design/xeuMQ0KyXsXVh4QldmkbDf (key `xeuMQ0KyXsXVh4QldmkbDf`). Another session updates it as the product grows, so **nothing in this repo describes screens or where components sit**. Tokens, rules and components still live here and win over Figma (`docs/design-system/`). Features 001–005 predate this; they are reconciled with Figma in the planned refactor.
+
+- **Only the session with the Figma MCP reads Figma.** Other Claude sessions and OpenCode have no access and must not guess a screen.
+- **Before specify of any feature, run `/design-check <feature>` in the Figma session.** It reads the screens live, compares them with the BRD, and reports gaps. Osman decides on any gap: fix Figma, change the BRD, or continue with a note.
+- **The result is a Design Pack** in `specs/<feature>/design-pack/` on the feature branch: per-screen layout from Figma numbers, token names, components, per-window-class differences and screenshots. It is how the Figma session hands the design to whoever implements (Claude on another account, or OpenCode).
+- **The spec holds only a pointer** (Figma page or section name), never a description of a screen.
+- **The pack is delete-before-merge.** It must not reach `develop`; CI fails the PR while `design-pack/` exists.
+- **Implementers:** read the pack first. If it is missing, or Figma changed after its generation date, stop and ask Osman to re-run `/design-check`. After implementing, the Figma session compares the result with Figma (design QA) before the PR is opened.
+- If the Figma session implements the feature itself, it reads Figma directly and needs no pack.
+
 ## Suggested feature order (UI first)
 
 1. **Foundation:** theme from tokens (light/dark), motion tokens (`SprintMotion`), fonts as assets, l10n (ar default, en), router, window size classes, adaptive shell (tab bar / rail / sidebar), adaptive primitives (`AdaptiveAppBar`, `AdaptiveDialog`, `AdaptiveSheet`, `AdaptiveSwitch`, `AdaptiveLoader`), seed data and fake repositories.
