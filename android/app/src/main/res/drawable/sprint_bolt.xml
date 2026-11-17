@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Sprint bolt, 88dp, volt. Same shape as docs/design-system/logo/sprint-mark.svg. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="88dp"
+    android:height="88dp"
+    android:viewportWidth="88"
+    android:viewportHeight="88">
+    <path android:fillColor="@color/sprint_volt" android:pathData="M 44.88,13.10 C 48.19,9.45 49.92,10.37 48.70,15.16 L 45.12,29.26 C 44.13,33.18 46.63,36.40 50.68,36.40 L 68.88,36.40 C 73.95,36.40 75.31,39.47 71.90,43.22 L 43.12,74.90 C 39.81,78.55 38.08,77.63 39.30,72.84 L 42.88,58.74 C 43.87,54.82 41.37,51.60 37.32,51.60 L 19.12,51.60 C 14.05,51.60 12.69,48.53 16.10,44.78 Z" />
+</vector>

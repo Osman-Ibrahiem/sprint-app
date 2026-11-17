@@ -4,12 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sprint/app/router/router_provider.dart';
 import 'package:sprint/core/l10n/locale_notifier.dart';
 import 'package:sprint/core/scroll/sprint_scroll_behavior.dart';
+import 'package:sprint/core/splash/sprint_splash.dart';
 import 'package:sprint/core/theme/sprint_theme.dart';
 import 'package:sprint/core/theme/theme_mode_notifier.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 class SprintApp extends ConsumerWidget {
-  const SprintApp({super.key});
+  const SprintApp({this.showSplash = true, super.key});
+
+  /// Tests turn the splash off; the app always shows it.
+  final bool showSplash;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,6 +43,10 @@ class SprintApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      builder: (context, child) => SprintSplashGate(
+        enabled: showSplash,
+        child: child ?? const SizedBox.shrink(),
+      ),
       routerConfig: ref.watch(appRouterProvider),
     );
   }

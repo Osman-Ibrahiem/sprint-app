@@ -1658,4 +1658,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String catalogueShareText(String name) {
     return 'شوف $name على سبرنت';
   }
+
+  @override
+  String get splashTagline => 'احجز من غير زحمة';
+
+  @override
+  String get splashCaption => 'جامعة طنطا';
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android 12+: the icon background equals the screen colour so no circle shows; the icon is the bare bolt. -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowSplashScreenBackground">@color/sprint_splash_bg</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/sprint_splash_icon</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/sprint_splash_bg</item>
+    </style>
+    <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">?android:colorBackground</item>
+    </style>
+</resources>

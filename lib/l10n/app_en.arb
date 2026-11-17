@@ -777,5 +777,13 @@
   "catalogueShareCopyLink": "Copy link",
   "catalogueShareCopied": "Link copied",
   "catalogueShareText": "Check out {name} on Sprint",
-  "@catalogueShareText": {"placeholders": {"name": {"type": "String"}}}
+  "@catalogueShareText": {"placeholders": {"name": {"type": "String"}}},
+  "splashTagline": "Book without the crowd",
+  "@splashTagline": {
+    "description": "Splash screen tagline under the wordmark (proposed copy, not yet in copy-review)"
+  },
+  "splashCaption": "Tanta University",
+  "@splashCaption": {
+    "description": "Splash screen caption at the bottom (proposed copy, not yet in copy-review)"
+  }
 }

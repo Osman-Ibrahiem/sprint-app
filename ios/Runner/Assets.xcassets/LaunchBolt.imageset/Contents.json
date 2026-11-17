@@ -1,0 +1,7 @@
+{
+  "images" : [
+    { "idiom" : "universal", "filename" : "LaunchBolt.pdf" }
+  ],
+  "info" : { "version" : 1, "author" : "xcode" },
+  "properties" : { "preserves-vector-representation" : true }
+}

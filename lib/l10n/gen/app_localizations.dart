@@ -2890,6 +2890,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'شوف {name} على سبرنت'**
   String catalogueShareText(String name);
+
+  /// Splash screen tagline under the wordmark (proposed copy, not yet in copy-review)
+  ///
+  /// In ar, this message translates to:
+  /// **'احجز من غير زحمة'**
+  String get splashTagline;
+
+  /// Splash screen caption at the bottom (proposed copy, not yet in copy-review)
+  ///
+  /// In ar, this message translates to:
+  /// **'جامعة طنطا'**
+  String get splashCaption;
 }
 
 class _AppLocalizationsDelegate

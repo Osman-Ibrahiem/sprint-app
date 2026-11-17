@@ -1,0 +1,320 @@
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sprint/core/tokens/context_extensions.dart';
+import 'package:sprint/core/tokens/reduced_motion.dart';
+import 'package:sprint/core/tokens/sprint_colors.g.dart';
+import 'package:sprint/core/tokens/sprint_motion.g.dart';
+import 'package:sprint/l10n/gen/app_localizations.dart';
+
+/// Shows [SprintSplash] over [child] until the sequence ends, then fades it
+/// out. The native splash (step 1) is already on screen when this starts, so
+/// it begins at step 2 (the transition) with the bolt and background in the
+/// same place; under reduced motion it starts at step 3.
+class SprintSplashGate extends StatefulWidget {
+  const SprintSplashGate({
+    required this.child,
+    this.enabled = true,
+    this.hold,
+    super.key,
+  });
+
+  /// How long step 3 stays on screen: two `duration-base` and one `duration-fast`.
+  static final Duration defaultHold =
+      SprintMotion.durationBase * 2 + SprintMotion.durationFast;
+
+  final Widget child;
+  final bool enabled;
+
+  /// How long the finished splash (step 3) stays before it leaves.
+  final Duration? hold;
+
+  @override
+  State<SprintSplashGate> createState() => _SprintSplashGateState();
+}
+
+class _SprintSplashGateState extends State<SprintSplashGate> {
+  bool _visible = true;
+  bool _leaving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _visible = widget.enabled;
+  }
+
+  void _leave() {
+    if (!mounted || _leaving) return;
+    setState(() => _leaving = true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_visible) return widget.child;
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        widget.child,
+        Positioned.fill(
+          child: AnimatedOpacity(
+            opacity: _leaving ? 0 : 1,
+            duration: SprintMotion.durationFast,
+            curve: SprintMotion.easeExit,
+            onEnd: () {
+              if (_leaving && mounted) setState(() => _visible = false);
+            },
+            child: IgnorePointer(
+              ignoring: _leaving,
+              child: SprintSplash(
+                hold: widget.hold ?? SprintSplashGate.defaultHold,
+                onDone: _leave,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// The in-app splash: bolt, wordmark, tagline, lane loader and caption on the
+/// brand background (`primary` in light, `bg` in dark). Positions follow the
+/// Figma page "Splash" and scale with the window height, never the device.
+class SprintSplash extends StatefulWidget {
+  const SprintSplash({this.hold, this.onDone, super.key});
+
+  final Duration? hold;
+  final VoidCallback? onDone;
+
+  static const double boltSize = 88;
+  static const double _boltRise = 86; // centre -> step 3 position
+  static const double _wordmarkGap = 16; // bolt bottom -> wordmark top
+  static const double _taglineGap = 4;
+  static const double _laneHeight = 6;
+  static const double _laneGap = 8;
+  static const List<double> _laneWidths = [56, 36, 46];
+  static const double _laneTravel = 8;
+  static const double _loaderBottom = 116; // loader above the screen bottom
+  static const double _captionBottom = 74; // caption above the screen bottom
+
+  static const markAsset = 'docs/design-system/logo/sprint-mark.svg';
+
+  /// Background of the splash for a theme (matches the native launch screens).
+  static Color backgroundFor(Brightness b, SprintColors c) =>
+      b == Brightness.light ? c.primary : c.bg;
+
+  @override
+  State<SprintSplash> createState() => _SprintSplashState();
+}
+
+class _SprintSplashState extends State<SprintSplash>
+    with TickerProviderStateMixin {
+  // 0..350ms bolt move + wordmark fade; then 250ms content fade.
+  late final AnimationController _intro = AnimationController(
+    vsync: this,
+    duration: SprintMotion.durationSlow + SprintMotion.durationBase,
+  );
+  late final AnimationController _loader = AnimationController(
+    vsync: this,
+    duration: SprintMotion.durationPulse,
+  );
+  bool _started = false;
+  bool _reduced = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _reduced = ReducedMotion.of(context);
+    if (_started) return;
+    _started = true;
+    if (_reduced) {
+      _intro.value = 1;
+      _scheduleDone();
+    } else {
+      _loader.repeat();
+      _intro.forward().whenComplete(_scheduleDone);
+    }
+  }
+
+  void _scheduleDone() {
+    final done = widget.onDone;
+    if (done == null) return;
+    Future<void>.delayed(widget.hold ?? Duration.zero, done);
+  }
+
+  @override
+  void dispose() {
+    _intro.dispose();
+    _loader.dispose();
+    super.dispose();
+  }
+
+  double _span(double from, double to, Curve curve) {
+    final total = _intro.duration!.inMicroseconds;
+    final t = ((_intro.value * total - from * 1000) / ((to - from) * 1000))
+        .clamp(0.0, 1.0);
+    return curve.transform(t);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final l10n = AppLocalizations.of(context);
+    final light = Theme.of(context).brightness == Brightness.light;
+    final bg = SprintSplash.backgroundFor(Theme.of(context).brightness, colors);
+    final main = light ? colors.onPrimary : colors.ink;
+    final soft = light ? colors.onPrimarySoft : colors.inkMuted;
+    final text = SprintTextStyles(main);
+
+    return ColoredBox(
+      color: bg,
+      child: LayoutBuilder(
+        builder: (context, box) {
+          final centerY = box.maxHeight / 2;
+          final top3 =
+              centerY - SprintSplash.boltSize / 2 - SprintSplash._boltRise;
+          return AnimatedBuilder(
+            animation: _intro,
+            builder: (context, _) {
+              final move = _span(
+                0,
+                SprintMotion.durationSlow.inMilliseconds.toDouble(),
+                SprintMotion.easeEnter,
+              );
+              final content = _span(
+                SprintMotion.durationSlow.inMilliseconds.toDouble(),
+                _intro.duration!.inMilliseconds.toDouble(),
+                Curves.linear,
+              );
+              final boltTop =
+                  centerY -
+                  SprintSplash.boltSize / 2 -
+                  SprintSplash._boltRise * move;
+              final wordmarkTop =
+                  top3 + SprintSplash.boltSize + SprintSplash._wordmarkGap;
+              // The wordmark starts at 40% and settles 10px lower than step 3.
+              final wordmarkOpacity = 0.4 + 0.6 * move;
+              final wordmarkShift = 10 * (1 - move);
+              return Stack(
+                children: [
+                  Positioned(
+                    top: boltTop,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: SvgPicture.asset(
+                        SprintSplash.markAsset,
+                        width: SprintSplash.boltSize,
+                        height: SprintSplash.boltSize,
+                        excludeFromSemantics: true,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: wordmarkTop + wordmarkShift,
+                    left: 0,
+                    right: 0,
+                    child: Opacity(
+                      opacity: wordmarkOpacity,
+                      child: Semantics(
+                        header: true,
+                        child: Text(
+                          l10n.appName,
+                          textAlign: TextAlign.center,
+                          style: text.display,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: wordmarkTop + 44 + SprintSplash._taglineGap,
+                    left: 0,
+                    right: 0,
+                    child: Opacity(
+                      opacity: content,
+                      child: Text(
+                        l10n.splashTagline,
+                        textAlign: TextAlign.center,
+                        style: text.body,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: SprintSplash._loaderBottom,
+                    left: 0,
+                    right: 0,
+                    child: Opacity(
+                      opacity: content,
+                      child: ExcludeSemantics(
+                        child: Center(child: _LaneLoader(animation: _loader)),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: SprintSplash._captionBottom,
+                    left: 0,
+                    right: 0,
+                    child: Opacity(
+                      opacity: content,
+                      child: Text(
+                        l10n.splashCaption,
+                        textAlign: TextAlign.center,
+                        style: text.micro.copyWith(color: soft),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+/// Three volt lanes sliding like lane ropes, one cycle per `duration-pulse`.
+/// Static when the controller is stopped (reduced motion).
+class _LaneLoader extends StatelessWidget {
+  const _LaneLoader({required this.animation});
+
+  final Animation<double> animation;
+
+  @override
+  Widget build(BuildContext context) {
+    final volt = context.colors.volt;
+    return SizedBox(
+      width: SprintSplash._laneWidths.first,
+      height: SprintSplash._laneHeight * 3 + SprintSplash._laneGap * 2,
+      child: AnimatedBuilder(
+        animation: animation,
+        builder: (context, _) => Stack(
+          clipBehavior: Clip.none,
+          children: [
+            for (var i = 0; i < 3; i++)
+              Positioned(
+                top: i * (SprintSplash._laneHeight + SprintSplash._laneGap),
+                left:
+                    (SprintSplash._laneWidths.first -
+                            SprintSplash._laneWidths[i]) /
+                        2 +
+                    SprintSplash._laneTravel *
+                        math.sin(2 * math.pi * (animation.value + i / 3)),
+                child: Container(
+                  width: SprintSplash._laneWidths[i],
+                  height: SprintSplash._laneHeight,
+                  decoration: BoxDecoration(
+                    color: volt,
+                    borderRadius: BorderRadius.circular(
+                      SprintSplash._laneHeight / 2,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}

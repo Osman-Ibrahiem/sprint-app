@@ -1672,4 +1672,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String catalogueShareText(String name) {
     return 'Check out $name on Sprint';
   }
+
+  @override
+  String get splashTagline => 'Book without the crowd';
+
+  @override
+  String get splashCaption => 'Tanta University';
 }
