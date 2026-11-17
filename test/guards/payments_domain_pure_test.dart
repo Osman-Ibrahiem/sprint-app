@@ -64,4 +64,22 @@ void main() {
     }
     expect(hits, isEmpty, reason: hits.join('\n'));
   });
+
+  test('only the provider page and the /demo section read fakeGatewayProvider',
+      () {
+    const allowed = {
+      'lib/core/providers/data_providers.dart',
+      'lib/core/providers/data_providers.g.dart',
+      'lib/features/payments/presentation/fake_gateway_screen.dart',
+      'lib/features/demo/presentation/demo_payment_section.dart',
+    };
+    final hits = <String>[];
+    for (final f in _dartFiles('lib')) {
+      if (allowed.contains(f.path)) continue;
+      if (f.readAsStringSync().contains('fakeGatewayProvider')) {
+        hits.add(f.path);
+      }
+    }
+    expect(hits, isEmpty, reason: hits.join('\n'));
+  });
 }
