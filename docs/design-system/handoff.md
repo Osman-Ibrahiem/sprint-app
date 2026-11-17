@@ -39,7 +39,7 @@
 | FacilityCard | `type`: paid, free, with-trainer · `layout`: vertical, horizontal |
 | StatusBadge | `status`: confirmed, pending-payment, cancelled, attended, no-show, expired |
 | BookingTicket | `state`: upcoming, today, past |
-| AppNavigation | `form`: tab-bar, rail, sidebar · `platform`: ios, android, web |
+| AppNavigation | `form`: tab-bar, rail, sidebar · `platform`: ios, android, web · `role`: booker, trainer, admin · `selected`: القسم المحدد (`default` للحاجز). متغيرات trainer و admin في Figma موجودة لـ `platform=ios` بس لحد دلوقتي |
 | StatTile | `trend`: up, down, flat |
 | Logo | `variant`: mark, tile-primary, tile-ink, lockup-ar, lockup-en. الأشكال من `logo/`، وألوانها ثابتة في الثيمين |
 
