@@ -14,7 +14,13 @@
   "signInPromptBody": "Your bookings and account details will show here once you sign in.",
   "gateTitle": "This step needs an account",
   "gateBody": "Sign in or create an account {reason}",
-  "@gateBody": {"placeholders": {"reason": {"type": "String"}}},
+  "@gateBody": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
   "gateSignIn": "Sign in",
   "gateSignUp": "Create an account",
   "gateDismiss": "Not now",
@@ -163,7 +169,13 @@
   "codeEntrySentTo": "The code was sent to",
   "codeEntryResend": "Resend the code",
   "codeEntryResendIn": "Resend the code in {seconds} s",
-  "@codeEntryResendIn": {"placeholders": {"seconds": {"type": "int"}}},
+  "@codeEntryResendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "fieldSearchHint": "Search",
   "slotAvailablePlaces": "{count, plural, =1{1 place} other{{count} places}}",
   "slotSelected": "Selected",
@@ -384,11 +396,23 @@
   "resetPasswordHint": "At least 8 characters, with a letter and a digit",
   "resetSaveButton": "Save password",
   "resetCodeWrong": "That code is wrong. Tries left: {tries}.",
-  "@resetCodeWrong": {"placeholders": {"tries": {"type": "int"}}},
+  "@resetCodeWrong": {
+    "placeholders": {
+      "tries": {
+        "type": "int"
+      }
+    }
+  },
   "resetCodeExpired": "This code has expired. You can ask for a new one.",
   "resetCodeDead": "No tries left on this code. You can ask for a new one.",
   "resetResendTooSoon": "You can ask for a new code in {seconds} seconds.",
-  "@resetResendTooSoon": {"placeholders": {"seconds": {"type": "int"}}},
+  "@resetResendTooSoon": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "resetPasswordEmpty": "A new password is required.",
   "resetPasswordTooShort": "The password needs at least 8 characters.",
   "resetPasswordNeedsLetter": "The password needs at least one letter.",
@@ -429,22 +453,58 @@
   "confirmEmailButton": "Confirm",
   "confirmCodeEmpty": "The code has 6 digits.",
   "confirmCodeWrong": "That code is not correct. {count, plural, =1{1 try left} other{{count} tries left}}.",
-  "@confirmCodeWrong": {"placeholders": {"count": {"type": "int"}}},
+  "@confirmCodeWrong": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "confirmCodeExpired": "This code has expired. You can send a new one.",
   "confirmCodeDead": "No tries left on this code. You can send a new one.",
   "confirmNoPending": "There is no pending confirmation for this email. You can create the account again.",
   "confirmResendTooSoon": "You can send a new code in {seconds} seconds.",
-  "@confirmResendTooSoon": {"placeholders": {"seconds": {"type": "int"}}},
+  "@confirmResendTooSoon": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "confirmResent": "We sent a new code.",
   "emailConfirmSubject": "Your Sprint account confirmation code",
   "emailConfirmBody": "Confirmation code: {code}\nThe code is valid for {minutes} minutes. If you did not create this account, you can ignore this message.",
-  "@emailConfirmBody": {"placeholders": {"code": {"type": "String"}, "minutes": {"type": "int"}}},
+  "@emailConfirmBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "emailResetSubject": "Your Sprint password reset code",
   "emailResetBody": "Reset code: {code}\nThe code is valid for {minutes} minutes. If you did not ask for a reset, you can ignore this message.",
-  "@emailResetBody": {"placeholders": {"code": {"type": "String"}, "minutes": {"type": "int"}}},
+  "@emailResetBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "demoNoticeTitle": "Demo only",
   "demoNoticeCode": "Demo code: {code}",
-  "@demoNoticeCode": {"placeholders": {"code": {"type": "String"}}},
+  "@demoNoticeCode": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
   "demoNoticeDismiss": "Hide",
   "mailboxTitle": "Demo mailbox",
   "demoResetButton": "Reset demo data",
@@ -689,13 +749,55 @@
   "verifActionAgain": "Send a new request",
   "verifActionWait": "Waiting for review",
   "verifNationalIdMasked": "National ID: {id}",
-  "@verifResultApproved": {"placeholders": {"date": {"type": "String"}}},
-  "@verifResultRejected": {"placeholders": {"reason": {"type": "String"}}},
-  "@verifCardSpoken": {"placeholders": {"status": {"type": "String"}}},
-  "@verifApprovedUntil": {"placeholders": {"date": {"type": "String"}}},
-  "@verifReasonLabel": {"placeholders": {"reason": {"type": "String"}}},
-  "@verifExpiredBody": {"placeholders": {"date": {"type": "String"}}},
-  "@verifNationalIdMasked": {"placeholders": {"id": {"type": "String"}}},
+  "@verifResultApproved": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifResultRejected": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifCardSpoken": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifApprovedUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifReasonLabel": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifExpiredBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifNationalIdMasked": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
   "verifRevSection": "Verification",
   "verifRevQueueTitle": "Verification requests",
   "verifRevQueueEmpty": "No requests waiting for review.",
@@ -750,34 +852,355 @@
   "sheetBatchLine": "Added {added}, approved {approved}, skipped {skipped}",
   "verifNoticeApproved": "Your verification request was approved. Verified until {date}.",
   "verifNoticeRejected": "Your verification request was rejected. Reason: {reason}",
-  "@verifRevWaitMinutes": {"placeholders": {"count": {"type": "int"}}},
-  "@verifRevWaitHours": {"placeholders": {"count": {"type": "int"}}},
-  "@verifRevWaitDays": {"placeholders": {"count": {"type": "int"}}},
-  "@verifRevRowSpoken": {"placeholders": {"name": {"type": "String"}, "type": {"type": "String"}, "unit": {"type": "String"}, "wait": {"type": "String"}}},
-  "@verifRevPhotoSpoken": {"placeholders": {"name": {"type": "String"}}},
-  "@sheetProblemRow": {"placeholders": {"row": {"type": "String"}, "reason": {"type": "String"}}},
-  "@sheetBatchLine": {"placeholders": {"added": {"type": "int"}, "approved": {"type": "int"}, "skipped": {"type": "int"}}},
-  "@verifNoticeApproved": {"placeholders": {"date": {"type": "String"}}},
-  "@verifNoticeRejected": {"placeholders": {"reason": {"type": "String"}}},
+  "@verifRevWaitMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@verifRevWaitHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@verifRevWaitDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@verifRevRowSpoken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "type": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "wait": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifRevPhotoSpoken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@sheetProblemRow": {
+    "placeholders": {
+      "row": {
+        "type": "String"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@sheetBatchLine": {
+    "placeholders": {
+      "added": {
+        "type": "int"
+      },
+      "approved": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "@verifNoticeApproved": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifNoticeRejected": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
   "catalogueAvailabilityToday": "Available today",
   "catalogueScheduleAction": "View times",
-  "catalogueScheduleSoonTitle": "Coming soon",
-  "catalogueScheduleSoonBody": "The next 7 days of times will show here soon.",
-  "catalogueScheduleSoonBack": "Back to the facility",
   "catalogueUpcomingTitle": "Your upcoming bookings",
   "catalogueUpcomingSeeAll": "See all",
   "catalogueUpcomingNone": "No upcoming bookings. Pick a facility to start.",
   "catalogueBookingSpoken": "Booking at {facility}, {date}, at {time}, {status}",
-  "@catalogueBookingSpoken": {"placeholders": {"facility": {"type": "String"}, "date": {"type": "String"}, "time": {"type": "String"}, "status": {"type": "String"}}},
+  "@catalogueBookingSpoken": {
+    "placeholders": {
+      "facility": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  },
   "catalogueSuggestionsTitle": "Suggested for you",
   "catalogueSuggestionReasonBookedType": "Because you booked {type} before",
-  "@catalogueSuggestionReasonBookedType": {"placeholders": {"type": {"type": "String"}}},
+  "@catalogueSuggestionReasonBookedType": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
   "catalogueSuggestionReasonOther": "You might like this",
   "catalogueShareAction": "Share facility",
   "catalogueShareCopyLink": "Copy link",
   "catalogueShareCopied": "Link copied",
   "catalogueShareText": "Check out {name} on Sprint",
-  "@catalogueShareText": {"placeholders": {"name": {"type": "String"}}},
+  "@catalogueShareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingScheduleHeading": "Times",
+  "bookingRefreshAction": "Refresh times",
+  "bookingContinue": "Continue",
+  "bookingUnitLabel": "Unit",
+  "bookingUnitHasPlaces": "{unit}, places available",
+  "@bookingUnitHasPlaces": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingUnitNoPlaces": "{unit}, no places that day",
+  "@bookingUnitNoPlaces": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingNothingLeftDay": "Nothing is left on this day. Other days have places.",
+  "bookingNothingLeftWindow": "Nothing is left in the coming days.",
+  "bookingNoUnitsTitle": "No times to book",
+  "bookingNoUnitsBody": "This facility has no bookable times right now.",
+  "bookingBackToFacility": "Back to the facility",
+  "bookingErrorTitle": "The times did not load",
+  "bookingErrorBody": "This may be a temporary problem.",
+  "bookingRetry": "Retry",
+  "bookingChoiceGone": "The earlier choice is no longer available. These are the nearest times.",
+  "bookingNoticeDismiss": "Dismiss message",
+  "bookingRangeHint": "{hours, plural, =1{One hour per booking here} other{Pick the first and last hour, up to {hours} hours in a row}}",
+  "@bookingRangeHint": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingLengthHours": "{hours, plural, =1{1 hour} other{{hours} hours}}",
+  "@bookingLengthHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingLengthMinutes": "{minutes} minutes",
+  "@bookingLengthMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingTimeWithLength": "Time {time}, length {length}",
+  "@bookingTimeWithLength": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "length": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingFree": "Free",
+  "bookingPanelTitle": "Your choice",
+  "bookingSelectionPrompt": "No time chosen yet",
+  "bookingGateReason": "to book",
+  "bookingFailSlotTaken": "This time was just booked. Other times are available.",
+  "bookingFailSlotTakenAt": "{time} was just booked, so this range is not available.",
+  "@bookingFailSlotTakenAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingFailSlotFull": "This time is now full. Other times are available.",
+  "bookingFailSlotFullAt": "{time} is full, so this range is not available.",
+  "@bookingFailSlotFullAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingFailSlotPast": "This time has passed.",
+  "bookingFailOutsideWindow": "Booking is open for the coming days only.",
+  "bookingFailClosed": "This time is not available.",
+  "bookingFailClosedAt": "{time} is not available, so this range is not available.",
+  "@bookingFailClosedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingFailRangeTooLong": "{hours, plural, =1{The longest booking is 1 hour.} other{The longest booking is {hours} hours.}}",
+  "@bookingFailRangeTooLong": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingFailRangeTooLongGeneric": "The range is longer than allowed.",
+  "bookingFailOverlap": "You already have a booking then: {facility}, {when}.",
+  "@bookingFailOverlap": {
+    "placeholders": {
+      "facility": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingFailOverlapGeneric": "You already have another booking at that time.",
+  "bookingFailTooMany": "{count, plural, =1{You have reached the limit of 1 active booking.} other{You have reached the limit of {count} active bookings.}}",
+  "@bookingFailTooMany": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingFailTooManyGeneric": "You have reached the limit of active bookings.",
+  "bookingFailNotPermitted": "This account cannot book.",
+  "bookingFailNotFound": "The facility or the time is not available right now.",
+  "bookingFailGeneric": "The booking did not go through. You can try again.",
+  "bookingSummaryTitle": "Booking summary",
+  "bookingRowFacility": "Facility",
+  "bookingRowUnit": "Unit",
+  "bookingRowDate": "Day",
+  "bookingRowTime": "Time",
+  "bookingRowLength": "Length",
+  "bookingRowCoverage": "The booking covers",
+  "bookingRowTrainer": "Trainer",
+  "bookingRowTier": "Price tier",
+  "bookingRowPrice": "Price",
+  "bookingRowPolicy": "Cancellation policy",
+  "bookingCoverageWhole": "The whole unit",
+  "bookingCoverageWholeMax": "{count, plural, =1{The whole unit, for 1 participant} other{The whole unit, up to {count} participants}}",
+  "@bookingCoverageWholeMax": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingCoverageOnePlace": "One place",
+  "bookingSessionLength": "{minutes}-minute session",
+  "@bookingSessionLength": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingPolicyCutoff": "{hours, plural, =0{You can cancel until the start time.} =1{You can cancel up to 1 hour before the start.} other{You can cancel up to {hours} hours before the start.}}",
+  "@bookingPolicyCutoff": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingPolicyRefundFull": "The full amount is refunded.",
+  "bookingPolicyRefundPartial": "{percent}% of the amount is refunded.",
+  "@bookingPolicyRefundPartial": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingPolicyRefundNone": "The amount is not refunded.",
+  "bookingVerifyHint": "A verified account gets the student and staff price.",
+  "bookingVerifyAction": "Verification request",
+  "bookingVerifyPending": "Your verification request is under review. The internal price applies to new bookings after approval.",
+  "bookingPriceChanged": "The price changed from what the schedule showed. This is the current price.",
+  "bookingPayAction": "Continue to payment",
+  "bookingConfirmAction": "Confirm booking",
+  "bookingFreeNoPayment": "This booking is free and has no payment step.",
+  "bookingCheckoutSoonTitle": "Payment is coming soon",
+  "bookingCheckoutSoonBody": "The payment step arrives soon. Your choice is kept in the summary.",
+  "bookingBackToSummary": "Back to the summary",
+  "bookingDoneTitle": "Booking confirmed",
+  "bookingDoneBody": "The booking is on your account and shows on home.",
+  "bookingDoneCode": "Booking code",
+  "bookingDoneHome": "Back to home",
+  "bookingDoneNotFoundTitle": "Booking not found",
+  "bookingDoneNotFoundBody": "The link may be wrong, or the booking belongs to another account.",
+  "bookingTrainerStepTitle": "Choosing a trainer",
+  "bookingTrainerStepBody": "Times show after a trainer is chosen.",
+  "bookingTrainerHasSessions": "Has sessions in the coming days",
+  "bookingTrainerNoSessions": "No sessions in the coming days",
+  "bookingTrainerNoName": "Trainer",
+  "bookingTrainerChange": "Change trainer",
+  "bookingTrainerChosen": "Trainer: {name}",
+  "@bookingTrainerChosen": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingNoTrainersTitle": "No trainers available",
+  "bookingNoTrainersBody": "This facility has no trainers to book yet.",
+  "bookingTrainerNoSessionsBody": "This trainer has no sessions in the coming days.",
+  "bookingTrainerRowSpoken": "Trainer {name}, {bio}, {sessions}",
+  "@bookingTrainerRowSpoken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "bio": {
+        "type": "String"
+      },
+      "sessions": {
+        "type": "String"
+      }
+    }
+  },
   "splashTagline": "Book without the crowd",
   "@splashTagline": {
     "description": "Splash screen tagline under the wordmark (proposed copy, not yet in copy-review)"

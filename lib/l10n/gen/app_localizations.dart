@@ -2802,24 +2802,6 @@ abstract class AppLocalizations {
   /// **'عرض المواعيد'**
   String get catalogueScheduleAction;
 
-  /// No description provided for @catalogueScheduleSoonTitle.
-  ///
-  /// In ar, this message translates to:
-  /// **'قريبًا'**
-  String get catalogueScheduleSoonTitle;
-
-  /// No description provided for @catalogueScheduleSoonBody.
-  ///
-  /// In ar, this message translates to:
-  /// **'مواعيد الـ 7 أيام الجاية هتظهر هنا قريب.'**
-  String get catalogueScheduleSoonBody;
-
-  /// No description provided for @catalogueScheduleSoonBack.
-  ///
-  /// In ar, this message translates to:
-  /// **'رجوع للمنشأة'**
-  String get catalogueScheduleSoonBack;
-
   /// No description provided for @catalogueUpcomingTitle.
   ///
   /// In ar, this message translates to:
@@ -2890,6 +2872,528 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'شوف {name} على سبرنت'**
   String catalogueShareText(String name);
+
+  /// No description provided for @bookingScheduleHeading.
+  ///
+  /// In ar, this message translates to:
+  /// **'المواعيد'**
+  String get bookingScheduleHeading;
+
+  /// No description provided for @bookingRefreshAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحديث المواعيد'**
+  String get bookingRefreshAction;
+
+  /// No description provided for @bookingContinue.
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة'**
+  String get bookingContinue;
+
+  /// No description provided for @bookingUnitLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوحدة'**
+  String get bookingUnitLabel;
+
+  /// No description provided for @bookingUnitHasPlaces.
+  ///
+  /// In ar, this message translates to:
+  /// **'{unit}، فيه أماكن'**
+  String bookingUnitHasPlaces(String unit);
+
+  /// No description provided for @bookingUnitNoPlaces.
+  ///
+  /// In ar, this message translates to:
+  /// **'{unit}، مفيش أماكن في اليوم ده'**
+  String bookingUnitNoPlaces(String unit);
+
+  /// No description provided for @bookingNothingLeftDay.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش مواعيد فاضلة في اليوم ده، وفيه أيام تانية متاحة.'**
+  String get bookingNothingLeftDay;
+
+  /// No description provided for @bookingNothingLeftWindow.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش مواعيد فاضلة في الأيام الجاية.'**
+  String get bookingNothingLeftWindow;
+
+  /// No description provided for @bookingNoUnitsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش مواعيد للحجز'**
+  String get bookingNoUnitsTitle;
+
+  /// No description provided for @bookingNoUnitsBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنشأة دي ملهاش مواعيد متاحة للحجز دلوقتي.'**
+  String get bookingNoUnitsBody;
+
+  /// No description provided for @bookingBackToFacility.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرجوع للمنشأة'**
+  String get bookingBackToFacility;
+
+  /// No description provided for @bookingErrorTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المواعيد متحمّلتش'**
+  String get bookingErrorTitle;
+
+  /// No description provided for @bookingErrorBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'ممكن تكون مشكلة مؤقتة.'**
+  String get bookingErrorBody;
+
+  /// No description provided for @bookingRetry.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة المحاولة'**
+  String get bookingRetry;
+
+  /// No description provided for @bookingChoiceGone.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاختيار اللي فات مبقاش متاح، فدي أقرب مواعيد متاحة.'**
+  String get bookingChoiceGone;
+
+  /// No description provided for @bookingNoticeDismiss.
+  ///
+  /// In ar, this message translates to:
+  /// **'إغلاق الرسالة'**
+  String get bookingNoticeDismiss;
+
+  /// No description provided for @bookingRangeHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'{hours, plural, =1{الحجز هنا ساعة واحدة في المرة} =2{الحجز بأول ساعة وآخر ساعة، لحد ساعتين متتاليتين} other{الحجز بأول ساعة وآخر ساعة، لحد {hours} ساعات متتالية}}'**
+  String bookingRangeHint(int hours);
+
+  /// No description provided for @bookingLengthHours.
+  ///
+  /// In ar, this message translates to:
+  /// **'{hours, plural, =1{ساعة واحدة} =2{ساعتين} other{{hours} ساعات}}'**
+  String bookingLengthHours(int hours);
+
+  /// No description provided for @bookingLengthMinutes.
+  ///
+  /// In ar, this message translates to:
+  /// **'{minutes} دقيقة'**
+  String bookingLengthMinutes(int minutes);
+
+  /// No description provided for @bookingTimeWithLength.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوقت {time}، المدة {length}'**
+  String bookingTimeWithLength(String time, String length);
+
+  /// No description provided for @bookingFree.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجاني'**
+  String get bookingFree;
+
+  /// No description provided for @bookingPanelTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيارك'**
+  String get bookingPanelTitle;
+
+  /// No description provided for @bookingSelectionPrompt.
+  ///
+  /// In ar, this message translates to:
+  /// **'لسه مفيش ميعاد مختار'**
+  String get bookingSelectionPrompt;
+
+  /// No description provided for @bookingGateReason.
+  ///
+  /// In ar, this message translates to:
+  /// **'عشان تحجز'**
+  String get bookingGateReason;
+
+  /// No description provided for @bookingFailSlotTaken.
+  ///
+  /// In ar, this message translates to:
+  /// **'الميعاد ده اتحجز لسه. فيه مواعيد تانية متاحة.'**
+  String get bookingFailSlotTaken;
+
+  /// No description provided for @bookingFailSlotTakenAt.
+  ///
+  /// In ar, this message translates to:
+  /// **'الساعة {time} اتحجزت لسه، فالنطاق ده مش متاح.'**
+  String bookingFailSlotTakenAt(String time);
+
+  /// No description provided for @bookingFailSlotFull.
+  ///
+  /// In ar, this message translates to:
+  /// **'الميعاد ده اكتمل لسه. فيه مواعيد تانية متاحة.'**
+  String get bookingFailSlotFull;
+
+  /// No description provided for @bookingFailSlotFullAt.
+  ///
+  /// In ar, this message translates to:
+  /// **'الساعة {time} مكتملة، فالنطاق ده مش متاح.'**
+  String bookingFailSlotFullAt(String time);
+
+  /// No description provided for @bookingFailSlotPast.
+  ///
+  /// In ar, this message translates to:
+  /// **'وقت الميعاد ده فات.'**
+  String get bookingFailSlotPast;
+
+  /// No description provided for @bookingFailOutsideWindow.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز متاح للأيام القريبة بس.'**
+  String get bookingFailOutsideWindow;
+
+  /// No description provided for @bookingFailClosed.
+  ///
+  /// In ar, this message translates to:
+  /// **'الميعاد ده مش متاح.'**
+  String get bookingFailClosed;
+
+  /// No description provided for @bookingFailClosedAt.
+  ///
+  /// In ar, this message translates to:
+  /// **'الساعة {time} مش متاحة، فالنطاق ده مش متاح.'**
+  String bookingFailClosedAt(String time);
+
+  /// No description provided for @bookingFailRangeTooLong.
+  ///
+  /// In ar, this message translates to:
+  /// **'{hours, plural, =1{أقصى مدة للحجز ساعة واحدة.} =2{أقصى مدة للحجز ساعتين.} other{أقصى مدة للحجز {hours} ساعات.}}'**
+  String bookingFailRangeTooLong(int hours);
+
+  /// No description provided for @bookingFailRangeTooLongGeneric.
+  ///
+  /// In ar, this message translates to:
+  /// **'النطاق أطول من المسموح.'**
+  String get bookingFailRangeTooLongGeneric;
+
+  /// No description provided for @bookingFailOverlap.
+  ///
+  /// In ar, this message translates to:
+  /// **'عندك حجز في نفس الوقت: {facility}، {when}.'**
+  String bookingFailOverlap(String facility, String when);
+
+  /// No description provided for @bookingFailOverlapGeneric.
+  ///
+  /// In ar, this message translates to:
+  /// **'عندك حجز تاني في نفس الوقت.'**
+  String get bookingFailOverlapGeneric;
+
+  /// No description provided for @bookingFailTooMany.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{وصلت للحد الأقصى: حجز نشط واحد.} =2{وصلت للحد الأقصى: حجزين نشطين.} other{وصلت للحد الأقصى: {count} حجوزات نشطة.}}'**
+  String bookingFailTooMany(int count);
+
+  /// No description provided for @bookingFailTooManyGeneric.
+  ///
+  /// In ar, this message translates to:
+  /// **'وصلت للحد الأقصى للحجوزات النشطة.'**
+  String get bookingFailTooManyGeneric;
+
+  /// No description provided for @bookingFailNotPermitted.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحساب ده مش مسموحله يحجز.'**
+  String get bookingFailNotPermitted;
+
+  /// No description provided for @bookingFailNotFound.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنشأة أو الميعاد مش متاحين دلوقتي.'**
+  String get bookingFailNotFound;
+
+  /// No description provided for @bookingFailGeneric.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز متمّش. المحاولة تاني ممكنة.'**
+  String get bookingFailGeneric;
+
+  /// No description provided for @bookingSummaryTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملخص الحجز'**
+  String get bookingSummaryTitle;
+
+  /// No description provided for @bookingRowFacility.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنشأة'**
+  String get bookingRowFacility;
+
+  /// No description provided for @bookingRowUnit.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوحدة'**
+  String get bookingRowUnit;
+
+  /// No description provided for @bookingRowDate.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوم'**
+  String get bookingRowDate;
+
+  /// No description provided for @bookingRowTime.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوقت'**
+  String get bookingRowTime;
+
+  /// No description provided for @bookingRowLength.
+  ///
+  /// In ar, this message translates to:
+  /// **'المدة'**
+  String get bookingRowLength;
+
+  /// No description provided for @bookingRowCoverage.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز يشمل'**
+  String get bookingRowCoverage;
+
+  /// No description provided for @bookingRowTrainer.
+  ///
+  /// In ar, this message translates to:
+  /// **'المدرب'**
+  String get bookingRowTrainer;
+
+  /// No description provided for @bookingRowTier.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشريحة'**
+  String get bookingRowTier;
+
+  /// No description provided for @bookingRowPrice.
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر'**
+  String get bookingRowPrice;
+
+  /// No description provided for @bookingRowPolicy.
+  ///
+  /// In ar, this message translates to:
+  /// **'سياسة الإلغاء'**
+  String get bookingRowPolicy;
+
+  /// No description provided for @bookingCoverageWhole.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوحدة كلها'**
+  String get bookingCoverageWhole;
+
+  /// No description provided for @bookingCoverageWholeMax.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{الوحدة كلها، لمشارك واحد} =2{الوحدة كلها، لحد مشاركين} other{الوحدة كلها، لحد {count} مشارك}}'**
+  String bookingCoverageWholeMax(int count);
+
+  /// No description provided for @bookingCoverageOnePlace.
+  ///
+  /// In ar, this message translates to:
+  /// **'مكان واحد'**
+  String get bookingCoverageOnePlace;
+
+  /// No description provided for @bookingSessionLength.
+  ///
+  /// In ar, this message translates to:
+  /// **'حصة {minutes} دقيقة'**
+  String bookingSessionLength(int minutes);
+
+  /// No description provided for @bookingPolicyCutoff.
+  ///
+  /// In ar, this message translates to:
+  /// **'{hours, plural, =0{الإلغاء متاح لحد وقت الميعاد.} =1{الإلغاء متاح لحد ساعة قبل الميعاد.} =2{الإلغاء متاح لحد ساعتين قبل الميعاد.} other{الإلغاء متاح لحد {hours} ساعات قبل الميعاد.}}'**
+  String bookingPolicyCutoff(int hours);
+
+  /// No description provided for @bookingPolicyRefundFull.
+  ///
+  /// In ar, this message translates to:
+  /// **'المبلغ بيرجع كامل.'**
+  String get bookingPolicyRefundFull;
+
+  /// No description provided for @bookingPolicyRefundPartial.
+  ///
+  /// In ar, this message translates to:
+  /// **'بيرجع {percent}% من المبلغ.'**
+  String bookingPolicyRefundPartial(int percent);
+
+  /// No description provided for @bookingPolicyRefundNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'المبلغ مش بيرجع.'**
+  String get bookingPolicyRefundNone;
+
+  /// No description provided for @bookingVerifyHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'توثيق الحساب بيدّي سعر الطلاب والعاملين.'**
+  String get bookingVerifyHint;
+
+  /// No description provided for @bookingVerifyAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب توثيق'**
+  String get bookingVerifyAction;
+
+  /// No description provided for @bookingVerifyPending.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب التوثيق قيد المراجعة. السعر الداخلي بيسري على الحجوزات الجديدة بعد الموافقة.'**
+  String get bookingVerifyPending;
+
+  /// No description provided for @bookingPriceChanged.
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر اتغيّر عن اللي ظهر في المواعيد. ده السعر الحالي.'**
+  String get bookingPriceChanged;
+
+  /// No description provided for @bookingPayAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة للدفع'**
+  String get bookingPayAction;
+
+  /// No description provided for @bookingConfirmAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد الحجز'**
+  String get bookingConfirmAction;
+
+  /// No description provided for @bookingFreeNoPayment.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز مجاني ومفيش خطوة دفع.'**
+  String get bookingFreeNoPayment;
+
+  /// No description provided for @bookingCheckoutSoonTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع قريبًا'**
+  String get bookingCheckoutSoonTitle;
+
+  /// No description provided for @bookingCheckoutSoonBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'خطوة الدفع هتتضاف قريب. اختيارك محفوظ في الملخص.'**
+  String get bookingCheckoutSoonBody;
+
+  /// No description provided for @bookingBackToSummary.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرجوع للملخص'**
+  String get bookingBackToSummary;
+
+  /// No description provided for @bookingDoneTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز اتأكد'**
+  String get bookingDoneTitle;
+
+  /// No description provided for @bookingDoneBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز متسجل على حسابك، وهيظهر في الرئيسية.'**
+  String get bookingDoneBody;
+
+  /// No description provided for @bookingDoneCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الحجز'**
+  String get bookingDoneCode;
+
+  /// No description provided for @bookingDoneHome.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرجوع للرئيسية'**
+  String get bookingDoneHome;
+
+  /// No description provided for @bookingDoneNotFoundTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز مش موجود'**
+  String get bookingDoneNotFoundTitle;
+
+  /// No description provided for @bookingDoneNotFoundBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'ممكن يكون اللينك غلط أو الحجز تبع حساب تاني.'**
+  String get bookingDoneNotFoundBody;
+
+  /// No description provided for @bookingTrainerStepTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار المدرب'**
+  String get bookingTrainerStepTitle;
+
+  /// No description provided for @bookingTrainerStepBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'المواعيد بتظهر بعد اختيار المدرب.'**
+  String get bookingTrainerStepBody;
+
+  /// No description provided for @bookingTrainerHasSessions.
+  ///
+  /// In ar, this message translates to:
+  /// **'عنده حصص في الأيام الجاية'**
+  String get bookingTrainerHasSessions;
+
+  /// No description provided for @bookingTrainerNoSessions.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش حصص في الأيام الجاية'**
+  String get bookingTrainerNoSessions;
+
+  /// No description provided for @bookingTrainerNoName.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدرب'**
+  String get bookingTrainerNoName;
+
+  /// No description provided for @bookingTrainerChange.
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيير المدرب'**
+  String get bookingTrainerChange;
+
+  /// No description provided for @bookingTrainerChosen.
+  ///
+  /// In ar, this message translates to:
+  /// **'المدرب: {name}'**
+  String bookingTrainerChosen(String name);
+
+  /// No description provided for @bookingNoTrainersTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش مدربين متاحين'**
+  String get bookingNoTrainersTitle;
+
+  /// No description provided for @bookingNoTrainersBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنشأة دي لسه ملهاش مدربين للحجز.'**
+  String get bookingNoTrainersBody;
+
+  /// No description provided for @bookingTrainerNoSessionsBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'المدرب ده ملوش حصص في الأيام الجاية.'**
+  String get bookingTrainerNoSessionsBody;
+
+  /// No description provided for @bookingTrainerRowSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'المدرب {name}، {bio}، {sessions}'**
+  String bookingTrainerRowSpoken(String name, String bio, String sessions);
 
   /// Splash screen tagline under the wordmark (proposed copy, not yet in copy-review)
   ///

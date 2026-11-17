@@ -75,4 +75,16 @@ abstract final class SprintExtras {
   /// One tick of a visible countdown (resend code). A clock step, not
   /// motion, so it is not a `SprintMotion` token.
   static const Duration countdownTick = Duration(seconds: 1);
+
+  /// Booking schedule (feature 005): the side panel on wide windows, and the
+  /// narrowest pane that still has room for it beside the slot grid.
+  static const double bookingPanelWidth = 200;
+  static const double bookingPanelMinPaneWidth = 480;
+
+  /// From this text scale the booking bar stacks its text above its action
+  /// instead of beside it, so large text never squeezes either.
+  static const double bookingBarStackTextScale = 1.3;
+
+  /// How many slot-shaped skeletons the schedule shows while it loads.
+  static const int bookingSkeletonChips = 8;
 }

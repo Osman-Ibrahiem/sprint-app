@@ -1,3 +1,4 @@
+import 'package:sprint/core/seed/seed_booking_extras.dart';
 import 'package:sprint/core/seed/seed_bookings.dart';
 import 'package:sprint/core/seed/seed_catalogue_extras.dart';
 import 'package:sprint/core/seed/seed_misc.dart';
@@ -63,6 +64,7 @@ class SeedData {
 
   factory SeedData.build(DateTime now) {
     final set = seedBookings(now);
+    final extra = seedBookingExtras(now);
     return SeedData(
       owningUnits: seedOwningUnits,
       facilities: seedFacilities,
@@ -76,8 +78,8 @@ class SeedData {
       users: seedUsers,
       verifications: seedVerifications(now),
       roleAssignments: seedRoleAssignments(),
-      bookings: set.bookings,
-      payments: set.payments,
+      bookings: [...set.bookings, ...extra.bookings],
+      payments: [...set.payments, ...extra.payments],
       refunds: set.refunds,
       attendance: set.attendance,
       notifications: seedNotifications(now),

@@ -219,4 +219,82 @@ void main() {
       expect(check(proposal(), done, s: settings(maxActive: 1)), isNull);
     });
   });
+  group('ranges are checked slot by slot (BR-08, research R7a)', () {
+    final eleven = cairo(2026, 11, 14, 11);
+    final twelve = cairo(2026, 11, 14, 12);
+
+    BookingProposal range({String? trainerId}) => BookingProposal(
+          userId: 'me',
+          unitId: 'u1',
+          start: nine,
+          end: twelve,
+          slotMinutes: 60,
+          trainerId: trainerId,
+        );
+
+    test('a shared range is accepted while every hour has a place', () {
+      final existing = [
+        booking(userId: 'a', start: nine),
+        booking(userId: 'b', start: eleven),
+      ];
+      expect(
+        check(range(), existing,
+            s: settings(mode: BookingMode.shared, capacity: 2)),
+        isNull,
+      );
+    });
+
+    test('a full hour inside a shared range is named', () {
+      final existing = [
+        booking(userId: 'a', start: ten),
+        booking(userId: 'b', start: ten),
+      ];
+      final f = check(range(), existing,
+          s: settings(mode: BookingMode.shared, capacity: 2));
+      expect(f, isA<SlotFull>());
+      expect((f! as SlotFull).at, ten);
+    });
+
+    test('a taken hour inside an exclusive range is named', () {
+      final f = check(range(), [booking(userId: 'a', start: eleven)]);
+      expect(f, isA<SlotTaken>());
+      expect((f! as SlotTaken).at, eleven);
+    });
+
+    test('trainer capacity is checked per slot too', () {
+      final existing = [
+        booking(userId: 'a', start: nine, trainerId: 't1'),
+        booking(userId: 'b', start: eleven, trainerId: 't1'),
+      ];
+      final s = settings(mode: BookingMode.shared, capacity: 6);
+      expect(
+        check(range(trainerId: 't1'), existing, s: s, trainerCapacity: 2),
+        isNull,
+      );
+      final f = check(
+        range(trainerId: 't1'),
+        [...existing, booking(userId: 'c', start: eleven, trainerId: 't1')],
+        s: s,
+        trainerCapacity: 2,
+      );
+      expect(f, isA<SlotFull>());
+      expect((f! as SlotFull).at, eleven);
+    });
+  });
+
+  group('refusals carry their detail (research R6)', () {
+    test('the overlapping booking is named', () {
+      final mine = booking(id: 'mine-1', userId: 'me', unitId: 'other', start: nine);
+      final f = check(proposal(), [mine]);
+      expect(f, isA<OverlapsOwnBooking>());
+      expect((f! as OverlapsOwnBooking).bookingId, 'mine-1');
+    });
+
+    test('the cap is stated', () {
+      final mine = booking(userId: 'me', unitId: 'p1', start: cairo(2026, 11, 20, 9));
+      final f = check(proposal(), [mine], s: settings(maxActive: 1));
+      expect(f, isA<TooManyActiveBookings>());
+      expect((f! as TooManyActiveBookings).max, 1);
+    });
+  });
 }

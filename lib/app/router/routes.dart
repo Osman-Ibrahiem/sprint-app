@@ -6,9 +6,14 @@ import 'package:sprint/app/shell/placeholders/bookings_placeholder.dart';
 import 'package:sprint/app/shell/placeholders/no_access_screen.dart';
 import 'package:sprint/app/shell/placeholders/profile_placeholder.dart';
 import 'package:sprint/core/providers/session_provider.dart';
+import 'package:sprint/features/booking/domain/schedule_selection.dart';
+import 'package:sprint/features/booking/presentation/checkout/checkout_coming_soon_screen.dart';
+import 'package:sprint/features/booking/presentation/done/booking_done_screen.dart';
+import 'package:sprint/features/booking/presentation/schedule/schedule_screen.dart';
+import 'package:sprint/features/booking/presentation/summary/booking_summary_screen.dart';
 import 'package:sprint/features/catalogue/domain/facility_link.dart';
-import 'package:sprint/features/catalogue/presentation/details/schedule_coming_soon_screen.dart';
 import 'package:sprint/features/catalogue/presentation/facilities/facilities_screen.dart';
+import 'package:sprint/features/catalogue/presentation/facilities/facility_not_found.dart';
 import 'package:sprint/features/catalogue/presentation/home/home_screen.dart';
 import 'package:sprint/features/identity/domain/app_section.dart';
 import 'package:sprint/features/verification/presentation/verification_request_screen.dart';
@@ -77,8 +82,34 @@ abstract final class AppPaths {
   ).toString();
   static String facilityDetails(String id) => FacilityLink.path(id);
 
-  static String facilitySchedule(String id) =>
-      '${FacilityLink.path(id)}/schedule';
+  /// The schedule of a facility, with the selection in the address
+  /// (contracts/routes.md). Built only through [ScheduleSelection.toQuery].
+  static String facilitySchedule(String id, [ScheduleSelection? selection]) =>
+      _withQuery('${FacilityLink.path(id)}/schedule', selection?.toQuery());
+
+  /// The booking summary; [shown] is the amount the schedule displayed.
+  static String bookingSummary(
+    String id,
+    ScheduleSelection selection, {
+    int? shown,
+  }) => _withQuery('${FacilityLink.path(id)}/schedule/summary', {
+    ...selection.toQuery(),
+    if (shown != null) 'shown': '$shown',
+  });
+
+  static String bookingCheckout(String id, ScheduleSelection selection) =>
+      _withQuery(
+        '${FacilityLink.path(id)}/schedule/checkout',
+        selection.toQuery(),
+      );
+
+  static String bookingDone(String id, String bookingId) =>
+      '${FacilityLink.path(id)}/schedule/done/$bookingId';
+
+  static String _withQuery(String path, Map<String, String>? query) =>
+      query == null || query.isEmpty
+      ? path
+      : Uri(path: path, queryParameters: query).toString();
 }
 
 /// Route names.
@@ -101,6 +132,9 @@ abstract final class AppRouteNames {
   static const demoMailbox = 'demoMailbox';
   static const facilityDetails = 'facilityDetails';
   static const facilitySchedule = 'facilitySchedule';
+  static const bookingSummary = 'bookingSummary';
+  static const bookingCheckout = 'bookingCheckout';
+  static const bookingDone = 'bookingDone';
 }
 
 /// Marks an auth route pushed on top of a screen by the account gate
@@ -140,6 +174,7 @@ class GatedRoute extends GoRoute {
     required Widget Function(BuildContext, GoRouterState) builder,
     this.access = RouteAccess.open,
     super.routes,
+    super.redirect,
   }) : super(
          builder: (context, state) => access.requiredSection == null
              ? builder(context, state)
@@ -212,16 +247,84 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
       GoRoute(
         path: ':id',
         name: AppRouteNames.facilityDetails,
-        builder: (context, state) => FacilitiesScreen(
-          selectedId: state.pathParameters['id'],
-        ),
+        builder: (context, state) =>
+            FacilitiesScreen(selectedId: state.pathParameters['id']),
         routes: [
           GoRoute(
             path: 'schedule',
             name: AppRouteNames.facilitySchedule,
-            builder: (context, state) => ScheduleComingSoonScreen(
-              facilityId: state.pathParameters['id']!,
-            ),
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              final selection = ScheduleSelection.fromQuery(
+                state.uri.queryParameters,
+              );
+              return FacilitiesScreen(
+                selectedId: id,
+                paneBuilder: (_) => ScheduleScreen(
+                  facilityId: id,
+                  selection: selection,
+                  notFound: (_) => const FacilityNotFound(),
+                ),
+              );
+            },
+            routes: [
+              // The next three need an account; a guest is sent to sign in
+              // and back to the same location (contracts/routes.md).
+              GatedRoute(
+                path: 'summary',
+                name: AppRouteNames.bookingSummary,
+                access: const RouteAccess(requiresAccount: true),
+                redirect: _needsCompleteSelection,
+                builder: (context, state) {
+                  final id = state.pathParameters['id']!;
+                  return FacilitiesScreen(
+                    selectedId: id,
+                    paneBuilder: (_) => BookingSummaryScreen(
+                      facilityId: id,
+                      selection: ScheduleSelection.fromQuery(
+                        state.uri.queryParameters,
+                      ),
+                      shown: int.tryParse(
+                        state.uri.queryParameters['shown'] ?? '',
+                      ),
+                    ),
+                  );
+                },
+              ),
+              GatedRoute(
+                path: 'checkout',
+                name: AppRouteNames.bookingCheckout,
+                access: const RouteAccess(requiresAccount: true),
+                redirect: _needsCompleteSelection,
+                builder: (context, state) {
+                  final id = state.pathParameters['id']!;
+                  return FacilitiesScreen(
+                    selectedId: id,
+                    paneBuilder: (_) => CheckoutComingSoonScreen(
+                      facilityId: id,
+                      selection: ScheduleSelection.fromQuery(
+                        state.uri.queryParameters,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              GatedRoute(
+                path: 'done/:bookingId',
+                name: AppRouteNames.bookingDone,
+                access: const RouteAccess(requiresAccount: true),
+                builder: (context, state) {
+                  final id = state.pathParameters['id']!;
+                  return FacilitiesScreen(
+                    selectedId: id,
+                    paneBuilder: (_) => BookingDoneScreen(
+                      facilityId: id,
+                      bookingId: state.pathParameters['bookingId']!,
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),
@@ -253,3 +356,11 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
     ],
   ),
 ];
+
+/// `summary` and `checkout` need a whole selection; without one the person is
+/// sent to the schedule with whatever is valid (contracts/routes.md).
+String? _needsCompleteSelection(BuildContext context, GoRouterState state) {
+  final selection = ScheduleSelection.fromQuery(state.uri.queryParameters);
+  if (selection.isComplete) return null;
+  return AppPaths.facilitySchedule(state.pathParameters['id']!, selection);
+}
