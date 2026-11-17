@@ -5,13 +5,20 @@ import 'package:sprint/core/theme/sprint_theme.dart';
 import 'package:sprint/core/tokens/sprint_colors.g.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
-Widget _app({required ThemeData theme, bool reduced = false}) => MaterialApp(
+Widget _app({
+  required ThemeData theme,
+  bool reduced = false,
+  Brightness? system,
+}) => MaterialApp(
   theme: theme,
   locale: const Locale('ar'),
   supportedLocales: AppLocalizations.supportedLocales,
   localizationsDelegates: AppLocalizations.localizationsDelegates,
   builder: (context, child) => MediaQuery(
-    data: MediaQuery.of(context).copyWith(disableAnimations: reduced),
+    data: MediaQuery.of(context).copyWith(
+      disableAnimations: reduced,
+      platformBrightness: system ?? theme.brightness,
+    ),
     child: SprintSplashGate(
       hold: const Duration(milliseconds: 100),
       child: child!,
@@ -77,5 +84,27 @@ void main() {
     expect(tagline.opacity, 1);
     await tester.pumpAndSettle();
     expect(find.byType(SprintSplash), findsNothing);
+  });
+
+  testWidgets('splash follows the system brightness, not the in-app theme', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _app(theme: SprintTheme.dark, system: Brightness.light),
+    );
+    await tester.pump();
+    expect(
+      tester
+          .widget<ColoredBox>(
+            find
+                .descendant(
+                  of: find.byType(SprintSplash),
+                  matching: find.byType(ColoredBox),
+                )
+                .first,
+          )
+          .color,
+      SprintColors.light.primary,
+    );
   });
 }

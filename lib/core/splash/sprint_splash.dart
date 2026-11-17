@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -88,8 +89,13 @@ class SprintSplash extends StatefulWidget {
   final VoidCallback? onDone;
 
   static const double boltSize = 88;
+
+  /// Step 1 stays this long before the move (600ms, as in the Figma notes).
+  static final Duration nativeHold =
+      SprintMotion.durationSlow + SprintMotion.durationBase;
+
   static const double _boltRise = 86; // centre -> step 3 position
-  static const double _wordmarkGap = 16; // bolt bottom -> wordmark top
+  static const double _wordmarkGap = 20; // bolt bottom -> wordmark top
   static const double _taglineGap = 4;
   static const double _laneHeight = 6;
   static const double _laneGap = 8;
@@ -97,6 +103,9 @@ class SprintSplash extends StatefulWidget {
   static const double _laneTravel = 8;
   static const double _loaderBottom = 116; // loader above the screen bottom
   static const double _captionBottom = 74; // caption above the screen bottom
+  static const double _captionBottomWide = 32;
+  static const double _loaderBottomWide = 72;
+  static const double _wideFrom = 600; // medium window class
 
   static const markAsset = 'docs/design-system/logo/sprint-mark.svg';
 
@@ -119,6 +128,7 @@ class _SprintSplashState extends State<SprintSplash>
     vsync: this,
     duration: SprintMotion.durationPulse,
   );
+  Timer? _timer;
   bool _started = false;
   bool _reduced = false;
 
@@ -133,18 +143,22 @@ class _SprintSplashState extends State<SprintSplash>
       _scheduleDone();
     } else {
       _loader.repeat();
-      _intro.forward().whenComplete(_scheduleDone);
+      // Step 1 (the native look) stays for a moment before the bolt rises.
+      _timer = Timer(SprintSplash.nativeHold, () {
+        _intro.forward().whenComplete(_scheduleDone);
+      });
     }
   }
 
   void _scheduleDone() {
     final done = widget.onDone;
     if (done == null) return;
-    Future<void>.delayed(widget.hold ?? Duration.zero, done);
+    _timer = Timer(widget.hold ?? Duration.zero, done);
   }
 
   @override
   void dispose() {
+    _timer?.cancel();
     _intro.dispose();
     _loader.dispose();
     super.dispose();
@@ -159,10 +173,13 @@ class _SprintSplashState extends State<SprintSplash>
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
     final l10n = AppLocalizations.of(context);
-    final light = Theme.of(context).brightness == Brightness.light;
-    final bg = SprintSplash.backgroundFor(Theme.of(context).brightness, colors);
+    // The native launch screen follows the system setting, so the splash does
+    // too (not the saved in-app override); otherwise the colour jumps.
+    final brightness = MediaQuery.platformBrightnessOf(context);
+    final light = brightness == Brightness.light;
+    final colors = light ? SprintColors.light : SprintColors.dark;
+    final bg = SprintSplash.backgroundFor(brightness, colors);
     final main = light ? colors.onPrimary : colors.ink;
     final soft = light ? colors.onPrimarySoft : colors.inkMuted;
     final text = SprintTextStyles(main);
@@ -172,6 +189,7 @@ class _SprintSplashState extends State<SprintSplash>
       child: LayoutBuilder(
         builder: (context, box) {
           final centerY = box.maxHeight / 2;
+          final wide = box.maxWidth >= SprintSplash._wideFrom;
           final top3 =
               centerY - SprintSplash.boltSize / 2 - SprintSplash._boltRise;
           return AnimatedBuilder(
@@ -194,7 +212,8 @@ class _SprintSplashState extends State<SprintSplash>
               final wordmarkTop =
                   top3 + SprintSplash.boltSize + SprintSplash._wordmarkGap;
               // The wordmark starts at 40% and settles 10px lower than step 3.
-              final wordmarkOpacity = 0.4 + 0.6 * move;
+              final wordmarkOpacity =
+                  math.min(1.0, move * 8) * 0.4 + 0.6 * move;
               final wordmarkShift = 10 * (1 - move);
               return Stack(
                 children: [
@@ -241,7 +260,10 @@ class _SprintSplashState extends State<SprintSplash>
                     ),
                   ),
                   Positioned(
-                    bottom: SprintSplash._loaderBottom,
+                    // Always at the bottom, above the caption (Osman's call).
+                    bottom: wide
+                        ? SprintSplash._loaderBottomWide
+                        : SprintSplash._loaderBottom,
                     left: 0,
                     right: 0,
                     child: Opacity(
@@ -252,7 +274,9 @@ class _SprintSplashState extends State<SprintSplash>
                     ),
                   ),
                   Positioned(
-                    bottom: SprintSplash._captionBottom,
+                    bottom: wide
+                        ? SprintSplash._captionBottomWide
+                        : SprintSplash._captionBottom,
                     left: 0,
                     right: 0,
                     child: Opacity(
@@ -283,7 +307,7 @@ class _LaneLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final volt = context.colors.volt;
+    final volt = SprintColors.light.volt; // the bolt is volt in both themes
     return SizedBox(
       width: SprintSplash._laneWidths.first,
       height: SprintSplash._laneHeight * 3 + SprintSplash._laneGap * 2,
