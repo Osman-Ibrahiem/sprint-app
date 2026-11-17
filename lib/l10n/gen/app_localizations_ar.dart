@@ -1606,16 +1606,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get catalogueScheduleAction => 'عرض المواعيد';
 
   @override
-  String get catalogueScheduleSoonTitle => 'قريبًا';
-
-  @override
-  String get catalogueScheduleSoonBody =>
-      'مواعيد الـ 7 أيام الجاية هتظهر هنا قريب.';
-
-  @override
-  String get catalogueScheduleSoonBack => 'رجوع للمنشأة';
-
-  @override
   String get catalogueUpcomingTitle => 'حجوزاتك الجاية';
 
   @override
@@ -1657,5 +1647,363 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String catalogueShareText(String name) {
     return 'شوف $name على سبرنت';
+  }
+
+  @override
+  String get bookingScheduleHeading => 'المواعيد';
+
+  @override
+  String get bookingRefreshAction => 'تحديث المواعيد';
+
+  @override
+  String get bookingContinue => 'متابعة';
+
+  @override
+  String get bookingUnitLabel => 'الوحدة';
+
+  @override
+  String bookingUnitHasPlaces(String unit) {
+    return '$unit، فيه أماكن';
+  }
+
+  @override
+  String bookingUnitNoPlaces(String unit) {
+    return '$unit، مفيش أماكن في اليوم ده';
+  }
+
+  @override
+  String get bookingNothingLeftDay =>
+      'مفيش مواعيد فاضلة في اليوم ده، وفيه أيام تانية متاحة.';
+
+  @override
+  String get bookingNothingLeftWindow => 'مفيش مواعيد فاضلة في الأيام الجاية.';
+
+  @override
+  String get bookingNoUnitsTitle => 'مفيش مواعيد للحجز';
+
+  @override
+  String get bookingNoUnitsBody =>
+      'المنشأة دي ملهاش مواعيد متاحة للحجز دلوقتي.';
+
+  @override
+  String get bookingBackToFacility => 'الرجوع للمنشأة';
+
+  @override
+  String get bookingErrorTitle => 'المواعيد متحمّلتش';
+
+  @override
+  String get bookingErrorBody => 'ممكن تكون مشكلة مؤقتة.';
+
+  @override
+  String get bookingRetry => 'إعادة المحاولة';
+
+  @override
+  String get bookingChoiceGone =>
+      'الاختيار اللي فات مبقاش متاح، فدي أقرب مواعيد متاحة.';
+
+  @override
+  String get bookingNoticeDismiss => 'إغلاق الرسالة';
+
+  @override
+  String bookingRangeHint(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'الحجز بأول ساعة وآخر ساعة، لحد $hours ساعات متتالية',
+      two: 'الحجز بأول ساعة وآخر ساعة، لحد ساعتين متتاليتين',
+      one: 'الحجز هنا ساعة واحدة في المرة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bookingLengthHours(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours ساعات',
+      two: 'ساعتين',
+      one: 'ساعة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bookingLengthMinutes(int minutes) {
+    return '$minutes دقيقة';
+  }
+
+  @override
+  String bookingTimeWithLength(String time, String length) {
+    return '$time، $length';
+  }
+
+  @override
+  String get bookingFree => 'مجاني';
+
+  @override
+  String get bookingPanelTitle => 'اختيارك';
+
+  @override
+  String get bookingSelectionPrompt => 'لسه مفيش ميعاد مختار';
+
+  @override
+  String get bookingGateReason => 'عشان تحجز';
+
+  @override
+  String bookingPriceWithBasis(String price, String basis) {
+    return '$price $basis';
+  }
+
+  @override
+  String get bookingFailSlotTaken =>
+      'الميعاد ده اتحجز لسه. فيه مواعيد تانية متاحة.';
+
+  @override
+  String bookingFailSlotTakenAt(String time) {
+    return 'الساعة $time اتحجزت لسه، فالنطاق ده مش متاح.';
+  }
+
+  @override
+  String get bookingFailSlotFull =>
+      'الميعاد ده اكتمل لسه. فيه مواعيد تانية متاحة.';
+
+  @override
+  String bookingFailSlotFullAt(String time) {
+    return 'الساعة $time مكتملة، فالنطاق ده مش متاح.';
+  }
+
+  @override
+  String get bookingFailSlotPast => 'وقت الميعاد ده فات.';
+
+  @override
+  String get bookingFailOutsideWindow => 'الحجز متاح للأيام القريبة بس.';
+
+  @override
+  String get bookingFailClosed => 'الميعاد ده مش متاح.';
+
+  @override
+  String bookingFailClosedAt(String time) {
+    return 'الساعة $time مش متاحة، فالنطاق ده مش متاح.';
+  }
+
+  @override
+  String bookingFailRangeTooLong(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'أقصى مدة للحجز $hours ساعات.',
+      two: 'أقصى مدة للحجز ساعتين.',
+      one: 'أقصى مدة للحجز ساعة واحدة.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bookingFailRangeTooLongGeneric => 'النطاق أطول من المسموح.';
+
+  @override
+  String bookingFailOverlap(String facility, String when) {
+    return 'عندك حجز في نفس الوقت: $facility، $when.';
+  }
+
+  @override
+  String get bookingFailOverlapGeneric => 'عندك حجز تاني في نفس الوقت.';
+
+  @override
+  String bookingFailTooMany(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'وصلت للحد الأقصى: $count حجوزات نشطة.',
+      two: 'وصلت للحد الأقصى: حجزين نشطين.',
+      one: 'وصلت للحد الأقصى: حجز نشط واحد.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bookingFailTooManyGeneric => 'وصلت للحد الأقصى للحجوزات النشطة.';
+
+  @override
+  String get bookingFailNotPermitted => 'الحساب ده مش مسموحله يحجز.';
+
+  @override
+  String get bookingFailNotFound => 'المنشأة أو الميعاد مش متاحين دلوقتي.';
+
+  @override
+  String get bookingFailGeneric => 'الحجز متمّش. المحاولة تاني ممكنة.';
+
+  @override
+  String get bookingSummaryTitle => 'ملخص الحجز';
+
+  @override
+  String get bookingRowFacility => 'المنشأة';
+
+  @override
+  String get bookingRowUnit => 'الوحدة';
+
+  @override
+  String get bookingRowDate => 'اليوم';
+
+  @override
+  String get bookingRowTime => 'الوقت';
+
+  @override
+  String get bookingRowLength => 'المدة';
+
+  @override
+  String get bookingRowCoverage => 'الحجز يشمل';
+
+  @override
+  String get bookingRowTrainer => 'المدرب';
+
+  @override
+  String get bookingRowTier => 'الشريحة';
+
+  @override
+  String get bookingRowPrice => 'السعر';
+
+  @override
+  String get bookingRowPolicy => 'سياسة الإلغاء';
+
+  @override
+  String get bookingCoverageWhole => 'الوحدة كلها';
+
+  @override
+  String bookingCoverageWholeMax(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'الوحدة كلها، لحد $count مشارك',
+      two: 'الوحدة كلها، لحد مشاركين',
+      one: 'الوحدة كلها، لمشارك واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bookingCoverageOnePlace => 'مكان واحد';
+
+  @override
+  String bookingSessionLength(int minutes) {
+    return 'حصة $minutes دقيقة';
+  }
+
+  @override
+  String bookingPolicyCutoff(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'الإلغاء متاح لحد $hours ساعات قبل الميعاد.',
+      two: 'الإلغاء متاح لحد ساعتين قبل الميعاد.',
+      one: 'الإلغاء متاح لحد ساعة قبل الميعاد.',
+      zero: 'الإلغاء متاح لحد وقت الميعاد.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bookingPolicyRefundFull => 'المبلغ بيرجع كامل.';
+
+  @override
+  String bookingPolicyRefundPartial(int percent) {
+    return 'بيرجع $percent% من المبلغ.';
+  }
+
+  @override
+  String get bookingPolicyRefundNone => 'المبلغ مش بيرجع.';
+
+  @override
+  String get bookingVerifyHint => 'توثيق الحساب بيدّي سعر الطلاب والعاملين.';
+
+  @override
+  String get bookingVerifyAction => 'طلب توثيق';
+
+  @override
+  String get bookingVerifyPending =>
+      'طلب التوثيق قيد المراجعة. السعر الداخلي بيسري على الحجوزات الجديدة بعد الموافقة.';
+
+  @override
+  String get bookingPriceChanged =>
+      'السعر اتغيّر عن اللي ظهر في المواعيد. ده السعر الحالي.';
+
+  @override
+  String get bookingPayAction => 'متابعة للدفع';
+
+  @override
+  String get bookingConfirmAction => 'تأكيد الحجز';
+
+  @override
+  String get bookingConfirming => 'جاري التأكيد';
+
+  @override
+  String get bookingFreeNoPayment => 'الحجز مجاني ومفيش خطوة دفع.';
+
+  @override
+  String get bookingCheckoutSoonTitle => 'الدفع قريبًا';
+
+  @override
+  String get bookingCheckoutSoonBody =>
+      'خطوة الدفع هتتضاف قريب. اختيارك محفوظ في الملخص.';
+
+  @override
+  String get bookingBackToSummary => 'الرجوع للملخص';
+
+  @override
+  String get bookingDoneTitle => 'الحجز اتأكد';
+
+  @override
+  String get bookingDoneBody => 'الحجز متسجل على حسابك، وهيظهر في الرئيسية.';
+
+  @override
+  String get bookingDoneCode => 'رقم الحجز';
+
+  @override
+  String get bookingDoneHome => 'الرجوع للرئيسية';
+
+  @override
+  String get bookingDoneNotFoundTitle => 'الحجز مش موجود';
+
+  @override
+  String get bookingDoneNotFoundBody =>
+      'ممكن يكون اللينك غلط أو الحجز تبع حساب تاني.';
+
+  @override
+  String get bookingTrainerStepTitle => 'اختيار المدرب';
+
+  @override
+  String get bookingTrainerStepBody => 'المواعيد بتظهر بعد اختيار المدرب.';
+
+  @override
+  String get bookingTrainerHasSessions => 'عنده حصص في الأيام الجاية';
+
+  @override
+  String get bookingTrainerNoSessions => 'مفيش حصص في الأيام الجاية';
+
+  @override
+  String get bookingTrainerNoName => 'مدرب';
+
+  @override
+  String get bookingTrainerChange => 'تغيير المدرب';
+
+  @override
+  String bookingTrainerChosen(String name) {
+    return 'المدرب: $name';
+  }
+
+  @override
+  String get bookingNoTrainersTitle => 'مفيش مدربين متاحين';
+
+  @override
+  String get bookingNoTrainersBody => 'المنشأة دي لسه ملهاش مدربين للحجز.';
+
+  @override
+  String get bookingTrainerNoSessionsBody =>
+      'المدرب ده ملوش حصص في الأيام الجاية.';
+
+  @override
+  String bookingSessionIn(String time, String unit) {
+    return '$time، $unit';
   }
 }

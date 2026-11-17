@@ -1619,16 +1619,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get catalogueScheduleAction => 'View times';
 
   @override
-  String get catalogueScheduleSoonTitle => 'Coming soon';
-
-  @override
-  String get catalogueScheduleSoonBody =>
-      'The next 7 days of times will show here soon.';
-
-  @override
-  String get catalogueScheduleSoonBack => 'Back to the facility';
-
-  @override
   String get catalogueUpcomingTitle => 'Your upcoming bookings';
 
   @override
@@ -1671,5 +1661,367 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String catalogueShareText(String name) {
     return 'Check out $name on Sprint';
+  }
+
+  @override
+  String get bookingScheduleHeading => 'Times';
+
+  @override
+  String get bookingRefreshAction => 'Refresh times';
+
+  @override
+  String get bookingContinue => 'Continue';
+
+  @override
+  String get bookingUnitLabel => 'Unit';
+
+  @override
+  String bookingUnitHasPlaces(String unit) {
+    return '$unit, places available';
+  }
+
+  @override
+  String bookingUnitNoPlaces(String unit) {
+    return '$unit, no places that day';
+  }
+
+  @override
+  String get bookingNothingLeftDay =>
+      'Nothing is left on this day. Other days have places.';
+
+  @override
+  String get bookingNothingLeftWindow => 'Nothing is left in the coming days.';
+
+  @override
+  String get bookingNoUnitsTitle => 'No times to book';
+
+  @override
+  String get bookingNoUnitsBody =>
+      'This facility has no bookable times right now.';
+
+  @override
+  String get bookingBackToFacility => 'Back to the facility';
+
+  @override
+  String get bookingErrorTitle => 'The times did not load';
+
+  @override
+  String get bookingErrorBody => 'This may be a temporary problem.';
+
+  @override
+  String get bookingRetry => 'Retry';
+
+  @override
+  String get bookingChoiceGone =>
+      'The earlier choice is no longer available. These are the nearest times.';
+
+  @override
+  String get bookingNoticeDismiss => 'Dismiss message';
+
+  @override
+  String bookingRangeHint(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'Pick the first and last hour, up to $hours hours in a row',
+      one: 'One hour per booking here',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bookingLengthHours(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours hours',
+      one: '1 hour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bookingLengthMinutes(int minutes) {
+    return '$minutes minutes';
+  }
+
+  @override
+  String bookingTimeWithLength(String time, String length) {
+    return '$time, $length';
+  }
+
+  @override
+  String get bookingFree => 'Free';
+
+  @override
+  String get bookingPanelTitle => 'Your choice';
+
+  @override
+  String get bookingSelectionPrompt => 'No time chosen yet';
+
+  @override
+  String get bookingGateReason => 'to book';
+
+  @override
+  String bookingPriceWithBasis(String price, String basis) {
+    return '$price $basis';
+  }
+
+  @override
+  String get bookingFailSlotTaken =>
+      'This time was just booked. Other times are available.';
+
+  @override
+  String bookingFailSlotTakenAt(String time) {
+    return '$time was just booked, so this range is not available.';
+  }
+
+  @override
+  String get bookingFailSlotFull =>
+      'This time is now full. Other times are available.';
+
+  @override
+  String bookingFailSlotFullAt(String time) {
+    return '$time is full, so this range is not available.';
+  }
+
+  @override
+  String get bookingFailSlotPast => 'This time has passed.';
+
+  @override
+  String get bookingFailOutsideWindow =>
+      'Booking is open for the coming days only.';
+
+  @override
+  String get bookingFailClosed => 'This time is not available.';
+
+  @override
+  String bookingFailClosedAt(String time) {
+    return '$time is not available, so this range is not available.';
+  }
+
+  @override
+  String bookingFailRangeTooLong(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'The longest booking is $hours hours.',
+      one: 'The longest booking is 1 hour.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bookingFailRangeTooLongGeneric =>
+      'The range is longer than allowed.';
+
+  @override
+  String bookingFailOverlap(String facility, String when) {
+    return 'You already have a booking then: $facility, $when.';
+  }
+
+  @override
+  String get bookingFailOverlapGeneric =>
+      'You already have another booking at that time.';
+
+  @override
+  String bookingFailTooMany(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'You have reached the limit of $count active bookings.',
+      one: 'You have reached the limit of 1 active booking.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bookingFailTooManyGeneric =>
+      'You have reached the limit of active bookings.';
+
+  @override
+  String get bookingFailNotPermitted => 'This account cannot book.';
+
+  @override
+  String get bookingFailNotFound =>
+      'The facility or the time is not available right now.';
+
+  @override
+  String get bookingFailGeneric =>
+      'The booking did not go through. You can try again.';
+
+  @override
+  String get bookingSummaryTitle => 'Booking summary';
+
+  @override
+  String get bookingRowFacility => 'Facility';
+
+  @override
+  String get bookingRowUnit => 'Unit';
+
+  @override
+  String get bookingRowDate => 'Day';
+
+  @override
+  String get bookingRowTime => 'Time';
+
+  @override
+  String get bookingRowLength => 'Length';
+
+  @override
+  String get bookingRowCoverage => 'The booking covers';
+
+  @override
+  String get bookingRowTrainer => 'Trainer';
+
+  @override
+  String get bookingRowTier => 'Price tier';
+
+  @override
+  String get bookingRowPrice => 'Price';
+
+  @override
+  String get bookingRowPolicy => 'Cancellation policy';
+
+  @override
+  String get bookingCoverageWhole => 'The whole unit';
+
+  @override
+  String bookingCoverageWholeMax(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'The whole unit, up to $count participants',
+      one: 'The whole unit, for 1 participant',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bookingCoverageOnePlace => 'One place';
+
+  @override
+  String bookingSessionLength(int minutes) {
+    return '$minutes-minute session';
+  }
+
+  @override
+  String bookingPolicyCutoff(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'You can cancel up to $hours hours before the start.',
+      one: 'You can cancel up to 1 hour before the start.',
+      zero: 'You can cancel until the start time.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bookingPolicyRefundFull => 'The full amount is refunded.';
+
+  @override
+  String bookingPolicyRefundPartial(int percent) {
+    return '$percent% of the amount is refunded.';
+  }
+
+  @override
+  String get bookingPolicyRefundNone => 'The amount is not refunded.';
+
+  @override
+  String get bookingVerifyHint =>
+      'A verified account gets the student and staff price.';
+
+  @override
+  String get bookingVerifyAction => 'Verification request';
+
+  @override
+  String get bookingVerifyPending =>
+      'Your verification request is under review. The internal price applies to new bookings after approval.';
+
+  @override
+  String get bookingPriceChanged =>
+      'The price changed from what the schedule showed. This is the current price.';
+
+  @override
+  String get bookingPayAction => 'Continue to payment';
+
+  @override
+  String get bookingConfirmAction => 'Confirm booking';
+
+  @override
+  String get bookingConfirming => 'Confirming';
+
+  @override
+  String get bookingFreeNoPayment =>
+      'This booking is free and has no payment step.';
+
+  @override
+  String get bookingCheckoutSoonTitle => 'Payment is coming soon';
+
+  @override
+  String get bookingCheckoutSoonBody =>
+      'The payment step arrives soon. Your choice is kept in the summary.';
+
+  @override
+  String get bookingBackToSummary => 'Back to the summary';
+
+  @override
+  String get bookingDoneTitle => 'Booking confirmed';
+
+  @override
+  String get bookingDoneBody =>
+      'The booking is on your account and shows on home.';
+
+  @override
+  String get bookingDoneCode => 'Booking code';
+
+  @override
+  String get bookingDoneHome => 'Back to home';
+
+  @override
+  String get bookingDoneNotFoundTitle => 'Booking not found';
+
+  @override
+  String get bookingDoneNotFoundBody =>
+      'The link may be wrong, or the booking belongs to another account.';
+
+  @override
+  String get bookingTrainerStepTitle => 'Choosing a trainer';
+
+  @override
+  String get bookingTrainerStepBody => 'Times show after a trainer is chosen.';
+
+  @override
+  String get bookingTrainerHasSessions => 'Has sessions in the coming days';
+
+  @override
+  String get bookingTrainerNoSessions => 'No sessions in the coming days';
+
+  @override
+  String get bookingTrainerNoName => 'Trainer';
+
+  @override
+  String get bookingTrainerChange => 'Change trainer';
+
+  @override
+  String bookingTrainerChosen(String name) {
+    return 'Trainer: $name';
+  }
+
+  @override
+  String get bookingNoTrainersTitle => 'No trainers available';
+
+  @override
+  String get bookingNoTrainersBody =>
+      'This facility has no trainers to book yet.';
+
+  @override
+  String get bookingTrainerNoSessionsBody =>
+      'This trainer has no sessions in the coming days.';
+
+  @override
+  String bookingSessionIn(String time, String unit) {
+    return '$time, $unit';
   }
 }

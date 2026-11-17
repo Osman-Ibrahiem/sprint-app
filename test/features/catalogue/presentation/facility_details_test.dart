@@ -1,6 +1,7 @@
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/data/in_memory_data_layer.dart';
 import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/core/providers/session_provider.dart';
@@ -188,15 +189,18 @@ void main() {
     );
   });
 
-  testWidgets('"عرض المواعيد" opens the coming-soon screen and back returns', (
+  testWidgets('"عرض المواعيد" opens the schedule and back returns', (
     tester,
   ) async {
     await open(tester, SeedIds.poolFacility, size: const Size(400, 2400));
     await tester.tap(find.byKey(AvailabilitySection.actionKey));
     await tester.pumpAndSettle();
-    expect(find.text(ar.catalogueScheduleSoonBody), findsOneWidget);
     expect(find.byKey(AvailabilitySection.actionKey), findsNothing);
-    await tester.tap(find.text(ar.catalogueScheduleSoonBack));
+    expect(
+      currentPath(tester),
+      AppPaths.facilitySchedule(SeedIds.poolFacility),
+    );
+    routerOf(tester).pop();
     await tester.pumpAndSettle();
     expect(find.byKey(FacilityDetailsView.factsKey), findsOneWidget);
   });
