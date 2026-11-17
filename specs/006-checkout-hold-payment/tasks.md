@@ -206,9 +206,9 @@ description: "Task list for feature 006 — checkout with hold and sandbox payme
 ## Phase 12: Polish and release
 
 - [X] T054 [P] `specs/006-checkout-hold-payment/copy-review.md` like 005's: every new string, Arabic and English, checked against the copy rules and `design-pack/copy.md`; fix the ARB files where a string fails.
-- [ ] T055 Run `flutter analyze`, `flutter test` (all guards) and `flutter build web --release --base-href /sprint-app/`; all must pass.
+- [X] T055 Run `flutter analyze`, `flutter test` (all guards) and `flutter build web --release --base-href /sprint-app/`; all must pass.
 - [ ] T056 Walk `quickstart.md` rows 1–11 on web (compact, medium, wide; ar/en) and rows 1, 2, 4, 6 on one iOS and one Android target where available; record SC-001 (time to ticket), SC-002 (every branch), SC-005 (countdown drift after background) and what was not checked in `evidence.md`. Browser back on web (spec Story 5, scenario 1) is checked by hand here only; record it explicitly.
-- [ ] T057 Prepare the pull request description against `develop` (do not push or open it until Osman says so): BRD IDs (FR-BKG-04, FR-BKG-05, FR-PAY-01 – FR-PAY-03, FR-MYB-01, FR-NTF-01; US-06 paid, US-07 paid, US-10, US-11, US-12; BR-11 – BR-13, BR-16, BR-17, BR-19, BR-28 – BR-31, BR-33, BR-39, BR-46, BR-47), the out-of-scope list, the decision `PaymentStatus.cancelled` (R1), the `PaymentProvider` additions and the removed `pay()` (plan Complexity Tracking), the new `pdf` package, and the evidence file.
+- [X] T057 Prepare the pull request description against `develop` (do not push or open it until Osman says so): BRD IDs (FR-BKG-04, FR-BKG-05, FR-PAY-01 – FR-PAY-03, FR-MYB-01, FR-NTF-01; US-06 paid, US-07 paid, US-10, US-11, US-12; BR-11 – BR-13, BR-16, BR-17, BR-19, BR-28 – BR-31, BR-33, BR-39, BR-46, BR-47), the out-of-scope list, the decision `PaymentStatus.cancelled` (R1), the `PaymentProvider` additions and the removed `pay()` (plan Complexity Tracking), the new `pdf` package, and the evidence file.
 
 ---
 
