@@ -3,7 +3,7 @@
     "short_name": "سبرنت",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#f6f7fb",
+    "background_color": "#2445e0",
     "theme_color": "#2445e0",
     "description": "حجز ودفع المنشآت الرياضية بجامعة طنطا إلكترونيًا.",
     "orientation": "portrait-primary",
