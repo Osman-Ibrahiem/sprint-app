@@ -12,6 +12,7 @@ import 'package:sprint/features/booking/domain/booking_path.dart';
 import 'package:sprint/features/booking/domain/booking_quote.dart';
 import 'package:sprint/features/booking/domain/booking_summary_view.dart';
 import 'package:sprint/features/booking/domain/facility_schedule.dart';
+import 'package:sprint/features/booking/domain/schedule_notice.dart';
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
 import 'package:sprint/features/booking/domain/slot.dart';
 import 'package:sprint/features/booking/domain/unit_settings.dart';
@@ -58,9 +59,9 @@ Future<FacilitySchedule?> facilitySchedule(
   if (facility == null || !facility.isPublished) return null;
   final path = BookingPath.of(facility);
 
-  final units = (await catalogue.listUnits(
-    facilityId,
-  )).where((u) => u.isActive).toList();
+  final units = (await catalogue.listUnits(facilityId))
+      .where((u) => u.isActive)
+      .toList();
 
   final settingsByUnit = <String, UnitSettings>{};
   final fewLeftByUnit = <String, int>{};
@@ -299,4 +300,19 @@ Future<BookingDoneView?> bookingDone(Ref ref, String bookingId) async {
     facilityName: (await catalogue.getFacility(booking.facilityId))?.name ?? '',
     unitName: (await catalogue.getUnit(booking.unitId))?.name ?? '',
   );
+}
+
+/// A notice another screen wants the schedule to show, such as the summary
+/// sending the person back after a refusal. The schedule takes it once and
+/// clears it, so it can never come back after being dismissed. Kept in a
+/// provider, not in the route, because a route's `extra` outlives the screen's
+/// state and would show it again after a resize.
+@Riverpod(keepAlive: true)
+class PendingScheduleNotice extends _$PendingScheduleNotice {
+  @override
+  ScheduleNotice? build() => null;
+
+  void put(ScheduleNotice notice) => state = notice;
+
+  void clear() => state = null;
 }

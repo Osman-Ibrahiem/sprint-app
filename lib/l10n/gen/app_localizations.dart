@@ -3388,6 +3388,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'المدرب ده ملوش حصص في الأيام الجاية.'**
   String get bookingTrainerNoSessionsBody;
+
+  /// No description provided for @bookingTrainerRowSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'المدرب {name}، {bio}، {sessions}'**
+  String bookingTrainerRowSpoken(String name, String bio, String sessions);
 }
 
 class _AppLocalizationsDelegate

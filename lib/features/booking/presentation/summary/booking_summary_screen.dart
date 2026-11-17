@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/adaptive/adaptive_app_bar.dart';
 import 'package:sprint/core/adaptive/adaptive_back_button.dart';
-import 'package:sprint/core/l10n/sprint_icon.dart';
 import 'package:sprint/core/motion/skeleton.dart';
 import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/core/providers/session_provider.dart';
@@ -23,6 +21,7 @@ import 'package:sprint/features/booking/domain/schedule_selection.dart';
 import 'package:sprint/features/booking/presentation/providers/booking_providers.dart';
 import 'package:sprint/features/booking/presentation/summary/summary_rows.dart';
 import 'package:sprint/features/booking/presentation/widgets/booking_error_view.dart';
+import 'package:sprint/features/booking/presentation/widgets/info_banner.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// The summary before anything is created or paid (FR-024 – FR-031). A paid
@@ -56,19 +55,41 @@ class _BookingSummaryScreenState extends ConsumerState<BookingSummaryScreen> {
   bool _busy = false;
   bool _failed = false;
 
-  BookingSummaryProvider get _provider => bookingSummaryProvider(
-    widget.facilityId,
-    widget.selection,
-    widget.shown,
-  );
+  /// Set when this screen sends the person back, so it does so only once.
+  bool _left = false;
+
+  BookingSummaryProvider get _provider =>
+      bookingSummaryProvider(widget.facilityId, widget.selection, widget.shown);
+
+  @override
+  void initState() {
+    super.initState();
+    // The answer may already be here (a cached family): the listener in build
+    // only hears changes.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final current = ref.read(_provider);
+      final result = current.hasValue ? current.value : null;
+      if (result is Err<BookingSummaryView> &&
+          !ref.read(currentSessionProvider).isGuest) {
+        _backWithNotice(result.failure);
+      }
+    });
+  }
 
   /// Back to the schedule with the time cleared and the refusal explained.
   void _backWithNotice(Failure failure) {
-    final location = AppPaths.facilitySchedule(
-      widget.facilityId,
-      widget.selection.clearTime(),
+    if (_left) return;
+    _left = true;
+    ref
+        .read(pendingScheduleNoticeProvider.notifier)
+        .put(ScheduleNotice.failure(failure));
+    context.go(
+      AppPaths.facilitySchedule(
+        widget.facilityId,
+        widget.selection.clearTime(),
+      ),
     );
-    context.go(location, extra: ScheduleNotice.failure(failure));
   }
 
   void _back() => context.canPop()
@@ -134,6 +155,17 @@ class _BookingSummaryScreenState extends ConsumerState<BookingSummaryScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final async = ref.watch(_provider);
+    // A refusal sends the person back once, from the provider's answer and not
+    // from build, so a rebuild cannot navigate twice.
+    ref.listen(_provider, (_, next) {
+      final result = next.hasValue ? next.value : null;
+      // A signed-out person is the router's to send to sign-in.
+      if (result is Err<BookingSummaryView> &&
+          mounted &&
+          !ref.read(currentSessionProvider).isGuest) {
+        _backWithNotice(result.failure);
+      }
+    });
 
     Widget body;
     BookingSummaryView? view;
@@ -148,12 +180,8 @@ class _BookingSummaryScreenState extends ConsumerState<BookingSummaryScreen> {
     } else {
       final result = async.value!;
       switch (result) {
-        case Err(:final failure):
-          // A refusal (the place was taken, a limit was reached): back to the
-          // schedule, which says what happened.
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted) _backWithNotice(failure);
-          });
+        case Err():
+          // The listener above sends the person back to the schedule.
           body = const _Loading();
         case Ok(:final value):
           view = value;
@@ -170,7 +198,9 @@ class _BookingSummaryScreenState extends ConsumerState<BookingSummaryScreen> {
         Expanded(child: body),
         if (view != null)
           _ActionBar(
-            label: view.isFree ? l10n.bookingConfirmAction : l10n.bookingPayAction,
+            label: view.isFree
+                ? l10n.bookingConfirmAction
+                : l10n.bookingPayAction,
             busy: _busy,
             failedText: _failed ? l10n.bookingFailGeneric : null,
             onPressed: view.isFree ? _confirm : _continueToPayment,
@@ -208,7 +238,7 @@ class _Body extends StatelessWidget {
       padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
       children: [
         if (view.priceChanged) ...[
-          _Banner(
+          InfoBanner(
             key: BookingSummaryScreen.priceChangedKey,
             text: l10n.bookingPriceChanged,
           ),
@@ -230,7 +260,9 @@ class _Body extends StatelessWidget {
                   view.verificationHint == VerificationHint.underReview
                       ? l10n.bookingVerifyPending
                       : l10n.bookingVerifyHint,
-                  style: context.text.body.copyWith(color: colors.onPrimarySoft),
+                  style: context.text.body.copyWith(
+                    color: colors.onPrimarySoft,
+                  ),
                 ),
                 if (view.verificationHint == VerificationHint.canVerify) ...[
                   const SizedBox(height: SprintSpacing.space2),
@@ -247,42 +279,6 @@ class _Body extends StatelessWidget {
           ),
         ],
       ],
-    );
-  }
-}
-
-class _Banner extends StatelessWidget {
-  const _Banner({required this.text, super.key});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    return Semantics(
-      liveRegion: true,
-      container: true,
-      label: text,
-      child: ExcludeSemantics(
-        child: Container(
-          padding: const EdgeInsetsDirectional.all(SprintSpacing.space3),
-          decoration: BoxDecoration(
-            color: colors.warningSoft,
-            borderRadius: SprintRadius.mdBorder,
-          ),
-          child: Row(
-            children: [
-              SprintIcon(
-                PhosphorIconsRegular.info,
-                size: SprintSize.iconMd,
-                color: colors.ink,
-              ),
-              const SizedBox(width: SprintSpacing.space2),
-              Expanded(child: Text(text, style: context.text.body)),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
@@ -310,7 +306,10 @@ class _ActionBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.surface,
         border: Border(
-          top: BorderSide(color: colors.line, width: SprintExtras.hairlineWidth),
+          top: BorderSide(
+            color: colors.line,
+            width: SprintExtras.hairlineWidth,
+          ),
         ),
       ),
       padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),

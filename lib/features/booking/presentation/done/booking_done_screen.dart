@@ -18,6 +18,8 @@ import 'package:sprint/core/widgets/status_badge/sprint_status.dart';
 import 'package:sprint/core/widgets/status_badge/status_badge.dart';
 import 'package:sprint/features/booking/presentation/providers/booking_providers.dart';
 import 'package:sprint/features/booking/presentation/widgets/booking_error_view.dart';
+import 'package:sprint/features/booking/presentation/widgets/empty_state.dart';
+import 'package:sprint/features/booking/presentation/widgets/label_value_row.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// The simple success screen of a free booking (FR-030, clarify): a
@@ -52,9 +54,7 @@ class BookingDoneScreen extends ConsumerWidget {
       body = ListView(
         physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
-        children: const [
-          Skeleton(height: SprintExtras.dayPillHeight * 3),
-        ],
+        children: const [Skeleton(height: SprintExtras.dayPillHeight * 3)],
       );
     } else if (async.value == null) {
       body = _NotFound(key: notFoundKey);
@@ -86,10 +86,7 @@ class _Done extends StatelessWidget {
       (l10n.bookingRowFacility, view.facilityName),
       (l10n.bookingRowUnit, view.unitName),
       (l10n.bookingRowDate, format.date(b.start)),
-      (
-        l10n.bookingRowTime,
-        '${format.time(b.start)} – ${format.time(b.end)}',
-      ),
+      (l10n.bookingRowTime, '${format.time(b.start)} – ${format.time(b.end)}'),
     ];
     return ListView(
       padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
@@ -154,29 +151,7 @@ class _Done extends StatelessWidget {
               ),
               const SizedBox(height: SprintSpacing.space3),
               for (final (label, value) in rows)
-                Padding(
-                  padding: const EdgeInsetsDirectional.only(
-                    bottom: SprintSpacing.space3,
-                  ),
-                  child: Semantics(
-                    container: true,
-                    label: '$label: $value',
-                    child: ExcludeSemantics(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            label,
-                            style: context.text.label.copyWith(
-                              color: colors.inkMuted,
-                            ),
-                          ),
-                          Text(value, style: context.text.bodyStrong),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                LabelValueRow(label: label, value: value),
             ],
           ),
         ),
@@ -197,39 +172,12 @@ class _NotFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final colors = context.colors;
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsetsDirectional.all(SprintSpacing.space6),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SprintIcon(
-              PhosphorIconsRegular.ticket,
-              size: SprintSize.iconLg,
-              color: colors.inkMuted,
-            ),
-            const SizedBox(height: SprintSpacing.space3),
-            Text(
-              l10n.bookingDoneNotFoundTitle,
-              style: context.text.headline,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: SprintSpacing.space2),
-            Text(
-              l10n.bookingDoneNotFoundBody,
-              style: context.text.body.copyWith(color: colors.inkMuted),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: SprintSpacing.space4),
-            SprintButton(
-              label: l10n.bookingDoneHome,
-              variant: SprintButtonVariant.secondary,
-              onPressed: () => context.go(AppPaths.home),
-            ),
-          ],
-        ),
-      ),
+    return EmptyState(
+      icon: PhosphorIconsRegular.ticket,
+      title: l10n.bookingDoneNotFoundTitle,
+      body: l10n.bookingDoneNotFoundBody,
+      actionLabel: l10n.bookingDoneHome,
+      onAction: () => context.go(AppPaths.home),
     );
   }
 }

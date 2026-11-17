@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:sprint/core/time/cairo_time.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
@@ -52,9 +54,10 @@ class SlotGrid extends StatelessWidget {
         // box and would otherwise take the whole row.
         const gap = SprintSpacing.space2;
         const minWidth = SprintExtras.slotChipMinWidth;
-        final columns = ((constraints.maxWidth + gap) / (minWidth + gap))
-            .floor()
-            .clamp(1, 1 << 20);
+        final columns = math.max(
+          1,
+          ((constraints.maxWidth + gap) / (minWidth + gap)).floor(),
+        );
         final width = (constraints.maxWidth - gap * (columns - 1)) / columns;
         return Wrap(
           spacing: gap,

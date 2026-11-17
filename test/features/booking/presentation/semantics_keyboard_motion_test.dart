@@ -5,7 +5,6 @@ import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/core/widgets/slot_chip/slot_state.dart' as chip;
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
-import 'package:sprint/features/booking/presentation/schedule/schedule_notice_view.dart';
 import 'package:sprint/features/booking/presentation/schedule/selection_bar.dart';
 import 'package:sprint/features/booking/presentation/schedule/unit_picker.dart';
 import 'package:sprint/features/booking/presentation/summary/booking_summary_screen.dart';
@@ -86,9 +85,13 @@ void main() {
     testWidgets('the notice is a live region', (tester) async {
       final handle = tester.ensureSemantics();
       await openSchedule(tester, pool, selection: lane('u-gone', 1));
-      final node = tester.getSemantics(find.byType(ScheduleNoticeView));
+      final node = tester.getSemantics(
+        find.bySemanticsLabel(ar.bookingChoiceGone),
+      );
       expect(node.flagsCollection.isLiveRegion, isTrue);
       expect(node.label, ar.bookingChoiceGone);
+      // The dismiss button is reachable too, not hidden with the sentence.
+      expect(find.bySemanticsLabel(ar.bookingNoticeDismiss), findsOneWidget);
       handle.dispose();
     });
 

@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart' show Key, ValueKey;
+import 'package:flutter/widgets.dart' show Key, Size, ValueKey;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/data/in_memory_data_layer.dart';
@@ -8,6 +8,7 @@ import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
 import 'package:sprint/features/booking/presentation/checkout/checkout_coming_soon_screen.dart';
+import 'package:sprint/features/booking/presentation/schedule/schedule_notice_view.dart';
 import 'package:sprint/features/booking/presentation/schedule/schedule_screen.dart';
 import 'package:sprint/features/booking/presentation/schedule/selection_bar.dart';
 import 'package:sprint/features/booking/presentation/summary/booking_summary_screen.dart';
@@ -35,12 +36,7 @@ void main() {
     String user = SeedIds.bookerInternal,
     Future<void> Function(InMemoryDataLayer layer)? arrange,
   }) async {
-    await openSchedule(
-      tester,
-      facility,
-      signInAs: user,
-      arrange: arrange,
-    );
+    await openSchedule(tester, facility, signInAs: user, arrange: arrange);
     routerOf(tester)
         .go(AppPaths.bookingSummary(facility, selection, shown: shown));
     await tester.pumpAndSettle();
@@ -186,7 +182,9 @@ void main() {
     );
   });
 
-  testWidgets('signing out on the summary opens sign-in and comes back to it', (tester) async {
+  testWidgets('signing out on the summary opens sign-in and comes back to it', (
+    tester,
+  ) async {
     final selection = pick(1, SeedIds.futsal2, 18);
     await openSummary(tester, SeedIds.futsalFacility, selection, shown: 140);
     final summary = AppPaths.bookingSummary(
@@ -205,6 +203,41 @@ void main() {
         .actAs(SeedIds.bookerInternal);
     await tester.pumpAndSettle();
     expect(find.byType(BookingSummaryScreen), findsOneWidget);
+  });
+
+  testWidgets('a dismissed refusal does not come back after a resize', (
+    tester,
+  ) async {
+    await openSummary(
+      tester,
+      SeedIds.futsalFacility,
+      pick(1, SeedIds.futsal2, 18),
+      shown: 140,
+    );
+    await containerOf(tester)
+        .read(bookingRepositoryProvider)
+        .create(
+          BookingRequest(
+            userId: SeedIds.bookerExternal,
+            unitId: SeedIds.futsal2,
+            start: cairoAt(1, 18),
+            end: cairoAt(1, 19),
+          ),
+        );
+    await tester.tap(find.byKey(BookingSummaryScreen.actionKey));
+    await tester.pumpAndSettle();
+    expect(find.text(ar.bookingFailSlotTaken), findsOneWidget);
+
+    await tester.tap(find.byKey(ScheduleNoticeView.dismissKey));
+    await tester.pumpAndSettle();
+    expect(find.text(ar.bookingFailSlotTaken), findsNothing);
+
+    // The screen is rebuilt for another width class: the notice stays gone.
+    setWindow(tester, size: const Size(700, 1400));
+    await tester.pumpAndSettle();
+    setWindow(tester, size: const Size(400, 1400));
+    await tester.pumpAndSettle();
+    expect(find.text(ar.bookingFailSlotTaken), findsNothing);
   });
 
   group('back (FR-031)', () {

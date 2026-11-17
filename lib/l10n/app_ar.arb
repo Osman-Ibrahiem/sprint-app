@@ -1190,5 +1190,19 @@
   },
   "bookingNoTrainersTitle": "مفيش مدربين متاحين",
   "bookingNoTrainersBody": "المنشأة دي لسه ملهاش مدربين للحجز.",
-  "bookingTrainerNoSessionsBody": "المدرب ده ملوش حصص في الأيام الجاية."
+  "bookingTrainerNoSessionsBody": "المدرب ده ملوش حصص في الأيام الجاية.",
+  "bookingTrainerRowSpoken": "المدرب {name}، {bio}، {sessions}",
+  "@bookingTrainerRowSpoken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "bio": {
+        "type": "String"
+      },
+      "sessions": {
+        "type": "String"
+      }
+    }
+  }
 }

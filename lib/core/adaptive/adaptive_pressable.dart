@@ -171,7 +171,12 @@ class _AdaptivePressableState extends State<AdaptivePressable> {
                 minWidth: SprintSize.controlHeight,
                 minHeight: SprintSize.controlHeight,
               ),
+              // Wrap its content, so loose width does not stretch the control
+              // over a whole row; tight width (a SizedBox, an Expanded) still
+              // fills as before, and the 48 minimum above still centres it.
               child: Center(
+                widthFactor: 1,
+                heightFactor: 1,
                 child: SprintFocusRing(
                   visible: _focusVisible,
                   borderRadius: widget.borderRadius,

@@ -50,6 +50,16 @@ void main() {
       }
       expect(find.text(hisham), findsOneWidget);
       expect(find.text(ar.bookingTrainerHasSessions), findsNWidgets(3));
+      final handle = tester.ensureSemantics();
+      final row = tester.getSemantics(
+        find.byKey(TrainerList.rowKey(SeedIds.trainerRecord1)),
+      );
+      expect(
+        row.label,
+        startsWith(ar.bookingTrainerRowSpoken(hisham, '', '').split('،').first),
+      );
+      expect(row.label, contains(ar.bookingTrainerHasSessions));
+      handle.dispose();
       expect(chips(tester), isEmpty);
       expect(find.byType(DayStrip), findsNothing);
     });

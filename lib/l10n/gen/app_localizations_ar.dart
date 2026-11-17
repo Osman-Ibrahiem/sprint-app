@@ -1993,4 +1993,9 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get bookingTrainerNoSessionsBody =>
       'المدرب ده ملوش حصص في الأيام الجاية.';
+
+  @override
+  String bookingTrainerRowSpoken(String name, String bio, String sessions) {
+    return 'المدرب $name، $bio، $sessions';
+  }
 }

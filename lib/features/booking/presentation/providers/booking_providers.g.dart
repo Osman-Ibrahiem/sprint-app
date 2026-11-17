@@ -375,3 +375,78 @@ final class BookingDoneFamily extends $Family
   @override
   String toString() => r'bookingDoneProvider';
 }
+
+/// A notice another screen wants the schedule to show, such as the summary
+/// sending the person back after a refusal. The schedule takes it once and
+/// clears it, so it can never come back after being dismissed. Kept in a
+/// provider, not in the route, because a route's `extra` outlives the screen's
+/// state and would show it again after a resize.
+
+@ProviderFor(PendingScheduleNotice)
+final pendingScheduleNoticeProvider = PendingScheduleNoticeProvider._();
+
+/// A notice another screen wants the schedule to show, such as the summary
+/// sending the person back after a refusal. The schedule takes it once and
+/// clears it, so it can never come back after being dismissed. Kept in a
+/// provider, not in the route, because a route's `extra` outlives the screen's
+/// state and would show it again after a resize.
+final class PendingScheduleNoticeProvider
+    extends $NotifierProvider<PendingScheduleNotice, ScheduleNotice?> {
+  /// A notice another screen wants the schedule to show, such as the summary
+  /// sending the person back after a refusal. The schedule takes it once and
+  /// clears it, so it can never come back after being dismissed. Kept in a
+  /// provider, not in the route, because a route's `extra` outlives the screen's
+  /// state and would show it again after a resize.
+  PendingScheduleNoticeProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'pendingScheduleNoticeProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$pendingScheduleNoticeHash();
+
+  @$internal
+  @override
+  PendingScheduleNotice create() => PendingScheduleNotice();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ScheduleNotice? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ScheduleNotice?>(value),
+    );
+  }
+}
+
+String _$pendingScheduleNoticeHash() =>
+    r'dd2e23271e8261bc34cc9d246de83de8fb4177b6';
+
+/// A notice another screen wants the schedule to show, such as the summary
+/// sending the person back after a refusal. The schedule takes it once and
+/// clears it, so it can never come back after being dismissed. Kept in a
+/// provider, not in the route, because a route's `extra` outlives the screen's
+/// state and would show it again after a resize.
+
+abstract class _$PendingScheduleNotice extends $Notifier<ScheduleNotice?> {
+  ScheduleNotice? build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<ScheduleNotice?, ScheduleNotice?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ScheduleNotice?, ScheduleNotice?>,
+              ScheduleNotice?,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

@@ -84,4 +84,7 @@ abstract final class SprintExtras {
   /// From this text scale the booking bar stacks its text above its action
   /// instead of beside it, so large text never squeezes either.
   static const double bookingBarStackTextScale = 1.3;
+
+  /// How many slot-shaped skeletons the schedule shows while it loads.
+  static const int bookingSkeletonChips = 8;
 }

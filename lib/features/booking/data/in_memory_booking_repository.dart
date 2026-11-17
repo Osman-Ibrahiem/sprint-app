@@ -227,8 +227,12 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
           : await catalogue.trainerAvailability(trainer.id, unitId: unit.id),
     );
     if (structural != null) {
+      // The maximum is a rule of the range path only (BR-08). More than one
+      // slot where one is allowed is refused without a number, because the
+      // limit there is the single slot.
+      final rangePath = facility.isFree && !facility.requiresTrainer;
       return Err(
-        structural is RangeTooLong
+        structural is RangeTooLong && rangePath
             ? RangeTooLong(maxHours: cfg.maxRangeHours)
             : structural,
       );

@@ -2011,4 +2011,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get bookingTrainerNoSessionsBody =>
       'This trainer has no sessions in the coming days.';
+
+  @override
+  String bookingTrainerRowSpoken(String name, String bio, String sessions) {
+    return 'Trainer $name, $bio, $sessions';
+  }
 }

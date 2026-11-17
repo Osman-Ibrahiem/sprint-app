@@ -27,7 +27,6 @@ import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
-import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/features/booking/domain/facility_schedule.dart';
 import 'package:sprint/features/booking/domain/schedule_notice.dart';
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
@@ -41,6 +40,7 @@ import 'package:sprint/features/booking/presentation/schedule/slot_grid.dart';
 import 'package:sprint/features/booking/presentation/schedule/trainer_step.dart';
 import 'package:sprint/features/booking/presentation/schedule/unit_picker.dart';
 import 'package:sprint/features/booking/presentation/widgets/booking_error_view.dart';
+import 'package:sprint/features/booking/presentation/widgets/empty_state.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// The schedule of one facility: days, units and slots over the booking
@@ -52,16 +52,11 @@ class ScheduleScreen extends ConsumerStatefulWidget {
     required this.facilityId,
     required this.selection,
     this.notFound,
-    this.initialNotice,
     super.key,
   });
 
   final String facilityId;
   final ScheduleSelection selection;
-
-  /// A notice carried by the route, for when another screen sends the person
-  /// back here (the summary, after a refusal).
-  final ScheduleNotice? initialNotice;
 
   /// What to show for a missing or unpublished facility. The app layer hands
   /// the catalogue's screen in, so features do not import each other's
@@ -80,7 +75,7 @@ class ScheduleScreen extends ConsumerStatefulWidget {
 }
 
 class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
-  late ScheduleNotice? _notice = widget.initialNotice;
+  ScheduleNotice? _notice;
   bool _replacing = false;
   bool _continuing = false;
   late final AppLifecycleListener _lifecycle;
@@ -89,13 +84,23 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
   void initState() {
     super.initState();
     _lifecycle = AppLifecycleListener(onResume: _reload);
+    // A notice another screen left for us (the summary, after a refusal): take
+    // it once. Listening also covers the schedule already being on screen.
+    ref.listenManual<ScheduleNotice?>(
+      pendingScheduleNoticeProvider,
+      (_, pending) => _takePending(pending),
+      fireImmediately: true,
+    );
   }
 
-  @override
-  void didUpdateWidget(ScheduleScreen old) {
-    super.didUpdateWidget(old);
-    final n = widget.initialNotice;
-    if (n != null && !identical(n, old.initialNotice)) _notice = n;
+  void _takePending(ScheduleNotice? pending) {
+    if (pending == null) return;
+    // Clearing a provider is not allowed while it is being notified.
+    Future.microtask(() {
+      if (!mounted) return;
+      ref.read(pendingScheduleNoticeProvider.notifier).clear();
+      setState(() => _notice = pending);
+    });
   }
 
   @override
@@ -104,10 +109,8 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
     super.dispose();
   }
 
-  FacilityScheduleProvider get _provider => facilityScheduleProvider(
-    widget.facilityId,
-    widget.selection.trainerId,
-  );
+  FacilityScheduleProvider get _provider =>
+      facilityScheduleProvider(widget.facilityId, widget.selection.trainerId);
 
   void _reload() {
     if (!mounted) return;
@@ -198,12 +201,10 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
   }
 
   Future<OverlapInfo?> _overlapInfo(Booking b) async {
-    final f = await ref.read(catalogueRepositoryProvider).getFacility(b.facilityId);
-    return OverlapInfo(
-      facilityName: f?.name ?? '',
-      start: b.start,
-      end: b.end,
-    );
+    final f = await ref
+        .read(catalogueRepositoryProvider)
+        .getFacility(b.facilityId);
+    return OverlapInfo(facilityName: f?.name ?? '', start: b.start, end: b.end);
   }
 
   /// A tap on a slot: moves the selection, or says why it cannot (FR-014 –
@@ -308,17 +309,23 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
         _reload();
         OverlapInfo? info;
         if (failure is OverlapsOwnBooking && failure.bookingId != null) {
-          final b = await ref.read(bookingRepositoryProvider).get(failure.bookingId!);
+          final b = await ref
+              .read(bookingRepositoryProvider)
+              .get(failure.bookingId!);
           if (b is Ok<Booking>) info = await _overlapInfo(b.value);
         }
         if (!mounted) return;
-        setState(() => _notice = ScheduleNotice.failure(failure, overlap: info));
+        setState(
+          () => _notice = ScheduleNotice.failure(failure, overlap: info),
+        );
         _write(selection.clearTime());
       case Ok():
         _clearNotice();
         if (!openSummary) return;
         final schedule = ref.read(_provider).value;
-        final shown = schedule == null ? null : _shownAmount(schedule, selection);
+        final shown = schedule == null
+            ? null
+            : _shownAmount(schedule, selection);
         context.push(
           AppPaths.bookingSummary(widget.facilityId, selection, shown: shown),
         );
@@ -356,7 +363,7 @@ class _Loading extends StatelessWidget {
         spacing: SprintSpacing.space2,
         runSpacing: SprintSpacing.space2,
         children: [
-          for (var i = 0; i < 8; i++)
+          for (var i = 0; i < SprintExtras.bookingSkeletonChips; i++)
             const Skeleton(
               width: SprintExtras.slotChipMinWidth,
               height: SprintExtras.slotChipMinHeight,
@@ -417,8 +424,9 @@ class _Loaded extends ConsumerWidget {
     // The trainer path starts with who gives the session (FR-017).
     if (schedule.needsTrainer) {
       if (schedule.trainers.isEmpty) {
-        return _Empty(
+        return EmptyState(
           key: ScheduleScreen.emptyKey,
+          icon: PhosphorIconsRegular.calendarBlank,
           title: l10n.bookingNoTrainersTitle,
           body: l10n.bookingNoTrainersBody,
           actionLabel: l10n.bookingBackToFacility,
@@ -463,8 +471,9 @@ class _Loaded extends ConsumerWidget {
           ],
         );
       }
-      return _Empty(
+      return EmptyState(
         key: ScheduleScreen.emptyKey,
+        icon: PhosphorIconsRegular.calendarBlank,
         title: l10n.bookingNoUnitsTitle,
         body: l10n.bookingNoUnitsBody,
         actionLabel: l10n.bookingBackToFacility,
@@ -475,7 +484,8 @@ class _Loaded extends ConsumerWidget {
     final day = selection.day ?? schedule.defaultDay;
     final grid = schedule.gridFor(selection);
     final unit = schedule.unit(
-      selection.unitId ?? (isTrainerPath && grid.isNotEmpty ? grid.first.unitId : null),
+      selection.unitId ??
+          (isTrainerPath && grid.isNotEmpty ? grid.first.unitId : null),
     );
     final anyBookable = grid.any((s) => s.isBookable);
     final anyDayHasRoom = schedule.days.any((d) => d.hasAvailability);
@@ -618,59 +628,6 @@ class _Loaded extends ConsumerWidget {
   }
 }
 
-class _Empty extends StatelessWidget {
-  const _Empty({
-    required this.title,
-    required this.body,
-    required this.actionLabel,
-    required this.onAction,
-    super.key,
-  });
-
-  final String title;
-  final String body;
-  final String actionLabel;
-  final VoidCallback onAction;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsetsDirectional.all(SprintSpacing.space6),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SprintIcon(
-              PhosphorIconsRegular.calendarBlank,
-              size: SprintSize.iconLg,
-              color: colors.inkMuted,
-            ),
-            const SizedBox(height: SprintSpacing.space3),
-            Text(
-              title,
-              style: context.text.headline,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: SprintSpacing.space2),
-            Text(
-              body,
-              style: context.text.body.copyWith(color: colors.inkMuted),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: SprintSpacing.space4),
-            SprintButton(
-              label: actionLabel,
-              variant: SprintButtonVariant.secondary,
-              onPressed: onAction,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 /// Why the chosen time is gone, when the schedule can tell: the first slot of
 /// the choice that is now taken, full or past (FR-010). Otherwise only that
 /// the earlier choice is no longer available. A single slot is named plainly;
@@ -681,7 +638,8 @@ ScheduleNotice _whyDropped(FacilitySchedule schedule, ScheduleSelection asked) {
   final unitId = asked.unitId;
   if (!asked.hasTime || day == null || unitId == null) return gone;
   final unit = schedule.unit(unitId);
-  final isRange = unit != null && asked.lengthMinutes! > unit.granularityMinutes;
+  final isRange =
+      unit != null && asked.lengthMinutes! > unit.granularityMinutes;
   for (final slot in schedule.slotsFor(unitId, day)) {
     final start = cairoMinutesOf(slot.start);
     if (start < asked.startMinutes! || start >= asked.endMinutes!) continue;

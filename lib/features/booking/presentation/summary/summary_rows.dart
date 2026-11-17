@@ -6,6 +6,7 @@ import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/features/booking/domain/booking_summary_view.dart';
 import 'package:sprint/features/booking/presentation/schedule/selection_bar.dart';
 import 'package:sprint/features/booking/presentation/summary/cancellation_policy_text.dart';
+import 'package:sprint/features/booking/presentation/widgets/label_value_row.dart';
 import 'package:sprint/features/catalogue/domain/price.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
@@ -49,14 +50,11 @@ class SummaryRows extends StatelessWidget {
             : selectionLengthText(context, view.start, view.end),
       ),
       (l10n.bookingRowCoverage, coverage),
-      if (view.trainerName != null)
-        (l10n.bookingRowTrainer, view.trainerName!),
+      if (view.trainerName != null) (l10n.bookingRowTrainer, view.trainerName!),
       if (!view.isFree) (l10n.bookingRowTier, tierLabel),
       (
         l10n.bookingRowPrice,
-        view.isFree
-            ? l10n.bookingFree
-            : '${format.price(view.amount)} $basis',
+        view.isFree ? l10n.bookingFree : '${format.price(view.amount)} $basis',
       ),
     ];
 
@@ -71,7 +69,7 @@ class SummaryRows extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           for (final (label, value) in rows)
-            _Row(label: label, value: value),
+            LabelValueRow(label: label, value: value),
           if (view.isFree)
             Padding(
               padding: const EdgeInsetsDirectional.only(
@@ -93,37 +91,6 @@ class SummaryRows extends StatelessWidget {
             showRefund: !view.isFree,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _Row extends StatelessWidget {
-  const _Row({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    return Padding(
-      padding: const EdgeInsetsDirectional.only(bottom: SprintSpacing.space3),
-      child: Semantics(
-        container: true,
-        label: '$label: $value',
-        child: ExcludeSemantics(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: context.text.label.copyWith(color: colors.inkMuted),
-              ),
-              Text(value, style: context.text.bodyStrong),
-            ],
-          ),
-        ),
       ),
     );
   }

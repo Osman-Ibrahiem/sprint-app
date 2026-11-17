@@ -27,9 +27,7 @@ String bookingFailureMessage(
     SlotPast() => l10n.bookingFailSlotPast,
     OutsideWindow() => l10n.bookingFailOutsideWindow,
     ClosedSlot(:final at) =>
-      at == null
-          ? l10n.bookingFailClosed
-          : l10n.bookingFailClosedAt(hour(at)),
+      at == null ? l10n.bookingFailClosed : l10n.bookingFailClosedAt(hour(at)),
     RangeTooLong(:final maxHours) =>
       maxHours == null
           ? l10n.bookingFailRangeTooLongGeneric

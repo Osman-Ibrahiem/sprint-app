@@ -1186,5 +1186,19 @@
   },
   "bookingNoTrainersTitle": "No trainers available",
   "bookingNoTrainersBody": "This facility has no trainers to book yet.",
-  "bookingTrainerNoSessionsBody": "This trainer has no sessions in the coming days."
+  "bookingTrainerNoSessionsBody": "This trainer has no sessions in the coming days.",
+  "bookingTrainerRowSpoken": "Trainer {name}, {bio}, {sessions}",
+  "@bookingTrainerRowSpoken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "bio": {
+        "type": "String"
+      },
+      "sessions": {
+        "type": "String"
+      }
+    }
+  }
 }

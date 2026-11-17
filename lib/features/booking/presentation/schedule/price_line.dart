@@ -91,7 +91,10 @@ class _Row extends StatelessWidget {
         child: Wrap(
           spacing: SprintSpacing.space2,
           children: [
-            Text(text, style: context.text.label.copyWith(color: colors.inkMuted)),
+            Text(
+              text,
+              style: context.text.label.copyWith(color: colors.inkMuted),
+            ),
             Text(value, style: context.text.number),
           ],
         ),

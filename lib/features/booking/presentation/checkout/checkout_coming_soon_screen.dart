@@ -4,12 +4,8 @@ import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/adaptive/adaptive_app_bar.dart';
 import 'package:sprint/core/adaptive/adaptive_back_button.dart';
-import 'package:sprint/core/l10n/sprint_icon.dart';
-import 'package:sprint/core/tokens/context_extensions.dart';
-import 'package:sprint/core/tokens/sprint_size.g.dart';
-import 'package:sprint/core/tokens/sprint_spacing.g.dart';
-import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
+import 'package:sprint/features/booking/presentation/widgets/empty_state.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// Where a paid booking stops until feature 6 (FR-028): a deliberate screen
@@ -34,7 +30,6 @@ class CheckoutComingSoonScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final colors = context.colors;
     return Column(
       children: [
         AdaptiveAppBar(
@@ -42,39 +37,13 @@ class CheckoutComingSoonScreen extends StatelessWidget {
           leading: AdaptiveBackButton(onPressed: () => _backToSummary(context)),
         ),
         Expanded(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsetsDirectional.all(SprintSpacing.space6),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SprintIcon(
-                    PhosphorIconsRegular.creditCard,
-                    size: SprintSize.iconLg,
-                    color: colors.inkMuted,
-                  ),
-                  const SizedBox(height: SprintSpacing.space3),
-                  Text(
-                    l10n.bookingCheckoutSoonTitle,
-                    style: context.text.headline,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: SprintSpacing.space2),
-                  Text(
-                    l10n.bookingCheckoutSoonBody,
-                    style: context.text.body.copyWith(color: colors.inkMuted),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: SprintSpacing.space4),
-                  SprintButton(
-                    key: backKey,
-                    label: l10n.bookingBackToSummary,
-                    variant: SprintButtonVariant.secondary,
-                    onPressed: () => _backToSummary(context),
-                  ),
-                ],
-              ),
-            ),
+          child: EmptyState(
+            icon: PhosphorIconsRegular.creditCard,
+            title: l10n.bookingCheckoutSoonTitle,
+            body: l10n.bookingCheckoutSoonBody,
+            actionLabel: l10n.bookingBackToSummary,
+            actionKey: backKey,
+            onAction: () => _backToSummary(context),
           ),
         ),
       ],

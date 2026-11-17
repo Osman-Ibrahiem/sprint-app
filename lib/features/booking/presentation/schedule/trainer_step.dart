@@ -72,7 +72,7 @@ class _TrainerRow extends StatelessWidget {
         : l10n.bookingTrainerNoSessions;
     return FocusableTap(
       key: TrainerList.rowKey(trainer.id),
-      label: '$name، ${trainer.bio}، $sessions',
+      label: l10n.bookingTrainerRowSpoken(name, trainer.bio, sessions),
       selected: false,
       onTap: onTap,
       builder: (context, hovered) => Container(
