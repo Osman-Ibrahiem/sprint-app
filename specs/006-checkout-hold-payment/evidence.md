@@ -1,0 +1,2 @@
+- `pdf` 3.13.1. It pulls `barcode`, which needs `qr` ^3, while the app used `qr` 4. A `dependency_overrides` entry did not compile (barcode calls the qr 3 API), so the app moved to `qr` ^3.0.2 instead: `SprintQrPainter` and the round-trip test now call `QrCode.fromData(data:, errorCorrectLevel: QrErrorCorrectLevel.M)`. The module matrix is the same (qr tests pass). Needs a mention in the PR.
+- `flutter build web --release --base-href /sprint-app/` passes with the package added.

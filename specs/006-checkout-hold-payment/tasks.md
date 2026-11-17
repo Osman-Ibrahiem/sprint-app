@@ -36,9 +36,9 @@ description: "Task list for feature 006 — checkout with hold and sandbox payme
 
 **Purpose**: a known-green baseline and the one new package.
 
-- [ ] T001 Run `flutter pub get`, `dart run build_runner build --delete-conflicting-outputs`, `flutter analyze` and `flutter test` on the clean branch; all must pass. Create `specs/006-checkout-hold-payment/evidence.md` with a "Baseline" section (date, passing test count).
-- [ ] T002 Add the `pdf` package to `pubspec.yaml` (latest stable compatible with Dart 3.13.7; record the version in evidence.md), run `flutter pub get`, and confirm `flutter build web --release --base-href /sprint-app/` still passes (research R9).
-- [ ] T003 [P] Add `test/guards/payments_domain_pure_test.dart` modelled on `test/guards/booking_domain_pure_test.dart`: files in `lib/features/payments/domain/` may not import Flutter, Riverpod or `data/`; no file under `lib/features/booking/` may import `fake_gateway_controller.dart` or `fake_payment_provider.dart`.
+- [X] T001 Run `flutter pub get`, `dart run build_runner build --delete-conflicting-outputs`, `flutter analyze` and `flutter test` on the clean branch; all must pass. Create `specs/006-checkout-hold-payment/evidence.md` with a "Baseline" section (date, passing test count).
+- [X] T002 Add the `pdf` package to `pubspec.yaml` (latest stable compatible with Dart 3.13.7; record the version in evidence.md), run `flutter pub get`, and confirm `flutter build web --release --base-href /sprint-app/` still passes (research R9).
+- [X] T003 [P] Add `test/guards/payments_domain_pure_test.dart` modelled on `test/guards/booking_domain_pure_test.dart`: files in `lib/features/payments/domain/` may not import Flutter, Riverpod or `data/`; no file under `lib/features/booking/` may import `fake_gateway_controller.dart` or `fake_payment_provider.dart`.
 
 ---
 

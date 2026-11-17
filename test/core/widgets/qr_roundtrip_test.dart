@@ -58,9 +58,9 @@ void main() {
 
   test('module matrix matches the qr package', () {
     for (final token in tokens) {
-      final expected = QrImage(QrCode(
-        payload: QrPayload.fromString(token),
-        errorCorrectLevel: QrErrorCorrectLevel.medium,
+      final expected = QrImage(QrCode.fromData(
+        data: token,
+        errorCorrectLevel: QrErrorCorrectLevel.M,
       ));
       final m = SprintQrPainter.matrix(token)!;
       expect(m.length, expected.moduleCount);
