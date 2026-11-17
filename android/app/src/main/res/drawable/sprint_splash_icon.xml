@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12 splash icon: 288dp canvas, the 88dp bolt centred, no circle or tile. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="288dp"
+    android:height="288dp"
+    android:viewportWidth="288"
+    android:viewportHeight="288">
+    <path android:fillColor="@color/sprint_volt" android:pathData="M 144.88,113.10 C 148.19,109.45 149.92,110.37 148.70,115.16 L 145.12,129.26 C 144.13,133.18 146.63,136.40 150.68,136.40 L 168.88,136.40 C 173.95,136.40 175.31,139.47 171.90,143.22 L 143.12,174.90 C 139.81,178.55 138.08,177.63 139.30,172.84 L 142.88,158.74 C 143.87,154.82 141.37,151.60 137.32,151.60 L 119.12,151.60 C 114.05,151.60 112.69,148.53 116.10,144.78 Z" />
+</vector>

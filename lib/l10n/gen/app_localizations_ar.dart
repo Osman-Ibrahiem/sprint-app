@@ -1998,4 +1998,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String bookingTrainerRowSpoken(String name, String bio, String sessions) {
     return 'المدرب $name، $bio، $sessions';
   }
+
+  @override
+  String get splashTagline => 'احجز من غير زحمة';
+
+  @override
+  String get splashCaption => 'جامعة طنطا';
 }

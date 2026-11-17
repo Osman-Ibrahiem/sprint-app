@@ -2016,4 +2016,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String bookingTrainerRowSpoken(String name, String bio, String sessions) {
     return 'Trainer $name, $bio, $sessions';
   }
+
+  @override
+  String get splashTagline => 'Book without the crowd';
+
+  @override
+  String get splashCaption => 'Tanta University';
 }

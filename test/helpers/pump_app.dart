@@ -48,7 +48,7 @@ Future<void> pumpSprintApp(
     reduceMotion: reduceMotion,
   );
   await tester.pumpWidget(
-    ProviderScope(overrides: overrides, child: const SprintApp()),
+    ProviderScope(overrides: overrides, child: const SprintApp(showSplash: false)),
   );
   await tester.pumpAndSettle();
 }

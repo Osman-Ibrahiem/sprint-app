@@ -1204,5 +1204,13 @@
         "type": "String"
       }
     }
+  },
+  "splashTagline": "احجز من غير زحمة",
+  "@splashTagline": {
+    "description": "Splash screen tagline under the wordmark (proposed copy, not yet in copy-review)"
+  },
+  "splashCaption": "جامعة طنطا",
+  "@splashCaption": {
+    "description": "Splash screen caption at the bottom (proposed copy, not yet in copy-review)"
   }
 }
