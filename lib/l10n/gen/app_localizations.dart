@@ -1024,7 +1024,7 @@ abstract class AppLocalizations {
   /// No description provided for @ticketCancelUntil.
   ///
   /// In ar, this message translates to:
-  /// **'إلغاء مجاني لحد {date}'**
+  /// **'الإلغاء متاح لحد {date}'**
   String ticketCancelUntil(String date);
 
   /// No description provided for @ticketCancelUnavailable.
@@ -3820,12 +3820,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'وصلك إشعار بالتفاصيل، وهنفكرك قبل الميعاد بـ{lead}.'**
   String confirmedSubtitle(String lead);
-
-  /// No description provided for @confirmedCancelUntil.
-  ///
-  /// In ar, this message translates to:
-  /// **'الإلغاء متاح لحد {until}'**
-  String confirmedCancelUntil(String until);
 
   /// No description provided for @confirmedReceiptRow.
   ///

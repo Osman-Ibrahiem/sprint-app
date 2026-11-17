@@ -114,7 +114,7 @@ void main() {
       tester,
       ticket(cancelUntil: DateTime(2026, 11, 9, 17)),
     );
-    expect(find.textContaining('إلغاء مجاني لحد'), findsOneWidget);
+    expect(find.textContaining('الإلغاء متاح لحد'), findsOneWidget);
   });
 
   testWidgets('340 wide on a wide window, with a divider and a paid row',

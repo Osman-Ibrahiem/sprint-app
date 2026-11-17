@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart' show Key, Size, ValueKey;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sprint/core/adaptive/adaptive_back_button.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/data/in_memory_data_layer.dart';
 import 'package:sprint/core/providers/data_providers.dart';
@@ -7,7 +8,7 @@ import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
-import 'package:sprint/features/booking/presentation/checkout/checkout_coming_soon_screen.dart';
+import 'package:sprint/features/booking/presentation/checkout/checkout_screen.dart';
 import 'package:sprint/features/booking/presentation/schedule/schedule_notice_view.dart';
 import 'package:sprint/features/booking/presentation/schedule/schedule_screen.dart';
 import 'package:sprint/features/booking/presentation/schedule/selection_bar.dart';
@@ -129,7 +130,7 @@ void main() {
   });
 
   group('payment hand-off', () {
-    testWidgets('"متابعة للدفع" opens the placeholder and stores nothing', (
+    testWidgets('"متابعة للدفع" creates the booking on hold and opens checkout', (
       tester,
     ) async {
       await openSummary(
@@ -141,13 +142,8 @@ void main() {
       final before = bookingCount(tester);
       await tester.tap(find.byKey(BookingSummaryScreen.actionKey));
       await tester.pumpAndSettle();
-      expect(find.byType(CheckoutComingSoonScreen), findsOneWidget);
-      expect(find.text(ar.bookingCheckoutSoonTitle), findsWidgets);
-      expect(bookingCount(tester), before);
-
-      await tester.tap(find.byKey(CheckoutComingSoonScreen.backKey));
-      await tester.pumpAndSettle();
-      expect(find.byType(BookingSummaryScreen), findsOneWidget);
+      expect(find.byType(CheckoutScreen), findsOneWidget);
+      expect(bookingCount(tester), before + 1);
     });
 
     testWidgets(
@@ -263,13 +259,20 @@ void main() {
 
         await tester.tap(find.byKey(BookingSummaryScreen.actionKey));
         await tester.pumpAndSettle();
-        expect(find.byType(CheckoutComingSoonScreen), findsOneWidget);
+        expect(find.byType(CheckoutScreen), findsOneWidget);
 
-        routerOf(tester).pop();
+        // Leaving checkout (BR-47) lands on the same summary.
+        await tester.tap(find.byType(AdaptiveBackButton));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text(ar.checkoutLeaveConfirm));
         await tester.pumpAndSettle();
         expect(find.byType(BookingSummaryScreen), findsOneWidget);
+        expect(
+          currentUri(tester).queryParameters,
+          containsPair('start', '1800'),
+        );
 
-        routerOf(tester).pop();
+        await tester.tap(find.byType(AdaptiveBackButton));
         await tester.pumpAndSettle();
         expect(find.byType(ScheduleScreen), findsOneWidget);
         expect(chipAtHour(tester, 18)!.state.name, 'selected');

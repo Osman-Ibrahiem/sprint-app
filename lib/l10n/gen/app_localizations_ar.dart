@@ -545,7 +545,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String ticketCancelUntil(String date) {
-    return 'إلغاء مجاني لحد $date';
+    return 'الإلغاء متاح لحد $date';
   }
 
   @override
@@ -2249,11 +2249,6 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String confirmedSubtitle(String lead) {
     return 'وصلك إشعار بالتفاصيل، وهنفكرك قبل الميعاد بـ$lead.';
-  }
-
-  @override
-  String confirmedCancelUntil(String until) {
-    return 'الإلغاء متاح لحد $until';
   }
 
   @override

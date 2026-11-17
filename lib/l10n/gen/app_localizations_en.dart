@@ -543,7 +543,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String ticketCancelUntil(String date) {
-    return 'Free cancellation until $date';
+    return 'Cancellation available until $date';
   }
 
   @override
@@ -2270,11 +2270,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String confirmedSubtitle(String lead) {
     return 'You got a notification with the details, and we\'ll remind you $lead before.';
-  }
-
-  @override
-  String confirmedCancelUntil(String until) {
-    return 'Cancellation available until $until';
   }
 
   @override

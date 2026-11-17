@@ -4,16 +4,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/data/in_memory_data_layer.dart';
 import 'package:sprint/core/l10n/ltr_isolate.dart';
+import 'package:sprint/app/shell/placeholders/no_access_screen.dart';
 import 'package:sprint/core/providers/data_providers.dart';
+import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/result/result.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/core/widgets/booking_ticket/booking_ticket.dart';
 import 'package:sprint/core/widgets/slot_chip/slot_state.dart' as chip;
-import 'package:sprint/core/widgets/status_badge/status_badge.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
-import 'package:sprint/features/booking/presentation/done/booking_done_screen.dart';
+import 'package:sprint/features/booking/presentation/confirmed/booking_confirmed_screen.dart';
 import 'package:sprint/features/booking/presentation/schedule/schedule_screen.dart';
 import 'package:sprint/features/booking/presentation/schedule/selection_bar.dart';
 import 'package:sprint/features/booking/presentation/summary/booking_summary_screen.dart';
@@ -211,17 +212,15 @@ void main() {
       },
     );
 
-    testWidgets('the success screen: code, details, status; no QR, no ticket', (
-      tester,
-    ) async {
+    testWidgets('the success screen is the ticket: QR, code, "مجاني", no '
+        'receipt row (US-12, BR-19)', (tester) async {
       await openHall(tester);
       await toSummary(tester);
       await tester.tap(find.byKey(BookingSummaryScreen.actionKey));
       await tester.pumpAndSettle();
 
-      expect(find.byType(BookingDoneScreen), findsOneWidget);
-      expect(find.text(ar.bookingDoneTitle), findsWidgets);
-      expect(find.byType(StatusBadge), findsOneWidget);
+      expect(find.byType(BookingConfirmedScreen), findsOneWidget);
+      expect(find.text(ar.confirmedTitle), findsWidgets);
       final code = containerOf(tester)
           .read(dataLayerProvider)
           .bookings
@@ -231,29 +230,36 @@ void main() {
       expect(find.text(code), findsOneWidget);
       expect(
         find.ancestor(
-          of: find.byKey(BookingDoneScreen.codeKey),
+          of: find.byKey(BookingTicket.codeKey),
           matching: find.byType(LtrIsolate),
         ),
         findsOneWidget,
       );
       expect(find.text('الصالة المغطاة متعددة الأغراض'), findsOneWidget);
       expect(find.text('قاعة 2'), findsOneWidget);
-      expect(find.text('4:00 م – 7:00 م'), findsOneWidget);
-      expect(find.byType(BookingTicket), findsNothing);
-      expect(find.byKey(BookingDoneScreen.homeKey), findsOneWidget);
+      expect(find.byType(BookingTicket), findsOneWidget);
+      expect(find.byKey(BookingTicket.qrKey), findsOneWidget);
+      expect(find.text(ar.bookingRowPrice), findsWidgets);
+      expect(find.text(ar.bookingFree), findsWidgets);
+      expect(find.byKey(BookingConfirmedScreen.receiptKey), findsNothing);
+      expect(find.byKey(BookingConfirmedScreen.homeKey), findsOneWidget);
     });
 
     testWidgets(
-      'back from the success lands on the schedule, never the summary',
+      'the success screen cannot be left back to the summary',
       (tester) async {
         await openHall(tester);
         await toSummary(tester);
         await tester.tap(find.byKey(BookingSummaryScreen.actionKey));
         await tester.pumpAndSettle();
 
-        routerOf(tester).pop();
-        await tester.pumpAndSettle();
-        expect(find.byType(ScheduleScreen), findsOneWidget);
+        // Reached with `go`: the summary is gone, so it cannot confirm the
+        // booking a second time.
+        expect(find.byType(BookingSummaryScreen), findsNothing);
+        if (routerOf(tester).canPop()) {
+          routerOf(tester).pop();
+          await tester.pumpAndSettle();
+        }
         expect(find.byType(BookingSummaryScreen), findsNothing);
         // The hours are taken for everyone.
         routerOf(tester).go(AppPaths.facilitySchedule(hall, onDay(1)));
@@ -275,7 +281,7 @@ void main() {
       await toSummary(tester);
       await tester.tap(find.byKey(BookingSummaryScreen.actionKey));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(BookingDoneScreen.homeKey));
+      await tester.tap(find.byKey(BookingConfirmedScreen.homeKey));
       await tester.pumpAndSettle();
       expect(find.byType(HomeScreen), findsOneWidget);
       expect(
@@ -347,10 +353,14 @@ void main() {
             ),
           );
       final id = (other as Ok<Booking>).value.id;
-      routerOf(tester).go(AppPaths.bookingDone(hall, id));
+      await containerOf(tester)
+          .read(sessionProvider.notifier)
+          .actAs(SeedIds.bookerExternal);
       await tester.pumpAndSettle();
-      expect(find.byKey(BookingDoneScreen.notFoundKey), findsOneWidget);
-      expect(find.text(ar.bookingDoneNotFoundTitle), findsOneWidget);
+      routerOf(tester).go(AppPaths.bookingConfirmed(id));
+      await tester.pumpAndSettle();
+      expect(find.byType(NoAccessScreen), findsOneWidget);
+      expect(find.byType(BookingTicket), findsNothing);
     });
   });
 

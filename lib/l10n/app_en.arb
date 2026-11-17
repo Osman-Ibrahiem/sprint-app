@@ -216,7 +216,7 @@
   "ticketCodeLabel": "Booking code",
   "ticketCopied": "Copied",
   "ticketPaid": "Paid",
-  "ticketCancelUntil": "Free cancellation until {date}",
+  "ticketCancelUntil": "Cancellation available until {date}",
   "ticketCancelUnavailable": "Cancellation unavailable",
   "ticketQrUnavailable": "QR unavailable",
   "ticketSpoken": "Ticket {facility}, {dateTime}, {status}, {code}",
@@ -1358,14 +1358,6 @@
   "@confirmedSubtitle": {
     "placeholders": {
       "lead": {
-        "type": "String"
-      }
-    }
-  },
-  "confirmedCancelUntil": "Cancellation available until {until}",
-  "@confirmedCancelUntil": {
-    "placeholders": {
-      "until": {
         "type": "String"
       }
     }

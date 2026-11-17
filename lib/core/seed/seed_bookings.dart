@@ -185,9 +185,10 @@ SeedBookingSet seedBookings(DateTime now) {
   add(SeedIds.userUnverified, SeedIds.gym1, 5, 9, BookingStatus.confirmed, tExt, 60);
 
   // The two tickets the demo shows: one paid (with its receipt) and one free
-  // (BR-19), both the internal booker's, tomorrow and in five days.
-  add(bi, SeedIds.pool3, 1, 17, BookingStatus.confirmed, tInt, 20);
-  add(bi, SeedIds.hall1, 5, 10, BookingStatus.confirmed, tInt, 0, hours: 2);
+  // (BR-19), both the internal booker's, a week out so they never overlap a
+  // booking someone makes while trying the schedule (BR-13).
+  add(bi, SeedIds.pool3, 6, 11, BookingStatus.confirmed, tInt, 20);
+  add(bi, SeedIds.hall1, 6, 15, BookingStatus.confirmed, tInt, 0, hours: 2);
 
   // Lane 2 holds three places and three people booked it: this slot is full.
   add(bi, SeedIds.pool2, 3, 10, BookingStatus.confirmed, tInt, 20);

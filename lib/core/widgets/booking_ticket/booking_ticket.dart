@@ -35,6 +35,7 @@ class BookingTicket extends StatefulWidget {
     this.qrToken,
     this.cancelUntil,
     this.onCodeCopied,
+    this.priceLabel,
     super.key,
   }) : isLoading = false;
 
@@ -51,6 +52,7 @@ class BookingTicket extends StatefulWidget {
         paid = '',
         cancelUntil = null,
         onCodeCopied = null,
+        priceLabel = null,
         isLoading = true;
 
   final BookingTicketState state;
@@ -69,6 +71,10 @@ class BookingTicket extends StatefulWidget {
   /// Cairo-local; null means "الإلغاء مش متاح".
   final DateTime? cancelUntil;
   final VoidCallback? onCodeCopied;
+
+  /// Replaces "المدفوع" for a booking that cost nothing ("السعر" with
+  /// "مجاني" as [paid]).
+  final String? priceLabel;
   final bool isLoading;
 
   static const bandKey = ValueKey<String>('ticket-band');
@@ -221,7 +227,7 @@ class _BookingTicketState extends State<BookingTicket> {
               const SizedBox(height: SprintSpacing.space3),
               _codeRow(context, colors, l10n),
               const SizedBox(height: SprintSpacing.space3),
-              _row(context, l10n.ticketPaid, widget.paid),
+              _row(context, widget.priceLabel ?? l10n.ticketPaid, widget.paid),
               const SizedBox(height: SprintSpacing.space2),
               Align(
                 alignment: AlignmentDirectional.centerStart,

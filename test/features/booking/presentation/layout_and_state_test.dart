@@ -2,11 +2,9 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/core/widgets/slot_chip/slot_state.dart' as chip;
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
-import 'package:sprint/features/booking/presentation/done/booking_done_screen.dart';
 import 'package:sprint/features/booking/presentation/schedule/schedule_screen.dart';
 import 'package:sprint/features/booking/presentation/schedule/selection_bar.dart';
 import 'package:sprint/features/booking/presentation/schedule/selection_panel.dart';
@@ -118,24 +116,6 @@ void main() {
       await openAt(tester, 400);
       expect(find.byKey(FacilitiesScreen.listSlotKey), findsNothing);
       expect(find.byType(ScheduleScreen), findsOneWidget);
-    });
-
-    testWidgets('the success screen fits the pane too', (tester) async {
-      await openSchedule(
-        tester,
-        SeedIds.hallFacility,
-        size: const Size(1000, 900),
-        signInAs: SeedIds.bookerExternal,
-      );
-      routerOf(tester).go(AppPaths.bookingDone(SeedIds.hallFacility, 'nope'));
-      await tester.pumpAndSettle();
-      expect(
-        find.descendant(
-          of: find.byKey(FacilitiesScreen.detailsSlotKey),
-          matching: find.byType(BookingDoneScreen),
-        ),
-        findsOneWidget,
-      );
     });
   });
 

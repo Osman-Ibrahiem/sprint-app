@@ -77,14 +77,28 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(CheckoutScreen), findsOneWidget);
 
-    routerOf(tester).go(AppPaths.bookingConfirmed(booking.id));
+    // A confirmed booking of the same person (seed): its ticket and receipt.
+    final paid = layer.bookings.allBookings.firstWhere((b) =>
+        b.userId == SeedIds.bookerInternal &&
+        b.unitId == SeedIds.pool3 &&
+        b.status == BookingStatus.confirmed);
+    routerOf(tester).go(AppPaths.bookingConfirmed(paid.id));
     await tester.pumpAndSettle();
     expect(find.byType(BookingConfirmedScreen), findsOneWidget);
-    expect(currentPath(tester), AppPaths.bookingConfirmed(booking.id));
+    expect(currentPath(tester), AppPaths.bookingConfirmed(paid.id));
 
-    routerOf(tester).go(AppPaths.bookingReceipt(booking.id));
+    routerOf(tester).go(AppPaths.bookingReceipt(paid.id));
     await tester.pumpAndSettle();
     expect(find.byType(ReceiptScreen), findsOneWidget);
+  });
+
+  testWidgets('the ticket route of a booking still on hold goes to its '
+      'checkout', (tester) async {
+    await open(tester, signInAs: SeedIds.bookerInternal);
+    routerOf(tester).go(AppPaths.bookingConfirmed(booking.id));
+    await tester.pumpAndSettle();
+    expect(currentPath(tester),
+        AppPaths.bookingCheckoutFor(booking.facilityId, booking.id));
   });
 
   testWidgets('the old checkout address redirects to the summary, keeping '
@@ -99,9 +113,13 @@ void main() {
 
   testWidgets('the old done address redirects to the ticket', (tester) async {
     await open(tester, signInAs: SeedIds.bookerInternal);
-    routerOf(tester).go(AppPaths.bookingDone(pool, booking.id));
+    final paid = layer.bookings.allBookings.firstWhere((b) =>
+        b.userId == SeedIds.bookerInternal &&
+        b.unitId == SeedIds.pool3 &&
+        b.status == BookingStatus.confirmed);
+    routerOf(tester).go(AppPaths.bookingDone(pool, paid.id));
     await tester.pumpAndSettle();
-    expect(currentPath(tester), AppPaths.bookingConfirmed(booking.id));
+    expect(currentPath(tester), AppPaths.bookingConfirmed(paid.id));
   });
 
   for (final path in [

@@ -220,7 +220,7 @@
   "ticketCodeLabel": "كود الحجز",
   "ticketCopied": "اتنسخ",
   "ticketPaid": "المدفوع",
-  "ticketCancelUntil": "إلغاء مجاني لحد {date}",
+  "ticketCancelUntil": "الإلغاء متاح لحد {date}",
   "ticketCancelUnavailable": "الإلغاء مش متاح",
   "ticketQrUnavailable": "QR غير متاح",
   "ticketSpoken": "تذكرة {facility}، {dateTime}، {status}، {code}",
@@ -1362,14 +1362,6 @@
   "@confirmedSubtitle": {
     "placeholders": {
       "lead": {
-        "type": "String"
-      }
-    }
-  },
-  "confirmedCancelUntil": "الإلغاء متاح لحد {until}",
-  "@confirmedCancelUntil": {
-    "placeholders": {
-      "until": {
         "type": "String"
       }
     }

@@ -331,33 +331,34 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
                 builder: (context, state) => const SizedBox.shrink(),
               ),
               GatedRoute(
-                path: 'checkout/:bookingId',
-                name: AppRouteNames.bookingCheckout,
-                access: const RouteAccess(requiresAccount: true),
-                builder: (context, state) {
-                  final id = state.pathParameters['id']!;
-                  final bookingId = state.pathParameters['bookingId']!;
-                  return FacilitiesScreen(
-                    selectedId: id,
-                    paneBuilder: (_) => BookingOwnerGate(
-                      bookingId: bookingId,
-                      child: CheckoutScreen(
-                        facilityId: id,
-                        bookingId: bookingId,
-                      ),
-                    ),
-                  );
-                },
-              ),
-              GatedRoute(
                 path: 'done/:bookingId',
                 name: AppRouteNames.bookingDone,
                 access: const RouteAccess(requiresAccount: true),
-                redirect: (context, state) =>
-                    AppPaths.bookingConfirmed(state.pathParameters['bookingId']!),
+                redirect: (context, state) => AppPaths.bookingConfirmed(
+                  state.pathParameters['bookingId']!,
+                ),
                 builder: (context, state) => const SizedBox.shrink(),
               ),
             ],
+          ),
+          // Checkout is a sibling of the schedule, not a child: a child would
+          // keep the schedule alive beneath it, reacting to the booking's own
+          // Hold (the place looks taken) and rewriting the address.
+          GatedRoute(
+            path: 'schedule/checkout/:bookingId',
+            name: AppRouteNames.bookingCheckout,
+            access: const RouteAccess(requiresAccount: true),
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              final bookingId = state.pathParameters['bookingId']!;
+              // The whole content area, not the facility pane: the
+              // two-column layout needs the width (design-pack
+              // adaptive.md); compact is full screen either way.
+              return BookingOwnerGate(
+                bookingId: bookingId,
+                child: CheckoutScreen(facilityId: id, bookingId: bookingId),
+              );
+            },
           ),
         ],
       ),
