@@ -106,6 +106,10 @@ abstract final class SprintExtras {
 
   /// One column of the two-column confirmation from the expanded class (Figma
   /// 358), and the gap between them (48).
+  /// How long processing may last before the screen says it is still waiting
+  /// (research R14): a presentation timing, not a BRD setting.
+  static const Duration checkoutProcessingWait = Duration(seconds: 20);
+
   static const double confirmationColumn = 358;
   static const double confirmationGap = 48;
 }

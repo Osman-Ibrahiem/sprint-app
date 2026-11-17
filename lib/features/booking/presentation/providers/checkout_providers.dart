@@ -24,7 +24,7 @@ part 'checkout_providers.g.dart';
 /// Tracking): how long processing may last before the screen says it is still
 /// waiting.
 abstract final class CheckoutTimings {
-  static const Duration processingWait = Duration(seconds: 20);
+  static const Duration processingWait = SprintExtras.checkoutProcessingWait;
 }
 
 /// Whether the signed-in person may open a booking's checkout.
