@@ -110,7 +110,8 @@ void main() {
       final f =
           await refusal(req(Ids.bookerExternal, Ids.tennis1, env.at(3, 17)));
       expect(f, isA<SlotTaken>());
-      expect((f as SlotTaken).at, env.at(3, 17));
+      expect((f as SlotTaken).at, isNull,
+          reason: 'a single slot is refused plainly');
     });
 
     test('a shared slot with no places is full (BR-03)', () async {

@@ -52,4 +52,4 @@ Built and parsed only by `ScheduleSelection`; screens never assemble the query b
 | "الرجوع للرئيسية" on the success screen | `go('/home')` |
 | Medium and larger windows | every route above renders in the details pane beside the facilities list; compact shows it full screen |
 | Window resized, rotated, folded or unfolded | the location does not change, so the selection is kept (FR-042) |
-| Sign-out on `summary`, `checkout` or `done` | the router's redirect sends the guest to sign-in with `from`; cancelling returns to the schedule as a guest |
+| Sign-out on `summary`, `checkout` or `done` | the router's redirect sends the person to `/sign-in?from=<that location>`; signing in again returns to it |

@@ -175,3 +175,114 @@ final class MyUpcomingBookingsProvider
 
 String _$myUpcomingBookingsHash() =>
     r'db0ad1ecb2c471e1af9dad30a136f469eb30912a';
+
+/// The checked quote and names for the summary (FR-024 – FR-028). Re-runs when
+/// the session changes, so a verification that was just approved shows the new
+/// price and says so (FR-026). The repository's answer is binding; a refusal
+/// comes back as `Err` for the screen to explain.
+
+@ProviderFor(bookingSummary)
+final bookingSummaryProvider = BookingSummaryFamily._();
+
+/// The checked quote and names for the summary (FR-024 – FR-028). Re-runs when
+/// the session changes, so a verification that was just approved shows the new
+/// price and says so (FR-026). The repository's answer is binding; a refusal
+/// comes back as `Err` for the screen to explain.
+
+final class BookingSummaryProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<Result<BookingSummaryView>>,
+          Result<BookingSummaryView>,
+          FutureOr<Result<BookingSummaryView>>
+        >
+    with
+        $FutureModifier<Result<BookingSummaryView>>,
+        $FutureProvider<Result<BookingSummaryView>> {
+  /// The checked quote and names for the summary (FR-024 – FR-028). Re-runs when
+  /// the session changes, so a verification that was just approved shows the new
+  /// price and says so (FR-026). The repository's answer is binding; a refusal
+  /// comes back as `Err` for the screen to explain.
+  BookingSummaryProvider._({
+    required BookingSummaryFamily super.from,
+    required (String, ScheduleSelection, int?) super.argument,
+  }) : super(
+         retry: null,
+         name: r'bookingSummaryProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$bookingSummaryHash();
+
+  @override
+  String toString() {
+    return r'bookingSummaryProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<Result<BookingSummaryView>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<Result<BookingSummaryView>> create(Ref ref) {
+    final argument = this.argument as (String, ScheduleSelection, int?);
+    return bookingSummary(ref, argument.$1, argument.$2, argument.$3);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is BookingSummaryProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$bookingSummaryHash() => r'0418fb51de6189cd90cf9541751ba68e0083bae5';
+
+/// The checked quote and names for the summary (FR-024 – FR-028). Re-runs when
+/// the session changes, so a verification that was just approved shows the new
+/// price and says so (FR-026). The repository's answer is binding; a refusal
+/// comes back as `Err` for the screen to explain.
+
+final class BookingSummaryFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<Result<BookingSummaryView>>,
+          (String, ScheduleSelection, int?)
+        > {
+  BookingSummaryFamily._()
+    : super(
+        retry: null,
+        name: r'bookingSummaryProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// The checked quote and names for the summary (FR-024 – FR-028). Re-runs when
+  /// the session changes, so a verification that was just approved shows the new
+  /// price and says so (FR-026). The repository's answer is binding; a refusal
+  /// comes back as `Err` for the screen to explain.
+
+  BookingSummaryProvider call(
+    String facilityId,
+    ScheduleSelection selection,
+    int? shown,
+  ) => BookingSummaryProvider._(
+    argument: (facilityId, selection, shown),
+    from: this,
+  );
+
+  @override
+  String toString() => r'bookingSummaryProvider';
+}

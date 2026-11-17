@@ -1,4 +1,5 @@
 import 'package:sprint/core/time/cairo_time.dart';
+import 'package:sprint/features/booking/domain/booking_repository.dart';
 
 /// Minutes since Cairo midnight of the Cairo day [instant] falls on.
 int cairoMinutesOf(DateTime instant) {
@@ -73,6 +74,22 @@ class ScheduleSelection {
     final d = day;
     if (d == null || minutes == null) return null;
     return CairoTime.atWallClock(d.year, d.month, d.day, minutes ~/ 60, minutes % 60);
+  }
+
+  /// The booking request this selection stands for, or null until a unit and
+  /// a time are chosen.
+  BookingRequest? toRequest(String userId) {
+    final start = startInstant;
+    final end = endInstant;
+    final unit = unitId;
+    if (start == null || end == null || unit == null) return null;
+    return BookingRequest(
+      userId: userId,
+      unitId: unit,
+      start: start,
+      end: end,
+      trainerId: trainerId,
+    );
   }
 
   /// Only what is set, in a fixed key order.

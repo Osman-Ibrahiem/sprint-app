@@ -131,8 +131,8 @@ void main() {
         endMinutes: 11 * 60,
       ),
     );
-    // Lane 2 on day +3 at 10:00 is full.
-    expect(find.text(ar.bookingChoiceGone), findsOneWidget);
+    // Lane 2 on day +3 at 10:00 is full: the notice says so.
+    expect(find.text(ar.bookingFailSlotFull), findsOneWidget);
     expect(currentUri(tester).queryParameters.containsKey('start'), isFalse);
   });
 }

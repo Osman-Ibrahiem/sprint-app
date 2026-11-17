@@ -6,6 +6,7 @@ import 'package:sprint/app/shell/placeholders/bookings_placeholder.dart';
 import 'package:sprint/app/shell/placeholders/no_access_screen.dart';
 import 'package:sprint/app/shell/placeholders/profile_placeholder.dart';
 import 'package:sprint/core/providers/session_provider.dart';
+import 'package:sprint/features/booking/domain/schedule_notice.dart';
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
 import 'package:sprint/features/booking/presentation/checkout/checkout_coming_soon_screen.dart';
 import 'package:sprint/features/booking/presentation/done/booking_done_screen.dart';
@@ -264,6 +265,9 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
                   facilityId: id,
                   selection: selection,
                   notFound: (_) => const FacilityNotFound(),
+                  initialNotice: state.extra is ScheduleNotice
+                      ? state.extra! as ScheduleNotice
+                      : null,
                 ),
               );
             },

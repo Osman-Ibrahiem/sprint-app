@@ -196,7 +196,7 @@ The schedule, the trainer step and the summary work in Arabic RTL and English, i
 - The address names a day outside the window, an unknown unit or trainer, or a slot that no longer exists: the schedule opens on its defaults and says the earlier choice is no longer available.
 - A trainer works in more than one unit of the facility: their sessions still show in one grid ordered by time, each session belongs to the unit the trainer's schedule gives it, and the summary names that unit.
 - A signed-in user with a non-booker role (trainer, manager, verifier, admin) books: they can, the same as a booker (BRD §6 matrix).
-- The booker signs out on the summary, the checkout placeholder or the success screen: the sign-in screen opens with a way back to the same place; leaving it without signing in returns to the schedule as a guest, with the selection kept.
+- The booker signs out while on the summary, the checkout placeholder or the success screen (for example from another tab, or when the session ends): the sign-in screen opens and signing in again brings the person back to the same place.
 - The demo data is reset (feature 003's action) while a schedule is open: the schedule reloads from the seed and the selection is cleared.
 - Offers exist in the seed data: no offer tag or discounted price shows (feature 10).
 - Loading the summary or confirming a free booking fails for a reason that is not a booking rule: an error with a retry action shows, and no duplicate booking is created by retrying.

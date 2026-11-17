@@ -61,6 +61,9 @@ class ConflictChecker {
     final step = proposal.slotMinutes == null || proposal.slotMinutes! <= 0
         ? null
         : Duration(minutes: proposal.slotMinutes!);
+    // A single slot is refused plainly; only a range names the hour that
+    // broke it.
+    final isRange = step != null && proposal.end.difference(proposal.start) > step;
     var slotStart = proposal.start;
     while (slotStart.isBefore(proposal.end)) {
       final next = step == null ? proposal.end : slotStart.add(step);
@@ -77,14 +80,14 @@ class ConflictChecker {
         }
       }
       if (settings.bookingMode == BookingMode.exclusive) {
-        if (unitTaken > 0) return SlotTaken(at: slotStart);
+        if (unitTaken > 0) return SlotTaken(at: isRange ? slotStart : null);
       } else if (unitTaken + proposal.seats > settings.capacity) {
-        return SlotFull(at: slotStart);
+        return SlotFull(at: isRange ? slotStart : null);
       }
       if (trainerCapacity != null &&
           proposal.trainerId != null &&
           trainerTaken + proposal.seats > trainerCapacity) {
-        return SlotFull(at: slotStart);
+        return SlotFull(at: isRange ? slotStart : null);
       }
       slotStart = slotEnd;
     }

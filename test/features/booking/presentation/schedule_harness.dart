@@ -1,7 +1,10 @@
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sprint/app/router/routes.dart';
+import 'package:sprint/core/data/in_memory_data_layer.dart';
+import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/time/cairo_time.dart';
 import 'package:sprint/core/time/clock_provider.dart';
@@ -33,13 +36,25 @@ Future<void> openSchedule(
   Size size = const Size(400, 1400),
   String? signInAs,
   List<rp.Override> overrides = const [],
+
+  /// Changes the data (settings, bookings) before the app opens.
+  Future<void> Function(InMemoryDataLayer layer)? arrange,
 }) async {
   final t = now ?? satMorning;
+  InMemoryDataLayer? layer;
+  if (arrange != null) {
+    layer = InMemoryDataLayer.create(
+      clock: Clock(() => t),
+      paymentDelay: Duration.zero,
+    );
+    await arrange(layer);
+  }
   await pumpSprintApp(
     tester,
     size: size,
     overrides: [
       appClockProvider.overrideWithValue(Clock(() => t)),
+      if (layer != null) dataLayerProvider.overrideWithValue(layer),
       ...overrides,
     ],
   );
@@ -67,8 +82,13 @@ SlotChip? chipAtHour(WidgetTester tester, int hour) {
 
 bool isState(SlotChip? c, chip.SlotState s) => c?.state == s;
 
-Uri currentUri(WidgetTester tester) =>
-    routerOf(tester).routerDelegate.currentConfiguration.uri;
+/// The location on screen, also when it was pushed (a pushed route keeps its
+/// own match list).
+Uri currentUri(WidgetTester tester) {
+  final config = routerOf(tester).routerDelegate.currentConfiguration;
+  final last = config.last;
+  return last is ImperativeRouteMatch ? last.matches.uri : config.uri;
+}
 
 int stackDepth(WidgetTester tester) =>
     routerOf(tester).routerDelegate.currentConfiguration.matches.length;

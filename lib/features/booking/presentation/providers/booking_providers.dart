@@ -2,11 +2,15 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sprint/core/providers/data_providers.dart';
+import 'package:sprint/core/result/failure.dart';
+import 'package:sprint/core/result/result.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/time/cairo_time.dart';
 import 'package:sprint/core/time/clock_provider.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/domain/booking_path.dart';
+import 'package:sprint/features/booking/domain/booking_quote.dart';
+import 'package:sprint/features/booking/domain/booking_summary_view.dart';
 import 'package:sprint/features/booking/domain/facility_schedule.dart';
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
 import 'package:sprint/features/booking/domain/slot.dart';
@@ -15,6 +19,7 @@ import 'package:sprint/features/catalogue/domain/bookable_unit.dart';
 import 'package:sprint/features/catalogue/domain/price.dart';
 import 'package:sprint/features/catalogue/domain/trainer.dart';
 import 'package:sprint/features/identity/domain/identity_repository.dart';
+import 'package:sprint/features/identity/domain/verification.dart';
 import 'package:sprint/features/settings/domain/setting_registry.dart';
 
 part 'booking_providers.g.dart';
@@ -207,4 +212,59 @@ Future<List<Booking>> myUpcomingBookings(Ref ref) async {
   final user = session.user;
   if (user == null) return const [];
   return bookings.listForUser(user.id, upcoming: true);
+}
+
+/// The checked quote and names for the summary (FR-024 – FR-028). Re-runs when
+/// the session changes, so a verification that was just approved shows the new
+/// price and says so (FR-026). The repository's answer is binding; a refusal
+/// comes back as `Err` for the screen to explain.
+@riverpod
+Future<Result<BookingSummaryView>> bookingSummary(
+  Ref ref,
+  String facilityId,
+  ScheduleSelection selection,
+  int? shown,
+) async {
+  final session = ref.watch(currentSessionProvider);
+  final bookings = ref.watch(bookingRepositoryProvider);
+  final catalogue = ref.watch(catalogueRepositoryProvider);
+  final identity = ref.watch(identityRepositoryProvider);
+
+  final user = session.user;
+  if (user == null) return const Err(NotPermitted());
+  final request = selection.toRequest(user.id);
+  if (request == null) return const Err(NotFound('unit'));
+
+  final quoted = await bookings.quote(request);
+  if (quoted is Err<BookingQuote>) return Err(quoted.failure);
+  final quote = (quoted as Ok<BookingQuote>).value;
+
+  final facility = await catalogue.getFacility(quote.facilityId);
+  final unit = await catalogue.getUnit(quote.unitId);
+  String? trainerName;
+  if (quote.trainerId != null) {
+    for (final t in await catalogue.trainers(quote.facilityId)) {
+      if (t.id == quote.trainerId) {
+        trainerName = (await identity.getUser(t.userId))?.name;
+      }
+    }
+  }
+
+  final pending = session.verification?.status == VerificationStatus.pending;
+  final hint = pending
+      ? VerificationHint.underReview
+      : quote.tier == PriceTier.external
+      ? VerificationHint.canVerify
+      : VerificationHint.none;
+
+  return Ok(
+    BookingSummaryView.from(
+      quote: quote,
+      facilityName: facility?.name ?? '',
+      unitName: unit?.name ?? '',
+      trainerName: trainerName,
+      verificationHint: hint,
+      shown: shown,
+    ),
+  );
 }
