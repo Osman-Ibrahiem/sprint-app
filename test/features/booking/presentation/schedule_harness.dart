@@ -37,6 +37,9 @@ DateTime cairoAt(int day, int hour, [int minute = 0]) {
   return CairoTime.atWallClock(2026, 11, 14 + day, hour, minute);
 }
 
+/// A clock fixed at [t].
+Clock clockAt(DateTime t) => Clock(() => t);
+
 /// Opens the schedule of [facilityId] with [selection] in the address.
 Future<void> openSchedule(
   WidgetTester tester,
