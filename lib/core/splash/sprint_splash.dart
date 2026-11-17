@@ -24,8 +24,7 @@ class SprintSplashGate extends StatefulWidget {
 
   /// How long step 3 stays on screen: two `duration-base` and one `duration-fast`.
   static final Duration defaultHold =
-      (SprintMotion.durationBase * 2 + SprintMotion.durationFast) *
-      SprintSplash.slowdown;
+      SprintMotion.durationBase * 2 + SprintMotion.durationFast;
 
   final Widget child;
   final bool enabled;
@@ -94,13 +93,7 @@ class SprintSplash extends StatefulWidget {
 
   /// Step 1 stays this long before the move (600ms, as in the Figma notes).
   static final Duration nativeHold =
-      (SprintMotion.durationSlow + SprintMotion.durationBase) * slowdown;
-
-  /// For reviewing the motion: `--dart-define=SPLASH_SLOW=4` plays it 4x slower.
-  static const int slowdown = int.fromEnvironment(
-    'SPLASH_SLOW',
-    defaultValue: 1,
-  );
+      SprintMotion.durationSlow + SprintMotion.durationBase;
 
   static const double _boltRise = 86; // centre -> step 3 position
   static const double _wordmarkGap = 20; // bolt bottom -> wordmark top
@@ -126,13 +119,11 @@ class _SprintSplashState extends State<SprintSplash>
   // 0..350ms bolt move + wordmark fade; then 250ms content fade.
   late final AnimationController _intro = AnimationController(
     vsync: this,
-    duration:
-        (SprintMotion.durationSlow + SprintMotion.durationBase) *
-        SprintSplash.slowdown,
+    duration: SprintMotion.durationSlow + SprintMotion.durationBase,
   );
   late final AnimationController _loader = AnimationController(
     vsync: this,
-    duration: SprintMotion.durationPulse * SprintSplash.slowdown,
+    duration: SprintMotion.durationPulse,
   );
   Timer? _timer;
   bool _started = false;
@@ -173,7 +164,7 @@ class _SprintSplashState extends State<SprintSplash>
   }
 
   double _span(double from, double to, Curve curve) {
-    final total = _intro.duration!.inMicroseconds ~/ SprintSplash.slowdown;
+    final total = _intro.duration!.inMicroseconds;
     final t = ((_intro.value * total - from * 1000) / ((to - from) * 1000))
         .clamp(0.0, 1.0);
     return curve.transform(t);
