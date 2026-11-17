@@ -20,7 +20,7 @@ import 'package:sprint/core/l10n/sprint_icon.dart';
 /// at every width (R2): compact shows the list or the details alone, medium and
 /// larger show both, and a hinge never sits under content (FR-007 – FR-014).
 class FacilitiesScreen extends StatelessWidget {
-  const FacilitiesScreen({this.selectedId, super.key});
+  const FacilitiesScreen({this.selectedId, this.paneBuilder, super.key});
 
   static const listSlotKey = ValueKey<String>('facilities-list-slot');
   static const detailsSlotKey = ValueKey<String>('facilities-details-slot');
@@ -29,6 +29,12 @@ class FacilitiesScreen extends StatelessWidget {
 
   /// The facility shown in the details slot, or null for none.
   final String? selectedId;
+
+  /// When set, replaces the whole details slot (its app bar included) for a
+  /// route that shows something else beside the list, such as the booking
+  /// schedule. Lets `routes.dart` hand another feature's screens in without
+  /// the catalogue importing them (feature 005 research R1).
+  final WidgetBuilder? paneBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +54,7 @@ class FacilitiesScreen extends StatelessWidget {
 
     final details = KeyedSubtree(
       key: detailsSlotKey,
-      child: _DetailsSlot(id: selectedId!),
+      child: paneBuilder?.call(context) ?? _DetailsSlot(id: selectedId!),
     );
     if (size.isCompact) return details;
     return DisplayFeatureLayout(start: list, end: details);

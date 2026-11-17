@@ -53,6 +53,10 @@ class InMemoryDataLayer {
     required Clock clock,
     SeedData? seed,
     Duration paymentDelay = const Duration(milliseconds: 600),
+
+    /// Offers are priced in only when on (decisions.md 2026-11-17); the
+    /// offers feature turns it on.
+    bool applyOffers = false,
     DateTime? seededAt,
     String? currentUserId,
     Map<String, Object?>? authState,
@@ -145,6 +149,7 @@ class InMemoryDataLayer {
       paymentProvider: provider,
       paymentProviderName: provider.name,
       clock: clock,
+      applyOffers: applyOffers,
     );
     settings.guard = bookings.settingChangeGuard;
     final availability = InMemoryAvailabilityRepository(

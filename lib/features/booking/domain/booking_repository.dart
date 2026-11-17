@@ -1,6 +1,7 @@
 import 'package:sprint/core/result/result.dart';
 import 'package:sprint/features/attendance/domain/attendance.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
+import 'package:sprint/features/booking/domain/booking_quote.dart';
 
 class BookingRequest {
   const BookingRequest({
@@ -27,6 +28,15 @@ abstract interface class BookingRepository {
   /// (BR-11). A free facility confirms at once (BR-19); a paid one waits for
   /// [pay].
   Future<Result<Booking>> create(BookingRequest request);
+
+  /// Runs every check [create] runs, in the same order and the same queue, and
+  /// writes nothing: no booking, no hold, no notification (research R6). The
+  /// summary shows the result; a paid booking is then handed to checkout,
+  /// which calls [create]. A guest request is refused with `NotPermitted`.
+  Future<Result<BookingQuote>> quote(BookingRequest request);
+
+  /// Fires after each successful write, so open schedules reload.
+  Stream<void> get changes;
 
   Future<Result<Booking>> get(String id);
   Future<List<Booking>> listForUser(String userId, {bool upcoming = false});

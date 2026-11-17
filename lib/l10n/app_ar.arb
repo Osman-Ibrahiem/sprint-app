@@ -17,7 +17,13 @@
   "signInPromptBody": "حجوزاتك وبيانات حسابك هتظهر هنا بعد تسجيل الدخول.",
   "gateTitle": "الخطوة دي محتاجة حساب",
   "gateBody": "تسجيل الدخول أو إنشاء حساب {reason}",
-  "@gateBody": {"placeholders": {"reason": {"type": "String"}}},
+  "@gateBody": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
   "gateSignIn": "تسجيل الدخول",
   "gateSignUp": "إنشاء حساب",
   "gateDismiss": "مش دلوقتي",
@@ -167,7 +173,13 @@
   "codeEntrySentTo": "بعتنا كود على",
   "codeEntryResend": "إرسال الكود تاني",
   "codeEntryResendIn": "إرسال الكود تاني بعد {seconds} ثانية",
-  "@codeEntryResendIn": {"placeholders": {"seconds": {"type": "int"}}},
+  "@codeEntryResendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "fieldSearchHint": "البحث",
   "slotAvailablePlaces": "{count, plural, =1{مكان واحد} =2{مكانين} other{{count} أماكن}}",
   "slotSelected": "مختار",
@@ -388,11 +400,23 @@
   "resetPasswordHint": "8 حروف على الأقل، فيها حرف ورقم",
   "resetSaveButton": "حفظ الباسورد",
   "resetCodeWrong": "الكود غلط. المحاولات المتبقية: {tries}.",
-  "@resetCodeWrong": {"placeholders": {"tries": {"type": "int"}}},
+  "@resetCodeWrong": {
+    "placeholders": {
+      "tries": {
+        "type": "int"
+      }
+    }
+  },
   "resetCodeExpired": "الكود انتهت صلاحيته. ممكن تطلب كود جديد.",
   "resetCodeDead": "محاولات الكود خلصت. ممكن تطلب كود جديد.",
   "resetResendTooSoon": "ممكن تطلب كود جديد بعد {seconds} ثانية.",
-  "@resetResendTooSoon": {"placeholders": {"seconds": {"type": "int"}}},
+  "@resetResendTooSoon": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "resetPasswordEmpty": "الباسورد الجديد مطلوب.",
   "resetPasswordTooShort": "الباسورد لازم يكون 8 حروف على الأقل.",
   "resetPasswordNeedsLetter": "الباسورد لازم فيه حرف واحد على الأقل.",
@@ -433,22 +457,58 @@
   "confirmEmailButton": "تأكيد",
   "confirmCodeEmpty": "الكود مكوّن من 6 أرقام.",
   "confirmCodeWrong": "الكود مش صحيح. {count, plural, =1{فاضلك محاولة واحدة} =2{فاضلك محاولتين} other{فاضلك {count} محاولات}}.",
-  "@confirmCodeWrong": {"placeholders": {"count": {"type": "int"}}},
+  "@confirmCodeWrong": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "confirmCodeExpired": "الكود انتهت صلاحيته. ممكن إرسال كود جديد.",
   "confirmCodeDead": "المحاولات خلصت على الكود ده. ممكن إرسال كود جديد.",
   "confirmNoPending": "مفيش تأكيد معلّق للإيميل ده. ممكن إنشاء حساب من جديد.",
   "confirmResendTooSoon": "ممكن إرسال كود جديد بعد {seconds} ثانية.",
-  "@confirmResendTooSoon": {"placeholders": {"seconds": {"type": "int"}}},
+  "@confirmResendTooSoon": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "confirmResent": "بعتنا كود جديد.",
   "emailConfirmSubject": "كود تأكيد حسابك في سبرنت",
   "emailConfirmBody": "كود التأكيد: {code}\nالكود صالح لمدة {minutes} دقيقة. لو مش إنت اللي عملت الحساب، ممكن تتجاهل الرسالة دي.",
-  "@emailConfirmBody": {"placeholders": {"code": {"type": "String"}, "minutes": {"type": "int"}}},
+  "@emailConfirmBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "emailResetSubject": "كود استرجاع الباسورد في سبرنت",
   "emailResetBody": "كود الاسترجاع: {code}\nالكود صالح لمدة {minutes} دقيقة. لو مش إنت اللي طلبت الاسترجاع، ممكن تتجاهل الرسالة دي.",
-  "@emailResetBody": {"placeholders": {"code": {"type": "String"}, "minutes": {"type": "int"}}},
+  "@emailResetBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "demoNoticeTitle": "للعرض بس",
   "demoNoticeCode": "كود التجربة: {code}",
-  "@demoNoticeCode": {"placeholders": {"code": {"type": "String"}}},
+  "@demoNoticeCode": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
   "demoNoticeDismiss": "إخفاء",
   "mailboxTitle": "صندوق البريد التجريبي",
   "demoResetButton": "إرجاع الداتا التجريبية",
@@ -693,13 +753,55 @@
   "verifActionAgain": "إرسال طلب جديد",
   "verifActionWait": "في انتظار المراجعة",
   "verifNationalIdMasked": "الرقم القومي: {id}",
-  "@verifResultApproved": {"placeholders": {"date": {"type": "String"}}},
-  "@verifResultRejected": {"placeholders": {"reason": {"type": "String"}}},
-  "@verifCardSpoken": {"placeholders": {"status": {"type": "String"}}},
-  "@verifApprovedUntil": {"placeholders": {"date": {"type": "String"}}},
-  "@verifReasonLabel": {"placeholders": {"reason": {"type": "String"}}},
-  "@verifExpiredBody": {"placeholders": {"date": {"type": "String"}}},
-  "@verifNationalIdMasked": {"placeholders": {"id": {"type": "String"}}},
+  "@verifResultApproved": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifResultRejected": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifCardSpoken": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifApprovedUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifReasonLabel": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifExpiredBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifNationalIdMasked": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
   "verifRevSection": "التوثيق",
   "verifRevQueueTitle": "طلبات التوثيق",
   "verifRevQueueEmpty": "مفيش طلبات مستنية المراجعة.",
@@ -754,32 +856,353 @@
   "sheetBatchLine": "اتضاف {added}، اتقبل {approved}، اتجاهل {skipped}",
   "verifNoticeApproved": "تم قبول طلب التوثيق. متوثق لحد {date}.",
   "verifNoticeRejected": "طلب التوثيق اترفض. السبب: {reason}",
-  "@verifRevWaitMinutes": {"placeholders": {"count": {"type": "int"}}},
-  "@verifRevWaitHours": {"placeholders": {"count": {"type": "int"}}},
-  "@verifRevWaitDays": {"placeholders": {"count": {"type": "int"}}},
-  "@verifRevRowSpoken": {"placeholders": {"name": {"type": "String"}, "type": {"type": "String"}, "unit": {"type": "String"}, "wait": {"type": "String"}}},
-  "@verifRevPhotoSpoken": {"placeholders": {"name": {"type": "String"}}},
-  "@sheetProblemRow": {"placeholders": {"row": {"type": "String"}, "reason": {"type": "String"}}},
-  "@sheetBatchLine": {"placeholders": {"added": {"type": "int"}, "approved": {"type": "int"}, "skipped": {"type": "int"}}},
-  "@verifNoticeApproved": {"placeholders": {"date": {"type": "String"}}},
-  "@verifNoticeRejected": {"placeholders": {"reason": {"type": "String"}}},
+  "@verifRevWaitMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@verifRevWaitHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@verifRevWaitDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@verifRevRowSpoken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "type": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "wait": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifRevPhotoSpoken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@sheetProblemRow": {
+    "placeholders": {
+      "row": {
+        "type": "String"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@sheetBatchLine": {
+    "placeholders": {
+      "added": {
+        "type": "int"
+      },
+      "approved": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "@verifNoticeApproved": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@verifNoticeRejected": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
   "catalogueAvailabilityToday": "المتاح النهارده",
   "catalogueScheduleAction": "عرض المواعيد",
-  "catalogueScheduleSoonTitle": "قريبًا",
-  "catalogueScheduleSoonBody": "مواعيد الـ 7 أيام الجاية هتظهر هنا قريب.",
-  "catalogueScheduleSoonBack": "رجوع للمنشأة",
   "catalogueUpcomingTitle": "حجوزاتك الجاية",
   "catalogueUpcomingSeeAll": "عرض الكل",
   "catalogueUpcomingNone": "مفيش حجوزات جاية. اختار منشأة وابدأ.",
   "catalogueBookingSpoken": "حجز في {facility}، {date}، الساعة {time}، {status}",
-  "@catalogueBookingSpoken": {"placeholders": {"facility": {"type": "String"}, "date": {"type": "String"}, "time": {"type": "String"}, "status": {"type": "String"}}},
+  "@catalogueBookingSpoken": {
+    "placeholders": {
+      "facility": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  },
   "catalogueSuggestionsTitle": "مقترحة ليك",
   "catalogueSuggestionReasonBookedType": "لأنك حجزت {type} قبل كده",
-  "@catalogueSuggestionReasonBookedType": {"placeholders": {"type": {"type": "String"}}},
+  "@catalogueSuggestionReasonBookedType": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
   "catalogueSuggestionReasonOther": "ممكن تعجبك",
   "catalogueShareAction": "مشاركة المنشأة",
   "catalogueShareCopyLink": "نسخ اللينك",
   "catalogueShareCopied": "اتنسخ اللينك",
   "catalogueShareText": "شوف {name} على سبرنت",
-  "@catalogueShareText": {"placeholders": {"name": {"type": "String"}}}
+  "@catalogueShareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingScheduleHeading": "المواعيد",
+  "bookingRefreshAction": "تحديث المواعيد",
+  "bookingContinue": "متابعة",
+  "bookingUnitLabel": "الوحدة",
+  "bookingUnitHasPlaces": "{unit}، فيه أماكن",
+  "@bookingUnitHasPlaces": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingUnitNoPlaces": "{unit}، مفيش أماكن في اليوم ده",
+  "@bookingUnitNoPlaces": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingNothingLeftDay": "مفيش مواعيد فاضلة في اليوم ده، وفيه أيام تانية متاحة.",
+  "bookingNothingLeftWindow": "مفيش مواعيد فاضلة في الأيام الجاية.",
+  "bookingNoUnitsTitle": "مفيش مواعيد للحجز",
+  "bookingNoUnitsBody": "المنشأة دي ملهاش مواعيد متاحة للحجز دلوقتي.",
+  "bookingBackToFacility": "الرجوع للمنشأة",
+  "bookingErrorTitle": "المواعيد متحمّلتش",
+  "bookingErrorBody": "ممكن تكون مشكلة مؤقتة.",
+  "bookingRetry": "إعادة المحاولة",
+  "bookingChoiceGone": "الاختيار اللي فات مبقاش متاح، فدي أقرب مواعيد متاحة.",
+  "bookingNoticeDismiss": "إغلاق الرسالة",
+  "bookingRangeHint": "{hours, plural, =1{الحجز هنا ساعة واحدة في المرة} =2{الحجز بأول ساعة وآخر ساعة، لحد ساعتين متتاليتين} other{الحجز بأول ساعة وآخر ساعة، لحد {hours} ساعات متتالية}}",
+  "@bookingRangeHint": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingLengthHours": "{hours, plural, =1{ساعة واحدة} =2{ساعتين} other{{hours} ساعات}}",
+  "@bookingLengthHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingLengthMinutes": "{minutes} دقيقة",
+  "@bookingLengthMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingTimeWithLength": "الوقت {time}، المدة {length}",
+  "@bookingTimeWithLength": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "length": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingFree": "مجاني",
+  "bookingPanelTitle": "اختيارك",
+  "bookingSelectionPrompt": "لسه مفيش ميعاد مختار",
+  "bookingGateReason": "عشان تحجز",
+  "bookingFailSlotTaken": "الميعاد ده اتحجز لسه. فيه مواعيد تانية متاحة.",
+  "bookingFailSlotTakenAt": "الساعة {time} اتحجزت لسه، فالنطاق ده مش متاح.",
+  "@bookingFailSlotTakenAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingFailSlotFull": "الميعاد ده اكتمل لسه. فيه مواعيد تانية متاحة.",
+  "bookingFailSlotFullAt": "الساعة {time} مكتملة، فالنطاق ده مش متاح.",
+  "@bookingFailSlotFullAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingFailSlotPast": "وقت الميعاد ده فات.",
+  "bookingFailOutsideWindow": "الحجز متاح للأيام القريبة بس.",
+  "bookingFailClosed": "الميعاد ده مش متاح.",
+  "bookingFailClosedAt": "الساعة {time} مش متاحة، فالنطاق ده مش متاح.",
+  "@bookingFailClosedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingFailRangeTooLong": "{hours, plural, =1{أقصى مدة للحجز ساعة واحدة.} =2{أقصى مدة للحجز ساعتين.} other{أقصى مدة للحجز {hours} ساعات.}}",
+  "@bookingFailRangeTooLong": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingFailRangeTooLongGeneric": "النطاق أطول من المسموح.",
+  "bookingFailOverlap": "عندك حجز في نفس الوقت: {facility}، {when}.",
+  "@bookingFailOverlap": {
+    "placeholders": {
+      "facility": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingFailOverlapGeneric": "عندك حجز تاني في نفس الوقت.",
+  "bookingFailTooMany": "{count, plural, =1{وصلت للحد الأقصى: حجز نشط واحد.} =2{وصلت للحد الأقصى: حجزين نشطين.} other{وصلت للحد الأقصى: {count} حجوزات نشطة.}}",
+  "@bookingFailTooMany": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingFailTooManyGeneric": "وصلت للحد الأقصى للحجوزات النشطة.",
+  "bookingFailNotPermitted": "الحساب ده مش مسموحله يحجز.",
+  "bookingFailNotFound": "المنشأة أو الميعاد مش متاحين دلوقتي.",
+  "bookingFailGeneric": "الحجز متمّش. المحاولة تاني ممكنة.",
+  "bookingSummaryTitle": "ملخص الحجز",
+  "bookingRowFacility": "المنشأة",
+  "bookingRowUnit": "الوحدة",
+  "bookingRowDate": "اليوم",
+  "bookingRowTime": "الوقت",
+  "bookingRowLength": "المدة",
+  "bookingRowCoverage": "الحجز يشمل",
+  "bookingRowTrainer": "المدرب",
+  "bookingRowTier": "الشريحة",
+  "bookingRowPrice": "السعر",
+  "bookingRowPolicy": "سياسة الإلغاء",
+  "bookingCoverageWhole": "الوحدة كلها",
+  "bookingCoverageWholeMax": "{count, plural, =1{الوحدة كلها، لمشارك واحد} =2{الوحدة كلها، لحد مشاركين} other{الوحدة كلها، لحد {count} مشارك}}",
+  "@bookingCoverageWholeMax": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingCoverageOnePlace": "مكان واحد",
+  "bookingSessionLength": "حصة {minutes} دقيقة",
+  "@bookingSessionLength": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingPolicyCutoff": "{hours, plural, =0{الإلغاء متاح لحد وقت الميعاد.} =1{الإلغاء متاح لحد ساعة قبل الميعاد.} =2{الإلغاء متاح لحد ساعتين قبل الميعاد.} other{الإلغاء متاح لحد {hours} ساعات قبل الميعاد.}}",
+  "@bookingPolicyCutoff": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingPolicyRefundFull": "المبلغ بيرجع كامل.",
+  "bookingPolicyRefundPartial": "بيرجع {percent}% من المبلغ.",
+  "@bookingPolicyRefundPartial": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingPolicyRefundNone": "المبلغ مش بيرجع.",
+  "bookingVerifyHint": "توثيق الحساب بيدّي سعر الطلاب والعاملين.",
+  "bookingVerifyAction": "طلب توثيق",
+  "bookingVerifyPending": "طلب التوثيق قيد المراجعة. السعر الداخلي بيسري على الحجوزات الجديدة بعد الموافقة.",
+  "bookingPriceChanged": "السعر اتغيّر عن اللي ظهر في المواعيد. ده السعر الحالي.",
+  "bookingPayAction": "متابعة للدفع",
+  "bookingConfirmAction": "تأكيد الحجز",
+  "bookingFreeNoPayment": "الحجز مجاني ومفيش خطوة دفع.",
+  "bookingCheckoutSoonTitle": "الدفع قريبًا",
+  "bookingCheckoutSoonBody": "خطوة الدفع هتتضاف قريب. اختيارك محفوظ في الملخص.",
+  "bookingBackToSummary": "الرجوع للملخص",
+  "bookingDoneTitle": "الحجز اتأكد",
+  "bookingDoneBody": "الحجز متسجل على حسابك، وهيظهر في الرئيسية.",
+  "bookingDoneCode": "رقم الحجز",
+  "bookingDoneHome": "الرجوع للرئيسية",
+  "bookingDoneNotFoundTitle": "الحجز مش موجود",
+  "bookingDoneNotFoundBody": "ممكن يكون اللينك غلط أو الحجز تبع حساب تاني.",
+  "bookingTrainerStepTitle": "اختيار المدرب",
+  "bookingTrainerStepBody": "المواعيد بتظهر بعد اختيار المدرب.",
+  "bookingTrainerHasSessions": "عنده حصص في الأيام الجاية",
+  "bookingTrainerNoSessions": "مفيش حصص في الأيام الجاية",
+  "bookingTrainerNoName": "مدرب",
+  "bookingTrainerChange": "تغيير المدرب",
+  "bookingTrainerChosen": "المدرب: {name}",
+  "@bookingTrainerChosen": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingNoTrainersTitle": "مفيش مدربين متاحين",
+  "bookingNoTrainersBody": "المنشأة دي لسه ملهاش مدربين للحجز.",
+  "bookingTrainerNoSessionsBody": "المدرب ده ملوش حصص في الأيام الجاية.",
+  "bookingTrainerRowSpoken": "المدرب {name}، {bio}، {sessions}",
+  "@bookingTrainerRowSpoken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "bio": {
+        "type": "String"
+      },
+      "sessions": {
+        "type": "String"
+      }
+    }
+  }
 }
