@@ -874,6 +874,64 @@ final class PaymentProviderProvider
 
 String _$paymentProviderHash() => r'e1e38267a3a48c214c7ffa4663d6234d63e8472b';
 
+/// The fake provider's remote control: the simulated provider page and the
+/// `/demo` payment section drive the fake through it. Nothing else may read
+/// it (BR-28, FR-009); booking code never sees it.
+
+@ProviderFor(fakeGateway)
+final fakeGatewayProvider = FakeGatewayProvider._();
+
+/// The fake provider's remote control: the simulated provider page and the
+/// `/demo` payment section drive the fake through it. Nothing else may read
+/// it (BR-28, FR-009); booking code never sees it.
+
+final class FakeGatewayProvider
+    extends
+        $FunctionalProvider<
+          FakeGatewayController,
+          FakeGatewayController,
+          FakeGatewayController
+        >
+    with $Provider<FakeGatewayController> {
+  /// The fake provider's remote control: the simulated provider page and the
+  /// `/demo` payment section drive the fake through it. Nothing else may read
+  /// it (BR-28, FR-009); booking code never sees it.
+  FakeGatewayProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'fakeGatewayProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$fakeGatewayHash();
+
+  @$internal
+  @override
+  $ProviderElement<FakeGatewayController> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  FakeGatewayController create(Ref ref) {
+    return fakeGateway(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(FakeGatewayController value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<FakeGatewayController>(value),
+    );
+  }
+}
+
+String _$fakeGatewayHash() => r'8915b7f24e719ae3bf68920738125973b2b860c6';
+
 @ProviderFor(notificationRepository)
 final notificationRepositoryProvider = NotificationRepositoryProvider._();
 

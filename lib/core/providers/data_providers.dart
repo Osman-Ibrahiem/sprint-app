@@ -20,6 +20,7 @@ import 'package:sprint/features/demo/demo_flags.dart';
 import 'package:sprint/features/identity/domain/identity_repository.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 import 'package:sprint/features/notifications/domain/notification_repository.dart';
+import 'package:sprint/features/payments/data/fake_gateway_controller.dart';
 import 'package:sprint/features/payments/domain/payment_provider.dart';
 import 'package:sprint/features/payments/domain/payment_repository.dart';
 import 'package:sprint/features/settings/domain/settings_repository.dart';
@@ -135,6 +136,13 @@ PaymentRepository paymentRepository(Ref ref) =>
 @Riverpod(keepAlive: true)
 PaymentProvider paymentProvider(Ref ref) =>
     ref.watch(dataLayerProvider).paymentProvider;
+
+/// The fake provider's remote control: the simulated provider page and the
+/// `/demo` payment section drive the fake through it. Nothing else may read
+/// it (BR-28, FR-009); booking code never sees it.
+@Riverpod(keepAlive: true)
+FakeGatewayController fakeGateway(Ref ref) =>
+    ref.watch(dataLayerProvider).paymentProvider.gateway;
 
 @Riverpod(keepAlive: true)
 NotificationRepository notificationRepository(Ref ref) =>
