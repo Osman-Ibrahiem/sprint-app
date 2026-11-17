@@ -3394,6 +3394,516 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'المدرب {name}، {bio}، {sessions}'**
   String bookingTrainerRowSpoken(String name, String bio, String sessions);
+
+  /// No description provided for @checkoutTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع'**
+  String get checkoutTitle;
+
+  /// No description provided for @checkoutHoldTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المكان متحجز لك لحد ما الدفع يخلص'**
+  String get checkoutHoldTitle;
+
+  /// No description provided for @checkoutHoldRemaining.
+  ///
+  /// In ar, this message translates to:
+  /// **'فاضل {time} دقيقة، وبعدها المكان يرجع متاح'**
+  String checkoutHoldRemaining(String time);
+
+  /// No description provided for @checkoutLastMinuteTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المهلة على وشك تخلص'**
+  String get checkoutLastMinuteTitle;
+
+  /// No description provided for @checkoutLastMinuteBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'{seconds, plural, =1{فاضل ثانية واحدة، وبعدها المكان يرجع متاح} =2{فاضل ثانيتين، وبعدها المكان يرجع متاح} other{فاضل {seconds} ثانية، وبعدها المكان يرجع متاح}}'**
+  String checkoutLastMinuteBody(int seconds);
+
+  /// No description provided for @checkoutTierInternal.
+  ///
+  /// In ar, this message translates to:
+  /// **'داخلي · موثّق'**
+  String get checkoutTierInternal;
+
+  /// No description provided for @checkoutTierExternal.
+  ///
+  /// In ar, this message translates to:
+  /// **'خارجي · السعر الكامل'**
+  String get checkoutTierExternal;
+
+  /// No description provided for @checkoutPolicyTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'سياسة الإلغاء'**
+  String get checkoutPolicyTitle;
+
+  /// No description provided for @checkoutPolicyBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإلغاء متاح لحد {until} ({hours} قبل الميعاد) والفلوس بترجع {percent}% على نفس وسيلة الدفع. بعد كده زرار الإلغاء بيختفي.'**
+  String checkoutPolicyBody(String until, String hours, int percent);
+
+  /// No description provided for @checkoutMethodTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع الإلكتروني'**
+  String get checkoutMethodTitle;
+
+  /// No description provided for @checkoutMethodSubtitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'بطاقة بنكية أو محفظة موبايل · صفحة المزوّد الآمنة'**
+  String get checkoutMethodSubtitle;
+
+  /// No description provided for @checkoutSandboxTag.
+  ///
+  /// In ar, this message translates to:
+  /// **'وضع الاختبار · مفيش فلوس حقيقية بتتخصم'**
+  String get checkoutSandboxTag;
+
+  /// No description provided for @checkoutPay.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع · {amount}'**
+  String checkoutPay(String amount);
+
+  /// No description provided for @checkoutPaySpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع، {amount} جنيه'**
+  String checkoutPaySpoken(int amount);
+
+  /// No description provided for @checkoutStartError.
+  ///
+  /// In ar, this message translates to:
+  /// **'بدء الدفع ماتمّش. المكان لسه متحجز لك، وممكن تحاول تاني.'**
+  String get checkoutStartError;
+
+  /// No description provided for @checkoutFailedTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع ماتمّش. ممكن تحاول تاني'**
+  String get checkoutFailedTitle;
+
+  /// No description provided for @checkoutFailedBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'المكان لسه متحجز لك لحد ما المهلة تخلص.'**
+  String get checkoutFailedBody;
+
+  /// No description provided for @checkoutRetry.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة المحاولة · {amount}'**
+  String checkoutRetry(String amount);
+
+  /// No description provided for @holdExpiredTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المهلة خلصت'**
+  String get holdExpiredTitle;
+
+  /// No description provided for @holdExpiredBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'المكان رجع متاح للناس. ممكن تختار الميعاد من جديد.'**
+  String get holdExpiredBody;
+
+  /// No description provided for @holdExpiredPickAnother.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار ميعاد تاني'**
+  String get holdExpiredPickAnother;
+
+  /// No description provided for @checkoutLeaveTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'ترك الدفع؟'**
+  String get checkoutLeaveTitle;
+
+  /// No description provided for @checkoutLeaveBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'لو سبت الصفحة دلوقتي، المكان بيرجع متاح للناس.'**
+  String get checkoutLeaveBody;
+
+  /// No description provided for @checkoutLeaveConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'ترك الدفع'**
+  String get checkoutLeaveConfirm;
+
+  /// No description provided for @checkoutLeaveStay.
+  ///
+  /// In ar, this message translates to:
+  /// **'إكمال الدفع'**
+  String get checkoutLeaveStay;
+
+  /// No description provided for @checkoutCancelledTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع اتلغى'**
+  String get checkoutCancelledTitle;
+
+  /// No description provided for @checkoutCancelledBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'المكان لسه متحجز لك، وممكن تحاول تاني'**
+  String get checkoutCancelledBody;
+
+  /// No description provided for @gatewayTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع الآمن'**
+  String get gatewayTitle;
+
+  /// No description provided for @gatewayHoldTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المكان متحجز لك'**
+  String get gatewayHoldTitle;
+
+  /// No description provided for @gatewayHoldBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'فاضل {time} دقيقة لإكمال الدفع'**
+  String gatewayHoldBody(String time);
+
+  /// No description provided for @gatewayAmountLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'المبلغ المطلوب'**
+  String get gatewayAmountLabel;
+
+  /// No description provided for @gatewayMerchant.
+  ///
+  /// In ar, this message translates to:
+  /// **'سبرنت · {facility}'**
+  String gatewayMerchant(String facility);
+
+  /// No description provided for @gatewayCardNumber.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم البطاقة'**
+  String get gatewayCardNumber;
+
+  /// No description provided for @gatewayCardExpiry.
+  ///
+  /// In ar, this message translates to:
+  /// **'تاريخ الانتهاء'**
+  String get gatewayCardExpiry;
+
+  /// No description provided for @gatewayCardCvc.
+  ///
+  /// In ar, this message translates to:
+  /// **'رمز الأمان'**
+  String get gatewayCardCvc;
+
+  /// No description provided for @gatewayCardName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم حامل البطاقة'**
+  String get gatewayCardName;
+
+  /// No description provided for @gatewayCardNameHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم زي ما هو على البطاقة'**
+  String get gatewayCardNameHint;
+
+  /// No description provided for @gatewayNotice.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفحة دي بتاعة مزوّد الدفع. بعد التأكيد بنرجعلك للتطبيق'**
+  String get gatewayNotice;
+
+  /// No description provided for @gatewayConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد الدفع · {amount}'**
+  String gatewayConfirm(String amount);
+
+  /// No description provided for @gatewayCancel.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء'**
+  String get gatewayCancel;
+
+  /// No description provided for @gatewayErrCardNumber.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم البطاقة مش صحيح'**
+  String get gatewayErrCardNumber;
+
+  /// No description provided for @gatewayErrExpiry.
+  ///
+  /// In ar, this message translates to:
+  /// **'تاريخ الانتهاء مش صحيح أو فات'**
+  String get gatewayErrExpiry;
+
+  /// No description provided for @gatewayErrCvc.
+  ///
+  /// In ar, this message translates to:
+  /// **'رمز الأمان لازم يكون 3 أو 4 أرقام'**
+  String get gatewayErrCvc;
+
+  /// No description provided for @gatewayErrName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم حامل البطاقة مطلوب'**
+  String get gatewayErrName;
+
+  /// No description provided for @gatewayExpiryHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'شهر/سنة'**
+  String get gatewayExpiryHint;
+
+  /// No description provided for @processingTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'بنأكد الدفع'**
+  String get processingTitle;
+
+  /// No description provided for @processingBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'التأكيد بييجي من مزوّد الدفع وممكن ياخد لحظات، والأحسن إن الشاشة تفضل مفتوحة'**
+  String get processingBody;
+
+  /// No description provided for @processingHeld.
+  ///
+  /// In ar, this message translates to:
+  /// **'المكان متحجز لك، فاضل {time} دقيقة'**
+  String processingHeld(String time);
+
+  /// No description provided for @awaitingTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'لسه مستنيين تأكيد الدفع'**
+  String get awaitingTitle;
+
+  /// No description provided for @awaitingBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'لو الخصم حصل ومتأكدش الحجز، الفلوس بترجع لوحدها. المكان متحجز لك لحد ما التأكيد يوصل'**
+  String get awaitingBody;
+
+  /// No description provided for @awaitingRefresh.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحديث الحالة'**
+  String get awaitingRefresh;
+
+  /// No description provided for @awaitingRefreshing.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري تحديث الحالة'**
+  String get awaitingRefreshing;
+
+  /// No description provided for @awaitingBackToBookings.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرجوع للحجوزات'**
+  String get awaitingBackToBookings;
+
+  /// No description provided for @receiptTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إيصال دفع'**
+  String get receiptTitle;
+
+  /// No description provided for @receiptNumber.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الإيصال'**
+  String get receiptNumber;
+
+  /// No description provided for @receiptBookingCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الحجز'**
+  String get receiptBookingCode;
+
+  /// No description provided for @receiptDate.
+  ///
+  /// In ar, this message translates to:
+  /// **'التاريخ'**
+  String get receiptDate;
+
+  /// No description provided for @receiptUnit.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوحدة'**
+  String get receiptUnit;
+
+  /// No description provided for @receiptTier.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشريحة'**
+  String get receiptTier;
+
+  /// No description provided for @receiptMethod.
+  ///
+  /// In ar, this message translates to:
+  /// **'وسيلة الدفع'**
+  String get receiptMethod;
+
+  /// No description provided for @receiptMethodCard.
+  ///
+  /// In ar, this message translates to:
+  /// **'بطاقة تنتهي بـ {last4} · اختبار'**
+  String receiptMethodCard(String last4);
+
+  /// No description provided for @receiptTotalPaid.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإجمالي المدفوع'**
+  String get receiptTotalPaid;
+
+  /// No description provided for @receiptSave.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ الإيصال PDF'**
+  String get receiptSave;
+
+  /// No description provided for @receiptShare.
+  ///
+  /// In ar, this message translates to:
+  /// **'مشاركة الإيصال'**
+  String get receiptShare;
+
+  /// No description provided for @receiptNavTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيصال'**
+  String get receiptNavTitle;
+
+  /// No description provided for @receiptPdfFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'الـ PDF ماتعملش. اتشاركت نسخة نصية بدله'**
+  String get receiptPdfFailed;
+
+  /// No description provided for @receiptCopied.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيصال اتنسخ'**
+  String get receiptCopied;
+
+  /// No description provided for @receiptNotFoundTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيصال مش موجود'**
+  String get receiptNotFoundTitle;
+
+  /// No description provided for @receiptNotFoundBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش إيصال للحجز ده. الإيصال بيظهر بعد دفع ناجح.'**
+  String get receiptNotFoundBody;
+
+  /// No description provided for @confirmedTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجزك اتأكد'**
+  String get confirmedTitle;
+
+  /// No description provided for @confirmedSubtitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'وصلك إشعار بالتفاصيل، وهنفكرك قبل الميعاد بـ{lead}.'**
+  String confirmedSubtitle(String lead);
+
+  /// No description provided for @confirmedCancelUntil.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإلغاء متاح لحد {until}'**
+  String confirmedCancelUntil(String until);
+
+  /// No description provided for @confirmedReceiptRow.
+  ///
+  /// In ar, this message translates to:
+  /// **'إيصال الدفع'**
+  String get confirmedReceiptRow;
+
+  /// No description provided for @leadHours.
+  ///
+  /// In ar, this message translates to:
+  /// **'{hours, plural, =1{ساعة} =2{ساعتين} other{{hours} ساعات}}'**
+  String leadHours(int hours);
+
+  /// No description provided for @leadHoursHalf.
+  ///
+  /// In ar, this message translates to:
+  /// **'{hours, plural, =0{نص ساعة} =1{ساعة ونص} =2{ساعتين ونص} other{{hours} ساعات ونص}}'**
+  String leadHoursHalf(int hours);
+
+  /// No description provided for @leadMinutes.
+  ///
+  /// In ar, this message translates to:
+  /// **'{minutes, plural, =1{دقيقة} =2{دقيقتين} other{{minutes} دقيقة}}'**
+  String leadMinutes(int minutes);
+
+  /// No description provided for @demoPaymentTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع التجريبي'**
+  String get demoPaymentTitle;
+
+  /// No description provided for @demoPaymentNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'بيحدد اللي هيحصل لما صفحة المزوّد تأكد الدفع. للعرض بس.'**
+  String get demoPaymentNote;
+
+  /// No description provided for @demoPaymentSuccess.
+  ///
+  /// In ar, this message translates to:
+  /// **'نجاح'**
+  String get demoPaymentSuccess;
+
+  /// No description provided for @demoPaymentFail.
+  ///
+  /// In ar, this message translates to:
+  /// **'فشل'**
+  String get demoPaymentFail;
+
+  /// No description provided for @demoPaymentDelay.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأخير'**
+  String get demoPaymentDelay;
+
+  /// No description provided for @demoPaymentDelayPreset.
+  ///
+  /// In ar, this message translates to:
+  /// **'{seconds} ثانية'**
+  String demoPaymentDelayPreset(int seconds);
+
+  /// No description provided for @demoPaymentDelayAfterMax.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد الحد الأقصى'**
+  String get demoPaymentDelayAfterMax;
+
+  /// No description provided for @demoPaymentCurrent.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاختيار الحالي: {value}'**
+  String demoPaymentCurrent(String value);
+
+  /// No description provided for @demoPaymentDelayCurrent.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأخير {seconds} ثانية، وبعدها نجاح'**
+  String demoPaymentDelayCurrent(int seconds);
 }
 
 class _AppLocalizationsDelegate

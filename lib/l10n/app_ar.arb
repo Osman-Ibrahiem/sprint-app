@@ -1204,5 +1204,229 @@
         "type": "String"
       }
     }
+  },
+  "checkoutTitle": "الدفع",
+  "checkoutHoldTitle": "المكان متحجز لك لحد ما الدفع يخلص",
+  "checkoutHoldRemaining": "فاضل {time} دقيقة، وبعدها المكان يرجع متاح",
+  "@checkoutHoldRemaining": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutLastMinuteTitle": "المهلة على وشك تخلص",
+  "checkoutLastMinuteBody": "{seconds, plural, =1{فاضل ثانية واحدة، وبعدها المكان يرجع متاح} =2{فاضل ثانيتين، وبعدها المكان يرجع متاح} other{فاضل {seconds} ثانية، وبعدها المكان يرجع متاح}}",
+  "@checkoutLastMinuteBody": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "checkoutTierInternal": "داخلي · موثّق",
+  "checkoutTierExternal": "خارجي · السعر الكامل",
+  "checkoutPolicyTitle": "سياسة الإلغاء",
+  "checkoutPolicyBody": "الإلغاء متاح لحد {until} ({hours} قبل الميعاد) والفلوس بترجع {percent}% على نفس وسيلة الدفع. بعد كده زرار الإلغاء بيختفي.",
+  "@checkoutPolicyBody": {
+    "placeholders": {
+      "until": {
+        "type": "String"
+      },
+      "hours": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "checkoutMethodTitle": "الدفع الإلكتروني",
+  "checkoutMethodSubtitle": "بطاقة بنكية أو محفظة موبايل · صفحة المزوّد الآمنة",
+  "checkoutSandboxTag": "وضع الاختبار · مفيش فلوس حقيقية بتتخصم",
+  "checkoutPay": "الدفع · {amount}",
+  "@checkoutPay": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutPaySpoken": "الدفع، {amount} جنيه",
+  "@checkoutPaySpoken": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  },
+  "checkoutStartError": "بدء الدفع ماتمّش. المكان لسه متحجز لك، وممكن تحاول تاني.",
+  "checkoutFailedTitle": "الدفع ماتمّش. ممكن تحاول تاني",
+  "checkoutFailedBody": "المكان لسه متحجز لك لحد ما المهلة تخلص.",
+  "checkoutRetry": "إعادة المحاولة · {amount}",
+  "@checkoutRetry": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "holdExpiredTitle": "المهلة خلصت",
+  "holdExpiredBody": "المكان رجع متاح للناس. ممكن تختار الميعاد من جديد.",
+  "holdExpiredPickAnother": "اختيار ميعاد تاني",
+  "checkoutLeaveTitle": "ترك الدفع؟",
+  "checkoutLeaveBody": "لو سبت الصفحة دلوقتي، المكان بيرجع متاح للناس.",
+  "checkoutLeaveConfirm": "ترك الدفع",
+  "checkoutLeaveStay": "إكمال الدفع",
+  "checkoutCancelledTitle": "الدفع اتلغى",
+  "checkoutCancelledBody": "المكان لسه متحجز لك، وممكن تحاول تاني",
+  "gatewayTitle": "الدفع الآمن",
+  "gatewayHoldTitle": "المكان متحجز لك",
+  "gatewayHoldBody": "فاضل {time} دقيقة لإكمال الدفع",
+  "@gatewayHoldBody": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "gatewayAmountLabel": "المبلغ المطلوب",
+  "gatewayMerchant": "سبرنت · {facility}",
+  "@gatewayMerchant": {
+    "placeholders": {
+      "facility": {
+        "type": "String"
+      }
+    }
+  },
+  "gatewayCardNumber": "رقم البطاقة",
+  "gatewayCardExpiry": "تاريخ الانتهاء",
+  "gatewayCardCvc": "رمز الأمان",
+  "gatewayCardName": "اسم حامل البطاقة",
+  "gatewayCardNameHint": "الاسم زي ما هو على البطاقة",
+  "gatewayNotice": "الصفحة دي بتاعة مزوّد الدفع. بعد التأكيد بنرجعلك للتطبيق",
+  "gatewayConfirm": "تأكيد الدفع · {amount}",
+  "@gatewayConfirm": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "gatewayCancel": "إلغاء",
+  "gatewayErrCardNumber": "رقم البطاقة مش صحيح",
+  "gatewayErrExpiry": "تاريخ الانتهاء مش صحيح أو فات",
+  "gatewayErrCvc": "رمز الأمان لازم يكون 3 أو 4 أرقام",
+  "gatewayErrName": "اسم حامل البطاقة مطلوب",
+  "gatewayExpiryHint": "شهر/سنة",
+  "processingTitle": "بنأكد الدفع",
+  "processingBody": "التأكيد بييجي من مزوّد الدفع وممكن ياخد لحظات، والأحسن إن الشاشة تفضل مفتوحة",
+  "processingHeld": "المكان متحجز لك، فاضل {time} دقيقة",
+  "@processingHeld": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "awaitingTitle": "لسه مستنيين تأكيد الدفع",
+  "awaitingBody": "لو الخصم حصل ومتأكدش الحجز، الفلوس بترجع لوحدها. المكان متحجز لك لحد ما التأكيد يوصل",
+  "awaitingRefresh": "تحديث الحالة",
+  "awaitingRefreshing": "جاري تحديث الحالة",
+  "awaitingBackToBookings": "الرجوع للحجوزات",
+  "receiptTitle": "إيصال دفع",
+  "receiptNumber": "رقم الإيصال",
+  "receiptBookingCode": "رقم الحجز",
+  "receiptDate": "التاريخ",
+  "receiptUnit": "الوحدة",
+  "receiptTier": "الشريحة",
+  "receiptMethod": "وسيلة الدفع",
+  "receiptMethodCard": "بطاقة تنتهي بـ {last4} · اختبار",
+  "@receiptMethodCard": {
+    "placeholders": {
+      "last4": {
+        "type": "String"
+      }
+    }
+  },
+  "receiptTotalPaid": "الإجمالي المدفوع",
+  "receiptSave": "حفظ الإيصال PDF",
+  "receiptShare": "مشاركة الإيصال",
+  "receiptNavTitle": "الإيصال",
+  "receiptPdfFailed": "الـ PDF ماتعملش. اتشاركت نسخة نصية بدله",
+  "receiptCopied": "الإيصال اتنسخ",
+  "receiptNotFoundTitle": "الإيصال مش موجود",
+  "receiptNotFoundBody": "مفيش إيصال للحجز ده. الإيصال بيظهر بعد دفع ناجح.",
+  "confirmedTitle": "حجزك اتأكد",
+  "confirmedSubtitle": "وصلك إشعار بالتفاصيل، وهنفكرك قبل الميعاد بـ{lead}.",
+  "@confirmedSubtitle": {
+    "placeholders": {
+      "lead": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmedCancelUntil": "الإلغاء متاح لحد {until}",
+  "@confirmedCancelUntil": {
+    "placeholders": {
+      "until": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmedReceiptRow": "إيصال الدفع",
+  "leadHours": "{hours, plural, =1{ساعة} =2{ساعتين} other{{hours} ساعات}}",
+  "@leadHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "leadHoursHalf": "{hours, plural, =0{نص ساعة} =1{ساعة ونص} =2{ساعتين ونص} other{{hours} ساعات ونص}}",
+  "@leadHoursHalf": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "leadMinutes": "{minutes, plural, =1{دقيقة} =2{دقيقتين} other{{minutes} دقيقة}}",
+  "@leadMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "demoPaymentTitle": "الدفع التجريبي",
+  "demoPaymentNote": "بيحدد اللي هيحصل لما صفحة المزوّد تأكد الدفع. للعرض بس.",
+  "demoPaymentSuccess": "نجاح",
+  "demoPaymentFail": "فشل",
+  "demoPaymentDelay": "تأخير",
+  "demoPaymentDelayPreset": "{seconds} ثانية",
+  "@demoPaymentDelayPreset": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "demoPaymentDelayAfterMax": "بعد الحد الأقصى",
+  "demoPaymentCurrent": "الاختيار الحالي: {value}",
+  "@demoPaymentCurrent": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "demoPaymentDelayCurrent": "تأخير {seconds} ثانية، وبعدها نجاح",
+  "@demoPaymentDelayCurrent": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
   }
 }

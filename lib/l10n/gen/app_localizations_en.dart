@@ -2016,4 +2016,335 @@ class AppLocalizationsEn extends AppLocalizations {
   String bookingTrainerRowSpoken(String name, String bio, String sessions) {
     return 'Trainer $name, $bio, $sessions';
   }
+
+  @override
+  String get checkoutTitle => 'Payment';
+
+  @override
+  String get checkoutHoldTitle => 'Your place is held until payment completes';
+
+  @override
+  String checkoutHoldRemaining(String time) {
+    return '$time minutes left, then the place is released';
+  }
+
+  @override
+  String get checkoutLastMinuteTitle => 'Time is almost up';
+
+  @override
+  String checkoutLastMinuteBody(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: '$seconds seconds left, then the place is released',
+      one: '1 second left, then the place is released',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get checkoutTierInternal => 'Internal · verified';
+
+  @override
+  String get checkoutTierExternal => 'External · full price';
+
+  @override
+  String get checkoutPolicyTitle => 'Cancellation policy';
+
+  @override
+  String checkoutPolicyBody(String until, String hours, int percent) {
+    return 'Cancellation is available until $until ($hours before the start) and $percent% is refunded to the same payment method. After that the cancel button is hidden.';
+  }
+
+  @override
+  String get checkoutMethodTitle => 'Online payment';
+
+  @override
+  String get checkoutMethodSubtitle =>
+      'Bank card or mobile wallet · provider\'s secure page';
+
+  @override
+  String get checkoutSandboxTag => 'Test mode · no real money is charged';
+
+  @override
+  String checkoutPay(String amount) {
+    return 'Pay · $amount';
+  }
+
+  @override
+  String checkoutPaySpoken(int amount) {
+    return 'Pay, $amount Egyptian pounds';
+  }
+
+  @override
+  String get checkoutStartError =>
+      'Payment couldn\'t start. Your place is still held, and you can try again.';
+
+  @override
+  String get checkoutFailedTitle =>
+      'Payment didn\'t go through. You can try again';
+
+  @override
+  String get checkoutFailedBody =>
+      'Your place is still held until the time runs out.';
+
+  @override
+  String checkoutRetry(String amount) {
+    return 'Try again · $amount';
+  }
+
+  @override
+  String get holdExpiredTitle => 'Time ran out';
+
+  @override
+  String get holdExpiredBody =>
+      'The place is available to others again. You can pick a time again.';
+
+  @override
+  String get holdExpiredPickAnother => 'Pick another time';
+
+  @override
+  String get checkoutLeaveTitle => 'Leave payment?';
+
+  @override
+  String get checkoutLeaveBody =>
+      'If you leave the page now, the place is released to others.';
+
+  @override
+  String get checkoutLeaveConfirm => 'Leave payment';
+
+  @override
+  String get checkoutLeaveStay => 'Continue paying';
+
+  @override
+  String get checkoutCancelledTitle => 'Payment cancelled';
+
+  @override
+  String get checkoutCancelledBody =>
+      'Your place is still held, and you can try again';
+
+  @override
+  String get gatewayTitle => 'Secure payment';
+
+  @override
+  String get gatewayHoldTitle => 'Your place is held';
+
+  @override
+  String gatewayHoldBody(String time) {
+    return '$time minutes left to complete payment';
+  }
+
+  @override
+  String get gatewayAmountLabel => 'Amount due';
+
+  @override
+  String gatewayMerchant(String facility) {
+    return 'Sprint · $facility';
+  }
+
+  @override
+  String get gatewayCardNumber => 'Card number';
+
+  @override
+  String get gatewayCardExpiry => 'Expiry date';
+
+  @override
+  String get gatewayCardCvc => 'Security code';
+
+  @override
+  String get gatewayCardName => 'Cardholder name';
+
+  @override
+  String get gatewayCardNameHint => 'Name as shown on the card';
+
+  @override
+  String get gatewayNotice =>
+      'This page belongs to the payment provider. After confirming, we bring you back to the app';
+
+  @override
+  String gatewayConfirm(String amount) {
+    return 'Confirm payment · $amount';
+  }
+
+  @override
+  String get gatewayCancel => 'Cancel';
+
+  @override
+  String get gatewayErrCardNumber => 'The card number isn\'t valid';
+
+  @override
+  String get gatewayErrExpiry => 'The expiry date isn\'t valid or has passed';
+
+  @override
+  String get gatewayErrCvc => 'The security code must be 3 or 4 digits';
+
+  @override
+  String get gatewayErrName => 'The cardholder name is required';
+
+  @override
+  String get gatewayExpiryHint => 'MM/YY';
+
+  @override
+  String get processingTitle => 'Confirming your payment';
+
+  @override
+  String get processingBody =>
+      'Confirmation comes from the payment provider and may take a moment, and it\'s best to keep this screen open';
+
+  @override
+  String processingHeld(String time) {
+    return 'Your place is held, $time minutes left';
+  }
+
+  @override
+  String get awaitingTitle => 'Still waiting for payment confirmation';
+
+  @override
+  String get awaitingBody =>
+      'If you were charged and the booking isn\'t confirmed, the money is returned automatically. Your place is held until the confirmation arrives';
+
+  @override
+  String get awaitingRefresh => 'Refresh status';
+
+  @override
+  String get awaitingRefreshing => 'Refreshing status';
+
+  @override
+  String get awaitingBackToBookings => 'Back to my bookings';
+
+  @override
+  String get receiptTitle => 'Payment receipt';
+
+  @override
+  String get receiptNumber => 'Receipt number';
+
+  @override
+  String get receiptBookingCode => 'Booking code';
+
+  @override
+  String get receiptDate => 'Date';
+
+  @override
+  String get receiptUnit => 'Unit';
+
+  @override
+  String get receiptTier => 'Tier';
+
+  @override
+  String get receiptMethod => 'Payment method';
+
+  @override
+  String receiptMethodCard(String last4) {
+    return 'Card ending in $last4 · test';
+  }
+
+  @override
+  String get receiptTotalPaid => 'Total paid';
+
+  @override
+  String get receiptSave => 'Save receipt as PDF';
+
+  @override
+  String get receiptShare => 'Share receipt';
+
+  @override
+  String get receiptNavTitle => 'Receipt';
+
+  @override
+  String get receiptPdfFailed =>
+      'The PDF couldn\'t be made. A text copy was shared instead';
+
+  @override
+  String get receiptCopied => 'Receipt copied';
+
+  @override
+  String get receiptNotFoundTitle => 'Receipt not found';
+
+  @override
+  String get receiptNotFoundBody =>
+      'There is no receipt for this booking. A receipt appears after a successful payment.';
+
+  @override
+  String get confirmedTitle => 'Your booking is confirmed';
+
+  @override
+  String confirmedSubtitle(String lead) {
+    return 'You got a notification with the details, and we\'ll remind you $lead before.';
+  }
+
+  @override
+  String confirmedCancelUntil(String until) {
+    return 'Cancellation available until $until';
+  }
+
+  @override
+  String get confirmedReceiptRow => 'Payment receipt';
+
+  @override
+  String leadHours(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours hours',
+      one: '1 hour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String leadHoursHalf(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours.5 hours',
+      one: '1.5 hours',
+      zero: '30 minutes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String leadMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minutes',
+      one: '1 minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get demoPaymentTitle => 'Demo payment';
+
+  @override
+  String get demoPaymentNote =>
+      'Sets what happens when the provider page confirms payment. For the demo only.';
+
+  @override
+  String get demoPaymentSuccess => 'Success';
+
+  @override
+  String get demoPaymentFail => 'Failure';
+
+  @override
+  String get demoPaymentDelay => 'Delay';
+
+  @override
+  String demoPaymentDelayPreset(int seconds) {
+    return '$seconds s';
+  }
+
+  @override
+  String get demoPaymentDelayAfterMax => 'Past the maximum';
+
+  @override
+  String demoPaymentCurrent(String value) {
+    return 'Current choice: $value';
+  }
+
+  @override
+  String demoPaymentDelayCurrent(int seconds) {
+    return 'Delay of $seconds seconds, then success';
+  }
 }
