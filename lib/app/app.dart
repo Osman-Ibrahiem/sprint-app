@@ -6,6 +6,7 @@ import 'package:sprint/core/l10n/locale_notifier.dart';
 import 'package:sprint/core/scroll/sprint_scroll_behavior.dart';
 import 'package:sprint/core/theme/sprint_theme.dart';
 import 'package:sprint/core/theme/theme_mode_notifier.dart';
+import 'package:sprint/features/booking/presentation/providers/checkout_providers.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 class SprintApp extends ConsumerWidget {
@@ -24,6 +25,9 @@ class SprintApp extends ConsumerWidget {
           .currentState
           ?.popUntil((route) => route is! PopupRoute<Object?>);
     });
+    // Holds are kept honest anywhere in the app, not only on the checkout
+    // screen (FR-004, BR-12, BR-46).
+    ref.watch(holdHousekeepingProvider);
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appName,
       theme: SprintTheme.light,

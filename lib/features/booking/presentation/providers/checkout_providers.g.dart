@@ -414,6 +414,56 @@ final class CheckoutViewFamily extends $Family
   String toString() => r'checkoutViewProvider';
 }
 
+/// The expiries the countdown has already asked the repository to apply, so
+/// a rebuild at zero never asks twice.
+
+@ProviderFor(holdExpiryRequests)
+final holdExpiryRequestsProvider = HoldExpiryRequestsProvider._();
+
+/// The expiries the countdown has already asked the repository to apply, so
+/// a rebuild at zero never asks twice.
+
+final class HoldExpiryRequestsProvider
+    extends $FunctionalProvider<Set<String>, Set<String>, Set<String>>
+    with $Provider<Set<String>> {
+  /// The expiries the countdown has already asked the repository to apply, so
+  /// a rebuild at zero never asks twice.
+  HoldExpiryRequestsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'holdExpiryRequestsProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$holdExpiryRequestsHash();
+
+  @$internal
+  @override
+  $ProviderElement<Set<String>> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  Set<String> create(Ref ref) {
+    return holdExpiryRequests(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Set<String> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Set<String>>(value),
+    );
+  }
+}
+
+String _$holdExpiryRequestsHash() =>
+    r'ec3b0b27ca391d849cf50b4a688d1ae27da40d2a';
+
 /// Time left on the Hold, from `holdExpiresAt` and the clock; never its own
 /// start (R8), so it survives backgrounding, resizing and folding. At zero it
 /// asks the repository to apply the Hold rule instead of deciding itself.
@@ -482,7 +532,7 @@ final class HoldCountdownProvider
   }
 }
 
-String _$holdCountdownHash() => r'fed08e67718bd4be1f56e76ef4ed42ff4c039060';
+String _$holdCountdownHash() => r'569c4b4198b4adab97d8bc24416975a8385f47aa';
 
 /// Time left on the Hold, from `holdExpiresAt` and the clock; never its own
 /// start (R8), so it survives backgrounding, resizing and folding. At zero it

@@ -118,8 +118,8 @@ description: "Task list for feature 006 — checkout with hold and sandbox payme
 
 **Independent Test**: outcome فشل → failure state, Hold unchanged; outcome نجاح → retry → confirmed, two payment rows.
 
-- [ ] T035 [P] [US2] `test/features/booking/presentation/checkout/checkout_screen_failed_test.dart` and `test/acceptance/us10_payment_failed_test.dart`: failure placeholder with "الدفع ماتمّش. ممكن تحاول تاني" (announced once), title "ملخص الحجز", banner with the same expiry, policy and method cards still shown, "إعادة المحاولة · 80 ج.م", retry succeeds; on-screen expiry turns into the expired state; a failure answer arriving after an extended Hold's normal expiry shows the expired state, not the failure state (analyze H1).
-- [ ] T036 [US2] `failed_header.dart` in `lib/features/booking/presentation/checkout/` and the `failed` branch of `checkout_screen.dart` (title "ملخص الحجز", failure `MomentPlaceholder` with `danger` icon and words, primary "إعادة المحاولة · {amount}" calling `startPayment`).
+- [X] T035 [P] [US2] `test/features/booking/presentation/checkout/checkout_screen_failed_test.dart` and `test/acceptance/us10_payment_failed_test.dart`: failure placeholder with "الدفع ماتمّش. ممكن تحاول تاني" (announced once), title "ملخص الحجز", banner with the same expiry, policy and method cards still shown, "إعادة المحاولة · 80 ج.م", retry succeeds; on-screen expiry turns into the expired state; a failure answer arriving after an extended Hold's normal expiry shows the expired state, not the failure state (analyze H1).
+- [X] T036 [US2] `failed_header.dart` in `lib/features/booking/presentation/checkout/` and the `failed` branch of `checkout_screen.dart` (title "ملخص الحجز", failure `MomentPlaceholder` with `danger` icon and words, primary "إعادة المحاولة · {amount}" calling `startPayment`).
 
 ---
 
@@ -129,8 +129,8 @@ description: "Task list for feature 006 — checkout with hold and sandbox payme
 
 **Independent Test**: `holdMinutes` = 1 in the settings inspector; enter payment and wait; booking `EXPIRED`, slot free for another account.
 
-- [ ] T037 [P] [US3] `test/features/booking/presentation/checkout/checkout_screen_expiry_test.dart` and `test/acceptance/us10_hold_expired_test.dart` (fake async): last-minute style and seconds wording below 60 s (announced once), expired view from holding, failed and cancelled states, "اختيار ميعاد تاني" opens the schedule without selection, "الرجوع للرئيسية" goes home; app resumed after expiry shows expired; resize, theme and locale change keep the same expiry.
-- [ ] T038 [US3] `expired_view.dart` in `lib/features/booking/presentation/checkout/`: `AdaptiveAppBar` "ملخص الحجز", hourglass icon in a `warning-soft` circle (decorative), "المهلة خلصت" (assertive live region, focus moves to it), body, booking card with `StatusBadge` expired "انتهت المهلة", primary "اختيار ميعاد تاني" and ghost "الرجوع للرئيسية". Wire the `expired` branch; make sure `holdHousekeepingProvider` is watched by the app shell so expiry also happens off-screen.
+- [X] T037 [P] [US3] `test/features/booking/presentation/checkout/checkout_screen_expiry_test.dart` and `test/acceptance/us10_hold_expired_test.dart` (fake async): last-minute style and seconds wording below 60 s (announced once), expired view from holding, failed and cancelled states, "اختيار ميعاد تاني" opens the schedule without selection, "الرجوع للرئيسية" goes home; app resumed after expiry shows expired; resize, theme and locale change keep the same expiry.
+- [X] T038 [US3] `expired_view.dart` in `lib/features/booking/presentation/checkout/`: `AdaptiveAppBar` "ملخص الحجز", hourglass icon in a `warning-soft` circle (decorative), "المهلة خلصت" (assertive live region, focus moves to it), body, booking card with `StatusBadge` expired "انتهت المهلة", primary "اختيار ميعاد تاني" and ghost "الرجوع للرئيسية". Wire the `expired` branch; make sure `holdHousekeepingProvider` is watched by the app shell so expiry also happens off-screen.
 
 ---
 
@@ -140,8 +140,8 @@ description: "Task list for feature 006 — checkout with hold and sandbox payme
 
 **Independent Test**: back by button, gesture and browser on payment; each dialog choice; cancel on the provider page.
 
-- [ ] T039 [P] [US5] `test/features/booking/presentation/checkout/leave_checkout_test.dart`: app-bar back and `Navigator.maybePop` open "ترك الدفع؟" in holding, failed and cancelled states; "ترك الدفع" → booking `EXPIRED`, location `summary?<selection>` with the same selection; "إكمال الدفع" → unchanged; processing absorbs back with no dialog; fake page back and "إلغاء" → payment `cancelled`, banner "الدفع اتلغى · المكان لسه متحجز لك، وممكن تحاول تاني", same countdown, "الدفع" starts a new payment. Run under iOS and Android target platforms.
-- [ ] T040 [US5] `leave_checkout_dialog.dart` (via `AdaptiveDialog`, destructive "ترك الدفع", default "إكمال الدفع") and `PopScope` + app-bar back wiring in `checkout_screen.dart` (R7); `leaveCheckout` then `go` to the summary built from the booking (`ScheduleSelection` from booking unit/time/trainer). Fake page back and "إلغاء" call `FakeGatewayController.cancel` then pop; `cancelled` branch shows the info banner above the holding layout.
+- [X] T039 [P] [US5] `test/features/booking/presentation/checkout/leave_checkout_test.dart`: app-bar back and `Navigator.maybePop` open "ترك الدفع؟" in holding, failed and cancelled states; "ترك الدفع" → booking `EXPIRED`, location `summary?<selection>` with the same selection; "إكمال الدفع" → unchanged; processing absorbs back with no dialog; fake page back and "إلغاء" → payment `cancelled`, banner "الدفع اتلغى · المكان لسه متحجز لك، وممكن تحاول تاني", same countdown, "الدفع" starts a new payment. Run under iOS and Android target platforms.
+- [X] T040 [US5] `leave_checkout_dialog.dart` (via `AdaptiveDialog`, destructive "ترك الدفع", default "إكمال الدفع") and `PopScope` + app-bar back wiring in `checkout_screen.dart` (R7); `leaveCheckout` then `go` to the summary built from the booking (`ScheduleSelection` from booking unit/time/trainer). Fake page back and "إلغاء" call `FakeGatewayController.cancel` then pop; `cancelled` branch shows the info banner above the holding layout.
 
 ---
 
@@ -151,8 +151,8 @@ description: "Task list for feature 006 — checkout with hold and sandbox payme
 
 **Independent Test**: outcome تأخير 30 s and "بعد الحد الأقصى" with `holdMinutes` 1 / `holdMaxMinutes` 2.
 
-- [ ] T041 [P] [US4] `test/features/booking/presentation/checkout/checkout_screen_awaiting_test.dart` and `test/acceptance/us10_slow_confirmation_test.dart` (fake async): awaiting after 20 s; countdown jumps to `holdMaxExpiresAt` when the normal Hold is reached; "تحديث الحالة" calls `refreshPayment`; success within the maximum confirms; past the maximum → expired view, then late success → refund row and `payment.refunded_auto` record; "الرجوع للحجوزات" → `/bookings` and the outcome still applies in the background.
-- [ ] T042 [US4] `awaiting_view.dart` in `lib/features/booking/presentation/checkout/`: "لسه مستنيين تأكيد الدفع", body, booking card with pending badge, primary "تحديث الحالة" (`refreshPayment`, shows a short loading state on the button), ghost "الرجوع للحجوزات"; back allowed (to bookings). Wire the `awaiting` branch using `processingSince` from the latest payment's `startedAt` (or the moment the page returned, whichever is later).
+- [X] T041 [P] [US4] `test/features/booking/presentation/checkout/checkout_screen_awaiting_test.dart` and `test/acceptance/us10_slow_confirmation_test.dart` (fake async): awaiting after 20 s; countdown jumps to `holdMaxExpiresAt` when the normal Hold is reached; "تحديث الحالة" calls `refreshPayment`; success within the maximum confirms; past the maximum → expired view, then late success → refund row and `payment.refunded_auto` record; "الرجوع للحجوزات" → `/bookings` and the outcome still applies in the background.
+- [X] T042 [US4] `awaiting_view.dart` in `lib/features/booking/presentation/checkout/`: "لسه مستنيين تأكيد الدفع", body, booking card with pending badge, primary "تحديث الحالة" (`refreshPayment`, shows a short loading state on the button), ghost "الرجوع للحجوزات"; back allowed (to bookings). Wire the `awaiting` branch using `processingSince` from the latest payment's `startedAt` (or the moment the page returned, whichever is later).
 
 ---
 

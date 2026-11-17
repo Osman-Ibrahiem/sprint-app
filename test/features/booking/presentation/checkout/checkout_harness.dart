@@ -14,31 +14,62 @@ import 'package:sprint/core/time/cairo_time.dart';
 import 'package:sprint/core/time/clock_provider.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
+import 'package:sprint/features/booking/presentation/checkout/checkout_screen.dart';
 import 'package:sprint/features/payments/data/fake_gateway_controller.dart';
+import 'package:sprint/features/payments/presentation/fake_gateway_screen.dart' show confirmKey;
 
 import '../../../../helpers/pump_app.dart';
 
 /// A running checkout: the data layer, a clock the test moves, and the
 /// booking on hold. Time only moves through [advance], which also lets the
 /// one-second tick of the screen run.
+class _Time {
+  _Time(this.now);
+  DateTime now;
+}
+
 class CheckoutEnv {
-  CheckoutEnv._(this.tester, this._now, this.layer, this.booking);
+  CheckoutEnv._(this.tester, this._time, this.layer, this.booking);
 
   final WidgetTester tester;
-  DateTime _now;
+  final _Time _time;
   final InMemoryDataLayer layer;
   final Booking booking;
 
-  DateTime get now => _now;
+  DateTime get now => _time.now;
   FakeGatewayController get gateway => layer.paymentProvider.gateway;
   String get checkoutPath =>
       AppPaths.bookingCheckoutFor(booking.facilityId, booking.id);
 
-  /// Moves the clock by [d] and lets the screen's tick and the repository run.
+  /// Moves the clock and the test's own time by [d], so the screen's tick,
+  /// the repository and the fake provider's timers all run.
   Future<void> advance(Duration d) async {
-    _now = _now.add(d);
-    await tester.pump(const Duration(seconds: 1));
+    _time.now = _time.now.add(d);
+    await tester.pump(d);
     await tester.pump();
+  }
+
+  /// The provider session of the latest payment.
+  Future<String> sessionId() async =>
+      (await layer.payments.latestPayment(booking.id))!.providerRef;
+
+  /// Taps the pay button and fills the provider page with a test card and
+  /// confirms it (the booker's side of a payment), then lets time pass by
+  /// [wait].
+  Future<void> payOnPage({Duration wait = const Duration(seconds: 1)}) async {
+    await tester.tap(find.byKey(CheckoutScreen.payKey));
+    await tester.pumpAndSettle();
+    final fields = find.byType(TextField);
+    await tester.enterText(fields.at(0), '4242 4242 4242 4242');
+    await tester.enterText(fields.at(1), '12/30');
+    await tester.enterText(fields.at(2), '123');
+    await tester.enterText(fields.at(3), 'منى عبد الله');
+    await tester.pump();
+    await tester.ensureVisible(find.byKey(confirmKey));
+    await tester.tap(find.byKey(confirmKey));
+    await tester.pumpAndSettle();
+    await advance(wait);
+    await tester.pumpAndSettle();
   }
 
   Future<Booking> reload() async =>
@@ -59,9 +90,8 @@ class CheckoutEnv {
     bool dark = false,
   }) async {
     CairoTime.ensureInitialized();
-    var now = CairoTime.atWallClock(2026, 11, 14, 8);
-    late CheckoutEnv env;
-    final clock = Clock(() => now);
+    final time = _Time(CairoTime.atWallClock(2026, 11, 14, 8));
+    final clock = Clock(() => time.now);
     final layer = InMemoryDataLayer.create(
       clock: clock,
       paymentDelay: Duration.zero,
@@ -82,11 +112,11 @@ class CheckoutEnv {
       features: features,
       overrides: [
         dataLayerProvider.overrideWithValue(layer),
-        appClockProvider.overrideWithValue(Clock(() => env._now)),
+        appClockProvider.overrideWithValue(clock),
         ...overrides,
       ],
     );
-    env = CheckoutEnv._(tester, now, layer, booking);
+    final env = CheckoutEnv._(tester, time, layer, booking);
     await containerOf(tester).read(sessionProvider.notifier).actAs(user);
     await tester.pumpAndSettle();
     routerOf(tester).go(env.checkoutPath);

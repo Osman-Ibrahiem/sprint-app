@@ -94,6 +94,11 @@ CheckoutView? checkoutView(Ref ref, String bookingId) {
   );
 }
 
+/// The expiries the countdown has already asked the repository to apply, so
+/// a rebuild at zero never asks twice.
+@Riverpod(keepAlive: true)
+Set<String> holdExpiryRequests(Ref ref) => <String>{};
+
 /// Time left on the Hold, from `holdExpiresAt` and the clock; never its own
 /// start (R8), so it survives backgrounding, resizing and folding. At zero it
 /// asks the repository to apply the Hold rule instead of deciding itself.
@@ -109,9 +114,13 @@ Duration? holdCountdown(Ref ref, String bookingId) {
   }
   final left = expires.difference(now);
   if (left <= Duration.zero) {
-    unawaited(Future<void>.microtask(
-      () => ref.read(bookingRepositoryProvider).expireHolds(),
-    ));
+    // Ask once per expiry instant, never on every rebuild: the repository
+    // applies the rule (and its answer rebuilds this provider).
+    if (ref.read(holdExpiryRequestsProvider).add('$bookingId@$expires')) {
+      unawaited(Future<void>.microtask(
+        () => ref.read(bookingRepositoryProvider).expireHolds(),
+      ));
+    }
     return Duration.zero;
   }
   return left;
