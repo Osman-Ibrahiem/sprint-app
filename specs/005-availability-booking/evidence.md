@@ -60,30 +60,51 @@ Recorded so the review does not look for what is not there.
   no overflow and every target at least 48 dp.
 - `flutter build web --release --base-href /sprint-app/`: built.
 
-## By hand on web (T066, partly)
+## By hand on web (T066)
 
-Built release bundle served locally and opened in the app's browser pane, as a guest, on the real date.
+The release bundle of this branch (after the review fixes and the merge of `develop`) was served locally
+and driven in the app's browser pane, mostly at 400 wide, on the real date (Tue 2026-11-17), with the
+data saved on the device between steps.
 
-- **1300 wide, pool schedule**: seven days, six lanes, both tier prices, slots in two columns; tapping
-  12:00 selected it, wrote `day`, `unit`, `start`, `end` into the address, and filled the side panel
-  ("حارة 1", "الوقت 12:00 م – 1:00 م، المدة ساعة واحدة"); "متابعة" opened the account gate with
-  "عشان تحجز".
-- **400 wide, free hall schedule**: Friday shown as closed, two units, the range explanation, slots in
-  three columns with past hours marked "فات", bottom navigation intact.
+| Quickstart scenario | What was done | Result |
+| --- | --- | --- |
+| 1 Guest schedule | pool schedule at 400 and at 1300; both tier prices; no prompt while browsing | as expected |
+| 2 Closed day | hall: Friday disabled; tennis: the closure day disabled | as expected |
+| 3 Guest returns | tapped 6:00 م, "متابعة" → gate sheet → sign in as Karim (external) → back on the same lane, day and time, price line now only "سعرك · السعر العادي 40 ج.م", bar shows 40 ج.م → summary → "متابعة للدفع" → "الدفع قريبًا" with a way back | as expected |
+| 4 Summary | facility, unit, day, time, length, one place, tier, 40 ج.م للمكان الواحد, 4-hour cutoff with full refund, verification hint with "طلب توثيق" | as expected |
+| 5 Own overlap | signed in as Mona (internal, 55 ج.م for tennis), tapped tennis 6:00 م on the day she holds a lane: notice names "حمام السباحة الأولمبي, Fri, 20 Nov · 6:00 PM – 7:00 PM", slot not selected | as expected |
+| 7 Free range | hall, قاعة 2, 4:00 م then 6:00 م: ends selected, middle filled, "الوقت 4:00 م – 7:00 م، المدة 3 ساعات", "مجاني" → summary free, no tier or price rows → "تأكيد الحجز" → success "SP-1106" with details and no QR → "الرجوع للرئيسية": the booking is first under "حجوزاتك الجاية" | as expected |
+| 8 Trainer | trainer step with three trainers; chose هشام: "المدرب: الكابتن هشام فؤاد", "تغيير المدرب", Thu and Fri disabled, one grid with "3 أماكن" (trainer capacity, not the room's 6); Wed 11:00 م "مكتمل" while the room has places; full page reload with trainer, day and time in the address restored all three and the price | as expected |
+| 11 Adaptive | English and light theme at 400 (LTR days with Today at the left, "Your price · Standard price EGP 40 Per place", "3 places"); dark at 400 and 1300; 1300 side panel with the selection | as expected |
 
-Not done by hand: the sign-in and sign-up returns, the summary and success screens, the trainer path,
-English and light theme, and iOS and Android (no simulator was booted). Those are covered by the
-automated tests above; a hand walk of `quickstart.md` scenarios 3 – 11 is still to do before the defense
-recording.
+Not walked by hand: scenario 6 (two accounts for one hour), 9 with a pending-request account, 10 (settings
+inspector), sign-up, keyboard-only use, the medium (600 – 839) width, and iOS and Android (no simulator
+booted). Scenarios 6, 9 and 10 and the keyboard are covered by the automated tests above.
 
-## Size and speed (T067, partly)
+Seen while walking, not bugs of this feature: unit and facility names are Arabic seed data, so they stay
+Arabic in the English UI; the day strip shows the browser's thin horizontal scrollbar on web.
+
+## Size and speed (T067)
 
 | Measure | `develop` | this branch | Change |
 | --- | --- | --- | --- |
 | `main.dart.js` | 4,403,242 B (gzip 1,271,905 B) | 4,509,592 B (gzip 1,300,626 B) | +106,350 B (gzip +28,721 B, +2.3%) |
 
-The gzip growth is about the same as feature 004's (+29 KB). The schedule's whole-window load on seed
-data, measured around the provider with a stopwatch (10 runs per facility, in a test, no network):
-median 7 ms for the pool (6 lanes), 2 ms for the pitch and the hall, 3 ms for the academy, worst 44 ms.
-Not measured: time from the tap to slots on screen in the browser, and first load under DevTools
-throttling as 002's evidence did; both are still to do for SC-001 and SC-009.
+The gzip growth is about the same as feature 004's (+29 KB).
+
+**Whole-window load on seed data**, around the provider with a stopwatch (10 runs per facility, in a
+test, no network): median 7 ms for the pool (6 lanes), 2 ms for the pitch and the hall, 3 ms for the
+academy, worst 44 ms.
+
+**Tap to slots in the browser** (release bundle, localhost, accessibility tree on, 400 wide): from setting
+the address of a facility page to the schedule to the first slot label appearing in the accessibility
+tree, 1.0 s for the gym, 1.65 s for the pool, 1.7 s for the pitch and 1.7 s for the hall. This counts the
+page transition and the wait for the accessibility tree to update, so it is an upper bound; it is under
+the 2 s of SC-001 and NFR-09, with little room to spare, and there is no network in it because the data
+is in memory.
+
+**First load** (SC-009): unthrottled and with a cached bundle the load event fired at 177 ms. That says
+nothing about Fast 4G. The browser pane has no network throttling, so the DevTools Fast 4G and Slow 4G
+numbers that feature 002's evidence recorded were not taken; they remain to do on a browser with
+DevTools. The bundle growth above is the best available proxy: +28.7 KB gzip is about 0.02 s at the
+9 Mbps of Fast 4G.
