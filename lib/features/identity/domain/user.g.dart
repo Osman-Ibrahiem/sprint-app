@@ -16,6 +16,7 @@ _User _$UserFromJson(Map<String, dynamic> json) => _User(
   status:
       $enumDecodeNullable(_$UserStatusEnumMap, json['status']) ??
       UserStatus.active,
+  avatarId: json['avatarId'] as String?,
 );
 
 Map<String, dynamic> _$UserToJson(_User instance) => <String, dynamic>{
@@ -26,6 +27,7 @@ Map<String, dynamic> _$UserToJson(_User instance) => <String, dynamic>{
   'createdAt': instance.createdAt.toIso8601String(),
   'nationalId': instance.nationalId,
   'status': _$UserStatusEnumMap[instance.status]!,
+  'avatarId': instance.avatarId,
 };
 
 const _$UserStatusEnumMap = {

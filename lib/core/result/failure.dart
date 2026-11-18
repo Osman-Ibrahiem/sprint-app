@@ -124,6 +124,11 @@ final class StorageFull extends Failure {
   const StorageFull();
 }
 
+/// A profile name is not at least two characters after trimming (FR-044).
+final class InvalidName extends Failure {
+  const InvalidName();
+}
+
 // ---------------------------------------------------- auth and verification
 // Feature 003 (contracts/repositories.md).
 

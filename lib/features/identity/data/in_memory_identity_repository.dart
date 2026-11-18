@@ -1,4 +1,6 @@
 import 'package:sprint/core/data/change_signal.dart';
+import 'package:sprint/core/result/failure.dart';
+import 'package:sprint/core/result/result.dart';
 import 'package:sprint/features/identity/domain/identity_repository.dart';
 import 'package:sprint/features/identity/domain/role_assignment.dart';
 import 'package:sprint/features/identity/domain/user.dart';
@@ -44,6 +46,27 @@ class InMemoryIdentityRepository
   Future<List<RoleAssignment>> roleAssignments(String userId) async =>
       _assignments.where((a) => a.userId == userId).toList();
 
+  @override
+  Future<Result<User>> updateProfile(
+    String userId, {
+    required String name,
+    String? avatarId,
+    bool clearAvatar = false,
+  }) async {
+    final i = _users.indexWhere((u) => u.id == userId);
+    if (i < 0) return const Err(NotFound('user'));
+    final trimmed = name.trim();
+    if (trimmed.runes.length < 2) return const Err(InvalidName());
+
+    final updated = _users[i].copyWith(
+      name: trimmed,
+      avatarId: clearAvatar ? null : (avatarId ?? _users[i].avatarId),
+    );
+    _users[i] = updated;
+    notifyChanged();
+    return Ok(updated);
+  }
+
   /// Writes for the auth repository (feature 003): sign up adds a person,
   /// confirming an email activates them and gives them the `BOOKER` role.
   void addUser(User user) {
@@ -51,6 +74,7 @@ class InMemoryIdentityRepository
     notifyChanged();
   }
 
+  @override
   void updateUser(User user) {
     final i = _users.indexWhere((u) => u.id == user.id);
     if (i < 0) return;
@@ -58,6 +82,7 @@ class InMemoryIdentityRepository
     notifyChanged();
   }
 
+  @override
   void addRoleAssignment(RoleAssignment assignment) {
     if (!_assignments.contains(assignment)) _assignments.add(assignment);
     notifyChanged();

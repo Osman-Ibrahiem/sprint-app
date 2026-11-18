@@ -20,6 +20,10 @@ abstract class User with _$User {
     required DateTime createdAt,
     String? nationalId,
     @Default(UserStatus.active) UserStatus status,
+
+    /// The key of the person's photo in the photo store; null shows the
+    /// initial (data-model).
+    String? avatarId,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
