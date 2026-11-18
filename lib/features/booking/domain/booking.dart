@@ -55,6 +55,10 @@ abstract class Booking with _$Booking {
     DateTime? holdExtendedAt,
     CancelledBy? cancelledBy,
     String? cancelReason,
+
+    /// When the cancellation happened (BR-30 – BR-32, BR-48), set together
+    /// with [cancelledBy] and null for every other status.
+    DateTime? cancelledAt,
   }) = _Booking;
 
   factory Booking.fromJson(Map<String, dynamic> json) =>
@@ -114,14 +118,24 @@ abstract class Booking with _$Booking {
         () => copyWith(status: BookingStatus.attended),
       );
 
-  Result<Booking> cancel(CancelledBy by, {String? reason}) => _only(
-        BookingStatus.confirmed,
-        () => copyWith(
-          status: BookingStatus.cancelled,
-          cancelledBy: by,
-          cancelReason: reason,
-        ),
-      );
+  /// BR-30 – BR-32, BR-48: a confirmed booking is cancelled by either side; a
+  /// booking still holding only by its owner. The repository, not the model,
+  /// checks the cutoff, the pending payment and the Hold.
+  Result<Booking> cancel(
+    CancelledBy by, {
+    String? reason,
+    DateTime? at,
+  }) {
+    final allowed = status == BookingStatus.confirmed ||
+        (status == BookingStatus.pendingPayment && by == CancelledBy.owner);
+    if (!allowed) return const Err(InvalidTransition());
+    return Ok(copyWith(
+      status: BookingStatus.cancelled,
+      cancelledBy: by,
+      cancelReason: reason,
+      cancelledAt: at,
+    ));
+  }
 
   /// After the slot ends with no attendance (BR-37). Nothing else changes: no
   /// penalty of any kind.

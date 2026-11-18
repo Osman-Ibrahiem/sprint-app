@@ -83,13 +83,32 @@ void main() {
       }
       final pending = booking(start: start, status: BookingStatus.pendingPayment);
       expect((pending.attend() as Err<Booking>).failure, isA<InvalidTransition>());
-      expect((pending.cancel(CancelledBy.owner) as Err<Booking>).failure,
+      expect((pending.cancel(CancelledBy.admin) as Err<Booking>).failure,
           isA<InvalidTransition>());
       final confirmed = booking(start: start);
       expect((confirmed.confirm() as Err<Booking>).failure,
           isA<InvalidTransition>());
       expect((confirmed.expire() as Err<Booking>).failure,
           isA<InvalidTransition>());
+    });
+
+    test('pending -> cancelled by its owner while holding (BR-48)', () {
+      final at = start.subtract(const Duration(hours: 5));
+      final pending = booking(
+        start: start,
+        status: BookingStatus.pendingPayment,
+        holdExpiresAt: at.add(const Duration(minutes: 10)),
+      );
+      final cancelled = (pending.cancel(
+        CancelledBy.owner,
+        reason: 'changed plans',
+        at: at,
+      ) as Ok<Booking>)
+          .value;
+      expect(cancelled.status, BookingStatus.cancelled);
+      expect(cancelled.cancelledBy, CancelledBy.owner);
+      expect(cancelled.cancelReason, 'changed plans');
+      expect(cancelled.cancelledAt, at);
     });
 
     test('confirmed -> attended', () {
@@ -193,10 +212,9 @@ void main() {
       expect(refused(b.end, by: CancelledBy.admin), isA<InvalidTransition>());
     });
 
-    test('only a confirmed booking can be cancelled', () {
+    test('only a confirmed booking or a live hold can be cancelled', () {
       final now = start.subtract(const Duration(hours: 5));
       for (final s in [
-        BookingStatus.pendingPayment,
         BookingStatus.attended,
         BookingStatus.noShow,
         BookingStatus.expired,
@@ -208,6 +226,26 @@ void main() {
           reason: '$s',
         );
       }
+
+      // BR-48: a live Hold, with nothing being paid, can be cancelled by its
+      // owner with nothing to refund.
+      final holding = booking(
+        start: start,
+        status: BookingStatus.pendingPayment,
+        holdExpiresAt: now.add(const Duration(minutes: 10)),
+      );
+      expect(decide(now, booking_: holding).refundAmount, 0);
+      expect(
+        refused(
+          now,
+          booking_: booking(
+            start: start,
+            status: BookingStatus.pendingPayment,
+            holdExpiresAt: now.subtract(const Duration(minutes: 1)),
+          ),
+        ),
+        isA<InvalidTransition>(),
+      );
     });
 
     test('a free booking refunds nothing', () {

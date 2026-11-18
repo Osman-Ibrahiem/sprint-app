@@ -24,7 +24,9 @@ mixin _$Booking {
  DateTime? get holdMaxExpiresAt;/// Set by the one extension to the normal expiry that had just been
 /// reached, so a later failed or cancelled answer can tell the Hold was
 /// extended and its normal time is over (BR-46). Null until extended.
- DateTime? get holdExtendedAt; CancelledBy? get cancelledBy; String? get cancelReason;
+ DateTime? get holdExtendedAt; CancelledBy? get cancelledBy; String? get cancelReason;/// When the cancellation happened (BR-30 – BR-32, BR-48), set together
+/// with [cancelledBy] and null for every other status.
+ DateTime? get cancelledAt;
 /// Create a copy of Booking
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -38,20 +40,20 @@ $BookingCopyWith<Booking> get copyWith => _$BookingCopyWithImpl<Booking>(this as
 @override
 bool operator ==(Object other) {
   final _this = this as Booking;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Booking&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.code, _this.code) || other.code == _this.code)&&(identical(other.userId, _this.userId) || other.userId == _this.userId)&&(identical(other.facilityId, _this.facilityId) || other.facilityId == _this.facilityId)&&(identical(other.unitId, _this.unitId) || other.unitId == _this.unitId)&&(identical(other.trainerId, _this.trainerId) || other.trainerId == _this.trainerId)&&(identical(other.start, _this.start) || other.start == _this.start)&&(identical(other.end, _this.end) || other.end == _this.end)&&(identical(other.seats, _this.seats) || other.seats == _this.seats)&&(identical(other.tierAtBooking, _this.tierAtBooking) || other.tierAtBooking == _this.tierAtBooking)&&(identical(other.priceAtBooking, _this.priceAtBooking) || other.priceAtBooking == _this.priceAtBooking)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.qrToken, _this.qrToken) || other.qrToken == _this.qrToken)&&(identical(other.holdExpiresAt, _this.holdExpiresAt) || other.holdExpiresAt == _this.holdExpiresAt)&&(identical(other.holdStartedAt, _this.holdStartedAt) || other.holdStartedAt == _this.holdStartedAt)&&(identical(other.holdMaxExpiresAt, _this.holdMaxExpiresAt) || other.holdMaxExpiresAt == _this.holdMaxExpiresAt)&&(identical(other.holdExtendedAt, _this.holdExtendedAt) || other.holdExtendedAt == _this.holdExtendedAt)&&(identical(other.cancelledBy, _this.cancelledBy) || other.cancelledBy == _this.cancelledBy)&&(identical(other.cancelReason, _this.cancelReason) || other.cancelReason == _this.cancelReason));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Booking&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.code, _this.code) || other.code == _this.code)&&(identical(other.userId, _this.userId) || other.userId == _this.userId)&&(identical(other.facilityId, _this.facilityId) || other.facilityId == _this.facilityId)&&(identical(other.unitId, _this.unitId) || other.unitId == _this.unitId)&&(identical(other.trainerId, _this.trainerId) || other.trainerId == _this.trainerId)&&(identical(other.start, _this.start) || other.start == _this.start)&&(identical(other.end, _this.end) || other.end == _this.end)&&(identical(other.seats, _this.seats) || other.seats == _this.seats)&&(identical(other.tierAtBooking, _this.tierAtBooking) || other.tierAtBooking == _this.tierAtBooking)&&(identical(other.priceAtBooking, _this.priceAtBooking) || other.priceAtBooking == _this.priceAtBooking)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.qrToken, _this.qrToken) || other.qrToken == _this.qrToken)&&(identical(other.holdExpiresAt, _this.holdExpiresAt) || other.holdExpiresAt == _this.holdExpiresAt)&&(identical(other.holdStartedAt, _this.holdStartedAt) || other.holdStartedAt == _this.holdStartedAt)&&(identical(other.holdMaxExpiresAt, _this.holdMaxExpiresAt) || other.holdMaxExpiresAt == _this.holdMaxExpiresAt)&&(identical(other.holdExtendedAt, _this.holdExtendedAt) || other.holdExtendedAt == _this.holdExtendedAt)&&(identical(other.cancelledBy, _this.cancelledBy) || other.cancelledBy == _this.cancelledBy)&&(identical(other.cancelReason, _this.cancelReason) || other.cancelReason == _this.cancelReason)&&(identical(other.cancelledAt, _this.cancelledAt) || other.cancelledAt == _this.cancelledAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Booking;
-  return Object.hashAll([runtimeType,_this.id,_this.code,_this.userId,_this.facilityId,_this.unitId,_this.trainerId,_this.start,_this.end,_this.seats,_this.tierAtBooking,_this.priceAtBooking,_this.status,_this.qrToken,_this.holdExpiresAt,_this.holdStartedAt,_this.holdMaxExpiresAt,_this.holdExtendedAt,_this.cancelledBy,_this.cancelReason]);
+  return Object.hashAll([runtimeType,_this.id,_this.code,_this.userId,_this.facilityId,_this.unitId,_this.trainerId,_this.start,_this.end,_this.seats,_this.tierAtBooking,_this.priceAtBooking,_this.status,_this.qrToken,_this.holdExpiresAt,_this.holdStartedAt,_this.holdMaxExpiresAt,_this.holdExtendedAt,_this.cancelledBy,_this.cancelReason,_this.cancelledAt]);
 }
 
 @override
 String toString() {
   final _this = this as Booking;
-  return 'Booking(id: ${_this.id}, code: ${_this.code}, userId: ${_this.userId}, facilityId: ${_this.facilityId}, unitId: ${_this.unitId}, trainerId: ${_this.trainerId}, start: ${_this.start}, end: ${_this.end}, seats: ${_this.seats}, tierAtBooking: ${_this.tierAtBooking}, priceAtBooking: ${_this.priceAtBooking}, status: ${_this.status}, qrToken: ${_this.qrToken}, holdExpiresAt: ${_this.holdExpiresAt}, holdStartedAt: ${_this.holdStartedAt}, holdMaxExpiresAt: ${_this.holdMaxExpiresAt}, holdExtendedAt: ${_this.holdExtendedAt}, cancelledBy: ${_this.cancelledBy}, cancelReason: ${_this.cancelReason})';
+  return 'Booking(id: ${_this.id}, code: ${_this.code}, userId: ${_this.userId}, facilityId: ${_this.facilityId}, unitId: ${_this.unitId}, trainerId: ${_this.trainerId}, start: ${_this.start}, end: ${_this.end}, seats: ${_this.seats}, tierAtBooking: ${_this.tierAtBooking}, priceAtBooking: ${_this.priceAtBooking}, status: ${_this.status}, qrToken: ${_this.qrToken}, holdExpiresAt: ${_this.holdExpiresAt}, holdStartedAt: ${_this.holdStartedAt}, holdMaxExpiresAt: ${_this.holdMaxExpiresAt}, holdExtendedAt: ${_this.holdExtendedAt}, cancelledBy: ${_this.cancelledBy}, cancelReason: ${_this.cancelReason}, cancelledAt: ${_this.cancelledAt})';
 }
 
 
@@ -62,7 +64,7 @@ abstract mixin class $BookingCopyWith<$Res>  {
   factory $BookingCopyWith(Booking value, $Res Function(Booking) _then) = _$BookingCopyWithImpl;
 @useResult
 $Res call({
- String id, String code, String userId, String facilityId, String unitId, String? trainerId, DateTime start, DateTime end, int seats, PriceTier tierAtBooking, int priceAtBooking, BookingStatus status, String qrToken, DateTime? holdExpiresAt, DateTime? holdStartedAt, DateTime? holdMaxExpiresAt, DateTime? holdExtendedAt, CancelledBy? cancelledBy, String? cancelReason
+ String id, String code, String userId, String facilityId, String unitId, String? trainerId, DateTime start, DateTime end, int seats, PriceTier tierAtBooking, int priceAtBooking, BookingStatus status, String qrToken, DateTime? holdExpiresAt, DateTime? holdStartedAt, DateTime? holdMaxExpiresAt, DateTime? holdExtendedAt, CancelledBy? cancelledBy, String? cancelReason, DateTime? cancelledAt
 });
 
 
@@ -79,7 +81,7 @@ class _$BookingCopyWithImpl<$Res>
 
 /// Create a copy of Booking
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? code = null,Object? userId = null,Object? facilityId = null,Object? unitId = null,Object? trainerId = freezed,Object? start = null,Object? end = null,Object? seats = null,Object? tierAtBooking = null,Object? priceAtBooking = null,Object? status = null,Object? qrToken = null,Object? holdExpiresAt = freezed,Object? holdStartedAt = freezed,Object? holdMaxExpiresAt = freezed,Object? holdExtendedAt = freezed,Object? cancelledBy = freezed,Object? cancelReason = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? code = null,Object? userId = null,Object? facilityId = null,Object? unitId = null,Object? trainerId = freezed,Object? start = null,Object? end = null,Object? seats = null,Object? tierAtBooking = null,Object? priceAtBooking = null,Object? status = null,Object? qrToken = null,Object? holdExpiresAt = freezed,Object? holdStartedAt = freezed,Object? holdMaxExpiresAt = freezed,Object? holdExtendedAt = freezed,Object? cancelledBy = freezed,Object? cancelReason = freezed,Object? cancelledAt = freezed,}) {
   return _then(Booking(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
@@ -100,7 +102,8 @@ as DateTime?,holdMaxExpiresAt: freezed == holdMaxExpiresAt ? _self.holdMaxExpire
 as DateTime?,holdExtendedAt: freezed == holdExtendedAt ? _self.holdExtendedAt : holdExtendedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,cancelledBy: freezed == cancelledBy ? _self.cancelledBy : cancelledBy // ignore: cast_nullable_to_non_nullable
 as CancelledBy?,cancelReason: freezed == cancelReason ? _self.cancelReason : cancelReason // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,cancelledAt: freezed == cancelledAt ? _self.cancelledAt : cancelledAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -185,10 +188,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String code,  String userId,  String facilityId,  String unitId,  String? trainerId,  DateTime start,  DateTime end,  int seats,  PriceTier tierAtBooking,  int priceAtBooking,  BookingStatus status,  String qrToken,  DateTime? holdExpiresAt,  DateTime? holdStartedAt,  DateTime? holdMaxExpiresAt,  DateTime? holdExtendedAt,  CancelledBy? cancelledBy,  String? cancelReason)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String code,  String userId,  String facilityId,  String unitId,  String? trainerId,  DateTime start,  DateTime end,  int seats,  PriceTier tierAtBooking,  int priceAtBooking,  BookingStatus status,  String qrToken,  DateTime? holdExpiresAt,  DateTime? holdStartedAt,  DateTime? holdMaxExpiresAt,  DateTime? holdExtendedAt,  CancelledBy? cancelledBy,  String? cancelReason,  DateTime? cancelledAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Booking() when $default != null:
-return $default(_that.id,_that.code,_that.userId,_that.facilityId,_that.unitId,_that.trainerId,_that.start,_that.end,_that.seats,_that.tierAtBooking,_that.priceAtBooking,_that.status,_that.qrToken,_that.holdExpiresAt,_that.holdStartedAt,_that.holdMaxExpiresAt,_that.holdExtendedAt,_that.cancelledBy,_that.cancelReason);case _:
+return $default(_that.id,_that.code,_that.userId,_that.facilityId,_that.unitId,_that.trainerId,_that.start,_that.end,_that.seats,_that.tierAtBooking,_that.priceAtBooking,_that.status,_that.qrToken,_that.holdExpiresAt,_that.holdStartedAt,_that.holdMaxExpiresAt,_that.holdExtendedAt,_that.cancelledBy,_that.cancelReason,_that.cancelledAt);case _:
   return orElse();
 
 }
@@ -206,10 +209,10 @@ return $default(_that.id,_that.code,_that.userId,_that.facilityId,_that.unitId,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String code,  String userId,  String facilityId,  String unitId,  String? trainerId,  DateTime start,  DateTime end,  int seats,  PriceTier tierAtBooking,  int priceAtBooking,  BookingStatus status,  String qrToken,  DateTime? holdExpiresAt,  DateTime? holdStartedAt,  DateTime? holdMaxExpiresAt,  DateTime? holdExtendedAt,  CancelledBy? cancelledBy,  String? cancelReason)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String code,  String userId,  String facilityId,  String unitId,  String? trainerId,  DateTime start,  DateTime end,  int seats,  PriceTier tierAtBooking,  int priceAtBooking,  BookingStatus status,  String qrToken,  DateTime? holdExpiresAt,  DateTime? holdStartedAt,  DateTime? holdMaxExpiresAt,  DateTime? holdExtendedAt,  CancelledBy? cancelledBy,  String? cancelReason,  DateTime? cancelledAt)  $default,) {final _that = this;
 switch (_that) {
 case _Booking():
-return $default(_that.id,_that.code,_that.userId,_that.facilityId,_that.unitId,_that.trainerId,_that.start,_that.end,_that.seats,_that.tierAtBooking,_that.priceAtBooking,_that.status,_that.qrToken,_that.holdExpiresAt,_that.holdStartedAt,_that.holdMaxExpiresAt,_that.holdExtendedAt,_that.cancelledBy,_that.cancelReason);case _:
+return $default(_that.id,_that.code,_that.userId,_that.facilityId,_that.unitId,_that.trainerId,_that.start,_that.end,_that.seats,_that.tierAtBooking,_that.priceAtBooking,_that.status,_that.qrToken,_that.holdExpiresAt,_that.holdStartedAt,_that.holdMaxExpiresAt,_that.holdExtendedAt,_that.cancelledBy,_that.cancelReason,_that.cancelledAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -226,10 +229,10 @@ return $default(_that.id,_that.code,_that.userId,_that.facilityId,_that.unitId,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String code,  String userId,  String facilityId,  String unitId,  String? trainerId,  DateTime start,  DateTime end,  int seats,  PriceTier tierAtBooking,  int priceAtBooking,  BookingStatus status,  String qrToken,  DateTime? holdExpiresAt,  DateTime? holdStartedAt,  DateTime? holdMaxExpiresAt,  DateTime? holdExtendedAt,  CancelledBy? cancelledBy,  String? cancelReason)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String code,  String userId,  String facilityId,  String unitId,  String? trainerId,  DateTime start,  DateTime end,  int seats,  PriceTier tierAtBooking,  int priceAtBooking,  BookingStatus status,  String qrToken,  DateTime? holdExpiresAt,  DateTime? holdStartedAt,  DateTime? holdMaxExpiresAt,  DateTime? holdExtendedAt,  CancelledBy? cancelledBy,  String? cancelReason,  DateTime? cancelledAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Booking() when $default != null:
-return $default(_that.id,_that.code,_that.userId,_that.facilityId,_that.unitId,_that.trainerId,_that.start,_that.end,_that.seats,_that.tierAtBooking,_that.priceAtBooking,_that.status,_that.qrToken,_that.holdExpiresAt,_that.holdStartedAt,_that.holdMaxExpiresAt,_that.holdExtendedAt,_that.cancelledBy,_that.cancelReason);case _:
+return $default(_that.id,_that.code,_that.userId,_that.facilityId,_that.unitId,_that.trainerId,_that.start,_that.end,_that.seats,_that.tierAtBooking,_that.priceAtBooking,_that.status,_that.qrToken,_that.holdExpiresAt,_that.holdStartedAt,_that.holdMaxExpiresAt,_that.holdExtendedAt,_that.cancelledBy,_that.cancelReason,_that.cancelledAt);case _:
   return null;
 
 }
@@ -241,7 +244,7 @@ return $default(_that.id,_that.code,_that.userId,_that.facilityId,_that.unitId,_
 @JsonSerializable()
 
 class _Booking extends Booking {
-  const _Booking({required this.id, required this.code, required this.userId, required this.facilityId, required this.unitId, this.trainerId, required this.start, required this.end, required this.seats, required this.tierAtBooking, required this.priceAtBooking, required this.status, required this.qrToken, this.holdExpiresAt, this.holdStartedAt, this.holdMaxExpiresAt, this.holdExtendedAt, this.cancelledBy, this.cancelReason}): super._();
+  const _Booking({required this.id, required this.code, required this.userId, required this.facilityId, required this.unitId, this.trainerId, required this.start, required this.end, required this.seats, required this.tierAtBooking, required this.priceAtBooking, required this.status, required this.qrToken, this.holdExpiresAt, this.holdStartedAt, this.holdMaxExpiresAt, this.holdExtendedAt, this.cancelledBy, this.cancelReason, this.cancelledAt}): super._();
   factory _Booking.fromJson(Map<String, dynamic> json) => _$BookingFromJson(json);
 
 @override final  String id;
@@ -271,6 +274,9 @@ class _Booking extends Booking {
 @override final  DateTime? holdExtendedAt;
 @override final  CancelledBy? cancelledBy;
 @override final  String? cancelReason;
+/// When the cancellation happened (BR-30 – BR-32, BR-48), set together
+/// with [cancelledBy] and null for every other status.
+@override final  DateTime? cancelledAt;
 
 /// Create a copy of Booking
 /// with the given fields replaced by the non-null parameter values.
@@ -285,18 +291,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Booking&&(identical(other.id, id) || other.id == id)&&(identical(other.code, code) || other.code == code)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.facilityId, facilityId) || other.facilityId == facilityId)&&(identical(other.unitId, unitId) || other.unitId == unitId)&&(identical(other.trainerId, trainerId) || other.trainerId == trainerId)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end)&&(identical(other.seats, seats) || other.seats == seats)&&(identical(other.tierAtBooking, tierAtBooking) || other.tierAtBooking == tierAtBooking)&&(identical(other.priceAtBooking, priceAtBooking) || other.priceAtBooking == priceAtBooking)&&(identical(other.status, status) || other.status == status)&&(identical(other.qrToken, qrToken) || other.qrToken == qrToken)&&(identical(other.holdExpiresAt, holdExpiresAt) || other.holdExpiresAt == holdExpiresAt)&&(identical(other.holdStartedAt, holdStartedAt) || other.holdStartedAt == holdStartedAt)&&(identical(other.holdMaxExpiresAt, holdMaxExpiresAt) || other.holdMaxExpiresAt == holdMaxExpiresAt)&&(identical(other.holdExtendedAt, holdExtendedAt) || other.holdExtendedAt == holdExtendedAt)&&(identical(other.cancelledBy, cancelledBy) || other.cancelledBy == cancelledBy)&&(identical(other.cancelReason, cancelReason) || other.cancelReason == cancelReason));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Booking&&(identical(other.id, id) || other.id == id)&&(identical(other.code, code) || other.code == code)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.facilityId, facilityId) || other.facilityId == facilityId)&&(identical(other.unitId, unitId) || other.unitId == unitId)&&(identical(other.trainerId, trainerId) || other.trainerId == trainerId)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end)&&(identical(other.seats, seats) || other.seats == seats)&&(identical(other.tierAtBooking, tierAtBooking) || other.tierAtBooking == tierAtBooking)&&(identical(other.priceAtBooking, priceAtBooking) || other.priceAtBooking == priceAtBooking)&&(identical(other.status, status) || other.status == status)&&(identical(other.qrToken, qrToken) || other.qrToken == qrToken)&&(identical(other.holdExpiresAt, holdExpiresAt) || other.holdExpiresAt == holdExpiresAt)&&(identical(other.holdStartedAt, holdStartedAt) || other.holdStartedAt == holdStartedAt)&&(identical(other.holdMaxExpiresAt, holdMaxExpiresAt) || other.holdMaxExpiresAt == holdMaxExpiresAt)&&(identical(other.holdExtendedAt, holdExtendedAt) || other.holdExtendedAt == holdExtendedAt)&&(identical(other.cancelledBy, cancelledBy) || other.cancelledBy == cancelledBy)&&(identical(other.cancelReason, cancelReason) || other.cancelReason == cancelReason)&&(identical(other.cancelledAt, cancelledAt) || other.cancelledAt == cancelledAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hashAll([runtimeType,id,code,userId,facilityId,unitId,trainerId,start,end,seats,tierAtBooking,priceAtBooking,status,qrToken,holdExpiresAt,holdStartedAt,holdMaxExpiresAt,holdExtendedAt,cancelledBy,cancelReason]);
+    return Object.hashAll([runtimeType,id,code,userId,facilityId,unitId,trainerId,start,end,seats,tierAtBooking,priceAtBooking,status,qrToken,holdExpiresAt,holdStartedAt,holdMaxExpiresAt,holdExtendedAt,cancelledBy,cancelReason,cancelledAt]);
 }
 
 @override
 String toString() {
-    return 'Booking(id: $id, code: $code, userId: $userId, facilityId: $facilityId, unitId: $unitId, trainerId: $trainerId, start: $start, end: $end, seats: $seats, tierAtBooking: $tierAtBooking, priceAtBooking: $priceAtBooking, status: $status, qrToken: $qrToken, holdExpiresAt: $holdExpiresAt, holdStartedAt: $holdStartedAt, holdMaxExpiresAt: $holdMaxExpiresAt, holdExtendedAt: $holdExtendedAt, cancelledBy: $cancelledBy, cancelReason: $cancelReason)';
+    return 'Booking(id: $id, code: $code, userId: $userId, facilityId: $facilityId, unitId: $unitId, trainerId: $trainerId, start: $start, end: $end, seats: $seats, tierAtBooking: $tierAtBooking, priceAtBooking: $priceAtBooking, status: $status, qrToken: $qrToken, holdExpiresAt: $holdExpiresAt, holdStartedAt: $holdStartedAt, holdMaxExpiresAt: $holdMaxExpiresAt, holdExtendedAt: $holdExtendedAt, cancelledBy: $cancelledBy, cancelReason: $cancelReason, cancelledAt: $cancelledAt)';
 }
 
 
@@ -307,7 +313,7 @@ abstract mixin class _$BookingCopyWith<$Res> implements $BookingCopyWith<$Res> {
   factory _$BookingCopyWith(_Booking value, $Res Function(_Booking) _then) = __$BookingCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String code, String userId, String facilityId, String unitId, String? trainerId, DateTime start, DateTime end, int seats, PriceTier tierAtBooking, int priceAtBooking, BookingStatus status, String qrToken, DateTime? holdExpiresAt, DateTime? holdStartedAt, DateTime? holdMaxExpiresAt, DateTime? holdExtendedAt, CancelledBy? cancelledBy, String? cancelReason
+ String id, String code, String userId, String facilityId, String unitId, String? trainerId, DateTime start, DateTime end, int seats, PriceTier tierAtBooking, int priceAtBooking, BookingStatus status, String qrToken, DateTime? holdExpiresAt, DateTime? holdStartedAt, DateTime? holdMaxExpiresAt, DateTime? holdExtendedAt, CancelledBy? cancelledBy, String? cancelReason, DateTime? cancelledAt
 });
 
 
@@ -324,7 +330,7 @@ class __$BookingCopyWithImpl<$Res>
 
 /// Create a copy of Booking
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? code = null,Object? userId = null,Object? facilityId = null,Object? unitId = null,Object? trainerId = freezed,Object? start = null,Object? end = null,Object? seats = null,Object? tierAtBooking = null,Object? priceAtBooking = null,Object? status = null,Object? qrToken = null,Object? holdExpiresAt = freezed,Object? holdStartedAt = freezed,Object? holdMaxExpiresAt = freezed,Object? holdExtendedAt = freezed,Object? cancelledBy = freezed,Object? cancelReason = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? code = null,Object? userId = null,Object? facilityId = null,Object? unitId = null,Object? trainerId = freezed,Object? start = null,Object? end = null,Object? seats = null,Object? tierAtBooking = null,Object? priceAtBooking = null,Object? status = null,Object? qrToken = null,Object? holdExpiresAt = freezed,Object? holdStartedAt = freezed,Object? holdMaxExpiresAt = freezed,Object? holdExtendedAt = freezed,Object? cancelledBy = freezed,Object? cancelReason = freezed,Object? cancelledAt = freezed,}) {
   return _then(_Booking(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
@@ -345,7 +351,8 @@ as DateTime?,holdMaxExpiresAt: freezed == holdMaxExpiresAt ? _self.holdMaxExpire
 as DateTime?,holdExtendedAt: freezed == holdExtendedAt ? _self.holdExtendedAt : holdExtendedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,cancelledBy: freezed == cancelledBy ? _self.cancelledBy : cancelledBy // ignore: cast_nullable_to_non_nullable
 as CancelledBy?,cancelReason: freezed == cancelReason ? _self.cancelReason : cancelReason // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,cancelledAt: freezed == cancelledAt ? _self.cancelledAt : cancelledAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

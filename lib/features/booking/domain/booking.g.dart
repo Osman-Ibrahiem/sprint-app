@@ -34,6 +34,9 @@ _Booking _$BookingFromJson(Map<String, dynamic> json) => _Booking(
       : DateTime.parse(json['holdExtendedAt'] as String),
   cancelledBy: $enumDecodeNullable(_$CancelledByEnumMap, json['cancelledBy']),
   cancelReason: json['cancelReason'] as String?,
+  cancelledAt: json['cancelledAt'] == null
+      ? null
+      : DateTime.parse(json['cancelledAt'] as String),
 );
 
 Map<String, dynamic> _$BookingToJson(_Booking instance) => <String, dynamic>{
@@ -56,6 +59,7 @@ Map<String, dynamic> _$BookingToJson(_Booking instance) => <String, dynamic>{
   'holdExtendedAt': instance.holdExtendedAt?.toIso8601String(),
   'cancelledBy': _$CancelledByEnumMap[instance.cancelledBy],
   'cancelReason': instance.cancelReason,
+  'cancelledAt': instance.cancelledAt?.toIso8601String(),
 };
 
 const _$PriceTierEnumMap = {
