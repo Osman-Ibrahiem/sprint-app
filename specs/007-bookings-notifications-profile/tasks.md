@@ -25,7 +25,7 @@ description: "Task list for feature 007 — my bookings, cancellation, notificat
 - No platform checks outside `lib/core/adaptive/`; dialogs through `showSprintDialog`, sheets through `showSprintSheet`, loaders through `AdaptiveLoader`, app bars through `AdaptiveAppBar`. Reuse 002 widgets (`BookingTicket`, `StatusBadge`, `SprintButton`, `SprintTextField`, `Skeleton`, `EmptyState`, `OptionGroup`). Icons through `SprintIcon` / `DirectionalIcon`.
 - One primary `SprintButton` per screen. Every state carries a word or an icon, never colour alone. Targets at least 48 (including links, popover rows, sidebar rows and clear buttons). Motion respects `MediaQuery.disableAnimationsOf`. No Lottie: static art.
 - No national ID, ID photo or card data on any new screen, log or share (NFR-06, SC-008).
-- Do not edit `tokens.json` except the one sample string in T082; do not edit Figma. `docs/` edits only in the tasks of Phase 14.
+- Do not edit `tokens.json` except the one sample string in T082; do not edit Figma. `docs/` edits only in the component README tasks of Phase 3 and in Phase 14.
 - Commit messages cite BRD IDs. Branch `007-bookings-notifications-profile`. No force-push, no rebase, no push unless Osman says so.
 - After editing an ARB file run `flutter gen-l10n`; after editing a Riverpod or Freezed file run `dart run build_runner build --delete-conflicting-outputs`.
 
