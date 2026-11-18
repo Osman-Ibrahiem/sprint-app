@@ -343,7 +343,7 @@ final class ResetDemoDataProvider
   }
 }
 
-String _$resetDemoDataHash() => r'fee7cf15fbe3877a9d8a9eb00df0ce3b934085fa';
+String _$resetDemoDataHash() => r'8b4fda86671e9eb2224d74522f741ae11a527793';
 
 @ProviderFor(settingsRepository)
 final settingsRepositoryProvider = SettingsRepositoryProvider._();
