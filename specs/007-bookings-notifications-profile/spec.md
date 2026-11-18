@@ -268,7 +268,7 @@ Every new screen works on compact, medium, expanded and large windows, in Arabic
 **Notifications**
 
 - **FR-016**: The notifications centre MUST list the booker's notifications newest first, mark one read when opened, offer "تعليم الكل كمقروء", and show an empty state when there are none.
-- **FR-017**: Notification kinds MUST be: booking confirmed, reminder, cancelled by the facility, cancelled by the booker (recorded already read, so it never raises the badge), verification under review, verification approved, verification rejected (with its reason); the kind alone decides icon, wording and where tapping leads.
+- **FR-017**: Notification kinds MUST be: booking confirmed, reminder, cancelled by the facility, cancelled by the booker (recorded already read, so it never raises the badge), automatic refund (already written by feature 6), verification under review, verification approved, verification rejected (with its reason); the kind alone decides icon, wording and where tapping leads.
 - **FR-018**: On compact windows a bell with an unread badge MUST appear in the header of the four root screens for a signed-in booker; on medium and larger windows notifications MUST be a destination with the badge; a guest MUST have neither. The badge MUST hide at zero and while loading, and cap at 99+.
 - **FR-019**: Reminders MUST be created by a checker that runs on app open, every 60 seconds while open and on return from the background; it MUST create at most one reminder per confirmed booking, when the booking enters the `reminderLeadMinutes` window, and none for bookings no longer confirmed.
 - **FR-020**: A reminder's cancel action MUST be decided at display time from the booking's current state and the cutoff (BR-40); after the cutoff, or if the booking is no longer confirmed, the action MUST be absent and tapping MUST open the booking.
@@ -302,7 +302,7 @@ Every new screen works on compact, medium, expanded and large windows, in Arabic
 
 - **Booking** (existing): gains who cancelled (booker or facility) and the cancel time, and the new transition `PENDING_PAYMENT → CANCELLED`.
 - **Refund** (existing): created on cancel when money was paid, at the computed amount, with the reason (booker cancel or facility cancel).
-- **Notification** (existing): its kind becomes a closed set of seven (FR-017) instead of free text; keeps read time; payload carries the booking code or the verification reference.
+- **Notification** (existing): its kind becomes a closed set of eight (FR-017) instead of free text; keeps read time; payload carries the booking code or the verification reference.
 - **Reminder record** (derived): at most one per booking; the checker's memory of which bookings already got one.
 - **User profile** (existing): gains an optional photo; name editable; email and phone read-only here.
 - **Recent search** (device state): up to five terms, newest first.
