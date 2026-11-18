@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/core/theme/sprint_theme.dart';
 import 'package:sprint/core/tokens/sprint_colors.g.dart';
+import 'package:sprint/core/time/cairo_time.dart';
 import 'package:sprint/features/booking/presentation/checkout/checkout_layout.dart';
+import 'package:sprint/features/booking/presentation/checkout/checkout_policy_card.dart';
 import 'package:sprint/features/booking/presentation/checkout/countdown_text.dart';
 import 'package:sprint/features/booking/presentation/checkout/hold_banner.dart';
 import 'package:sprint/features/booking/presentation/checkout/moment_placeholder.dart';
@@ -13,6 +15,29 @@ import '../../../../helpers/pump_app.dart' show ar;
 import '../../../../helpers/widget_harness.dart';
 
 void main() {
+  // Walk 2026-11-18 D5: a booking made after its cutoff must not name a time
+  // that has already passed.
+  testWidgets('the policy names the last moment to cancel, or says '
+      'cancellation is not available once it has passed', (tester) async {
+    CairoTime.ensureInitialized();
+    final start = CairoTime.atWallClock(2026, 11, 18, 11);
+    Widget card(DateTime now) => CheckoutPolicyCard(
+          start: start,
+          cutoffHours: 4,
+          refundPercent: 100,
+          now: now,
+        );
+    await pumpWidgetUnder(
+        tester, card(CairoTime.atWallClock(2026, 11, 18, 6, 59)));
+    expect(find.textContaining('الإلغاء متاح لحد'), findsOneWidget);
+    expect(find.text(ar.ticketCancelUnavailable), findsNothing);
+
+    await pumpWidgetUnder(
+        tester, card(CairoTime.atWallClock(2026, 11, 18, 10, 38)));
+    expect(find.text(ar.ticketCancelUnavailable), findsOneWidget);
+    expect(find.textContaining('الإلغاء متاح لحد'), findsNothing);
+  });
+
   testWidgets('the banner is warning-soft with the time, then danger-soft in '
       'the last minute with seconds', (tester) async {
     await pumpWidgetUnder(

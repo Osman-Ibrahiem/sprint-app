@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/adaptive/adaptive_app_bar.dart';
 import 'package:sprint/core/adaptive/adaptive_back_button.dart';
-import 'package:sprint/core/l10n/ltr_isolate.dart';
 import 'package:sprint/core/l10n/sprint_format.dart';
 import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/core/time/cairo_time.dart';
@@ -247,12 +246,12 @@ class _GatewayFormState extends ConsumerState<_GatewayForm> {
                                 color: colors.inkMuted,
                               ),
                             ),
-                            LtrIsolate(
-                              child: Text(
-                                amount,
-                                key: amountKey,
-                                style: context.text.numberLg,
-                              ),
+                            // An Arabic price reads right to left; only
+                            // codes, phones and emails are isolated LTR.
+                            Text(
+                              amount,
+                              key: amountKey,
+                              style: context.text.numberLg,
                             ),
                             Text(
                               l10n.gatewayMerchant(summary?.facilityName ?? ''),

@@ -90,8 +90,10 @@ class FakeGatewayController with ChangeSignal {
   FakeGatewayController({
     this.baseDelay = const Duration(milliseconds: 600),
     FakeOutcome outcome = const FakeOutcome.succeed(),
+    Map<String, String> confirmed = const {},
     // ignore: prefer_initializing_formals
-  }) : _outcome = outcome;
+  }) : _outcome = outcome,
+       _confirmed = Map.of(confirmed);
 
   /// How long the provider takes to answer after the page confirms.
   final Duration baseDelay;
@@ -114,15 +116,36 @@ class FakeGatewayController with ChangeSignal {
     _sessions[id] = _Session(id, bookingId, amount);
   }
 
-  /// A session that is not known (the app restarted since it was opened) is
-  /// re-simulated from now by the current outcome (R5, demo only).
+  /// Sessions the page confirmed and that have no answer yet, with the last
+  /// four digits the page reported. Saved in the demo snapshot so a restart
+  /// can tell a confirmed payment from an abandoned page (walk 2026-11-18 D2).
+  final Map<String, String> _confirmed;
+
+  /// What the snapshot saves: confirmed sessions still waiting for an answer.
+  Map<String, String> get confirmedSessions => Map.unmodifiable(_confirmed);
+
+  /// A session that is not known (the app restarted since it was opened).
+  /// If the page had confirmed it, the answer is simulated again from now by
+  /// the current outcome. If not, the booker left the provider page, which is
+  /// a cancel (BR-47): the Hold keeps running and the payment screen offers
+  /// to pay again. A card that was never entered is never charged.
   _Session _ensure(String id, String bookingId) {
     final known = _sessions[id];
     if (known != null) return known;
     final s = _Session(id, bookingId, 0);
     _sessions[id] = s;
-    _answer(s, cardLast4: '4242');
+    final last4 = _confirmed[id];
+    if (last4 != null) {
+      _answer(s, cardLast4: last4);
+    } else {
+      _settle(s, const PaymentUpdate(PaymentStatus.cancelled));
+    }
     return s;
+  }
+
+  void _settle(_Session s, PaymentUpdate u) {
+    s.settle(u);
+    if (_confirmed.remove(s.id) != null) notifyChanged();
   }
 
   FakeSessionView? session(String id) {
@@ -141,6 +164,8 @@ class FakeGatewayController with ChangeSignal {
   void confirm(String sessionId, {required String cardLast4}) {
     final s = _sessions[sessionId];
     if (s == null || s.paying || s.done.isCompleted) return;
+    _confirmed[sessionId] = cardLast4;
+    notifyChanged();
     _answer(s, cardLast4: cardLast4);
   }
 
@@ -148,7 +173,7 @@ class FakeGatewayController with ChangeSignal {
   void cancel(String sessionId) {
     final s = _sessions[sessionId];
     if (s == null || s.done.isCompleted) return;
-    s.settle(const PaymentUpdate(PaymentStatus.cancelled));
+    _settle(s, const PaymentUpdate(PaymentStatus.cancelled));
   }
 
   void _answer(_Session s, {required String cardLast4}) {
@@ -156,7 +181,8 @@ class FakeGatewayController with ChangeSignal {
     final o = outcome;
     final wait = o.delay ?? baseDelay;
     s.timer = Timer(wait, () {
-      s.settle(
+      _settle(
+        s,
         o.name == 'fail'
             ? const PaymentUpdate(PaymentStatus.failed)
             : PaymentUpdate(PaymentStatus.succeeded, cardLast4: cardLast4),

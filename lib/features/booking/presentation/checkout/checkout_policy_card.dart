@@ -8,18 +8,23 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 /// The cancellation policy of the booking in the checkout wording
 /// (`checkoutPolicyBody`): the last moment to cancel, how long before the
 /// start that is, and the refund percent, all from the settings (BR-30,
-/// BR-31), never fixed numbers.
+/// BR-31), never fixed numbers. When that moment has already passed (a booking
+/// made close to its start) it says "الإلغاء مش متاح", as the ticket does.
 class CheckoutPolicyCard extends StatelessWidget {
   const CheckoutPolicyCard({
     required this.start,
     required this.cutoffHours,
     required this.refundPercent,
+    required this.now,
     super.key,
   });
 
   final DateTime start;
   final int cutoffHours;
   final int refundPercent;
+
+  /// The current instant; the screen rebuilds every second with the Hold.
+  final DateTime now;
 
   static const bodyKey = ValueKey<String>('checkout-policy-body');
 
@@ -42,11 +47,13 @@ class CheckoutPolicyCard extends StatelessWidget {
           Text(l10n.checkoutPolicyTitle, style: context.text.bodyStrong),
           const SizedBox(height: SprintSpacing.space1),
           Text(
-            l10n.checkoutPolicyBody(
-              '${format.date(until)} ${format.time(until)}',
-              l10n.bookingLengthHours(cutoffHours),
-              refundPercent,
-            ),
+            now.isBefore(until)
+                ? l10n.checkoutPolicyBody(
+                    '${format.date(until)} ${format.time(until)}',
+                    l10n.bookingLengthHours(cutoffHours),
+                    refundPercent,
+                  )
+                : l10n.ticketCancelUnavailable,
             key: bodyKey,
             style: context.text.body.copyWith(color: colors.inkMuted),
           ),

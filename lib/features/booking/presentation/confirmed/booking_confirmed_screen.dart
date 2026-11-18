@@ -3,6 +3,7 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:sprint/core/time/cairo_time.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/adaptive/adaptive_app_bar.dart';
 import 'package:sprint/core/adaptive/adaptive_pressable.dart';
@@ -107,13 +108,15 @@ class _BookingConfirmedScreenState
       facilityName: view.facilityName,
       unitName: view.unitName,
       trainerName: view.trainerName,
-      start: b.start,
-      end: b.end,
+      // The ticket formats Cairo wall-clock times (as the schedule does);
+      // the booking stores UTC instants.
+      start: CairoTime.toCairo(b.start),
+      end: CairoTime.toCairo(b.end),
       code: b.code,
       qrToken: b.qrToken,
       paid: free ? l10n.bookingFree : format.price(b.priceAtBooking),
       priceLabel: free ? l10n.bookingRowPrice : null,
-      cancelUntil: free || !now.isBefore(cancelUntil) ? null : cancelUntil,
+      cancelUntil: now.isBefore(cancelUntil) ? cancelUntil : null,
       onCodeCopied: () {
         SemanticsService.sendAnnouncement(
           View.of(context),

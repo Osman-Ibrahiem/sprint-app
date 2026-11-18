@@ -283,6 +283,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     start: summary.start,
                     cutoffHours: summary.quote.cancellationCutoffHours,
                     refundPercent: summary.quote.refundPercent,
+                    now: ref.read(appClockProvider).now(),
                   ),
                 ],
               ),

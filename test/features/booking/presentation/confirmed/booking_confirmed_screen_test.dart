@@ -2,6 +2,7 @@ import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/intl.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/adaptive/adaptive_back_button.dart';
 import 'package:sprint/core/data/in_memory_data_layer.dart';
@@ -119,6 +120,26 @@ void main() {
     expect(find.text(ar.bookingFree), findsWidgets);
     expect(find.text(ar.ticketPaid), findsNothing);
     expect(find.byKey(BookingConfirmedScreen.receiptKey), findsNothing);
+  });
+
+  // Walk 2026-11-18 D1: the ticket showed the stored UTC hour.
+  testWidgets('the ticket shows the Cairo wall-clock time, not UTC',
+      (tester) async {
+    await open(tester, () => paid);
+    String hm(DateTime t) => DateFormat('h:mm', 'en').format(t);
+    final cairo = hm(CairoTime.toCairo(paid.start));
+    final utc = hm(paid.start.toUtc());
+    expect(cairo, isNot(utc));
+    expect(find.textContaining(cairo), findsWidgets);
+    expect(find.textContaining('$utc –'), findsNothing);
+  });
+
+  // Walk 2026-11-18 D4: a free booking can be cancelled up to the cutoff too.
+  testWidgets('a free booking before the cutoff names the cancellation time',
+      (tester) async {
+    await open(tester, () => free);
+    expect(find.textContaining('الإلغاء متاح لحد'), findsOneWidget);
+    expect(find.text(ar.ticketCancelUnavailable), findsNothing);
   });
 
   testWidgets('copying the code says "اتنسخ" on screen', (tester) async {

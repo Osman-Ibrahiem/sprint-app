@@ -332,11 +332,12 @@ void main() {
     expect(next.holdMaxExpiresAt, env.now.add(const Duration(minutes: 6)));
   });
 
-  test('(q) a restored snapshot re-attaches the pending payment and applies '
-      'its outcome without a second payment', () async {
+  test('(q) a restored snapshot re-attaches a payment whose page was never '
+      'confirmed as cancelled: no charge, the Hold keeps running '
+      '(BR-47, walk 2026-11-18 D2)', () async {
     final b = await create();
     ok(await layer.bookings.startPayment(b.id, b.userId));
-    gateway.outcome = const FakeOutcome.fail();
+    gateway.outcome = const FakeOutcome.succeed();
     final snap = layer.toSnapshot();
 
     final restored = InMemoryDataLayer.fromSnapshot(
@@ -347,9 +348,35 @@ void main() {
     await Future<void>.delayed(const Duration(milliseconds: 100));
     final all = await restored.payments.payments(b.id);
     expect(all, hasLength(1));
-    expect(all.single.status, PaymentStatus.failed);
+    expect(all.single.status, PaymentStatus.cancelled);
+    expect(all.single.cardLast4, isNull);
+    expect(all.single.receiptNumber, isNull);
+    final after = ok(await restored.bookings.get(b.id));
+    expect(after.status, BookingStatus.pendingPayment);
+    expect(after.holdExpiresAt!.isAtSameMomentAs(b.holdExpiresAt!), isTrue);
+  });
+
+  test('(r) a payment the page confirmed before the restart still gets its '
+      'answer, with the last four the page reported', () async {
+    final b = await create();
+    gateway.outcome = const FakeOutcome.delay(Duration(hours: 1));
+    await pay(b, last4: '1111');
+    gateway.outcome = const FakeOutcome.succeed();
+    final snap = layer.toSnapshot();
+
+    final restored = InMemoryDataLayer.fromSnapshot(
+      clock: env.layer.clock,
+      snapshot: snap,
+      paymentDelay: Duration.zero,
+    );
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+    final all = await restored.payments.payments(b.id);
+    expect(all, hasLength(1));
+    expect(all.single.status, PaymentStatus.succeeded);
+    expect(all.single.cardLast4, '1111');
     expect(ok(await restored.bookings.get(b.id)).status,
-        BookingStatus.pendingPayment);
+        BookingStatus.confirmed);
+    expect(restored.paymentProvider.gateway.confirmedSessions, isEmpty);
   });
 }
 

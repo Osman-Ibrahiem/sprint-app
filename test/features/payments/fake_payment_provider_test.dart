@@ -159,7 +159,10 @@ void main() {
     });
   });
 
-  test('an unknown session (after a restart) re-simulates by the outcome', () {
+  // Walk 2026-11-18 D2: after a restart, only a session the page confirmed
+  // gets an answer by the outcome; an abandoned page is a cancel (BR-47).
+  test('an unknown session the page never confirmed comes back cancelled, '
+      'whatever the outcome', () {
     fakeAsync((async) {
       final p = FakePaymentProvider();
       final ghost = PaymentSession(
@@ -170,21 +173,36 @@ void main() {
       PaymentUpdate? u;
       p.status(ghost).then((v) => u = v);
       async.flushMicrotasks();
-      expect(u!.status, PaymentStatus.pending);
-      async.elapse(const Duration(seconds: 1));
-      p.status(ghost).then((v) => u = v);
-      async.flushMicrotasks();
-      expect(u!.status, PaymentStatus.succeeded);
+      expect(u!.status, PaymentStatus.cancelled);
+      expect(u!.cardLast4, isNull);
+    });
+  });
 
-      p.gateway.outcome = const FakeOutcome.fail();
-      final ghost2 = PaymentSession(
-        id: 'FAKE-pay-78',
-        bookingId: 'b9',
-        checkoutLocation: Uri(path: '/pay/sandbox/FAKE-pay-78'),
+  test('an unknown session the page had confirmed re-simulates by the '
+      'outcome with the reported last four', () {
+    fakeAsync((async) {
+      final p = FakePaymentProvider(
+        controller: FakeGatewayController(
+          baseDelay: const Duration(milliseconds: 600),
+          outcome: const FakeOutcome.fail(),
+          confirmed: const {'FAKE-pay-78': '1111', 'FAKE-pay-79': '2222'},
+        ),
       );
-      final seen = collect(p, ghost2);
+      PaymentSession ghost(String id) => PaymentSession(
+            id: id,
+            bookingId: 'b9',
+            checkoutLocation: Uri(path: '/pay/sandbox/$id'),
+          );
+      final failed = collect(p, ghost('FAKE-pay-78'));
       async.elapse(const Duration(seconds: 1));
-      expect(seen.last.status, PaymentStatus.failed);
+      expect(failed.last.status, PaymentStatus.failed);
+
+      p.gateway.outcome = const FakeOutcome.succeed();
+      final paid = collect(p, ghost('FAKE-pay-79'));
+      async.elapse(const Duration(seconds: 1));
+      expect(paid.last.status, PaymentStatus.succeeded);
+      expect(paid.last.cardLast4, '2222');
+      expect(p.gateway.confirmedSessions, isEmpty);
     });
   });
 

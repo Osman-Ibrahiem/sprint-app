@@ -222,7 +222,6 @@ class _Body extends StatelessWidget {
                     label: doc.totalLabel,
                     value: doc.total,
                     strong: true,
-                    isolate: true,
                   ),
                 ],
               ),

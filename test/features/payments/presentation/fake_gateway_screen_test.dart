@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/app/router/routes.dart';
+import 'package:sprint/core/l10n/ltr_isolate.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/presentation/checkout/checkout_screen.dart';
 import 'package:sprint/features/booking/presentation/checkout/hold_banner.dart';
@@ -44,6 +45,11 @@ void main() {
     expect(
       tester.widget<Text>(find.byKey(amountKey)).data,
       '140 ج.م',
+    );
+    // Walk 2026-11-18 D3: the price reads right to left, not isolated LTR.
+    expect(
+      find.ancestor(of: find.byKey(amountKey), matching: find.byType(LtrIsolate)),
+      findsNothing,
     );
     expect(find.text(ar.gatewayMerchant('ملعب كرة القدم الخماسي')),
         findsOneWidget);

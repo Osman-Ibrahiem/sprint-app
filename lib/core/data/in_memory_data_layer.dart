@@ -62,6 +62,9 @@ class InMemoryDataLayer {
 
     /// What the fake provider does when the page confirms (demo setting).
     FakeOutcome gatewayOutcome = const FakeOutcome.succeed(),
+
+    /// Fake sessions the page confirmed that still wait for their answer.
+    Map<String, String> gatewayConfirmed = const {},
     String? currentUserId,
     Map<String, Object?>? authState,
     List<Object?>? mailboxEmails,
@@ -125,6 +128,7 @@ class InMemoryDataLayer {
       controller: FakeGatewayController(
         baseDelay: paymentDelay,
         outcome: gatewayOutcome,
+        confirmed: gatewayConfirmed,
       ),
     );
     final notifications = InMemoryNotificationRepository(data.notifications);
@@ -211,6 +215,9 @@ class InMemoryDataLayer {
                 : FakeOutcome.fromJson(
                     Map<String, Object?>.from(data['gateway']! as Map),
                   ),
+            gatewayConfirmed: data['gatewayConfirmed'] == null
+                ? const {}
+                : Map<String, String>.from(data['gatewayConfirmed']! as Map),
             seededAt: DateTime.parse(snapshot['seededAt']! as String),
             currentUserId: session?['currentUserId'] as String?,
             authState: Map<String, Object?>.from(data['auth']! as Map),
@@ -308,6 +315,7 @@ class InMemoryDataLayer {
         },
         'mailbox': mailbox.toJson(),
         'gateway': paymentProvider.gateway.outcome.toJson(),
+        'gatewayConfirmed': paymentProvider.gateway.confirmedSessions,
       },
     };
   }

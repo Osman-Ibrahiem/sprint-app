@@ -106,6 +106,12 @@ void main() {
     expect(find.text(paid.code), findsOneWidget);
     expect(find.text(ar.receiptMethodCard('4242')), findsOneWidget);
     expect(find.text('20 ج.م'), findsOneWidget);
+    // Walk 2026-11-18 D3: an Arabic price is not isolated left to right, or
+    // it reads "ج.م 20".
+    expect(
+      find.ancestor(of: find.text('20 ج.م'), matching: find.byType(LtrIsolate)),
+      findsNothing,
+    );
     expect(
       find.ancestor(
         of: find.text(p.receiptNumber!),

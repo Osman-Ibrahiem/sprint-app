@@ -43,7 +43,7 @@ Recorded so the review does not look for what is not there.
 - The receipt PDF was rendered once with `pdftoppm` to look at it: Arabic shaped and right to left, rows and
   total in place.
 
-## Manual walk (T056): web, partly done, 5 defects found
+## Manual walk (T056): web, partly done, 5 defects found and fixed
 
 2026-11-18, web release build (`flutter build web --release`, hash routes) served locally, in the in-app
 browser at 1024 px (expanded, sidebar) and 375 px (compact), Arabic, dark, signed in as the seeded internal
@@ -79,6 +79,18 @@ booker. No iOS or Android device.
   the cutoff, but the confirmation passes `cancelUntil: null` for every free booking.
 - **D5 (medium, spec gap): the payment screen's cancellation policy can name a past time.** Booking at 10:38 for
   11:00 shows "الإلغاء متاح لحد ... 7:00 ص". The ticket handles a passed cutoff; the policy card does not.
+
+### Fixes (2026-11-18), checked again on the web build
+
+| Defect | Fix | Test (fails on the old code) | Re-walk |
+| --- | --- | --- | --- |
+| D1 | `BookingConfirmedScreen` passes `CairoTime.toCairo(start/end)` to `BookingTicket` | `booking_confirmed_screen_test`: Cairo time, not UTC | 1:00 م booking shows 1:00 – 2:00 م; free 4:00 م shows 4:00 – 5:00 م |
+| D2 | `FakeGatewayController` keeps the sessions the page confirmed (id and last four) in the demo snapshot (`gatewayConfirmed`). After a restart a confirmed session is answered by the outcome; an unknown, unconfirmed one is a cancel (BR-47) | `checkout_flow_test` (q), (r); `fake_payment_provider_test` (two cases) | Refresh on the provider page with empty fields: "الدفع اتلغى", Hold running, no receipt. Refresh while confirming a 30 s delay: still "بنأكد الدفع", then confirmed |
+| D3 | No `LtrIsolate` around the amount on the provider page or the receipt total | `fake_gateway_screen_test`, `receipt_screen_test` | "20 ج.م" on both |
+| D4 | The free ticket names the cancellation time like a paid one | `booking_confirmed_screen_test`: free before the cutoff | "الإلغاء متاح لحد الخميس 19 نوفمبر 2:00 م" |
+| D5 | `CheckoutPolicyCard` takes `now` and says "الإلغاء مش متاح" once the cutoff has passed (Osman's choice; spec edge case updated) | `shared_pieces_test`: policy before and after the cutoff | Booking at 11:01 for 1:00 م: "الإلغاء مش متاح" |
+
+`flutter analyze`: no issues. `flutter test`: 1997 passed. `flutter build web --release`: built.
 
 ### Older than 006 (not part of this PR)
 

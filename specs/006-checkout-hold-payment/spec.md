@@ -209,7 +209,7 @@ Every screen in this flow works on compact, medium, expanded and large windows, 
 - **The provider answers after the booker left with "ترك الدفع"**: the booking is `EXPIRED`; a late success is refunded 100% automatically (same path as BR-46).
 - **Network or provider start error** before the provider page: a message in words on the payment screen, no payment recorded as failed, Hold unchanged.
 - **The booking starts before the Hold would end** (very late booking): the Hold never runs past the slot's start; it is capped there.
-- **A cancellation cutoff already passed** at confirmation: the ticket shows "الإلغاء مش متاح".
+- **A cancellation cutoff already passed** at confirmation: the ticket shows "الإلغاء مش متاح". The same holds on the payment screen: when the booking is made after its cutoff, the policy card says "الإلغاء مش متاح" instead of naming a time that has passed (Osman, 2026-11-18, walk D5).
 
 ## Requirements *(mandatory)*
 
