@@ -62,6 +62,15 @@ class PreferencesSnapshotStore implements DemoSnapshotStore {
   }
 
   @override
+  Future<void> deletePhoto(String id) async {
+    try {
+      await _prefs?.remove('$photoPrefix$id');
+    } on Object {
+      // Nothing to remove, or the platform refused; the photo simply stays.
+    }
+  }
+
+  @override
   Future<void> clear() async {
     final prefs = _prefs;
     if (prefs == null) return;

@@ -43,6 +43,11 @@ class InMemorySnapshotStore implements DemoSnapshotStore {
   }
 
   @override
+  Future<void> deletePhoto(String id) async {
+    photos.remove(id);
+  }
+
+  @override
   Future<void> clear() async {
     snapshot = null;
     photos.clear();

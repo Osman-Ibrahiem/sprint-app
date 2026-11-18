@@ -1,14 +1,12 @@
-import 'dart:math' as math;
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/core/adaptive/adaptive_loader.dart';
 import 'package:sprint/core/adaptive/adaptive_sheet.dart';
 import 'package:sprint/core/adaptive/photo_capabilities.dart';
+import 'package:sprint/core/data/jpeg_encoder.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
@@ -60,17 +58,11 @@ typedef IdCardEncoder = Future<Uint8List?> Function(Uint8List bytes);
 
 /// Decodes, straightens, shrinks the longest side to [idCardMaxSide] and
 /// writes a JPEG at [idCardJpegQuality]. Pure, so it can run in an isolate.
-Uint8List? encodeIdCardJpeg(Uint8List bytes) {
-  final decoded = img.decodeImage(bytes);
-  if (decoded == null) return null;
-  var image = img.bakeOrientation(decoded);
-  if (math.max(image.width, image.height) > idCardMaxSide) {
-    image = image.width >= image.height
-        ? img.copyResize(image, width: idCardMaxSide)
-        : img.copyResize(image, height: idCardMaxSide);
-  }
-  return Uint8List.fromList(img.encodeJpg(image, quality: idCardJpegQuality));
-}
+Uint8List? encodeIdCardJpeg(Uint8List bytes) => encodeJpeg(
+      bytes,
+      maxSide: idCardMaxSide,
+      quality: idCardJpegQuality,
+    );
 
 /// Runs [encodeIdCardJpeg] in a background isolate (inline on the web).
 final idCardEncoderProvider = Provider<IdCardEncoder>(

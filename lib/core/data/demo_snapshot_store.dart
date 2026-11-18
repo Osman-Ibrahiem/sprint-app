@@ -19,6 +19,9 @@ abstract interface class DemoSnapshotStore {
   /// has no room, without touching the snapshot.
   Future<Result<void>> savePhoto(String id, Uint8List bytes);
 
+  /// Removes one photo; a missing key is not an error.
+  Future<void> deletePhoto(String id);
+
   /// Removes the snapshot and every photo. Theme and language stay.
   Future<void> clear();
 }
