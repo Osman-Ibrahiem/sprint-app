@@ -270,9 +270,10 @@ bool holdHousekeeping(Ref ref) {
   late final Future<void> Function() run;
 
   Future<void> arm() async {
-    timer?.cancel();
     final mine = await bookings.listForUser(user.id);
     if (disposed) return;
+    // Cancel after the await: two overlapping arms must leave one timer.
+    timer?.cancel();
     DateTime? next;
     for (final b in mine) {
       final at = b.status == BookingStatus.pendingPayment

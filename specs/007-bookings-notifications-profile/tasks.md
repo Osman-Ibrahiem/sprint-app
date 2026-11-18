@@ -33,9 +33,9 @@ description: "Task list for feature 007 — my bookings, cancellation, notificat
 
 ## Phase 1: Setup
 
-- [ ] T001 Run `flutter pub get`, `dart run build_runner build --delete-conflicting-outputs`, `flutter analyze` and `flutter test` on the clean branch; all must pass. Create `specs/007-bookings-notifications-profile/evidence.md` with a "Baseline" section (date, passing test count).
-- [ ] T002 [P] Add `test/guards/notifications_domain_pure_test.dart` modelled on `test/guards/booking_domain_pure_test.dart`: files in `lib/features/notifications/domain/` may not import Flutter, Riverpod or `data/`.
-- [ ] T003 [P] Add `test/guards/privacy_new_screens_test.dart`: source scan that no file under `lib/features/account/`, `lib/features/notifications/presentation/`, `lib/features/booking/presentation/bookings/`, `details/` and `cancel/` references `nationalId`, `maskNational`, `photoId` (ID card) or `cardLast4` (NFR-06, SC-008).
+- [x] T001 Run `flutter pub get`, `dart run build_runner build --delete-conflicting-outputs`, `flutter analyze` and `flutter test` on the clean branch; all must pass. Create `specs/007-bookings-notifications-profile/evidence.md` with a "Baseline" section (date, passing test count).
+- [x] T002 [P] Add `test/guards/notifications_domain_pure_test.dart` modelled on `test/guards/booking_domain_pure_test.dart`: files in `lib/features/notifications/domain/` may not import Flutter, Riverpod or `data/`.
+- [x] T003 [P] Add `test/guards/privacy_new_screens_test.dart`: source scan that no file under `lib/features/account/`, `lib/features/notifications/presentation/`, `lib/features/booking/presentation/bookings/`, `details/` and `cancel/` references `nationalId`, `maskNational`, `photoId` (ID card) or `cardLast4` (NFR-06, SC-008).
 
 ---
 

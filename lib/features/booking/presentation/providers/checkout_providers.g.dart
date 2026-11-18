@@ -731,21 +731,24 @@ final class CheckoutSummaryFamily extends $Family
   String toString() => r'checkoutSummaryProvider';
 }
 
-/// The receipt of a paid, confirmed booking of the signed-in person, or null
-/// (FR-025). Never someone else's, never for a free booking.
+/// The receipt of a booking with a succeeded payment of the signed-in person,
+/// whatever its state now (research R10), or null. Never someone else's, never
+/// for a free booking.
 
 @ProviderFor(receipt)
 final receiptProvider = ReceiptFamily._();
 
-/// The receipt of a paid, confirmed booking of the signed-in person, or null
-/// (FR-025). Never someone else's, never for a free booking.
+/// The receipt of a booking with a succeeded payment of the signed-in person,
+/// whatever its state now (research R10), or null. Never someone else's, never
+/// for a free booking.
 
 final class ReceiptProvider
     extends
         $FunctionalProvider<AsyncValue<Receipt?>, Receipt?, FutureOr<Receipt?>>
     with $FutureModifier<Receipt?>, $FutureProvider<Receipt?> {
-  /// The receipt of a paid, confirmed booking of the signed-in person, or null
-  /// (FR-025). Never someone else's, never for a free booking.
+  /// The receipt of a booking with a succeeded payment of the signed-in person,
+  /// whatever its state now (research R10), or null. Never someone else's, never
+  /// for a free booking.
   ReceiptProvider._({
     required ReceiptFamily super.from,
     required String super.argument,
@@ -789,10 +792,11 @@ final class ReceiptProvider
   }
 }
 
-String _$receiptHash() => r'e9cf9f1bb94f94a6bc868ae73b2b33cd2113ed27';
+String _$receiptHash() => r'1947ab3ac7795c5df1ffbaf28da85357ef8b6909';
 
-/// The receipt of a paid, confirmed booking of the signed-in person, or null
-/// (FR-025). Never someone else's, never for a free booking.
+/// The receipt of a booking with a succeeded payment of the signed-in person,
+/// whatever its state now (research R10), or null. Never someone else's, never
+/// for a free booking.
 
 final class ReceiptFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<Receipt?>, String> {
@@ -805,8 +809,9 @@ final class ReceiptFamily extends $Family
         isAutoDispose: true,
       );
 
-  /// The receipt of a paid, confirmed booking of the signed-in person, or null
-  /// (FR-025). Never someone else's, never for a free booking.
+  /// The receipt of a booking with a succeeded payment of the signed-in person,
+  /// whatever its state now (research R10), or null. Never someone else's, never
+  /// for a free booking.
 
   ReceiptProvider call(String bookingId) =>
       ReceiptProvider._(argument: bookingId, from: this);
