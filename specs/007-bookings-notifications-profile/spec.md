@@ -21,7 +21,7 @@ These are settled with Osman on 2026-11-18 (see `docs/decisions.md`) and are not
 - **Four cancel cases.** Full refund (100%), partial refund (`refundPercent` below 100), no refund (0%), and free booking (nothing was paid, so nothing comes back). "Free" is decided by the frozen price being zero, not by the facility type. Cancelled by the facility is always a full refund (BR-32) and shows its own reason.
 - **Cancelling a booking still waiting for payment (BR-48, new).** While the Hold is running and no payment is being processed, the booker can cancel from the booking details: the booking becomes `CANCELLED` (cancelled by the booker, no refund because nothing was paid) and the place returns to everyone at once. During "جاري تأكيد الدفع" the action is not offered (BR-47). The BRD state diagram and rules are updated in this PR.
 - **Reminders without a backend.** A reminder checker runs when the app opens, every 60 seconds while it is open, and when it returns from the background. It writes one reminder record per confirmed booking when the booking enters the window `reminderLeadMinutes` before its start. A demo action brings the next confirmed booking into that window on demand. The cancel action inside a reminder is decided when the reminder is shown, from the booking's current state, never stored in the record (BR-40).
-- **Notification kinds shown.** Booking confirmed, reminder, cancelled by the facility, verification under review, verification approved, verification rejected (with the reason, BR-26). There is no offer kind (US-24 is later).
+- **Notification kinds shown.** Booking confirmed, reminder, cancelled by the facility, cancelled by me (recorded already read), verification under review, verification approved, verification rejected (with the reason, BR-26). There is no offer kind (US-24 is later).
 - **The permission prompt is simulated.** The notification permission dialog appears once, remembers the answer on the device and changes nothing real, since there is no push in P1.
 - **Edit profile.** Name and photo are editable; email and phone are shown locked with a line explaining they are tied to signing in. Changing them is not part of P1.
 - **Search.** The booker or guest searches facilities by name, type and owning unit. Results are ordered by places available today (then by name). With an empty field, suggestions show the two most booked facilities (confirmed bookings in the last 30 days across the demo data, ties by name) and the last five searches kept on the device. Static art replaces the Lottie moments.
@@ -34,6 +34,8 @@ These are settled with Osman on 2026-11-18 (see `docs/decisions.md`) and are not
 ### Session 2026-11-18
 
 - Q: What does the Account row "الإشعارات" (shown with the value "مفعّلة") do? → A: It shows "مفعّلة" or "متوقفة" from the simulated permission answer stored on the device, and tapping it opens the same permission dialog to change the answer. The notifications centre, the bell and the badge are not affected by it (in-app records are always kept).
+- Q: When the booker cancels their own booking, do they get a notification in the centre? → A: Yes, a seventh kind "تم إلغاء حجزك" (with the refunded amount when there is one), recorded as already read because the booker did it themselves, so it does not raise the badge; tapping it opens the booking details.
+- Q: Is there a "report a problem" action on past bookings? → A: No; out of scope for this feature (default confirmed, no objection).
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -266,7 +268,7 @@ Every new screen works on compact, medium, expanded and large windows, in Arabic
 **Notifications**
 
 - **FR-016**: The notifications centre MUST list the booker's notifications newest first, mark one read when opened, offer "تعليم الكل كمقروء", and show an empty state when there are none.
-- **FR-017**: Notification kinds MUST be: booking confirmed, reminder, cancelled by the facility, verification under review, verification approved, verification rejected (with its reason); the kind alone decides icon, wording and where tapping leads.
+- **FR-017**: Notification kinds MUST be: booking confirmed, reminder, cancelled by the facility, cancelled by the booker (recorded already read, so it never raises the badge), verification under review, verification approved, verification rejected (with its reason); the kind alone decides icon, wording and where tapping leads.
 - **FR-018**: On compact windows a bell with an unread badge MUST appear in the header of the four root screens for a signed-in booker; on medium and larger windows notifications MUST be a destination with the badge; a guest MUST have neither. The badge MUST hide at zero and while loading, and cap at 99+.
 - **FR-019**: Reminders MUST be created by a checker that runs on app open, every 60 seconds while open and on return from the background; it MUST create at most one reminder per confirmed booking, when the booking enters the `reminderLeadMinutes` window, and none for bookings no longer confirmed.
 - **FR-020**: A reminder's cancel action MUST be decided at display time from the booking's current state and the cutoff (BR-40); after the cutoff, or if the booking is no longer confirmed, the action MUST be absent and tapping MUST open the booking.
@@ -300,7 +302,7 @@ Every new screen works on compact, medium, expanded and large windows, in Arabic
 
 - **Booking** (existing): gains who cancelled (booker or facility) and the cancel time, and the new transition `PENDING_PAYMENT → CANCELLED`.
 - **Refund** (existing): created on cancel when money was paid, at the computed amount, with the reason (booker cancel or facility cancel).
-- **Notification** (existing): its kind becomes a closed set of six (FR-017) instead of free text; keeps read time; payload carries the booking code or the verification reference.
+- **Notification** (existing): its kind becomes a closed set of seven (FR-017) instead of free text; keeps read time; payload carries the booking code or the verification reference.
 - **Reminder record** (derived): at most one per booking; the checker's memory of which bookings already got one.
 - **User profile** (existing): gains an optional photo; name editable; email and phone read-only here.
 - **Recent search** (device state): up to five terms, newest first.
@@ -347,4 +349,4 @@ This feature is UI-first on mock data. These are explicitly not part of it:
 - **Photo storage** is on the device with the demo data; the file is downscaled and compressed.
 - **Notification display time** uses the demo clock when the demo moves it.
 - **`FR-CAT-05`, BR-48, the FR-MYB-03 edit rule, the verification notification kinds, and the US-13/US-14 additions** are written into `docs/BRD.md` and `docs/decisions.md` in this PR.
-- **[NEEDS CLARIFICATION: Cancelling a booking in the past list]** A booking that ended without attendance can never be cancelled; confirm there is no "report a problem" action here. Default if unanswered: none, out of scope.
+- **No action on past bookings** other than opening them and the receipt for paid ones (clarify 2026-11-18).
