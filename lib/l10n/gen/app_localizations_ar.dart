@@ -2346,4 +2346,45 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get splashCaption => 'جامعة طنطا';
+
+  @override
+  String get notificationBellLabel => 'الإشعارات';
+
+  @override
+  String notificationBellLabelUnread(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count إشعارات جديدة',
+      two: 'إشعارين جدد',
+      one: 'إشعار جديد واحد',
+    );
+    return 'الإشعارات، $_temp0';
+  }
+
+  @override
+  String get commonCancel => 'إلغاء';
+
+  @override
+  String get commonClose => 'إغلاق';
+
+  @override
+  String get commonBack => 'رجوع';
+
+  @override
+  String lockedFieldReadOnly(String reason) {
+    return 'للقراءة فقط، $reason';
+  }
+
+  @override
+  String get lockedFieldIcon => 'مقفول';
+
+  @override
+  String get searchClear => 'مسح البحث';
+
+  @override
+  String get popoverClose => 'إغلاق القائمة';
+
+  @override
+  String get dialogConfirmDestructive => 'تأكيد';
 }

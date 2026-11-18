@@ -1244,8 +1244,6 @@
   },
   "checkoutRowTime": "الميعاد",
   "checkoutRowTotal": "الإجمالي",
-  "checkoutTierInternal": "داخلي · موثّق",
-  "checkoutTierExternal": "خارجي · السعر الكامل",
   "checkoutMethodTitle": "الدفع الإلكتروني",
   "checkoutMethodSubtitle": "بطاقة بنكية أو محفظة موبايل · صفحة المزوّد الآمنة",
   "checkoutSandboxTag": "وضع الاختبار · مفيش فلوس حقيقية بتتخصم",
@@ -1435,5 +1433,29 @@
   "splashCaption": "جامعة طنطا",
   "@splashCaption": {
     "description": "Splash screen caption at the bottom (proposed copy, not yet in copy-review)"
-  }
+  },
+  "notificationBellLabel": "الإشعارات",
+  "notificationBellLabelUnread": "الإشعارات، {count, plural, =1{إشعار جديد واحد} =2{إشعارين جدد} other{{count} إشعارات جديدة}}",
+  "@notificationBellLabelUnread": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "commonCancel": "إلغاء",
+  "commonClose": "إغلاق",
+  "commonBack": "رجوع",
+  "lockedFieldReadOnly": "للقراءة فقط، {reason}",
+  "@lockedFieldReadOnly": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "lockedFieldIcon": "مقفول",
+  "searchClear": "مسح البحث",
+  "popoverClose": "إغلاق القائمة",
+  "dialogConfirmDestructive": "تأكيد"
 }

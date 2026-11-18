@@ -1240,8 +1240,6 @@
   },
   "checkoutRowTime": "Time",
   "checkoutRowTotal": "Total",
-  "checkoutTierInternal": "Internal · verified",
-  "checkoutTierExternal": "External · full price",
   "checkoutMethodTitle": "Online payment",
   "checkoutMethodSubtitle": "Bank card or mobile wallet · provider's secure page",
   "checkoutSandboxTag": "Test mode · no real money is charged",
@@ -1431,5 +1429,29 @@
   "splashCaption": "Tanta University",
   "@splashCaption": {
     "description": "Splash screen caption at the bottom (proposed copy, not yet in copy-review)"
-  }
+  },
+  "notificationBellLabel": "Notifications",
+  "notificationBellLabelUnread": "Notifications, {count, plural, =1{1 unread} other{{count} unread}}",
+  "@notificationBellLabelUnread": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "commonCancel": "Cancel",
+  "commonClose": "Close",
+  "commonBack": "Back",
+  "lockedFieldReadOnly": "Read only, {reason}",
+  "@lockedFieldReadOnly": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "lockedFieldIcon": "Locked",
+  "searchClear": "Clear search",
+  "popoverClose": "Close menu",
+  "dialogConfirmDestructive": "Confirm"
 }

@@ -2365,4 +2365,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get splashCaption => 'Tanta University';
+
+  @override
+  String get notificationBellLabel => 'Notifications';
+
+  @override
+  String notificationBellLabelUnread(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unread',
+      one: '1 unread',
+    );
+    return 'Notifications, $_temp0';
+  }
+
+  @override
+  String get commonCancel => 'Cancel';
+
+  @override
+  String get commonClose => 'Close';
+
+  @override
+  String get commonBack => 'Back';
+
+  @override
+  String lockedFieldReadOnly(String reason) {
+    return 'Read only, $reason';
+  }
+
+  @override
+  String get lockedFieldIcon => 'Locked';
+
+  @override
+  String get searchClear => 'Clear search';
+
+  @override
+  String get popoverClose => 'Close menu';
+
+  @override
+  String get dialogConfirmDestructive => 'Confirm';
 }

@@ -3940,6 +3940,66 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'جامعة طنطا'**
   String get splashCaption;
+
+  /// No description provided for @notificationBellLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإشعارات'**
+  String get notificationBellLabel;
+
+  /// No description provided for @notificationBellLabelUnread.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإشعارات، {count, plural, =1{إشعار جديد واحد} =2{إشعارين جدد} other{{count} إشعارات جديدة}}'**
+  String notificationBellLabelUnread(int count);
+
+  /// No description provided for @commonCancel.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء'**
+  String get commonCancel;
+
+  /// No description provided for @commonClose.
+  ///
+  /// In ar, this message translates to:
+  /// **'إغلاق'**
+  String get commonClose;
+
+  /// No description provided for @commonBack.
+  ///
+  /// In ar, this message translates to:
+  /// **'رجوع'**
+  String get commonBack;
+
+  /// No description provided for @lockedFieldReadOnly.
+  ///
+  /// In ar, this message translates to:
+  /// **'للقراءة فقط، {reason}'**
+  String lockedFieldReadOnly(String reason);
+
+  /// No description provided for @lockedFieldIcon.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقفول'**
+  String get lockedFieldIcon;
+
+  /// No description provided for @searchClear.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسح البحث'**
+  String get searchClear;
+
+  /// No description provided for @popoverClose.
+  ///
+  /// In ar, this message translates to:
+  /// **'إغلاق القائمة'**
+  String get popoverClose;
+
+  /// No description provided for @dialogConfirmDestructive.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد'**
+  String get dialogConfirmDestructive;
 }
 
 class _AppLocalizationsDelegate
