@@ -4,7 +4,6 @@ import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/core/l10n/sprint_format.dart';
 import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/core/providers/session_provider.dart';
-import 'package:sprint/core/time/clock_provider.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
@@ -18,9 +17,9 @@ const _approved = 'verification.approved';
 const _rejected = 'verification.rejected';
 
 /// The latest unread approval or refusal of the person's verification, shown
-/// on the account card until feature 7 builds the notifications screen
-/// (FR-034, US-05). It is marked read once it has been shown, and stays on
-/// screen for as long as the card does; the next visit starts clean.
+/// on the account card (FR-034, US-05). It never marks anything read: the
+/// notifications centre owns read state (research R5) and keeps the record
+/// until the person opens it there.
 class VerificationNotice extends ConsumerStatefulWidget {
   const VerificationNotice({super.key});
 
@@ -48,12 +47,7 @@ class _VerificationNoticeState extends ConsumerState<VerificationNotice> {
         if ((n.type == _approved || n.type == _rejected) && n.readAt == null) n,
     ];
     if (!mounted || unread.isEmpty) return;
-    // The latest one is shown; older ones are superseded, so all are read.
     setState(() => _shown = unread.first);
-    final at = ref.read(appClockProvider).now();
-    for (final n in unread) {
-      await repo.markRead(n.id, at);
-    }
   }
 
   @override

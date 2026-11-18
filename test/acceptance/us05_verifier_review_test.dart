@@ -116,7 +116,8 @@ void main() {
       contains('verification.approved'),
     );
 
-    // The person sees it on the account card, and it is marked read.
+    // The person sees it on the account card, but the card does not consume
+    // it: the centre owns read state (research R5).
     await actAs(tester, SeedIds.userUnverified, '/profile');
     expect(find.byKey(VerificationNotice.noticeKey), findsOneWidget);
     expect(find.textContaining('تم قبول طلب التوثيق'), findsOneWidget);
@@ -124,7 +125,7 @@ void main() {
     final after = await notificationsOf(tester, SeedIds.userUnverified);
     expect(
       after.where((n) => n.type == 'verification.approved').single.readAt,
-      isNotNull,
+      isNull,
     );
   });
 
