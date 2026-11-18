@@ -70,6 +70,16 @@ Future<Uint8List> buildReceiptPdf(
               cell(document.total, strong: true),
             ],
           ),
+          if (document.refund != null) ...[
+            pw.SizedBox(height: SprintExtras.receiptPdfRowGap),
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+              children: [
+                cell(document.refundLabel!),
+                cell(document.refund!, ltr: false),
+              ],
+            ),
+          ],
         ],
       ),
     ),

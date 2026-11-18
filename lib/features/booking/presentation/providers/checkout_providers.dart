@@ -14,6 +14,7 @@ import 'package:sprint/features/booking/domain/booking_summary_view.dart';
 import 'package:sprint/features/booking/domain/checkout_view.dart';
 import 'package:sprint/features/booking/domain/unit_settings.dart';
 import 'package:sprint/features/payments/domain/payment.dart';
+import 'package:sprint/features/payments/domain/refund.dart';
 import 'package:sprint/features/payments/domain/payment_provider.dart';
 import 'package:sprint/features/payments/domain/receipt.dart';
 import 'package:sprint/features/settings/domain/setting_registry.dart';
@@ -217,8 +218,9 @@ Future<BookingSummaryView?> checkoutSummary(Ref ref, String bookingId) async {
   );
 }
 
-/// The receipt of a paid, confirmed booking of the signed-in person, or null
-/// (FR-025). Never someone else's, never for a free booking.
+/// The receipt of a booking with a succeeded payment of the signed-in person,
+/// whatever its state now (research R10), or null. Never someone else's, never
+/// for a free booking.
 @riverpod
 Future<Receipt?> receipt(Ref ref, String bookingId) async {
   final user = ref.watch(currentSessionProvider).user;
@@ -226,18 +228,27 @@ Future<Receipt?> receipt(Ref ref, String bookingId) async {
   final got = await ref.watch(bookingRepositoryProvider).get(bookingId);
   if (got is! Ok<Booking>) return null;
   final b = got.value;
-  if (b.userId != user.id || b.status != BookingStatus.confirmed) return null;
+  if (b.userId != user.id) return null;
   final payments = ref.watch(paymentRepositoryProvider);
   Payment? paid;
   for (final p in await payments.payments(bookingId)) {
     if (p.status == PaymentStatus.succeeded) paid = p;
   }
   if (paid == null) return null;
+  final refunded = (await payments.refunds(paid.id))
+      .where((r) => r.status == RefundStatus.succeeded)
+      .fold<int>(0, (sum, r) => sum + r.amount);
   final catalogue = ref.watch(catalogueRepositoryProvider);
   final facility = await catalogue.getFacility(b.facilityId);
   final unit = await catalogue.getUnit(b.unitId);
   if (facility == null || unit == null) return null;
-  return Receipt.fromPayment(paid, b, facility, unit);
+  return Receipt.fromPayment(
+    paid,
+    b,
+    facility,
+    unit,
+    refundAmount: refunded > 0 ? refunded : null,
+  );
 }
 
 /// Keeps Holds and no-shows honest while the app is open, also off the

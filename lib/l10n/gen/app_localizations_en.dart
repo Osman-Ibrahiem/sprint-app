@@ -2255,6 +2255,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get receiptTotalPaid => 'Total paid';
 
   @override
+  String get receiptRefund => 'Refunded';
+
+  @override
   String get receiptSave => 'Save receipt as PDF';
 
   @override

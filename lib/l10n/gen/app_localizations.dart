@@ -3791,6 +3791,12 @@ abstract class AppLocalizations {
   /// **'الإجمالي المدفوع'**
   String get receiptTotalPaid;
 
+  /// No description provided for @receiptRefund.
+  ///
+  /// In ar, this message translates to:
+  /// **'المبلغ المسترد'**
+  String get receiptRefund;
+
   /// No description provided for @receiptSave.
   ///
   /// In ar, this message translates to:

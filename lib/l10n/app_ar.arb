@@ -1356,6 +1356,7 @@
     }
   },
   "receiptTotalPaid": "الإجمالي المدفوع",
+  "receiptRefund": "المبلغ المسترد",
   "receiptSave": "حفظ الإيصال PDF",
   "receiptShare": "مشاركة الإيصال",
   "receiptNavTitle": "الإيصال",

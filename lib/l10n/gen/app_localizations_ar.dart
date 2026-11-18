@@ -2235,6 +2235,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get receiptTotalPaid => 'الإجمالي المدفوع';
 
   @override
+  String get receiptRefund => 'المبلغ المسترد';
+
+  @override
   String get receiptSave => 'حفظ الإيصال PDF';
 
   @override

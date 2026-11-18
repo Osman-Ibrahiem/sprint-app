@@ -1352,6 +1352,7 @@
     }
   },
   "receiptTotalPaid": "Total paid",
+  "receiptRefund": "Refunded",
   "receiptSave": "Save receipt as PDF",
   "receiptShare": "Share receipt",
   "receiptNavTitle": "Receipt",
