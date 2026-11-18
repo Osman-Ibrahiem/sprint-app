@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Banner;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sprint/app/router/routes.dart';
@@ -22,7 +22,7 @@ import 'package:sprint/features/booking/domain/schedule_selection.dart';
 import 'package:sprint/features/booking/presentation/providers/booking_providers.dart';
 import 'package:sprint/features/booking/presentation/summary/summary_rows.dart';
 import 'package:sprint/features/booking/presentation/widgets/booking_error_view.dart';
-import 'package:sprint/features/booking/presentation/widgets/info_banner.dart';
+import 'package:sprint/core/widgets/banner/banner.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// The summary before anything is created or paid (FR-024 – FR-031). "متابعة
@@ -226,7 +226,8 @@ class _Body extends StatelessWidget {
       padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
       children: [
         if (view.priceChanged) ...[
-          InfoBanner(
+          Banner(
+      tone: BannerTone.hold,
             key: BookingSummaryScreen.priceChangedKey,
             text: l10n.bookingPriceChanged,
           ),

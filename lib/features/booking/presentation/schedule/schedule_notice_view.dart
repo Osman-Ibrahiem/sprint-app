@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Banner;
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/core/l10n/sprint_icon.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/features/booking/domain/schedule_notice.dart';
 import 'package:sprint/features/booking/presentation/widgets/failure_message.dart';
-import 'package:sprint/features/booking/presentation/widgets/info_banner.dart';
+import 'package:sprint/core/widgets/banner/banner.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// The inline notice above the grid: an icon, the words and a dismiss action,
@@ -25,7 +25,8 @@ class ScheduleNoticeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return InfoBanner(
+    return Banner(
+      tone: BannerTone.hold,
       text: scheduleNoticeMessage(context, notice),
       trailing: Semantics(
         button: true,

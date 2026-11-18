@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Banner;
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/core/widgets/avatar/avatar.dart';
+import 'package:sprint/core/widgets/banner/banner.dart';
+import 'package:sprint/core/widgets/popover/popover.dart';
 import 'package:sprint/core/widgets/booking_row/booking_row.dart';
 import 'package:sprint/core/widgets/notification_bell/notification_bell.dart';
 import 'package:sprint/core/widgets/notification_card/notification_card.dart';
@@ -260,6 +262,77 @@ void main() {
       ]);
       await pumpWidgetUnder(tester, Avatar(name: 'منى', photo: png, size: 48));
       expect(find.byKey(Avatar.photoKey), findsOneWidget);
+    });
+  });
+
+  group('Banner', () {
+    testWidgets('every tone shows its text and an icon', (tester) async {
+      for (final tone in BannerTone.values) {
+        await pumpWidgetUnder(
+          tester,
+          Banner(tone: tone, text: 'الحجز اتلغى'),
+        );
+        expect(find.text('الحجز اتلغى'), findsOneWidget, reason: '$tone');
+        expect(find.byType(Icon), findsOneWidget, reason: '$tone');
+        expect(
+          tester.getSize(find.byKey(Banner.bannerKey)).height,
+          greaterThanOrEqualTo(48),
+        );
+      }
+    });
+
+    testWidgets('a long text wraps at 200% without overflow', (tester) async {
+      await pumpWidgetUnder(
+        tester,
+        const Banner(
+          tone: BannerTone.info,
+          text: 'هتقدر تلغي الحجز لحد ساعتين قبل الميعاد ومش هتقدر بعد كده',
+        ),
+        textScale: 2,
+        size: const Size(390, 800),
+      );
+      expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('SprintPopover', () {
+    testWidgets('rows are 48 high, select returns the value, Escape closes',
+        (tester) async {
+      String? chosen = 'unset';
+      await pumpWidgetUnder(
+        tester,
+        Builder(
+          builder: (context) => TextButton(
+            onPressed: () async {
+              chosen = await showSprintPopover<String>(
+                anchorContext: context,
+                options: const [
+                  PopoverOption(value: 'ar', label: 'العربية', selected: true),
+                  PopoverOption(value: 'en', label: 'English'),
+                ],
+              );
+            },
+            child: const Text('open'),
+          ),
+        ),
+      );
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+      expect(find.byKey(SprintPopover.panelKey), findsOneWidget);
+      expect(
+        tester.getSize(find.text('English')).height,
+        lessThanOrEqualTo(48),
+      );
+      await tester.tap(find.text('English'));
+      await tester.pumpAndSettle();
+      expect(chosen, 'en');
+
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+      await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+      await tester.pumpAndSettle();
+      expect(find.byKey(SprintPopover.panelKey), findsNothing);
+      expect(chosen, isNull);
     });
   });
 }

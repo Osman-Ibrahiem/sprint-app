@@ -4,16 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/core/adaptive/adaptive_dialog.dart';
+import 'package:sprint/core/widgets/wide_dialog/wide_dialog.dart';
 
 import '../../helpers/adaptive_harness.dart';
 
 void main() {
   String? result;
 
-  Future<void> open(WidgetTester tester) async {
+  Future<void> open(
+    WidgetTester tester, {
+    Size size = const Size(400, 800),
+  }) async {
     result = 'unset';
     await pumpHarness(
       tester,
+      size: size,
       (context) => TextButton(
         onPressed: () async {
           result = await showSprintDialog<String>(
@@ -87,5 +92,21 @@ void main() {
       (tester) async {
     await open(tester);
     expect(find.text('حذف'), findsOneWidget);
+  }, variant: allPlatforms);
+
+  testWidgets('from the medium class every platform shows the wide dialog, '
+      'destructive action first, Escape closes', (tester) async {
+    await open(tester, size: const Size(800, 900));
+    expect(find.byType(WideDialog), findsOneWidget);
+    expect(find.byType(AlertDialog), findsNothing);
+    expect(find.byType(CupertinoAlertDialog), findsNothing);
+    final del = tester.getTopLeft(find.text('حذف'));
+    final cancel = tester.getTopLeft(find.text('تراجع'));
+    // Destructive is first in reading order (to the right in RTL).
+    expect(del.dx, greaterThan(cancel.dx));
+    await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+    await tester.pumpAndSettle();
+    expect(find.byType(WideDialog), findsNothing);
+    expect(result, isNull);
   }, variant: allPlatforms);
 }
