@@ -5,7 +5,7 @@ Round 2 (2026-11-18). New section in Figma: "My bookings empty states · Compact
 Node, Compact Light: empty `71:1620` · upcoming empty `287:40031` · past empty `287:40049`. Compact Dark: `71:2233` · `287:40067` · `287:40085`.
 Node, Medium Light: empty `287:40247` · upcoming empty `287:40279` · past empty `287:40311` (Dark `287:40407` / `287:40439` / `287:40471`). Expanded Light `287:41407` / `287:41439` / `287:41471`, Large 1440 Light `287:41727` / `287:41759` / `287:41791` (Dark: `287:41567`, `287:41599`, `287:41631`, `287:41887`, `287:41919`, `287:41951`).
 Images: images/my-bookings-empty-compact-<light|dark>.png (round 1), my-bookings-upcoming-empty-compact-light.png, my-bookings-past-empty-compact-light.png, my-bookings-empty-medium-light.png, my-bookings-upcoming-empty-medium-light.png, my-bookings-past-empty-medium-light.png.
-Read depth: Compact empty (71:1620) design context (round 1); Compact upcoming empty 287:40031 design context; Compact past empty screenshot only; Medium empty 287:40247 design context; Medium upcoming empty and past empty screenshots only (shown in the pack images). Expanded, Large and all Dark: NOT read (frames exist).
+Read depth: Compact empty (71:1620) design context (round 1); Compact upcoming empty 287:40031 design context; Compact past empty screenshot only; Medium empty 287:40247 design context; Medium upcoming empty and past empty screenshots only (shown in the pack images). Round 3: Medium upcoming empty 287:40279 re-read (design context); Expanded upcoming empty 287:41439 screenshot only (list pane 296 wide next to detail placeholder). Past empty Medium 287:40311 not re-read (text said to match). Large and all Dark: NOT read (frames exist).
 
 ## Which state when
 | State | Condition | Tab selected | Segment labels |
@@ -29,7 +29,7 @@ Drawn for the sample, so the Past empty frames show "الجاية (3)" because u
 
 ### Medium (720 x 1000)
 - Empty (no bookings at all): there is NO detail pane. One list pane fills the width next to the 88 rail: padding top `space-6`, bottom `space-8`, horizontal `space-6`; inner content 560 wide, column gap `space-5`, top padding `space-2`, items aligned to the start (right): title "حجوزاتي", SegmentedControl (560), LottieMoment (art 160 then title "لسه مفيش حجوزات." and body "المنشآت مستنياك"), button "استعراض المنشآت" 560 wide. No bell (rail carries it).
-- Upcoming empty and past empty: master-detail columns as in my-bookings.md (rail 88, list pane 300, detail pane flex). List pane holds the title, SegmentedControl 252 and the same LottieMoment text as at Compact (the body wraps to two lines at 252: "حجوزاتك القديمة موجودة في \"اللي / فاتت\"."), upcoming empty also the full-width button "استعراض المنشآت"; past empty has neither body nor button. Detail pane: a centred placeholder: ticket icon (about 28, `ink-muted`) over the text "اختار حجز من القايمة" (`body`, `ink-muted`, centred). Icon size and text style are read from the image only.
+- Upcoming empty and past empty: master-detail columns as in my-bookings.md (rail 88, list pane 300, detail pane flex). List pane holds the title, SegmentedControl 252 and the same LottieMoment text as at Compact (the body wraps to two lines at 252: "حجوزاتك القديمة موجودة في \"اللي / فاتت\"."), upcoming empty also the full-width button "استعراض المنشآت"; past empty has neither body nor button. Detail pane (round 3, read from 287:40279): a centred placeholder (column, gap `space-3`, centred both ways, padding top `space-6`, x `space-6`, bottom `space-8`): icon/ticket 32 (`ink-muted`) over the text "مفيش حجز محدد" (`body` 15/24, `ink-muted`, one line, centred). The Expanded frame shows the same placeholder (screenshot images/my-bookings-upcoming-empty-expanded-light.png).
 - Expanded and Large: frames exist, NOT read (same structure assumed).
 
 ## Text
@@ -47,4 +47,4 @@ Drawn for the sample, so the Past empty frames show "الجاية (3)" because u
 - Guests do not reach these screens (account gate).
 
 ## Copy-rule note
-"اختار حجز من القايمة" uses an imperative verb ("اختار"), which breaks the no-imperative rule in CLAUDE.md. Suggested verbal noun: "اختيار حجز من القايمة" or a noun phrase such as "التفاصيل هتظهر هنا". Osman decides.
+Resolved in round 3: the detail placeholder now reads "مفيش حجز محدد" (a noun phrase, no imperative). Previously "اختار حجز من القايمة".

@@ -22,6 +22,7 @@ Screenshots: images/notifications-compact-light.png (refreshed round 2), images/
 Same as Expanded: sidebar 280, header row title + mark-all, cards in a centred column about 768 wide (measured on the screenshot; the Expanded value is 720). No other difference seen.
 
 ## NotificationCard (see components-notification-card.md)
+Round 3: the list frame 18:410 keeps card 1 as the 110-high post-cutoff reminder; the dedicated after-cutoff frame (notifications-reminder-cancel.md, 298:42343) shows it hugging its text with no actions, and the verification kinds have their own frame (notifications-verification.md, 298:42545). Cards are tappable: every kind has a tap destination (table in components-notification-card.md). Medium/Expanded/Large versions of the two new frames: not located (not in figma-index-v2.json), not read.
 Four kinds in this frame: reminder (unread, `warning-soft`, hourglass), booking confirmed (unread, `success-soft`, check-circle), admin cancellation (read, `danger-soft`, x-circle), verification (read, `primary-soft`, shield-check), offer (read, `volt`, tag). Order newest first.
 
 ## Text
@@ -45,9 +46,9 @@ Four kinds in this frame: reminder (unread, `warning-soft`, hourglass), booking 
 Only the token swap (`bg`, `surface`, `ink`, `ink-muted`, soft tints). Screenshot read, no structural difference found.
 
 ## Not in Figma
-- Reminder copy is built from `reminderLeadMinutes` (BR-39, default 180) and the cancel window from `cancellationCutoffHours` (BR-30). Card 1 shows the post-cutoff variant ("الإلغاء مش متاح دلوقتي"); the other variant is in notifications-reminder-cancel.md.
+- Reminder copy is built from `reminderLeadMinutes` (BR-39, default 180) and the cancel window from `cancellationCutoffHours` (BR-30). Card 1 shows the post-cutoff variant ("الإلغاء مش متاح دلوقتي"; the dedicated frame words it "الإلغاء اتقفل قبل الحجز بساعتين"); the other variant is in notifications-reminder-cancel.md.
 - Admin cancellation card must state the reason and the full refund (BR-32, BR-41).
-- Tapping a card navigates to the related booking/ticket; Figma shows no tap target spec. Cards are 110 high with no 48 conflict.
+- Tapping a card: now annotated in Figma (round 3): reminder (after cutoff) opens booking details; verification cards open the verification request / its status / Account (notifications-verification.md). Other kinds (confirmed, admin cancellation) open the related booking (not annotated). Cards are 110 high with no 48 conflict.
 - Screen-reader text, unread announcement ("غير مقروء") and the badge's count label: not in Figma, take from the spec. Pull-to-refresh and pagination: not drawn.
 - Compact is reached only from the bell in the header of Home / Facilities / My bookings / Account (not guests).
 - Findings (round 2): the card is a fixed 110 high with the time at the physical left and a 2-line body: long Arabic bodies and 200% text scale must make it grow (hug), not clip. The sidebar rows are 44 high (below 48dp; the sidebar is a web/desktop pointer surface, confirm against `docs/decisions.md`).

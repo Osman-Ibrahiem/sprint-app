@@ -8,6 +8,7 @@ Screenshots: none. Medium Light 265:14919 and Expanded Light 265:31522 read in r
 - Sign-in card: `surface`, 1px `line`, radius `radius-lg`, padding x `space-4` y `space-5`, gap `space-3`, column: title, body, primary Button "تسجيل الدخول" (full width 48), secondary Button "إنشاء حساب" (full width 48, 1px `control-border`).
 - Settings card with 2 rows only: اللغة (value "العربية"), المظهر (value "حسب الجهاز"). No الإشعارات, no sign out, no personal data.
 - Tab bar 4 tabs, حسابي selected (the guest still has the 4 tabs; the tab bar has no notifications tab anyway).
+Round 3 note: the Home guest frame (243:5278) carries the same guest CTA copy; its Account counterpart was not re-read, so the Account guest values here stay as read in round 2. SettingsRow (278:35473, type=value) now backs the two settings rows.
 ## Text
 - Title "أهلًا بيك في سبرنت": `title`, `ink`. Body "بحساب تقدر تحجز وتتابع حجوزاتك وتستلم إشعارات التأكيد والتذكير": `body`, `ink-muted`.
 ### Medium and Expanded (read)

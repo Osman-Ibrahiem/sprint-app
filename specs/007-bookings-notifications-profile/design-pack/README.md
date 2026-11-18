@@ -26,3 +26,16 @@ Where a file says "not read", follow the Compact and Medium rules and the spec, 
 
 ## Round 2 update (2026-11-18)
 Figma was edited again. Updated from the new nodes: my-bookings.md, my-bookings-past.md (no-show and cancelled selected), my-bookings-empty.md (three empty states, all window classes exist, Compact and Medium read), booking-details-attended/no-show/expired.md (Medium added), booking-details-upcoming.md (Expanded), booking-details-cancel-dialog.md (Medium partial, no refund, pending), booking-cancelled.md (full refund re-read; the other four cases not re-read), components-banner.md (five tones), components-booking-row.md, components-segmented-control.md. Not re-read in round 2 (still round-1 text, may be stale): all Dark frames, Large and Expanded except the ones named above, Medium free cancel dialog, booking-cancelled partial / no refund / free / by admin, search and account packs. Each file states its own read depth.
+
+## Rounds 3 and 4 (2026-11-18)
+- Round 3 and 4 Figma edits were read for: reminder after cutoff (`298:42343`), verification notifications (`298:42545`), edit profile states (no changes, photo set, name error; Compact only), locked TextField, skeleton shapes, Account `18:499`, Home guest / not verified / loading (Compact Light), "مفيش حجز محدد" and the Medium cancel dialog. Still not read: Dark everywhere; Medium, Expanded and Large of the verification and reminder-after-cutoff frames; Medium and Expanded of the new edit-profile frames; Medium partial/no-refund cancel dialogs; Medium past-empty.
+
+## Known design issues the implementer decides by rule (not blockers)
+- Locked field label and helper use `ink-disabled` (low contrast): use `ink-muted`, keep the lock icon and a screen-reader "read only" label.
+- Edit profile Save is drawn enabled in `247:5742` and disabled in the three new states, including "photo set". Rule: Save is enabled only when something changed (name valid, or photo changed).
+- "تمت الموافقة" in the approved verification title is MSA; the list card says "حسابك اتوثّق". Use the Egyptian form everywhere.
+- "قبل الحجز بساعتين" is an example; compute it from `cancellationCutoffHours`.
+- Account loading draws two skeleton rows, the real Account has more: match the real layout.
+- Raw numbers with no token (layout constants in code): skeleton bar radius 6 and heights, row heights 190/194/210, settings-row 52, bottom padding 140, spacer 32, selected border 2, rail 88, panes 260/300/360/400.
+- Home not verified has a Hold banner without a drawn tap destination: opens the checkout of that booking.
+- BR citations: BR-40 = reminder shows cancel only before the cutoff; BR-30 = the cutoff. The profile lock rule has no BR yet (FR-MYB-03 will carry it).

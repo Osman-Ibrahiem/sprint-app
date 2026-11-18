@@ -1,14 +1,14 @@
 # Account · loading
 Covers: US-14, FR-MYB-03
-Node: Compact Light 256:6496 (read, round 2), Dark 256:6868 (not read)
-Screenshots: images/account-loading-compact-light.png
+Node: Compact Light 256:6496 (re-read round 3), Dark 256:6868 (not read). Skeleton shapes: profile-card 290:42579, settings-row 290:42587 (component Skeleton 69:482)
+Screenshots: images/account-loading-compact-light.png (round 3)
 ## Layout
 ### Compact
 - Content (column, gap `space-5`, padding top `space-2`, x `space-4`, bottom 120, from y=54, end-aligned):
   1. Header row (space-between, height 48): NotificationBell 48 in the unread=false variant (bell only, no badge) at the physical left; title "حسابي" (`title-lg`, `ink`) at the right.
-  2. Skeleton card, full width, 140 high (the Skeleton `list-row` component with a height override): `surface`, radius `radius-lg`, padding x `space-4` y `space-3`, gap `space-3`, items centred.
-  3. Two Skeleton rows, full width, 72 high, same component (`surface`, radius `radius-lg`).
-  Each Skeleton: trailing pill 64x24, spacer, text column (title bar 150x16, subtitle bar 110x12, gap `space-2`, radius `radius-sm`), avatar circle 40. Bars are `surface-sunken`.
+  2. Skeleton shape=profile-card, full width, 140 high: `surface`, radius `radius-lg`, padding x `space-4` y 16 (no token; `space-4`), column gap `space-3`, items start. Row (gap 12, centred, full width): Text column (flex, end-aligned, gap `space-2`: Title bar 150x16 and Subtitle bar 110x12, radius `radius-sm`) then Avatar circle 64 (`radius-full`) at the end. Below the row, a "Verification badge" pill 120x24 (`radius-full`). So: avatar + two text lines, then a badge pill, mirroring the real profile card.
+  3. Two Skeletons shape=settings-row, full width, 52 high each: `surface`, radius `radius-lg`, padding x `space-4`, gap `space-3`, items centred: Icon circle 20 (at the end), Text column holding one Title bar 150x16 (`radius-sm`), Spacer (flex), then a "Value or switch" pill 40x24 (`radius-full`) at the start. Gap between blocks `space-5`.
+  All bars and circles are `surface-sunken`.
 - Tab bar visible, حسابي selected (`primary`, filled user icon).
 ## States
 - All three blocks are drawn in phase=rest (full opacity). The dim phase (bars at 45% opacity) is not drawn in this frame. Component rule: rest and dim alternate with smart animate, 600ms each way, `duration-pulse` 1200ms, `ease-standard`; static (rest) when `MediaQuery.disableAnimationsOf`; swap to content with `duration-base`.
@@ -16,4 +16,7 @@ Screenshots: images/account-loading-compact-light.png
 ## Dark theme
 Token swap only (not read).
 ## Not in Figma / findings
-- The skeleton is a card (140) plus two rows (72), which is closer to the real Account (verification card, then settings rows) than round 1, but the inner shapes of the 140 card are still the list-row shapes, not the profile or verification layout, and the real Account has a profile row, a verification card and five settings rows. Decide whether to shape-match; the pack gives no layout for it.
+- Round 3 resolved the shape-match question for the profile card (avatar, two lines, badge) and for a settings row (icon, one line, value or switch). Only two settings rows are drawn (the real Account has five): repeat the settings-row shape for the missing rows, or keep two, implementer's call.
+- The 52 row height has no token (settings rows in components-settings-row.md should be checked against it); the profile-card padding y is drawn as 16 (equals `space-4`).
+- Skeleton description: swap to content with `duration-base`; pulse rest/dim 600ms each way (`duration-pulse` 1200ms), static under reduced motion.
+- Dark not read.
