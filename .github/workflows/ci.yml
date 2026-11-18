@@ -18,6 +18,13 @@ jobs:
           flutter-version: 3.47.9
           channel: stable
           cache: true
+      - name: Design pack must be removed before merge
+        run: |
+          if find specs -type d -name design-pack | grep -q .; then
+            echo "A design-pack folder is still in specs/. Delete it before merging (CLAUDE.md, Design source)."
+            find specs -type d -name design-pack
+            exit 1
+          fi
       - name: Install dependencies
         run: flutter pub get
       - name: Generate code and fail if stale
