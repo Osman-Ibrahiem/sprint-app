@@ -41,28 +41,36 @@ void main() {
       clock: Clock(() => seedNow),
       paymentDelay: Duration.zero,
     );
-    paid = layer.bookings.allBookings.firstWhere((b) =>
-        b.userId == SeedIds.bookerInternal &&
-        b.unitId == SeedIds.pool3 &&
-        b.status == BookingStatus.confirmed);
-    free = layer.bookings.allBookings.firstWhere((b) =>
-        b.userId == SeedIds.bookerInternal &&
-        b.unitId == SeedIds.hall1 &&
-        b.status == BookingStatus.confirmed);
+    paid = layer.bookings.allBookings.firstWhere(
+      (b) =>
+          b.userId == SeedIds.bookerInternal &&
+          b.unitId == SeedIds.pool3 &&
+          b.status == BookingStatus.confirmed,
+    );
+    free = layer.bookings.allBookings.firstWhere(
+      (b) =>
+          b.userId == SeedIds.bookerInternal &&
+          b.unitId == SeedIds.hall1 &&
+          b.status == BookingStatus.confirmed,
+    );
     final at = now ?? seedNow;
-    await pumpSprintApp(tester, size: size, overrides: <rp.Override>[
-      dataLayerProvider.overrideWithValue(layer),
-      appClockProvider.overrideWithValue(Clock(() => at)),
-      if (leadMinutes != null)
-        checkoutSettingsProvider.overrideWith(
-          (ref, id) async => CheckoutSettings(
-            cancellationCutoffHours: 2,
-            refundPercent: 50,
-            reminderLeadMinutes: leadMinutes,
-            isTestProvider: true,
+    await pumpSprintApp(
+      tester,
+      size: size,
+      overrides: <rp.Override>[
+        dataLayerProvider.overrideWithValue(layer),
+        appClockProvider.overrideWithValue(Clock(() => at)),
+        if (leadMinutes != null)
+          checkoutSettingsProvider.overrideWith(
+            (ref, id) async => CheckoutSettings(
+              cancellationCutoffHours: 2,
+              refundPercent: 50,
+              reminderLeadMinutes: leadMinutes,
+              isTestProvider: true,
+            ),
           ),
-        ),
-    ]);
+      ],
+    );
     await containerOf(tester)
         .read(sessionProvider.notifier)
         .actAs(SeedIds.bookerInternal);
@@ -90,24 +98,33 @@ void main() {
   });
 
   for (final (minutes, expected) in [(180, '3 ساعات'), (60, 'ساعة')]) {
-    testWidgets('the reminder line comes from reminderLeadMinutes ($minutes)',
-        (tester) async {
+    testWidgets('the reminder line comes from reminderLeadMinutes ($minutes)', (
+      tester,
+    ) async {
       await open(tester, () => paid, leadMinutes: minutes);
-      final text = tester.widget<Text>(find.byKey(BookingConfirmedScreen.subtitleKey));
+      final text = tester.widget<Text>(
+        find.byKey(BookingConfirmedScreen.subtitleKey),
+      );
       expect(text.data, ar.confirmedSubtitle(expected));
     });
   }
 
-  testWidgets('the cancellation line before the cutoff names the time',
-      (tester) async {
+  testWidgets('the cancellation line before the cutoff names the time', (
+    tester,
+  ) async {
     await open(tester, () => paid);
     expect(find.textContaining('الإلغاء متاح لحد'), findsOneWidget);
     expect(find.text(ar.ticketCancelUnavailable), findsNothing);
   });
 
-  testWidgets('after the cutoff the line says cancellation is not available',
-      (tester) async {
-    await open(tester, () => paid, now: paid.start.subtract(const Duration(hours: 1)));
+  testWidgets('after the cutoff the line says cancellation is not available', (
+    tester,
+  ) async {
+    await open(
+      tester,
+      () => paid,
+      now: paid.start.subtract(const Duration(hours: 1)),
+    );
     expect(find.text(ar.ticketCancelUnavailable), findsOneWidget);
     expect(find.textContaining('الإلغاء متاح لحد'), findsNothing);
   });
@@ -123,8 +140,9 @@ void main() {
   });
 
   // Walk 2026-11-18 D1: the ticket showed the stored UTC hour.
-  testWidgets('the ticket shows the Cairo wall-clock time, not UTC',
-      (tester) async {
+  testWidgets('the ticket shows the Cairo wall-clock time, not UTC', (
+    tester,
+  ) async {
     await open(tester, () => paid);
     String hm(DateTime t) => DateFormat('h:mm', 'en').format(t);
     final cairo = hm(CairoTime.toCairo(paid.start));
@@ -135,8 +153,9 @@ void main() {
   });
 
   // Walk 2026-11-18 D4: a free booking can be cancelled up to the cutoff too.
-  testWidgets('a free booking before the cutoff names the cancellation time',
-      (tester) async {
+  testWidgets('a free booking before the cutoff names the cancellation time', (
+    tester,
+  ) async {
     await open(tester, () => free);
     expect(find.textContaining('الإلغاء متاح لحد'), findsOneWidget);
     expect(find.text(ar.ticketCancelUnavailable), findsNothing);
@@ -147,8 +166,12 @@ void main() {
       SystemChannels.platform,
       (call) async => null,
     );
-    addTearDown(() => tester.binding.defaultBinaryMessenger
-        .setMockMethodCallHandler(SystemChannels.platform, null));
+    addTearDown(
+      () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform,
+        null,
+      ),
+    );
     await open(tester, () => paid);
     await tester.tap(find.byKey(BookingTicket.codeKey));
     await tester.pump(const Duration(milliseconds: 50));
@@ -157,8 +180,9 @@ void main() {
     await tester.pump(const Duration(seconds: 5));
   });
 
-  testWidgets('"إيصال الدفع" opens the receipt and home goes home',
-      (tester) async {
+  testWidgets('"إيصال الدفع" opens the receipt and home goes home', (
+    tester,
+  ) async {
     await open(tester, () => paid);
     await tester.tap(find.byKey(BookingConfirmedScreen.receiptKey));
     await tester.pumpAndSettle();

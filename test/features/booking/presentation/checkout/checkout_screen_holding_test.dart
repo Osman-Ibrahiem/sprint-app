@@ -43,16 +43,18 @@ void main() {
     expect((await env.reload()).status, BookingStatus.pendingPayment);
   });
 
-  testWidgets('the policy text comes from the cutoff and refund settings',
-      (tester) async {
+  testWidgets('the policy text comes from the cutoff and refund settings', (
+    tester,
+  ) async {
     await CheckoutEnv.open(tester);
     final text = tester.widget<Text>(find.byKey(CheckoutPolicyCard.bodyKey));
     expect(text.data, contains('50%').or(contains('100%')));
     expect(text.data, contains('ساعت'));
   });
 
-  testWidgets('the countdown comes from holdExpiresAt and keeps running',
-      (tester) async {
+  testWidgets('the countdown comes from holdExpiresAt and keeps running', (
+    tester,
+  ) async {
     final env = await CheckoutEnv.open(tester);
     await env.advance(const Duration(seconds: 90));
     expect(find.text(ar.checkoutHoldRemaining('8:30')), findsOneWidget);
@@ -67,24 +69,30 @@ void main() {
     expect(find.text(ar.checkoutSandboxTag), findsOneWidget);
   });
 
-  testWidgets('no test tag when the provider is not a test one', (tester) async {
+  testWidgets('no test tag when the provider is not a test one', (
+    tester,
+  ) async {
     late CheckoutEnv env;
-    env = await CheckoutEnv.open(tester, overrides: [
-      checkoutSettingsProvider.overrideWith(
-        (ref, id) async => const CheckoutSettings(
-          cancellationCutoffHours: 2,
-          refundPercent: 50,
-          reminderLeadMinutes: 180,
-          isTestProvider: false,
+    env = await CheckoutEnv.open(
+      tester,
+      overrides: [
+        checkoutSettingsProvider.overrideWith(
+          (ref, id) async => const CheckoutSettings(
+            cancellationCutoffHours: 2,
+            refundPercent: 50,
+            reminderLeadMinutes: 180,
+            isTestProvider: false,
+          ),
         ),
-      ),
-    ]);
+      ],
+    );
     expect(env.booking.id, isNotEmpty);
     expect(find.byKey(PaymentMethodCard.testTagKey), findsNothing);
   });
 
-  testWidgets('compact: the action sits in a fixed bar; from 600 two columns',
-      (tester) async {
+  testWidgets('compact: the action sits in a fixed bar; from 600 two columns', (
+    tester,
+  ) async {
     await CheckoutEnv.open(tester);
     expect(find.byKey(CheckoutLayout.barKey), findsOneWidget);
 
@@ -94,8 +102,9 @@ void main() {
     expect(find.byKey(CheckoutLayout.summaryColumnKey), findsOneWidget);
   });
 
-  testWidgets('"الدفع" starts one payment and opens the provider page',
-      (tester) async {
+  testWidgets('"الدفع" starts one payment and opens the provider page', (
+    tester,
+  ) async {
     final env = await CheckoutEnv.open(tester);
     await tester.tap(find.byKey(CheckoutScreen.payKey));
     await tester.pumpAndSettle();

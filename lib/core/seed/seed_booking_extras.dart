@@ -55,37 +55,41 @@ SeedBookingSet seedBookingExtras(DateTime now) {
     final id = 'bk-x${n.toString().padLeft(2, '0')}';
     final code = 'SP-${1100 + n}';
     final start = at(days, hour);
-    bookings.add(Booking(
-      id: id,
-      code: code,
-      userId: user,
-      facilityId: facility,
-      unitId: unit,
-      trainerId: trainerId,
-      start: start,
-      end: at(days, hour + 1),
-      seats: 1,
-      tierAtBooking: PriceTier.external,
-      priceAtBooking: price,
-      status: BookingStatus.confirmed,
-      qrToken: qrTokenFor(id, code),
-    ));
-    payments.add(Payment(
-      id: 'pay-$id',
-      bookingId: id,
-      provider: 'FAKE',
-      providerRef: 'fake-$id',
-      amount: price,
-      status: PaymentStatus.succeeded,
-      startedAt: now.subtract(const Duration(days: 1)),
-      paidAt: now.subtract(const Duration(days: 1)),
-      cardLast4: '4242',
-      receiptNumber: seedReceiptNumber(
-        now.subtract(const Duration(days: 1)),
-        580 + n,
+    bookings.add(
+      Booking(
+        id: id,
+        code: code,
+        userId: user,
+        facilityId: facility,
+        unitId: unit,
+        trainerId: trainerId,
+        start: start,
+        end: at(days, hour + 1),
+        seats: 1,
+        tierAtBooking: PriceTier.external,
+        priceAtBooking: price,
+        status: BookingStatus.confirmed,
+        qrToken: qrTokenFor(id, code),
       ),
-      owningUnitId: SeedIds.ouPe,
-    ));
+    );
+    payments.add(
+      Payment(
+        id: 'pay-$id',
+        bookingId: id,
+        provider: 'FAKE',
+        providerRef: 'fake-$id',
+        amount: price,
+        status: PaymentStatus.succeeded,
+        startedAt: now.subtract(const Duration(days: 1)),
+        paidAt: now.subtract(const Duration(days: 1)),
+        cardLast4: '4242',
+        receiptNumber: seedReceiptNumber(
+          now.subtract(const Duration(days: 1)),
+          580 + n,
+        ),
+        owningUnitId: SeedIds.ouPe,
+      ),
+    );
   }
 
   for (final user in [SeedIds.userEngPending, SeedIds.userRejected]) {

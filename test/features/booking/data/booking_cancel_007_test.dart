@@ -25,7 +25,8 @@ void main() {
   T ok<T>(Result<T> r) => (r as Ok<T>).value;
   Failure fail<T>(Result<T> r) => (r as Err<T>).failure;
 
-  BookingRequest req(String user, String unit, DateTime start) => BookingRequest(
+  BookingRequest req(String user, String unit, DateTime start) =>
+      BookingRequest(
         userId: user,
         unitId: unit,
         start: start,
@@ -47,11 +48,9 @@ void main() {
 
   test('an owner cancel before the cutoff refunds once and writes a read '
       '"cancelled by me" record', () async {
-    final b = await pay(await create(
-      Ids.bookerInternal,
-      Ids.futsal2,
-      env.at(2, 18),
-    ));
+    final b = await pay(
+      await create(Ids.bookerInternal, Ids.futsal2, env.at(2, 18)),
+    );
 
     final r = ok(await env.layer.bookings.cancel(b.id, Ids.bookerInternal));
     expect(r.status, BookingStatus.cancelled);
@@ -62,41 +61,48 @@ void main() {
     expect((await env.layer.payments.refunds(payment.id)).single.amount, 140);
 
     final note = (await env.layer.notifications.list(Ids.bookerInternal))
-        .singleWhere((n) => n.type == 'booking.cancelled_by_owner');
+        .singleWhere(
+          (n) =>
+              n.type == 'booking.cancelled_by_owner' &&
+              n.payload['bookingId'] == b.id,
+        );
     expect(note.readAt, note.sentAt);
     expect(note.payload['bookingId'], b.id);
     expect(note.payload['code'], b.code);
     expect(note.payload['amount'], '140');
   });
 
-  test('a second cancel returns the same booking and writes nothing more',
-      () async {
-    final b = await pay(await create(
-      Ids.bookerInternal,
-      Ids.futsal2,
-      env.at(2, 18),
-    ));
-    ok(await env.layer.bookings.cancel(b.id, Ids.bookerInternal));
+  test(
+    'a second cancel returns the same booking and writes nothing more',
+    () async {
+      final b = await pay(
+        await create(Ids.bookerInternal, Ids.futsal2, env.at(2, 18)),
+      );
+      ok(await env.layer.bookings.cancel(b.id, Ids.bookerInternal));
 
-    final before = (await env.layer.notifications.list(Ids.bookerInternal))
-        .where((n) => n.type == 'booking.cancelled_by_owner')
-        .length;
-    final refundsBefore =
-        await env.layer.payments.refunds((await payments(b)).single.id);
-
-    final again = ok(await env.layer.bookings.cancel(b.id, Ids.bookerInternal));
-    expect(again.status, BookingStatus.cancelled);
-    expect(
-      (await env.layer.notifications.list(Ids.bookerInternal))
+      final before = (await env.layer.notifications.list(Ids.bookerInternal))
           .where((n) => n.type == 'booking.cancelled_by_owner')
-          .length,
-      before,
-    );
-    expect(
-      await env.layer.payments.refunds((await payments(b)).single.id),
-      hasLength(refundsBefore.length),
-    );
-  });
+          .length;
+      final refundsBefore = await env.layer.payments.refunds(
+        (await payments(b)).single.id,
+      );
+
+      final again = ok(
+        await env.layer.bookings.cancel(b.id, Ids.bookerInternal),
+      );
+      expect(again.status, BookingStatus.cancelled);
+      expect(
+        (await env.layer.notifications.list(Ids.bookerInternal))
+            .where((n) => n.type == 'booking.cancelled_by_owner')
+            .length,
+        before,
+      );
+      expect(
+        await env.layer.payments.refunds((await payments(b)).single.id),
+        hasLength(refundsBefore.length),
+      );
+    },
+  );
 
   test('after the cutoff an owner cancel is closed', () async {
     final slot = env.at(2, 18);
@@ -121,36 +127,41 @@ void main() {
     expect(note.payload['amount'], '0');
   });
 
-  test('an admin cancel is a full refund whatever the setting (BR-32)',
-      () async {
-    await env.layer.settings.set(
-      SettingKeys.refundPercent,
-      0,
-      const SettingScope.unit(Ids.futsal2),
-      actorId: Ids.superAdmin,
-    );
-    final b = await pay(await create(
-      Ids.bookerInternal,
-      Ids.futsal2,
-      env.at(2, 18),
-    ));
+  test(
+    'an admin cancel is a full refund whatever the setting (BR-32)',
+    () async {
+      await env.layer.settings.set(
+        SettingKeys.refundPercent,
+        0,
+        const SettingScope.unit(Ids.futsal2),
+        actorId: Ids.superAdmin,
+      );
+      final b = await pay(
+        await create(Ids.bookerInternal, Ids.futsal2, env.at(2, 18)),
+      );
 
-    final r = ok(await env.layer.bookings
-        .cancel(b.id, Ids.superAdmin, reason: 'إغلاق طارئ'));
-    expect(r.cancelledBy, CancelledBy.admin);
-    expect(r.cancelledAt, env.now);
-    expect(
-      (await env.layer.payments.refunds((await payments(b)).single.id))
-          .single
-          .amount,
-      140,
-    );
-    expect(
-      (await env.layer.notifications.list(Ids.bookerInternal))
-          .any((n) => n.type == 'booking.cancelled_by_admin'),
-      isTrue,
-    );
-  });
+      final r = ok(
+        await env.layer.bookings.cancel(
+          b.id,
+          Ids.superAdmin,
+          reason: 'إغلاق طارئ',
+        ),
+      );
+      expect(r.cancelledBy, CancelledBy.admin);
+      expect(r.cancelledAt, env.now);
+      expect(
+        (await env.layer.payments.refunds((await payments(b)).single.id))
+            .single
+            .amount,
+        140,
+      );
+      expect(
+        (await env.layer.notifications.list(Ids.bookerInternal))
+            .any((n) => n.type == 'booking.cancelled_by_admin'),
+        isTrue,
+      );
+    },
+  );
 
   test('the owner can cancel a live Hold with no payment and the place is free '
       'at once (BR-48)', () async {
@@ -175,31 +186,35 @@ void main() {
       fail(await env.layer.bookings.cancel(b.id, Ids.bookerInternal)),
       isA<InvalidTransition>(),
     );
-    expect(ok(await env.layer.bookings.get(b.id)).status,
-        BookingStatus.pendingPayment);
-  });
-
-  test('a Hold that already ended cannot be cancelled and is expired',
-      () async {
-    final b = await create(Ids.bookerInternal, Ids.futsal2, env.at(2, 18));
-    env.advance(const Duration(minutes: 11));
-
     expect(
-      fail(await env.layer.bookings.cancel(b.id, Ids.bookerInternal)),
-      isA<InvalidTransition>(),
+      ok(await env.layer.bookings.get(b.id)).status,
+      BookingStatus.pendingPayment,
     );
-    expect(ok(await env.layer.bookings.get(b.id)).status,
-        BookingStatus.expired);
   });
+
+  test(
+    'a Hold that already ended cannot be cancelled and is expired',
+    () async {
+      final b = await create(Ids.bookerInternal, Ids.futsal2, env.at(2, 18));
+      env.advance(const Duration(minutes: 11));
+
+      expect(
+        fail(await env.layer.bookings.cancel(b.id, Ids.bookerInternal)),
+        isA<InvalidTransition>(),
+      );
+      expect(
+        ok(await env.layer.bookings.get(b.id)).status,
+        BookingStatus.expired,
+      );
+    },
+  );
 
   test('previewCancel never mutates', () async {
-    final b = await pay(await create(
-      Ids.bookerInternal,
-      Ids.futsal2,
-      env.at(2, 18),
-    ));
-    final notesBefore =
-        (await env.layer.notifications.list(Ids.bookerInternal)).length;
+    final b = await pay(
+      await create(Ids.bookerInternal, Ids.futsal2, env.at(2, 18)),
+    );
+    final notesBefore = (await env.layer.notifications.list(Ids.bookerInternal))
+        .length;
 
     final preview = await env.layer.bookings.previewCancel(
       b.id,
@@ -215,7 +230,9 @@ void main() {
       (await env.layer.notifications.list(Ids.bookerInternal)).length,
       notesBefore,
     );
-    expect(await env.layer.payments.refunds((await payments(b)).single.id),
-        isEmpty);
+    expect(
+      await env.layer.payments.refunds((await payments(b)).single.id),
+      isEmpty,
+    );
   });
 }

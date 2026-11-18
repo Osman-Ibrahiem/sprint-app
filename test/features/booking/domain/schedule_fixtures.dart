@@ -53,8 +53,12 @@ FacilitySchedule buildSchedule({
   return ScheduleBuilder.build(
     facility: f,
     units: units,
-    settingsByUnit: settingsByUnit ??
-        {for (final id in unitIds) id: settings(mode: BookingMode.shared, capacity: 6)},
+    settingsByUnit:
+        settingsByUnit ??
+        {
+          for (final id in unitIds)
+            id: settings(mode: BookingMode.shared, capacity: 6),
+        },
     fewLeftByUnit: {for (final id in unitIds) id: 2},
     slotsByUnit: slots,
     pricesByUnit: prices,

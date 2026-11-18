@@ -22,16 +22,15 @@ void main() {
     int refundPercent = 100,
     int paidAmount = 80,
     bool paymentPending = false,
-  }) =>
-      policy.preview(
-        booking: booking_ ?? booking(start: start),
-        now: now ?? beforeCutoff,
-        by: by,
-        cutoffHours: cutoffHours,
-        refundPercent: refundPercent,
-        paidAmount: paidAmount,
-        paymentPending: paymentPending,
-      );
+  }) => policy.preview(
+    booking: booking_ ?? booking(start: start),
+    now: now ?? beforeCutoff,
+    by: by,
+    cutoffHours: cutoffHours,
+    refundPercent: refundPercent,
+    paidAmount: paidAmount,
+    paymentPending: paymentPending,
+  );
 
   test('100% is a full refund of everything paid', () {
     final p = preview();
@@ -56,10 +55,7 @@ void main() {
   });
 
   test('a free booking is nothing paid and nothing returned', () {
-    final p = preview(
-      booking_: booking(start: start, price: 0),
-      paidAmount: 0,
-    );
+    final p = preview(booking_: booking(start: start, price: 0), paidAmount: 0);
     expect(p.kind, CancelKind.free);
     expect(p.paidAmount, 0);
     expect(p.refundAmount, 0);
@@ -84,7 +80,9 @@ void main() {
       BookingStatus.expired,
     ]) {
       expect(
-        preview(booking_: booking(start: start, status: status)).kind,
+        preview(
+          booking_: booking(start: start, status: status),
+        ).kind,
         CancelKind.notAllowed,
         reason: '$status',
       );

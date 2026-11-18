@@ -29,7 +29,10 @@ void main() {
   test('full and past slots change nothing', () {
     final chosen = SlotSelection.tap(base, nine);
     for (final state in [SlotState.full, SlotState.past]) {
-      expect(SlotSelection.tap(chosen, gridSlot(slotAt(1, 11, state: state))), chosen);
+      expect(
+        SlotSelection.tap(chosen, gridSlot(slotAt(1, 11, state: state))),
+        chosen,
+      );
     }
   });
 

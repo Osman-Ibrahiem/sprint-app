@@ -68,18 +68,28 @@ void main() {
     expect(s.days, hasLength(7));
     expect(s.days.first.date, DateTime(2026, 11, 14));
     expect(s.units.map((u) => u.id), [
-      SeedIds.pool1, SeedIds.pool2, SeedIds.pool3, SeedIds.pool4, SeedIds.pool5, SeedIds.pool6,
+      SeedIds.pool1,
+      SeedIds.pool2,
+      SeedIds.pool3,
+      SeedIds.pool4,
+      SeedIds.pool5,
+      SeedIds.pool6,
     ]);
     // Lane 2: capacity 3, full on day +3 at 10:00; few-left on day +2 at 12:00.
     expect(slotAt(s, SeedIds.pool2, 3, 10)!.state, SlotState.full);
-    expect(slotAt(s, SeedIds.pool2, seedFewLeftDayOffset, seedFewLeftHour)!.state,
-        SlotState.fewLeft);
+    expect(
+      slotAt(s, SeedIds.pool2, seedFewLeftDayOffset, seedFewLeftHour)!.state,
+      SlotState.fewLeft,
+    );
     expect(s.unit(SeedIds.pool2)!.capacity, 3);
     expect(s.unit(SeedIds.pool1)!.priceInternal, 20);
     // The pitch closure removes the slots of pitch A on day +3 only.
     final futsal = (await load(c, SeedIds.futsalFacility))!;
     expect(futsal.slotsFor(SeedIds.futsal1, DateTime(2026, 11, 17)), isEmpty);
-    expect(futsal.slotsFor(SeedIds.futsal2, DateTime(2026, 11, 17)), isNotEmpty);
+    expect(
+      futsal.slotsFor(SeedIds.futsal2, DateTime(2026, 11, 17)),
+      isNotEmpty,
+    );
     expect(futsal.days[3].isClosed, isFalse);
   });
 
@@ -99,12 +109,14 @@ void main() {
     expect(slotAt(s, SeedIds.futsal2, 2, 18)!.state, SlotState.available);
 
     final layer = c.read(dataLayerProvider);
-    await layer.bookings.create(BookingRequest(
-      userId: SeedIds.bookerInternal,
-      unitId: SeedIds.futsal2,
-      start: at(2, 18),
-      end: at(2, 19),
-    ));
+    await layer.bookings.create(
+      BookingRequest(
+        userId: SeedIds.bookerInternal,
+        unitId: SeedIds.futsal2,
+        start: at(2, 18),
+        end: at(2, 19),
+      ),
+    );
     await Future<void>.delayed(Duration.zero);
     final after = (await c.read(p.future))!;
     expect(slotAt(after, SeedIds.futsal2, 2, 18)!.state, SlotState.full);
@@ -125,45 +137,52 @@ void main() {
       final p = facilityScheduleProvider(SeedIds.futsalFacility, null);
       c.listen(p, (_, _) {});
       async.flushMicrotasks();
-      expect(slotAt(c.read(p).value!, SeedIds.futsal2, 0, 9)!.state,
-          SlotState.available);
+      expect(
+        slotAt(c.read(p).value!, SeedIds.futsal2, 0, 9)!.state,
+        SlotState.available,
+      );
 
       now = CairoTime.atWallClock(2026, 11, 14, 9, 30);
       async.elapse(const Duration(hours: 2));
       async.flushMicrotasks();
-      expect(slotAt(c.read(p).value!, SeedIds.futsal2, 0, 9)!.state, SlotState.past);
+      expect(
+        slotAt(c.read(p).value!, SeedIds.futsal2, 0, 9)!.state,
+        SlotState.past,
+      );
       c.dispose();
     });
   });
 
-  test('moving past Cairo midnight drops yesterday and adds a new last day',
-      () {
-    fakeAsync((async) {
-      final layer = InMemoryDataLayer.create(
-        clock: Clock(() => now),
-        paymentDelay: Duration.zero,
-      );
-      final c = ProviderContainer(
-        overrides: [
-          dataLayerProvider.overrideWithValue(layer),
-          appClockProvider.overrideWithValue(Clock(() => now)),
-        ],
-      );
-      final p = facilityScheduleProvider(SeedIds.futsalFacility, null);
-      c.listen(p, (_, _) {});
-      async.flushMicrotasks();
-      expect(c.read(p).value!.days.first.date, DateTime(2026, 11, 14));
+  test(
+    'moving past Cairo midnight drops yesterday and adds a new last day',
+    () {
+      fakeAsync((async) {
+        final layer = InMemoryDataLayer.create(
+          clock: Clock(() => now),
+          paymentDelay: Duration.zero,
+        );
+        final c = ProviderContainer(
+          overrides: [
+            dataLayerProvider.overrideWithValue(layer),
+            appClockProvider.overrideWithValue(Clock(() => now)),
+          ],
+        );
+        final p = facilityScheduleProvider(SeedIds.futsalFacility, null);
+        c.listen(p, (_, _) {});
+        async.flushMicrotasks();
+        expect(c.read(p).value!.days.first.date, DateTime(2026, 11, 14));
 
-      now = CairoTime.atWallClock(2026, 11, 15, 0, 5);
-      c.invalidate(p);
-      async.elapse(const Duration(seconds: 1));
-      async.flushMicrotasks();
-      final days = c.read(p).value!.days;
-      expect(days.first.date, DateTime(2026, 11, 15));
-      expect(days.last.date, DateTime(2026, 11, 21));
-      c.dispose();
-    });
-  });
+        now = CairoTime.atWallClock(2026, 11, 15, 0, 5);
+        c.invalidate(p);
+        async.elapse(const Duration(seconds: 1));
+        async.flushMicrotasks();
+        final days = c.read(p).value!.days;
+        expect(days.first.date, DateTime(2026, 11, 15));
+        expect(days.last.date, DateTime(2026, 11, 21));
+        c.dispose();
+      });
+    },
+  );
 
   group('trainer path', () {
     test('before a trainer is chosen: the trainers, and no slots', () async {
@@ -172,7 +191,9 @@ void main() {
       expect(s.path, BookingPath.trainer);
       expect(s.needsTrainer, isTrue);
       expect(s.trainers.map((t) => t.id), [
-        SeedIds.trainerRecord1, SeedIds.trainerRecord2, SeedIds.trainerRecord3,
+        SeedIds.trainerRecord1,
+        SeedIds.trainerRecord2,
+        SeedIds.trainerRecord3,
       ]);
       expect(s.trainers.every((t) => t.hasSessionsInWindow), isTrue);
       expect(s.trainers.first.name, isNotNull);
@@ -181,7 +202,11 @@ void main() {
 
     test('with trainer 1: one unit, sessions, and one full session', () async {
       final c = container();
-      final s = (await load(c, SeedIds.academyFacility, SeedIds.trainerRecord1))!;
+      final s = (await load(
+        c,
+        SeedIds.academyFacility,
+        SeedIds.trainerRecord1,
+      ))!;
       expect(s.needsTrainer, isFalse);
       expect(s.units.map((u) => u.id), [SeedIds.room1]);
       final day = seedTrainerFullDayOffset(now);

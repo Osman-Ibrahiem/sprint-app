@@ -12,17 +12,30 @@ import 'schedule_fixtures.dart';
 void main() {
   final base = ScheduleSelection(day: dayPlus(1), unitId: 'u1');
 
-  List<ScheduleSlot> day({Map<int, SlotState> states = const {}, int capacity = 1, Set<int> missing = const {}}) => [
-        for (var h = 9; h < 16; h++)
-          if (!missing.contains(h))
-            gridSlot(slotAt(1, h, state: states[h] ?? SlotState.available, capacity: capacity)),
-      ];
+  List<ScheduleSlot> day({
+    Map<int, SlotState> states = const {},
+    int capacity = 1,
+    Set<int> missing = const {},
+  }) => [
+    for (var h = 9; h < 16; h++)
+      if (!missing.contains(h))
+        gridSlot(
+          slotAt(
+            1,
+            h,
+            state: states[h] ?? SlotState.available,
+            capacity: capacity,
+          ),
+        ),
+  ];
 
   ScheduleSlot at(List<ScheduleSlot> d, int hour) =>
       d.firstWhere((s) => s.startMinutes == hour * 60);
 
-  ScheduleSelection ok(Result<ScheduleSelection> r) => (r as Ok<ScheduleSelection>).value;
-  Failure fail(Result<ScheduleSelection> r) => (r as Err<ScheduleSelection>).failure;
+  ScheduleSelection ok(Result<ScheduleSelection> r) =>
+      (r as Ok<ScheduleSelection>).value;
+  Failure fail(Result<ScheduleSelection> r) =>
+      (r as Err<ScheduleSelection>).failure;
 
   test('the first tap is a one-slot range (FR-015)', () {
     final d = day();
@@ -108,9 +121,13 @@ void main() {
 
   test('a shared unit accepts a range while every hour has a place', () {
     final d = [
-      gridSlot(slotAt(1, 9, remaining: 1, capacity: 6, state: SlotState.fewLeft)),
+      gridSlot(
+        slotAt(1, 9, remaining: 1, capacity: 6, state: SlotState.fewLeft),
+      ),
       gridSlot(slotAt(1, 10, remaining: 5, capacity: 6)),
-      gridSlot(slotAt(1, 11, remaining: 2, capacity: 6, state: SlotState.fewLeft)),
+      gridSlot(
+        slotAt(1, 11, remaining: 2, capacity: 6, state: SlotState.fewLeft),
+      ),
     ];
     final one = ok(RangeSelection.tap(base, d[0], d, 3));
     expect(ok(RangeSelection.tap(one, d[2], d, 3)).lengthMinutes, 180);
@@ -120,10 +137,10 @@ void main() {
 extension on Slot {
   /// The same slot moved [minutes] later.
   Slot copyStart(int minutes) => Slot(
-        start: start.add(Duration(minutes: minutes)),
-        end: end.add(Duration(minutes: minutes)),
-        state: state,
-        remaining: remaining,
-        capacity: capacity,
-      );
+    start: start.add(Duration(minutes: minutes)),
+    end: end.add(Duration(minutes: minutes)),
+    state: state,
+    remaining: remaining,
+    capacity: capacity,
+  );
 }

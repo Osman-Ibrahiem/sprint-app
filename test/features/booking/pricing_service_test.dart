@@ -48,19 +48,18 @@ void main() {
     PriceTier? tier,
     DateTime? validFrom,
     DateTime? validTo,
-  }) =>
-      Offer(
-        id: id,
-        scope: OfferScope.facility,
-        scopeId: 'f1',
-        discountPercent: percent,
-        days: days,
-        fromMinutes: from,
-        toMinutes: to,
-        tier: tier,
-        validFrom: validFrom ?? cairo(2026, 1, 1),
-        validTo: validTo ?? cairo(2026, 12, 31),
-      );
+  }) => Offer(
+    id: id,
+    scope: OfferScope.facility,
+    scopeId: 'f1',
+    discountPercent: percent,
+    days: days,
+    fromMinutes: from,
+    toMinutes: to,
+    tier: tier,
+    validFrom: validFrom ?? cairo(2026, 1, 1),
+    validTo: validTo ?? cairo(2026, 12, 31),
+  );
 
   group('tiers (BR-15, BR-16)', () {
     test('each tier gets its own price', () {
@@ -80,7 +79,9 @@ void main() {
     test('a missing price for the tier is an error', () {
       final r = service.quote(
         facility: f,
-        prices: const [Price(unitId: 'u1', tier: PriceTier.external, amount: 10)],
+        prices: const [
+          Price(unitId: 'u1', tier: PriceTier.external, amount: 10),
+        ],
         tier: PriceTier.internal,
         mode: BookingMode.exclusive,
         start: slot,
@@ -105,11 +106,13 @@ void main() {
 
   group('offers (BR-20)', () {
     test('the best applicable offer wins', () {
-      final q = quote(offers: [
-        offer(id: 'a', percent: 10),
-        offer(id: 'b', percent: 25),
-        offer(id: 'c', percent: 15),
-      ]);
+      final q = quote(
+        offers: [
+          offer(id: 'a', percent: 10),
+          offer(id: 'b', percent: 25),
+          offer(id: 'c', percent: 15),
+        ],
+      );
       expect(q.discountPercent, 25);
       expect(q.appliedOfferId, 'b');
       expect(q.baseAmount, 120);
@@ -124,33 +127,45 @@ void main() {
 
     test('the day and the time window must match', () {
       // 2026-11-14 is a Saturday (DateTime.saturday == 6).
-      expect(quote(offers: [offer(days: {1, 2})]).amount, 120);
-      expect(quote(offers: [offer(days: {6})]).amount, 108);
+      expect(
+        quote(
+          offers: [
+            offer(days: {1, 2}),
+          ],
+        ).amount,
+        120,
+      );
+      expect(
+        quote(
+          offers: [
+            offer(days: {6}),
+          ],
+        ).amount,
+        108,
+      );
       expect(quote(offers: [offer(from: 600, to: 720)]).amount, 120); // 10-12
       expect(quote(offers: [offer(from: 480, to: 600)]).amount, 108); // 8-10
       // The slot's own start is what counts: 10:00 is outside 8-10.
       expect(
-        quote(offers: [offer(from: 480, to: 600)], at: cairo(2026, 11, 14, 10))
-            .amount,
+        quote(
+          offers: [offer(from: 480, to: 600)],
+          at: cairo(2026, 11, 14, 10),
+        ).amount,
         120,
       );
     });
 
     test('an offer outside its validity dates does not apply', () {
-      expect(
-        quote(offers: [offer(validTo: cairo(2026, 11, 1))]).amount,
-        120,
-      );
-      expect(
-        quote(offers: [offer(validFrom: cairo(2026, 12, 1))]).amount,
-        120,
-      );
+      expect(quote(offers: [offer(validTo: cairo(2026, 11, 1))]).amount, 120);
+      expect(quote(offers: [offer(validFrom: cairo(2026, 12, 1))]).amount, 120);
     });
 
     test('a discount is rounded to whole pounds', () {
       expect(quote(offers: [offer(percent: 15)]).amount, 102); // 120 x 0.85
       final q = quote(
-        table: const [Price(unitId: 'u1', tier: PriceTier.external, amount: 45)],
+        table: const [
+          Price(unitId: 'u1', tier: PriceTier.external, amount: 45),
+        ],
         offers: [offer(percent: 10)],
       );
       expect(q.amount, 41); // 40.5 rounds to 41 (half up)

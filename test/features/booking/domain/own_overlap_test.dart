@@ -9,10 +9,18 @@ void main() {
   final six = cairo(2026, 11, 17, 18);
   final seven = cairo(2026, 11, 17, 19);
 
-  test('finds a confirmed booking at the same time, in any facility (BR-13)', () {
-    final mine = booking(id: 'pool', unitId: 'lane', facilityId: 'pool', start: six);
-    expect(OwnOverlap.find([mine], six, seven, now)?.id, 'pool');
-  });
+  test(
+    'finds a confirmed booking at the same time, in any facility (BR-13)',
+    () {
+      final mine = booking(
+        id: 'pool',
+        unitId: 'lane',
+        facilityId: 'pool',
+        start: six,
+      );
+      expect(OwnOverlap.find([mine], six, seven, now)?.id, 'pool');
+    },
+  );
 
   test('a partial overlap counts', () {
     final mine = booking(start: cairo(2026, 11, 17, 17, 30));

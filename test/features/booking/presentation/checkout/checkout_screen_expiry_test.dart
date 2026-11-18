@@ -17,16 +17,18 @@ import 'checkout_harness.dart';
 
 /// US-10 / BR-12: the last minute and the end of the Hold (FR-003, FR-004).
 void main() {
-  testWidgets('below 60 seconds the banner turns urgent and speaks in seconds',
-      (tester) async {
-    final env = await CheckoutEnv.open(tester);
-    await env.advance(const Duration(minutes: 9, seconds: 10));
-    expect(find.text(ar.checkoutLastMinuteTitle), findsOneWidget);
-    expect(find.text(ar.checkoutLastMinuteBody(50)), findsOneWidget);
-    final live = tester.getSemantics(find.byKey(HoldBanner.liveRegionKey));
-    expect(live.label, contains(ar.checkoutLastMinuteTitle));
-    expect(live.flagsCollection.isLiveRegion, isTrue);
-  });
+  testWidgets(
+    'below 60 seconds the banner turns urgent and speaks in seconds',
+    (tester) async {
+      final env = await CheckoutEnv.open(tester);
+      await env.advance(const Duration(minutes: 9, seconds: 10));
+      expect(find.text(ar.checkoutLastMinuteTitle), findsOneWidget);
+      expect(find.text(ar.checkoutLastMinuteBody(50)), findsOneWidget);
+      final live = tester.getSemantics(find.byKey(HoldBanner.liveRegionKey));
+      expect(live.label, contains(ar.checkoutLastMinuteTitle));
+      expect(live.flagsCollection.isLiveRegion, isTrue);
+    },
+  );
 
   testWidgets('the Hold running out shows the expired state and frees the '
       'place', (tester) async {
@@ -38,18 +40,24 @@ void main() {
     expect(find.text(ar.statusExpired), findsWidgets);
     expect((await env.reload()).status, BookingStatus.expired);
     // Another account can take the place now.
-    final other = await env.layer.bookings.quote(BookingRequest(
-      userId: SeedIds.bookerExternal,
-      unitId: env.booking.unitId,
-      start: env.booking.start,
-      end: env.booking.end,
-    ));
+    final other = await env.layer.bookings.quote(
+      BookingRequest(
+        userId: SeedIds.bookerExternal,
+        unitId: env.booking.unitId,
+        start: env.booking.start,
+        end: env.booking.end,
+      ),
+    );
     expect(other.isOk, isTrue);
   });
 
-  testWidgets('expired from the failed state and from the cancelled state',
-      (tester) async {
-    final env = await CheckoutEnv.open(tester, outcome: const FakeOutcome.fail());
+  testWidgets('expired from the failed state and from the cancelled state', (
+    tester,
+  ) async {
+    final env = await CheckoutEnv.open(
+      tester,
+      outcome: const FakeOutcome.fail(),
+    );
     await env.payOnPage();
     expect(find.text(ar.checkoutFailedTitle), findsOneWidget);
     await env.advance(const Duration(minutes: 11));
@@ -74,8 +82,14 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(ExpiredView.pickAnotherKey));
     await tester.pumpAndSettle();
-    expect(currentPath(tester), AppPaths.facilitySchedule(env.booking.facilityId));
-    expect(routerOf(tester).routerDelegate.currentConfiguration.uri.query, isEmpty);
+    expect(
+      currentPath(tester),
+      AppPaths.facilitySchedule(env.booking.facilityId),
+    );
+    expect(
+      routerOf(tester).routerDelegate.currentConfiguration.uri.query,
+      isEmpty,
+    );
 
     routerOf(tester).go(env.checkoutPath);
     await tester.pumpAndSettle();
@@ -84,8 +98,9 @@ void main() {
     expect(currentPath(tester), AppPaths.home);
   });
 
-  testWidgets('an app resumed after the Hold ended shows expired at once',
-      (tester) async {
+  testWidgets('an app resumed after the Hold ended shows expired at once', (
+    tester,
+  ) async {
     final env = await CheckoutEnv.open(tester);
     // Backgrounded for an hour: one step, no ticks in between.
     await env.advance(const Duration(hours: 1));
@@ -93,8 +108,9 @@ void main() {
     expect(find.byKey(ExpiredView.titleKey), findsOneWidget);
   });
 
-  testWidgets('resize, theme and language keep the same expiry',
-      (tester) async {
+  testWidgets('resize, theme and language keep the same expiry', (
+    tester,
+  ) async {
     final env = await CheckoutEnv.open(tester);
     await env.advance(const Duration(minutes: 2));
     expect(find.text(ar.checkoutHoldRemaining('8:00')), findsOneWidget);

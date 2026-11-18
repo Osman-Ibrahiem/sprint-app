@@ -16,8 +16,10 @@ void main() {
     final now = cairo(2026, 11, 14, 12);
 
     test('expiry is holdMinutes after now', () {
-      expect(hold.expiryFrom(now, holdMinutes: 10),
-          now.add(const Duration(minutes: 10)));
+      expect(
+        hold.expiryFrom(now, holdMinutes: 10),
+        now.add(const Duration(minutes: 10)),
+      );
     });
 
     test('a pending booking expires once its hold elapses', () {
@@ -27,8 +29,10 @@ void main() {
         holdExpiresAt: now.add(const Duration(minutes: 10)),
       );
       expect(hold.isExpired(b, now), isFalse);
-      expect(hold.isExpired(b, now.add(const Duration(minutes: 9, seconds: 59))),
-          isFalse);
+      expect(
+        hold.isExpired(b, now.add(const Duration(minutes: 9, seconds: 59))),
+        isFalse,
+      );
       expect(hold.isExpired(b, now.add(const Duration(minutes: 10))), isTrue);
     });
 
@@ -51,7 +55,10 @@ void main() {
   group('state machine (BRD §5)', () {
     test('pending -> confirmed on payment', () {
       final b = booking(start: start, status: BookingStatus.pendingPayment);
-      expect((b.confirm() as Ok<Booking>).value.status, BookingStatus.confirmed);
+      expect(
+        (b.confirm() as Ok<Booking>).value.status,
+        BookingStatus.confirmed,
+      );
       expect((b.confirm() as Ok<Booking>).value.holdExpiresAt, isNull);
     });
 
@@ -76,20 +83,33 @@ void main() {
           isA<InvalidTransition>(),
         );
         expect(
-          (b.markNoShow(start.add(const Duration(days: 1))) as Err<Booking>)
-              .failure,
+          (b.markNoShow(
+            start.add(const Duration(days: 1)),
+          ) as Err<Booking>).failure,
           isA<InvalidTransition>(),
         );
       }
-      final pending = booking(start: start, status: BookingStatus.pendingPayment);
-      expect((pending.attend() as Err<Booking>).failure, isA<InvalidTransition>());
-      expect((pending.cancel(CancelledBy.admin) as Err<Booking>).failure,
-          isA<InvalidTransition>());
+      final pending = booking(
+        start: start,
+        status: BookingStatus.pendingPayment,
+      );
+      expect(
+        (pending.attend() as Err<Booking>).failure,
+        isA<InvalidTransition>(),
+      );
+      expect(
+        (pending.cancel(CancelledBy.admin) as Err<Booking>).failure,
+        isA<InvalidTransition>(),
+      );
       final confirmed = booking(start: start);
-      expect((confirmed.confirm() as Err<Booking>).failure,
-          isA<InvalidTransition>());
-      expect((confirmed.expire() as Err<Booking>).failure,
-          isA<InvalidTransition>());
+      expect(
+        (confirmed.confirm() as Err<Booking>).failure,
+        isA<InvalidTransition>(),
+      );
+      expect(
+        (confirmed.expire() as Err<Booking>).failure,
+        isA<InvalidTransition>(),
+      );
     });
 
     test('pending -> cancelled by its owner while holding (BR-48)', () {
@@ -103,8 +123,7 @@ void main() {
         CancelledBy.owner,
         reason: 'changed plans',
         at: at,
-      ) as Ok<Booking>)
-          .value;
+      ) as Ok<Booking>).value;
       expect(cancelled.status, BookingStatus.cancelled);
       expect(cancelled.cancelledBy, CancelledBy.owner);
       expect(cancelled.cancelReason, 'changed plans');
@@ -112,14 +131,18 @@ void main() {
     });
 
     test('confirmed -> attended', () {
-      expect((booking(start: start).attend() as Ok<Booking>).value.status,
-          BookingStatus.attended);
+      expect(
+        (booking(start: start).attend() as Ok<Booking>).value.status,
+        BookingStatus.attended,
+      );
     });
 
     test('confirmed -> no-show only after the slot ends (BR-37)', () {
       final b = booking(start: start);
-      expect((b.markNoShow(start) as Err<Booking>).failure,
-          isA<InvalidTransition>());
+      expect(
+        (b.markNoShow(start) as Err<Booking>).failure,
+        isA<InvalidTransition>(),
+      );
       final r = b.markNoShow(b.end);
       expect((r as Ok<Booking>).value.status, BookingStatus.noShow);
     });
@@ -153,8 +176,11 @@ void main() {
       return (r as Ok<CancellationDecision>).value;
     }
 
-    Failure? refused(DateTime now,
-        {CancelledBy by = CancelledBy.owner, Booking? booking_}) {
+    Failure? refused(
+      DateTime now, {
+      CancelledBy by = CancelledBy.owner,
+      Booking? booking_,
+    }) {
       final r = cancel.decide(
         booking: booking_ ?? b,
         now: now,
@@ -181,10 +207,14 @@ void main() {
     });
 
     test('after the cutoff the owner cannot cancel', () {
-      expect(refused(start.subtract(const Duration(hours: 1, minutes: 59))),
-          isA<CancellationClosed>());
-      expect(refused(start.add(const Duration(minutes: 5))),
-          isA<CancellationClosed>());
+      expect(
+        refused(start.subtract(const Duration(hours: 1, minutes: 59))),
+        isA<CancellationClosed>(),
+      );
+      expect(
+        refused(start.add(const Duration(minutes: 5))),
+        isA<CancellationClosed>(),
+      );
     });
 
     test('a different cutoff setting moves the line', () {
@@ -197,15 +227,22 @@ void main() {
         refundPercent: 100,
         paidAmount: 200,
       );
-      expect((r as Err<CancellationDecision>).failure, isA<CancellationClosed>());
+      expect(
+        (r as Err<CancellationDecision>).failure,
+        isA<CancellationClosed>(),
+      );
     });
 
     test('an admin cancel always refunds 100%, whatever the settings', () {
       final late = start.subtract(const Duration(minutes: 10));
-      expect(decide(late, by: CancelledBy.admin, refundPercent: 50).refundAmount,
-          200);
-      expect(decide(late, by: CancelledBy.admin, refundPercent: 0).refundAmount,
-          200);
+      expect(
+        decide(late, by: CancelledBy.admin, refundPercent: 50).refundAmount,
+        200,
+      );
+      expect(
+        decide(late, by: CancelledBy.admin, refundPercent: 0).refundAmount,
+        200,
+      );
     });
 
     test('an admin cannot cancel after the slot has ended', () {
@@ -221,7 +258,10 @@ void main() {
         BookingStatus.cancelled,
       ]) {
         expect(
-          refused(now, booking_: booking(start: start, status: s)),
+          refused(
+            now,
+            booking_: booking(start: start, status: s),
+          ),
           isA<InvalidTransition>(),
           reason: '$s',
         );
@@ -279,9 +319,15 @@ void main() {
         'it can offer cancel (decision 2026-11-11, BR-39 and BR-40)', () {
       final d = settings();
       final b = booking(start: start);
-      final reminderAt = b.start.subtract(Duration(minutes: d.reminderLeadMinutes));
+      final reminderAt = b.start.subtract(
+        Duration(minutes: d.reminderLeadMinutes),
+      );
       expect(
-        cancel.canOfferCancel(b, reminderAt, cutoffHours: d.cancellationCutoffHours),
+        cancel.canOfferCancel(
+          b,
+          reminderAt,
+          cutoffHours: d.cancellationCutoffHours,
+        ),
         isTrue,
       );
     });

@@ -32,20 +32,19 @@ void main() {
     List<TrainerAvailability> trainerAvailability = const [],
     bool inactive = false,
     Facility? fac,
-  }) =>
-      service.slots(
-        facility: fac ?? f,
-        unit: inactive ? unit(isActive: false) : u,
-        hours: dailyHours('f1', open: open, close: close),
-        closures: closures,
-        bookings: bookings,
-        settings: s ?? settings(bookingWindowDays: 30),
-        now: now ?? cairo(2026, 11, 13, 6),
-        fromDay: from ?? day,
-        toDay: to ?? day,
-        trainer: trainer,
-        trainerAvailability: trainerAvailability,
-      );
+  }) => service.slots(
+    facility: fac ?? f,
+    unit: inactive ? unit(isActive: false) : u,
+    hours: dailyHours('f1', open: open, close: close),
+    closures: closures,
+    bookings: bookings,
+    settings: s ?? settings(bookingWindowDays: 30),
+    now: now ?? cairo(2026, 11, 13, 6),
+    fromDay: from ?? day,
+    toDay: to ?? day,
+    trainer: trainer,
+    trainerAvailability: trainerAvailability,
+  );
 
   String hhmm(DateTime utc) {
     final c = cairo(2026, 11, 14); // ensures tz init
@@ -68,16 +67,18 @@ void main() {
     });
 
     test('a closure removes every slot it overlaps', () {
-      final s = slots(closures: [
-        Closure(
-          id: 'c1',
-          scope: ClosureScope.unit,
-          scopeId: 'u1',
-          from: cairo(2026, 11, 14, 9, 30),
-          to: cairo(2026, 11, 14, 10, 30),
-          reason: 'صيانة',
-        ),
-      ]);
+      final s = slots(
+        closures: [
+          Closure(
+            id: 'c1',
+            scope: ClosureScope.unit,
+            scopeId: 'u1',
+            from: cairo(2026, 11, 14, 9, 30),
+            to: cairo(2026, 11, 14, 10, 30),
+            reason: 'صيانة',
+          ),
+        ],
+      );
       expect(s.map((x) => x.start), [
         cairo(2026, 11, 14, 8),
         cairo(2026, 11, 14, 11),
@@ -85,36 +86,42 @@ void main() {
     });
 
     test('a facility closure applies to its units', () {
-      final s = slots(closures: [
-        Closure(
-          id: 'c2',
-          scope: ClosureScope.facility,
-          scopeId: 'f1',
-          from: cairo(2026, 11, 14),
-          to: cairo(2026, 11, 15),
-          reason: 'إغلاق',
-        ),
-      ]);
+      final s = slots(
+        closures: [
+          Closure(
+            id: 'c2',
+            scope: ClosureScope.facility,
+            scopeId: 'f1',
+            from: cairo(2026, 11, 14),
+            to: cairo(2026, 11, 15),
+            reason: 'إغلاق',
+          ),
+        ],
+      );
       expect(s, isEmpty);
     });
 
     test('a closure on another unit does not apply', () {
-      final s = slots(closures: [
-        Closure(
-          id: 'c3',
-          scope: ClosureScope.unit,
-          scopeId: 'other',
-          from: cairo(2026, 11, 14),
-          to: cairo(2026, 11, 15),
-          reason: 'x',
-        ),
-      ]);
+      final s = slots(
+        closures: [
+          Closure(
+            id: 'c3',
+            scope: ClosureScope.unit,
+            scopeId: 'other',
+            from: cairo(2026, 11, 14),
+            to: cairo(2026, 11, 15),
+            reason: 'x',
+          ),
+        ],
+      );
       expect(s, hasLength(4));
     });
 
     test('an inactive unit has no available slots', () {
-      expect(slots(inactive: true).every((x) => x.state == SlotState.closed),
-          isTrue);
+      expect(
+        slots(inactive: true).every((x) => x.state == SlotState.closed),
+        isTrue,
+      );
     });
 
     test('unit hours replace facility hours for that unit', () {
@@ -161,8 +168,10 @@ void main() {
       );
       final days = s.map((x) => x.start).toSet();
       expect(days.any((d) => d.isAfter(cairo(2026, 11, 17))), isFalse);
-      expect(s.map((x) => x.start).where((d) => d.isBefore(cairo(2026, 11, 15))),
-          isNotEmpty);
+      expect(
+        s.map((x) => x.start).where((d) => d.isBefore(cairo(2026, 11, 15))),
+        isNotEmpty,
+      );
       // Nov 14, 15 and 16 only: 3 days x 4 slots.
       expect(s, hasLength(12));
     });
@@ -199,13 +208,18 @@ void main() {
       final slot = s.firstWhere((x) => x.start == nine);
       expect(slot.state, SlotState.full);
       expect(slot.remaining, 0);
-      expect(s.firstWhere((x) => x.start == cairo(2026, 11, 14, 8)).state,
-          SlotState.available);
+      expect(
+        s.firstWhere((x) => x.start == cairo(2026, 11, 14, 8)).state,
+        SlotState.available,
+      );
     });
 
     test('shared: remaining places count down and become full', () {
-      UnitSettings sh() =>
-          settings(mode: BookingMode.shared, capacity: 4, bookingWindowDays: 30);
+      UnitSettings sh() => settings(
+        mode: BookingMode.shared,
+        capacity: 4,
+        bookingWindowDays: 30,
+      );
       Slot at(List<Booking> b) =>
           slots(s: sh(), bookings: b).firstWhere((x) => x.start == nine);
 
@@ -222,7 +236,11 @@ void main() {
     test('only bookings that hold a place count', () {
       final now = cairo(2026, 11, 13, 6);
       final s = slots(
-        s: settings(mode: BookingMode.shared, capacity: 2, bookingWindowDays: 30),
+        s: settings(
+          mode: BookingMode.shared,
+          capacity: 2,
+          bookingWindowDays: 30,
+        ),
         now: now,
         bookings: [
           booking(start: nine, status: BookingStatus.cancelled),
@@ -256,7 +274,11 @@ void main() {
 
     test('seats of one booking count together', () {
       final s = slots(
-        s: settings(mode: BookingMode.shared, capacity: 4, bookingWindowDays: 30),
+        s: settings(
+          mode: BookingMode.shared,
+          capacity: 4,
+          bookingWindowDays: 30,
+        ),
         bookings: [booking(start: nine, seats: 3)],
       );
       expect(s.firstWhere((x) => x.start == nine).remaining, 1);
@@ -273,25 +295,26 @@ void main() {
       DateTime end, {
       List<Booking> bookings = const [],
       UnitSettings? s,
-    }) =>
-        service.checkRequest(
-          facility: hall,
-          unit: u,
-          hours: dailyHours('f1', open: 480, close: 1320),
-          closures: const [],
-          settings: s ?? cfg,
-          now: now,
-          start: start,
-          end: end,
-        );
+    }) => service.checkRequest(
+      facility: hall,
+      unit: u,
+      hours: dailyHours('f1', open: 480, close: 1320),
+      closures: const [],
+      settings: s ?? cfg,
+      now: now,
+      start: start,
+      end: end,
+    );
 
     test('a range within the limit is fine', () {
       expect(check(cairo(2026, 11, 14, 9), cairo(2026, 11, 14, 12)), isNull);
     });
 
     test('longer than maxRangeHours is refused', () {
-      expect(check(cairo(2026, 11, 14, 9), cairo(2026, 11, 14, 13)),
-          isA<RangeTooLong>());
+      expect(
+        check(cairo(2026, 11, 14, 9), cairo(2026, 11, 14, 13)),
+        isA<RangeTooLong>(),
+      );
     });
 
     test('a longer limit allows it', () {
@@ -306,13 +329,17 @@ void main() {
     });
 
     test('a range that is not a multiple of the granularity is refused', () {
-      expect(check(cairo(2026, 11, 14, 9), cairo(2026, 11, 14, 10, 30)),
-          isA<ClosedSlot>());
+      expect(
+        check(cairo(2026, 11, 14, 9), cairo(2026, 11, 14, 10, 30)),
+        isA<ClosedSlot>(),
+      );
     });
 
     test('a range outside opening hours is refused', () {
-      expect(check(cairo(2026, 11, 14, 7), cairo(2026, 11, 14, 9)),
-          isA<ClosedSlot>());
+      expect(
+        check(cairo(2026, 11, 14, 7), cairo(2026, 11, 14, 9)),
+        isA<ClosedSlot>(),
+      );
     });
 
     test('a range in the past is refused', () {
@@ -369,23 +396,28 @@ void main() {
 
     test('a paid facility accepts exactly one slot, not a longer range', () {
       Failure? paid(DateTime start, DateTime end) => service.checkRequest(
-            facility: f,
-            unit: u,
-            hours: dailyHours('f1'),
-            closures: const [],
-            settings: cfg,
-            now: now,
-            start: start,
-            end: end,
-          );
+        facility: f,
+        unit: u,
+        hours: dailyHours('f1'),
+        closures: const [],
+        settings: cfg,
+        now: now,
+        start: start,
+        end: end,
+      );
       expect(paid(cairo(2026, 11, 14, 9), cairo(2026, 11, 14, 10)), isNull);
-      expect(paid(cairo(2026, 11, 14, 9), cairo(2026, 11, 14, 11)),
-          isA<RangeTooLong>());
+      expect(
+        paid(cairo(2026, 11, 14, 9), cairo(2026, 11, 14, 11)),
+        isA<RangeTooLong>(),
+      );
     });
   });
 
   group('trainer sessions (BR-09)', () {
-    final academy = facility(requiresTrainer: true, type: FacilityType.training);
+    final academy = facility(
+      requiresTrainer: true,
+      type: FacilityType.training,
+    );
     const t = Trainer(
       id: 't1',
       userId: 'tu1',
@@ -408,7 +440,11 @@ void main() {
         fac: academy,
         trainer: t,
         trainerAvailability: avail,
-        s: settings(mode: BookingMode.shared, capacity: 8, bookingWindowDays: 30),
+        s: settings(
+          mode: BookingMode.shared,
+          capacity: 8,
+          bookingWindowDays: 30,
+        ),
       );
       expect(s.map((x) => x.start), [
         cairo(2026, 11, 14, 10),
@@ -418,15 +454,15 @@ void main() {
 
     test('capacity is the smaller of the unit and the trainer', () {
       List<Slot> with_(int unitCap) => slots(
-            fac: academy,
-            trainer: t,
-            trainerAvailability: avail,
-            s: settings(
-              mode: BookingMode.shared,
-              capacity: unitCap,
-              bookingWindowDays: 30,
-            ),
-          );
+        fac: academy,
+        trainer: t,
+        trainerAvailability: avail,
+        s: settings(
+          mode: BookingMode.shared,
+          capacity: unitCap,
+          bookingWindowDays: 30,
+        ),
+      );
       expect(with_(8).first.capacity, 3); // trainer is the limit
       expect(with_(2).first.capacity, 2); // unit is the limit
     });
@@ -437,8 +473,14 @@ void main() {
         fac: academy,
         trainer: t,
         trainerAvailability: avail,
-        s: settings(mode: BookingMode.shared, capacity: 8, bookingWindowDays: 30),
-        bookings: [for (var i = 0; i < 3; i++) booking(start: ten, trainerId: 't1')],
+        s: settings(
+          mode: BookingMode.shared,
+          capacity: 8,
+          bookingWindowDays: 30,
+        ),
+        bookings: [
+          for (var i = 0; i < 3; i++) booking(start: ten, trainerId: 't1'),
+        ],
       );
       expect(s.first.state, SlotState.full);
       expect(s[1].state, SlotState.available);
@@ -485,7 +527,9 @@ void main() {
     );
     expect(s, hasLength(4));
     expect(s.first.start, cairo(2026, 4, 24, 8));
-    expect(s.every((x) => x.end.difference(x.start) == const Duration(hours: 1)),
-        isTrue);
+    expect(
+      s.every((x) => x.end.difference(x.start) == const Duration(hours: 1)),
+      isTrue,
+    );
   });
 }

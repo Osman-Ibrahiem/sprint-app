@@ -104,30 +104,31 @@ void main() {
     expect(find.byType(ScheduleScreen), findsOneWidget);
   });
 
-  testWidgets('a signed-in person reaches the summary, and the old checkout address lands there', (
-    tester,
-  ) async {
-    await pumpSprintApp(tester);
-    await containerOf(tester)
-        .read(sessionProvider.notifier)
-        .actAs(SeedIds.bookerInternal);
-    await tester.pumpAndSettle();
+  testWidgets(
+    'a signed-in person reaches the summary, and the old checkout address lands there',
+    (tester) async {
+      await pumpSprintApp(tester);
+      await containerOf(tester)
+          .read(sessionProvider.notifier)
+          .actAs(SeedIds.bookerInternal);
+      await tester.pumpAndSettle();
 
-    routerOf(tester).go(AppPaths.bookingSummary(pool, selection, shown: 20));
-    await tester.pumpAndSettle();
-    expect(
-      currentPath(tester),
-      AppPaths.bookingSummary(pool, selection).split('?').first,
-    );
+      routerOf(tester).go(AppPaths.bookingSummary(pool, selection, shown: 20));
+      await tester.pumpAndSettle();
+      expect(
+        currentPath(tester),
+        AppPaths.bookingSummary(pool, selection).split('?').first,
+      );
 
-    // 005's checkout address now lands on the summary (feature 006).
-    routerOf(tester).go(AppPaths.bookingCheckout(pool, selection));
-    await tester.pumpAndSettle();
-    expect(
-      currentPath(tester),
-      AppPaths.bookingSummary(pool, selection).split('?').first,
-    );
-  });
+      // 005's checkout address now lands on the summary (feature 006).
+      routerOf(tester).go(AppPaths.bookingCheckout(pool, selection));
+      await tester.pumpAndSettle();
+      expect(
+        currentPath(tester),
+        AppPaths.bookingSummary(pool, selection).split('?').first,
+      );
+    },
+  );
 
   testWidgets(
     'at a medium width the schedule sits in the pane beside the list',
