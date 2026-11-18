@@ -13,7 +13,7 @@
 
 ## Requirement Completeness
 
-- [ ] No [NEEDS CLARIFICATION] markers remain (2 remain: Account "الإشعارات" row; past-list actions. Resolved in `/speckit-clarify`)
+- [x] No [NEEDS CLARIFICATION] markers remain
 - [x] Requirements are testable and unambiguous
 - [x] Success criteria are measurable
 - [x] Success criteria are technology-agnostic (no implementation details)
@@ -32,4 +32,3 @@
 ## Notes
 
 - Existing component names (`BookingTicket`, `StatusBadge`, `NotificationBell`...) appear only as pointers to the design pack, as in specs 004 to 006.
-- The two open markers have written defaults; clarify asks Osman.

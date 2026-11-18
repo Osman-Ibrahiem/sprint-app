@@ -29,6 +29,12 @@ These are settled with Osman on 2026-11-18 (see `docs/decisions.md`) and are not
 - **Booking codes** are `SP-1xxx` everywhere (decisions of 2026-11-17); Figma's older samples are examples only.
 - **Where a string differs between Figma and the design pack,** the design pack wins; where the design pack is silent, `docs/design-system/README.md` copy rules apply.
 
+## Clarifications
+
+### Session 2026-11-18
+
+- Q: What does the Account row "الإشعارات" (shown with the value "مفعّلة") do? → A: It shows "مفعّلة" or "متوقفة" from the simulated permission answer stored on the device, and tapping it opens the same permission dialog to change the answer. The notifications centre, the bell and the badge are not affected by it (in-app records are always kept).
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - See my bookings, upcoming and past (Priority: P1)
@@ -264,7 +270,7 @@ Every new screen works on compact, medium, expanded and large windows, in Arabic
 - **FR-018**: On compact windows a bell with an unread badge MUST appear in the header of the four root screens for a signed-in booker; on medium and larger windows notifications MUST be a destination with the badge; a guest MUST have neither. The badge MUST hide at zero and while loading, and cap at 99+.
 - **FR-019**: Reminders MUST be created by a checker that runs on app open, every 60 seconds while open and on return from the background; it MUST create at most one reminder per confirmed booking, when the booking enters the `reminderLeadMinutes` window, and none for bookings no longer confirmed.
 - **FR-020**: A reminder's cancel action MUST be decided at display time from the booking's current state and the cutoff (BR-40); after the cutoff, or if the booking is no longer confirmed, the action MUST be absent and tapping MUST open the booking.
-- **FR-021**: The notification permission dialog MUST appear once, simulate the choice, and store it on the device.
+- **FR-021**: The notification permission dialog MUST appear once, simulate the choice, and store it on the device; the Account row "الإشعارات" MUST show that stored answer ("مفعّلة" or "متوقفة") and reopen the same dialog to change it, without affecting the centre, the bell or the badge.
 - **FR-022**: `/demo` MUST offer an action that brings the next confirmed booking into the reminder window and one that cancels a chosen booking as the facility, both reset with the demo data.
 
 **Account and profile**
@@ -341,5 +347,4 @@ This feature is UI-first on mock data. These are explicitly not part of it:
 - **Photo storage** is on the device with the demo data; the file is downscaled and compressed.
 - **Notification display time** uses the demo clock when the demo moves it.
 - **`FR-CAT-05`, BR-48, the FR-MYB-03 edit rule, the verification notification kinds, and the US-13/US-14 additions** are written into `docs/BRD.md` and `docs/decisions.md` in this PR.
-- **[NEEDS CLARIFICATION: Account row "الإشعارات"]** Figma's Account shows a "الإشعارات" row. Is it a link to the centre, or a switch that turns in-app notifications on and off (which would change what the centre and the badge show)? Default if unanswered: a link to the centre, no switch.
 - **[NEEDS CLARIFICATION: Cancelling a booking in the past list]** A booking that ended without attendance can never be cancelled; confirm there is no "report a problem" action here. Default if unanswered: none, out of scope.
