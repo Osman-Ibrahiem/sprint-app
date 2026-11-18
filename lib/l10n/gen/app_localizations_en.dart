@@ -2473,4 +2473,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navNotifications => 'Notifications';
+
+  @override
+  String get catalogueFacilitiesTitle => 'All facilities';
 }

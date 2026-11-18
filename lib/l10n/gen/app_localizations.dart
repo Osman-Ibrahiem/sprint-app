@@ -4132,6 +4132,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الإشعارات'**
   String get navNotifications;
+
+  /// No description provided for @catalogueFacilitiesTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل المنشآت'**
+  String get catalogueFacilitiesTitle;
 }
 
 class _AppLocalizationsDelegate

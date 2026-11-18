@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/router/routes.dart';
+import 'package:sprint/app/shell/root_header.dart';
 import 'package:sprint/core/adaptive/adaptive_pressable.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
@@ -46,9 +47,8 @@ class HomeScreen extends ConsumerWidget {
           bottom: SprintSpacing.space8,
         ),
         children: [
-          Semantics(
-            header: true,
-            child: Text(l10n.catalogueHomeTitle, style: context.text.display),
+          RootHeader(
+            title: Text(l10n.catalogueHomeTitle, style: context.text.display),
           ),
           if (session.isGuest) ...[
             const SizedBox(height: SprintSpacing.space2),

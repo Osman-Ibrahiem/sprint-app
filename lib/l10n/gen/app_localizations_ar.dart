@@ -2455,4 +2455,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get navNotifications => 'الإشعارات';
+
+  @override
+  String get catalogueFacilitiesTitle => 'كل المنشآت';
 }

@@ -1475,5 +1475,6 @@
   "gallery007SampleSearch": "Search",
   "gallery007SampleSearchCancel": "Cancel",
   "gallery007SampleEmailLabel": "Email",
-  "navNotifications": "Notifications"
+  "navNotifications": "Notifications",
+  "catalogueFacilitiesTitle": "All facilities"
 }

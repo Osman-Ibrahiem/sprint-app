@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/router/routes.dart';
+import 'package:sprint/app/shell/root_header.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
@@ -86,6 +87,21 @@ class _FacilityListViewState extends ConsumerState<FacilityListView> {
           child: CustomScrollView(
             controller: _controller,
             slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.only(
+                    start: SprintSpacing.space4,
+                    end: SprintSpacing.space4,
+                    top: SprintSpacing.space4,
+                  ),
+                  child: RootHeader(
+                    title: Text(
+                      AppLocalizations.of(context).catalogueFacilitiesTitle,
+                      style: context.text.title,
+                    ),
+                  ),
+                ),
+              ),
               const SliverToBoxAdapter(child: FacilityFilterBar()),
               ...switch (summaries) {
                 AsyncData(:final value) when value.isEmpty => [
