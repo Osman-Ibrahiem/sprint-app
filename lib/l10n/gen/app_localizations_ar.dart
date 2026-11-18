@@ -2387,4 +2387,69 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get dialogConfirmDestructive => 'تأكيد';
+
+  @override
+  String get gallery007Section => 'جزء حجوزاتي والإشعارات والحساب';
+
+  @override
+  String get gallery007SampleTitle => 'تم تأكيد حجزك';
+
+  @override
+  String get gallery007SampleBody => 'حمام السباحة الأولمبي · حارة 2';
+
+  @override
+  String get gallery007SampleTime => '4:00 م';
+
+  @override
+  String get gallery007SampleDate => 'الخميس 12 نوفمبر · 6:00 – 8:00 م';
+
+  @override
+  String get gallery007SampleAction => 'عرض التذكرة';
+
+  @override
+  String get gallery007SampleUpcoming => 'الجاية (3)';
+
+  @override
+  String get gallery007SamplePast => 'اللي فاتت';
+
+  @override
+  String get gallery007SampleLanguage => 'اللغة';
+
+  @override
+  String get gallery007SampleLanguageValue => 'العربية';
+
+  @override
+  String get gallery007SampleSignOut => 'تسجيل الخروج';
+
+  @override
+  String get gallery007SampleName => 'منى سالم';
+
+  @override
+  String get gallery007SampleLockedHelper =>
+      'مربوط بتسجيل الدخول ومش بيتعدل من هنا';
+
+  @override
+  String get gallery007SampleBanner =>
+      'الحجز اتلغى. الفلوس هترجع على نفس وسيلة الدفع.';
+
+  @override
+  String get gallery007OpenDialog => 'فتح نافذة التأكيد';
+
+  @override
+  String get gallery007DialogTitle => 'إلغاء الحجز؟';
+
+  @override
+  String get gallery007DialogBack => 'الرجوع';
+
+  @override
+  String get gallery007OpenPopover => 'فتح القائمة';
+
+  @override
+  String get gallery007SampleSearch => 'بحث';
+
+  @override
+  String get gallery007SampleSearchCancel => 'إلغاء';
+
+  @override
+  String get gallery007SampleEmailLabel => 'الإيميل';
 }

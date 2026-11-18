@@ -4000,6 +4000,132 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تأكيد'**
   String get dialogConfirmDestructive;
+
+  /// No description provided for @gallery007Section.
+  ///
+  /// In ar, this message translates to:
+  /// **'جزء حجوزاتي والإشعارات والحساب'**
+  String get gallery007Section;
+
+  /// No description provided for @gallery007SampleTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تأكيد حجزك'**
+  String get gallery007SampleTitle;
+
+  /// No description provided for @gallery007SampleBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'حمام السباحة الأولمبي · حارة 2'**
+  String get gallery007SampleBody;
+
+  /// No description provided for @gallery007SampleTime.
+  ///
+  /// In ar, this message translates to:
+  /// **'4:00 م'**
+  String get gallery007SampleTime;
+
+  /// No description provided for @gallery007SampleDate.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخميس 12 نوفمبر · 6:00 – 8:00 م'**
+  String get gallery007SampleDate;
+
+  /// No description provided for @gallery007SampleAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض التذكرة'**
+  String get gallery007SampleAction;
+
+  /// No description provided for @gallery007SampleUpcoming.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجاية (3)'**
+  String get gallery007SampleUpcoming;
+
+  /// No description provided for @gallery007SamplePast.
+  ///
+  /// In ar, this message translates to:
+  /// **'اللي فاتت'**
+  String get gallery007SamplePast;
+
+  /// No description provided for @gallery007SampleLanguage.
+  ///
+  /// In ar, this message translates to:
+  /// **'اللغة'**
+  String get gallery007SampleLanguage;
+
+  /// No description provided for @gallery007SampleLanguageValue.
+  ///
+  /// In ar, this message translates to:
+  /// **'العربية'**
+  String get gallery007SampleLanguageValue;
+
+  /// No description provided for @gallery007SampleSignOut.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الخروج'**
+  String get gallery007SampleSignOut;
+
+  /// No description provided for @gallery007SampleName.
+  ///
+  /// In ar, this message translates to:
+  /// **'منى سالم'**
+  String get gallery007SampleName;
+
+  /// No description provided for @gallery007SampleLockedHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'مربوط بتسجيل الدخول ومش بيتعدل من هنا'**
+  String get gallery007SampleLockedHelper;
+
+  /// No description provided for @gallery007SampleBanner.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز اتلغى. الفلوس هترجع على نفس وسيلة الدفع.'**
+  String get gallery007SampleBanner;
+
+  /// No description provided for @gallery007OpenDialog.
+  ///
+  /// In ar, this message translates to:
+  /// **'فتح نافذة التأكيد'**
+  String get gallery007OpenDialog;
+
+  /// No description provided for @gallery007DialogTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء الحجز؟'**
+  String get gallery007DialogTitle;
+
+  /// No description provided for @gallery007DialogBack.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرجوع'**
+  String get gallery007DialogBack;
+
+  /// No description provided for @gallery007OpenPopover.
+  ///
+  /// In ar, this message translates to:
+  /// **'فتح القائمة'**
+  String get gallery007OpenPopover;
+
+  /// No description provided for @gallery007SampleSearch.
+  ///
+  /// In ar, this message translates to:
+  /// **'بحث'**
+  String get gallery007SampleSearch;
+
+  /// No description provided for @gallery007SampleSearchCancel.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء'**
+  String get gallery007SampleSearchCancel;
+
+  /// No description provided for @gallery007SampleEmailLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيميل'**
+  String get gallery007SampleEmailLabel;
 }
 
 class _AppLocalizationsDelegate

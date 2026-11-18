@@ -2405,4 +2405,69 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dialogConfirmDestructive => 'Confirm';
+
+  @override
+  String get gallery007Section => 'My bookings, notifications and account';
+
+  @override
+  String get gallery007SampleTitle => 'Your booking is confirmed';
+
+  @override
+  String get gallery007SampleBody => 'Olympic pool · lane 2';
+
+  @override
+  String get gallery007SampleTime => '4:00 PM';
+
+  @override
+  String get gallery007SampleDate => 'Thu 12 Nov · 6:00 – 8:00 PM';
+
+  @override
+  String get gallery007SampleAction => 'View ticket';
+
+  @override
+  String get gallery007SampleUpcoming => 'Upcoming (3)';
+
+  @override
+  String get gallery007SamplePast => 'Past';
+
+  @override
+  String get gallery007SampleLanguage => 'Language';
+
+  @override
+  String get gallery007SampleLanguageValue => 'Arabic';
+
+  @override
+  String get gallery007SampleSignOut => 'Sign out';
+
+  @override
+  String get gallery007SampleName => 'Mona Salem';
+
+  @override
+  String get gallery007SampleLockedHelper =>
+      'Linked to your sign-in, not editable here';
+
+  @override
+  String get gallery007SampleBanner =>
+      'Booking cancelled. The money goes back to the same payment method.';
+
+  @override
+  String get gallery007OpenDialog => 'Open the confirm dialog';
+
+  @override
+  String get gallery007DialogTitle => 'Cancel this booking?';
+
+  @override
+  String get gallery007DialogBack => 'Back';
+
+  @override
+  String get gallery007OpenPopover => 'Open the menu';
+
+  @override
+  String get gallery007SampleSearch => 'Search';
+
+  @override
+  String get gallery007SampleSearchCancel => 'Cancel';
+
+  @override
+  String get gallery007SampleEmailLabel => 'Email';
 }
