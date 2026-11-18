@@ -11,6 +11,7 @@ import 'package:sprint/features/booking/domain/availability_service.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/domain/booking_quote.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
+import 'package:sprint/features/booking/domain/cancel_preview.dart';
 import 'package:sprint/features/booking/domain/cancellation_policy.dart';
 import 'package:sprint/features/booking/domain/conflict_checker.dart';
 import 'package:sprint/features/booking/domain/hold_policy.dart';
@@ -583,6 +584,10 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
       _serial(() => _cancel(id, actorUserId, reason));
 
   Future<Result<Booking>> _cancel(String id, String actorId, String? reason) async {
+    // A Hold that ran out is expired first, so cancelling it reports the
+    // state it is really in (BR-12, BR-48).
+    await _applyHolds();
+
     final b = _bookings[id];
     if (b == null) return const Err(NotFound('booking'));
 
@@ -595,29 +600,31 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
     if (!isOwner && !isAdmin) return const Err(NotPermitted());
     final by = isOwner ? CancelledBy.owner : CancelledBy.admin;
 
-    final cfg = await _settingsFor(b);
-    final paid = (await payments.payments(b.id))
+    // Idempotent: a second call returns the cancelled booking and writes
+    // nothing more (contracts/repositories.md).
+    if (b.status == BookingStatus.cancelled) return Ok(b);
+
+    final preview = await _previewFor(b, by);
+    switch (preview.kind) {
+      case CancelKind.closed:
+        return const Err(CancellationClosed());
+      case CancelKind.notAllowed:
+        return const Err(InvalidTransition());
+      default:
+        break;
+    }
+
+    final succeeded = (await payments.payments(b.id))
         .where((p) => p.status == PaymentStatus.succeeded)
         .toList();
-    final paidAmount = paid.fold<int>(0, (sum, p) => sum + p.amount);
-
-    final decision = cancellation.decide(
-      booking: b,
-      now: clock.now(),
-      by: by,
-      cutoffHours: cfg.cancellationCutoffHours,
-      refundPercent: cfg.refundPercent,
-      paidAmount: paidAmount,
-    );
-    if (decision is Err<CancellationDecision>) return Err(decision.failure);
-    final refundAmount = (decision as Ok<CancellationDecision>).value.refundAmount;
-
-    final cancelled = (b.cancel(by, reason: reason) as Ok<Booking>).value;
+    final now = clock.now();
+    final cancelled =
+        (b.cancel(by, reason: reason, at: now) as Ok<Booking>).value;
     _bookings[id] = cancelled;
 
-    if (refundAmount > 0 && paid.isNotEmpty) {
-      final payment = paid.first;
-      final result = await paymentProvider.refund(payment, refundAmount);
+    if (preview.refundAmount > 0 && succeeded.isNotEmpty) {
+      final payment = succeeded.first;
+      final result = await paymentProvider.refund(payment, preview.refundAmount);
       await payments.saveRefund(
         Refund(
           id: 'rf-${payment.id}',
@@ -628,11 +635,67 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
         ),
       );
     }
-    if (by == CancelledBy.admin) {
-      await _notify(b.userId, 'booking.cancelled_by_admin', cancelled); // BR-41
-    }
+
+    // BR-32, BR-41, BR-48: the facility cancel notifies the owner; the owner's
+    // own cancel is written already read ("cancelled by me").
+    await _notify(
+      cancelled.userId,
+      by == CancelledBy.admin
+          ? 'booking.cancelled_by_admin'
+          : 'booking.cancelled_by_owner',
+      cancelled,
+      extra: {'amount': '${preview.refundAmount}'},
+      markRead: by == CancelledBy.owner,
+    );
     return Ok(cancelled);
   }
+
+  @override
+  Future<CancelPreview> previewCancel(String id, String actorUserId) => _serial(
+        () async {
+          final b = _bookings[id];
+          if (b == null) return _noPreview();
+          final isOwner = b.userId == actorUserId;
+          final isAdmin = permissions.can(
+            await _subject(actorUserId),
+            AppAction.cancelAsAdmin,
+            await _target(b),
+          );
+          if (!isOwner && !isAdmin) return _noPreview(booking: b);
+          return _previewFor(
+            b,
+            isOwner ? CancelledBy.owner : CancelledBy.admin,
+          );
+        },
+        notify: false,
+      );
+
+  /// The one preview [cancel] acts on (BR-30 – BR-32, BR-47, BR-48), with the
+  /// settings and the paid amount resolved from the repositories.
+  Future<CancelPreview> _previewFor(Booking b, CancelledBy by) async {
+    final cfg = await _settingsFor(b);
+    final paidAmount = (await payments.payments(b.id))
+        .where((p) => p.status == PaymentStatus.succeeded)
+        .fold<int>(0, (sum, p) => sum + p.amount);
+    final latest = await payments.latestPayment(b.id);
+    return cancellation.preview(
+      booking: b,
+      now: clock.now(),
+      by: by,
+      cutoffHours: cfg.cancellationCutoffHours,
+      refundPercent: cfg.refundPercent,
+      paidAmount: paidAmount,
+      paymentPending: latest?.status == PaymentStatus.pending,
+    );
+  }
+
+  CancelPreview _noPreview({Booking? booking}) => CancelPreview(
+        kind: CancelKind.notAllowed,
+        paidAmount: 0,
+        refundAmount: 0,
+        refundPercent: 0,
+        cancelUntil: booking?.start ?? DateTime.fromMillisecondsSinceEpoch(0, isUtc: true),
+      );
 
   // ------------------------------------------------------------- attendance
 
@@ -769,16 +832,20 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
     String type,
     Booking b, {
     Map<String, String> extra = const {},
-  }) =>
-      notifications.push(
-        Notification(
-          id: 'nt-${clock.now().microsecondsSinceEpoch}-${b.id}-$type',
-          userId: userId,
-          type: type,
-          payload: {'code': b.code, ...extra},
-          sentAt: clock.now(),
-        ),
-      );
+    bool markRead = false,
+  }) {
+    final now = clock.now();
+    return notifications.push(
+      Notification(
+        id: 'nt-${now.microsecondsSinceEpoch}-${b.id}-$type',
+        userId: userId,
+        type: type,
+        payload: {'bookingId': b.id, 'code': b.code, ...extra},
+        sentAt: now,
+        readAt: markRead ? now : null,
+      ),
+    );
+  }
 
   // ------------------------------------------------------------------ BR-04
 
