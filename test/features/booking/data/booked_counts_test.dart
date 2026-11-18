@@ -4,7 +4,6 @@ import 'package:sprint/features/attendance/domain/attendance.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
 import 'package:sprint/features/payments/data/fake_gateway_controller.dart';
-import 'package:sprint/features/payments/domain/payment_provider.dart';
 
 import '../../../helpers/data_env.dart';
 

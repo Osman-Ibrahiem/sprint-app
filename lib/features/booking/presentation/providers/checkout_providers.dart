@@ -240,10 +240,12 @@ Future<Receipt?> receipt(Ref ref, String bookingId) async {
   return Receipt.fromPayment(paid, b, facility, unit);
 }
 
-/// Keeps Holds honest while the app is open, also off the checkout screen
-/// (FR-004): one timer, set for the earliest Hold of the signed-in person's
-/// pending bookings, that asks the repository to apply the Hold rule (expire,
-/// or extend while a payment is pending, BR-12, BR-46) and then re-arms.
+/// Keeps Holds and no-shows honest while the app is open, also off the
+/// checkout screen (FR-004, BR-37): one timer, set for the earliest Hold of the
+/// signed-in person's pending bookings or the end of their confirmed ones,
+/// that asks the repository to apply the Hold rule (expire, or extend while a
+/// payment is pending, BR-12, BR-46) and mark finished bookings as no-shows,
+/// then re-arms.
 @Riverpod(keepAlive: true)
 bool holdHousekeeping(Ref ref) {
   final user = ref.watch(currentSessionProvider).user;
@@ -254,24 +256,34 @@ bool holdHousekeeping(Ref ref) {
   Timer? timer;
   var disposed = false;
 
+  late final Future<void> Function() run;
+
   Future<void> arm() async {
     timer?.cancel();
     final mine = await bookings.listForUser(user.id);
     if (disposed) return;
     DateTime? next;
     for (final b in mine) {
-      final at = b.holdExpiresAt;
-      if (b.status == BookingStatus.pendingPayment &&
-          at != null &&
-          (next == null || at.isBefore(next))) {
-        next = at;
+      final at = b.status == BookingStatus.pendingPayment
+          ? b.holdExpiresAt
+          : b.status == BookingStatus.confirmed
+              ? b.end
+              : null;
+      if (at != null && at.isAfter(clock.now())) {
+        if (next == null || at.isBefore(next)) next = at;
       }
     }
     if (next == null) return;
     var wait = next.difference(clock.now());
     if (wait < SprintExtras.countdownTick) wait = SprintExtras.countdownTick;
-    timer = Timer(wait, () => unawaited(bookings.expireHolds()));
+    timer = Timer(wait, () => unawaited(run()));
   }
+
+  run = () async {
+    await bookings.expireHolds();
+    await bookings.markNoShows();
+    await arm();
+  };
 
   final sub = bookings.changes.listen((_) => unawaited(arm()));
   unawaited(arm());
