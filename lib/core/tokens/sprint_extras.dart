@@ -110,6 +110,25 @@ abstract final class SprintExtras {
   /// (research R14): a presentation timing, not a BRD setting.
   static const Duration checkoutProcessingWait = Duration(seconds: 20);
 
+  /// The success moment's stand-in (design: tile 88 in a ring 128 in a disc 160).
+  /// The widest share of a label-and-value row a label may take (the value
+  /// takes the rest), so values stay on one line where they fit.
+  static const double rowLabelShare = 0.45;
+
+  /// The hourglass disc of the waiting and expired states (design: 96, icon 40).
+  static const double stateDisc = 96;
+  static const double stateDiscIcon = 40;
+
+  static const double momentOuter = 160;
+  static const double momentFailureIcon = 72;
+  static const double momentBadge = 44;
+  static const double momentBadgeInset = 8;
+
+  /// The loader on the processing screen (design: a ring of about 72).
+  static const double processingLoader = 72;
+  static const double momentRing = 128;
+  static const double momentTile = 88;
+
   static const double confirmationColumn = 358;
   static const double confirmationGap = 48;
 

@@ -7,11 +7,13 @@ import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/adaptive/adaptive_app_bar.dart';
 import 'package:sprint/core/adaptive/adaptive_back_button.dart';
 import 'package:sprint/core/l10n/ltr_isolate.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 import 'package:sprint/core/l10n/sprint_format.dart';
 import 'package:sprint/core/motion/skeleton.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
+import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/features/booking/presentation/providers/checkout_providers.dart';
@@ -45,9 +47,8 @@ class _ReceiptScreenState extends ConsumerState<ReceiptScreen> {
   bool _saving = false;
 
   void _say(String text) {
-    ScaffoldMessenger.maybeOf(
-      context,
-    )?.showSnackBar(SnackBar(content: Text(text)));
+    ScaffoldMessenger.maybeOf(context)
+        ?.showSnackBar(SnackBar(content: Text(text)));
     SemanticsService.sendAnnouncement(
       View.of(context),
       text,
@@ -174,31 +175,6 @@ class _Body extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
           children: [
-            Semantics(
-              header: true,
-              child: Text(doc.title, style: context.text.titleLg),
-            ),
-            if (doc.isTest) ...[
-              const SizedBox(height: SprintSpacing.space2),
-              Container(
-                key: ReceiptScreen.testTagKey,
-                padding: const EdgeInsetsDirectional.symmetric(
-                  horizontal: SprintSpacing.space3,
-                  vertical: SprintSpacing.space1,
-                ),
-                decoration: BoxDecoration(
-                  color: colors.primarySoft,
-                  borderRadius: SprintRadius.fullBorder,
-                ),
-                child: Text(
-                  doc.testTag,
-                  style: context.text.caption.copyWith(
-                    color: colors.onPrimarySoft,
-                  ),
-                ),
-              ),
-            ],
-            const SizedBox(height: SprintSpacing.space4),
             Container(
               padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
               decoration: BoxDecoration(
@@ -207,7 +183,13 @@ class _Body extends StatelessWidget {
                 border: Border.all(color: colors.line),
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  Semantics(
+                    header: true,
+                    child: Text(doc.title, style: context.text.title),
+                  ),
+                  const SizedBox(height: SprintSpacing.space3),
                   for (final (label, value) in doc.rows)
                     _Row(
                       label: label,
@@ -217,20 +199,57 @@ class _Body extends StatelessWidget {
                           ? ReceiptScreen.numberKey
                           : null,
                     ),
-                  const Divider(),
-                  _Row(
-                    label: doc.totalLabel,
-                    value: doc.total,
-                    strong: true,
+                  Divider(
+                    height: SprintSpacing.space4,
+                    thickness: SprintExtras.hairlineWidth,
+                    color: colors.line,
                   ),
+                  _Row(label: doc.totalLabel, value: doc.total, strong: true),
                 ],
               ),
             ),
+            if (doc.isTest) ...[
+              const SizedBox(height: SprintSpacing.space3),
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Container(
+                  key: ReceiptScreen.testTagKey,
+                  padding: const EdgeInsetsDirectional.symmetric(
+                    horizontal: SprintSpacing.space3,
+                    vertical: SprintSpacing.space1,
+                  ),
+                  decoration: BoxDecoration(
+                    color: colors.primarySoft,
+                    borderRadius: SprintRadius.fullBorder,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SprintIcon(
+                        PhosphorIconsRegular.info,
+                        size: SprintSize.iconSm,
+                        color: colors.onPrimarySoft,
+                      ),
+                      const SizedBox(width: SprintSpacing.space1),
+                      Flexible(
+                        child: Text(
+                          doc.testTag,
+                          style: context.text.caption.copyWith(
+                            color: colors.onPrimarySoft,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
             const SizedBox(height: SprintSpacing.space6),
             SprintButton(
               key: ReceiptScreen.saveKey,
               label: l10n.receiptSave,
               loading: saving,
+              expand: true,
               onPressed: saving ? null : () => onSave(doc),
             ),
             const SizedBox(height: SprintSpacing.space2),
@@ -238,6 +257,7 @@ class _Body extends StatelessWidget {
               key: ReceiptScreen.shareKey,
               label: l10n.receiptShare,
               variant: SprintButtonVariant.ghost,
+              expand: true,
               onPressed: () => onShare(doc),
             ),
           ],
@@ -278,18 +298,31 @@ class _Row extends StatelessWidget {
         container: true,
         label: '$label: $value',
         child: ExcludeSemantics(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Text(
-                  label,
-                  style: context.text.body.copyWith(color: colors.inkMuted),
-                ),
-              ),
-              const SizedBox(width: SprintSpacing.space3),
-              Flexible(child: isolate ? LtrIsolate(child: text) : text),
-            ],
+          child: LayoutBuilder(
+            builder: (context, box) {
+              // The label keeps its own width up to under half the row, so the
+              // value gets the rest instead of an even split.
+              final labelMax = box.maxWidth * SprintExtras.rowLabelShare;
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: labelMax),
+                    child: Text(
+                      label,
+                      style: context.text.body.copyWith(color: colors.inkMuted),
+                    ),
+                  ),
+                  const SizedBox(width: SprintSpacing.space3),
+                  Expanded(
+                    child: Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: isolate ? LtrIsolate(child: text) : text,
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),

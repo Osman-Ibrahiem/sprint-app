@@ -8,7 +8,7 @@ import 'package:sprint/core/widgets/status_badge/status_badge.dart';
 import 'package:sprint/features/booking/domain/booking_summary_view.dart';
 
 /// The booking in one card, for the processing, awaiting and expired states:
-/// where and when, the price, a status badge and an optional line (such as the
+/// where and when, a status badge and an optional line (such as the
 /// time left on the Hold).
 class CheckoutBookingCard extends StatelessWidget {
   const CheckoutBookingCard({
@@ -50,12 +50,17 @@ class CheckoutBookingCard extends StatelessWidget {
             ],
           ),
           Text(
-            '${view.unitName} · ${format.date(view.start)} · '
-            '${format.time(view.start)} – ${format.time(view.end)}',
+            view.trainerName == null
+                ? view.unitName
+                : '${view.unitName} · ${view.trainerName}',
             style: context.text.body.copyWith(color: colors.inkMuted),
           ),
           const SizedBox(height: SprintSpacing.space1),
-          Text(format.price(view.amount), style: context.text.bodyStrong),
+          Text(
+            '${format.date(view.start)} · '
+            '${format.time(view.start)} – ${format.time(view.end)}',
+            style: context.text.body,
+          ),
           if (footer != null) ...[
             const SizedBox(height: SprintSpacing.space2),
             Text(

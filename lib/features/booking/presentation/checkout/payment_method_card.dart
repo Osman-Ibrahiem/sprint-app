@@ -44,7 +44,10 @@ class PaymentMethodCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(l10n.checkoutMethodTitle, style: context.text.bodyStrong),
+                    Text(
+                      l10n.checkoutMethodTitle,
+                      style: context.text.bodyStrong,
+                    ),
                     Text(
                       l10n.checkoutMethodSubtitle,
                       style: context.text.body.copyWith(color: colors.inkMuted),
@@ -56,19 +59,37 @@ class PaymentMethodCard extends StatelessWidget {
           ),
           if (showTestTag) ...[
             const SizedBox(height: SprintSpacing.space3),
-            Container(
-              key: testTagKey,
-              padding: const EdgeInsetsDirectional.symmetric(
-                horizontal: SprintSpacing.space3,
-                vertical: SprintSpacing.space1,
-              ),
-              decoration: BoxDecoration(
-                color: colors.primarySoft,
-                borderRadius: SprintRadius.fullBorder,
-              ),
-              child: Text(
-                l10n.checkoutSandboxTag,
-                style: context.text.caption.copyWith(color: colors.onPrimarySoft),
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: Container(
+                key: testTagKey,
+                padding: const EdgeInsetsDirectional.symmetric(
+                  horizontal: SprintSpacing.space3,
+                  vertical: SprintSpacing.space1,
+                ),
+                decoration: BoxDecoration(
+                  color: colors.primarySoft,
+                  borderRadius: SprintRadius.fullBorder,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SprintIcon(
+                      PhosphorIconsRegular.info,
+                      size: SprintSize.iconSm,
+                      color: colors.onPrimarySoft,
+                    ),
+                    const SizedBox(width: SprintSpacing.space1),
+                    Flexible(
+                      child: Text(
+                        l10n.checkoutSandboxTag,
+                        style: context.text.caption.copyWith(
+                          color: colors.onPrimarySoft,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

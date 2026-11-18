@@ -10,6 +10,7 @@ import 'package:sprint/core/widgets/status_badge/sprint_status.dart';
 import 'package:sprint/features/booking/domain/booking_summary_view.dart';
 import 'package:sprint/features/booking/presentation/checkout/checkout_booking_card.dart';
 import 'package:sprint/features/booking/presentation/checkout/countdown_text.dart';
+import 'package:sprint/features/booking/presentation/checkout/state_icon_disc.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// "لسه مستنيين تأكيد الدفع": processing took longer than the wait. The place
@@ -42,7 +43,8 @@ class AwaitingView extends StatelessWidget {
       children: [
         AdaptiveAppBar(title: l10n.checkoutTitle),
         Expanded(
-          child: Center(
+          child: Align(
+            alignment: Alignment.topCenter,
             child: SingleChildScrollView(
               padding: const EdgeInsetsDirectional.all(SprintSpacing.space6),
               child: ConstrainedBox(
@@ -53,12 +55,14 @@ class AwaitingView extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    const StateIconDisc(),
+                    const SizedBox(height: SprintSpacing.space4),
                     Semantics(
                       header: true,
                       liveRegion: true,
                       child: Text(
                         l10n.awaitingTitle,
-                        style: context.text.titleLg,
+                        style: context.text.title,
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -72,12 +76,24 @@ class AwaitingView extends StatelessWidget {
                     CheckoutBookingCard(
                       view: summary,
                       status: SprintStatus.pendingPayment,
-                      footer: remaining == null
-                          ? null
-                          : l10n.processingHeld(countdownText(remaining!)),
                     ),
+                    // The Hold may be extended while the payment is pending
+                    // (BR-46), so the time left stays visible, under the card
+                    // as on the processing screen.
+                    if (remaining != null) ...[
+                      const SizedBox(height: SprintSpacing.space4),
+                      Text(
+                        l10n.processingHeld(countdownText(remaining!)),
+                        key: CheckoutBookingCard.footerKey,
+                        style: context.text.caption.copyWith(
+                          color: colors.inkMuted,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                     const SizedBox(height: SprintSpacing.space6),
                     SprintButton(
+                      expand: true,
                       key: refreshKey,
                       label: l10n.awaitingRefresh,
                       loading: refreshing,
@@ -86,6 +102,7 @@ class AwaitingView extends StatelessWidget {
                     ),
                     const SizedBox(height: SprintSpacing.space2),
                     SprintButton(
+                      expand: true,
                       key: bookingsKey,
                       label: l10n.awaitingBackToBookings,
                       variant: SprintButtonVariant.ghost,

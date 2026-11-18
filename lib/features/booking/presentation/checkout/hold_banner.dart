@@ -62,6 +62,9 @@ class _HoldBannerState extends State<HoldBanner> {
     final l10n = AppLocalizations.of(context);
     final colors = context.colors;
     final (title, body) = _lines(l10n);
+    // Text and icon take the banner's own colour (`warning` on
+    // `warning-soft`, `danger` on `danger-soft`), as the design has it.
+    final ink = _last ? colors.danger : colors.warning;
 
     final boundary = announcementBoundary(
       widget.remaining,
@@ -91,9 +94,7 @@ class _HoldBannerState extends State<HoldBanner> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SprintIcon(
-                _last
-                    ? PhosphorIconsRegular.warningCircle
-                    : PhosphorIconsRegular.clock,
+                PhosphorIconsRegular.hourglass,
                 size: SprintSize.iconMd,
                 color: _last ? colors.danger : colors.warning,
               ),
@@ -105,12 +106,12 @@ class _HoldBannerState extends State<HoldBanner> {
                     Text(
                       title,
                       key: HoldBanner.titleKey,
-                      style: context.text.bodyStrong,
+                      style: context.text.bodyStrong.copyWith(color: ink),
                     ),
                     Text(
                       body,
                       key: HoldBanner.bodyKey,
-                      style: context.text.body,
+                      style: context.text.body.copyWith(color: ink),
                     ),
                   ],
                 ),

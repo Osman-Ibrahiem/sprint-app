@@ -213,6 +213,7 @@
   "facilityPriceExternalLabel": "Full price",
   "facilityFree": "Free",
   "facilitySpoken": "Facility {name}, {unit}, {availability}, {price}",
+  "ticketShowTrainer": "The code is shown to the trainer at the entrance · high brightness is clearer",
   "ticketCodeLabel": "Booking code",
   "ticketCopied": "Copied",
   "ticketPaid": "Paid",
@@ -1237,6 +1238,10 @@
       }
     }
   },
+  "checkoutRowTime": "Time",
+  "checkoutRowTotal": "Total",
+  "checkoutTierInternal": "Internal · verified",
+  "checkoutTierExternal": "External · full price",
   "checkoutMethodTitle": "Online payment",
   "checkoutMethodSubtitle": "Bank card or mobile wallet · provider's secure page",
   "checkoutSandboxTag": "Test mode · no real money is charged",
@@ -1314,7 +1319,8 @@
   "gatewayErrExpiry": "The expiry date isn't valid or has passed",
   "gatewayErrCvc": "The security code must be 3 or 4 digits",
   "gatewayErrName": "The cardholder name is required",
-  "gatewayExpiryHint": "MM/YY",
+  "gatewayExpiryHint": "MM / YY",
+  "gatewayCvcHint": "000",
   "processingTitle": "Confirming your payment",
   "processingBody": "Confirmation comes from the payment provider and may take a moment, and it's best to keep this screen open",
   "processingHeld": "Your place is held, {time} minutes left",

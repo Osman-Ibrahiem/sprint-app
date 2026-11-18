@@ -533,6 +533,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get ticketShowTrainer =>
+      'The code is shown to the trainer at the entrance · high brightness is clearer';
+
+  @override
   String get ticketCodeLabel => 'Booking code';
 
   @override
@@ -2057,6 +2061,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get checkoutRowTime => 'Time';
+
+  @override
+  String get checkoutRowTotal => 'Total';
+
+  @override
   String get checkoutMethodTitle => 'Online payment';
 
   @override
@@ -2182,7 +2192,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gatewayErrName => 'The cardholder name is required';
 
   @override
-  String get gatewayExpiryHint => 'MM/YY';
+  String get gatewayExpiryHint => 'MM / YY';
+
+  @override
+  String get gatewayCvcHint => '000';
 
   @override
   String get processingTitle => 'Confirming your payment';

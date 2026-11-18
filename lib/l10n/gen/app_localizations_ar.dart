@@ -535,6 +535,10 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get ticketShowTrainer =>
+      'الكود بيتعرض للمدرب عند الدخول · السطوع العالي أوضح';
+
+  @override
   String get ticketCodeLabel => 'كود الحجز';
 
   @override
@@ -2040,6 +2044,12 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get checkoutRowTime => 'الميعاد';
+
+  @override
+  String get checkoutRowTotal => 'الإجمالي';
+
+  @override
   String get checkoutMethodTitle => 'الدفع الإلكتروني';
 
   @override
@@ -2162,7 +2172,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get gatewayErrName => 'اسم حامل البطاقة مطلوب';
 
   @override
-  String get gatewayExpiryHint => 'شهر/سنة';
+  String get gatewayExpiryHint => 'MM / YY';
+
+  @override
+  String get gatewayCvcHint => '000';
 
   @override
   String get processingTitle => 'بنأكد الدفع';

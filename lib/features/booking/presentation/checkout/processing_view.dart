@@ -14,7 +14,11 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 /// (nothing to leave while a payment is in flight): the system back is
 /// absorbed (FR-018). Shows the booking and how long the place stays held.
 class ProcessingView extends StatelessWidget {
-  const ProcessingView({required this.summary, required this.remaining, super.key});
+  const ProcessingView({
+    required this.summary,
+    required this.remaining,
+    super.key,
+  });
 
   final BookingSummaryView summary;
   final Duration? remaining;
@@ -34,7 +38,8 @@ class ProcessingView extends StatelessWidget {
             leading: const SizedBox.shrink(),
           ),
           Expanded(
-            child: Center(
+            child: Align(
+              alignment: Alignment.topCenter,
               child: SingleChildScrollView(
                 padding: const EdgeInsetsDirectional.all(SprintSpacing.space6),
                 child: ConstrainedBox(
@@ -49,6 +54,7 @@ class ProcessingView extends StatelessWidget {
                         child: AdaptiveLoader(
                           key: loaderKey,
                           semanticLabel: l10n.processingTitle,
+                          size: SprintExtras.processingLoader,
                         ),
                       ),
                       const SizedBox(height: SprintSpacing.space4),
@@ -63,17 +69,27 @@ class ProcessingView extends StatelessWidget {
                       const SizedBox(height: SprintSpacing.space2),
                       Text(
                         l10n.processingBody,
-                        style: context.text.body.copyWith(color: colors.inkMuted),
+                        style: context.text.body.copyWith(
+                          color: colors.inkMuted,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: SprintSpacing.space6),
                       CheckoutBookingCard(
                         view: summary,
                         status: SprintStatus.pendingPayment,
-                        footer: remaining == null
-                            ? null
-                            : l10n.processingHeld(countdownText(remaining!)),
                       ),
+                      if (remaining != null) ...[
+                        const SizedBox(height: SprintSpacing.space4),
+                        Text(
+                          l10n.processingHeld(countdownText(remaining!)),
+                          key: CheckoutBookingCard.footerKey,
+                          style: context.text.caption.copyWith(
+                            color: colors.inkMuted,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ],
                   ),
                 ),

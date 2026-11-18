@@ -128,6 +128,13 @@ abstract final class AppPaths {
   static String bookingReceipt(String bookingId) =>
       '$bookings/$bookingId/receipt';
 
+  /// The payment flow's own screens (checkout, the confirmation ticket and the
+  /// receipt). On compact they hide the tab bar, as the design does, so the
+  /// only ways out are the screen's own (BR-47).
+  static bool isPaymentFlow(String path) =>
+      path.contains('/schedule/checkout/') ||
+      RegExp(r'^/bookings/[^/]+/(confirmed|receipt)$').hasMatch(path);
+
   static String _withQuery(String path, Map<String, String>? query) =>
       query == null || query.isEmpty
       ? path

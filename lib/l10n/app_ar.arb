@@ -217,6 +217,7 @@
   "facilityPriceExternalLabel": "السعر الكامل",
   "facilityFree": "مجاني",
   "facilitySpoken": "منشأة {name}، {unit}، {availability}، {price}",
+  "ticketShowTrainer": "الكود بيتعرض للمدرب عند الدخول · السطوع العالي أوضح",
   "ticketCodeLabel": "كود الحجز",
   "ticketCopied": "اتنسخ",
   "ticketPaid": "المدفوع",
@@ -1241,6 +1242,10 @@
       }
     }
   },
+  "checkoutRowTime": "الميعاد",
+  "checkoutRowTotal": "الإجمالي",
+  "checkoutTierInternal": "داخلي · موثّق",
+  "checkoutTierExternal": "خارجي · السعر الكامل",
   "checkoutMethodTitle": "الدفع الإلكتروني",
   "checkoutMethodSubtitle": "بطاقة بنكية أو محفظة موبايل · صفحة المزوّد الآمنة",
   "checkoutSandboxTag": "وضع الاختبار · مفيش فلوس حقيقية بتتخصم",
@@ -1318,7 +1323,8 @@
   "gatewayErrExpiry": "تاريخ الانتهاء مش صحيح أو فات",
   "gatewayErrCvc": "رمز الأمان لازم يكون 3 أو 4 أرقام",
   "gatewayErrName": "اسم حامل البطاقة مطلوب",
-  "gatewayExpiryHint": "شهر/سنة",
+  "gatewayExpiryHint": "MM / YY",
+  "gatewayCvcHint": "000",
   "processingTitle": "بنأكد الدفع",
   "processingBody": "التأكيد بييجي من مزوّد الدفع وممكن ياخد لحظات، والأحسن إن الشاشة تفضل مفتوحة",
   "processingHeld": "المكان متحجز لك، فاضل {time} دقيقة",

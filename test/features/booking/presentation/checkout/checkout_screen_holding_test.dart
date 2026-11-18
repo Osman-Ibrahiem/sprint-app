@@ -6,6 +6,7 @@ import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/presentation/checkout/checkout_layout.dart';
 import 'package:sprint/features/booking/presentation/checkout/checkout_policy_card.dart';
 import 'package:sprint/features/booking/presentation/checkout/checkout_screen.dart';
+import 'package:sprint/features/booking/presentation/checkout/checkout_summary_card.dart';
 import 'package:sprint/features/booking/presentation/checkout/hold_banner.dart';
 import 'package:sprint/features/booking/presentation/checkout/payment_method_card.dart';
 import 'package:sprint/features/booking/presentation/providers/checkout_providers.dart';
@@ -24,13 +25,14 @@ void main() {
     expect(find.byType(CheckoutScreen), findsOneWidget);
 
     final banner = tester.getTopLeft(find.byType(HoldBanner)).dy;
-    final rows = tester.getTopLeft(find.text(ar.bookingRowFacility)).dy;
+    final rows = tester.getTopLeft(find.text(ar.checkoutRowTotal)).dy;
     final policy = tester.getTopLeft(find.byKey(CheckoutPolicyCard.bodyKey)).dy;
     final method = tester.getTopLeft(find.byType(PaymentMethodCard)).dy;
     expect(banner, lessThan(rows));
     expect(rows, lessThan(policy));
     expect(policy, lessThan(method));
 
+    expect(find.byKey(CheckoutSummaryCard.totalKey), findsOneWidget);
     expect(find.text(ar.checkoutHoldTitle), findsOneWidget);
     expect(find.text(ar.checkoutHoldRemaining('10:00')), findsOneWidget);
     final primaries = tester

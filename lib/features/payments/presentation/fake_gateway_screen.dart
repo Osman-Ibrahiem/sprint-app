@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/adaptive/adaptive_app_bar.dart';
 import 'package:sprint/core/adaptive/adaptive_back_button.dart';
 import 'package:sprint/core/l10n/sprint_format.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/core/time/cairo_time.dart';
 import 'package:sprint/core/time/clock_provider.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
+import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/core/widgets/sprint_text_field/sprint_text_field.dart';
@@ -276,45 +279,34 @@ class _GatewayFormState extends ConsumerState<_GatewayForm> {
                         ),
                       ),
                       const SizedBox(height: SprintSpacing.space3),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: SprintTextField(
-                              label: l10n.gatewayCardExpiry,
-                              placeholder: l10n.gatewayExpiryHint,
-                              type: SprintTextFieldType.nationalId,
-                              controller: _expiry,
-                              autofillHints: const [
-                                AutofillHints.creditCardExpirationDate,
-                              ],
-                              textInputAction: TextInputAction.next,
-                              error: err(
-                                !CardFormat.isValidExpiry(
-                                  _expiry.text,
-                                  _nowCairo,
-                                ),
-                                l10n.gatewayErrExpiry,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: SprintSpacing.space3),
-                          Expanded(
-                            child: SprintTextField(
-                              label: l10n.gatewayCardCvc,
-                              type: SprintTextFieldType.nationalId,
-                              controller: _cvc,
-                              autofillHints: const [
-                                AutofillHints.creditCardSecurityCode,
-                              ],
-                              textInputAction: TextInputAction.next,
-                              error: err(
-                                !CardFormat.isValidCvc(_cvc.text),
-                                l10n.gatewayErrCvc,
-                              ),
-                            ),
-                          ),
+                      SprintTextField(
+                        label: l10n.gatewayCardExpiry,
+                        placeholder: l10n.gatewayExpiryHint,
+                        type: SprintTextFieldType.nationalId,
+                        controller: _expiry,
+                        autofillHints: const [
+                          AutofillHints.creditCardExpirationDate,
                         ],
+                        textInputAction: TextInputAction.next,
+                        error: err(
+                          !CardFormat.isValidExpiry(_expiry.text, _nowCairo),
+                          l10n.gatewayErrExpiry,
+                        ),
+                      ),
+                      const SizedBox(height: SprintSpacing.space3),
+                      SprintTextField(
+                        label: l10n.gatewayCardCvc,
+                        placeholder: l10n.gatewayCvcHint,
+                        type: SprintTextFieldType.nationalId,
+                        controller: _cvc,
+                        autofillHints: const [
+                          AutofillHints.creditCardSecurityCode,
+                        ],
+                        textInputAction: TextInputAction.next,
+                        error: err(
+                          !CardFormat.isValidCvc(_cvc.text),
+                          l10n.gatewayErrCvc,
+                        ),
                       ),
                       const SizedBox(height: SprintSpacing.space3),
                       SprintTextField(
@@ -331,20 +323,36 @@ class _GatewayFormState extends ConsumerState<_GatewayForm> {
                       ),
                       const SizedBox(height: SprintSpacing.space4),
                       if (settings?.isTestProvider ?? true)
-                        Container(
-                          key: testTagKey,
-                          padding: const EdgeInsetsDirectional.symmetric(
-                            horizontal: SprintSpacing.space3,
-                            vertical: SprintSpacing.space1,
-                          ),
-                          decoration: BoxDecoration(
-                            color: colors.primarySoft,
-                            borderRadius: SprintRadius.fullBorder,
-                          ),
-                          child: Text(
-                            l10n.checkoutSandboxTag,
-                            style: context.text.caption.copyWith(
-                              color: colors.onPrimarySoft,
+                        Align(
+                          alignment: AlignmentDirectional.center,
+                          child: Container(
+                            key: testTagKey,
+                            padding: const EdgeInsetsDirectional.symmetric(
+                              horizontal: SprintSpacing.space3,
+                              vertical: SprintSpacing.space1,
+                            ),
+                            decoration: BoxDecoration(
+                              color: colors.primarySoft,
+                              borderRadius: SprintRadius.fullBorder,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SprintIcon(
+                                  PhosphorIconsRegular.info,
+                                  size: SprintSize.iconSm,
+                                  color: colors.onPrimarySoft,
+                                ),
+                                const SizedBox(width: SprintSpacing.space1),
+                                Flexible(
+                                  child: Text(
+                                    l10n.checkoutSandboxTag,
+                                    style: context.text.caption.copyWith(
+                                      color: colors.onPrimarySoft,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -359,6 +367,7 @@ class _GatewayFormState extends ConsumerState<_GatewayForm> {
                       SprintButton(
                         key: confirmKey,
                         label: l10n.gatewayConfirm(amount),
+                        expand: true,
                         onPressed: _confirm,
                       ),
                       const SizedBox(height: SprintSpacing.space2),
@@ -366,6 +375,7 @@ class _GatewayFormState extends ConsumerState<_GatewayForm> {
                         key: cancelKey,
                         label: l10n.gatewayCancel,
                         variant: SprintButtonVariant.ghost,
+                        expand: true,
                         onPressed: _cancel,
                       ),
                     ],

@@ -17,6 +17,7 @@ import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
+import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
 import 'package:sprint/features/booking/domain/booking_summary_view.dart';
@@ -26,6 +27,7 @@ import 'package:sprint/features/booking/presentation/checkout/awaiting_view.dart
 import 'package:sprint/features/booking/presentation/checkout/cancelled_notice.dart';
 import 'package:sprint/features/booking/presentation/checkout/checkout_layout.dart';
 import 'package:sprint/features/booking/presentation/checkout/checkout_policy_card.dart';
+import 'package:sprint/features/booking/presentation/checkout/checkout_summary_card.dart';
 import 'package:sprint/features/booking/presentation/checkout/expired_view.dart';
 import 'package:sprint/features/booking/presentation/checkout/failed_header.dart';
 import 'package:sprint/features/booking/presentation/checkout/hold_banner.dart';
@@ -33,7 +35,6 @@ import 'package:sprint/features/booking/presentation/checkout/leave_checkout_dia
 import 'package:sprint/features/booking/presentation/checkout/payment_method_card.dart';
 import 'package:sprint/features/booking/presentation/checkout/processing_view.dart';
 import 'package:sprint/features/booking/presentation/providers/checkout_providers.dart';
-import 'package:sprint/features/booking/presentation/summary/summary_rows.dart';
 import 'package:sprint/features/booking/presentation/widgets/empty_state.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
@@ -244,8 +245,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
             onTap: _starting ? null : _pay,
             child: SprintButton(
               key: CheckoutScreen.payKey,
-              label: failed ? l10n.checkoutRetry(amount) : l10n.checkoutPay(amount),
+              label: failed
+                  ? l10n.checkoutRetry(amount)
+                  : l10n.checkoutPay(amount),
               loading: _starting,
+              expand: true,
               onPressed: _starting ? null : _pay,
             ),
           ),
@@ -261,12 +265,18 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       child: Column(
         children: [
           AdaptiveAppBar(
-            title: failed ? l10n.bookingSummaryTitle : l10n.checkoutTitle,
-            leading: AdaptiveBackButton(onPressed: () => _askLeave(state.booking)),
+            // From medium up the columns carry the headings (as the design
+            // does); the bar keeps only the way out, which asks first.
+            title: WindowSize.of(context).isCompact
+                ? (failed ? l10n.bookingSummaryTitle : l10n.checkoutTitle)
+                : '',
+            leading: AdaptiveBackButton(
+              onPressed: () => _askLeave(state.booking),
+            ),
           ),
           Expanded(
             child: CheckoutLayout(
-              title: failed ? l10n.bookingSummaryTitle : l10n.checkoutTitle,
+              title: l10n.checkoutTitle,
               summaryTitle: l10n.bookingSummaryTitle,
               lead: failed
                   ? const FailedHeader()
@@ -277,7 +287,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
               summary: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SummaryRows(view: summary, showPolicy: false),
+                  CheckoutSummaryCard(view: summary),
                   const SizedBox(height: SprintSpacing.space4),
                   CheckoutPolicyCard(
                     start: summary.start,
@@ -287,7 +297,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   ),
                 ],
               ),
-              method: PaymentMethodCard(showTestTag: settings?.isTestProvider ?? false),
+              method: PaymentMethodCard(
+                showTestTag: settings?.isTestProvider ?? false,
+              ),
               action: button,
             ),
           ),

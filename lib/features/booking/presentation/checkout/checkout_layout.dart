@@ -58,7 +58,10 @@ class CheckoutLayout extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
             children: [
-              if (lead != null) ...[lead!, const SizedBox(height: SprintSpacing.space4)],
+              if (lead != null) ...[
+                lead!,
+                const SizedBox(height: SprintSpacing.space4),
+              ],
               banner,
               const SizedBox(height: SprintSpacing.space4),
               summary,
@@ -72,7 +75,10 @@ class CheckoutLayout extends StatelessWidget {
           decoration: BoxDecoration(
             color: colors.surface,
             border: Border(
-              top: BorderSide(color: colors.line, width: SprintExtras.hairlineWidth),
+              top: BorderSide(
+                color: colors.line,
+                width: SprintExtras.hairlineWidth,
+              ),
             ),
           ),
           padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
@@ -96,7 +102,10 @@ class CheckoutLayout extends StatelessWidget {
       children: [
         _Heading(title),
         const SizedBox(height: SprintSpacing.space3),
-        if (lead != null) ...[lead!, const SizedBox(height: SprintSpacing.space4)],
+        if (lead != null) ...[
+          lead!,
+          const SizedBox(height: SprintSpacing.space4),
+        ],
         banner,
         const SizedBox(height: SprintSpacing.space4),
         method,
@@ -128,7 +137,9 @@ class CheckoutLayout extends StatelessWidget {
         final room = box.maxWidth - SprintSpacing.space6 * 2 - gap;
         // The payment column keeps its width; below that the two share the
         // room in the same proportion, and the summary column takes the rest.
-        final paymentWidth = room * SprintExtras.checkoutPaymentColumn /
+        final paymentWidth =
+            room *
+            SprintExtras.checkoutPaymentColumn /
             (SprintExtras.checkoutPaymentColumn +
                 SprintExtras.checkoutSummaryColumnMin);
         final paymentW = paymentWidth < SprintExtras.checkoutPaymentColumn
@@ -137,10 +148,12 @@ class CheckoutLayout extends StatelessWidget {
         return _scroll(
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            // Reading order, as the design has it: the summary beside the
+            // navigation, the payment and the Hold on the far side.
             children: [
-              SizedBox(width: paymentW, child: payment),
-              const SizedBox(width: gap),
               Expanded(child: summaryColumn),
+              const SizedBox(width: gap),
+              SizedBox(width: paymentW, child: payment),
             ],
           ),
         );

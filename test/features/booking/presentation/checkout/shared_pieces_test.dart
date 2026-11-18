@@ -167,8 +167,9 @@ void main() {
     final summary = tester.getRect(find.byKey(CheckoutLayout.summaryColumnKey));
     expect(payment.overlaps(summary), isFalse);
     expect(payment.width, lessThanOrEqualTo(372));
-    // Arabic: the payment column starts at the right.
-    expect(payment.center.dx, greaterThan(summary.center.dx));
+    // Arabic, as the design has it: the summary beside the navigation (at the
+    // right), the payment column on the far side (at the left).
+    expect(summary.center.dx, greaterThan(payment.center.dx));
     final action = tester.getRect(find.text('action'));
     expect(action.bottom, greaterThan(tester.getRect(find.text('method')).bottom));
   });

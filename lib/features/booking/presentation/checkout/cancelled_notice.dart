@@ -32,7 +32,7 @@ class CancelledNotice extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SprintIcon(
-                PhosphorIconsRegular.info,
+                PhosphorIconsRegular.hourglass,
                 size: SprintSize.iconMd,
                 color: colors.onPrimarySoft,
               ),

@@ -1003,6 +1003,12 @@ abstract class AppLocalizations {
     String price,
   );
 
+  /// No description provided for @ticketShowTrainer.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكود بيتعرض للمدرب عند الدخول · السطوع العالي أوضح'**
+  String get ticketShowTrainer;
+
   /// No description provided for @ticketCodeLabel.
   ///
   /// In ar, this message translates to:
@@ -3449,6 +3455,18 @@ abstract class AppLocalizations {
   /// **'الإلغاء متاح لحد {until} ({hours} قبل الميعاد) والفلوس بترجع {percent}% على نفس وسيلة الدفع. بعد كده زرار الإلغاء بيختفي.'**
   String checkoutPolicyBody(String until, String hours, int percent);
 
+  /// No description provided for @checkoutRowTime.
+  ///
+  /// In ar, this message translates to:
+  /// **'الميعاد'**
+  String get checkoutRowTime;
+
+  /// No description provided for @checkoutRowTotal.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإجمالي'**
+  String get checkoutRowTotal;
+
   /// No description provided for @checkoutMethodTitle.
   ///
   /// In ar, this message translates to:
@@ -3662,8 +3680,14 @@ abstract class AppLocalizations {
   /// No description provided for @gatewayExpiryHint.
   ///
   /// In ar, this message translates to:
-  /// **'شهر/سنة'**
+  /// **'MM / YY'**
   String get gatewayExpiryHint;
+
+  /// No description provided for @gatewayCvcHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'000'**
+  String get gatewayCvcHint;
 
   /// No description provided for @processingTitle.
   ///

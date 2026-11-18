@@ -123,9 +123,8 @@ class _BookingConfirmedScreenState
           l10n.ticketCopied,
           Directionality.of(context),
         );
-        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-          SnackBar(content: Text(l10n.ticketCopied)),
-        );
+        ScaffoldMessenger.maybeOf(context)
+            ?.showSnackBar(SnackBar(content: Text(l10n.ticketCopied)));
       },
     );
     final receipt = paid == null ? null : _ReceiptRow(bookingId: id);
@@ -133,6 +132,7 @@ class _BookingConfirmedScreenState
       key: BookingConfirmedScreen.homeKey,
       label: l10n.backToHome,
       variant: SprintButtonVariant.ghost,
+      expand: true,
       onPressed: () => context.go(AppPaths.home),
     );
 
@@ -197,6 +197,8 @@ class _BookingConfirmedScreenState
     );
     if (!compact) return content;
     return Column(
+      // The bar spans the width, so its surface and its button do too.
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(child: content),
         Container(
@@ -224,9 +226,9 @@ class _BookingConfirmedScreenState
         child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
+          // Reading order, as the design has it: the message and the way
+          // home beside the navigation, the ticket on the far side.
           children: [
-            SizedBox(width: SprintExtras.confirmationColumn, child: ticket),
-            const SizedBox(width: SprintExtras.confirmationGap),
             SizedBox(
               width: SprintExtras.confirmationColumn,
               child: Column(
@@ -242,6 +244,8 @@ class _BookingConfirmedScreenState
                 ],
               ),
             ),
+            const SizedBox(width: SprintExtras.confirmationGap),
+            SizedBox(width: SprintExtras.confirmationColumn, child: ticket),
           ],
         ),
       ),

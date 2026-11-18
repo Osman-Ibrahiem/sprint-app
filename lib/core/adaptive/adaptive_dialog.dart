@@ -109,7 +109,14 @@ Widget _materialDialog<T>(
           style: a.isDestructive
               ? TextButton.styleFrom(foregroundColor: colors.danger)
               : null,
-          child: Text(a.label, style: ctx.text.button),
+          // The text carries the colour itself: `button` has its own colour
+          // and would hide the button style's.
+          child: Text(
+            a.label,
+            style: ctx.text.button.copyWith(
+              color: a.isDestructive ? colors.danger : colors.primary,
+            ),
+          ),
         ),
     ],
   );
