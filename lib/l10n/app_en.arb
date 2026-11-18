@@ -1474,5 +1474,6 @@
   "gallery007OpenPopover": "Open the menu",
   "gallery007SampleSearch": "Search",
   "gallery007SampleSearchCancel": "Cancel",
-  "gallery007SampleEmailLabel": "Email"
+  "gallery007SampleEmailLabel": "Email",
+  "navNotifications": "Notifications"
 }

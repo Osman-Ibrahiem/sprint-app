@@ -1478,5 +1478,6 @@
   "gallery007OpenPopover": "فتح القائمة",
   "gallery007SampleSearch": "بحث",
   "gallery007SampleSearchCancel": "إلغاء",
-  "gallery007SampleEmailLabel": "الإيميل"
+  "gallery007SampleEmailLabel": "الإيميل",
+  "navNotifications": "الإشعارات"
 }

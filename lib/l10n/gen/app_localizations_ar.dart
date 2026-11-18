@@ -2452,4 +2452,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get gallery007SampleEmailLabel => 'الإيميل';
+
+  @override
+  String get navNotifications => 'الإشعارات';
 }

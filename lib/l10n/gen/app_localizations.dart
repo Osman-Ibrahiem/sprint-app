@@ -4126,6 +4126,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الإيميل'**
   String get gallery007SampleEmailLabel;
+
+  /// No description provided for @navNotifications.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإشعارات'**
+  String get navNotifications;
 }
 
 class _AppLocalizationsDelegate

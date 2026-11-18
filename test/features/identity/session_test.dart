@@ -36,15 +36,15 @@ void main() {
     return c;
   }
 
-  test('the app starts as a guest with the four destinations', () async {
+  test('the app starts as a guest with the five destinations', () async {
     final c = container();
     final session = await c.read(sessionProvider.future);
     expect(session.isGuest, isTrue);
-    expect(c.read(destinationsProvider), hasLength(4));
+    expect(c.read(destinationsProvider), hasLength(5));
   });
 
   test(
-    'switching to a booker keeps four destinations and the same router',
+    'switching to a booker keeps five destinations and the same router',
     () async {
       final c = container();
       await c.read(sessionProvider.future);
@@ -54,7 +54,7 @@ void main() {
       final s = c.read(currentSessionProvider);
       expect(s.user!.id, SeedIds.bookerInternal);
       expect(s.tier, PriceTier.internal);
-      expect(c.read(destinationsProvider), hasLength(4));
+      expect(c.read(destinationsProvider), hasLength(5));
       expect(
         identical(c.read(appRouterProvider), router),
         isTrue,
@@ -91,19 +91,19 @@ void main() {
       await c.read(sessionProvider.future);
       await c.read(sessionProvider.notifier).actAs(SeedIds.trainer1);
       final d = c.read(destinationsProvider);
-      expect(d, hasLength(5));
+      expect(d, hasLength(6));
       expect(d.last.path, '/trainer');
 
-      // And back to a guest: four again.
+      // And back to a guest: five again.
       await c.read(sessionProvider.notifier).actAs(null);
-      expect(c.read(destinationsProvider), hasLength(4));
+      expect(c.read(destinationsProvider), hasLength(5));
     },
   );
 
-  test('without a trainer screen a trainer still sees four', () async {
+  test('without a trainer screen a trainer still sees five', () async {
     final c = container();
     await c.read(sessionProvider.future);
     await c.read(sessionProvider.notifier).actAs(SeedIds.trainer1);
-    expect(c.read(destinationsProvider), hasLength(4));
+    expect(c.read(destinationsProvider), hasLength(5));
   });
 }
