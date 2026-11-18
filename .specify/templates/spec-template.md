@@ -117,6 +117,16 @@
 - **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
 - **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
 
+## Design Source *(mandatory for features 006 and later)*
+
+<!--
+  Pointer only. Do NOT describe screens or component positions here;
+  Figma is the live source (CLAUDE.md → Design source).
+-->
+
+- **Figma page / section**: [name of the page or section in the Sprint Figma file]
+- **Design check**: [date it was run with /design-check, and the gaps Osman decided on, or "none"]
+
 ## Assumptions
 
 <!--

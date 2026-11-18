@@ -45,6 +45,13 @@ description: "Task list template for feature implementation"
   ============================================================================
 -->
 
+## Phase 0: Design Pack check (features 006 and later)
+
+- [ ] T000 Confirm `specs/[###-feature-name]/design-pack/` exists and its generation date is not older than the last Figma change. If it is missing or stale, STOP and ask Osman to run `/design-check` in the Figma session. Do not guess screens.
+- [ ] T000a Last task before the PR: delete `specs/[###-feature-name]/design-pack/` (CI fails the PR while it exists) and ask the Figma session for design QA of the result.
+
+---
+
 ## Phase 1: Setup (Shared Infrastructure)
 
 **Purpose**: Project initialization and basic structure
