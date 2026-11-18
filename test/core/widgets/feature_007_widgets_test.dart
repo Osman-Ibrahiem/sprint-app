@@ -10,7 +10,9 @@ import 'package:sprint/core/widgets/notification_bell/notification_bell.dart';
 import 'package:sprint/core/widgets/notification_card/notification_card.dart';
 import 'package:sprint/core/widgets/segmented_control/segmented_control.dart';
 import 'package:sprint/core/widgets/settings_row/settings_row.dart';
+import 'package:sprint/core/widgets/sprint_text_field/sprint_text_field.dart';
 import 'package:sprint/core/widgets/status_badge/sprint_status.dart';
+import 'package:sprint/core/motion/skeleton.dart';
 
 import '../../helpers/widget_harness.dart';
 
@@ -334,5 +336,67 @@ void main() {
       expect(find.byKey(SprintPopover.panelKey), findsNothing);
       expect(chosen, isNull);
     });
+  });
+
+  group('SprintTextField locked and search', () {
+    testWidgets('locked shows the value read-only with a lock and the helper',
+        (tester) async {
+      await pumpWidgetUnder(
+        tester,
+        const SprintTextField(
+          label: 'الإيميل',
+          type: SprintTextFieldType.email,
+          locked: true,
+          lockedValue: 'mona@tanta.edu.eg',
+          helper: 'مربوط بتسجيل الدخول ومش بيتعدل من هنا',
+        ),
+      );
+      expect(find.text('mona@tanta.edu.eg'), findsOneWidget);
+      expect(find.byKey(SprintTextField.lockIconKey), findsOneWidget);
+      expect(find.text('مربوط بتسجيل الدخول ومش بيتعدل من هنا'), findsOneWidget);
+      expect(find.byType(TextField), findsNothing);
+      expect(
+        tester.getSize(find.byKey(SprintTextField.fieldKey)).height,
+        greaterThanOrEqualTo(48),
+      );
+    });
+
+    testWidgets('search: clear button (48) only when filled, plus cancel slot',
+        (tester) async {
+      final c = TextEditingController();
+      var cleared = 0;
+      var cancelled = 0;
+      await pumpWidgetUnder(
+        tester,
+        SprintTextField(
+          label: 'بحث',
+          type: SprintTextFieldType.search,
+          controller: c,
+          onClear: () => cleared++,
+          cancelLabel: 'إلغاء',
+          onCancel: () => cancelled++,
+        ),
+      );
+      expect(find.byKey(SprintTextField.clearKey), findsNothing);
+      await tester.enterText(find.byType(TextField), 'سباحة');
+      await tester.pump();
+      expect(tester.getSize(find.byKey(SprintTextField.clearKey)).shortestSide,
+          greaterThanOrEqualTo(48));
+      await tester.tap(find.byKey(SprintTextField.clearKey));
+      await tester.pump();
+      expect(c.text, isEmpty);
+      expect(cleared, 1);
+      await tester.tap(find.byKey(SprintTextField.cancelKey));
+      expect(cancelled, 1);
+    });
+  });
+
+  testWidgets('real-shaped skeletons', (tester) async {
+    await pumpWidgetUnder(
+      tester,
+      const Column(children: [ProfileCardSkeleton(), SettingsRowSkeleton()]),
+    );
+    expect(tester.getSize(find.byKey(ProfileCardSkeleton.key0)).height, 140);
+    expect(tester.getSize(find.byKey(SettingsRowSkeleton.key0)).height, 52);
   });
 }
