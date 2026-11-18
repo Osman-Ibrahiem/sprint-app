@@ -10,30 +10,24 @@ void main() {
   final env = DataEnv();
   final layer = env.layer;
 
-  test(
-    'a paid confirmed booking has a succeeded payment and a receipt number',
-    () async {
-      final paid = layer.bookings.allBookings.singleWhere(
-        (b) =>
-            b.userId == Ids.bookerInternal &&
-            b.unitId == Ids.pool3 &&
-            b.status == BookingStatus.confirmed,
-      );
-      expect(paid.priceAtBooking, greaterThan(0));
-      final p = (await layer.payments.latestPayment(paid.id))!;
-      expect(p.status, PaymentStatus.succeeded);
-      expect(p.cardLast4, '4242');
-      expect(p.receiptNumber, matches(RegExp(r'^RC-\d{6}-\d{4}$')));
-    },
-  );
+  test('a paid confirmed booking has a succeeded payment and a receipt number',
+      () async {
+    final paid = layer.bookings.allBookings.singleWhere((b) =>
+        b.userId == Ids.bookerInternal &&
+        b.unitId == Ids.pool3 &&
+        b.status == BookingStatus.confirmed);
+    expect(paid.priceAtBooking, greaterThan(0));
+    final p = (await layer.payments.latestPayment(paid.id))!;
+    expect(p.status, PaymentStatus.succeeded);
+    expect(p.cardLast4, '4242');
+    expect(p.receiptNumber, matches(RegExp(r'^RC-\d{6}-\d{4}$')));
+  });
 
   test('a free confirmed booking has no payment', () async {
-    final free = layer.bookings.allBookings.singleWhere(
-      (b) =>
-          b.userId == Ids.bookerInternal &&
-          b.unitId == Ids.hall1 &&
-          b.status == BookingStatus.confirmed,
-    );
+    final free = layer.bookings.allBookings.singleWhere((b) =>
+        b.userId == Ids.bookerInternal &&
+        b.unitId == Ids.hall1 &&
+        b.status == BookingStatus.confirmed);
     expect(free.priceAtBooking, 0);
     expect(await layer.payments.latestPayment(free.id), isNull);
   });

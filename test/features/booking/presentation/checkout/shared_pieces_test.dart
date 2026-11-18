@@ -22,22 +22,18 @@ void main() {
     CairoTime.ensureInitialized();
     final start = CairoTime.atWallClock(2026, 11, 18, 11);
     Widget card(DateTime now) => CheckoutPolicyCard(
-      start: start,
-      cutoffHours: 4,
-      refundPercent: 100,
-      now: now,
-    );
+          start: start,
+          cutoffHours: 4,
+          refundPercent: 100,
+          now: now,
+        );
     await pumpWidgetUnder(
-      tester,
-      card(CairoTime.atWallClock(2026, 11, 18, 6, 59)),
-    );
+        tester, card(CairoTime.atWallClock(2026, 11, 18, 6, 59)));
     expect(find.textContaining('الإلغاء متاح لحد'), findsOneWidget);
     expect(find.text(ar.ticketCancelUnavailable), findsNothing);
 
     await pumpWidgetUnder(
-      tester,
-      card(CairoTime.atWallClock(2026, 11, 18, 10, 38)),
-    );
+        tester, card(CairoTime.atWallClock(2026, 11, 18, 10, 38)));
     expect(find.text(ar.ticketCancelUnavailable), findsOneWidget);
     expect(find.textContaining('الإلغاء متاح لحد'), findsNothing);
   });
@@ -45,30 +41,20 @@ void main() {
   testWidgets('the banner is warning-soft with the time, then danger-soft in '
       'the last minute with seconds', (tester) async {
     await pumpWidgetUnder(
-      tester,
-      const HoldBanner(remaining: Duration(minutes: 9, seconds: 42)),
-    );
+        tester, const HoldBanner(remaining: Duration(minutes: 9, seconds: 42)));
     expect(find.text(ar.checkoutHoldTitle), findsOneWidget);
     expect(find.text(ar.checkoutHoldRemaining('9:42')), findsOneWidget);
-    Color? bannerColor() =>
-        (tester
-                    .widget<Container>(
-                      find
-                          .descendant(
-                            of: find.byType(HoldBanner),
-                            matching: find.byType(Container),
-                          )
-                          .first,
-                    )
-                    .decoration!
-                as BoxDecoration)
-            .color;
+    Color? bannerColor() => (tester
+            .widget<Container>(find
+                .descendant(
+                    of: find.byType(HoldBanner), matching: find.byType(Container))
+                .first)
+            .decoration! as BoxDecoration)
+        .color;
     expect(bannerColor(), SprintColors.light.warningSoft);
 
     await pumpWidgetUnder(
-      tester,
-      const HoldBanner(remaining: Duration(seconds: 45)),
-    );
+        tester, const HoldBanner(remaining: Duration(seconds: 45)));
     expect(find.text(ar.checkoutLastMinuteTitle), findsOneWidget);
     expect(find.text(ar.checkoutLastMinuteBody(45)), findsOneWidget);
     expect(bannerColor(), SprintColors.light.dangerSoft);
@@ -76,12 +62,9 @@ void main() {
 
   testWidgets('the gateway kind says the place is held', (tester) async {
     await pumpWidgetUnder(
-      tester,
-      const HoldBanner(
-        remaining: Duration(minutes: 8),
-        kind: HoldBannerKind.gateway,
-      ),
-    );
+        tester,
+        const HoldBanner(
+            remaining: Duration(minutes: 8), kind: HoldBannerKind.gateway));
     expect(find.text(ar.gatewayHoldTitle), findsOneWidget);
     expect(find.text(ar.gatewayHoldBody('8:00')), findsOneWidget);
   });
@@ -101,18 +84,14 @@ void main() {
 
     // The same widget, one second later: nothing new is spoken.
     Future<void> tick(Duration d) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          theme: SprintTheme.light,
-          locale: const Locale('ar'),
-          supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          home: Scaffold(body: HoldBanner(remaining: d)),
-        ),
-      );
-      spoken.add(
-        tester.getSemantics(find.byKey(HoldBanner.liveRegionKey)).label,
-      );
+      await tester.pumpWidget(MaterialApp(
+        theme: SprintTheme.light,
+        locale: const Locale('ar'),
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        home: Scaffold(body: HoldBanner(remaining: d)),
+      ));
+      spoken.add(tester.getSemantics(find.byKey(HoldBanner.liveRegionKey)).label);
     }
 
     await tick(const Duration(minutes: 5, seconds: 1));
@@ -139,26 +118,19 @@ void main() {
     expect(countdownText(const Duration(seconds: -3)), '0:00');
   });
 
-  testWidgets('the moment placeholder carries its words and no animation', (
-    tester,
-  ) async {
+  testWidgets('the moment placeholder carries its words and no animation',
+      (tester) async {
     await pumpWidgetUnder(
-      tester,
-      const MomentPlaceholder(
-        kind: MomentKind.failure,
-        title: 'عنوان',
-        body: 'نص',
-        announce: true,
-      ),
-    );
+        tester,
+        const MomentPlaceholder(
+            kind: MomentKind.failure, title: 'عنوان', body: 'نص', announce: true));
     expect(find.text('عنوان'), findsOneWidget);
     expect(find.text('نص'), findsOneWidget);
     expect(tester.hasRunningAnimations, isFalse);
   });
 
-  testWidgets('the method card shows the test tag only when asked', (
-    tester,
-  ) async {
+  testWidgets('the method card shows the test tag only when asked',
+      (tester) async {
     await pumpWidgetUnder(tester, const PaymentMethodCard(showTestTag: true));
     expect(find.byKey(PaymentMethodCard.testTagKey), findsOneWidget);
     expect(find.text(ar.checkoutSandboxTag), findsOneWidget);
@@ -168,17 +140,16 @@ void main() {
   });
 
   Widget layout() => const CheckoutLayout(
-    title: 'PAY',
-    summaryTitle: 'SUM',
-    banner: Text('banner'),
-    summary: Text('summary'),
-    method: Text('method'),
-    action: Text('action'),
-  );
+        title: 'PAY',
+        summaryTitle: 'SUM',
+        banner: Text('banner'),
+        summary: Text('summary'),
+        method: Text('method'),
+        action: Text('action'),
+      );
 
-  testWidgets('compact: one column with the action in a fixed bar', (
-    tester,
-  ) async {
+  testWidgets('compact: one column with the action in a fixed bar',
+      (tester) async {
     await pumpWidgetUnder(tester, SizedBox(height: 700, child: layout()));
     expect(find.byKey(CheckoutLayout.barKey), findsOneWidget);
     expect(find.byKey(CheckoutLayout.paymentColumnKey), findsNothing);
@@ -187,11 +158,8 @@ void main() {
 
   testWidgets('from 600: two columns, no bar, the action ends the payment '
       'column', (tester) async {
-    await pumpWidgetUnder(
-      tester,
-      SizedBox(height: 700, child: layout()),
-      size: const Size(700, 900),
-    );
+    await pumpWidgetUnder(tester, SizedBox(height: 700, child: layout()),
+        size: const Size(700, 900));
     expect(find.byKey(CheckoutLayout.barKey), findsNothing);
     expect(find.byKey(CheckoutLayout.paymentColumnKey), findsOneWidget);
     expect(find.byKey(CheckoutLayout.summaryColumnKey), findsOneWidget);
@@ -203,9 +171,6 @@ void main() {
     // right), the payment column on the far side (at the left).
     expect(summary.center.dx, greaterThan(payment.center.dx));
     final action = tester.getRect(find.text('action'));
-    expect(
-      action.bottom,
-      greaterThan(tester.getRect(find.text('method')).bottom),
-    );
+    expect(action.bottom, greaterThan(tester.getRect(find.text('method')).bottom));
   });
 }

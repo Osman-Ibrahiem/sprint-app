@@ -13,10 +13,7 @@ void main() {
   });
 
   test('a trainer facility uses the trainer path (BR-09)', () {
-    expect(
-      BookingPath.of(facility(requiresTrainer: true)),
-      BookingPath.trainer,
-    );
+    expect(BookingPath.of(facility(requiresTrainer: true)), BookingPath.trainer);
   });
 
   test('a free facility that requires a trainer still goes trainer first', () {

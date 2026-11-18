@@ -62,10 +62,7 @@ void main() {
   }, variant: platforms);
 
   testWidgets('leaving also asks from the failed state', (tester) async {
-    final env = await CheckoutEnv.open(
-      tester,
-      outcome: const FakeOutcome.fail(),
-    );
+    final env = await CheckoutEnv.open(tester, outcome: const FakeOutcome.fail());
     await env.payOnPage();
     expect(find.text(ar.checkoutFailedTitle), findsOneWidget);
     await tester.binding.handlePopRoute();
@@ -73,9 +70,8 @@ void main() {
     expect(find.text(ar.checkoutLeaveTitle), findsOneWidget);
   });
 
-  testWidgets('processing absorbs back with no dialog and no back button', (
-    tester,
-  ) async {
+  testWidgets('processing absorbs back with no dialog and no back button',
+      (tester) async {
     final env = await CheckoutEnv.open(
       tester,
       outcome: const FakeOutcome.delay(Duration(seconds: 30)),

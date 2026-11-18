@@ -40,10 +40,8 @@ void main() {
     // 600 announcements.
     expect(labels.length, lessThanOrEqualTo(22));
     expect(labels.length, greaterThan(15));
-    expect(
-      labels.where((l) => l.contains(ar.checkoutLastMinuteTitle)),
-      hasLength(1),
-    );
+    expect(labels.where((l) => l.contains(ar.checkoutLastMinuteTitle)),
+        hasLength(1));
     handle.dispose();
   });
 
@@ -76,10 +74,8 @@ void main() {
     );
     await env.payOnPage();
     final spacedCode = env.booking.code.split('').join(' ');
-    expect(
-      find.bySemanticsLabel(RegExp(RegExp.escape(spacedCode))),
-      findsWidgets,
-    );
+    expect(find.bySemanticsLabel(RegExp(RegExp.escape(spacedCode))),
+        findsWidgets);
     expect(
       find.bySemanticsLabel(RegExp(RegExp.escape(ar.ticketQrLabel))),
       findsWidgets,
@@ -87,16 +83,14 @@ void main() {
     handle.dispose();
   });
 
-  testWidgets('keyboard: Tab reaches the back button, then the pay button', (
-    tester,
-  ) async {
+  testWidgets('keyboard: Tab reaches the back button, then the pay button',
+      (tester) async {
     await CheckoutEnv.open(tester);
     final order = <String>[];
     for (var i = 0; i < 30 && !order.contains('pay'); i++) {
       await tester.sendKeyEvent(LogicalKeyboardKey.tab);
       await tester.pump();
-      final back =
-          FocusManager.instance.primaryFocus?.context != null &&
+      final back = FocusManager.instance.primaryFocus?.context != null &&
           _inside(AdaptiveBackButton);
       if (back && !order.contains('back')) order.add('back');
       if (focusIn(CheckoutScreen.payKey) && !order.contains('pay')) {
@@ -110,9 +104,8 @@ void main() {
     await tester.pumpAndSettle();
   });
 
-  testWidgets('reduced motion: nothing animates and the numbers still update', (
-    tester,
-  ) async {
+  testWidgets('reduced motion: nothing animates and the numbers still update',
+      (tester) async {
     final env = await CheckoutEnv.open(tester);
     expect(tester.hasRunningAnimations, isFalse);
     expect(find.text(ar.checkoutHoldRemaining('10:00')), findsOneWidget);

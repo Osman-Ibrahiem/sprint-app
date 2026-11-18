@@ -130,22 +130,21 @@ void main() {
   });
 
   group('payment hand-off', () {
-    testWidgets(
-      '"متابعة للدفع" creates the booking on hold and opens checkout',
-      (tester) async {
-        await openSummary(
-          tester,
-          SeedIds.futsalFacility,
-          pick(1, SeedIds.futsal2, 18),
-          shown: 140,
-        );
-        final before = bookingCount(tester);
-        await tester.tap(find.byKey(BookingSummaryScreen.actionKey));
-        await tester.pumpAndSettle();
-        expect(find.byType(CheckoutScreen), findsOneWidget);
-        expect(bookingCount(tester), before + 1);
-      },
-    );
+    testWidgets('"متابعة للدفع" creates the booking on hold and opens checkout', (
+      tester,
+    ) async {
+      await openSummary(
+        tester,
+        SeedIds.futsalFacility,
+        pick(1, SeedIds.futsal2, 18),
+        shown: 140,
+      );
+      final before = bookingCount(tester);
+      await tester.tap(find.byKey(BookingSummaryScreen.actionKey));
+      await tester.pumpAndSettle();
+      expect(find.byType(CheckoutScreen), findsOneWidget);
+      expect(bookingCount(tester), before + 1);
+    });
 
     testWidgets(
       'a slot taken before the tap sends the person back with the reason',

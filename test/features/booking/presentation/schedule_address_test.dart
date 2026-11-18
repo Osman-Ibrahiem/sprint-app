@@ -50,12 +50,10 @@ void main() {
     'back after several choices returns to the facility in one step',
     (tester) async {
       await pumpSprintApp(
-        tester,
-        size: const Size(400, 1400),
-        overrides: [
-          appClockProvider.overrideWithValue(Clock(() => satMorning)),
-        ],
-      );
+      tester,
+      size: const Size(400, 1400),
+      overrides: [appClockProvider.overrideWithValue(Clock(() => satMorning))],
+    );
       routerOf(tester).go(AppPaths.facilityDetails(pool));
       await tester.pumpAndSettle();
       routerOf(tester).push(AppPaths.facilitySchedule(pool));

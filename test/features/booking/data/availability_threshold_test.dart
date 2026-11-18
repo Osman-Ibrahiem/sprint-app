@@ -20,11 +20,11 @@ void main() {
   }
 
   Future<void> set(SettingScope scope, int value) => env.layer.settings.set(
-    SettingKeys.fewLeftThreshold,
-    value,
-    scope,
-    actorId: Ids.superAdmin,
-  );
+        SettingKeys.fewLeftThreshold,
+        value,
+        scope,
+        actorId: Ids.superAdmin,
+      );
 
   setUp(() async {
     // Capacity 4 with one booking: three places left.
@@ -34,23 +34,19 @@ void main() {
       const SettingScope.unit(Ids.pool6),
       actorId: Ids.superAdmin,
     );
-    await env.layer.bookings.create(
-      BookingRequest(
-        userId: Ids.bookerExternal,
-        unitId: Ids.pool6,
-        start: env.at(2, 17),
-        end: env.at(2, 18),
-      ),
-    );
+    await env.layer.bookings.create(BookingRequest(
+      userId: Ids.bookerExternal,
+      unitId: Ids.pool6,
+      start: env.at(2, 17),
+      end: env.at(2, 18),
+    ));
   });
 
-  test(
-    'three places left is available with the default threshold of 2',
-    () async {
-      final s = await lane6();
-      expect((s.remaining, s.state), (3, SlotState.available));
-    },
-  );
+  test('three places left is available with the default threshold of 2',
+      () async {
+    final s = await lane6();
+    expect((s.remaining, s.state), (3, SlotState.available));
+  });
 
   test('a unit-level threshold of 3 makes it few-left', () async {
     await set(const SettingScope.unit(Ids.pool6), 3);

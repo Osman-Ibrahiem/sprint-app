@@ -33,50 +33,38 @@ void main() {
       clock: Clock(() => now),
       paymentDelay: Duration.zero,
     );
-    c = ProviderContainer(
-      overrides: [
-        dataLayerProvider.overrideWithValue(layer),
-        appClockProvider.overrideWithValue(Clock(() => now)),
-      ],
-    );
+    c = ProviderContainer(overrides: [
+      dataLayerProvider.overrideWithValue(layer),
+      appClockProvider.overrideWithValue(Clock(() => now)),
+    ]);
     addTearDown(c.dispose);
     await c.read(sessionProvider.notifier).actAs(SeedIds.bookerInternal);
   });
 
   Future<Booking> create() async {
-    final r = await layer.bookings.create(
-      BookingRequest(
-        userId: SeedIds.bookerInternal,
-        unitId: SeedIds.futsal2,
-        start: CairoTime.atWallClock(2026, 11, 16, 18),
-        end: CairoTime.atWallClock(2026, 11, 16, 19),
-      ),
-    );
+    final r = await layer.bookings.create(BookingRequest(
+      userId: SeedIds.bookerInternal,
+      unitId: SeedIds.futsal2,
+      start: CairoTime.atWallClock(2026, 11, 16, 18),
+      end: CairoTime.atWallClock(2026, 11, 16, 19),
+    ));
     return (r as Ok<Booking>).value;
   }
 
   /// Keeps an auto-dispose provider alive for the test.
   void hold<T>(ProviderListenable<T> p) => c.listen<T>(p, (_, _) {});
 
-  test(
-    'access: owner allowed, someone else and an unknown id refused',
-    () async {
-      final b = await create();
-      expect(
-        await c.read(checkoutAccessProvider(b.id).future),
-        CheckoutAccess.allowed,
-      );
-      expect(
-        await c.read(checkoutAccessProvider('nope').future),
-        CheckoutAccess.notFound,
-      );
-      await c.read(sessionProvider.notifier).actAs(SeedIds.bookerExternal);
-      expect(
-        await c.read(checkoutAccessProvider(b.id).future),
-        CheckoutAccess.notOwner,
-      );
-    },
-  );
+  test('access: owner allowed, someone else and an unknown id refused',
+      () async {
+    final b = await create();
+    expect(await c.read(checkoutAccessProvider(b.id).future),
+        CheckoutAccess.allowed);
+    expect(await c.read(checkoutAccessProvider('nope').future),
+        CheckoutAccess.notFound);
+    await c.read(sessionProvider.notifier).actAs(SeedIds.bookerExternal);
+    expect(await c.read(checkoutAccessProvider(b.id).future),
+        CheckoutAccess.notOwner);
+  });
 
   test('the view follows the booking and its payment', () async {
     final b = await create();
@@ -84,10 +72,7 @@ void main() {
     await settle(20);
     expect(c.read(checkoutViewProvider(b.id)), CheckoutView.holding);
 
-    final s = (await layer.bookings.startPayment(
-      b.id,
-      b.userId,
-    ) as Ok<PaymentSession>).value;
+    final s = (await layer.bookings.startPayment(b.id, b.userId) as Ok<PaymentSession>).value;
     await settle(20);
     expect(c.read(checkoutViewProvider(b.id)), CheckoutView.processing);
 
@@ -128,21 +113,16 @@ void main() {
     // Zero, or null once the repository has already expired the booking.
     expect(c.read(holdCountdownProvider(b.id)), anyOf(Duration.zero, isNull));
     await settle(80);
-    expect(
-      ((await layer.bookings.get(b.id)) as Ok<Booking>).value.status,
-      BookingStatus.expired,
-    );
+    expect(((await layer.bookings.get(b.id)) as Ok<Booking>).value.status,
+        BookingStatus.expired);
   });
 
   test('settings: cutoff, refund percent, lead and the test-mode flag come '
       'from the settings', () async {
     final b = await create();
     final s = await c.read(checkoutSettingsProvider(b.id).future);
-    final cfg = await UnitSettings.resolve(
-      layer.settings,
-      unitId: b.unitId,
-      facilityId: b.facilityId,
-    );
+    final cfg = await UnitSettings.resolve(layer.settings,
+        unitId: b.unitId, facilityId: b.facilityId);
     expect(s.cancellationCutoffHours, cfg.cancellationCutoffHours);
     expect(s.refundPercent, cfg.refundPercent);
     expect(s.reminderLeadMinutes, 180);
@@ -155,21 +135,15 @@ void main() {
     expect(v.amount, 140);
     expect(v.facilityName, isNotEmpty);
     expect(v.unitName, isNotEmpty);
-    expect(
-      v.quote.cancellationCutoffHours,
-      (await c.read(checkoutSettingsProvider(b.id).future))
-          .cancellationCutoffHours,
-    );
+    expect(v.quote.cancellationCutoffHours,
+        (await c.read(checkoutSettingsProvider(b.id).future)).cancellationCutoffHours);
   });
 
   test('receipt: for any booking of the person with a succeeded payment, '
       'with a refund line after cancelling', () async {
     final b = await create();
     expect(await c.read(receiptProvider(b.id).future), isNull);
-    final s = (await layer.bookings.startPayment(
-      b.id,
-      b.userId,
-    ) as Ok<PaymentSession>).value;
+    final s = (await layer.bookings.startPayment(b.id, b.userId) as Ok<PaymentSession>).value;
     layer.paymentProvider.gateway.confirm(s.id, cardLast4: '4242');
     await settle();
     final r = (await c.read(receiptProvider(b.id).future))!;
@@ -188,19 +162,16 @@ void main() {
     expect(cancelled.refundAmount, preview.refundAmount);
 
     // A free booking has none.
-    final free = layer.bookings.allBookings.firstWhere(
-      (x) =>
-          x.userId == SeedIds.bookerInternal &&
-          x.unitId == SeedIds.hall1 &&
-          x.status == BookingStatus.confirmed,
-    );
+    final free = layer.bookings.allBookings.firstWhere((x) =>
+        x.userId == SeedIds.bookerInternal &&
+        x.unitId == SeedIds.hall1 &&
+        x.status == BookingStatus.confirmed);
     expect(await c.read(receiptProvider(free.id).future), isNull);
   });
 
   test('housekeeping: keeps Holds honest off the checkout screen', () async {
-    layer.paymentProvider.gateway.outcome = const FakeOutcome.delay(
-      Duration(minutes: 5),
-    );
+    layer.paymentProvider.gateway.outcome =
+        const FakeOutcome.delay(Duration(minutes: 5));
     final b = await create();
     expect(c.read(holdHousekeepingProvider), isTrue);
     await settle(20);
@@ -208,10 +179,8 @@ void main() {
     // the clock past it and ask the way the timer does.
     now = now.add(const Duration(minutes: 11));
     await layer.bookings.expireHolds();
-    expect(
-      ((await layer.bookings.get(b.id)) as Ok<Booking>).value.status,
-      BookingStatus.expired,
-    );
+    expect(((await layer.bookings.get(b.id)) as Ok<Booking>).value.status,
+        BookingStatus.expired);
   });
 
   test('housekeeping is idle for a guest', () async {

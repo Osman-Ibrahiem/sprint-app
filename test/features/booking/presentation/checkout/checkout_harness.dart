@@ -18,8 +18,7 @@ import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
 import 'package:sprint/features/booking/presentation/checkout/checkout_screen.dart';
 import 'package:sprint/features/payments/data/fake_gateway_controller.dart';
-import 'package:sprint/features/payments/presentation/fake_gateway_screen.dart'
-    show confirmKey;
+import 'package:sprint/features/payments/presentation/fake_gateway_screen.dart' show confirmKey;
 
 import '../../../../helpers/pump_app.dart';
 
@@ -107,14 +106,12 @@ class CheckoutEnv {
       gatewayOutcome: outcome,
     );
     if (arrange != null) await arrange(layer);
-    final created = await layer.bookings.create(
-      BookingRequest(
-        userId: user,
-        unitId: SeedIds.futsal2,
-        start: CairoTime.atWallClock(2026, 11, 16, 18),
-        end: CairoTime.atWallClock(2026, 11, 16, 19),
-      ),
-    );
+    final created = await layer.bookings.create(BookingRequest(
+      userId: user,
+      unitId: SeedIds.futsal2,
+      start: CairoTime.atWallClock(2026, 11, 16, 18),
+      end: CairoTime.atWallClock(2026, 11, 16, 19),
+    ));
     final booking = (created as Ok<Booking>).value;
     await pumpSprintApp(
       tester,

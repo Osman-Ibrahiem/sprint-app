@@ -19,11 +19,7 @@ import 'checkout_harness.dart';
 /// US-10 slow confirmation (BR-28, BR-46): processing, then waiting; the Hold
 /// waits for the provider; a late charge is refunded automatically.
 void main() {
-  Future<void> holds(
-    InMemoryDataLayer layer, {
-    int normal = 1,
-    int max = 2,
-  }) async {
+  Future<void> holds(InMemoryDataLayer layer, {int normal = 1, int max = 2}) async {
     await layer.settings.set(
       SettingKeys.holdMinutes,
       normal,
@@ -116,11 +112,9 @@ void main() {
     expect(refunds.single.amount, p.amount);
     expect((await env.reload()).status, BookingStatus.expired);
     expect(
-      env.layer.notifications.all.where(
-        (n) =>
-            n.type == 'payment.refunded_auto' &&
-            n.payload['code'] == env.booking.code,
-      ),
+      env.layer.notifications.all.where((n) =>
+          n.type == 'payment.refunded_auto' &&
+          n.payload['code'] == env.booking.code),
       hasLength(1),
     );
   });

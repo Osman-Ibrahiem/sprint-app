@@ -19,27 +19,29 @@ void main() {
     DateTime? end,
     int seats = 1,
     String? trainerId,
-  }) => BookingProposal(
-    userId: user,
-    unitId: unitId,
-    start: start ?? nine,
-    end: end ?? (start ?? nine).add(const Duration(hours: 1)),
-    seats: seats,
-    trainerId: trainerId,
-  );
+  }) =>
+      BookingProposal(
+        userId: user,
+        unitId: unitId,
+        start: start ?? nine,
+        end: end ?? (start ?? nine).add(const Duration(hours: 1)),
+        seats: seats,
+        trainerId: trainerId,
+      );
 
   Failure? check(
     BookingProposal p,
     List<Booking> existing, {
     UnitSettings? s,
     int? trainerCapacity,
-  }) => checker.check(
-    proposal: p,
-    existing: existing,
-    settings: s ?? settings(mode: BookingMode.exclusive),
-    now: now,
-    trainerCapacity: trainerCapacity,
-  );
+  }) =>
+      checker.check(
+        proposal: p,
+        existing: existing,
+        settings: s ?? settings(mode: BookingMode.exclusive),
+        now: now,
+        trainerCapacity: trainerCapacity,
+      );
 
   group('exclusive (BR-02, BR-11)', () {
     test('a free slot is accepted', () {
@@ -47,18 +49,14 @@ void main() {
     });
 
     test('double booking the same slot is refused', () {
-      expect(
-        check(proposal(), [booking(userId: 'other', start: nine)]),
-        isA<SlotTaken>(),
-      );
+      expect(check(proposal(), [booking(userId: 'other', start: nine)]),
+          isA<SlotTaken>());
     });
 
     test('an overlapping booking, even partly, is refused', () {
       final half = cairo(2026, 11, 14, 9, 30);
-      expect(
-        check(proposal(), [booking(userId: 'other', start: half)]),
-        isA<SlotTaken>(),
-      );
+      expect(check(proposal(), [booking(userId: 'other', start: half)]),
+          isA<SlotTaken>());
     });
 
     test('back-to-back slots do not conflict', () {
@@ -67,19 +65,18 @@ void main() {
 
     test('another unit does not conflict', () {
       expect(
-        check(proposal(), [
-          booking(userId: 'other', unitId: 'u2', start: nine),
-        ]),
+        check(proposal(), [booking(userId: 'other', unitId: 'u2', start: nine)]),
         isNull,
       );
     });
 
     test('cancelled, expired and no-show bookings free the slot', () {
-      for (final status in [BookingStatus.cancelled, BookingStatus.expired]) {
+      for (final status in [
+        BookingStatus.cancelled,
+        BookingStatus.expired,
+      ]) {
         expect(
-          check(proposal(), [
-            booking(userId: 'other', start: nine, status: status),
-          ]),
+          check(proposal(), [booking(userId: 'other', start: nine, status: status)]),
           isNull,
           reason: '$status',
         );
@@ -111,9 +108,8 @@ void main() {
 
   group('shared capacity (BR-03)', () {
     final shared = settings(mode: BookingMode.shared, capacity: 3);
-    List<Booking> taken(int n) => [
-      for (var i = 0; i < n; i++) booking(userId: 'o$i', start: nine),
-    ];
+    List<Booking> taken(int n) =>
+        [for (var i = 0; i < n; i++) booking(userId: 'o$i', start: nine)];
 
     test('places left: accepted', () {
       expect(check(proposal(), taken(2), s: shared), isNull);
@@ -133,42 +129,31 @@ void main() {
         booking(userId: 'o2', start: nine, trainerId: 't1'),
       ];
       expect(
-        check(
-          proposal(trainerId: 't1'),
-          withTrainer,
-          s: settings(mode: BookingMode.shared, capacity: 8),
-          trainerCapacity: 2,
-        ),
+        check(proposal(trainerId: 't1'), withTrainer,
+            s: settings(mode: BookingMode.shared, capacity: 8),
+            trainerCapacity: 2),
         isA<SlotFull>(),
       );
       expect(
-        check(
-          proposal(trainerId: 't1'),
-          withTrainer,
-          s: settings(mode: BookingMode.shared, capacity: 8),
-          trainerCapacity: 3,
-        ),
+        check(proposal(trainerId: 't1'), withTrainer,
+            s: settings(mode: BookingMode.shared, capacity: 8),
+            trainerCapacity: 3),
         isNull,
       );
     });
   });
 
   group('same user overlap (BR-13)', () {
-    test(
-      'overlapping bookings of the same user are refused, across facilities',
-      () {
-        final mine = booking(
-          userId: 'me',
-          facilityId: 'f2',
-          unitId: 'u9',
-          start: nine,
-        );
-        expect(
-          check(proposal(unitId: 'u1'), [mine]),
-          isA<OverlapsOwnBooking>(),
-        );
-      },
-    );
+    test('overlapping bookings of the same user are refused, across facilities',
+        () {
+      final mine = booking(
+        userId: 'me',
+        facilityId: 'f2',
+        unitId: 'u9',
+        start: nine,
+      );
+      expect(check(proposal(unitId: 'u1'), [mine]), isA<OverlapsOwnBooking>());
+    });
 
     test('adjacent bookings of the same user are fine', () {
       final mine = booking(userId: 'me', unitId: 'u9', start: ten);
@@ -177,9 +162,7 @@ void main() {
 
     test('someone else overlapping on another unit is fine', () {
       expect(
-        check(proposal(), [
-          booking(userId: 'other', unitId: 'u9', start: nine),
-        ]),
+        check(proposal(), [booking(userId: 'other', unitId: 'u9', start: nine)]),
         isNull,
       );
     });
@@ -197,19 +180,21 @@ void main() {
 
   group('max active bookings per user (BR-14)', () {
     List<Booking> active(int n) => [
-      for (var i = 0; i < n; i++)
-        booking(userId: 'me', unitId: 'x$i', start: cairo(2026, 11, 20 + i, 9)),
-    ];
+          for (var i = 0; i < n; i++)
+            booking(
+              userId: 'me',
+              unitId: 'x$i',
+              start: cairo(2026, 11, 20 + i, 9),
+            ),
+        ];
 
     test('no limit by default', () {
       expect(check(proposal(), active(10)), isNull);
     });
 
     test('at the limit the next booking is refused', () {
-      expect(
-        check(proposal(), active(2), s: settings(maxActive: 2)),
-        isA<TooManyActiveBookings>(),
-      );
+      expect(check(proposal(), active(2), s: settings(maxActive: 2)),
+          isA<TooManyActiveBookings>());
     });
 
     test('below the limit it is accepted', () {
@@ -239,13 +224,13 @@ void main() {
     final twelve = cairo(2026, 11, 14, 12);
 
     BookingProposal range({String? trainerId}) => BookingProposal(
-      userId: 'me',
-      unitId: 'u1',
-      start: nine,
-      end: twelve,
-      slotMinutes: 60,
-      trainerId: trainerId,
-    );
+          userId: 'me',
+          unitId: 'u1',
+          start: nine,
+          end: twelve,
+          slotMinutes: 60,
+          trainerId: trainerId,
+        );
 
     test('a shared range is accepted while every hour has a place', () {
       final existing = [
@@ -253,11 +238,8 @@ void main() {
         booking(userId: 'b', start: eleven),
       ];
       expect(
-        check(
-          range(),
-          existing,
-          s: settings(mode: BookingMode.shared, capacity: 2),
-        ),
+        check(range(), existing,
+            s: settings(mode: BookingMode.shared, capacity: 2)),
         isNull,
       );
     });
@@ -267,11 +249,8 @@ void main() {
         booking(userId: 'a', start: ten),
         booking(userId: 'b', start: ten),
       ];
-      final f = check(
-        range(),
-        existing,
-        s: settings(mode: BookingMode.shared, capacity: 2),
-      );
+      final f = check(range(), existing,
+          s: settings(mode: BookingMode.shared, capacity: 2));
       expect(f, isA<SlotFull>());
       expect((f! as SlotFull).at, ten);
     });
@@ -305,23 +284,14 @@ void main() {
 
   group('refusals carry their detail (research R6)', () {
     test('the overlapping booking is named', () {
-      final mine = booking(
-        id: 'mine-1',
-        userId: 'me',
-        unitId: 'other',
-        start: nine,
-      );
+      final mine = booking(id: 'mine-1', userId: 'me', unitId: 'other', start: nine);
       final f = check(proposal(), [mine]);
       expect(f, isA<OverlapsOwnBooking>());
       expect((f! as OverlapsOwnBooking).bookingId, 'mine-1');
     });
 
     test('the cap is stated', () {
-      final mine = booking(
-        userId: 'me',
-        unitId: 'p1',
-        start: cairo(2026, 11, 20, 9),
-      );
+      final mine = booking(userId: 'me', unitId: 'p1', start: cairo(2026, 11, 20, 9));
       final f = check(proposal(), [mine], s: settings(maxActive: 1));
       expect(f, isA<TooManyActiveBookings>());
       expect((f! as TooManyActiveBookings).max, 1);

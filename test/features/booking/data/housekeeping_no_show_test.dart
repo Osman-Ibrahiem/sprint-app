@@ -27,12 +27,10 @@ void main() {
         clock: Clock(() => now),
         paymentDelay: Duration.zero,
       );
-      final c = ProviderContainer(
-        overrides: [
-          dataLayerProvider.overrideWithValue(layer),
-          appClockProvider.overrideWithValue(Clock(() => now)),
-        ],
-      );
+      final c = ProviderContainer(overrides: [
+        dataLayerProvider.overrideWithValue(layer),
+        appClockProvider.overrideWithValue(Clock(() => now)),
+      ]);
       addTearDown(c.dispose);
 
       late Booking attended;
@@ -44,24 +42,20 @@ void main() {
       final start = CairoTime.atWallClock(2026, 11, 14, 12);
       Booking? created;
       layer.bookings
-          .create(
-            BookingRequest(
-              userId: SeedIds.bookerInternal,
-              unitId: SeedIds.hall2,
-              start: start,
-              end: start.add(const Duration(hours: 1)),
-            ),
-          )
+          .create(BookingRequest(
+            userId: SeedIds.bookerInternal,
+            unitId: SeedIds.hall2,
+            start: start,
+            end: start.add(const Duration(hours: 1)),
+          ))
           .then((r) => created = (r as Ok<Booking>).value);
       async.elapse(Duration.zero);
       final b = created!;
       expect(b.status, BookingStatus.confirmed);
 
-      attended = layer.bookings.allBookings.firstWhere(
-        (x) =>
-            x.userId == SeedIds.bookerInternal &&
-            x.status == BookingStatus.attended,
-      );
+      attended = layer.bookings.allBookings.firstWhere((x) =>
+          x.userId == SeedIds.bookerInternal &&
+          x.status == BookingStatus.attended);
 
       expect(c.read(holdHousekeepingProvider), isTrue);
       async.elapse(Duration.zero);

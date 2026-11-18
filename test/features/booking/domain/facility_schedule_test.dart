@@ -10,22 +10,19 @@ import 'schedule_fixtures.dart';
 
 void main() {
   group('days (FR-002 – FR-004)', () {
-    test(
-      'one day per day of the longest window among the units, from today',
-      () {
-        final s = buildSchedule(
-          unitIds: ['u1', 'u2'],
-          settingsByUnit: {
-            'u1': settings(bookingWindowDays: 3),
-            'u2': settings(bookingWindowDays: 5),
-          },
-        );
-        expect(s.days, hasLength(5));
-        expect(s.days.first.date, fixtureToday);
-        expect(s.days.last.date, dayPlus(4));
-        expect(s.today, fixtureToday);
-      },
-    );
+    test('one day per day of the longest window among the units, from today', () {
+      final s = buildSchedule(
+        unitIds: ['u1', 'u2'],
+        settingsByUnit: {
+          'u1': settings(bookingWindowDays: 3),
+          'u2': settings(bookingWindowDays: 5),
+        },
+      );
+      expect(s.days, hasLength(5));
+      expect(s.days.first.date, fixtureToday);
+      expect(s.days.last.date, dayPlus(4));
+      expect(s.today, fixtureToday);
+    });
 
     test('with no units the fallback window is used', () {
       final s = buildSchedule(unitIds: const [], fallbackWindowDays: 4);
@@ -34,37 +31,26 @@ void main() {
       expect(s.defaultUnit(fixtureToday), isNull);
     });
 
-    test(
-      'closed when no unit has any slot; available when one is bookable',
-      () {
-        final s = buildSchedule(
-          unitIds: ['u1', 'u2'],
-          slots: {
-            'u1': [
-              slotAt(0, 9, state: SlotState.past),
-              slotAt(1, 9, state: SlotState.full),
-            ],
-            'u2': [
-              slotAt(1, 10),
-              slotAt(3, 10, state: SlotState.fewLeft, remaining: 1),
-            ],
-          },
-        );
-        final d = s.days;
-        // Today: only a past slot. Not closed, nothing to book.
-        expect((d[0].isClosed, d[0].hasAvailability), (false, false));
-        expect((d[1].isClosed, d[1].hasAvailability), (false, true));
-        expect((d[2].isClosed, d[2].hasAvailability), (true, false));
-        expect((d[3].isClosed, d[3].hasAvailability), (false, true));
-      },
-    );
-
-    test('closed slots are never kept', () {
+    test('closed when no unit has any slot; available when one is bookable', () {
       final s = buildSchedule(
+        unitIds: ['u1', 'u2'],
         slots: {
-          'u1': [slotAt(1, 9, state: SlotState.closed)],
+          'u1': [slotAt(0, 9, state: SlotState.past), slotAt(1, 9, state: SlotState.full)],
+          'u2': [slotAt(1, 10), slotAt(3, 10, state: SlotState.fewLeft, remaining: 1)],
         },
       );
+      final d = s.days;
+      // Today: only a past slot. Not closed, nothing to book.
+      expect((d[0].isClosed, d[0].hasAvailability), (false, false));
+      expect((d[1].isClosed, d[1].hasAvailability), (false, true));
+      expect((d[2].isClosed, d[2].hasAvailability), (true, false));
+      expect((d[3].isClosed, d[3].hasAvailability), (false, true));
+    });
+
+    test('closed slots are never kept', () {
+      final s = buildSchedule(slots: {
+        'u1': [slotAt(1, 9, state: SlotState.closed)],
+      });
       expect(s.slotsFor('u1', dayPlus(1)), isEmpty);
       expect(s.days[1].isClosed, isTrue);
     });
@@ -72,18 +58,14 @@ void main() {
 
   group('defaults (FR-003, FR-008)', () {
     test('first day with availability, then first open day, then today', () {
-      final withRoom = buildSchedule(
-        slots: {
-          'u1': [slotAt(1, 9, state: SlotState.full), slotAt(2, 9)],
-        },
-      );
+      final withRoom = buildSchedule(slots: {
+        'u1': [slotAt(1, 9, state: SlotState.full), slotAt(2, 9)],
+      });
       expect(withRoom.defaultDay, dayPlus(2));
 
-      final onlyFull = buildSchedule(
-        slots: {
-          'u1': [slotAt(1, 9, state: SlotState.full)],
-        },
-      );
+      final onlyFull = buildSchedule(slots: {
+        'u1': [slotAt(1, 9, state: SlotState.full)],
+      });
       expect(onlyFull.defaultDay, dayPlus(1));
 
       expect(buildSchedule().defaultDay, fixtureToday);
@@ -125,15 +107,9 @@ void main() {
       final u = s.units.single;
       expect(u.mode, BookingMode.exclusive);
       expect(u.isShared, isFalse);
-      expect(
-        (u.maxRangeHours, u.granularityMinutes, u.sessionMinutes),
-        (2, 30, 90),
-      );
+      expect((u.maxRangeHours, u.granularityMinutes, u.sessionMinutes), (2, 30, 90));
       expect(u.fewLeftThreshold, 2);
-      expect(
-        (u.priceFor(PriceTier.internal), u.priceFor(PriceTier.external)),
-        (20, 40),
-      );
+      expect((u.priceFor(PriceTier.internal), u.priceFor(PriceTier.external)), (20, 40));
       expect(s.unit('u1'), same(u));
       expect(s.unit('nope'), isNull);
     });
@@ -145,11 +121,9 @@ void main() {
 
   group('grid', () {
     test('slot and range paths list the selected unit in time order', () {
-      final s = buildSchedule(
-        slots: {
-          'u1': [slotAt(1, 11), slotAt(1, 9), slotAt(2, 9)],
-        },
-      );
+      final s = buildSchedule(slots: {
+        'u1': [slotAt(1, 11), slotAt(1, 9), slotAt(2, 9)],
+      });
       final grid = s.gridFor(ScheduleSelection(day: dayPlus(1), unitId: 'u1'));
       expect(grid.map((g) => g.startMinutes), [9 * 60, 11 * 60]);
       expect(grid.first.endMinutes, 10 * 60);
@@ -159,14 +133,10 @@ void main() {
     });
 
     test('a slot that crosses midnight belongs to the day it starts on', () {
-      final s = buildSchedule(
-        slots: {
-          'u1': [slotAt(1, 23, minutes: 120)],
-        },
-      );
-      final g = s
-          .gridFor(ScheduleSelection(day: dayPlus(1), unitId: 'u1'))
-          .single;
+      final s = buildSchedule(slots: {
+        'u1': [slotAt(1, 23, minutes: 120)],
+      });
+      final g = s.gridFor(ScheduleSelection(day: dayPlus(1), unitId: 'u1')).single;
       expect((g.startMinutes, g.endMinutes), (23 * 60, 25 * 60));
       expect(s.slotsFor('u1', dayPlus(2)), isEmpty);
     });
@@ -174,10 +144,7 @@ void main() {
 
   group('trainer path (FR-017, FR-018)', () {
     test('before a trainer is chosen only the trainer step applies', () {
-      final s = buildSchedule(
-        requiresTrainer: true,
-        trainers: const [trainerA],
-      );
+      final s = buildSchedule(requiresTrainer: true, trainers: const [trainerA]);
       expect(s.path, BookingPath.trainer);
       expect(s.needsTrainer, isTrue);
     });
@@ -197,11 +164,8 @@ void main() {
       expect(s.needsTrainer, isFalse);
       expect(s.units.map((u) => u.id), ['u1', 'u2']);
       final sessions = s.sessionsOn(dayPlus(1));
-      expect(sessions.map((x) => (x.unitId, x.startMinutes ~/ 60)), [
-        ('u1', 10),
-        ('u2', 11),
-        ('u1', 12),
-      ]);
+      expect(sessions.map((x) => (x.unitId, x.startMinutes ~/ 60)),
+          [('u1', 10), ('u2', 11), ('u1', 12)]);
       expect(s.gridFor(ScheduleSelection(day: dayPlus(1))), hasLength(3));
     });
 
@@ -221,11 +185,9 @@ void main() {
   });
 
   test('nextFlipAfter finds the next instant a slot turns to past', () {
-    final s = buildSchedule(
-      slots: {
-        'u1': [slotAt(0, 7, state: SlotState.past), slotAt(0, 9), slotAt(1, 9)],
-      },
-    );
+    final s = buildSchedule(slots: {
+      'u1': [slotAt(0, 7, state: SlotState.past), slotAt(0, 9), slotAt(1, 9)],
+    });
     expect(s.nextFlipAfter(fixtureNow), cairo(2026, 11, 14, 9));
     expect(
       s.nextFlipAfter(fixtureNow, lead: const Duration(minutes: 30)),

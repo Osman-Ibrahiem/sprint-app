@@ -37,15 +37,12 @@ BookingSummaryView view(
 );
 
 void main() {
-  test(
-    'an exclusive unit covers the whole unit with its participants (BR-02)',
-    () {
-      final v = view(quote());
-      expect(v.coverage, isA<WholeUnit>());
-      expect((v.coverage as WholeUnit).maxParticipants, 22);
-      expect(v.isPerPlace, isFalse);
-    },
-  );
+  test('an exclusive unit covers the whole unit with its participants (BR-02)', () {
+    final v = view(quote());
+    expect(v.coverage, isA<WholeUnit>());
+    expect((v.coverage as WholeUnit).maxParticipants, 22);
+    expect(v.isPerPlace, isFalse);
+  });
 
   test('a shared unit covers one place (BR-03)', () {
     final v = view(quote(mode: BookingMode.shared, max: null));
@@ -70,9 +67,7 @@ void main() {
   });
 
   test('a paid booking keeps the hint', () {
-    expect(
-      view(quote(), hint: VerificationHint.underReview).verificationHint,
-      VerificationHint.underReview,
-    );
+    expect(view(quote(), hint: VerificationHint.underReview).verificationHint,
+        VerificationHint.underReview);
   });
 }

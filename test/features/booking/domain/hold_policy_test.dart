@@ -16,54 +16,41 @@ void main() {
     DateTime? max,
     DateTime? extendedAt,
     BookingStatus status = BookingStatus.pendingPayment,
-  }) => booking(
-    start: start,
-    status: status,
-    holdStartedAt: now,
-    holdExpiresAt: expires,
-    holdMaxExpiresAt: max ?? expires,
-  ).copyWith(holdExtendedAt: extendedAt);
+  }) =>
+      booking(
+        start: start,
+        status: status,
+        holdStartedAt: now,
+        holdExpiresAt: expires,
+        holdMaxExpiresAt: max ?? expires,
+      ).copyWith(holdExtendedAt: extendedAt);
 
   group('creation', () {
     test('expiry is now + holdMinutes, capped at the start', () {
-      expect(
-        policy.expiryFrom(now, holdMinutes: 10, start: start),
-        now.add(const Duration(minutes: 10)),
-      );
+      expect(policy.expiryFrom(now, holdMinutes: 10, start: start),
+          now.add(const Duration(minutes: 10)));
       final soon = now.add(const Duration(minutes: 4));
       expect(policy.expiryFrom(now, holdMinutes: 10, start: soon), soon);
     });
 
     test('maximum is now + holdMaxMinutes, capped at the start', () {
       expect(
-        policy.maxExpiryFrom(
-          now,
-          holdMinutes: 10,
-          holdMaxMinutes: 20,
-          start: start,
-        ),
+        policy.maxExpiryFrom(now,
+            holdMinutes: 10, holdMaxMinutes: 20, start: start),
         now.add(const Duration(minutes: 20)),
       );
       final soon = now.add(const Duration(minutes: 15));
       expect(
-        policy.maxExpiryFrom(
-          now,
-          holdMinutes: 10,
-          holdMaxMinutes: 20,
-          start: soon,
-        ),
+        policy.maxExpiryFrom(now,
+            holdMinutes: 10, holdMaxMinutes: 20, start: soon),
         soon,
       );
     });
 
     test('holdMaxMinutes below holdMinutes gives no extension', () {
       expect(
-        policy.maxExpiryFrom(
-          now,
-          holdMinutes: 10,
-          holdMaxMinutes: 5,
-          start: start,
-        ),
+        policy.maxExpiryFrom(now,
+            holdMinutes: 10, holdMaxMinutes: 5, start: start),
         now.add(const Duration(minutes: 10)),
       );
     });
@@ -76,10 +63,8 @@ void main() {
 
     test('unchanged before the expiry', () {
       final d = policy.nextExpiry(
-        b,
-        expires.subtract(const Duration(seconds: 1)),
-        hasPendingPayment: true,
-      );
+          b, expires.subtract(const Duration(seconds: 1)),
+          hasPendingPayment: true);
       expect(d, isA<HoldKeep>());
     });
 
@@ -90,46 +75,31 @@ void main() {
     });
 
     test('expires at expiry with no pending payment', () {
-      expect(
-        policy.nextExpiry(b, expires, hasPendingPayment: false),
-        isA<HoldExpire>(),
-      );
+      expect(policy.nextExpiry(b, expires, hasPendingPayment: false),
+          isA<HoldExpire>());
     });
 
     test('expires at or after the maximum even with a pending payment', () {
       final extended = pending(expires: max, max: max, extendedAt: expires);
+      expect(policy.nextExpiry(extended, max, hasPendingPayment: true),
+          isA<HoldExpire>());
       expect(
-        policy.nextExpiry(extended, max, hasPendingPayment: true),
-        isA<HoldExpire>(),
-      );
-      expect(
-        policy.nextExpiry(
-          b,
-          max.add(const Duration(minutes: 1)),
-          hasPendingPayment: true,
-        ),
-        isA<HoldExpire>(),
-      );
+          policy.nextExpiry(b, max.add(const Duration(minutes: 1)),
+              hasPendingPayment: true),
+          isA<HoldExpire>());
     });
 
     test('no extension when the maximum equals the normal expiry', () {
       final flat = pending(expires: expires);
-      expect(
-        policy.nextExpiry(flat, expires, hasPendingPayment: true),
-        isA<HoldExpire>(),
-      );
+      expect(policy.nextExpiry(flat, expires, hasPendingPayment: true),
+          isA<HoldExpire>());
     });
 
     test('a booking that is not pending is left alone', () {
       final done = pending(
-        expires: expires,
-        max: max,
-        status: BookingStatus.confirmed,
-      );
-      expect(
-        policy.nextExpiry(done, max, hasPendingPayment: true),
-        isA<HoldKeep>(),
-      );
+          expires: expires, max: max, status: BookingStatus.confirmed);
+      expect(policy.nextExpiry(done, max, hasPendingPayment: true),
+          isA<HoldKeep>());
     });
   });
 
@@ -139,10 +109,8 @@ void main() {
 
     test('false for a Hold that was never extended', () {
       final b = pending(expires: expires, max: max);
-      expect(
-        policy.expiresOnAnswer(b, expires.subtract(const Duration(seconds: 1))),
-        isFalse,
-      );
+      expect(policy.expiresOnAnswer(b, expires.subtract(const Duration(seconds: 1))),
+          isFalse);
       final flat = pending(expires: expires);
       expect(policy.expiresOnAnswer(flat, now), isFalse);
     });
@@ -150,10 +118,8 @@ void main() {
     test('true once extended, from the normal expiry on', () {
       final b = pending(expires: max, max: max, extendedAt: expires);
       expect(policy.expiresOnAnswer(b, expires), isTrue);
-      expect(
-        policy.expiresOnAnswer(b, max.subtract(const Duration(seconds: 1))),
-        isTrue,
-      );
+      expect(policy.expiresOnAnswer(b, max.subtract(const Duration(seconds: 1))),
+          isTrue);
     });
   });
 
@@ -172,15 +138,10 @@ void main() {
 
     test('refuses beyond the maximum and when not pending', () {
       final b = pending(expires: expires, max: max);
-      expect(
-        b.extendHoldTo(max.add(const Duration(seconds: 1))),
-        isA<Err<Booking>>(),
-      );
+      expect(b.extendHoldTo(max.add(const Duration(seconds: 1))),
+          isA<Err<Booking>>());
       final done = pending(
-        expires: expires,
-        max: max,
-        status: BookingStatus.confirmed,
-      );
+          expires: expires, max: max, status: BookingStatus.confirmed);
       expect(done.extendHoldTo(max), isA<Err<Booking>>());
     });
   });

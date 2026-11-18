@@ -61,26 +61,15 @@ void main() {
           );
           // Holding.
           noOverflow(tester, 'holding $name');
-          expect(
-            find.byKey(CheckoutLayout.barKey),
-            w < 600 ? findsOneWidget : findsNothing,
-          );
-          expect(
-            find.byKey(CheckoutLayout.paymentColumnKey),
-            w < 600 ? findsNothing : findsOneWidget,
-          );
+          expect(find.byKey(CheckoutLayout.barKey),
+              w < 600 ? findsOneWidget : findsNothing);
+          expect(find.byKey(CheckoutLayout.paymentColumnKey),
+              w < 600 ? findsNothing : findsOneWidget);
           if (w >= 600) {
-            final pay = tester.getRect(
-              find.byKey(CheckoutLayout.paymentColumnKey),
-            );
-            final sum = tester.getRect(
-              find.byKey(CheckoutLayout.summaryColumnKey),
-            );
+            final pay = tester.getRect(find.byKey(CheckoutLayout.paymentColumnKey));
+            final sum = tester.getRect(find.byKey(CheckoutLayout.summaryColumnKey));
             expect(pay.overlaps(sum), isFalse);
-            expect(
-              pay.width,
-              lessThanOrEqualTo(SprintExtras.checkoutPaymentColumn),
-            );
+            expect(pay.width, lessThanOrEqualTo(SprintExtras.checkoutPaymentColumn));
           }
 
           // The provider page.
@@ -138,20 +127,17 @@ void main() {
         });
 
         for (final free in [false, true]) {
-          testWidgets('${free ? 'free' : 'paid'} ticket and receipt at $name', (
-            tester,
-          ) async {
+          testWidgets('${free ? 'free' : 'paid'} ticket and receipt at $name',
+              (tester) async {
             final seedNow = CairoTime.atWallClock(2026, 11, 14, 8);
             final layer = InMemoryDataLayer.create(
               clock: Clock(() => seedNow),
               paymentDelay: Duration.zero,
             );
-            final b = layer.bookings.allBookings.firstWhere(
-              (x) =>
-                  x.userId == SeedIds.bookerInternal &&
-                  x.unitId == (free ? SeedIds.hall1 : SeedIds.pool3) &&
-                  x.status == BookingStatus.confirmed,
-            );
+            final b = layer.bookings.allBookings.firstWhere((x) =>
+                x.userId == SeedIds.bookerInternal &&
+                x.unitId == (free ? SeedIds.hall1 : SeedIds.pool3) &&
+                x.status == BookingStatus.confirmed);
             await pumpSprintApp(
               tester,
               size: Size(w, 3200),
@@ -162,31 +148,20 @@ void main() {
               ],
             );
             final c = containerOf(tester);
-            await c
-                .read(sessionProvider.notifier)
-                .actAs(SeedIds.bookerInternal);
+            await c.read(sessionProvider.notifier).actAs(SeedIds.bookerInternal);
             await c.read(localeProvider.notifier).set(locale);
-            if (dark)
-              await c.read(themeModeProvider.notifier).set(ThemeMode.dark);
+            if (dark) await c.read(themeModeProvider.notifier).set(ThemeMode.dark);
             await tester.pumpAndSettle();
 
             routerOf(tester).go(AppPaths.bookingConfirmed(b.id));
             await tester.pumpAndSettle();
             expect(find.byType(BookingConfirmedScreen), findsOneWidget);
             noOverflow(tester, 'ticket $name');
-            final twoColumns = find.byWidgetPredicate(
-              (x) =>
-                  x is SizedBox && x.width == SprintExtras.confirmationColumn,
-            );
+            final twoColumns = find.byWidgetPredicate((x) =>
+                x is SizedBox && x.width == SprintExtras.confirmationColumn);
             // Two columns when the pane has room for both: the window minus the
             // sidebar (280) from the expanded class, the rail (88) before.
-            final pane =
-                w -
-                (w >= 840
-                    ? 280
-                    : w >= 600
-                    ? 88
-                    : 0);
+            final pane = w - (w >= 840 ? 280 : w >= 600 ? 88 : 0);
             expect(
               twoColumns,
               pane >= SprintExtras.confirmationTwoColumnsMinWidth

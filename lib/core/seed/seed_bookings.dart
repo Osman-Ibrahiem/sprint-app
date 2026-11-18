@@ -83,26 +83,24 @@ SeedBookingSet seedBookings(DateTime now) {
     final code = 'SP-${1000 + n}';
     final facility = facilityOfUnit[unit]!;
     final start = at(days, hour);
-    bookings.add(
-      Booking(
-        id: id,
-        code: code,
-        userId: user,
-        facilityId: facility,
-        unitId: unit,
-        trainerId: trainerId,
-        start: start,
-        end: at(days, hour + hours),
-        seats: 1,
-        tierAtBooking: tier,
-        priceAtBooking: price,
-        status: status,
-        qrToken: qrTokenFor(id, code),
-        holdExpiresAt: holdExpiresAt,
-        cancelledBy: cancelledBy,
-        cancelReason: cancelReason,
-      ),
-    );
+    bookings.add(Booking(
+      id: id,
+      code: code,
+      userId: user,
+      facilityId: facility,
+      unitId: unit,
+      trainerId: trainerId,
+      start: start,
+      end: at(days, hour + hours),
+      seats: 1,
+      tierAtBooking: tier,
+      priceAtBooking: price,
+      status: status,
+      qrToken: qrTokenFor(id, code),
+      holdExpiresAt: holdExpiresAt,
+      cancelledBy: cancelledBy,
+      cancelReason: cancelReason,
+    ));
 
     final paidStatuses = {
       BookingStatus.confirmed,
@@ -112,56 +110,48 @@ SeedBookingSet seedBookings(DateTime now) {
     };
     if (price > 0 && paid && paidStatuses.contains(status)) {
       final payId = 'pay-$id';
-      payments.add(
-        Payment(
-          id: payId,
-          bookingId: id,
-          provider: 'FAKE',
-          providerRef: 'fake-$id',
-          amount: price,
-          status: PaymentStatus.succeeded,
-          startedAt: start.subtract(const Duration(days: 1)),
-          paidAt: start.subtract(const Duration(days: 1)),
-          cardLast4: '4242',
-          receiptNumber: seedReceiptNumber(
-            start.subtract(const Duration(days: 1)),
-            480 + n,
-          ),
-          owningUnitId: ownerOfFacility[facility]!,
+      payments.add(Payment(
+        id: payId,
+        bookingId: id,
+        provider: 'FAKE',
+        providerRef: 'fake-$id',
+        amount: price,
+        status: PaymentStatus.succeeded,
+        startedAt: start.subtract(const Duration(days: 1)),
+        paidAt: start.subtract(const Duration(days: 1)),
+        cardLast4: '4242',
+        receiptNumber: seedReceiptNumber(
+          start.subtract(const Duration(days: 1)),
+          480 + n,
         ),
-      );
+        owningUnitId: ownerOfFacility[facility]!,
+      ));
       if (status == BookingStatus.cancelled) {
-        refunds.add(
-          Refund(
-            id: 'rf-$id',
-            paymentId: payId,
-            amount: price,
-            reason: cancelReason ?? 'إلغاء من الحاجز',
-            status: RefundStatus.succeeded,
-          ),
-        );
+        refunds.add(Refund(
+          id: 'rf-$id',
+          paymentId: payId,
+          amount: price,
+          reason: cancelReason ?? 'إلغاء من الحاجز',
+          status: RefundStatus.succeeded,
+        ));
       }
     }
     if (status == BookingStatus.attended) {
-      attendance.add(
-        Attendance(
-          bookingId: id,
-          status: AttendanceStatus.present,
-          method: AttendanceMethod.qr,
-          markedBy: SeedIds.hallManager,
-          markedAt: start,
-        ),
-      );
+      attendance.add(Attendance(
+        bookingId: id,
+        status: AttendanceStatus.present,
+        method: AttendanceMethod.qr,
+        markedBy: SeedIds.hallManager,
+        markedAt: start,
+      ));
     } else if (status == BookingStatus.noShow) {
-      attendance.add(
-        Attendance(
-          bookingId: id,
-          status: AttendanceStatus.noShow,
-          method: AttendanceMethod.auto,
-          markedBy: 'system',
-          markedAt: at(days, hour + hours),
-        ),
-      );
+      attendance.add(Attendance(
+        bookingId: id,
+        status: AttendanceStatus.noShow,
+        method: AttendanceMethod.auto,
+        markedBy: 'system',
+        markedAt: at(days, hour + hours),
+      ));
     }
   }
 
@@ -174,92 +164,25 @@ SeedBookingSet seedBookings(DateTime now) {
   add(bi, SeedIds.gym1, -3, 18, BookingStatus.attended, tInt, 25);
   add(be, SeedIds.pool1, -2, 9, BookingStatus.attended, tExt, 40);
   add(bi, SeedIds.tennis1, -2, 17, BookingStatus.noShow, tInt, 55);
-  add(
-    be,
-    SeedIds.futsal1,
-    -1,
-    20,
-    BookingStatus.cancelled,
-    tExt,
-    300,
-    cancelledBy: CancelledBy.owner,
-  );
-  add(
-    SeedIds.userUnverified,
-    SeedIds.pool3,
-    -1,
-    12,
-    BookingStatus.expired,
-    tExt,
-    40,
-  );
-  add(
-    SeedIds.userExpired,
-    SeedIds.hall1,
-    -4,
-    10,
-    BookingStatus.attended,
-    tExt,
-    0,
-    hours: 2,
-  );
+  add(be, SeedIds.futsal1, -1, 20, BookingStatus.cancelled, tExt, 300,
+      cancelledBy: CancelledBy.owner);
+  add(SeedIds.userUnverified, SeedIds.pool3, -1, 12, BookingStatus.expired, tExt, 40);
+  add(SeedIds.userExpired, SeedIds.hall1, -4, 10, BookingStatus.attended, tExt, 0, hours: 2);
   add(be, SeedIds.gym1, -5, 8, BookingStatus.noShow, tExt, 60);
   add(bi, SeedIds.pool4, -3, 13, BookingStatus.expired, tInt, 20);
 
   // Future.
   add(bi, SeedIds.pool1, 3, 18, BookingStatus.confirmed, tInt, 20);
   add(be, SeedIds.futsal1, 3, 19, BookingStatus.confirmed, tExt, 300);
-  add(
-    SeedIds.userUnverified,
-    SeedIds.tennis1,
-    3,
-    17,
-    BookingStatus.pendingPayment,
-    tExt,
-    120,
-    holdExpiresAt: now.add(const Duration(minutes: 8)),
-  );
-  add(
-    SeedIds.userExpired,
-    SeedIds.hall1,
-    4,
-    10,
-    BookingStatus.confirmed,
-    tExt,
-    0,
-    hours: 2,
-  );
+  add(SeedIds.userUnverified, SeedIds.tennis1, 3, 17, BookingStatus.pendingPayment, tExt, 120,
+      holdExpiresAt: now.add(const Duration(minutes: 8)));
+  add(SeedIds.userExpired, SeedIds.hall1, 4, 10, BookingStatus.confirmed, tExt, 0, hours: 2);
   add(bi, SeedIds.gym1, 4, 8, BookingStatus.confirmed, tInt, 25);
-  add(
-    be,
-    SeedIds.room1,
-    4,
-    10,
-    BookingStatus.confirmed,
-    tExt,
-    100,
-    trainerId: SeedIds.trainerRecord1,
-  );
-  add(
-    bi,
-    SeedIds.futsal1,
-    2,
-    15,
-    BookingStatus.cancelled,
-    tInt,
-    140,
-    cancelledBy: CancelledBy.admin,
-    cancelReason: 'إغلاق طارئ',
-  );
-  add(
-    SeedIds.userUnverified,
-    SeedIds.gym1,
-    5,
-    9,
-    BookingStatus.confirmed,
-    tExt,
-    60,
-  );
+  add(be, SeedIds.room1, 4, 10, BookingStatus.confirmed, tExt, 100,
+      trainerId: SeedIds.trainerRecord1);
+  add(bi, SeedIds.futsal1, 2, 15, BookingStatus.cancelled, tInt, 140,
+      cancelledBy: CancelledBy.admin, cancelReason: 'إغلاق طارئ');
+  add(SeedIds.userUnverified, SeedIds.gym1, 5, 9, BookingStatus.confirmed, tExt, 60);
 
   // The two tickets the demo shows: one paid (with its receipt) and one free
   // (BR-19), both the internal booker's, a week out so they never overlap a
@@ -270,15 +193,7 @@ SeedBookingSet seedBookings(DateTime now) {
   // Lane 2 holds three places and three people booked it: this slot is full.
   add(bi, SeedIds.pool2, 3, 10, BookingStatus.confirmed, tInt, 20);
   add(be, SeedIds.pool2, 3, 10, BookingStatus.confirmed, tExt, 40);
-  add(
-    SeedIds.userExpired,
-    SeedIds.pool2,
-    3,
-    10,
-    BookingStatus.confirmed,
-    tExt,
-    40,
-  );
+  add(SeedIds.userExpired, SeedIds.pool2, 3, 10, BookingStatus.confirmed, tExt, 40);
 
   return SeedBookingSet(
     bookings: bookings,

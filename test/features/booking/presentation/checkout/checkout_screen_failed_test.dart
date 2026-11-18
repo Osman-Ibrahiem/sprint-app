@@ -20,10 +20,7 @@ import 'checkout_harness.dart';
 /// running, and the booker can try again (FR-011).
 void main() {
   Future<CheckoutEnv> failedCheckout(WidgetTester tester) async {
-    final env = await CheckoutEnv.open(
-      tester,
-      outcome: const FakeOutcome.fail(),
-    );
+    final env = await CheckoutEnv.open(tester, outcome: const FakeOutcome.fail());
     await env.payOnPage();
     return env;
   }
@@ -55,9 +52,8 @@ void main() {
     );
   });
 
-  testWidgets('the failure title is a live region, announced once', (
-    tester,
-  ) async {
+  testWidgets('the failure title is a live region, announced once',
+      (tester) async {
     await failedCheckout(tester);
     final node = tester.getSemantics(find.byKey(MomentPlaceholder.titleKey));
     expect(node.label, ar.checkoutFailedTitle);
@@ -72,30 +68,24 @@ void main() {
     expect(find.byType(BookingConfirmedScreen), findsOneWidget);
     final all = await env.layer.payments.payments(env.booking.id);
     expect(all, hasLength(2));
-    expect(all.map((p) => p.status).toSet(), {
-      PaymentStatus.failed,
-      PaymentStatus.succeeded,
-    });
+    expect(all.map((p) => p.status).toSet(),
+        {PaymentStatus.failed, PaymentStatus.succeeded});
   });
 
   testWidgets('the Hold keeps running on the failure state and turns into '
       'the expired state', (tester) async {
     final env = await failedCheckout(tester);
     await env.advance(const Duration(minutes: 5));
-    expect(
-      find.text(ar.checkoutHoldRemaining('4:59')).evaluate().isNotEmpty ||
-          find.textContaining('4:').evaluate().isNotEmpty,
-      isTrue,
-    );
+    expect(find.text(ar.checkoutHoldRemaining('4:59')).evaluate().isNotEmpty ||
+        find.textContaining('4:').evaluate().isNotEmpty, isTrue);
     await env.advance(const Duration(minutes: 6));
     expect(find.byKey(ExpiredView.titleKey), findsOneWidget);
     expect((await env.reload()).status, BookingStatus.expired);
   });
 
   testWidgets('a failure that arrives after an extended Hold ran past its '
-      'normal time shows the expired state, not the failure state', (
-    tester,
-  ) async {
+      'normal time shows the expired state, not the failure state',
+      (tester) async {
     final env = await CheckoutEnv.open(
       tester,
       arrange: (layer) async {

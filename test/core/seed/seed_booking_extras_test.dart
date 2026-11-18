@@ -9,19 +9,10 @@ void main() {
   late DataEnv env;
   setUp(() => env = DataEnv());
 
-  Future<Slot> slotAt(
-    String unitId,
-    int day,
-    int hour, {
-    String? trainerId,
-  }) async {
+  Future<Slot> slotAt(String unitId, int day, int hour, {String? trainerId}) async {
     final when = env.at(day, hour);
-    final slots = await env.layer.availability.slots(
-      unitId,
-      when,
-      when,
-      trainerId: trainerId,
-    );
+    final slots = await env.layer.availability
+        .slots(unitId, when, when, trainerId: trainerId);
     return slots.singleWhere((s) => s.start == when);
   }
 
@@ -33,12 +24,8 @@ void main() {
 
   test('trainer 1 is at capacity while the room has places (BR-09)', () async {
     final day = seedTrainerFullDayOffset(env.now);
-    final withTrainer = await slotAt(
-      Ids.room1,
-      day,
-      seedTrainerFullHour,
-      trainerId: Ids.trainerRecord1,
-    );
+    final withTrainer = await slotAt(Ids.room1, day, seedTrainerFullHour,
+        trainerId: Ids.trainerRecord1);
     expect(withTrainer.state, SlotState.full);
 
     final when = env.at(day, seedTrainerFullHour);
@@ -65,11 +52,8 @@ void main() {
       for (var j = i + 1; j < all.length; j++) {
         final a = all[i], b = all[j];
         if (a.userId != b.userId) continue;
-        expect(
-          a.overlaps(b.start, b.end),
-          isFalse,
-          reason: '${a.id} and ${b.id} of ${a.userId}',
-        );
+        expect(a.overlaps(b.start, b.end), isFalse,
+            reason: '${a.id} and ${b.id} of ${a.userId}');
       }
     }
   });
