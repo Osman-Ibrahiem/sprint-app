@@ -43,27 +43,58 @@ Recorded so the review does not look for what is not there.
 - The receipt PDF was rendered once with `pdftoppm` to look at it: Arabic shaped and right to left, rows and
   total in place.
 
-## Manual walk (T056): NOT DONE
+## Manual walk (T056): web, partly done, 5 defects found
 
-Not run in this session (no device, and no interactive browser walk of the release build). What stands in
-for each quickstart row is automated:
+2026-11-18, web release build (`flutter build web --release`, hash routes) served locally, in the in-app
+browser at 1024 px (expanded, sidebar) and 375 px (compact), Arabic, dark, signed in as the seeded internal
+booker. No iOS or Android device.
 
-| Row | Covered by |
+| Row | Result |
 | --- | --- |
-| 1 pay, ticket, receipt, PDF | `us06_paid_confirm_test`, `us12_confirmation_test`, `receipt_screen_test`, `receipt_pdf_test` |
-| 2 failure and retry | `us10_payment_failed_test`, `checkout_screen_failed_test` |
-| 3 cancel on the provider page | `leave_checkout_test` |
-| 4 leave (button, system back) on iOS and Android targets | `leave_checkout_test` (browser back through the same `PopScope`, not checked in a real browser) |
-| 5 one-minute Hold | `us10_hold_expired_test`, `checkout_screen_expiry_test` |
-| 6, 7 slow confirmation, past the maximum, refund | `checkout_screen_awaiting_test`, `checkout_flow_test` |
-| 8 free booking | `us08_free_range_test`, `booking_confirmed_screen_test` |
-| 9 two accounts | `checkout_flow_test` (k), `us06_paid_confirm_test` |
-| 10 sizes, languages, themes, 200% | `checkout_matrix_test` |
-| 11 browser refresh | `router` tests for the unknown session; the state is derived from stored data (FR-024) |
+| 1 pay, ticket, receipt | Passes, except D1 (wrong time on the ticket) and D2 (see row 11). Receipt rows correct (RC number, code, paid time, last four, test tag); PDF save not pressed (it downloads a file; the session rendered it with `pdftoppm`) |
+| 2 failure and retry | Passes: "الدفع ماتمّش. ممكن تحاول تاني", Hold keeps counting, retry opens the provider page |
+| 3 cancel on the provider page | Passes: "الدفع اتلغى", same countdown |
+| 4 leave by the app bar back | Passes on 1024 and 375: "ترك الدفع؟", "ترك الدفع" goes to the summary. Once (failed, retried, cancelled, reloaded) the back button showed its tooltip and opened nothing; not reproduced in three later tries. Browser back not confirmed (the history step stayed on the same address) |
+| 5 one-minute Hold | Not walked (needs the settings inspector); automated only |
+| 6 slow confirmation (30 s) | Passes: "بنأكد الدفع", "لسه مستنيين تأكيد الدفع" after 20 s, then the ticket |
+| 7 past the maximum, refund | Not walked; automated only |
+| 8 free booking | Same confirmation screen, "السعر · مجاني", no receipt; D1 and D4 |
+| 9 two accounts | Not walked; automated only |
+| 10 sizes | Compact (375) and expanded (1024) checkout and ticket laid out correctly; English, light, medium, large and 200% text not walked by hand |
+| 11 refresh | Payment screen (holding, cancelled) keeps its state and countdown. Refresh on the provider page: D2 |
 
-Still to do by hand: SC-001 (time to ticket), SC-005 (countdown drift after real backgrounding), browser back
-on the web (spec Story 5, scenario 1), the iOS and Android native back gestures, the PDF save/share sheet on a
-device, and a look at the screens against Figma.
+### Defects
+
+- **D1 (high, 006): the ticket shows UTC times.** Booked 11:00, 7:00 م and 2:00 م; the tickets show 9:00, 5:00 and
+  12:00. `booking_confirmed_screen.dart` passes the stored UTC `b.start`/`b.end` to `BookingTicket`, whose
+  `SprintFormat.dateTimeLine`/`timeRange` expect Cairo wall times (the schedule passes `CairoTime.toCairo`). The
+  day name and date can also be wrong near midnight. Tests did not catch it.
+- **D2 (high, 006): a refresh confirms an unconfirmed payment.** Opened the provider page, left the card fields
+  empty, refreshed: the booking became `CONFIRMED` with a receipt and last four `4242`.
+  `FakeGatewayController._ensure` answers an unknown session (after restart) with the current demo outcome and a
+  made-up card. Expected: the session comes back pending and the provider page asks for the card again.
+- **D3 (medium, 006): amounts read backwards.** "20 ج.م" is wrapped in `LtrIsolate` on the provider page and on
+  the receipt total, so it shows "ج.م 20". Isolates are for codes, phone numbers and emails only.
+- **D4 (medium, 006): a free ticket says "الإلغاء مش متاح".** The free summary says cancellation is available up to
+  the cutoff, but the confirmation passes `cancelUntil: null` for every free booking.
+- **D5 (medium, spec gap): the payment screen's cancellation policy can name a past time.** Booking at 10:38 for
+  11:00 shows "الإلغاء متاح لحد ... 7:00 ص". The ticket handles a passed cutoff; the policy card does not.
+
+### Older than 006 (not part of this PR)
+
+- `web/index.html` sets `dir="rtl"` on `<html>`. With Flutter's semantics on, every semantics node sits one
+  viewport width to the right (x ≈ 2400 in a 1024 window), so a screen reader on web focuses nodes off screen
+  and text fields do not take input. Since 2026-11-15 (`fa5154f`).
+- "حجوزاتي" (feature 7 placeholder) says "تسجيل الدخول مطلوب" to a signed-in person.
+
+### Notes
+
+- The failed state titles both the app bar and the column "ملخص الحجز" instead of "الدفع" (copy question, not a defect).
+- `/demo` repeats "الدفع التجريبي" as the section title and the group label.
+- The provider page does not change the address (`/pay/sandbox/:sessionId` never shows).
+
+Still not checked: iOS and Android (native back, PDF share sheet), SC-001 and SC-005 by hand, rows 5, 7 and 9,
+English, light, 200% text, browser back.
 
 ## Pull request description (T057), not opened
 
