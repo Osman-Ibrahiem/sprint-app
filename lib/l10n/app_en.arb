@@ -1416,5 +1416,13 @@
       }
     }
   },
-  "ticketQrLabel": "Attendance code, shown to the trainer at the entrance"
+  "ticketQrLabel": "Attendance code, shown to the trainer at the entrance",
+  "splashTagline": "Book without the crowd",
+  "@splashTagline": {
+    "description": "Splash screen tagline under the wordmark (proposed copy, not yet in copy-review)"
+  },
+  "splashCaption": "Tanta University",
+  "@splashCaption": {
+    "description": "Splash screen caption at the bottom (proposed copy, not yet in copy-review)"
+  }
 }

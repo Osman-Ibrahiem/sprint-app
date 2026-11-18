@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "eg.edu.tanta" "\0"
-            VALUE "FileDescription", "sprint" "\0"
+            VALUE "FileDescription", "Sprint" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "sprint" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2026 eg.edu.tanta. All rights reserved." "\0"
             VALUE "OriginalFilename", "sprint.exe" "\0"
-            VALUE "ProductName", "sprint" "\0"
+            VALUE "ProductName", "Sprint" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

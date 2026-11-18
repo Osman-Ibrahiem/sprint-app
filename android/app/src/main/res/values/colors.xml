@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Splash colours, from docs/design-system/tokens.json: light = primary, bolt = volt. -->
+<resources>
+    <color name="sprint_splash_bg">#2445E0</color>
+    <color name="sprint_volt">#D4F536</color>
+</resources>

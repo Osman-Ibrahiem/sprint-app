@@ -2324,4 +2324,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ticketQrLabel => 'رمز الحضور، بيتعرض للمدرب عند الدخول';
+
+  @override
+  String get splashTagline => 'احجز من غير زحمة';
+
+  @override
+  String get splashCaption => 'جامعة طنطا';
 }

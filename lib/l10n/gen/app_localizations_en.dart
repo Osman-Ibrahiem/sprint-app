@@ -2343,4 +2343,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get ticketQrLabel =>
       'Attendance code, shown to the trainer at the entrance';
+
+  @override
+  String get splashTagline => 'Book without the crowd';
+
+  @override
+  String get splashCaption => 'Tanta University';
 }

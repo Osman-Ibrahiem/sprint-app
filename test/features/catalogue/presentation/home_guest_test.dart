@@ -131,7 +131,7 @@ void main() {
           appClockProvider.overrideWithValue(Clock(() => _now)),
           homeContentProvider.overrideWith((ref) => pending.future),
         ],
-        child: const SprintApp(),
+        child: const SprintApp(showSplash: false),
       ),
     );
     await tester.pump();
