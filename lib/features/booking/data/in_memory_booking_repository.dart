@@ -805,6 +805,19 @@ class InMemoryBookingRepository with ChangeSignal implements BookingRepository {
   }
 
   @override
+  Future<Map<String, int>> bookedCounts({required DateTime since}) async {
+    final counts = <String, int>{};
+    for (final b in _bookings.values) {
+      if ((b.status == BookingStatus.confirmed ||
+              b.status == BookingStatus.attended) &&
+          !b.start.isBefore(since)) {
+        counts[b.facilityId] = (counts[b.facilityId] ?? 0) + 1;
+      }
+    }
+    return counts;
+  }
+
+  @override
   Future<List<Booking>> listForUser(String userId, {bool upcoming = false}) async {
     final now = clock.now();
     return _bookings.values
