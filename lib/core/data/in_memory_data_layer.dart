@@ -18,6 +18,7 @@ import 'package:sprint/features/auth/data/in_memory_auth_repository.dart';
 import 'package:sprint/features/auth/data/simulated_mailbox.dart';
 import 'package:sprint/features/identity/data/in_memory_identity_repository.dart';
 import 'package:sprint/features/notifications/data/in_memory_notification_repository.dart';
+import 'package:sprint/features/payments/data/fake_gateway_controller.dart';
 import 'package:sprint/features/payments/data/fake_payment_provider.dart';
 import 'package:sprint/features/payments/data/in_memory_payment_repository.dart';
 import 'package:sprint/features/payments/domain/payment.dart';
@@ -58,6 +59,12 @@ class InMemoryDataLayer {
     /// offers feature turns it on.
     bool applyOffers = false,
     DateTime? seededAt,
+
+    /// What the fake provider does when the page confirms (demo setting).
+    FakeOutcome gatewayOutcome = const FakeOutcome.succeed(),
+
+    /// Fake sessions the page confirmed that still wait for their answer.
+    Map<String, String> gatewayConfirmed = const {},
     String? currentUserId,
     Map<String, Object?>? authState,
     List<Object?>? mailboxEmails,
@@ -118,6 +125,11 @@ class InMemoryDataLayer {
     final provider = FakePaymentProvider(
       delay: paymentDelay,
       startAt: _highestSession(data.payments),
+      controller: FakeGatewayController(
+        baseDelay: paymentDelay,
+        outcome: gatewayOutcome,
+        confirmed: gatewayConfirmed,
+      ),
     );
     final notifications = InMemoryNotificationRepository(data.notifications);
     final verification = InMemoryVerificationRepository(
@@ -152,6 +164,8 @@ class InMemoryDataLayer {
       applyOffers: applyOffers,
     );
     settings.guard = bookings.settingChangeGuard;
+    // A payment still pending in a restored snapshot is watched again (FR-024).
+    unawaited(bookings.resumePendingPayments());
     final availability = InMemoryAvailabilityRepository(
       catalogue: catalogue,
       settings: settings,
@@ -196,6 +210,14 @@ class InMemoryDataLayer {
             clock: clock,
             seed: SnapshotCodec.decode(data),
             paymentDelay: paymentDelay,
+            gatewayOutcome: data['gateway'] == null
+                ? const FakeOutcome.succeed()
+                : FakeOutcome.fromJson(
+                    Map<String, Object?>.from(data['gateway']! as Map),
+                  ),
+            gatewayConfirmed: data['gatewayConfirmed'] == null
+                ? const {}
+                : Map<String, String>.from(data['gatewayConfirmed']! as Map),
             seededAt: DateTime.parse(snapshot['seededAt']! as String),
             currentUserId: session?['currentUserId'] as String?,
             authState: Map<String, Object?>.from(data['auth']! as Map),
@@ -215,7 +237,7 @@ class InMemoryDataLayer {
   }
 
   /// The only snapshot format this build reads.
-  static const schemaVersion = 1;
+  static const schemaVersion = 2;
 
   static int _highestSession(Iterable<Payment> payments) {
     var n = 0;
@@ -292,6 +314,8 @@ class InMemoryDataLayer {
               e.key: e.value,
         },
         'mailbox': mailbox.toJson(),
+        'gateway': paymentProvider.gateway.outcome.toJson(),
+        'gatewayConfirmed': paymentProvider.gateway.confirmedSessions,
       },
     };
   }
@@ -321,6 +345,7 @@ class InMemoryDataLayer {
       mailbox.changes,
       verification.changes,
       payments.changes,
+      paymentProvider.gateway.changes,
       notifications.changes,
       attendance.changes,
       assets.changes,

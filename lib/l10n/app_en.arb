@@ -213,10 +213,11 @@
   "facilityPriceExternalLabel": "Full price",
   "facilityFree": "Free",
   "facilitySpoken": "Facility {name}, {unit}, {availability}, {price}",
+  "ticketShowTrainer": "The code is shown to the trainer at the entrance · high brightness is clearer",
   "ticketCodeLabel": "Booking code",
   "ticketCopied": "Copied",
   "ticketPaid": "Paid",
-  "ticketCancelUntil": "Free cancellation until {date}",
+  "ticketCancelUntil": "Cancellation available until {date}",
   "ticketCancelUnavailable": "Cancellation unavailable",
   "ticketQrUnavailable": "QR unavailable",
   "ticketSpoken": "Ticket {facility}, {dateTime}, {status}, {code}",
@@ -1201,6 +1202,227 @@
       }
     }
   },
+  "checkoutTitle": "Payment",
+  "checkoutHoldTitle": "Your place is held until payment completes",
+  "checkoutHoldRemaining": "{time} minutes left, then the place is released",
+  "@checkoutHoldRemaining": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutLastMinuteTitle": "Time is almost up",
+  "checkoutLastMinuteBody": "{seconds, plural, =1{1 second left, then the place is released} other{{seconds} seconds left, then the place is released}}",
+  "@checkoutLastMinuteBody": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "checkoutTierInternal": "Internal · verified",
+  "checkoutTierExternal": "External · full price",
+  "checkoutPolicyTitle": "Cancellation policy",
+  "checkoutPolicyBody": "Cancellation is available until {until} ({hours} before the start) and {percent}% is refunded to the same payment method. After that the cancel button is hidden.",
+  "@checkoutPolicyBody": {
+    "placeholders": {
+      "until": {
+        "type": "String"
+      },
+      "hours": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "checkoutRowTime": "Time",
+  "checkoutRowTotal": "Total",
+  "checkoutTierInternal": "Internal · verified",
+  "checkoutTierExternal": "External · full price",
+  "checkoutMethodTitle": "Online payment",
+  "checkoutMethodSubtitle": "Bank card or mobile wallet · provider's secure page",
+  "checkoutSandboxTag": "Test mode · no real money is charged",
+  "checkoutPay": "Pay · {amount}",
+  "@checkoutPay": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutPaySpoken": "Pay, {amount} Egyptian pounds",
+  "@checkoutPaySpoken": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  },
+  "checkoutStartError": "Payment couldn't start. Your place is still held, and you can try again.",
+  "checkoutFailedTitle": "Payment didn't go through. You can try again",
+  "checkoutFailedBody": "Your place is still held until the time runs out.",
+  "checkoutRetry": "Try again · {amount}",
+  "@checkoutRetry": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "holdExpiredTitle": "Time ran out",
+  "holdExpiredBody": "The place is available to others again. You can pick a time again.",
+  "holdExpiredPickAnother": "Pick another time",
+  "checkoutLeaveTitle": "Leave payment?",
+  "checkoutLeaveBody": "If you leave the page now, the place is released to others.",
+  "checkoutLeaveConfirm": "Leave payment",
+  "checkoutLeaveStay": "Continue paying",
+  "checkoutCancelledTitle": "Payment cancelled",
+  "checkoutCancelledBody": "Your place is still held, and you can try again",
+  "gatewayTitle": "Secure payment",
+  "gatewayHoldTitle": "Your place is held",
+  "gatewayHoldBody": "{time} minutes left to complete payment",
+  "@gatewayHoldBody": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "gatewayAmountLabel": "Amount due",
+  "gatewayMerchant": "Sprint · {facility}",
+  "@gatewayMerchant": {
+    "placeholders": {
+      "facility": {
+        "type": "String"
+      }
+    }
+  },
+  "gatewayCardNumber": "Card number",
+  "gatewayCardExpiry": "Expiry date",
+  "gatewayCardCvc": "Security code",
+  "gatewayCardName": "Cardholder name",
+  "gatewayCardNameHint": "Name as shown on the card",
+  "gatewayNotice": "This page belongs to the payment provider. After confirming, we bring you back to the app",
+  "gatewayConfirm": "Confirm payment · {amount}",
+  "@gatewayConfirm": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "gatewayCancel": "Cancel",
+  "gatewayErrCardNumber": "The card number isn't valid",
+  "gatewayErrExpiry": "The expiry date isn't valid or has passed",
+  "gatewayErrCvc": "The security code must be 3 or 4 digits",
+  "gatewayErrName": "The cardholder name is required",
+  "gatewayExpiryHint": "MM / YY",
+  "gatewayCvcHint": "000",
+  "processingTitle": "Confirming your payment",
+  "processingBody": "Confirmation comes from the payment provider and may take a moment, and it's best to keep this screen open",
+  "processingHeld": "Your place is held, {time} minutes left",
+  "@processingHeld": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "awaitingTitle": "Still waiting for payment confirmation",
+  "awaitingBody": "If you were charged and the booking isn't confirmed, the money is returned automatically. Your place is held until the confirmation arrives",
+  "awaitingRefresh": "Refresh status",
+  "awaitingRefreshing": "Refreshing status",
+  "awaitingBackToBookings": "Back to my bookings",
+  "receiptTitle": "Payment receipt",
+  "receiptNumber": "Receipt number",
+  "receiptBookingCode": "Booking code",
+  "receiptDate": "Date",
+  "receiptUnit": "Unit",
+  "receiptTier": "Tier",
+  "receiptMethod": "Payment method",
+  "receiptMethodCard": "Card ending in {last4} · test",
+  "@receiptMethodCard": {
+    "placeholders": {
+      "last4": {
+        "type": "String"
+      }
+    }
+  },
+  "receiptTotalPaid": "Total paid",
+  "receiptSave": "Save receipt as PDF",
+  "receiptShare": "Share receipt",
+  "receiptNavTitle": "Receipt",
+  "receiptPdfFailed": "The PDF couldn't be made. A text copy was shared instead",
+  "receiptNotFoundTitle": "Receipt not found",
+  "receiptNotFoundBody": "There is no receipt for this booking. A receipt appears after a successful payment.",
+  "confirmedTitle": "Your booking is confirmed",
+  "confirmedSubtitle": "You got a notification with the details, and we'll remind you {lead} before.",
+  "@confirmedSubtitle": {
+    "placeholders": {
+      "lead": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmedReceiptRow": "Payment receipt",
+  "leadHours": "{hours, plural, =1{1 hour} other{{hours} hours}}",
+  "@leadHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "leadHoursHalf": "{hours, plural, =0{30 minutes} =1{1.5 hours} other{{hours}.5 hours}}",
+  "@leadHoursHalf": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "leadMinutes": "{minutes, plural, =1{1 minute} other{{minutes} minutes}}",
+  "@leadMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "demoPaymentTitle": "Demo payment",
+  "demoPaymentNote": "Sets what happens when the provider page confirms payment. For the demo only.",
+  "demoPaymentSuccess": "Success",
+  "demoPaymentFail": "Failure",
+  "demoPaymentDelay": "Delay",
+  "demoPaymentDelayPreset": "{seconds} s",
+  "@demoPaymentDelayPreset": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "demoPaymentDelayAfterMax": "Past the maximum",
+  "demoPaymentCurrent": "Current choice: {value}",
+  "@demoPaymentCurrent": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "demoPaymentDelayCurrent": "Delay of {seconds} seconds, then success",
+  "@demoPaymentDelayCurrent": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "ticketQrLabel": "Attendance code, shown to the trainer at the entrance",
   "splashTagline": "Book without the crowd",
   "@splashTagline": {
     "description": "Splash screen tagline under the wordmark (proposed copy, not yet in copy-review)"

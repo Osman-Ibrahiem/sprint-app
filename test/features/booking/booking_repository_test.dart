@@ -6,6 +6,8 @@ import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
 import 'package:sprint/features/catalogue/domain/price.dart';
 import 'package:sprint/features/identity/domain/verification.dart';
+import 'package:sprint/features/payments/data/fake_gateway_controller.dart';
+import 'package:sprint/features/payments/domain/payment_provider.dart';
 import 'package:sprint/features/settings/domain/booking_mode.dart';
 import 'package:sprint/features/settings/domain/setting_definition.dart';
 import 'package:sprint/features/settings/domain/setting_registry.dart';
@@ -35,6 +37,18 @@ void main() {
       );
 
   Booking ok(Result<Booking> r) => (r as Ok<Booking>).value;
+
+  /// Pays through the fake provider the way the provider page does: start,
+  /// confirm with a test card, wait for the provider's answer.
+  Future<Result<Booking>> pay(String id) async {
+    final b = ok(await env.layer.bookings.get(id));
+    final started = await env.layer.bookings.startPayment(id, b.userId);
+    if (started is Err<PaymentSession>) return Err(started.failure);
+    env.layer.paymentProvider.gateway
+        .confirm((started as Ok<PaymentSession>).value.id, cardLast4: '4242');
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    return env.layer.bookings.get(id);
+  }
   Failure fail(Result<Booking> r) => (r as Err<Booking>).failure;
 
   group('creation', () {
@@ -171,7 +185,7 @@ void main() {
         reason: 'creating alone never confirms',
       );
 
-      final paid = ok(await env.layer.bookings.pay(b.id));
+      final paid = ok(await pay(b.id));
       expect(paid.status, BookingStatus.confirmed);
       expect(paid.holdExpiresAt, isNull);
 
@@ -181,14 +195,16 @@ void main() {
       expect(payments.single.owningUnitId, Ids.ouCentral); // BR-33
     });
 
-    test('a failed payment expires the booking and frees the slot', () async {
+    test('a failed payment keeps the Hold; it frees the slot when it runs out',
+        () async {
       final slot = env.at(2, 20);
       final b = ok(await env.layer.bookings
           .create(req(Ids.bookerInternal, Ids.futsal2, slot)));
-      env.layer.paymentProvider.failNext = true;
-      final r = ok(await env.layer.bookings.pay(b.id));
-      expect(r.status, BookingStatus.expired);
+      env.layer.paymentProvider.gateway.outcome = const FakeOutcome.fail();
+      final r = ok(await pay(b.id));
+      expect(r.status, BookingStatus.pendingPayment); // US-10: can retry
 
+      env.advance(const Duration(minutes: 11));
       final again = await env.layer.bookings
           .create(req(Ids.bookerExternal, Ids.futsal2, slot));
       expect(again, isA<Ok<Booking>>());
@@ -201,7 +217,7 @@ void main() {
         env.at(2, 10),
         end: env.at(2, 11),
       )));
-      expect(fail(await env.layer.bookings.pay(b.id)), isA<InvalidTransition>());
+      expect(fail(await pay(b.id)), isA<InvalidTransition>());
     });
 
     test('an elapsed hold expires the booking (expireHolds)', () async {
@@ -213,7 +229,7 @@ void main() {
       expect(await env.layer.bookings.expireHolds(), greaterThanOrEqualTo(1));
       expect(ok(await env.layer.bookings.get(b.id)).status, BookingStatus.expired);
       // And paying afterwards is refused.
-      expect(fail(await env.layer.bookings.pay(b.id)), isA<InvalidTransition>());
+      expect(fail(await pay(b.id)), isA<HoldExpired>());
     });
 
     test('a hold that is still live is kept', () async {
@@ -257,7 +273,7 @@ void main() {
   group('cancellation and refund (BR-30 – BR-32)', () {
     Future<Booking> paidBooking(String user, String unit, DateTime slot) async {
       final b = ok(await env.layer.bookings.create(req(user, unit, slot)));
-      return ok(await env.layer.bookings.pay(b.id));
+      return ok(await pay(b.id));
     }
 
     test('before the cutoff the owner is refunded refundPercent', () async {

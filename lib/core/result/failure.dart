@@ -71,6 +71,16 @@ final class HoldExpired extends Failure {
   const HoldExpired();
 }
 
+/// The payment provider cannot be started (BR-29).
+final class PaymentUnavailable extends Failure {
+  const PaymentUnavailable();
+}
+
+/// There is no pending payment to refresh (FR-015).
+final class NoPendingPayment extends Failure {
+  const NoPendingPayment();
+}
+
 /// A state change the booking state machine does not allow (BRD §5).
 final class InvalidTransition extends Failure {
   const InvalidTransition();

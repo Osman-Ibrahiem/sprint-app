@@ -36,7 +36,8 @@ void main() {
   });
 
   testWidgets('the demo screen has an entry to the mailbox', (tester) async {
-    await pumpSprintApp(tester, size: const Size(500, 1400));
+    // Tall enough for the whole demo screen, which now has a payment section.
+    await pumpSprintApp(tester, size: const Size(500, 2400));
     routerOf(tester).push('/demo');
     await tester.pumpAndSettle();
     final entry = find.text(ar.mailboxTitle);

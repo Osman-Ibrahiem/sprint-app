@@ -38,7 +38,7 @@ extension SprintStatusStyle on SprintStatus {
 
   IconData get icon => switch (this) {
         SprintStatus.confirmed => PhosphorIconsRegular.checkCircle,
-        SprintStatus.pendingPayment => PhosphorIconsRegular.clock,
+        SprintStatus.pendingPayment => PhosphorIconsRegular.hourglass,
         SprintStatus.cancelled => PhosphorIconsRegular.xCircle,
         SprintStatus.attended => PhosphorIconsRegular.userCheck,
         SprintStatus.noShow => PhosphorIconsRegular.userMinus,

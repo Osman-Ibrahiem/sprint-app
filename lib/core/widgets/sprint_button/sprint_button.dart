@@ -39,8 +39,12 @@ class SprintButton extends StatelessWidget {
     this.loading = false,
     this.loadingLabel,
     this.onPressed,
+    this.expand = false,
     super.key,
   });
+
+  /// A full-width action (a bottom bar, a form): fills the width it is given.
+  final bool expand;
 
   final String label;
   final SprintButtonVariant variant;
@@ -123,6 +127,7 @@ class SprintButton extends StatelessWidget {
         _ => colors.surfaceSunken,
       },
       borderRadius: SprintRadius.mdBorder,
+      expand: expand,
       builder: (context, state) => ConstrainedBox(
         key: visualKey,
         constraints: BoxConstraints(

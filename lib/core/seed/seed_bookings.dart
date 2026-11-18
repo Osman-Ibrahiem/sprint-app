@@ -23,6 +23,15 @@ class SeedBookingSet {
   final List<Attendance> attendance;
 }
 
+/// `RC-yyMMdd-NNNN` for a seeded payment made at [paidAt] (FR-025); the day is
+/// the Cairo day. The per-day sequence of new payments continues after these.
+String seedReceiptNumber(DateTime paidAt, int sequence) {
+  final c = CairoTime.toCairo(paidAt);
+  String two(int v) => v.toString().padLeft(2, '0');
+  return 'RC-${two(c.year % 100)}${two(c.month)}${two(c.day)}-'
+      '${sequence.toString().padLeft(4, '0')}';
+}
+
 SeedBookingSet seedBookings(DateTime now) {
   final today = CairoTime.toCairo(now);
   DateTime at(int days, int hour) =>
@@ -108,7 +117,13 @@ SeedBookingSet seedBookings(DateTime now) {
         providerRef: 'fake-$id',
         amount: price,
         status: PaymentStatus.succeeded,
+        startedAt: start.subtract(const Duration(days: 1)),
         paidAt: start.subtract(const Duration(days: 1)),
+        cardLast4: '4242',
+        receiptNumber: seedReceiptNumber(
+          start.subtract(const Duration(days: 1)),
+          480 + n,
+        ),
         owningUnitId: ownerOfFacility[facility]!,
       ));
       if (status == BookingStatus.cancelled) {
@@ -168,6 +183,12 @@ SeedBookingSet seedBookings(DateTime now) {
   add(bi, SeedIds.futsal1, 2, 15, BookingStatus.cancelled, tInt, 140,
       cancelledBy: CancelledBy.admin, cancelReason: 'إغلاق طارئ');
   add(SeedIds.userUnverified, SeedIds.gym1, 5, 9, BookingStatus.confirmed, tExt, 60);
+
+  // The two tickets the demo shows: one paid (with its receipt) and one free
+  // (BR-19), both the internal booker's, a week out so they never overlap a
+  // booking someone makes while trying the schedule (BR-13).
+  add(bi, SeedIds.pool3, 6, 11, BookingStatus.confirmed, tInt, 20);
+  add(bi, SeedIds.hall1, 6, 15, BookingStatus.confirmed, tInt, 0, hours: 2);
 
   // Lane 2 holds three places and three people booked it: this slot is full.
   add(bi, SeedIds.pool2, 3, 10, BookingStatus.confirmed, tInt, 20);

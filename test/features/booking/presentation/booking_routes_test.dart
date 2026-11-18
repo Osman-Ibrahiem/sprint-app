@@ -104,7 +104,7 @@ void main() {
     expect(find.byType(ScheduleScreen), findsOneWidget);
   });
 
-  testWidgets('a signed-in person reaches the summary and checkout', (
+  testWidgets('a signed-in person reaches the summary, and the old checkout address lands there', (
     tester,
   ) async {
     await pumpSprintApp(tester);
@@ -120,11 +120,12 @@ void main() {
       AppPaths.bookingSummary(pool, selection).split('?').first,
     );
 
+    // 005's checkout address now lands on the summary (feature 006).
     routerOf(tester).go(AppPaths.bookingCheckout(pool, selection));
     await tester.pumpAndSettle();
     expect(
       currentPath(tester),
-      AppPaths.bookingCheckout(pool, selection).split('?').first,
+      AppPaths.bookingSummary(pool, selection).split('?').first,
     );
   });
 

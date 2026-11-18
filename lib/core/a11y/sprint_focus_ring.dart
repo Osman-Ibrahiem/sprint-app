@@ -8,6 +8,7 @@ class SprintFocusRing extends StatelessWidget {
     required this.visible,
     required this.borderRadius,
     required this.child,
+    this.expand = false,
     super.key,
   });
 
@@ -15,10 +16,14 @@ class SprintFocusRing extends StatelessWidget {
   final BorderRadius borderRadius;
   final Widget child;
 
+  /// Passes the parent's width through to [child] (a full-width action).
+  final bool expand;
+
   @override
   Widget build(BuildContext context) {
     const o = -SprintExtras.focusRingOffset;
     return Stack(
+      fit: expand ? StackFit.passthrough : StackFit.loose,
       clipBehavior: Clip.none,
       children: [
         child,

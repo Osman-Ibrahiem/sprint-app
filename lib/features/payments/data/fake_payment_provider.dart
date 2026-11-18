@@ -1,43 +1,54 @@
+import 'package:sprint/features/payments/data/fake_gateway_controller.dart';
 import 'package:sprint/features/payments/domain/payment.dart';
 import 'package:sprint/features/payments/domain/payment_provider.dart';
 
-/// Succeeds after a short delay. A test hook forces the next payment to fail.
-/// Stands in for the sandbox gateway in P1.
+/// Stands in for the sandbox gateway in P1. A session stays `pending` until
+/// the simulated provider page (through [gateway]) confirms or cancels it;
+/// then it answers by the demo outcome (R5).
 class FakePaymentProvider implements PaymentProvider {
   FakePaymentProvider({
-    this.delay = const Duration(milliseconds: 600),
+    Duration delay = const Duration(milliseconds: 600),
     this.name = 'FAKE',
     int startAt = 0,
-  }) : _n = startAt;
+    FakeGatewayController? controller,
+  })  : gateway = controller ?? FakeGatewayController(baseDelay: delay),
+        _n = startAt;
 
-  final Duration delay;
   final String name;
 
-  /// When true, the next payment fails once, then this resets.
-  bool failNext = false;
+  /// What the fake page and `/demo` use to drive this provider.
+  final FakeGatewayController gateway;
 
   int _n;
-  final Set<String> _failing = {};
 
   @override
   Future<PaymentSession> start(PaymentRequest request) async {
     _n++;
     final id = '$name-pay-$_n';
-    if (failNext) {
-      _failing.add(id);
-      failNext = false;
-    }
-    return PaymentSession(id: id, bookingId: request.bookingId);
+    gateway.register(id, request.bookingId, request.amount);
+    return PaymentSession(
+      id: id,
+      bookingId: request.bookingId,
+      checkoutLocation: Uri(path: '/pay/sandbox/$id'),
+    );
   }
 
   @override
-  Stream<PaymentStatus> watch(PaymentSession session) async* {
-    yield PaymentStatus.pending;
-    await Future<void>.delayed(delay);
-    yield _failing.remove(session.id)
-        ? PaymentStatus.failed
-        : PaymentStatus.succeeded;
+  PaymentSession sessionFor(Payment payment) => PaymentSession(
+        id: payment.providerRef,
+        bookingId: payment.bookingId,
+        checkoutLocation: Uri(path: '/pay/sandbox/${payment.providerRef}'),
+      );
+
+  @override
+  Stream<PaymentUpdate> watch(PaymentSession session) async* {
+    yield const PaymentUpdate(PaymentStatus.pending);
+    yield await gateway.doneOf(session);
   }
+
+  @override
+  Future<PaymentUpdate> status(PaymentSession session) async =>
+      gateway.latestOf(session);
 
   @override
   Future<RefundResult> refund(Payment payment, int amount) async {

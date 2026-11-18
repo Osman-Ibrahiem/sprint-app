@@ -87,4 +87,62 @@ abstract final class SprintExtras {
 
   /// How many slot-shaped skeletons the schedule shows while it loads.
   static const int bookingSkeletonChips = 8;
+
+  /// Checkout, provider page and confirmation (feature 006, design-pack
+  /// adaptive.md). Widths the tokens lack, from the Figma frames.
+  /// TODO(tokens): promote these to `tokens.json` with the other `SprintExtras`
+  /// sizes (decisions.md 2026-11-15 follow-up), then remove them here.
+
+  /// The payment column of the two-column checkout (Figma "الدفع" 372).
+  static const double checkoutPaymentColumn = 372;
+
+  /// The narrowest the booking-summary column may get beside it (Figma 260);
+  /// it takes the rest of the pane when the pane is wider.
+  static const double checkoutSummaryColumnMin = 260;
+
+  /// The centred single column of the provider page, processing, awaiting and
+  /// receipt screens (Figma 480).
+  static const double centredColumn = 480;
+
+  /// One column of the two-column confirmation from the expanded class (Figma
+  /// 358), and the gap between them (48).
+  /// How long processing may last before the screen says it is still waiting
+  /// (research R14): a presentation timing, not a BRD setting.
+  static const Duration checkoutProcessingWait = Duration(seconds: 20);
+
+  /// The success moment's stand-in (design: tile 88 in a ring 128 in a disc 160).
+  /// The widest share of a label-and-value row a label may take (the value
+  /// takes the rest), so values stay on one line where they fit.
+  static const double rowLabelShare = 0.45;
+
+  /// The hourglass disc of the waiting and expired states (design: 96, icon 40).
+  static const double stateDisc = 96;
+  static const double stateDiscIcon = 40;
+
+  static const double momentOuter = 160;
+  static const double momentFailureIcon = 72;
+  static const double momentBadge = 44;
+  static const double momentBadgeInset = 8;
+
+  /// The loader on the processing screen (design: a ring of about 72).
+  static const double processingLoader = 72;
+  static const double momentRing = 128;
+  static const double momentTile = 88;
+
+  static const double confirmationColumn = 358;
+  static const double confirmationGap = 48;
+
+  /// The narrowest pane that fits both confirmation columns and the margins
+  /// (2 x 358 + 48 + 2 x 24).
+  static const double confirmationTwoColumnsMinWidth =
+      confirmationColumn * 2 + confirmationGap + 48;
+
+  /// The receipt PDF (feature 006, R9): print metrics in points, not screen
+  /// layout. TODO(tokens): promote with the others (decisions.md 2026-11-15).
+  static const double receiptPdfMargin = 32;
+  static const double receiptPdfTitleSize = 20;
+  static const double receiptPdfBodySize = 12;
+  static const double receiptPdfRowGap = 8;
+  static const double receiptPdfSectionGap = 16;
+  static const double receiptPdfTagGap = 6;
 }

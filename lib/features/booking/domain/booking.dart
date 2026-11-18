@@ -39,6 +39,20 @@ abstract class Booking with _$Booking {
     required BookingStatus status,
     required String qrToken,
     DateTime? holdExpiresAt,
+
+    /// Entry into payment: the creation time of a paid booking, null for a
+    /// free one. Frozen with the maximum below, so later settings changes do
+    /// not touch a live Hold (BR-12, BR-46).
+    DateTime? holdStartedAt,
+
+    /// The latest the Hold can run while a payment is pending:
+    /// `min(holdStartedAt + max(holdMaxMinutes, holdMinutes), start)` (BR-46).
+    DateTime? holdMaxExpiresAt,
+
+    /// Set by the one extension to the normal expiry that had just been
+    /// reached, so a later failed or cancelled answer can tell the Hold was
+    /// extended and its normal time is over (BR-46). Null until extended.
+    DateTime? holdExtendedAt,
     CancelledBy? cancelledBy,
     String? cancelReason,
   }) = _Booking;
@@ -78,6 +92,18 @@ abstract class Booking with _$Booking {
       );
 
   /// Payment failed or the hold ran out.
+  /// BR-46: the one extension, straight to the maximum. Only while pending,
+  /// and never past [holdMaxExpiresAt].
+  Result<Booking> extendHoldTo(DateTime at) {
+    final max = holdMaxExpiresAt;
+    if (status != BookingStatus.pendingPayment || max == null) {
+      return const Err(InvalidTransition());
+    }
+    return at.isAfter(max)
+        ? const Err(InvalidTransition())
+        : Ok(copyWith(holdExpiresAt: at, holdExtendedAt: holdExpiresAt));
+  }
+
   Result<Booking> expire() => _only(
         BookingStatus.pendingPayment,
         () => copyWith(status: BookingStatus.expired),

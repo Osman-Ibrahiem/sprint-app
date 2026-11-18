@@ -7,8 +7,9 @@ import 'package:sprint/app/shell/placeholders/no_access_screen.dart';
 import 'package:sprint/app/shell/placeholders/profile_placeholder.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
-import 'package:sprint/features/booking/presentation/checkout/checkout_coming_soon_screen.dart';
-import 'package:sprint/features/booking/presentation/done/booking_done_screen.dart';
+import 'package:sprint/features/booking/presentation/checkout/checkout_screen.dart';
+import 'package:sprint/features/booking/presentation/confirmed/booking_confirmed_screen.dart';
+import 'package:sprint/features/booking/presentation/widgets/booking_owner_gate.dart';
 import 'package:sprint/features/booking/presentation/schedule/schedule_screen.dart';
 import 'package:sprint/features/booking/presentation/summary/booking_summary_screen.dart';
 import 'package:sprint/features/catalogue/domain/facility_link.dart';
@@ -16,6 +17,7 @@ import 'package:sprint/features/catalogue/presentation/facilities/facilities_scr
 import 'package:sprint/features/catalogue/presentation/facilities/facility_not_found.dart';
 import 'package:sprint/features/catalogue/presentation/home/home_screen.dart';
 import 'package:sprint/features/identity/domain/app_section.dart';
+import 'package:sprint/features/payments/presentation/receipt/receipt_screen.dart';
 import 'package:sprint/features/verification/presentation/verification_request_screen.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
@@ -97,14 +99,41 @@ abstract final class AppPaths {
     if (shown != null) 'shown': '$shown',
   });
 
+  /// 005's checkout address, kept as a redirect to the summary: a booking now
+  /// exists before payment, so checkout is addressed by its booking id
+  /// ([bookingCheckoutFor]).
   static String bookingCheckout(String id, ScheduleSelection selection) =>
       _withQuery(
         '${FacilityLink.path(id)}/schedule/checkout',
         selection.toQuery(),
       );
 
+  /// Checkout of one booking: holding, processing, failed, expired and the
+  /// rest, all from the booking and its payment (feature 006).
+  static String bookingCheckoutFor(String id, String bookingId) =>
+      '${FacilityLink.path(id)}/schedule/checkout/$bookingId';
+
+  /// 005's success address, kept as a redirect to [bookingConfirmed].
   static String bookingDone(String id, String bookingId) =>
       '${FacilityLink.path(id)}/schedule/done/$bookingId';
+
+  /// The simulated provider page (fake provider only), outside the shell.
+  static const fakeGatewayPattern = '/pay/sandbox/:sessionId';
+  static String fakeGateway(String sessionId) =>
+      '/pay/sandbox/${Uri.encodeComponent(sessionId)}';
+
+  /// The confirmation ticket and the receipt, under the bookings destination.
+  static String bookingConfirmed(String bookingId) =>
+      '$bookings/$bookingId/confirmed';
+  static String bookingReceipt(String bookingId) =>
+      '$bookings/$bookingId/receipt';
+
+  /// The payment flow's own screens (checkout, the confirmation ticket and the
+  /// receipt). On compact they hide the tab bar, as the design does, so the
+  /// only ways out are the screen's own (BR-47).
+  static bool isPaymentFlow(String path) =>
+      path.contains('/schedule/checkout/') ||
+      RegExp(r'^/bookings/[^/]+/(confirmed|receipt)$').hasMatch(path);
 
   static String _withQuery(String path, Map<String, String>? query) =>
       query == null || query.isEmpty
@@ -135,6 +164,10 @@ abstract final class AppRouteNames {
   static const bookingSummary = 'bookingSummary';
   static const bookingCheckout = 'bookingCheckout';
   static const bookingDone = 'bookingDone';
+  static const bookingCheckoutLegacy = 'bookingCheckoutLegacy';
+  static const fakeGateway = 'fakeGateway';
+  static const bookingConfirmed = 'bookingConfirmed';
+  static const bookingReceipt = 'bookingReceipt';
 }
 
 /// Marks an auth route pushed on top of a screen by the account gate
@@ -291,40 +324,48 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
                   );
                 },
               ),
+              // 005's `checkout?<selection>` now lands on the summary: a
+              // booking exists before payment, so checkout is addressed by
+              // its id (feature 006, contracts/routes.md).
               GatedRoute(
                 path: 'checkout',
-                name: AppRouteNames.bookingCheckout,
+                name: AppRouteNames.bookingCheckoutLegacy,
                 access: const RouteAccess(requiresAccount: true),
-                redirect: _needsCompleteSelection,
-                builder: (context, state) {
-                  final id = state.pathParameters['id']!;
-                  return FacilitiesScreen(
-                    selectedId: id,
-                    paneBuilder: (_) => CheckoutComingSoonScreen(
-                      facilityId: id,
-                      selection: ScheduleSelection.fromQuery(
-                        state.uri.queryParameters,
-                      ),
-                    ),
-                  );
-                },
+                redirect: (context, state) => _withSameQuery(
+                  '${FacilityLink.path(state.pathParameters['id']!)}/schedule/summary',
+                  state,
+                ),
+                builder: (context, state) => const SizedBox.shrink(),
               ),
               GatedRoute(
                 path: 'done/:bookingId',
                 name: AppRouteNames.bookingDone,
                 access: const RouteAccess(requiresAccount: true),
-                builder: (context, state) {
-                  final id = state.pathParameters['id']!;
-                  return FacilitiesScreen(
-                    selectedId: id,
-                    paneBuilder: (_) => BookingDoneScreen(
-                      facilityId: id,
-                      bookingId: state.pathParameters['bookingId']!,
-                    ),
-                  );
-                },
+                redirect: (context, state) => AppPaths.bookingConfirmed(
+                  state.pathParameters['bookingId']!,
+                ),
+                builder: (context, state) => const SizedBox.shrink(),
               ),
             ],
+          ),
+          // Checkout is a sibling of the schedule, not a child: a child would
+          // keep the schedule alive beneath it, reacting to the booking's own
+          // Hold (the place looks taken) and rewriting the address.
+          GatedRoute(
+            path: 'schedule/checkout/:bookingId',
+            name: AppRouteNames.bookingCheckout,
+            access: const RouteAccess(requiresAccount: true),
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              final bookingId = state.pathParameters['bookingId']!;
+              // The whole content area, not the facility pane: the
+              // two-column layout needs the width (design-pack
+              // adaptive.md); compact is full screen either way.
+              return BookingOwnerGate(
+                bookingId: bookingId,
+                child: CheckoutScreen(facilityId: id, bookingId: bookingId),
+              );
+            },
           ),
         ],
       ),
@@ -337,6 +378,34 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
     selectedIcon: PhosphorIconsFill.ticket,
     label: (l) => l.navBookings,
     builder: BookingsPlaceholder.new,
+    subRoutes: [
+      // The confirmation ticket and the receipt need an account; another
+      // person's booking shows `NoAccessScreen` (contracts/routes.md).
+      GatedRoute(
+        path: ':bookingId/confirmed',
+        name: AppRouteNames.bookingConfirmed,
+        access: const RouteAccess(requiresAccount: true),
+        builder: (context, state) {
+          final id = state.pathParameters['bookingId']!;
+          return BookingOwnerGate(
+            bookingId: id,
+            child: BookingConfirmedScreen(bookingId: id),
+          );
+        },
+      ),
+      GatedRoute(
+        path: ':bookingId/receipt',
+        name: AppRouteNames.bookingReceipt,
+        access: const RouteAccess(requiresAccount: true),
+        builder: (context, state) {
+          final id = state.pathParameters['bookingId']!;
+          return BookingOwnerGate(
+            bookingId: id,
+            child: ReceiptScreen(bookingId: id),
+          );
+        },
+      ),
+    ],
   ),
   ShellDestination(
     name: AppRouteNames.profile,
@@ -357,7 +426,15 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
   ),
 ];
 
-/// `summary` and `checkout` need a whole selection; without one the person is
+/// [path] with the query of [state] unchanged.
+String _withSameQuery(String path, GoRouterState state) => Uri(
+  path: path,
+  queryParameters: state.uri.queryParameters.isEmpty
+      ? null
+      : state.uri.queryParameters,
+).toString();
+
+/// `summary` needs a whole selection; without one the person is
 /// sent to the schedule with whatever is valid (contracts/routes.md).
 String? _needsCompleteSelection(BuildContext context, GoRouterState state) {
   final selection = ScheduleSelection.fromQuery(state.uri.queryParameters);

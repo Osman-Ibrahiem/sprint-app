@@ -21,9 +21,9 @@ class SprintQrPainter extends CustomPainter {
   static QrImage? _image(String token) {
     if (token.isEmpty) return null;
     try {
-      return QrImage(QrCode(
-        payload: QrPayload.fromString(token),
-        errorCorrectLevel: QrErrorCorrectLevel.medium,
+      return QrImage(QrCode.fromData(
+        data: token,
+        errorCorrectLevel: QrErrorCorrectLevel.M,
       ));
     } on Object {
       return null;

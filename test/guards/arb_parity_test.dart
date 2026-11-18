@@ -48,8 +48,12 @@ void main() {
     const ownScript = {'languageEn'};
     // Punctuation only: the list separator has no letters in either language.
     const punctuationOnly = {'catalogueListSeparator'};
+    // Card-form format hints, shown as the design draws them in Arabic too.
+    const formatHints = {'gatewayExpiryHint', 'gatewayCvcHint'};
     for (final e in ar.entries) {
-      if (ownScript.contains(e.key) || punctuationOnly.contains(e.key)) {
+      if (ownScript.contains(e.key) ||
+          punctuationOnly.contains(e.key) ||
+          formatHints.contains(e.key)) {
         continue;
       }
       expect(arabicLetter.hasMatch(e.value), isTrue, reason: 'ar:${e.key}');

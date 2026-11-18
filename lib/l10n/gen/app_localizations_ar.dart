@@ -535,6 +535,10 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get ticketShowTrainer =>
+      'الكود بيتعرض للمدرب عند الدخول · السطوع العالي أوضح';
+
+  @override
   String get ticketCodeLabel => 'كود الحجز';
 
   @override
@@ -545,7 +549,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String ticketCancelUntil(String date) {
-    return 'إلغاء مجاني لحد $date';
+    return 'الإلغاء متاح لحد $date';
   }
 
   @override
@@ -1998,6 +2002,341 @@ class AppLocalizationsAr extends AppLocalizations {
   String bookingTrainerRowSpoken(String name, String bio, String sessions) {
     return 'المدرب $name، $bio، $sessions';
   }
+
+  @override
+  String get checkoutTitle => 'الدفع';
+
+  @override
+  String get checkoutHoldTitle => 'المكان متحجز لك لحد ما الدفع يخلص';
+
+  @override
+  String checkoutHoldRemaining(String time) {
+    return 'فاضل $time دقيقة، وبعدها المكان يرجع متاح';
+  }
+
+  @override
+  String get checkoutLastMinuteTitle => 'المهلة على وشك تخلص';
+
+  @override
+  String checkoutLastMinuteBody(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'فاضل $seconds ثانية، وبعدها المكان يرجع متاح',
+      two: 'فاضل ثانيتين، وبعدها المكان يرجع متاح',
+      one: 'فاضل ثانية واحدة، وبعدها المكان يرجع متاح',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get checkoutTierInternal => 'داخلي · موثّق';
+
+  @override
+  String get checkoutTierExternal => 'خارجي · السعر الكامل';
+
+  @override
+  String get checkoutPolicyTitle => 'سياسة الإلغاء';
+
+  @override
+  String checkoutPolicyBody(String until, String hours, int percent) {
+    return 'الإلغاء متاح لحد $until ($hours قبل الميعاد) والفلوس بترجع $percent% على نفس وسيلة الدفع. بعد كده زرار الإلغاء بيختفي.';
+  }
+
+  @override
+  String get checkoutRowTime => 'الميعاد';
+
+  @override
+  String get checkoutRowTotal => 'الإجمالي';
+
+  @override
+  String get checkoutMethodTitle => 'الدفع الإلكتروني';
+
+  @override
+  String get checkoutMethodSubtitle =>
+      'بطاقة بنكية أو محفظة موبايل · صفحة المزوّد الآمنة';
+
+  @override
+  String get checkoutSandboxTag => 'وضع الاختبار · مفيش فلوس حقيقية بتتخصم';
+
+  @override
+  String checkoutPay(String amount) {
+    return 'الدفع · $amount';
+  }
+
+  @override
+  String checkoutPaySpoken(int amount) {
+    return 'الدفع، $amount جنيه';
+  }
+
+  @override
+  String get checkoutStartError =>
+      'بدء الدفع ماتمّش. المكان لسه متحجز لك، وممكن تحاول تاني.';
+
+  @override
+  String get checkoutFailedTitle => 'الدفع ماتمّش. ممكن تحاول تاني';
+
+  @override
+  String get checkoutFailedBody => 'المكان لسه متحجز لك لحد ما المهلة تخلص.';
+
+  @override
+  String checkoutRetry(String amount) {
+    return 'إعادة المحاولة · $amount';
+  }
+
+  @override
+  String get holdExpiredTitle => 'المهلة خلصت';
+
+  @override
+  String get holdExpiredBody =>
+      'المكان رجع متاح للناس. ممكن تختار الميعاد من جديد.';
+
+  @override
+  String get holdExpiredPickAnother => 'اختيار ميعاد تاني';
+
+  @override
+  String get checkoutLeaveTitle => 'ترك الدفع؟';
+
+  @override
+  String get checkoutLeaveBody =>
+      'لو سبت الصفحة دلوقتي، المكان بيرجع متاح للناس.';
+
+  @override
+  String get checkoutLeaveConfirm => 'ترك الدفع';
+
+  @override
+  String get checkoutLeaveStay => 'إكمال الدفع';
+
+  @override
+  String get checkoutCancelledTitle => 'الدفع اتلغى';
+
+  @override
+  String get checkoutCancelledBody => 'المكان لسه متحجز لك، وممكن تحاول تاني';
+
+  @override
+  String get gatewayTitle => 'الدفع الآمن';
+
+  @override
+  String get gatewayHoldTitle => 'المكان متحجز لك';
+
+  @override
+  String gatewayHoldBody(String time) {
+    return 'فاضل $time دقيقة لإكمال الدفع';
+  }
+
+  @override
+  String get gatewayAmountLabel => 'المبلغ المطلوب';
+
+  @override
+  String gatewayMerchant(String facility) {
+    return 'سبرنت · $facility';
+  }
+
+  @override
+  String get gatewayCardNumber => 'رقم البطاقة';
+
+  @override
+  String get gatewayCardExpiry => 'تاريخ الانتهاء';
+
+  @override
+  String get gatewayCardCvc => 'رمز الأمان';
+
+  @override
+  String get gatewayCardName => 'اسم حامل البطاقة';
+
+  @override
+  String get gatewayCardNameHint => 'الاسم زي ما هو على البطاقة';
+
+  @override
+  String get gatewayNotice =>
+      'الصفحة دي بتاعة مزوّد الدفع. بعد التأكيد بنرجعلك للتطبيق';
+
+  @override
+  String gatewayConfirm(String amount) {
+    return 'تأكيد الدفع · $amount';
+  }
+
+  @override
+  String get gatewayCancel => 'إلغاء';
+
+  @override
+  String get gatewayErrCardNumber => 'رقم البطاقة مش صحيح';
+
+  @override
+  String get gatewayErrExpiry => 'تاريخ الانتهاء مش صحيح أو فات';
+
+  @override
+  String get gatewayErrCvc => 'رمز الأمان لازم يكون 3 أو 4 أرقام';
+
+  @override
+  String get gatewayErrName => 'اسم حامل البطاقة مطلوب';
+
+  @override
+  String get gatewayExpiryHint => 'MM / YY';
+
+  @override
+  String get gatewayCvcHint => '000';
+
+  @override
+  String get processingTitle => 'بنأكد الدفع';
+
+  @override
+  String get processingBody =>
+      'التأكيد بييجي من مزوّد الدفع وممكن ياخد لحظات، والأحسن إن الشاشة تفضل مفتوحة';
+
+  @override
+  String processingHeld(String time) {
+    return 'المكان متحجز لك، فاضل $time دقيقة';
+  }
+
+  @override
+  String get awaitingTitle => 'لسه مستنيين تأكيد الدفع';
+
+  @override
+  String get awaitingBody =>
+      'لو الخصم حصل ومتأكدش الحجز، الفلوس بترجع لوحدها. المكان متحجز لك لحد ما التأكيد يوصل';
+
+  @override
+  String get awaitingRefresh => 'تحديث الحالة';
+
+  @override
+  String get awaitingRefreshing => 'جاري تحديث الحالة';
+
+  @override
+  String get awaitingBackToBookings => 'الرجوع للحجوزات';
+
+  @override
+  String get receiptTitle => 'إيصال دفع';
+
+  @override
+  String get receiptNumber => 'رقم الإيصال';
+
+  @override
+  String get receiptBookingCode => 'رقم الحجز';
+
+  @override
+  String get receiptDate => 'التاريخ';
+
+  @override
+  String get receiptUnit => 'الوحدة';
+
+  @override
+  String get receiptTier => 'الشريحة';
+
+  @override
+  String get receiptMethod => 'وسيلة الدفع';
+
+  @override
+  String receiptMethodCard(String last4) {
+    return 'بطاقة تنتهي بـ $last4 · اختبار';
+  }
+
+  @override
+  String get receiptTotalPaid => 'الإجمالي المدفوع';
+
+  @override
+  String get receiptSave => 'حفظ الإيصال PDF';
+
+  @override
+  String get receiptShare => 'مشاركة الإيصال';
+
+  @override
+  String get receiptNavTitle => 'الإيصال';
+
+  @override
+  String get receiptPdfFailed => 'الـ PDF ماتعملش. اتشاركت نسخة نصية بدله';
+
+  @override
+  String get receiptNotFoundTitle => 'الإيصال مش موجود';
+
+  @override
+  String get receiptNotFoundBody =>
+      'مفيش إيصال للحجز ده. الإيصال بيظهر بعد دفع ناجح.';
+
+  @override
+  String get confirmedTitle => 'حجزك اتأكد';
+
+  @override
+  String confirmedSubtitle(String lead) {
+    return 'وصلك إشعار بالتفاصيل، وهنفكرك قبل الميعاد بـ$lead.';
+  }
+
+  @override
+  String get confirmedReceiptRow => 'إيصال الدفع';
+
+  @override
+  String leadHours(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours ساعات',
+      two: 'ساعتين',
+      one: 'ساعة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String leadHoursHalf(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours ساعات ونص',
+      two: 'ساعتين ونص',
+      one: 'ساعة ونص',
+      zero: 'نص ساعة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String leadMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes دقيقة',
+      two: 'دقيقتين',
+      one: 'دقيقة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get demoPaymentTitle => 'الدفع التجريبي';
+
+  @override
+  String get demoPaymentNote =>
+      'بيحدد اللي هيحصل لما صفحة المزوّد تأكد الدفع. للعرض بس.';
+
+  @override
+  String get demoPaymentSuccess => 'نجاح';
+
+  @override
+  String get demoPaymentFail => 'فشل';
+
+  @override
+  String get demoPaymentDelay => 'تأخير';
+
+  @override
+  String demoPaymentDelayPreset(int seconds) {
+    return '$seconds ثانية';
+  }
+
+  @override
+  String get demoPaymentDelayAfterMax => 'بعد الحد الأقصى';
+
+  @override
+  String demoPaymentCurrent(String value) {
+    return 'الاختيار الحالي: $value';
+  }
+
+  @override
+  String demoPaymentDelayCurrent(int seconds) {
+    return 'تأخير $seconds ثانية، وبعدها نجاح';
+  }
+
+  @override
+  String get ticketQrLabel => 'رمز الحضور، بيتعرض للمدرب عند الدخول';
 
   @override
   String get splashTagline => 'احجز من غير زحمة';

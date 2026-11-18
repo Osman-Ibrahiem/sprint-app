@@ -15,6 +15,7 @@ import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
+import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/domain/booking_summary_view.dart';
 import 'package:sprint/features/booking/domain/schedule_notice.dart';
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
@@ -24,10 +25,10 @@ import 'package:sprint/features/booking/presentation/widgets/booking_error_view.
 import 'package:sprint/features/booking/presentation/widgets/info_banner.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
-/// The summary before anything is created or paid (FR-024 – FR-031). A paid
-/// booking ends here with "متابعة للدفع", which checks again and opens the
-/// checkout placeholder; nothing is stored and no place is held (BR-12 is
-/// feature 6).
+/// The summary before anything is created or paid (FR-024 – FR-031). "متابعة
+/// للدفع" creates the booking with its Hold and opens its checkout (feature
+/// 006, BR-12); a free booking is confirmed at once and opens its ticket
+/// (BR-19).
 class BookingSummaryScreen extends ConsumerStatefulWidget {
   const BookingSummaryScreen({
     required this.facilityId,
@@ -98,30 +99,13 @@ class _BookingSummaryScreenState extends ConsumerState<BookingSummaryScreen> {
           AppPaths.facilitySchedule(widget.facilityId, widget.selection),
         );
 
-  /// Quotes again right before leaving the summary (FR-009, FR-028): someone
-  /// may have taken the place since it opened.
-  Future<void> _continueToPayment() async {
-    final user = ref.read(currentSessionProvider).user;
-    final request = user == null ? null : widget.selection.toRequest(user.id);
-    if (request == null) return;
-    setState(() => _busy = true);
-    final result = await ref.read(bookingRepositoryProvider).quote(request);
-    if (!mounted) return;
-    setState(() => _busy = false);
-    switch (result) {
-      case Err(:final failure):
-        _backWithNotice(failure);
-      case Ok():
-        context.push(
-          AppPaths.bookingCheckout(widget.facilityId, widget.selection),
-        );
-    }
-  }
-
-  /// Free booking: creates it once and goes to the success screen (BR-19,
-  /// FR-029). The flag is set before the first await, so a second tap while
-  /// this runs does nothing and at most one booking is created.
-  Future<void> _confirm() async {
+  /// Creates the booking, once (BR-11, BR-19, FR-002, FR-029). Every check
+  /// runs again inside `create`, so someone may have taken the place since the
+  /// summary opened. A paid booking starts its Hold and goes to checkout; a
+  /// free one is confirmed at once and goes to its ticket. The flag is set
+  /// before the first await, so a second tap while this runs does nothing and
+  /// at most one booking is created.
+  Future<void> _submit() async {
     if (_busy) return;
     final user = ref.read(currentSessionProvider).user;
     final request = user == null ? null : widget.selection.toRequest(user.id);
@@ -138,9 +122,13 @@ class _BookingSummaryScreenState extends ConsumerState<BookingSummaryScreen> {
           setState(() => _busy = false);
           _backWithNotice(failure);
         case Ok(:final value):
-          // Stay busy: this screen is being left, and back from the success
-          // screen must not offer to confirm again.
-          context.go(AppPaths.bookingDone(widget.facilityId, value.id));
+          // Stay busy: this screen is being left, and back from the next one
+          // must not offer to create a second booking.
+          context.go(
+            value.status == BookingStatus.pendingPayment
+                ? AppPaths.bookingCheckoutFor(widget.facilityId, value.id)
+                : AppPaths.bookingConfirmed(value.id),
+          );
       }
     } on Object {
       if (!mounted) return;
@@ -203,7 +191,7 @@ class _BookingSummaryScreenState extends ConsumerState<BookingSummaryScreen> {
                 : l10n.bookingPayAction,
             busy: _busy,
             failedText: _failed ? l10n.bookingFailGeneric : null,
-            onPressed: view.isFree ? _confirm : _continueToPayment,
+            onPressed: _submit,
           ),
       ],
     );

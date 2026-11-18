@@ -70,27 +70,43 @@ class _AdaptiveShellState extends State<AdaptiveShell> {
     final Widget content = size == WindowSize.large
         ? Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: SprintSize.contentMax),
+              constraints: const BoxConstraints(
+                maxWidth: SprintSize.contentMax,
+              ),
               child: SizedBox.expand(key: shellContentKey, child: body),
             ),
           )
         : SizedBox.expand(key: shellContentKey, child: body);
 
+    // Checkout, the ticket and the receipt stand alone on compact: no tab
+    // bar to leave the payment by (BR-47); the rail and sidebar stay.
+    final path = GoRouter.of(context)
+        .routerDelegate
+        .currentConfiguration
+        .uri
+        .path;
+    final standAlone = AppPaths.isPaymentFlow(path);
     return switch (form) {
       NavigationForm.tabBar => Scaffold(
-          body: content,
-          bottomNavigationBar: navigation,
-        ),
+        body: content,
+        bottomNavigationBar: standAlone ? null : navigation,
+      ),
       NavigationForm.rail => Scaffold(
-          body: Row(
-            children: [navigation, Expanded(child: content)],
-          ),
+        body: Row(
+          children: [
+            navigation,
+            Expanded(child: content),
+          ],
         ),
+      ),
       NavigationForm.sidebar => Scaffold(
-          body: Row(
-            children: [navigation, Expanded(child: content)],
-          ),
+        body: Row(
+          children: [
+            navigation,
+            Expanded(child: content),
+          ],
         ),
+      ),
     };
   }
 }

@@ -26,8 +26,13 @@ class AdaptivePressable extends StatefulWidget {
     this.borderRadius = SprintRadius.smBorder,
     this.liveRegion = false,
     this.focusNode,
+    this.expand = false,
     super.key,
   });
+
+  /// Fills the width it is given (a full-width action) instead of wrapping its
+  /// content.
+  final bool expand;
 
   /// Spoken label. Disabled semantics are derived from [onTap].
   final String label;
@@ -78,11 +83,14 @@ class _AdaptivePressableState extends State<AdaptivePressable> {
 
     Widget buildSurface(BuildContext context) {
       final feedback = traits.pressFeedback;
-      final hovered = state == AdaptivePressState.hovered &&
+      final hovered =
+          state == AdaptivePressState.hovered &&
           feedback == PressFeedback.hover;
       final pressed = state == AdaptivePressState.pressed;
 
-      var background = hovered ? (widget.hoverColor ?? widget.restingColor) : widget.restingColor;
+      var background = hovered
+          ? (widget.hoverColor ?? widget.restingColor)
+          : widget.restingColor;
       if (pressed && feedback == PressFeedback.hover) {
         background = widget.pressedColor ?? background;
       }
@@ -100,9 +108,9 @@ class _AdaptivePressableState extends State<AdaptivePressable> {
                     key: AdaptivePressable.rippleKey,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: (widget.pressedColor ??
-                              context.colors.primaryPressed)
-                          .withValues(alpha: 0.4),
+                      color:
+                          (widget.pressedColor ?? context.colors.primaryPressed)
+                              .withValues(alpha: 0.4),
                     ),
                     child: const SizedBox(
                       width: SprintSpacing.space16,
@@ -148,8 +156,9 @@ class _AdaptivePressableState extends State<AdaptivePressable> {
         child: FocusableActionDetector(
           enabled: enabled,
           focusNode: widget.focusNode,
-          mouseCursor:
-              enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
+          mouseCursor: enabled
+              ? SystemMouseCursors.click
+              : SystemMouseCursors.basic,
           onShowHoverHighlight: (v) => setState(() => _hovered = v),
           onShowFocusHighlight: (v) => setState(() => _focusVisible = v),
           actions: <Type, Action<Intent>>{
@@ -174,15 +183,22 @@ class _AdaptivePressableState extends State<AdaptivePressable> {
               // Wrap its content, so loose width does not stretch the control
               // over a whole row; tight width (a SizedBox, an Expanded) still
               // fills as before, and the 48 minimum above still centres it.
-              child: Center(
-                widthFactor: 1,
-                heightFactor: 1,
-                child: SprintFocusRing(
-                  visible: _focusVisible,
-                  borderRadius: widget.borderRadius,
-                  child: Builder(builder: buildSurface),
-                ),
-              ),
+              child: widget.expand
+                  ? SprintFocusRing(
+                      expand: true,
+                      visible: _focusVisible,
+                      borderRadius: widget.borderRadius,
+                      child: Builder(builder: buildSurface),
+                    )
+                  : Center(
+                      widthFactor: 1,
+                      heightFactor: 1,
+                      child: SprintFocusRing(
+                        visible: _focusVisible,
+                        borderRadius: widget.borderRadius,
+                        child: Builder(builder: buildSurface),
+                      ),
+                    ),
             ),
           ),
         ),

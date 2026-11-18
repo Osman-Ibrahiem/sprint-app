@@ -6,7 +6,7 @@ import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/core/widgets/slot_chip/slot_state.dart' as chip;
 import 'package:sprint/features/booking/domain/booking_repository.dart';
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
-import 'package:sprint/features/booking/presentation/checkout/checkout_coming_soon_screen.dart';
+import 'package:sprint/features/booking/presentation/checkout/checkout_screen.dart';
 import 'package:sprint/features/booking/presentation/schedule/schedule_screen.dart';
 import 'package:sprint/features/booking/presentation/schedule/selection_bar.dart';
 import 'package:sprint/features/booking/presentation/summary/booking_summary_screen.dart';
@@ -28,7 +28,7 @@ void main() {
       containerOf(tester).read(dataLayerProvider).bookings.allBookings.length;
 
   testWidgets(
-    'an available pitch slot reaches the summary and the placeholder',
+    'an available pitch slot reaches the summary and then checkout with a Hold',
     (tester) async {
       await openSchedule(
         tester,
@@ -47,11 +47,11 @@ void main() {
 
       await tester.tap(find.byKey(BookingSummaryScreen.actionKey));
       await tester.pumpAndSettle();
-      expect(find.byType(CheckoutComingSoonScreen), findsOneWidget);
+      expect(find.byType(CheckoutScreen), findsOneWidget);
       expect(
         count(tester),
-        before,
-        reason: 'nothing is stored before feature 6',
+        before + 1,
+        reason: 'the booking exists, on hold, from the summary (BR-12)',
       );
     },
   );

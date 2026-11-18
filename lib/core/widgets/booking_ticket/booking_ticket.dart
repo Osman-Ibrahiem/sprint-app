@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/core/adaptive/adaptive_pressable.dart';
 import 'package:sprint/core/l10n/ltr_isolate.dart';
+import 'package:sprint/core/l10n/sprint_icon.dart';
 import 'package:sprint/core/l10n/sprint_format.dart';
 import 'package:sprint/core/motion/skeleton.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
@@ -10,6 +12,7 @@ import 'package:sprint/core/tokens/sprint_colors.g.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_motion.g.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
+import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/booking_ticket/qr_painter.dart';
 import 'package:sprint/core/widgets/status_badge/sprint_status.dart';
@@ -35,23 +38,25 @@ class BookingTicket extends StatefulWidget {
     this.qrToken,
     this.cancelUntil,
     this.onCodeCopied,
+    this.priceLabel,
     super.key,
   }) : isLoading = false;
 
   const BookingTicket.loading({super.key})
-      : state = BookingTicketState.upcoming,
-        status = SprintStatus.confirmed,
-        facilityName = '',
-        unitName = '',
-        trainerName = null,
-        start = null,
-        end = null,
-        qrToken = null,
-        code = '',
-        paid = '',
-        cancelUntil = null,
-        onCodeCopied = null,
-        isLoading = true;
+    : state = BookingTicketState.upcoming,
+      status = SprintStatus.confirmed,
+      facilityName = '',
+      unitName = '',
+      trainerName = null,
+      start = null,
+      end = null,
+      qrToken = null,
+      code = '',
+      paid = '',
+      cancelUntil = null,
+      onCodeCopied = null,
+      priceLabel = null,
+      isLoading = true;
 
   final BookingTicketState state;
   final SprintStatus status;
@@ -69,6 +74,10 @@ class BookingTicket extends StatefulWidget {
   /// Cairo-local; null means "الإلغاء مش متاح".
   final DateTime? cancelUntil;
   final VoidCallback? onCodeCopied;
+
+  /// Replaces "المدفوع" for a booking that cost nothing ("السعر" with
+  /// "مجاني" as [paid]).
+  final String? priceLabel;
   final bool isLoading;
 
   static const bandKey = ValueKey<String>('ticket-band');
@@ -114,50 +123,47 @@ class _BookingTicketState extends State<BookingTicket> {
       width: width < ticketWidth ? null : ticketWidth,
       child: inner,
     );
-    return Align(
-      alignment: AlignmentDirectional.topCenter,
-      child: card,
-    );
+    return Align(alignment: AlignmentDirectional.topCenter, child: card);
   }
 
   Widget _loading(SprintColors colors) => ExcludeSemantics(
-        child: DecoratedBox(
-          key: BookingTicket.loadingKey,
-          decoration: BoxDecoration(
-            color: colors.surface,
-            borderRadius: SprintRadius.lgBorder,
-            boxShadow: colors.shadowCard,
-          ),
-          child: const Padding(
-            padding: EdgeInsetsDirectional.all(SprintSpacing.space4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Skeleton(
-                  height: SprintSpacing.space6,
-                  borderRadius: SprintRadius.smBorder,
-                ),
-                SizedBox(height: SprintSpacing.space3),
-                Skeleton(
-                  height: SprintSpacing.space8,
-                  borderRadius: SprintRadius.smBorder,
-                ),
-                SizedBox(height: SprintSpacing.space3),
-                Skeleton(
-                  height: SprintExtras.ticketWidth / 2,
-                  borderRadius: SprintRadius.smBorder,
-                ),
-                SizedBox(height: SprintSpacing.space3),
-                Skeleton(
-                  height: SprintSpacing.space6,
-                  borderRadius: SprintRadius.smBorder,
-                ),
-              ],
+    child: DecoratedBox(
+      key: BookingTicket.loadingKey,
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: SprintRadius.lgBorder,
+        boxShadow: colors.shadowCard,
+      ),
+      child: const Padding(
+        padding: EdgeInsetsDirectional.all(SprintSpacing.space4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Skeleton(
+              height: SprintSpacing.space6,
+              borderRadius: SprintRadius.smBorder,
             ),
-          ),
+            SizedBox(height: SprintSpacing.space3),
+            Skeleton(
+              height: SprintSpacing.space8,
+              borderRadius: SprintRadius.smBorder,
+            ),
+            SizedBox(height: SprintSpacing.space3),
+            Skeleton(
+              height: SprintExtras.ticketWidth / 2,
+              borderRadius: SprintRadius.smBorder,
+            ),
+            SizedBox(height: SprintSpacing.space3),
+            Skeleton(
+              height: SprintSpacing.space6,
+              borderRadius: SprintRadius.smBorder,
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 
   Widget _content(BuildContext context, SprintColors colors) {
     final l10n = AppLocalizations.of(context);
@@ -206,12 +212,28 @@ class _BookingTicketState extends State<BookingTicket> {
             horizontal: SprintSpacing.space4,
             vertical: SprintSpacing.space3,
           ),
-          child: Text(
-            dateLine,
-            style: context.text.headline.copyWith(color: bandFg),
+          child: Row(
+            children: [
+              SprintIcon(
+                PhosphorIconsRegular.clock,
+                size: SprintSize.iconMd,
+                color: bandFg,
+              ),
+              const SizedBox(width: SprintSpacing.space2),
+              Expanded(
+                child: Text(
+                  dateLine,
+                  style: context.text.headline.copyWith(color: bandFg),
+                ),
+              ),
+            ],
           ),
         ),
-        _Divider(key: BookingTicket.dividerKey, lineColor: colors.line, notch: colors.bg),
+        _Divider(
+          key: BookingTicket.dividerKey,
+          lineColor: colors.line,
+          notch: colors.bg,
+        ),
         Padding(
           padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
           child: Column(
@@ -220,8 +242,16 @@ class _BookingTicketState extends State<BookingTicket> {
               _qrOrStatus(context, colors, l10n),
               const SizedBox(height: SprintSpacing.space3),
               _codeRow(context, colors, l10n),
-              const SizedBox(height: SprintSpacing.space3),
-              _row(context, l10n.ticketPaid, widget.paid),
+              if (_showQr) ...[
+                Text(
+                  l10n.ticketShowTrainer,
+                  style: context.text.caption.copyWith(color: colors.inkMuted),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: SprintSpacing.space3),
+              ] else
+                const SizedBox(height: SprintSpacing.space3),
+              _row(context, widget.priceLabel ?? l10n.ticketPaid, widget.paid),
               const SizedBox(height: SprintSpacing.space2),
               Align(
                 alignment: AlignmentDirectional.centerStart,
@@ -258,16 +288,16 @@ class _BookingTicketState extends State<BookingTicket> {
   }
 
   Widget _row(BuildContext context, String label, String value) => Row(
-        children: [
-          Expanded(
-            child: Text(
-              label,
-              style: context.text.body.copyWith(color: context.colors.inkMuted),
-            ),
-          ),
-          Text(value, style: context.text.bodyStrong),
-        ],
-      );
+    children: [
+      Expanded(
+        child: Text(
+          label,
+          style: context.text.body.copyWith(color: context.colors.inkMuted),
+        ),
+      ),
+      Text(value, style: context.text.bodyStrong),
+    ],
+  );
 
   Widget _qrOrStatus(
     BuildContext context,
@@ -296,7 +326,9 @@ class _BookingTicketState extends State<BookingTicket> {
         ),
       );
     }
-    return ExcludeSemantics(
+    return Semantics(
+      image: true,
+      label: l10n.ticketQrLabel,
       child: SizedBox(
         key: BookingTicket.qrKey,
         width: side,
@@ -353,7 +385,9 @@ class _BookingTicketState extends State<BookingTicket> {
                   ? Text(
                       l10n.ticketCopied,
                       key: BookingTicket.copiedKey,
-                      style: context.text.caption.copyWith(color: colors.success),
+                      style: context.text.caption.copyWith(
+                        color: colors.success,
+                      ),
                     )
                   : null,
             ),
@@ -401,11 +435,11 @@ class _Divider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: SprintExtras.ticketNotchRadius * 2,
-        child: CustomPaint(
-          painter: _NotchPainter(line: lineColor, notch: notch),
-        ),
-      );
+    height: SprintExtras.ticketNotchRadius * 2,
+    child: CustomPaint(
+      painter: _NotchPainter(line: lineColor, notch: notch),
+    ),
+  );
 }
 
 class _NotchPainter extends CustomPainter {
@@ -436,5 +470,6 @@ class _NotchPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_NotchPainter old) => old.line != line || old.notch != notch;
+  bool shouldRepaint(_NotchPainter old) =>
+      old.line != line || old.notch != notch;
 }

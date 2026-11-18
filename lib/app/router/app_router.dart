@@ -13,6 +13,7 @@ import 'package:sprint/features/demo/demo_flags.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/component_gallery_screen.dart';
 import 'package:sprint/features/demo/presentation/demo_screen.dart';
 import 'package:sprint/features/demo/presentation/mailbox_screen.dart';
+import 'package:sprint/features/payments/presentation/fake_gateway_screen.dart';
 
 /// Builds the app router. Web uses Flutter's default hash URL strategy
 /// (`/#/path`), so deep links and refreshes work under the Pages sub-path
@@ -136,6 +137,15 @@ GoRouter buildAppRouter({
           from: state.uri.queryParameters['from'],
           gate: state.extra is GateExtra,
         ),
+      ),
+      // The simulated provider page: outside the shell, no navigation bar,
+      // and the owner's only (feature 006, contracts/routes.md).
+      GatedRoute(
+        path: AppPaths.fakeGatewayPattern,
+        name: AppRouteNames.fakeGateway,
+        access: const RouteAccess(requiresAccount: true),
+        builder: (context, state) =>
+            FakeGatewayScreen(sessionId: state.pathParameters['sessionId']!),
       ),
       // Known sections the current person does not see in the shell.
       for (final d in hiddenDestinations)

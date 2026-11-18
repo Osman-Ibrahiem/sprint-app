@@ -12,9 +12,12 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// Every line of the summary (FR-024), each with its label.
 class SummaryRows extends StatelessWidget {
-  const SummaryRows({required this.view, super.key});
+  const SummaryRows({required this.view, this.showPolicy = true, super.key});
 
   final BookingSummaryView view;
+
+  /// Checkout shows the policy in its own card, with its own wording.
+  final bool showPolicy;
 
   @override
   Widget build(BuildContext context) {
@@ -80,16 +83,18 @@ class SummaryRows extends StatelessWidget {
                 style: context.text.body.copyWith(color: colors.inkMuted),
               ),
             ),
-          Text(
-            l10n.bookingRowPolicy,
-            style: context.text.label.copyWith(color: colors.inkMuted),
-          ),
-          const SizedBox(height: SprintSpacing.space1),
-          CancellationPolicyText(
-            cutoffHours: view.quote.cancellationCutoffHours,
-            refundPercent: view.quote.refundPercent,
-            showRefund: !view.isFree,
-          ),
+          if (showPolicy) ...[
+            Text(
+              l10n.bookingRowPolicy,
+              style: context.text.label.copyWith(color: colors.inkMuted),
+            ),
+            const SizedBox(height: SprintSpacing.space1),
+            CancellationPolicyText(
+              cutoffHours: view.quote.cancellationCutoffHours,
+              refundPercent: view.quote.refundPercent,
+              showRefund: !view.isFree,
+            ),
+          ],
         ],
       ),
     );
