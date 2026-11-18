@@ -8,6 +8,7 @@ import 'package:sprint/core/splash/sprint_splash.dart';
 import 'package:sprint/core/theme/sprint_theme.dart';
 import 'package:sprint/core/theme/theme_mode_notifier.dart';
 import 'package:sprint/features/booking/presentation/providers/checkout_providers.dart';
+import 'package:sprint/features/notifications/presentation/providers/reminder_providers.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 class SprintApp extends ConsumerWidget {
@@ -32,6 +33,9 @@ class SprintApp extends ConsumerWidget {
     // Holds are kept honest anywhere in the app, not only on the checkout
     // screen (FR-004, BR-12, BR-46).
     ref.watch(holdHousekeepingProvider);
+    // One reminder per confirmed booking, on build, every minute and on
+    // resume (BR-39).
+    ref.watch(reminderSchedulerProvider);
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appName,
       theme: SprintTheme.light,

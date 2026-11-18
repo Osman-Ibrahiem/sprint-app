@@ -815,26 +815,32 @@ final class ReceiptFamily extends $Family
   String toString() => r'receiptProvider';
 }
 
-/// Keeps Holds honest while the app is open, also off the checkout screen
-/// (FR-004): one timer, set for the earliest Hold of the signed-in person's
-/// pending bookings, that asks the repository to apply the Hold rule (expire,
-/// or extend while a payment is pending, BR-12, BR-46) and then re-arms.
+/// Keeps Holds and no-shows honest while the app is open, also off the
+/// checkout screen (FR-004, BR-37): one timer, set for the earliest Hold of the
+/// signed-in person's pending bookings or the end of their confirmed ones,
+/// that asks the repository to apply the Hold rule (expire, or extend while a
+/// payment is pending, BR-12, BR-46) and mark finished bookings as no-shows,
+/// then re-arms.
 
 @ProviderFor(holdHousekeeping)
 final holdHousekeepingProvider = HoldHousekeepingProvider._();
 
-/// Keeps Holds honest while the app is open, also off the checkout screen
-/// (FR-004): one timer, set for the earliest Hold of the signed-in person's
-/// pending bookings, that asks the repository to apply the Hold rule (expire,
-/// or extend while a payment is pending, BR-12, BR-46) and then re-arms.
+/// Keeps Holds and no-shows honest while the app is open, also off the
+/// checkout screen (FR-004, BR-37): one timer, set for the earliest Hold of the
+/// signed-in person's pending bookings or the end of their confirmed ones,
+/// that asks the repository to apply the Hold rule (expire, or extend while a
+/// payment is pending, BR-12, BR-46) and mark finished bookings as no-shows,
+/// then re-arms.
 
 final class HoldHousekeepingProvider
     extends $FunctionalProvider<bool, bool, bool>
     with $Provider<bool> {
-  /// Keeps Holds honest while the app is open, also off the checkout screen
-  /// (FR-004): one timer, set for the earliest Hold of the signed-in person's
-  /// pending bookings, that asks the repository to apply the Hold rule (expire,
-  /// or extend while a payment is pending, BR-12, BR-46) and then re-arms.
+  /// Keeps Holds and no-shows honest while the app is open, also off the
+  /// checkout screen (FR-004, BR-37): one timer, set for the earliest Hold of the
+  /// signed-in person's pending bookings or the end of their confirmed ones,
+  /// that asks the repository to apply the Hold rule (expire, or extend while a
+  /// payment is pending, BR-12, BR-46) and mark finished bookings as no-shows,
+  /// then re-arms.
   HoldHousekeepingProvider._()
     : super(
         from: null,
@@ -868,7 +874,7 @@ final class HoldHousekeepingProvider
   }
 }
 
-String _$holdHousekeepingHash() => r'3daf4813cc3e94facb3923961d5b85608c7b9d74';
+String _$holdHousekeepingHash() => r'f4314895a77c9889ec48bc8eeb05c309e794ed56';
 
 /// The checkout location of the booking a provider session belongs to, when
 /// the signed-in person has such a booking (a session the fake no longer
