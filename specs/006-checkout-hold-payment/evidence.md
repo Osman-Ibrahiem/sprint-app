@@ -108,7 +108,7 @@ booker. No iOS or Android device.
 Still not checked: iOS and Android (native back, PDF share sheet), SC-001 and SC-005 by hand, rows 5, 7 and 9,
 English, light, 200% text, browser back.
 
-## Pull request description (T057), not opened
+## Pull request description (T057)
 
 **Title**: feat(006): checkout with Hold, sandbox payment, confirmation ticket
 
@@ -138,6 +138,10 @@ US-11, US-12; BR-11 – BR-13, BR-16, BR-17, BR-19, BR-28 – BR-31, BR-33, BR-3
 
 **Out of scope**: backend, real payments, SMS, push, Lottie moments and add to calendar (feature 11), P2.
 
-**Not verified**: the manual device and browser walk above.
+**Hand walk on web (T056, partly)**: rows 1–4, 6, 8, 11 walked at 1024 and 375 px in Arabic; five defects found and fixed with a test each (D1 UTC times on the ticket, D2 a refresh confirmed a payment the page never confirmed, D3 amounts read backwards, D4 free ticket cancel line, D5 a passed cutoff on the policy card), then re-walked.
+
+**Not verified**: iOS and Android (native back, PDF share sheet); on web rows 5, 7, 9, English, light, 200% text and browser back.
+
+**Older than 006, not changed here**: `dir="rtl"` on `<html>` in `web/index.html` moves Flutter's semantics tree off screen (screen readers on web); the "حجوزاتي" placeholder tells a signed-in person to sign in.
 
 Evidence: `specs/006-checkout-hold-payment/evidence.md`. CLAUDE.md "Current state" is updated in a separate docs PR after the merge.
