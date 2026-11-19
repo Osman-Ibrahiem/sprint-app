@@ -38,6 +38,14 @@ Checked: git log against the boxes (T001 to T003 were done but unchecked; fixed)
 - Decisions to confirm: the notifications destination is always a route (the shell hides it from guests and from the compact tab bar) so signing in never rebuilds the router; the Facilities list got a "كل المنشآت" title; Home and Facilities suggestions show inline under the field (not a popover) from the medium class; the account card shows masked phone and email (as before) instead of the full email.
 - The pack's "not read" frames (all Dark, Expanded and Large of several screens) were implemented from the Compact and Medium rules and the spec; design QA (T086) must compare them.
 
+## Quickstart walk (T085, partial, 2026-11-19)
+
+Web release build served locally, 390 wide, Arabic, dark (system), driven through the browser pane.
+
+- **Seen working**: guest on `/notifications` is sent to `/sign-in?from=/notifications`; as the demo booker "حجوزاتي" shows "الجاية (6)" with the bell badge (3), rows with status words and the today chip, and the tab bar with four items; the notifications centre shows reminder, confirmed, facility cancel, refund, verification and self-cancel records with unread dots and "تعليم الكل كمقروء".
+- **Bug found and fixed**: the permission dialog (Apple-style alert on web) drew Arabic as boxes because the Cupertino alert used its own font. Fixed by setting the Cairo styles explicitly in `showSprintDialog` (commit "fix(adaptive): Cairo text in the Cupertino dialog"); the rebuilt page was not re-checked by eye.
+- **Not walked**: desktop 1440, English, light theme, details and cancel on the page, pending payment, `/demo` reminder and facility cancel, account and edit profile, search, resize and fold, keyboard-only, iOS simulator. The browser session lost the demo user on reload, so these are covered by the widget and acceptance tests only. No screenshots were saved to the repo.
+
 ## Not tested yet
 
 Everything below this line is filled in by the stage that ran it: Phase 1–2,
