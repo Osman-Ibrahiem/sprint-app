@@ -2790,19 +2790,19 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get notifVerificationPendingTitle => 'طلب التوثيق تحت المراجعة';
+  String get notifVerificationPendingTitle => 'توثيق الحساب قيد المراجعة';
 
   @override
   String get notifVerificationPendingBody => 'هنبلغك أول ما نخلص.';
 
   @override
-  String get notifVerificationApprovedTitle => 'حسابك اتوثّق';
+  String get notifVerificationApprovedTitle => 'توثيق الحساب تمت الموافقة';
 
   @override
   String get notifVerificationApprovedBody => 'دلوقتي بتحجز بالسعر الداخلي.';
 
   @override
-  String get notifVerificationRejectedTitle => 'طلب التوثيق اترفض';
+  String get notifVerificationRejectedTitle => 'توثيق الحساب مرفوض';
 
   @override
   String notifVerificationRejectedBody(String reason) {

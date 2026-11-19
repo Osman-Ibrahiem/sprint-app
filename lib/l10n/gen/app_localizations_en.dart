@@ -2815,21 +2815,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifVerificationPendingTitle =>
-      'Your verification is under review';
+      'Account verification under review';
 
   @override
   String get notifVerificationPendingBody =>
       'We will tell you as soon as we finish.';
 
   @override
-  String get notifVerificationApprovedTitle => 'Your account is verified';
+  String get notifVerificationApprovedTitle => 'Account verification approved';
 
   @override
   String get notifVerificationApprovedBody =>
       'You now book at the internal price.';
 
   @override
-  String get notifVerificationRejectedTitle => 'Your verification was rejected';
+  String get notifVerificationRejectedTitle => 'Account verification rejected';
 
   @override
   String notifVerificationRejectedBody(String reason) {

@@ -1736,11 +1736,11 @@
       }
     }
   },
-  "notifVerificationPendingTitle": "Your verification is under review",
+  "notifVerificationPendingTitle": "Account verification under review",
   "notifVerificationPendingBody": "We will tell you as soon as we finish.",
-  "notifVerificationApprovedTitle": "Your account is verified",
+  "notifVerificationApprovedTitle": "Account verification approved",
   "notifVerificationApprovedBody": "You now book at the internal price.",
-  "notifVerificationRejectedTitle": "Your verification was rejected",
+  "notifVerificationRejectedTitle": "Account verification rejected",
   "notifVerificationRejectedBody": "Reason: {reason}",
   "@notifVerificationRejectedBody": {
     "placeholders": {

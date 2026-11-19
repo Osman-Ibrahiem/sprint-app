@@ -4659,7 +4659,7 @@ abstract class AppLocalizations {
   /// No description provided for @notifVerificationPendingTitle.
   ///
   /// In ar, this message translates to:
-  /// **'طلب التوثيق تحت المراجعة'**
+  /// **'توثيق الحساب قيد المراجعة'**
   String get notifVerificationPendingTitle;
 
   /// No description provided for @notifVerificationPendingBody.
@@ -4671,7 +4671,7 @@ abstract class AppLocalizations {
   /// No description provided for @notifVerificationApprovedTitle.
   ///
   /// In ar, this message translates to:
-  /// **'حسابك اتوثّق'**
+  /// **'توثيق الحساب تمت الموافقة'**
   String get notifVerificationApprovedTitle;
 
   /// No description provided for @notifVerificationApprovedBody.
@@ -4683,7 +4683,7 @@ abstract class AppLocalizations {
   /// No description provided for @notifVerificationRejectedTitle.
   ///
   /// In ar, this message translates to:
-  /// **'طلب التوثيق اترفض'**
+  /// **'توثيق الحساب مرفوض'**
   String get notifVerificationRejectedTitle;
 
   /// No description provided for @notifVerificationRejectedBody.

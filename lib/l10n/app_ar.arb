@@ -1740,11 +1740,11 @@
       }
     }
   },
-  "notifVerificationPendingTitle": "طلب التوثيق تحت المراجعة",
+  "notifVerificationPendingTitle": "توثيق الحساب قيد المراجعة",
   "notifVerificationPendingBody": "هنبلغك أول ما نخلص.",
-  "notifVerificationApprovedTitle": "حسابك اتوثّق",
+  "notifVerificationApprovedTitle": "توثيق الحساب تمت الموافقة",
   "notifVerificationApprovedBody": "دلوقتي بتحجز بالسعر الداخلي.",
-  "notifVerificationRejectedTitle": "طلب التوثيق اترفض",
+  "notifVerificationRejectedTitle": "توثيق الحساب مرفوض",
   "notifVerificationRejectedBody": "السبب: {reason}",
   "@notifVerificationRejectedBody": {
     "placeholders": {

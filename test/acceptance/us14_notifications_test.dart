@@ -63,4 +63,12 @@ void main() {
     final nav = t.widget<AppNavigation>(find.byType(AppNavigation));
     expect(nav.destinations[nav.selected].label, ar.navNotifications);
   });
+
+  testWidgets('M6: verification titles are the design ones', (t) async {
+    expect(ar.notifVerificationRejectedTitle, 'توثيق الحساب مرفوض');
+    expect(ar.notifVerificationPendingTitle, 'توثيق الحساب قيد المراجعة');
+    expect(ar.notifVerificationApprovedTitle, 'توثيق الحساب تمت الموافقة');
+    await open(t, size: const Size(400, 3000));
+    expect(find.text(ar.notifVerificationApprovedTitle), findsWidgets);
+  });
 }
