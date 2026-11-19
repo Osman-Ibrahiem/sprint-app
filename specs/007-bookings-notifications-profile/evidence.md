@@ -52,6 +52,19 @@ Web release build served locally, 390 wide, Arabic, dark (system), driven throug
 - `test/features/notifications/presentation/reminder_card_test.dart` (moving clock: cancel before the cutoff opens the dialog; after it the action goes, a line shows and the card opens the booking; cancelled booking keeps the card without the action; lead words follow the setting; one record however often the checker runs) and `test/acceptance/us13_reminder_test.dart` (scenarios 1, 2, 4, 5; scenario 3 is in the card test).
 - Test note: a repository write made inside `runAsync` reaches the card only after the details are re-read, so the cancelled-booking test invalidates and reads them explicitly.
 
+## Code review findings (10), 2026-11-19
+
+1. **Fixed**: edit-profile name check counts runes; test with an emoji.
+2. **Fixed**: `?q=` read at start, written with replace, kept on `/facilities/<id>?q=`; test in `us01_search_test.dart`. Demo reset clears the device recents but does not refresh the live recents list until the next restart.
+3. **Fixed**: the reminder sentence gives the real start time ("بيبدأ الساعة …" or date and time), not the lead setting; tests updated. `us13_reminder_test` scenario 5 assumes the seeded reminder booking starts today (Cairo), so it could flake in the last hour before Cairo midnight.
+4. **Fixed**: `bookedCounts(since, until)`; the suggestions pass the injected clock as `until`; the seed got two more past pool bookings so "most booked" stays strict; test for a future booking.
+5. **Fixed**: `recentSearchesProvider` notifier; test for add and clear.
+6. **Fixed**: the clock tick invalidates only the details of displayed reminders. No dedicated test (behaviour is "fewer rebuilds").
+7. **Fixed**: the last tab is remembered in `initState` and `didUpdateWidget`, home is the default; test for a direct `/notifications` load.
+8. **Fixed**: one `_MarkAllButton` (ghost, one key) in both headers.
+9. **Fixed**: details use `PaymentRepository.latestPayment`.
+10. **Fixed**: `PhotoSource`, `PhotoSourcePicker` and `photoSourceProvider` live in `lib/core/adaptive/photo_source.dart`. `lib/features/account/` still imports `VerificationSlot` and `VerificationNotice` from feature 3 (the verification area is reused on purpose); only the picker types were decoupled.
+
 ## Not tested yet
 
 Everything below this line is filled in by the stage that ran it: Phase 1–2,
