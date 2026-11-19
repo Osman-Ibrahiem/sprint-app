@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sprint/core/adaptive/photo_source.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/adaptive/adaptive_app_bar.dart';
@@ -18,7 +19,6 @@ import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/core/widgets/sprint_text_field/sprint_text_field.dart';
 import 'package:sprint/features/identity/presentation/avatar_encoder.dart';
 import 'package:sprint/features/identity/presentation/profile_photo_provider.dart';
-import 'package:sprint/features/verification/presentation/id_card_photo_picker.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// Edit name and photo (US-14, FR-MYB-03). Email and phone are shown locked
@@ -61,20 +61,20 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   Future<void> _choosePhoto() async {
     final l10n = AppLocalizations.of(context);
-    var source = IdCardSource.gallery;
+    var source = PhotoSource.gallery;
     if (cameraAvailableOf(context)) {
-      final chosen = await showSprintSheet<IdCardSource>(
+      final chosen = await showSprintSheet<PhotoSource>(
         context: context,
         title: l10n.editProfilePhotoSourceTitle,
         cancelLabel: l10n.verifPhotoCancel,
         actions: [
           SprintSheetAction(
             label: l10n.verifPhotoCamera,
-            value: IdCardSource.camera,
+            value: PhotoSource.camera,
           ),
           SprintSheetAction(
             label: l10n.verifPhotoGallery,
-            value: IdCardSource.gallery,
+            value: PhotoSource.gallery,
           ),
         ],
       );
@@ -85,7 +85,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     Uint8List? prepared;
     var problem = false;
     try {
-      final raw = await ref.read(idCardPhotoSourceProvider).pick(source);
+      final raw = await ref.read(photoSourceProvider).pick(source);
       if (raw != null) {
         prepared = await ref.read(avatarEncoderProvider)(raw);
         problem = prepared == null;

@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sprint/core/adaptive/photo_source.dart';
 import 'package:image/image.dart' as img;
 import 'package:sprint/core/adaptive/photo_capabilities.dart';
 import 'package:sprint/core/l10n/locale_notifier.dart';
@@ -125,7 +126,7 @@ void main() {
       expect(find.text(ar.verifErrPhotoEmpty), findsOneWidget);
 
       await pickIdCardPhoto(tester, ar.verifPhotoGallery);
-      expect(picker.lastSource, IdCardSource.gallery);
+      expect(picker.lastSource, PhotoSource.gallery);
       expect(find.text(ar.verifErrPhotoEmpty), findsNothing);
       final preview = find.byKey(IdCardPhotoPicker.previewKey);
       expect(preview, findsOneWidget);
@@ -151,7 +152,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text(ar.verifPhotoCamera), findsOneWidget);
       await tapText(tester, ar.verifPhotoCamera);
-      expect(picker.lastSource, IdCardSource.camera);
+      expect(picker.lastSource, PhotoSource.camera);
     });
 
     testWidgets('backing out changes nothing', (tester) async {
@@ -175,7 +176,7 @@ void main() {
       await pumpSprintApp(
         tester,
         overrides: [
-          idCardPhotoSourceProvider.overrideWithValue(picker),
+          photoSourceProvider.overrideWithValue(picker),
           idCardEncoderProvider.overrideWithValue((b) async => null),
         ],
       );
@@ -205,7 +206,7 @@ void main() {
       await tester.ensureVisible(button);
       await tester.tap(button);
       await tester.pumpAndSettle();
-      expect(picker.lastSource, IdCardSource.gallery);
+      expect(picker.lastSource, PhotoSource.gallery);
       expect(find.text(ar.verifPhotoCamera), findsNothing);
     }, variant: TargetPlatformVariant.only(TargetPlatform.linux));
   });
