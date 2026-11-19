@@ -55,13 +55,11 @@ final searchSuggestionsProvider = FutureProvider.autoDispose<SuggestionView>((
   ref,
 ) async {
   final all = await ref.watch(facilitySummariesProvider.future);
-  final since = ref
-      .watch(appClockProvider)
-      .now()
-      .subtract(const Duration(days: mostBookedDays));
+  final until = ref.watch(appClockProvider).now();
+  final since = until.subtract(const Duration(days: mostBookedDays));
   final counts = await ref
       .watch(bookingRepositoryProvider)
-      .bookedCounts(since: since);
+      .bookedCounts(since: since, until: until);
   final ids = SearchSuggestions.mostBookedFrom(all, counts);
   return SuggestionView(
     mostBooked: [

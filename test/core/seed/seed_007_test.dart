@@ -49,6 +49,7 @@ void main() {
   test('"most booked" is not a tie', () async {
     final counts = await layer.bookings.bookedCounts(
       since: env.now.subtract(const Duration(days: 30)),
+      until: env.now,
     );
     final sorted = counts.values.toList()..sort((a, b) => b.compareTo(a));
     expect(sorted.length, greaterThanOrEqualTo(4));

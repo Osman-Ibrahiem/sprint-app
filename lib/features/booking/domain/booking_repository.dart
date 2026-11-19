@@ -96,9 +96,12 @@ abstract interface class BookingRepository {
   /// (research R3). The dialog reads it on open; [cancel] re-checks.
   Future<CancelPreview> previewCancel(String id, String actorUserId);
 
-  /// facilityId -> how many confirmed and attended bookings start on or after
-  /// [since], across every user. Feeds the "most booked" suggestions.
-  Future<Map<String, int>> bookedCounts({required DateTime since});
+  /// facilityId -> how many confirmed and attended bookings start in [since, until],
+  /// across every user (a future booking is not "booked" yet). Feeds the "most booked" suggestions.
+  Future<Map<String, int>> bookedCounts({
+    required DateTime since,
+    required DateTime until,
+  });
 
   Future<Result<Booking>> markAttendance(
     String id,

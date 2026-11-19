@@ -44,7 +44,8 @@ void main() {
   test('counts confirmed and attended starts since a date, per facility, all '
       'users', () async {
     final since = env.at(-30, 0);
-    final before = await env.layer.bookings.bookedCounts(since: since);
+    final until = env.at(30, 0);
+    final before = await env.layer.bookings.bookedCounts(since: since, until: until);
 
     // Confirmed, free, by another user.
     await create(Ids.bookerExternal, Ids.hall2, env.at(2, 10));
@@ -65,7 +66,7 @@ void main() {
     env.advance(const Duration(minutes: 11));
     expect(await env.layer.bookings.expireHolds(), isPositive);
 
-    final after = await env.layer.bookings.bookedCounts(since: since);
+    final after = await env.layer.bookings.bookedCounts(since: since, until: until);
     expect(
       (after[Ids.hallFacility] ?? 0) - (before[Ids.hallFacility] ?? 0),
       2,
@@ -84,11 +85,27 @@ void main() {
 
   test('a later since excludes older starts', () async {
     final since = env.at(3, 0);
-    final baseline = await env.layer.bookings.bookedCounts(since: since);
+    final until = env.at(30, 0);
+    final baseline = await env.layer.bookings.bookedCounts(since: since, until: until);
 
     final b = await create(Ids.bookerExternal, Ids.hall2, env.at(2, 10));
     expect(b.start.isBefore(since), isTrue);
 
-    expect(await env.layer.bookings.bookedCounts(since: since), baseline);
+    expect(await env.layer.bookings.bookedCounts(since: since, until: until), baseline);
+  });
+
+  test('a booking after until is not counted yet', () async {
+    final since = env.at(-30, 0);
+    final until = env.now;
+    final before = await env.layer.bookings.bookedCounts(
+      since: since,
+      until: until,
+    );
+    await create(Ids.bookerExternal, Ids.hall2, env.at(2, 10));
+    final after = await env.layer.bookings.bookedCounts(
+      since: since,
+      until: until,
+    );
+    expect(after, before);
   });
 }

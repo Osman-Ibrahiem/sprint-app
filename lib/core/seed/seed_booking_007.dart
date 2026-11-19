@@ -140,6 +140,8 @@ SeedBookingSet seedBooking007(DateTime now) {
   add(SeedIds.futsal1, at(-9, 19), at(-9, 20), BookingStatus.attended, 140);
   add(SeedIds.tennis1, at(-10, 17), at(-10, 18), BookingStatus.attended, 55);
   add(SeedIds.pool1, at(-12, 9), at(-12, 10), BookingStatus.attended, 20);
+  add(SeedIds.pool1, at(-14, 9), at(-14, 10), BookingStatus.attended, 20);
+  add(SeedIds.pool1, at(-16, 9), at(-16, 10), BookingStatus.attended, 20);
 
   return SeedBookingSet(
     bookings: bookings,
