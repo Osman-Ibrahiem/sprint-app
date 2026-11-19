@@ -54,7 +54,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }
 
   String get _trimmed => _name.text.trim();
-  bool get _nameValid => _trimmed.length >= 2;
+  bool get _nameValid => _trimmed.runes.length >= 2;
 
   bool _changed(String original) =>
       _trimmed != original || _newPhoto != null || _removed;

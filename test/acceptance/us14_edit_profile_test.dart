@@ -58,4 +58,13 @@ void main() {
     await open(t, guest: true);
     expect(currentPath(t), AppPaths.signIn);
   });
+
+  testWidgets('one emoji (a surrogate pair) is one character: Save stays off',
+      (t) async {
+    await open(t);
+    await t.enterText(find.byType(TextField).first, '😀');
+    await t.pump();
+    expect(find.text(ar.editProfileNameError), findsOneWidget);
+    expect(saveEnabled(t), isFalse);
+  });
 }
