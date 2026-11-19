@@ -97,3 +97,11 @@ Build: `flutter build web --release --base-href /sprint-app/` served by `tool/se
 4. The facility master-detail placeholder "اختار منشأة تشوف تفاصيلها" is an imperative (feature 4, left for the Figma refactor).
 
 **Not walked:** typing in the search field (the browser tool's key events do not reach the Flutter text input; covered by `test/acceptance/us01_search_test.dart`), English, desktop 1440, light on wide, sign out, language and appearance popovers, resize and fold, keyboard-only, iOS simulator, `/demo` reminder and facility-cancel actions, pending-payment cancel, no screenshots saved to the repo (the tool returns images only).
+
+## Final checks, 2026-11-19 (Claude)
+
+- `flutter analyze`: no issues. `flutter test`: 2323 passed. `flutter build web --release --base-href /sprint-app/`: built. Two route tests had a fixed day (2026-11-19, 18:00) and failed once the real clock passed it; they now pick a day relative to the clock (`adf27b7`).
+- Design QA against Figma by the design session (report: `design-qa.md`, commit `4d53b57`): flow, bell and badge, master-detail and Dark match; fixes for H1, H2, M3, M4, M5, M6, M7, M9, M10 and H3 are committed (see the "Design QA" section above); M1 (tab bar in details), M2 (details structure), M8 (account layout) and the Compact search popover are deferred to the Figma refactor of features 001–007.
+- Final spot check of the web build (dark, 1024 wide): guest "حجوزاتي" shows the sign-in and sign-up card with no stale text; booker list and details are as before, the details title no longer overlaps scrolled content, the booking row now has the date at the start and the badge at the end. Open nit: in the 300 px list column of the medium class, the "النهارده · 10:16 – 11:16 م" pill wraps to three lines next to the badge (Figma keeps one line); left for the refactor.
+- Not walked by eye (covered by tests): English, desktop 1440 light, sign out, the language and appearance popovers, `/demo` reminder and facility-cancel actions, pending-payment cancel, search typing, keyboard-only, iOS simulator.
+- The design pack (`design-pack/`) was deleted in this PR as required (CI fails while it exists).
