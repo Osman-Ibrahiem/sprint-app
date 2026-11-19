@@ -2643,7 +2643,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String bookingDetailsAfterCutoff(String when) {
-    return 'Cancelling was open until $when; after that the button goes away.';
+    return 'Cancelling was open until $when; after that the button goes away';
   }
 
   @override
@@ -2659,10 +2659,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'The hold ran out without payment, and the place is open again';
 
   @override
-  String get bookingDetailsCancelledByYou => 'The booking was cancelled.';
-
-  @override
-  String get bookingDetailsCancelledByFacility => 'The facility cancelled it.';
+  String get bookingDetailsCancelledByFacility => 'The facility cancelled it';
 
   @override
   String bookingDetailsCancelReason(String reason) {
@@ -2671,29 +2668,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String bookingDetailsFacilityRefund(String amount) {
-    return 'The full $amount is refunded, and you were told right away.';
+    return 'The full $amount is refunded';
   }
 
   @override
   String bookingDetailsRefundFull(String amount) {
-    return 'The $amount goes back to the same payment method.';
+    return 'The booking was cancelled and the full $amount goes back';
   }
 
   @override
   String bookingDetailsRefundPartial(String refund, String paid) {
-    return '$refund of $paid goes back to the same payment method.';
+    return 'The booking was cancelled and $refund of $paid goes back';
   }
 
   @override
-  String get bookingDetailsRefundNone => 'No money goes back.';
+  String get bookingDetailsRefundNone =>
+      'The booking was cancelled and no money goes back';
 
   @override
   String get bookingDetailsFreeCancelled =>
-      'The booking was free, and the place is open again.';
+      'The booking was cancelled and the place is open again';
 
   @override
   String get bookingDetailsPendingCancelled =>
-      'The booking was cancelled and nothing was charged.';
+      'The booking was cancelled and nothing was charged';
 
   @override
   String bookingTicketSpoken(String status, String facility, String date) {
@@ -2964,4 +2962,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String notifReminderWhenDay(String date, String time) {
     return '$date at $time';
   }
+
+  @override
+  String get bookingDetailsRefundedRow => 'Refunded';
+
+  @override
+  String get bookingDetailsRefundWay =>
+      'The money goes back to the same payment method';
 }

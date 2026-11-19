@@ -4395,7 +4395,7 @@ abstract class AppLocalizations {
   /// No description provided for @bookingDetailsAfterCutoff.
   ///
   /// In ar, this message translates to:
-  /// **'الإلغاء كان متاح لحد {when}، وبعده زرار الإلغاء بيختفي.'**
+  /// **'الإلغاء كان متاح لحد {when}، وبعده زرار الإلغاء بيختفي'**
   String bookingDetailsAfterCutoff(String when);
 
   /// No description provided for @bookingDetailsAttended.
@@ -4416,16 +4416,10 @@ abstract class AppLocalizations {
   /// **'المهلة خلصت من غير دفع، والمكان رجع متاح'**
   String get bookingDetailsExpired;
 
-  /// No description provided for @bookingDetailsCancelledByYou.
-  ///
-  /// In ar, this message translates to:
-  /// **'الحجز اتلغى.'**
-  String get bookingDetailsCancelledByYou;
-
   /// No description provided for @bookingDetailsCancelledByFacility.
   ///
   /// In ar, this message translates to:
-  /// **'لغته إدارة المنشأة.'**
+  /// **'لغته إدارة المنشأة'**
   String get bookingDetailsCancelledByFacility;
 
   /// No description provided for @bookingDetailsCancelReason.
@@ -4437,37 +4431,37 @@ abstract class AppLocalizations {
   /// No description provided for @bookingDetailsFacilityRefund.
   ///
   /// In ar, this message translates to:
-  /// **'الـ {amount} رجعت كاملة، واتبلّغت فورًا.'**
+  /// **'الـ {amount} رجعت كاملة'**
   String bookingDetailsFacilityRefund(String amount);
 
   /// No description provided for @bookingDetailsRefundFull.
   ///
   /// In ar, this message translates to:
-  /// **'الـ {amount} هترجع على نفس وسيلة الدفع.'**
+  /// **'الحجز اتلغى والـ {amount} هترجع بالكامل'**
   String bookingDetailsRefundFull(String amount);
 
   /// No description provided for @bookingDetailsRefundPartial.
   ///
   /// In ar, this message translates to:
-  /// **'هيرجع {refund} من {paid} على نفس وسيلة الدفع.'**
+  /// **'الحجز اتلغى وهيرجع {refund} من {paid}'**
   String bookingDetailsRefundPartial(String refund, String paid);
 
   /// No description provided for @bookingDetailsRefundNone.
   ///
   /// In ar, this message translates to:
-  /// **'مفيش مبلغ هيرجع.'**
+  /// **'الحجز اتلغى ومفيش مبلغ هيرجع'**
   String get bookingDetailsRefundNone;
 
   /// No description provided for @bookingDetailsFreeCancelled.
   ///
   /// In ar, this message translates to:
-  /// **'الحجز كان مجاني، والمكان رجع متاح.'**
+  /// **'الحجز اتلغى والمكان رجع متاح'**
   String get bookingDetailsFreeCancelled;
 
   /// No description provided for @bookingDetailsPendingCancelled.
   ///
   /// In ar, this message translates to:
-  /// **'الحجز اتلغى ومفيش فلوس اتسحبت.'**
+  /// **'الحجز اتلغى ومفيش فلوس اتسحبت'**
   String get bookingDetailsPendingCancelled;
 
   /// No description provided for @bookingTicketSpoken.
@@ -4931,6 +4925,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'{date} الساعة {time}'**
   String notifReminderWhenDay(String date, String time);
+
+  /// No description provided for @bookingDetailsRefundedRow.
+  ///
+  /// In ar, this message translates to:
+  /// **'المسترد'**
+  String get bookingDetailsRefundedRow;
+
+  /// No description provided for @bookingDetailsRefundWay.
+  ///
+  /// In ar, this message translates to:
+  /// **'الفلوس بترجع على نفس وسيلة الدفع'**
+  String get bookingDetailsRefundWay;
 }
 
 class _AppLocalizationsDelegate

@@ -1582,7 +1582,7 @@
       }
     }
   },
-  "bookingDetailsAfterCutoff": "Cancelling was open until {when}; after that the button goes away.",
+  "bookingDetailsAfterCutoff": "Cancelling was open until {when}; after that the button goes away",
   "@bookingDetailsAfterCutoff": {
     "placeholders": {
       "when": {
@@ -1593,8 +1593,7 @@
   "bookingDetailsAttended": "Your attendance is recorded. Thanks for using Sprint",
   "bookingDetailsNoShow": "This booking passed without attendance. There are no fees or penalties",
   "bookingDetailsExpired": "The hold ran out without payment, and the place is open again",
-  "bookingDetailsCancelledByYou": "The booking was cancelled.",
-  "bookingDetailsCancelledByFacility": "The facility cancelled it.",
+  "bookingDetailsCancelledByFacility": "The facility cancelled it",
   "bookingDetailsCancelReason": "Reason: {reason}",
   "@bookingDetailsCancelReason": {
     "placeholders": {
@@ -1603,7 +1602,7 @@
       }
     }
   },
-  "bookingDetailsFacilityRefund": "The full {amount} is refunded, and you were told right away.",
+  "bookingDetailsFacilityRefund": "The full {amount} is refunded",
   "@bookingDetailsFacilityRefund": {
     "placeholders": {
       "amount": {
@@ -1611,7 +1610,7 @@
       }
     }
   },
-  "bookingDetailsRefundFull": "The {amount} goes back to the same payment method.",
+  "bookingDetailsRefundFull": "The booking was cancelled and the full {amount} goes back",
   "@bookingDetailsRefundFull": {
     "placeholders": {
       "amount": {
@@ -1619,7 +1618,7 @@
       }
     }
   },
-  "bookingDetailsRefundPartial": "{refund} of {paid} goes back to the same payment method.",
+  "bookingDetailsRefundPartial": "The booking was cancelled and {refund} of {paid} goes back",
   "@bookingDetailsRefundPartial": {
     "placeholders": {
       "refund": {
@@ -1630,9 +1629,9 @@
       }
     }
   },
-  "bookingDetailsRefundNone": "No money goes back.",
-  "bookingDetailsFreeCancelled": "The booking was free, and the place is open again.",
-  "bookingDetailsPendingCancelled": "The booking was cancelled and nothing was charged.",
+  "bookingDetailsRefundNone": "The booking was cancelled and no money goes back",
+  "bookingDetailsFreeCancelled": "The booking was cancelled and the place is open again",
+  "bookingDetailsPendingCancelled": "The booking was cancelled and nothing was charged",
   "bookingTicketSpoken": "Booking {status}, {facility}, {date}",
   "@bookingTicketSpoken": {
     "placeholders": {
@@ -1815,5 +1814,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "bookingDetailsRefundedRow": "Refunded",
+  "bookingDetailsRefundWay": "The money goes back to the same payment method"
 }

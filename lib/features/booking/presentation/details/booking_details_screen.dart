@@ -62,6 +62,8 @@ class BookingDetailsView extends ConsumerStatefulWidget {
 
   static const notFoundKey = ValueKey<String>('details-not-found');
   static const tierKey = ValueKey<String>('details-tier');
+  static const refundedKey = ValueKey<String>('details-refunded');
+  static const refundWayKey = ValueKey<String>('details-refund-way');
 
   @override
   ConsumerState<BookingDetailsView> createState() => _BookingDetailsViewState();
@@ -185,6 +187,22 @@ class _BookingDetailsViewState extends ConsumerState<BookingDetailsView> {
           ),
           const SizedBox(height: SprintSpacing.space3),
           _TierRow(tier: b.tierAtBooking),
+          if (b.status == BookingStatus.cancelled && d.refundAmount > 0) ...[
+            const SizedBox(height: SprintSpacing.space2),
+            _InfoRow(
+              key: BookingDetailsView.refundedKey,
+              label: l10n.bookingDetailsRefundedRow,
+              value: format.price(d.refundAmount),
+            ),
+            const SizedBox(height: SprintSpacing.space1),
+            Text(
+              l10n.bookingDetailsRefundWay,
+              key: BookingDetailsView.refundWayKey,
+              style: context.text.caption.copyWith(
+                color: context.colors.inkMuted,
+              ),
+            ),
+          ],
           if (d.hasSucceededPayment) ...[
             const SizedBox(height: SprintSpacing.space3),
             ReceiptLink(bookingId: b.id),
@@ -224,6 +242,30 @@ class _TierRow extends StatelessWidget {
               : l10n.bookingDetailsTierExternal,
           style: context.text.bodyStrong.copyWith(color: colors.ink),
         ),
+      ],
+    );
+  }
+}
+
+class _InfoRow extends StatelessWidget {
+  const _InfoRow({required this.label, required this.value, super.key});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Text(
+            label,
+            style: context.text.body.copyWith(color: colors.inkMuted),
+          ),
+        ),
+        Text(value, style: context.text.bodyStrong.copyWith(color: colors.ink)),
       ],
     );
   }

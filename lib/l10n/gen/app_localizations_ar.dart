@@ -2627,7 +2627,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String bookingDetailsAfterCutoff(String when) {
-    return 'الإلغاء كان متاح لحد $when، وبعده زرار الإلغاء بيختفي.';
+    return 'الإلغاء كان متاح لحد $when، وبعده زرار الإلغاء بيختفي';
   }
 
   @override
@@ -2642,10 +2642,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'المهلة خلصت من غير دفع، والمكان رجع متاح';
 
   @override
-  String get bookingDetailsCancelledByYou => 'الحجز اتلغى.';
-
-  @override
-  String get bookingDetailsCancelledByFacility => 'لغته إدارة المنشأة.';
+  String get bookingDetailsCancelledByFacility => 'لغته إدارة المنشأة';
 
   @override
   String bookingDetailsCancelReason(String reason) {
@@ -2654,28 +2651,27 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String bookingDetailsFacilityRefund(String amount) {
-    return 'الـ $amount رجعت كاملة، واتبلّغت فورًا.';
+    return 'الـ $amount رجعت كاملة';
   }
 
   @override
   String bookingDetailsRefundFull(String amount) {
-    return 'الـ $amount هترجع على نفس وسيلة الدفع.';
+    return 'الحجز اتلغى والـ $amount هترجع بالكامل';
   }
 
   @override
   String bookingDetailsRefundPartial(String refund, String paid) {
-    return 'هيرجع $refund من $paid على نفس وسيلة الدفع.';
+    return 'الحجز اتلغى وهيرجع $refund من $paid';
   }
 
   @override
-  String get bookingDetailsRefundNone => 'مفيش مبلغ هيرجع.';
+  String get bookingDetailsRefundNone => 'الحجز اتلغى ومفيش مبلغ هيرجع';
 
   @override
-  String get bookingDetailsFreeCancelled =>
-      'الحجز كان مجاني، والمكان رجع متاح.';
+  String get bookingDetailsFreeCancelled => 'الحجز اتلغى والمكان رجع متاح';
 
   @override
-  String get bookingDetailsPendingCancelled => 'الحجز اتلغى ومفيش فلوس اتسحبت.';
+  String get bookingDetailsPendingCancelled => 'الحجز اتلغى ومفيش فلوس اتسحبت';
 
   @override
   String bookingTicketSpoken(String status, String facility, String date) {
@@ -2935,4 +2931,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String notifReminderWhenDay(String date, String time) {
     return '$date الساعة $time';
   }
+
+  @override
+  String get bookingDetailsRefundedRow => 'المسترد';
+
+  @override
+  String get bookingDetailsRefundWay => 'الفلوس بترجع على نفس وسيلة الدفع';
 }

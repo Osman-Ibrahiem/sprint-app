@@ -84,10 +84,12 @@ class StatusBanner extends StatelessWidget {
         if (details.paidAmount > 0)
           l10n.bookingDetailsFacilityRefund(format.price(details.paidAmount)),
       ];
+      // The facility's cancel is good news for the booker: everything comes
+      // back (BR-32), so the tone is success.
       return Banner(
-        tone: BannerTone.danger,
+        tone: BannerTone.success,
         icon: PhosphorIconsRegular.xCircle,
-        text: parts.join(' '),
+        text: parts.join('. '),
       );
     }
     final line = CancelWording.refundLine(
@@ -102,7 +104,7 @@ class StatusBanner extends StatelessWidget {
       icon: refunded
           ? PhosphorIconsRegular.checkCircle
           : PhosphorIconsRegular.xCircle,
-      text: '${l10n.bookingDetailsCancelledByYou} $line',
+      text: line,
     );
   }
 }

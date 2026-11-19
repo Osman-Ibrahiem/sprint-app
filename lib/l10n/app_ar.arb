@@ -1586,7 +1586,7 @@
       }
     }
   },
-  "bookingDetailsAfterCutoff": "الإلغاء كان متاح لحد {when}، وبعده زرار الإلغاء بيختفي.",
+  "bookingDetailsAfterCutoff": "الإلغاء كان متاح لحد {when}، وبعده زرار الإلغاء بيختفي",
   "@bookingDetailsAfterCutoff": {
     "placeholders": {
       "when": {
@@ -1597,8 +1597,7 @@
   "bookingDetailsAttended": "تم تسجيل حضورك. شكرًا لاستخدامك سبرنت",
   "bookingDetailsNoShow": "الحجز ده عدّى من غير حضور. مفيش أي رسوم أو عقوبة",
   "bookingDetailsExpired": "المهلة خلصت من غير دفع، والمكان رجع متاح",
-  "bookingDetailsCancelledByYou": "الحجز اتلغى.",
-  "bookingDetailsCancelledByFacility": "لغته إدارة المنشأة.",
+  "bookingDetailsCancelledByFacility": "لغته إدارة المنشأة",
   "bookingDetailsCancelReason": "السبب: {reason}",
   "@bookingDetailsCancelReason": {
     "placeholders": {
@@ -1607,7 +1606,7 @@
       }
     }
   },
-  "bookingDetailsFacilityRefund": "الـ {amount} رجعت كاملة، واتبلّغت فورًا.",
+  "bookingDetailsFacilityRefund": "الـ {amount} رجعت كاملة",
   "@bookingDetailsFacilityRefund": {
     "placeholders": {
       "amount": {
@@ -1615,7 +1614,7 @@
       }
     }
   },
-  "bookingDetailsRefundFull": "الـ {amount} هترجع على نفس وسيلة الدفع.",
+  "bookingDetailsRefundFull": "الحجز اتلغى والـ {amount} هترجع بالكامل",
   "@bookingDetailsRefundFull": {
     "placeholders": {
       "amount": {
@@ -1623,7 +1622,7 @@
       }
     }
   },
-  "bookingDetailsRefundPartial": "هيرجع {refund} من {paid} على نفس وسيلة الدفع.",
+  "bookingDetailsRefundPartial": "الحجز اتلغى وهيرجع {refund} من {paid}",
   "@bookingDetailsRefundPartial": {
     "placeholders": {
       "refund": {
@@ -1634,9 +1633,9 @@
       }
     }
   },
-  "bookingDetailsRefundNone": "مفيش مبلغ هيرجع.",
-  "bookingDetailsFreeCancelled": "الحجز كان مجاني، والمكان رجع متاح.",
-  "bookingDetailsPendingCancelled": "الحجز اتلغى ومفيش فلوس اتسحبت.",
+  "bookingDetailsRefundNone": "الحجز اتلغى ومفيش مبلغ هيرجع",
+  "bookingDetailsFreeCancelled": "الحجز اتلغى والمكان رجع متاح",
+  "bookingDetailsPendingCancelled": "الحجز اتلغى ومفيش فلوس اتسحبت",
   "bookingTicketSpoken": "حجز {status}، {facility}، {date}",
   "@bookingTicketSpoken": {
     "placeholders": {
@@ -1819,5 +1818,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "bookingDetailsRefundedRow": "المسترد",
+  "bookingDetailsRefundWay": "الفلوس بترجع على نفس وسيلة الدفع"
 }

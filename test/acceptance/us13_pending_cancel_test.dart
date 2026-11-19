@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Banner;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/providers/data_providers.dart';
@@ -6,7 +6,9 @@ import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/result/result.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/core/time/cairo_time.dart';
+import 'package:sprint/core/widgets/banner/banner.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
+import 'package:sprint/features/booking/presentation/details/booking_details_screen.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
 import 'package:sprint/features/booking/presentation/details/details_actions.dart';
 import 'package:sprint/features/booking/presentation/cancel/cancel_result_screen.dart';
@@ -65,5 +67,36 @@ void main() {
     await t.pumpAndSettle();
     expect(find.textContaining(ar.bookingDetailsCancelledByFacility), findsOneWidget);
     expect(find.byKey(DetailsActions.cancelKey), findsNothing);
+  });
+
+  testWidgets('M4: a refunded cancel has a "المسترد" row, the way line and '
+      'banners without a final dot', (t) async {
+    await pumpSprintApp(t, size: const Size(400, 1600));
+    await containerOf(t)
+        .read(sessionProvider.notifier)
+        .actAs(SeedIds.bookerInternal);
+    routerOf(t).go(AppPaths.bookingDetails('bk-y02'));
+    await t.pumpAndSettle();
+    expect(find.byKey(BookingDetailsView.refundedKey), findsOneWidget);
+    expect(find.text(ar.bookingDetailsRefundWay), findsOneWidget);
+    final banner = t.widget<Banner>(find.byType(Banner));
+    expect(banner.text.endsWith('.'), isFalse);
+    expect(banner.tone, BannerTone.success);
+  });
+
+  testWidgets('M5: a facility cancel is a success banner with the reason and '
+      'the full refund, no "informed" phrase', (t) async {
+    await pumpSprintApp(t, size: const Size(400, 1600));
+    await containerOf(t)
+        .read(sessionProvider.notifier)
+        .actAs(SeedIds.bookerInternal);
+    routerOf(t).go(AppPaths.bookingDetails('bk-15'));
+    await t.pumpAndSettle();
+    final banner = t.widget<Banner>(find.byType(Banner));
+    expect(banner.tone, BannerTone.success);
+    expect(banner.text, contains(ar.bookingDetailsCancelledByFacility));
+    expect(banner.text, contains('إغلاق طارئ'));
+    expect(banner.text.contains('واتبلّغت'), isFalse);
+    expect(banner.text.endsWith('.'), isFalse);
   });
 }
