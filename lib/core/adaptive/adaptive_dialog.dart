@@ -80,15 +80,24 @@ Future<T?> showSprintDialog<T>({
         context: context,
         barrierDismissible: true,
         builder: (ctx) => CupertinoAlertDialog(
-          title: Text(title),
-          content: message == null ? null : Text(message),
+          // Cairo explicitly: the Cupertino default font has no Arabic glyphs
+          // on the web (they would show as boxes).
+          title: Text(title, style: ctx.text.headline),
+          content: message == null
+              ? null
+              : Text(message, style: ctx.text.caption),
           actions: [
             for (final a in actions)
               CupertinoDialogAction(
                 isDefaultAction: a.isDefault,
                 isDestructiveAction: a.isDestructive,
                 onPressed: () => Navigator.of(ctx).pop(a.value),
-                child: Text(a.label),
+                child: Text(
+                  a.label,
+                  style: ctx.text.body.copyWith(
+                    color: a.isDestructive ? ctx.colors.danger : null,
+                  ),
+                ),
               ),
           ],
         ),
