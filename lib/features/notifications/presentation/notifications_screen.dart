@@ -17,6 +17,7 @@ import 'package:sprint/core/time/clock_provider.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
+import 'package:sprint/core/widgets/content_column/content_column.dart';
 import 'package:sprint/core/widgets/notification_card/notification_card.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/core/window/window_size.dart';
@@ -163,15 +164,18 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
       );
     }
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsetsDirectional.all(SprintSpacing.space6),
-            child: header,
-          ),
-          Expanded(child: body),
-        ],
+      child: ContentColumn(
+        maxWidth: SprintExtras.notificationsColumnMax,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsetsDirectional.all(SprintSpacing.space6),
+              child: header,
+            ),
+            Expanded(child: body),
+          ],
+        ),
       ),
     );
   }

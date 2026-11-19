@@ -15,6 +15,7 @@ import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/avatar/avatar.dart';
+import 'package:sprint/core/widgets/content_column/content_column.dart';
 import 'package:sprint/core/widgets/settings_row/settings_row.dart';
 import 'package:sprint/features/account/presentation/pickers.dart';
 import 'package:sprint/features/account/presentation/sign_out_flow.dart';
@@ -72,144 +73,149 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
         : ref.watch(profilePhotoProvider(user!.id)).value;
 
     return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsetsDirectional.fromSTEB(
-          SprintSpacing.space4,
-          SprintSpacing.space4,
-          SprintSpacing.space4,
-          SprintExtras.screenBottomPadding,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            RootHeader(
-              title: Text(l10n.accountTitle, style: context.text.titleLg),
-            ),
-            const SizedBox(height: SprintSpacing.space5),
-            if (user == null)
-              SignInPrompt(reason: l10n.gateReasonProfile)
-            else ...[
-              Container(
-                padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
-                decoration: BoxDecoration(
-                  color: colors.surface,
-                  borderRadius: SprintRadius.lgBorder,
-                ),
-                child: Row(
-                  children: [
-                    Avatar(name: user.name, photo: photo),
-                    const SizedBox(width: SprintSpacing.space4),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(user.name, style: context.text.headline),
-                          LtrIsolate(
-                            child: Text(
-                              maskPhone(user.phone),
+      child: ContentColumn(
+        maxWidth: SprintExtras.accountColumnMax,
+        child: SingleChildScrollView(
+          padding: const EdgeInsetsDirectional.fromSTEB(
+            SprintSpacing.space4,
+            SprintSpacing.space4,
+            SprintSpacing.space4,
+            SprintExtras.screenBottomPadding,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              RootHeader(
+                title: Text(l10n.accountTitle, style: context.text.titleLg),
+              ),
+              const SizedBox(height: SprintSpacing.space5),
+              if (user == null)
+                SignInPrompt(reason: l10n.gateReasonProfile)
+              else ...[
+                Container(
+                  padding: const EdgeInsetsDirectional.all(
+                    SprintSpacing.space4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: colors.surface,
+                    borderRadius: SprintRadius.lgBorder,
+                  ),
+                  child: Row(
+                    children: [
+                      Avatar(name: user.name, photo: photo),
+                      const SizedBox(width: SprintSpacing.space4),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(user.name, style: context.text.headline),
+                            LtrIsolate(
+                              child: Text(
+                                maskPhone(user.phone),
+                                style: context.text.caption.copyWith(
+                                  color: colors.inkMuted,
+                                ),
+                              ),
+                            ),
+                            LtrIsolate(
+                              child: Text(
+                                maskEmail(user.email),
+                                style: context.text.caption.copyWith(
+                                  color: colors.inkMuted,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              l10n.profileRoles(
+                                {
+                                  for (final a in session.roles)
+                                    if (a.role != Role.booker ||
+                                        session.roles.length == 1)
+                                      a.role,
+                                }.map((r) => roleLabel(l10n, r)).join(' · '),
+                              ),
                               style: context.text.caption.copyWith(
                                 color: colors.inkMuted,
                               ),
                             ),
-                          ),
-                          LtrIsolate(
-                            child: Text(
-                              maskEmail(user.email),
+                            Text(
+                              l10n.profileTier(tierLabel(l10n, session.tier)),
                               style: context.text.caption.copyWith(
                                 color: colors.inkMuted,
                               ),
                             ),
-                          ),
-                          Text(
-                            l10n.profileRoles(
-                              {
-                                for (final a in session.roles)
-                                  if (a.role != Role.booker ||
-                                      session.roles.length == 1)
-                                    a.role,
-                              }.map((r) => roleLabel(l10n, r)).join(' · '),
-                            ),
-                            style: context.text.caption.copyWith(
-                              color: colors.inkMuted,
-                            ),
-                          ),
-                          Text(
-                            l10n.profileTier(tierLabel(l10n, session.tier)),
-                            style: context.text.caption.copyWith(
-                              color: colors.inkMuted,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: SprintSpacing.space3),
-              const VerificationNotice(),
-              VerificationSlot(session: session, showNationalId: false),
-              const SizedBox(height: SprintSpacing.space4),
-            ],
-            card([
-              if (user != null)
-                SettingsRow(
-                  key: AccountScreen.personalKey,
-                  label: l10n.accountPersonalData,
-                  icon: PhosphorIconsRegular.user,
-                  onTap: () => context.go(AppPaths.profileEdit),
-                ),
-              Builder(
-                builder: (anchor) => SettingsRow(
-                  label: l10n.languageTitle,
-                  type: SettingsRowType.value,
-                  value: locale.languageCode == 'ar'
-                      ? l10n.languageAr
-                      : l10n.languageEn,
-                  icon: PhosphorIconsRegular.globe,
-                  onTap: () => pickLanguage(anchor, ref),
-                ),
-              ),
-              Builder(
-                builder: (anchor) => SettingsRow(
-                  label: l10n.appearanceTitle,
-                  type: SettingsRowType.value,
-                  value: modeLabel,
-                  icon: PhosphorIconsRegular.moon,
-                  onTap: () => pickAppearance(anchor, ref),
-                ),
-              ),
-              if (user != null)
-                SettingsRow(
-                  key: AccountScreen.notificationsKey,
-                  label: l10n.accountNotifications,
-                  type: SettingsRowType.value,
-                  value: permission == NotificationPermission.granted
-                      ? l10n.accountNotificationsOn
-                      : l10n.accountNotificationsOff,
-                  icon: PhosphorIconsRegular.bell,
-                  onTap: () async {
-                    await askNotificationPermission(context, ref);
-                    if (mounted) setState(() {});
-                  },
-                ),
-              SettingsRow(
-                label: l10n.demoEntry,
-                icon: PhosphorIconsRegular.flask,
-                onTap: () => context.push(AppPaths.demo),
-              ),
-            ]),
-            if (user != null) ...[
-              const SizedBox(height: SprintSpacing.space4),
+                const SizedBox(height: SprintSpacing.space3),
+                const VerificationNotice(),
+                VerificationSlot(session: session, showNationalId: false),
+                const SizedBox(height: SprintSpacing.space4),
+              ],
               card([
+                if (user != null)
+                  SettingsRow(
+                    key: AccountScreen.personalKey,
+                    label: l10n.accountPersonalData,
+                    icon: PhosphorIconsRegular.user,
+                    onTap: () => context.go(AppPaths.profileEdit),
+                  ),
+                Builder(
+                  builder: (anchor) => SettingsRow(
+                    label: l10n.languageTitle,
+                    type: SettingsRowType.value,
+                    value: locale.languageCode == 'ar'
+                        ? l10n.languageAr
+                        : l10n.languageEn,
+                    icon: PhosphorIconsRegular.globe,
+                    onTap: () => pickLanguage(anchor, ref),
+                  ),
+                ),
+                Builder(
+                  builder: (anchor) => SettingsRow(
+                    label: l10n.appearanceTitle,
+                    type: SettingsRowType.value,
+                    value: modeLabel,
+                    icon: PhosphorIconsRegular.moon,
+                    onTap: () => pickAppearance(anchor, ref),
+                  ),
+                ),
+                if (user != null)
+                  SettingsRow(
+                    key: AccountScreen.notificationsKey,
+                    label: l10n.accountNotifications,
+                    type: SettingsRowType.value,
+                    value: permission == NotificationPermission.granted
+                        ? l10n.accountNotificationsOn
+                        : l10n.accountNotificationsOff,
+                    icon: PhosphorIconsRegular.bell,
+                    onTap: () async {
+                      await askNotificationPermission(context, ref);
+                      if (mounted) setState(() {});
+                    },
+                  ),
                 SettingsRow(
-                  key: AccountCard.signOutKey,
-                  label: l10n.signOutConfirm,
-                  type: SettingsRowType.destructive,
-                  onTap: () => confirmSignOut(context, ref),
+                  label: l10n.demoEntry,
+                  icon: PhosphorIconsRegular.flask,
+                  onTap: () => context.push(AppPaths.demo),
                 ),
               ]),
+              if (user != null) ...[
+                const SizedBox(height: SprintSpacing.space4),
+                card([
+                  SettingsRow(
+                    key: AccountCard.signOutKey,
+                    label: l10n.signOutConfirm,
+                    type: SettingsRowType.destructive,
+                    onTap: () => confirmSignOut(context, ref),
+                  ),
+                ]),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

@@ -198,4 +198,12 @@ abstract final class SprintExtras {
   /// How often an open booking's details re-read the clock (hold countdown,
   /// cancellation cutoff); a presentation constant.
   static const Duration detailsRefreshPeriod = Duration(seconds: 15);
+
+  /// Content columns of the wide layouts (Figma, design QA H2): notifications
+  /// 800 on Large, accounts 560, edit profile 440 (Medium draws notifications
+  /// at 512; Medium and Compact keep the full pane). Applied from the expanded
+  /// window class by `ContentColumn`.
+  static const double notificationsColumnMax = 800;
+  static const double accountColumnMax = 560;
+  static const double editProfileColumnMax = 440;
 }

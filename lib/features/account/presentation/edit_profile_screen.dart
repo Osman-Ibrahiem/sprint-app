@@ -14,7 +14,9 @@ import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/result/result.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
+import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/widgets/avatar/avatar.dart';
+import 'package:sprint/core/widgets/content_column/content_column.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/core/widgets/sprint_text_field/sprint_text_field.dart';
 import 'package:sprint/features/identity/presentation/avatar_encoder.dart';
@@ -172,97 +174,100 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           ),
         ),
         Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
-            child: ListenableBuilder(
-              listenable: _name,
-              builder: (context, _) {
-                final canSave = _nameValid && _changed(user.name) && !_saving;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Center(
-                      child: Avatar(name: _trimmed, photo: photo),
-                    ),
-                    const SizedBox(height: SprintSpacing.space3),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: SprintSpacing.space2,
-                      children: [
-                        SprintButton(
-                          key: EditProfileScreen.changePhotoKey,
-                          label: l10n.editProfileChangePhoto,
-                          variant: SprintButtonVariant.secondary,
-                          onPressed: _choosePhoto,
-                        ),
-                        if (hasPhoto)
-                          SprintButton(
-                            key: EditProfileScreen.removePhotoKey,
-                            label: l10n.editProfileRemovePhoto,
-                            variant: SprintButtonVariant.ghost,
-                            onPressed: () => setState(() {
-                              _newPhoto = null;
-                              _removed = true;
-                            }),
-                          ),
-                      ],
-                    ),
-                    if (_photoProblem != null) ...[
-                      const SizedBox(height: SprintSpacing.space2),
-                      Text(
-                        _photoProblem!,
-                        key: EditProfileScreen.errorKey,
-                        textAlign: TextAlign.center,
-                        style: context.text.caption.copyWith(
-                          color: context.colors.danger,
-                        ),
+          child: ContentColumn(
+            maxWidth: SprintExtras.editProfileColumnMax,
+            child: SingleChildScrollView(
+              padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
+              child: ListenableBuilder(
+                listenable: _name,
+                builder: (context, _) {
+                  final canSave = _nameValid && _changed(user.name) && !_saving;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Center(
+                        child: Avatar(name: _trimmed, photo: photo),
                       ),
-                    ],
-                    const SizedBox(height: SprintSpacing.space5),
-                    SprintTextField(
-                      key: EditProfileScreen.nameKey,
-                      label: l10n.editProfileName,
-                      controller: _name,
-                      error: _trimmed.isNotEmpty && !_nameValid
-                          ? l10n.editProfileNameError
-                          : null,
-                    ),
-                    const SizedBox(height: SprintSpacing.space4),
-                    SprintTextField(
-                      label: l10n.editProfileEmail,
-                      type: SprintTextFieldType.email,
-                      locked: true,
-                      lockedValue: user.email,
-                      helper: l10n.editProfileLockedHelper,
-                    ),
-                    const SizedBox(height: SprintSpacing.space4),
-                    SprintTextField(
-                      label: l10n.editProfilePhone,
-                      type: SprintTextFieldType.phone,
-                      locked: true,
-                      lockedValue: user.phone,
-                      helper: l10n.editProfileLockedHelper,
-                    ),
-                    if (_failed) ...[
                       const SizedBox(height: SprintSpacing.space3),
-                      Text(
-                        l10n.editProfileSaveError,
-                        style: context.text.caption.copyWith(
-                          color: context.colors.danger,
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: SprintSpacing.space2,
+                        children: [
+                          SprintButton(
+                            key: EditProfileScreen.changePhotoKey,
+                            label: l10n.editProfileChangePhoto,
+                            variant: SprintButtonVariant.secondary,
+                            onPressed: _choosePhoto,
+                          ),
+                          if (hasPhoto)
+                            SprintButton(
+                              key: EditProfileScreen.removePhotoKey,
+                              label: l10n.editProfileRemovePhoto,
+                              variant: SprintButtonVariant.ghost,
+                              onPressed: () => setState(() {
+                                _newPhoto = null;
+                                _removed = true;
+                              }),
+                            ),
+                        ],
+                      ),
+                      if (_photoProblem != null) ...[
+                        const SizedBox(height: SprintSpacing.space2),
+                        Text(
+                          _photoProblem!,
+                          key: EditProfileScreen.errorKey,
+                          textAlign: TextAlign.center,
+                          style: context.text.caption.copyWith(
+                            color: context.colors.danger,
+                          ),
                         ),
+                      ],
+                      const SizedBox(height: SprintSpacing.space5),
+                      SprintTextField(
+                        key: EditProfileScreen.nameKey,
+                        label: l10n.editProfileName,
+                        controller: _name,
+                        error: _trimmed.isNotEmpty && !_nameValid
+                            ? l10n.editProfileNameError
+                            : null,
+                      ),
+                      const SizedBox(height: SprintSpacing.space4),
+                      SprintTextField(
+                        label: l10n.editProfileEmail,
+                        type: SprintTextFieldType.email,
+                        locked: true,
+                        lockedValue: user.email,
+                        helper: l10n.editProfileLockedHelper,
+                      ),
+                      const SizedBox(height: SprintSpacing.space4),
+                      SprintTextField(
+                        label: l10n.editProfilePhone,
+                        type: SprintTextFieldType.phone,
+                        locked: true,
+                        lockedValue: user.phone,
+                        helper: l10n.editProfileLockedHelper,
+                      ),
+                      if (_failed) ...[
+                        const SizedBox(height: SprintSpacing.space3),
+                        Text(
+                          l10n.editProfileSaveError,
+                          style: context.text.caption.copyWith(
+                            color: context.colors.danger,
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: SprintSpacing.space6),
+                      SprintButton(
+                        key: EditProfileScreen.saveKey,
+                        label: l10n.editProfileSave,
+                        loading: _saving,
+                        expand: true,
+                        onPressed: canSave ? _save : null,
                       ),
                     ],
-                    const SizedBox(height: SprintSpacing.space6),
-                    SprintButton(
-                      key: EditProfileScreen.saveKey,
-                      label: l10n.editProfileSave,
-                      loading: _saving,
-                      expand: true,
-                      onPressed: canSave ? _save : null,
-                    ),
-                  ],
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ),
