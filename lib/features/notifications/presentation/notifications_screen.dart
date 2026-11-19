@@ -23,6 +23,7 @@ import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/presentation/cancel/cancel_dialog.dart';
 import 'package:sprint/features/booking/presentation/providers/my_bookings_providers.dart';
 import 'package:sprint/features/notifications/domain/notification.dart';
+import 'package:sprint/features/notifications/presentation/permission_dialog.dart';
 import 'package:sprint/features/notifications/domain/notification_kind.dart';
 import 'package:sprint/features/notifications/presentation/notification_card_data.dart';
 import 'package:sprint/features/notifications/presentation/providers/notification_providers.dart';
@@ -31,7 +32,7 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 /// The notifications centre (US-14, FR-NTF-02, BR-39, BR-41): newest first,
 /// unread marked, one tap opens the destination and marks the record read.
 /// Pushed with a back button on compact, a destination from the medium class.
-class NotificationsScreen extends ConsumerWidget {
+class NotificationsScreen extends ConsumerStatefulWidget {
   const NotificationsScreen({super.key});
 
   static const markAllKey = ValueKey<String>('notifications-mark-all');
@@ -40,7 +41,22 @@ class NotificationsScreen extends ConsumerWidget {
       ValueKey<String>('notification-$id');
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<NotificationsScreen> createState() =>
+      _NotificationsScreenState();
+}
+
+class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // The first visit to the centre is the first notification step.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) maybeAskNotificationPermission(context, ref);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final compact = WindowSize.of(context).isCompact;
     final async = ref.watch(notificationsListProvider);
@@ -65,7 +81,7 @@ class NotificationsScreen extends ConsumerWidget {
         ),
         if (unread > 0)
           SprintButton(
-            key: markAllKey,
+            key: NotificationsScreen.markAllKey,
             label: l10n.notificationsMarkAllRead,
             variant: SprintButtonVariant.ghost,
             onPressed: markAll,
@@ -91,7 +107,7 @@ class NotificationsScreen extends ConsumerWidget {
       ),
       data: (list) => list.isEmpty
           ? EmptyState(
-              key: emptyKey,
+              key: NotificationsScreen.emptyKey,
               icon: PhosphorIconsRegular.bell,
               title: l10n.notificationsEmptyTitle,
               body: l10n.notificationsEmptyBody,
@@ -127,7 +143,7 @@ class NotificationsScreen extends ConsumerWidget {
             actions: [
               if (unread > 0)
                 TextButton(
-                  key: markAllKey,
+                  key: NotificationsScreen.markAllKey,
                   onPressed: markAll,
                   child: Text(l10n.notificationsMarkAllRead),
                 ),

@@ -8,9 +8,13 @@ part 'notification_permission_store.g.dart';
 /// The simulated permission answer on the device (FR-021). Absent means never
 /// asked; failures read as absent and writes are ignored (FR-010).
 class NotificationPermissionStore {
-  const NotificationPermissionStore(this._prefs);
+  NotificationPermissionStore(this._prefs);
 
   final SharedPreferences? _prefs;
+
+  /// Kept while the app runs, so the answer holds even when the device store
+  /// is missing or fails.
+  NotificationPermission? _memory;
 
   static const key = 'notifPermission';
 
@@ -19,14 +23,15 @@ class NotificationPermissionStore {
       return switch (_prefs?.getString(key)) {
         'granted' => NotificationPermission.granted,
         'denied' => NotificationPermission.denied,
-        _ => null,
+        _ => _memory,
       };
     } on Object {
-      return null;
+      return _memory;
     }
   }
 
   Future<void> write(NotificationPermission permission) async {
+    _memory = permission;
     try {
       await _prefs?.setString(key, permission.name);
     } on Object {
@@ -35,6 +40,7 @@ class NotificationPermissionStore {
   }
 
   Future<void> clear() async {
+    _memory = null;
     try {
       await _prefs?.remove(key);
     } on Object {

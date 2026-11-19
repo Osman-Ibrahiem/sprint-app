@@ -1756,5 +1756,14 @@
   },
   "notifUnknownTitle": "إشعار جديد",
   "notifViewTicket": "عرض التذكرة",
-  "notifCancelBooking": "إلغاء الحجز"
+  "notifCancelBooking": "إلغاء الحجز",
+  "permissionTitle": "تفعيل الإشعارات؟",
+  "permissionMessage": "هنبعتلك تذكير قبل الحجز وأي تحديث عليه.",
+  "permissionAllow": "تفعيل",
+  "permissionDeny": "مش دلوقتي",
+  "demo007Section": "تذكيرات وإلغاء من الإدارة",
+  "demo007ShowReminder": "إظهار تذكير حجزي الجاي",
+  "demo007AdminCancel": "إلغاء من الإدارة",
+  "demo007Done": "تم",
+  "demo007NoBooking": "مفيش حجز مؤكد جاي"
 }

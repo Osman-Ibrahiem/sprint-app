@@ -4715,6 +4715,60 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'إلغاء الحجز'**
   String get notifCancelBooking;
+
+  /// No description provided for @permissionTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفعيل الإشعارات؟'**
+  String get permissionTitle;
+
+  /// No description provided for @permissionMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'هنبعتلك تذكير قبل الحجز وأي تحديث عليه.'**
+  String get permissionMessage;
+
+  /// No description provided for @permissionAllow.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفعيل'**
+  String get permissionAllow;
+
+  /// No description provided for @permissionDeny.
+  ///
+  /// In ar, this message translates to:
+  /// **'مش دلوقتي'**
+  String get permissionDeny;
+
+  /// No description provided for @demo007Section.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكيرات وإلغاء من الإدارة'**
+  String get demo007Section;
+
+  /// No description provided for @demo007ShowReminder.
+  ///
+  /// In ar, this message translates to:
+  /// **'إظهار تذكير حجزي الجاي'**
+  String get demo007ShowReminder;
+
+  /// No description provided for @demo007AdminCancel.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء من الإدارة'**
+  String get demo007AdminCancel;
+
+  /// No description provided for @demo007Done.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم'**
+  String get demo007Done;
+
+  /// No description provided for @demo007NoBooking.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش حجز مؤكد جاي'**
+  String get demo007NoBooking;
 }
 
 class _AppLocalizationsDelegate

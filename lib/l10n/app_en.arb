@@ -1752,5 +1752,14 @@
   },
   "notifUnknownTitle": "New notification",
   "notifViewTicket": "View ticket",
-  "notifCancelBooking": "Cancel booking"
+  "notifCancelBooking": "Cancel booking",
+  "permissionTitle": "Turn on notifications?",
+  "permissionMessage": "We send you a reminder before a booking and any update on it.",
+  "permissionAllow": "Turn on",
+  "permissionDeny": "Not now",
+  "demo007Section": "Reminders and facility cancel",
+  "demo007ShowReminder": "Show a reminder for my next booking",
+  "demo007AdminCancel": "Cancel as the facility",
+  "demo007Done": "Done",
+  "demo007NoBooking": "No upcoming confirmed booking"
 }

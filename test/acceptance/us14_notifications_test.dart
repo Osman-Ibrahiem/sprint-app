@@ -4,6 +4,8 @@ import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/core/widgets/app_navigation/app_navigation.dart';
+import 'package:sprint/features/notifications/data/notification_permission_store.dart';
+import 'package:sprint/features/notifications/domain/notification_permission.dart';
 import 'package:sprint/features/notifications/presentation/notifications_screen.dart';
 import 'package:sprint/features/notifications/presentation/providers/notification_providers.dart';
 
@@ -16,6 +18,9 @@ void main() {
     await containerOf(t)
         .read(sessionProvider.notifier)
         .actAs(SeedIds.bookerInternal);
+    await containerOf(t)
+        .read(notificationPermissionStoreProvider)
+        .write(NotificationPermission.granted);
     routerOf(t).go(AppPaths.notifications);
     await t.pumpAndSettle();
   }

@@ -2846,4 +2846,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifCancelBooking => 'Cancel booking';
+
+  @override
+  String get permissionTitle => 'Turn on notifications?';
+
+  @override
+  String get permissionMessage =>
+      'We send you a reminder before a booking and any update on it.';
+
+  @override
+  String get permissionAllow => 'Turn on';
+
+  @override
+  String get permissionDeny => 'Not now';
+
+  @override
+  String get demo007Section => 'Reminders and facility cancel';
+
+  @override
+  String get demo007ShowReminder => 'Show a reminder for my next booking';
+
+  @override
+  String get demo007AdminCancel => 'Cancel as the facility';
+
+  @override
+  String get demo007Done => 'Done';
+
+  @override
+  String get demo007NoBooking => 'No upcoming confirmed booking';
 }

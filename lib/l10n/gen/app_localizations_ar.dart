@@ -2821,4 +2821,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifCancelBooking => 'إلغاء الحجز';
+
+  @override
+  String get permissionTitle => 'تفعيل الإشعارات؟';
+
+  @override
+  String get permissionMessage => 'هنبعتلك تذكير قبل الحجز وأي تحديث عليه.';
+
+  @override
+  String get permissionAllow => 'تفعيل';
+
+  @override
+  String get permissionDeny => 'مش دلوقتي';
+
+  @override
+  String get demo007Section => 'تذكيرات وإلغاء من الإدارة';
+
+  @override
+  String get demo007ShowReminder => 'إظهار تذكير حجزي الجاي';
+
+  @override
+  String get demo007AdminCancel => 'إلغاء من الإدارة';
+
+  @override
+  String get demo007Done => 'تم';
+
+  @override
+  String get demo007NoBooking => 'مفيش حجز مؤكد جاي';
 }
