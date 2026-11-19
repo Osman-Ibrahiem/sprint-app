@@ -90,4 +90,13 @@ void main() {
     expect(find.text('bk-10'), findsNothing);
     expect(find.byType(Scaffold), findsWidgets);
   });
+
+  testWidgets('a direct load of /notifications on compact highlights the home '
+      'tab', (t) async {
+    await signedIn(t, const Size(400, 800));
+    routerOf(t).go(AppPaths.notifications);
+    await t.pumpAndSettle();
+    final nav = t.widget<AppNavigation>(find.byType(AppNavigation));
+    expect(nav.destinations[nav.selected].label, ar.navHome);
+  });
 }

@@ -38,7 +38,28 @@ class _AdaptiveShellState extends ConsumerState<AdaptiveShell> {
   /// The last branch that is a tab in every form. The notifications
   /// destination has none on compact (the bell opens it), so while it is open
   /// the tab the person came from stays highlighted (R1).
+  /// A direct load of `/notifications` has no earlier tab, so "الرئيسية" (the
+  /// first branch) is the documented default.
   int _lastVisibleBranch = 0;
+
+  void _rememberBranch() {
+    final current = widget.navigationShell.currentIndex;
+    if (widget.destinations[current].name != AppRouteNames.notifications) {
+      _lastVisibleBranch = current;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _rememberBranch();
+  }
+
+  @override
+  void didUpdateWidget(AdaptiveShell oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _rememberBranch();
+  }
 
   void _select(int branch) {
     widget.navigationShell.goBranch(
@@ -69,9 +90,6 @@ class _AdaptiveShellState extends ConsumerState<AdaptiveShell> {
         if (_isVisible(widget.destinations[i], size, guest)) i,
     ];
     final current = widget.navigationShell.currentIndex;
-    if (widget.destinations[current].name != AppRouteNames.notifications) {
-      _lastVisibleBranch = current;
-    }
     final shown = branches.contains(current) ? current : _lastVisibleBranch;
     final selected = branches.indexOf(shown).clamp(0, branches.length - 1);
     final destinations = [
