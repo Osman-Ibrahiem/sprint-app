@@ -71,4 +71,13 @@ void main() {
     await open(t, size: const Size(400, 3000));
     expect(find.text(ar.notifVerificationApprovedTitle), findsWidgets);
   });
+
+  testWidgets('M10: mark-all is 48 high by measure, compact and medium',
+      (t) async {
+    for (final size in [const Size(400, 900), const Size(900, 900)]) {
+      await open(t, size: size);
+      final h = t.getSize(find.byKey(NotificationsScreen.markAllKey)).height;
+      expect(h, greaterThanOrEqualTo(48), reason: '$size');
+    }
+  });
 }
