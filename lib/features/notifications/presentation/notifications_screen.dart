@@ -19,7 +19,11 @@ import 'package:sprint/core/widgets/notification_card/notification_card.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/features/booking/presentation/widgets/empty_state.dart';
+import 'package:sprint/features/booking/domain/booking.dart';
+import 'package:sprint/features/booking/presentation/cancel/cancel_dialog.dart';
+import 'package:sprint/features/booking/presentation/providers/my_bookings_providers.dart';
 import 'package:sprint/features/notifications/domain/notification.dart';
+import 'package:sprint/features/notifications/domain/notification_kind.dart';
 import 'package:sprint/features/notifications/presentation/notification_card_data.dart';
 import 'package:sprint/features/notifications/presentation/providers/notification_providers.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
@@ -149,6 +153,8 @@ class NotificationsScreen extends ConsumerWidget {
 }
 
 /// One record as a card: marks it read, then opens its destination.
+const reminderCancelKey = ValueKey<String>('reminder-cancel');
+
 class NotificationTile extends ConsumerWidget {
   const NotificationTile({required this.notification, super.key});
 
@@ -162,12 +168,38 @@ class NotificationTile extends ConsumerWidget {
     final now = ref.watch(appClockProvider).now();
     final sameDay = cairoDayOf(n.sentAt) == cairoDayOf(now);
     final time = sameDay ? format.time(n.sentAt) : format.date(n.sentAt);
+    // A reminder decides at display time whether cancelling is still open
+    // (BR-40): the same preview as the details and the dialog.
+    Widget? actions;
+    var body = data.body;
+    final bookingId = n.payload['bookingId'];
+    if (n.kind == NotificationKind.bookingReminder && bookingId != null) {
+      final d = ref.watch(bookingDetailsProvider(bookingId)).value;
+      if (d != null && d.booking.status == BookingStatus.confirmed) {
+        if (d.cancelPreview.canCancel) {
+          actions = SprintButton(
+            key: reminderCancelKey,
+            label: AppLocalizations.of(context).notifCancelBooking,
+            variant: SprintButtonVariant.ghost,
+            onPressed: () => runCancelFlow(
+              context,
+              ref,
+              bookingId: bookingId,
+              pending: false,
+            ),
+          );
+        } else {
+          body = '$body ${AppLocalizations.of(context).notifReminderCutoffClosed}';
+        }
+      }
+    }
     return NotificationCard(
       key: NotificationsScreen.cardKey(n.id),
+      actions: actions,
       icon: data.icon,
       tone: data.tone,
       title: data.title,
-      body: data.body,
+      body: body,
       time: time,
       unread: n.readAt == null,
       onTap: () async {
