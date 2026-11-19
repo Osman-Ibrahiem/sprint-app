@@ -147,7 +147,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
               ),
               const SizedBox(height: SprintSpacing.space3),
               const VerificationNotice(),
-              VerificationSlot(session: session),
+              VerificationSlot(session: session, showNationalId: false),
               const SizedBox(height: SprintSpacing.space4),
             ],
             card([

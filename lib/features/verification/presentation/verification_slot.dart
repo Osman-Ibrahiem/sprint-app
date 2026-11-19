@@ -20,9 +20,17 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 /// national ID masked to its last four digits, and the next action, which
 /// opens the request screen (FR-030).
 class VerificationSlot extends ConsumerWidget {
-  const VerificationSlot({required this.session, super.key});
+  const VerificationSlot({
+    required this.session,
+    this.showNationalId = true,
+    super.key,
+  });
 
   final Session session;
+
+  /// The masked national ID line; the account screen turns it off (FR-023,
+  /// NFR-06). The old account card and the review screens keep it.
+  final bool showNationalId;
 
   static const actionKey = ValueKey<String>('verification-action');
   static const bodyKey = ValueKey<String>('verification-body');
@@ -95,7 +103,9 @@ class VerificationSlot extends ConsumerWidget {
               style: context.text.body.copyWith(color: colors.ink),
             ),
           ],
-          if (nationalId != null && nationalId.isNotEmpty) ...[
+          if (showNationalId &&
+              nationalId != null &&
+              nationalId.isNotEmpty) ...[
             const SizedBox(height: SprintSpacing.space1),
             Text(
               l10n.verifNationalIdMasked(

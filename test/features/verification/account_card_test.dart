@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/core/l10n/locale_notifier.dart';
 import 'package:sprint/core/providers/data_providers.dart';
@@ -129,10 +130,22 @@ void main() {
     expect(find.text(ar.verifNationalIdLabel), findsOneWidget);
   });
 
-  testWidgets('the national ID shows its last four digits only', (
-    tester,
-  ) async {
+  testWidgets('the national ID shows its last four digits only (the slot '
+      'where it is still shown); "حسابي" hides it', (tester) async {
     await profileAs(tester, SeedIds.userRejected);
+    expect(find.byKey(VerificationSlot.nationalIdKey), findsNothing);
+    final session = containerOf(tester).read(currentSessionProvider);
+    showDialog<void>(
+      context: tester.element(find.byType(Scaffold).first),
+      builder: (_) => Dialog(
+        child: SingleChildScrollView(
+          child: Consumer(
+            builder: (_, _, _) => VerificationSlot(session: session),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
     final text = tester
         .widget<Text>(find.byKey(VerificationSlot.nationalIdKey))
         .data!;
