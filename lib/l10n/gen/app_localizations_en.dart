@@ -2951,7 +2951,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchNoResultsBody => 'No facility matches. Try another word.';
 
   @override
-  String notifReminderBodyLead(String code, String lead) {
-    return 'Booking $code starts in $lead.';
+  String notifReminderBodyAt(String code, String when) {
+    return 'Booking $code starts $when.';
+  }
+
+  @override
+  String notifReminderWhenToday(String time) {
+    return 'at $time';
+  }
+
+  @override
+  String notifReminderWhenDay(String date, String time) {
+    return '$date at $time';
   }
 }

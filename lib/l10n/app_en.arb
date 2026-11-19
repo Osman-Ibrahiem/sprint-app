@@ -1786,13 +1786,32 @@
   "searchCancel": "Cancel",
   "searchNoResultsTitle": "No results",
   "searchNoResultsBody": "No facility matches. Try another word.",
-  "notifReminderBodyLead": "Booking {code} starts in {lead}.",
-  "@notifReminderBodyLead": {
+  "notifReminderBodyAt": "Booking {code} starts {when}.",
+  "@notifReminderBodyAt": {
     "placeholders": {
       "code": {
         "type": "String"
       },
-      "lead": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "notifReminderWhenToday": "at {time}",
+  "@notifReminderWhenToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notifReminderWhenDay": "{date} at {time}",
+  "@notifReminderWhenDay": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
         "type": "String"
       }
     }

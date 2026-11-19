@@ -2922,7 +2922,17 @@ class AppLocalizationsAr extends AppLocalizations {
   String get searchNoResultsBody => 'مفيش منشأة بالاسم ده. جرّب كلمة تانية.';
 
   @override
-  String notifReminderBodyLead(String code, String lead) {
-    return 'الحجز $code بيبدأ بعد $lead.';
+  String notifReminderBodyAt(String code, String when) {
+    return 'الحجز $code بيبدأ $when.';
+  }
+
+  @override
+  String notifReminderWhenToday(String time) {
+    return 'الساعة $time';
+  }
+
+  @override
+  String notifReminderWhenDay(String date, String time) {
+    return '$date الساعة $time';
   }
 }

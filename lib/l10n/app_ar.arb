@@ -1790,13 +1790,32 @@
   "searchCancel": "إلغاء",
   "searchNoResultsTitle": "مفيش نتايج",
   "searchNoResultsBody": "مفيش منشأة بالاسم ده. جرّب كلمة تانية.",
-  "notifReminderBodyLead": "الحجز {code} بيبدأ بعد {lead}.",
-  "@notifReminderBodyLead": {
+  "notifReminderBodyAt": "الحجز {code} بيبدأ {when}.",
+  "@notifReminderBodyAt": {
     "placeholders": {
       "code": {
         "type": "String"
       },
-      "lead": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "notifReminderWhenToday": "الساعة {time}",
+  "@notifReminderWhenToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notifReminderWhenDay": "{date} الساعة {time}",
+  "@notifReminderWhenDay": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
         "type": "String"
       }
     }

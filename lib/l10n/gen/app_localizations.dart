@@ -4914,11 +4914,23 @@ abstract class AppLocalizations {
   /// **'مفيش منشأة بالاسم ده. جرّب كلمة تانية.'**
   String get searchNoResultsBody;
 
-  /// No description provided for @notifReminderBodyLead.
+  /// No description provided for @notifReminderBodyAt.
   ///
   /// In ar, this message translates to:
-  /// **'الحجز {code} بيبدأ بعد {lead}.'**
-  String notifReminderBodyLead(String code, String lead);
+  /// **'الحجز {code} بيبدأ {when}.'**
+  String notifReminderBodyAt(String code, String when);
+
+  /// No description provided for @notifReminderWhenToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الساعة {time}'**
+  String notifReminderWhenToday(String time);
+
+  /// No description provided for @notifReminderWhenDay.
+  ///
+  /// In ar, this message translates to:
+  /// **'{date} الساعة {time}'**
+  String notifReminderWhenDay(String date, String time);
 }
 
 class _AppLocalizationsDelegate

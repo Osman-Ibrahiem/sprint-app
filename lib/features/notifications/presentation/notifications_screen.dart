@@ -23,7 +23,6 @@ import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/features/booking/presentation/widgets/empty_state.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/presentation/cancel/cancel_dialog.dart';
-import 'package:sprint/features/booking/presentation/lead_time_text.dart';
 import 'package:sprint/features/booking/presentation/providers/my_bookings_providers.dart';
 import 'package:sprint/features/notifications/domain/notification.dart';
 import 'package:sprint/features/notifications/presentation/permission_dialog.dart';
@@ -63,7 +62,15 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
     // Reminders decide the cancel action at display time, so re-read the
     // clock-dependent previews as it moves (BR-40).
     _tick = Timer.periodic(SprintExtras.detailsRefreshPeriod, (_) {
-      if (mounted) ref.invalidate(bookingDetailsProvider);
+      if (!mounted) return;
+      // Only the reminder cards depend on the clock (BR-40).
+      final list = ref.read(notificationsListProvider).value;
+      for (final n in list ?? const <Notification>[]) {
+        final id = n.payload['bookingId'];
+        if (n.kind == NotificationKind.bookingReminder && id != null) {
+          ref.invalidate(bookingDetailsProvider(id));
+        }
+      }
     });
     // The first visit to the centre is the first notification step.
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -94,16 +101,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
           header: true,
           child: Text(l10n.notificationsTitle, style: context.text.titleLg),
         ),
-        if (unread > 0)
-          Align(
-            alignment: AlignmentDirectional.centerEnd,
-            child: SprintButton(
-              key: NotificationsScreen.markAllKey,
-              label: l10n.notificationsMarkAllRead,
-              variant: SprintButtonVariant.ghost,
-              onPressed: markAll,
-            ),
-          ),
+        if (unread > 0) _MarkAllButton(onPressed: markAll),
       ],
     );
 
@@ -159,15 +157,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                   context.canPop() ? context.pop() : context.go(AppPaths.home),
             ),
           ),
-          if (unread > 0)
-            Align(
-              alignment: AlignmentDirectional.centerEnd,
-              child: TextButton(
-                key: NotificationsScreen.markAllKey,
-                onPressed: markAll,
-                child: Text(l10n.notificationsMarkAllRead),
-              ),
-            ),
+          if (unread > 0) _MarkAllButton(onPressed: markAll),
           Expanded(child: body),
         ],
       );
@@ -185,6 +175,25 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
       ),
     );
   }
+}
+
+/// "تعليم الكل كمقروء": one widget for the compact and the wide header (48 high
+/// ghost button, one key).
+class _MarkAllButton extends StatelessWidget {
+  const _MarkAllButton({required this.onPressed});
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) => Align(
+    alignment: AlignmentDirectional.centerEnd,
+    child: SprintButton(
+      key: NotificationsScreen.markAllKey,
+      label: AppLocalizations.of(context).notificationsMarkAllRead,
+      variant: SprintButtonVariant.ghost,
+      onPressed: onPressed,
+    ),
+  );
 }
 
 /// One record as a card: marks it read, then opens its destination.
@@ -211,13 +220,15 @@ class NotificationTile extends ConsumerWidget {
     if (n.kind == NotificationKind.bookingReminder && bookingId != null) {
       final d = ref.watch(bookingDetailsProvider(bookingId)).value;
       if (d != null && d.booking.status == BookingStatus.confirmed) {
-        body = AppLocalizations.of(context).notifReminderBodyLead(
-          n.payload['code'] ?? '',
-          leadTimeText(
-            AppLocalizations.of(context),
-            d.settings.reminderLeadMinutes,
-          ),
-        );
+        // The start time comes from the booking and the clock, not from the
+        // lead setting, so it is right whenever the card is shown.
+        final l10n = AppLocalizations.of(context);
+        final start = d.booking.start;
+        final time = format.time(start);
+        final when = cairoDayOf(start) == cairoDayOf(now)
+            ? l10n.notifReminderWhenToday(time)
+            : l10n.notifReminderWhenDay(format.date(start), time);
+        body = l10n.notifReminderBodyAt(n.payload['code'] ?? '', when);
         if (d.cancelPreview.canCancel) {
           actions = SprintButton(
             key: reminderCancelKey,

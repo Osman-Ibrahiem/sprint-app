@@ -9,8 +9,7 @@ import 'package:sprint/features/notifications/domain/notification_permission.dar
 import 'package:sprint/features/notifications/presentation/notifications_screen.dart';
 import 'package:sprint/features/notifications/presentation/providers/reminder_providers.dart';
 
-import 'package:sprint/features/booking/presentation/lead_time_text.dart';
-import 'package:sprint/features/settings/domain/setting_registry.dart';
+import 'package:sprint/core/l10n/sprint_format.dart';
 
 import '../helpers/pump_app.dart';
 
@@ -102,12 +101,20 @@ void main() {
     expect(find.text(ar.permissionTitle), findsNothing);
   });
 
-  testWidgets('5: the lead in words is a setting, not typed text', (t) async {
+  testWidgets('5: the text gives the real start time of the booking', (
+    t,
+  ) async {
     await open(t);
-    final lead = defaultOf(SettingKeys.reminderLeadMinutes);
+    final start = containerOf(t)
+        .read(dataLayerProvider)
+        .bookings
+        .allBookings
+        .firstWhere((x) => x.id == 'bk-y01')
+        .start;
+    final time = SprintFormat('ar').time(start);
     expect(
       find.textContaining(
-        ar.notifReminderBodyLead('SP-1201', leadTimeText(ar, lead)),
+        ar.notifReminderBodyAt('SP-1201', ar.notifReminderWhenToday(time)),
       ),
       findsOneWidget,
     );

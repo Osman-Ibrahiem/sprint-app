@@ -8,7 +8,7 @@ import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/core/time/cairo_time.dart';
 import 'package:sprint/core/time/clock_provider.dart';
-import 'package:sprint/features/booking/presentation/lead_time_text.dart';
+import 'package:sprint/core/l10n/sprint_format.dart';
 import 'package:sprint/features/booking/presentation/providers/my_bookings_providers.dart';
 import 'package:sprint/features/notifications/data/notification_permission_store.dart';
 import 'package:sprint/features/notifications/domain/notification_permission.dart';
@@ -109,14 +109,23 @@ void main() {
     expect(cancelBtn, findsNothing);
   });
 
-  testWidgets('the lead in words comes from reminderLeadMinutes', (t) async {
+  testWidgets('the text states the real start time, not the lead setting', (
+    t,
+  ) async {
     await open(t);
-    final l10n = ar;
-    final base = leadTimeText(l10n, UnitSettings0.leadDefault);
+    final start = layer.bookings.allBookings
+        .firstWhere((x) => x.id == 'bk-09')
+        .start;
+    final format = SprintFormat('ar');
+    final body = ar.notifReminderBodyAt(
+      'SP-1009',
+      ar.notifReminderWhenDay(format.date(start), format.time(start)),
+    );
     expect(
-      find.textContaining(l10n.notifReminderBodyLead('SP-1009', base)),
+      find.descendant(of: card, matching: find.textContaining(body)),
       findsOneWidget,
     );
+    // Changing the lead setting does not rewrite the sentence.
     await t.runAsync(
       () => layer.settings.set(
         SettingKeys.reminderLeadMinutes,
@@ -128,9 +137,7 @@ void main() {
     await t.pump(const Duration(seconds: 16));
     await t.pumpAndSettle();
     expect(
-      find.textContaining(
-        l10n.notifReminderBodyLead('SP-1009', leadTimeText(l10n, 180)),
-      ),
+      find.descendant(of: card, matching: find.textContaining(body)),
       findsOneWidget,
     );
   });
@@ -149,9 +156,4 @@ void main() {
     );
     expect(list!.where((n) => n.id == 'rem-bk-09'), hasLength(1));
   });
-}
-
-/// The registry default of `reminderLeadMinutes`, read once.
-abstract final class UnitSettings0 {
-  static final int leadDefault = defaultOf(SettingKeys.reminderLeadMinutes);
 }
