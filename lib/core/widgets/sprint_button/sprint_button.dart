@@ -61,7 +61,11 @@ class SprintButton extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final colors = context.colors;
 
-    final (background, foreground, border) = switch (variant) {
+    final (
+      variantBackground,
+      variantForeground,
+      variantBorder,
+    ) = switch (variant) {
       SprintButtonVariant.primary => (colors.primary, colors.onPrimary, null),
       SprintButtonVariant.secondary => (
         colors.surface,
@@ -82,6 +86,12 @@ class SprintButton extends StatelessWidget {
 
     final busy = loading;
     final enabled = onPressed != null && !busy;
+    // Disabled (no action, not loading): `surface-sunken` with `ink-disabled`
+    // for every variant (Button README); the semantics still say why.
+    final disabled = onPressed == null && !busy;
+    final background = disabled ? colors.surfaceSunken : variantBackground;
+    final foreground = disabled ? colors.inkDisabled : variantForeground;
+    final border = disabled ? null : variantBorder;
     final spokenLabel = busy
         ? (loadingLabel ?? l10n.buttonBusy)
         : enabled
