@@ -258,7 +258,7 @@ final class BookingDetailsProvider
   }
 }
 
-String _$bookingDetailsHash() => r'5b48d7d9fafa5e6368b322357e37fd193a03ce87';
+String _$bookingDetailsHash() => r'd18dfa5f821007fe5f97b6495133bab1f3bfd85f';
 
 /// The details of one booking of the signed-in person, or null when it does
 /// not exist or is somebody else's (FR-009: nothing is revealed). Reloads when
