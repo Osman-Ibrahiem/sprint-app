@@ -109,4 +109,11 @@ void main() {
     expect(find.byType(WideDialog), findsNothing);
     expect(result, isNull);
   }, variant: allPlatforms);
+
+  for (final width in [720.0, 1024.0]) {
+    testWidgets('the wide dialog is 400 wide at $width', (tester) async {
+      await open(tester, size: Size(width, 900));
+      expect(tester.getSize(find.byKey(WideDialog.panelKey)).width, 400);
+    });
+  }
 }

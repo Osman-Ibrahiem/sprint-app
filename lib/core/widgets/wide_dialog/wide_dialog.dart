@@ -35,6 +35,8 @@ class WideDialog extends StatelessWidget {
   final String? message;
   final List<WideDialogAction> actions;
 
+  static const panelKey = ValueKey<String>('wide-dialog-panel');
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
@@ -49,10 +51,11 @@ class WideDialog extends StatelessWidget {
         borderRadius: SprintRadius.xlBorder,
         side: BorderSide(color: colors.line),
       ),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxWidth: SprintExtras.wideDialogWidth,
-        ),
+      // Exactly 400 wide (WideDialog README), not "up to 400": the dialog
+      // would otherwise hug its text and come out about 320.
+      child: SizedBox(
+        key: panelKey,
+        width: SprintExtras.wideDialogWidth,
         child: Padding(
           padding: const EdgeInsetsDirectional.all(SprintSpacing.space6),
           child: Column(

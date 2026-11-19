@@ -46,7 +46,10 @@ class MyBookingsScreen extends ConsumerWidget {
     if (session.isGuest) {
       return PlaceholderPage(
         title: l10n.bookingsTitle,
-        leading: const [SizedBox(height: SprintSpacing.space4), SignInPrompt()],
+        leading: const [
+          SizedBox(height: SprintSpacing.space4),
+          SignInPrompt(),
+        ],
         showNote: false,
         blocks: 0,
       );
@@ -74,9 +77,7 @@ class MyBookingsScreen extends ConsumerWidget {
     void open(String id) => context.go(_location(id, seg));
     void setSegment(int i) {
       final next = i == 0 ? BookingSegment.upcoming : BookingSegment.past;
-      context.go(
-        wide ? _location(null, next) : _location(null, next),
-      );
+      context.go(wide ? _location(null, next) : _location(null, next));
     }
 
     final upcomingCount = upcoming.value?.length ?? 0;
@@ -136,10 +137,11 @@ class MyBookingsScreen extends ConsumerWidget {
       key: detailPaneKey,
       child: _DetailPane(bookingId: selected),
     );
-    final features = MediaQuery.of(context).displayFeatures.where(
-      DisplayFeatureLayout.separates,
-    );
-    if (features.isNotEmpty) return DisplayFeatureLayout(start: list, end: detail);
+    final features = MediaQuery.of(context).displayFeatures
+        .where(DisplayFeatureLayout.separates);
+    if (features.isNotEmpty) {
+      return DisplayFeatureLayout(start: list, end: detail);
+    }
     return Row(
       children: [
         SizedBox(width: listWidth, child: list),
@@ -188,22 +190,32 @@ class _DetailPane extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(
-              SprintSpacing.space6,
-              SprintSpacing.space6,
-              SprintSpacing.space6,
-              0,
-            ),
-            child: Semantics(
-              header: true,
-              child: Text(
-                l10n.bookingDetailsTitle,
-                style: context.text.title.copyWith(color: colors.ink),
+          // An opaque, fixed heading above a clipped scroll area (nothing
+          // scrolls up behind it).
+          ColoredBox(
+            color: colors.bg,
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(
+                SprintSpacing.space6,
+                SprintSpacing.space6,
+                SprintSpacing.space6,
+                SprintSpacing.space2,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: Semantics(
+                  header: true,
+                  child: Text(
+                    l10n.bookingDetailsTitle,
+                    style: context.text.title.copyWith(color: colors.ink),
+                  ),
+                ),
               ),
             ),
           ),
-          Expanded(child: BookingDetailsView(bookingId: bookingId!)),
+          Expanded(
+            child: ClipRect(child: BookingDetailsView(bookingId: bookingId!)),
+          ),
         ],
       ),
     );
