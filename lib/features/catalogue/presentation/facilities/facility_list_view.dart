@@ -230,7 +230,13 @@ class _Card extends ConsumerWidget {
       onTap: () {
         final q = ref.read(searchQueryProvider).trim();
         if (q.isNotEmpty) ref.read(recentSearchesProvider.notifier).add(q);
-        context.go(AppPaths.facilityDetails(id));
+        // Master-detail keeps the search in the address.
+        context.go(
+          Uri(
+            path: AppPaths.facilityDetails(id),
+            queryParameters: q.isEmpty ? null : {'q': q},
+          ).toString(),
+        );
       },
     );
     if (!selected) return card;

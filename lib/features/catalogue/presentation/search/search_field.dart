@@ -61,11 +61,57 @@ class _State extends ConsumerState<FacilitySearchField> {
     });
   }
 
+  bool _addressRead = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_addressRead) return;
+    _addressRead = true;
+    // `?q=` in the address fills the field and the filter (refresh, shared
+    // links and the way back from a facility keep the search).
+    final fromAddress = _addressQuery();
+    if (fromAddress != null && fromAddress != _controller.text) {
+      _controller.text = fromAddress;
+      Future.microtask(
+        () => ref.read(searchQueryProvider.notifier).set(fromAddress),
+      );
+    }
+  }
+
   @override
   void dispose() {
     _controller.dispose();
     _focus.dispose();
     super.dispose();
+  }
+
+  /// `q` of the current address, or null when there is none or no router.
+  String? _addressQuery() {
+    try {
+      final q = GoRouterState.of(context).uri.queryParameters['q'];
+      return q == null || q.isEmpty ? null : q;
+    } on Object {
+      return null;
+    }
+  }
+
+  /// Writes the text to `?q=` with replace, so typing never fills history.
+  void _writeAddress(String value) {
+    try {
+      final uri = GoRouterState.of(context).uri;
+      final params = {...uri.queryParameters};
+      if (value.trim().isEmpty) {
+        params.remove('q');
+      } else {
+        params['q'] = value;
+      }
+      context.replace(
+        uri.replace(queryParameters: params.isEmpty ? null : params).toString(),
+      );
+    } on Object {
+      // No router (tests, previews): the provider alone holds the text.
+    }
   }
 
   Future<void> _remember(String term) =>
@@ -86,15 +132,22 @@ class _State extends ConsumerState<FacilitySearchField> {
           controller: _controller,
           focusNode: _focus,
           textInputAction: TextInputAction.search,
-          onChanged: ref.read(searchQueryProvider.notifier).set,
+          onChanged: (v) {
+            ref.read(searchQueryProvider.notifier).set(v);
+            _writeAddress(v);
+          },
           onSubmitted: (v) {
             if (v.trim().isNotEmpty) _remember(v);
           },
-          onClear: () => ref.read(searchQueryProvider.notifier).set(''),
+          onClear: () {
+            ref.read(searchQueryProvider.notifier).set('');
+            _writeAddress('');
+          },
           cancelLabel: _focused ? l10n.searchCancel : null,
           onCancel: () {
             _controller.clear();
             ref.read(searchQueryProvider.notifier).set('');
+            _writeAddress('');
             _focus.unfocus();
           },
         ),

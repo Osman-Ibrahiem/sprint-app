@@ -50,4 +50,25 @@ void main() {
     await t.tap(find.byKey(SprintTextField.cancelKey), warnIfMissed: false);
     expect(find.byType(FacilitySearchField), findsOneWidget);
   });
+
+  testWidgets('?q= filters, typing writes it back, refresh and detail keep it',
+      (t) async {
+    await pumpSprintApp(t, size: const Size(400, 1600));
+    routerOf(t).go('/facilities?q=${Uri.encodeQueryComponent('سباحة')}');
+    await t.pumpAndSettle();
+    final some = find.byType(FacilityCard).evaluate().length;
+    expect(some, greaterThan(0));
+    expect(find.text('سباحة'), findsWidgets);
+
+    await t.enterText(find.byType(TextField).first, 'تنس');
+    await t.pumpAndSettle();
+    final uri = routerOf(t).routerDelegate.currentConfiguration.uri;
+    expect(uri.queryParameters['q'], 'تنس');
+
+    await t.tap(find.byType(FacilityCard).first);
+    await t.pumpAndSettle();
+    final detail = routerOf(t).routerDelegate.currentConfiguration.uri;
+    expect(detail.path, startsWith('/facilities/'));
+    expect(detail.queryParameters['q'], 'تنس');
+  });
 }
