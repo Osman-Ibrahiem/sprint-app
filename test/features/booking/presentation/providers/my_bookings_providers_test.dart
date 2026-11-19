@@ -120,4 +120,11 @@ void main() {
     expect(d.refundAmount, y.priceAtBooking);
     expect(d.booking.cancelledBy, CancelledBy.owner);
   });
+
+  test('details: the latest payment is the repository\'s, by start time',
+      () async {
+    final d = (await c.read(bookingDetailsProvider('bk-09').future))!;
+    final latest = await layer.payments.latestPayment('bk-09');
+    expect(d.latestPayment?.id, latest?.id);
+  });
 }

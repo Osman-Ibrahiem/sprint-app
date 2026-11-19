@@ -181,7 +181,7 @@ Future<BookingDetails?> bookingDetails(Ref ref, String bookingId) async {
       facilityId: b.facilityId,
     ),
     cancelPreview: await bookings.previewCancel(bookingId, user.id),
-    latestPayment: all.isEmpty ? null : all.last,
+    latestPayment: await payments.latestPayment(bookingId),
     paidAmount: paid,
     refundAmount: refunded,
     trainer: trainer,
