@@ -1476,5 +1476,214 @@
   "gallery007SampleSearchCancel": "Cancel",
   "gallery007SampleEmailLabel": "Email",
   "navNotifications": "Notifications",
-  "catalogueFacilitiesTitle": "All facilities"
+  "catalogueFacilitiesTitle": "All facilities",
+  "bookingsTitle": "My bookings",
+  "bookingsSegmentUpcoming": "Upcoming ({count})",
+  "@bookingsSegmentUpcoming": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingsSegmentUpcomingPlain": "Upcoming",
+  "bookingsSegmentPast": "Past",
+  "bookingsSegmentUpcomingSpoken": "Upcoming, {count, plural, =1{1 booking} other{{count} bookings}}",
+  "@bookingsSegmentUpcomingSpoken": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingsEmptyTitle": "No bookings yet.",
+  "bookingsEmptyBody": "The facilities are waiting for you",
+  "bookingsUpcomingEmptyTitle": "No upcoming bookings",
+  "bookingsUpcomingEmptyBody": "Your older bookings are under \"Past\".",
+  "bookingsPastEmptyTitle": "No past bookings",
+  "bookingsBrowse": "Browse facilities",
+  "bookingsNoneSelected": "No booking selected",
+  "bookingsActionTicket": "View ticket",
+  "bookingsActionPay": "Complete payment",
+  "bookingsActionDetails": "Details",
+  "bookingsToday": "Today",
+  "bookingsNoteFree": "Free",
+  "bookingsNoteTrainer": "With {name}",
+  "@bookingsNoteTrainer": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingsNoteHold": "{count, plural, =1{1 minute left to pay} other{{count} minutes left to pay}}",
+  "@bookingsNoteHold": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingsRowSpoken": "{status}, {date}, {facility}, {notes}, booking number {code}, {action}",
+  "@bookingsRowSpoken": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      },
+      "facility": {
+        "type": "String"
+      },
+      "notes": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      },
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingsLoadError": "We could not load your bookings.",
+  "bookingsRetry": "Try again",
+  "bookingDetailsTitle": "Booking details",
+  "bookingDetailsNotFoundTitle": "Booking not found",
+  "bookingDetailsNotFoundBody": "We could not find this booking in your bookings.",
+  "bookingDetailsBackToBookings": "Back to bookings",
+  "bookingDetailsTier": "Tier",
+  "bookingDetailsTierInternal": "Internal",
+  "bookingDetailsTierExternal": "External",
+  "bookingDetailsPaid": "Paid",
+  "bookingDetailsAmount": "Amount",
+  "bookingDetailsRequired": "Due",
+  "bookingDetailsNotPaid": "Not paid",
+  "bookingDetailsPrice": "Price",
+  "bookingDetailsFree": "Free",
+  "bookingDetailsCode": "Booking number",
+  "bookingDetailsCancel": "Cancel booking",
+  "bookingDetailsPay": "Complete payment · {amount}",
+  "@bookingDetailsPay": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsReceipt": "Payment receipt",
+  "bookingDetailsHoldTitle": "The place is held for you",
+  "bookingDetailsHoldSub": "{count, plural, =1{1 minute left to pay, then the place is open again} other{{count} minutes left to pay, then the place is open again}}",
+  "@bookingDetailsHoldSub": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingDetailsAfterCutoff": "Cancelling was open until {when}; after that the button goes away.",
+  "@bookingDetailsAfterCutoff": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsAttended": "Your attendance is recorded. Thanks for using Sprint",
+  "bookingDetailsNoShow": "This booking passed without attendance. There are no fees or penalties",
+  "bookingDetailsExpired": "The hold ran out without payment, and the place is open again",
+  "bookingDetailsCancelledByYou": "The booking was cancelled.",
+  "bookingDetailsCancelledByFacility": "The facility cancelled it.",
+  "bookingDetailsCancelReason": "Reason: {reason}",
+  "@bookingDetailsCancelReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsFacilityRefund": "The full {amount} is refunded, and you were told right away.",
+  "@bookingDetailsFacilityRefund": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsRefundFull": "The {amount} goes back to the same payment method.",
+  "@bookingDetailsRefundFull": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsRefundPartial": "{refund} of {paid} goes back to the same payment method.",
+  "@bookingDetailsRefundPartial": {
+    "placeholders": {
+      "refund": {
+        "type": "String"
+      },
+      "paid": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsRefundNone": "No money goes back.",
+  "bookingDetailsFreeCancelled": "The booking was free, and the place is open again.",
+  "bookingDetailsPendingCancelled": "The booking was cancelled and nothing was charged.",
+  "bookingTicketSpoken": "Booking {status}, {facility}, {date}",
+  "@bookingTicketSpoken": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      },
+      "facility": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelDialogTitle": "Cancel this booking?",
+  "cancelActionConfirm": "Cancel booking",
+  "cancelActionBack": "Go back",
+  "cancelMessageFull": "The full {amount} goes back to the same payment method.",
+  "@cancelMessageFull": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelMessagePartial": "{refund} of {paid} goes back to the same payment method.",
+  "@cancelMessagePartial": {
+    "placeholders": {
+      "refund": {
+        "type": "String"
+      },
+      "paid": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelMessageNone": "Cancelling now is without a refund, and no money goes back.",
+  "cancelMessageFree": "The booking is free, so no money goes back. The place opens up for others.",
+  "cancelMessagePending": "We cancel the booking and nothing was charged.",
+  "cancelClosedTitle": "The cancellation time has passed",
+  "cancelClosedBody": "Cancelling was open until {when}.",
+  "@cancelClosedBody": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelAlreadyTitle": "This booking was already cancelled",
+  "cancelFailed": "The cancellation did not go through and the booking is unchanged.",
+  "cancelNotAllowedBody": "This booking cannot be cancelled now.",
+  "cancelResultTitle": "Booking cancelled",
+  "cancelResultBack": "Back to bookings"
 }

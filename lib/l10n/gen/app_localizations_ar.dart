@@ -2458,4 +2458,280 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get catalogueFacilitiesTitle => 'كل المنشآت';
+
+  @override
+  String get bookingsTitle => 'حجوزاتي';
+
+  @override
+  String bookingsSegmentUpcoming(int count) {
+    return 'الجاية ($count)';
+  }
+
+  @override
+  String get bookingsSegmentUpcomingPlain => 'الجاية';
+
+  @override
+  String get bookingsSegmentPast => 'اللي فاتت';
+
+  @override
+  String bookingsSegmentUpcomingSpoken(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count حجوزات',
+      two: 'حجزين',
+      one: 'حجز واحد',
+    );
+    return 'الجاية، $_temp0';
+  }
+
+  @override
+  String get bookingsEmptyTitle => 'لسه مفيش حجوزات.';
+
+  @override
+  String get bookingsEmptyBody => 'المنشآت مستنياك';
+
+  @override
+  String get bookingsUpcomingEmptyTitle => 'مفيش حجوزات جاية';
+
+  @override
+  String get bookingsUpcomingEmptyBody =>
+      'حجوزاتك القديمة موجودة في \"اللي فاتت\".';
+
+  @override
+  String get bookingsPastEmptyTitle => 'مفيش حجوزات سابقة';
+
+  @override
+  String get bookingsBrowse => 'استعراض المنشآت';
+
+  @override
+  String get bookingsNoneSelected => 'مفيش حجز محدد';
+
+  @override
+  String get bookingsActionTicket => 'عرض التذكرة';
+
+  @override
+  String get bookingsActionPay => 'إكمال الدفع';
+
+  @override
+  String get bookingsActionDetails => 'التفاصيل';
+
+  @override
+  String get bookingsToday => 'النهارده';
+
+  @override
+  String get bookingsNoteFree => 'مجاني';
+
+  @override
+  String bookingsNoteTrainer(String name) {
+    return 'مع $name';
+  }
+
+  @override
+  String bookingsNoteHold(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'فاضل $count دقايق للدفع',
+      two: 'فاضل دقيقتين للدفع',
+      one: 'فاضل دقيقة للدفع',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bookingsRowSpoken(
+    String status,
+    String date,
+    String facility,
+    String notes,
+    String code,
+    String action,
+  ) {
+    return '$status، $date، $facility، $notes، رقم الحجز $code، $action';
+  }
+
+  @override
+  String get bookingsLoadError => 'مقدرناش نحمّل حجوزاتك.';
+
+  @override
+  String get bookingsRetry => 'إعادة المحاولة';
+
+  @override
+  String get bookingDetailsTitle => 'تفاصيل الحجز';
+
+  @override
+  String get bookingDetailsNotFoundTitle => 'الحجز مش موجود';
+
+  @override
+  String get bookingDetailsNotFoundBody => 'مش لاقيين الحجز ده في حجوزاتك.';
+
+  @override
+  String get bookingDetailsBackToBookings => 'العودة للحجوزات';
+
+  @override
+  String get bookingDetailsTier => 'الشريحة';
+
+  @override
+  String get bookingDetailsTierInternal => 'داخلي';
+
+  @override
+  String get bookingDetailsTierExternal => 'خارجي';
+
+  @override
+  String get bookingDetailsPaid => 'المدفوع';
+
+  @override
+  String get bookingDetailsAmount => 'المبلغ';
+
+  @override
+  String get bookingDetailsRequired => 'المطلوب';
+
+  @override
+  String get bookingDetailsNotPaid => 'ما اتدفعش';
+
+  @override
+  String get bookingDetailsPrice => 'السعر';
+
+  @override
+  String get bookingDetailsFree => 'مجاني';
+
+  @override
+  String get bookingDetailsCode => 'رقم الحجز';
+
+  @override
+  String get bookingDetailsCancel => 'إلغاء الحجز';
+
+  @override
+  String bookingDetailsPay(String amount) {
+    return 'إكمال الدفع · $amount';
+  }
+
+  @override
+  String get bookingDetailsReceipt => 'إيصال الدفع';
+
+  @override
+  String get bookingDetailsHoldTitle => 'المكان متحجز لك';
+
+  @override
+  String bookingDetailsHoldSub(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'فاضل $count دقايق للدفع، وبعدها المكان يرجع متاح',
+      two: 'فاضل دقيقتين للدفع، وبعدها المكان يرجع متاح',
+      one: 'فاضل دقيقة للدفع، وبعدها المكان يرجع متاح',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bookingDetailsAfterCutoff(String when) {
+    return 'الإلغاء كان متاح لحد $when، وبعده زرار الإلغاء بيختفي.';
+  }
+
+  @override
+  String get bookingDetailsAttended => 'تم تسجيل حضورك. شكرًا لاستخدامك سبرنت';
+
+  @override
+  String get bookingDetailsNoShow =>
+      'الحجز ده عدّى من غير حضور. مفيش أي رسوم أو عقوبة';
+
+  @override
+  String get bookingDetailsExpired =>
+      'المهلة خلصت من غير دفع، والمكان رجع متاح';
+
+  @override
+  String get bookingDetailsCancelledByYou => 'الحجز اتلغى.';
+
+  @override
+  String get bookingDetailsCancelledByFacility => 'لغته إدارة المنشأة.';
+
+  @override
+  String bookingDetailsCancelReason(String reason) {
+    return 'السبب: $reason';
+  }
+
+  @override
+  String bookingDetailsFacilityRefund(String amount) {
+    return 'الـ $amount رجعت كاملة، واتبلّغت فورًا.';
+  }
+
+  @override
+  String bookingDetailsRefundFull(String amount) {
+    return 'الـ $amount هترجع على نفس وسيلة الدفع.';
+  }
+
+  @override
+  String bookingDetailsRefundPartial(String refund, String paid) {
+    return 'هيرجع $refund من $paid على نفس وسيلة الدفع.';
+  }
+
+  @override
+  String get bookingDetailsRefundNone => 'مفيش مبلغ هيرجع.';
+
+  @override
+  String get bookingDetailsFreeCancelled =>
+      'الحجز كان مجاني، والمكان رجع متاح.';
+
+  @override
+  String get bookingDetailsPendingCancelled => 'الحجز اتلغى ومفيش فلوس اتسحبت.';
+
+  @override
+  String bookingTicketSpoken(String status, String facility, String date) {
+    return 'حجز $status، $facility، $date';
+  }
+
+  @override
+  String get cancelDialogTitle => 'إلغاء الحجز؟';
+
+  @override
+  String get cancelActionConfirm => 'إلغاء الحجز';
+
+  @override
+  String get cancelActionBack => 'الرجوع';
+
+  @override
+  String cancelMessageFull(String amount) {
+    return 'هترجع $amount كاملة على نفس وسيلة الدفع.';
+  }
+
+  @override
+  String cancelMessagePartial(String refund, String paid) {
+    return 'هيرجع $refund من $paid على نفس وسيلة الدفع.';
+  }
+
+  @override
+  String get cancelMessageNone =>
+      'الإلغاء دلوقتي من غير استرداد، ومفيش مبلغ هيرجع.';
+
+  @override
+  String get cancelMessageFree =>
+      'الحجز مجاني، فمفيش مبلغ يرجع. المكان هيرجع متاح لغيرك.';
+
+  @override
+  String get cancelMessagePending => 'هنلغي الحجز ومفيش فلوس اتسحبت.';
+
+  @override
+  String get cancelClosedTitle => 'فات وقت الإلغاء';
+
+  @override
+  String cancelClosedBody(String when) {
+    return 'الإلغاء كان متاح لحد $when.';
+  }
+
+  @override
+  String get cancelAlreadyTitle => 'الحجز ده اتلغى قبل كده';
+
+  @override
+  String get cancelFailed => 'الإلغاء ماتمش والحجز زي ما هو.';
+
+  @override
+  String get cancelNotAllowedBody => 'الحجز ده مينفعش يتلغي دلوقتي.';
+
+  @override
+  String get cancelResultTitle => 'الحجز اتلغى';
+
+  @override
+  String get cancelResultBack => 'العودة للحجوزات';
 }

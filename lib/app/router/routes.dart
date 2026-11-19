@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
-import 'package:sprint/app/shell/placeholders/bookings_placeholder.dart';
 import 'package:sprint/app/shell/placeholders/no_access_screen.dart';
 import 'package:sprint/app/shell/placeholders/pending_screen.dart';
 import 'package:sprint/app/shell/placeholders/profile_placeholder.dart';
 import 'package:sprint/core/providers/session_provider.dart';
+import 'package:sprint/core/window/window_size.dart';
+import 'package:sprint/features/booking/presentation/bookings/my_bookings_screen.dart';
+import 'package:sprint/features/booking/presentation/cancel/cancel_result_screen.dart';
+import 'package:sprint/features/booking/presentation/details/booking_details_screen.dart';
+import 'package:sprint/features/booking/presentation/providers/my_bookings_providers.dart';
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
 import 'package:sprint/features/booking/presentation/checkout/checkout_screen.dart';
 import 'package:sprint/features/booking/presentation/confirmed/booking_confirmed_screen.dart';
@@ -387,7 +391,7 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
     icon: PhosphorIconsRegular.ticket,
     selectedIcon: PhosphorIconsFill.ticket,
     label: (l) => l.navBookings,
-    builder: BookingsPlaceholder.new,
+    builder: () => const MyBookingsScreen(),
     subRoutes: [
       // Details and the result of a cancel (feature 007). The owner only.
       GatedRoute(
@@ -396,9 +400,19 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
         access: const RouteAccess(requiresAccount: true),
         builder: (context, state) {
           final id = state.pathParameters['bookingId']!;
+          // Wide: the list with this booking beside it; compact: pushed.
+          if (!WindowSize.of(context).isCompact) {
+            return BookingOwnerGate(
+              bookingId: id,
+              child: MyBookingsScreen(
+                selectedId: id,
+                segment: _segmentOf(state),
+              ),
+            );
+          }
           return BookingOwnerGate(
             bookingId: id,
-            child: PendingScreen(title: id),
+            child: BookingDetailsScreen(bookingId: id),
           );
         },
         routes: [
@@ -410,7 +424,7 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
               final id = state.pathParameters['bookingId']!;
               return BookingOwnerGate(
                 bookingId: id,
-                child: PendingScreen(title: id),
+                child: CancelResultScreen(bookingId: id),
               );
             },
           ),
@@ -493,3 +507,9 @@ String? _needsCompleteSelection(BuildContext context, GoRouterState state) {
   if (selection.isComplete) return null;
   return AppPaths.facilitySchedule(state.pathParameters['id']!, selection);
 }
+
+/// `?seg=past` selects the past list; anything else is upcoming.
+BookingSegment _segmentOf(GoRouterState state) =>
+    state.uri.queryParameters['seg'] == 'past'
+    ? BookingSegment.past
+    : BookingSegment.upcoming;

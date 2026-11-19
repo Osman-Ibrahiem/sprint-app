@@ -1480,5 +1480,214 @@
   "gallery007SampleSearchCancel": "إلغاء",
   "gallery007SampleEmailLabel": "الإيميل",
   "navNotifications": "الإشعارات",
-  "catalogueFacilitiesTitle": "كل المنشآت"
+  "catalogueFacilitiesTitle": "كل المنشآت",
+  "bookingsTitle": "حجوزاتي",
+  "bookingsSegmentUpcoming": "الجاية ({count})",
+  "@bookingsSegmentUpcoming": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingsSegmentUpcomingPlain": "الجاية",
+  "bookingsSegmentPast": "اللي فاتت",
+  "bookingsSegmentUpcomingSpoken": "الجاية، {count, plural, =1{حجز واحد} =2{حجزين} other{{count} حجوزات}}",
+  "@bookingsSegmentUpcomingSpoken": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingsEmptyTitle": "لسه مفيش حجوزات.",
+  "bookingsEmptyBody": "المنشآت مستنياك",
+  "bookingsUpcomingEmptyTitle": "مفيش حجوزات جاية",
+  "bookingsUpcomingEmptyBody": "حجوزاتك القديمة موجودة في \"اللي فاتت\".",
+  "bookingsPastEmptyTitle": "مفيش حجوزات سابقة",
+  "bookingsBrowse": "استعراض المنشآت",
+  "bookingsNoneSelected": "مفيش حجز محدد",
+  "bookingsActionTicket": "عرض التذكرة",
+  "bookingsActionPay": "إكمال الدفع",
+  "bookingsActionDetails": "التفاصيل",
+  "bookingsToday": "النهارده",
+  "bookingsNoteFree": "مجاني",
+  "bookingsNoteTrainer": "مع {name}",
+  "@bookingsNoteTrainer": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingsNoteHold": "{count, plural, =1{فاضل دقيقة للدفع} =2{فاضل دقيقتين للدفع} other{فاضل {count} دقايق للدفع}}",
+  "@bookingsNoteHold": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingsRowSpoken": "{status}، {date}، {facility}، {notes}، رقم الحجز {code}، {action}",
+  "@bookingsRowSpoken": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      },
+      "facility": {
+        "type": "String"
+      },
+      "notes": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      },
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingsLoadError": "مقدرناش نحمّل حجوزاتك.",
+  "bookingsRetry": "إعادة المحاولة",
+  "bookingDetailsTitle": "تفاصيل الحجز",
+  "bookingDetailsNotFoundTitle": "الحجز مش موجود",
+  "bookingDetailsNotFoundBody": "مش لاقيين الحجز ده في حجوزاتك.",
+  "bookingDetailsBackToBookings": "العودة للحجوزات",
+  "bookingDetailsTier": "الشريحة",
+  "bookingDetailsTierInternal": "داخلي",
+  "bookingDetailsTierExternal": "خارجي",
+  "bookingDetailsPaid": "المدفوع",
+  "bookingDetailsAmount": "المبلغ",
+  "bookingDetailsRequired": "المطلوب",
+  "bookingDetailsNotPaid": "ما اتدفعش",
+  "bookingDetailsPrice": "السعر",
+  "bookingDetailsFree": "مجاني",
+  "bookingDetailsCode": "رقم الحجز",
+  "bookingDetailsCancel": "إلغاء الحجز",
+  "bookingDetailsPay": "إكمال الدفع · {amount}",
+  "@bookingDetailsPay": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsReceipt": "إيصال الدفع",
+  "bookingDetailsHoldTitle": "المكان متحجز لك",
+  "bookingDetailsHoldSub": "{count, plural, =1{فاضل دقيقة للدفع، وبعدها المكان يرجع متاح} =2{فاضل دقيقتين للدفع، وبعدها المكان يرجع متاح} other{فاضل {count} دقايق للدفع، وبعدها المكان يرجع متاح}}",
+  "@bookingDetailsHoldSub": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingDetailsAfterCutoff": "الإلغاء كان متاح لحد {when}، وبعده زرار الإلغاء بيختفي.",
+  "@bookingDetailsAfterCutoff": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsAttended": "تم تسجيل حضورك. شكرًا لاستخدامك سبرنت",
+  "bookingDetailsNoShow": "الحجز ده عدّى من غير حضور. مفيش أي رسوم أو عقوبة",
+  "bookingDetailsExpired": "المهلة خلصت من غير دفع، والمكان رجع متاح",
+  "bookingDetailsCancelledByYou": "الحجز اتلغى.",
+  "bookingDetailsCancelledByFacility": "لغته إدارة المنشأة.",
+  "bookingDetailsCancelReason": "السبب: {reason}",
+  "@bookingDetailsCancelReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsFacilityRefund": "الـ {amount} رجعت كاملة، واتبلّغت فورًا.",
+  "@bookingDetailsFacilityRefund": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsRefundFull": "الـ {amount} هترجع على نفس وسيلة الدفع.",
+  "@bookingDetailsRefundFull": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsRefundPartial": "هيرجع {refund} من {paid} على نفس وسيلة الدفع.",
+  "@bookingDetailsRefundPartial": {
+    "placeholders": {
+      "refund": {
+        "type": "String"
+      },
+      "paid": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsRefundNone": "مفيش مبلغ هيرجع.",
+  "bookingDetailsFreeCancelled": "الحجز كان مجاني، والمكان رجع متاح.",
+  "bookingDetailsPendingCancelled": "الحجز اتلغى ومفيش فلوس اتسحبت.",
+  "bookingTicketSpoken": "حجز {status}، {facility}، {date}",
+  "@bookingTicketSpoken": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      },
+      "facility": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelDialogTitle": "إلغاء الحجز؟",
+  "cancelActionConfirm": "إلغاء الحجز",
+  "cancelActionBack": "الرجوع",
+  "cancelMessageFull": "هترجع {amount} كاملة على نفس وسيلة الدفع.",
+  "@cancelMessageFull": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelMessagePartial": "هيرجع {refund} من {paid} على نفس وسيلة الدفع.",
+  "@cancelMessagePartial": {
+    "placeholders": {
+      "refund": {
+        "type": "String"
+      },
+      "paid": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelMessageNone": "الإلغاء دلوقتي من غير استرداد، ومفيش مبلغ هيرجع.",
+  "cancelMessageFree": "الحجز مجاني، فمفيش مبلغ يرجع. المكان هيرجع متاح لغيرك.",
+  "cancelMessagePending": "هنلغي الحجز ومفيش فلوس اتسحبت.",
+  "cancelClosedTitle": "فات وقت الإلغاء",
+  "cancelClosedBody": "الإلغاء كان متاح لحد {when}.",
+  "@cancelClosedBody": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelAlreadyTitle": "الحجز ده اتلغى قبل كده",
+  "cancelFailed": "الإلغاء ماتمش والحجز زي ما هو.",
+  "cancelNotAllowedBody": "الحجز ده مينفعش يتلغي دلوقتي.",
+  "cancelResultTitle": "الحجز اتلغى",
+  "cancelResultBack": "العودة للحجوزات"
 }

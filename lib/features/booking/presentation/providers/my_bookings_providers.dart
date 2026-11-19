@@ -8,6 +8,7 @@ import 'package:sprint/core/time/clock_provider.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/domain/cancel_preview.dart';
 import 'package:sprint/features/booking/domain/unit_settings.dart';
+import 'package:sprint/features/booking/presentation/bookings/booking_row_data.dart';
 import 'package:sprint/features/catalogue/domain/bookable_unit.dart';
 import 'package:sprint/features/catalogue/domain/facility.dart';
 import 'package:sprint/features/catalogue/domain/trainer.dart';
@@ -50,6 +51,44 @@ Future<List<Booking>> myBookings(Ref ref, BookingSegment segment) async {
         : b.start.compareTo(a.start),
   );
   return picked;
+}
+
+/// The same lists with the names each row shows: facility, unit and trainer.
+@riverpod
+Future<List<BookingRowInfo>> myBookingRows(
+  Ref ref,
+  BookingSegment segment,
+) async {
+  final list = await ref.watch(myBookingsProvider(segment).future);
+  final catalogue = ref.watch(catalogueRepositoryProvider);
+  final identity = ref.watch(identityRepositoryProvider);
+  final facilities = <String, String>{};
+  final units = <String, String>{};
+  final trainerNames = <String, String?>{};
+  final out = <BookingRowInfo>[];
+  for (final b in list) {
+    facilities[b.facilityId] ??=
+        (await catalogue.getFacility(b.facilityId))?.name ?? '';
+    units[b.unitId] ??= (await catalogue.getUnit(b.unitId))?.name ?? '';
+    String? trainerName;
+    if (b.trainerId != null) {
+      if (!trainerNames.containsKey(b.trainerId)) {
+        String? name;
+        for (final t in await catalogue.trainers(b.facilityId)) {
+          if (t.id == b.trainerId) name = (await identity.getUser(t.userId))?.name;
+        }
+        trainerNames[b.trainerId!] = name;
+      }
+      trainerName = trainerNames[b.trainerId];
+    }
+    out.add(BookingRowInfo(
+      booking: b,
+      facilityName: facilities[b.facilityId]!,
+      unitName: units[b.unitId]!,
+      trainerName: trainerName,
+    ));
+  }
+  return out;
 }
 
 /// Everything the details screen shows about one booking.

@@ -190,4 +190,8 @@ abstract final class SprintExtras {
 
   /// Search clear button and its icon.
   static const double searchClearTarget = 48;
+
+  /// List pane of "حجوزاتي" from the expanded and the large class.
+  static const double bookingsListPaneExpanded = 360;
+  static const double bookingsListPaneLarge = 400;
 }

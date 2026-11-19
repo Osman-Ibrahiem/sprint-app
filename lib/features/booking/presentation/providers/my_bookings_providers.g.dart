@@ -102,6 +102,96 @@ final class MyBookingsFamily extends $Family
   String toString() => r'myBookingsProvider';
 }
 
+/// The same lists with the names each row shows: facility, unit and trainer.
+
+@ProviderFor(myBookingRows)
+final myBookingRowsProvider = MyBookingRowsFamily._();
+
+/// The same lists with the names each row shows: facility, unit and trainer.
+
+final class MyBookingRowsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<BookingRowInfo>>,
+          List<BookingRowInfo>,
+          FutureOr<List<BookingRowInfo>>
+        >
+    with
+        $FutureModifier<List<BookingRowInfo>>,
+        $FutureProvider<List<BookingRowInfo>> {
+  /// The same lists with the names each row shows: facility, unit and trainer.
+  MyBookingRowsProvider._({
+    required MyBookingRowsFamily super.from,
+    required BookingSegment super.argument,
+  }) : super(
+         retry: null,
+         name: r'myBookingRowsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$myBookingRowsHash();
+
+  @override
+  String toString() {
+    return r'myBookingRowsProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<List<BookingRowInfo>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<BookingRowInfo>> create(Ref ref) {
+    final argument = this.argument as BookingSegment;
+    return myBookingRows(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is MyBookingRowsProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$myBookingRowsHash() => r'092115d95243c18cfd41d5139911be6afb131f40';
+
+/// The same lists with the names each row shows: facility, unit and trainer.
+
+final class MyBookingRowsFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<List<BookingRowInfo>>,
+          BookingSegment
+        > {
+  MyBookingRowsFamily._()
+    : super(
+        retry: null,
+        name: r'myBookingRowsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// The same lists with the names each row shows: facility, unit and trainer.
+
+  MyBookingRowsProvider call(BookingSegment segment) =>
+      MyBookingRowsProvider._(argument: segment, from: this);
+
+  @override
+  String toString() => r'myBookingRowsProvider';
+}
+
 /// The details of one booking of the signed-in person, or null when it does
 /// not exist or is somebody else's (FR-009: nothing is revealed). Reloads when
 /// bookings, payments or the minute change.

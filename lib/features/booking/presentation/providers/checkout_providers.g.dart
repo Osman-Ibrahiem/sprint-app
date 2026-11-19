@@ -879,7 +879,7 @@ final class HoldHousekeepingProvider
   }
 }
 
-String _$holdHousekeepingHash() => r'f4314895a77c9889ec48bc8eeb05c309e794ed56';
+String _$holdHousekeepingHash() => r'c2ff73b1418fd54273837861ef9452d21e53f010';
 
 /// The checkout location of the booking a provider session belongs to, when
 /// the signed-in person has such a booking (a session the fake no longer

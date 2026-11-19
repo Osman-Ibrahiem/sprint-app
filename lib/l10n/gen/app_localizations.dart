@@ -4138,6 +4138,433 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'كل المنشآت'**
   String get catalogueFacilitiesTitle;
+
+  /// No description provided for @bookingsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجوزاتي'**
+  String get bookingsTitle;
+
+  /// No description provided for @bookingsSegmentUpcoming.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجاية ({count})'**
+  String bookingsSegmentUpcoming(int count);
+
+  /// No description provided for @bookingsSegmentUpcomingPlain.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجاية'**
+  String get bookingsSegmentUpcomingPlain;
+
+  /// No description provided for @bookingsSegmentPast.
+  ///
+  /// In ar, this message translates to:
+  /// **'اللي فاتت'**
+  String get bookingsSegmentPast;
+
+  /// No description provided for @bookingsSegmentUpcomingSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجاية، {count, plural, =1{حجز واحد} =2{حجزين} other{{count} حجوزات}}'**
+  String bookingsSegmentUpcomingSpoken(int count);
+
+  /// No description provided for @bookingsEmptyTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'لسه مفيش حجوزات.'**
+  String get bookingsEmptyTitle;
+
+  /// No description provided for @bookingsEmptyBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنشآت مستنياك'**
+  String get bookingsEmptyBody;
+
+  /// No description provided for @bookingsUpcomingEmptyTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش حجوزات جاية'**
+  String get bookingsUpcomingEmptyTitle;
+
+  /// No description provided for @bookingsUpcomingEmptyBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجوزاتك القديمة موجودة في \"اللي فاتت\".'**
+  String get bookingsUpcomingEmptyBody;
+
+  /// No description provided for @bookingsPastEmptyTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش حجوزات سابقة'**
+  String get bookingsPastEmptyTitle;
+
+  /// No description provided for @bookingsBrowse.
+  ///
+  /// In ar, this message translates to:
+  /// **'استعراض المنشآت'**
+  String get bookingsBrowse;
+
+  /// No description provided for @bookingsNoneSelected.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش حجز محدد'**
+  String get bookingsNoneSelected;
+
+  /// No description provided for @bookingsActionTicket.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض التذكرة'**
+  String get bookingsActionTicket;
+
+  /// No description provided for @bookingsActionPay.
+  ///
+  /// In ar, this message translates to:
+  /// **'إكمال الدفع'**
+  String get bookingsActionPay;
+
+  /// No description provided for @bookingsActionDetails.
+  ///
+  /// In ar, this message translates to:
+  /// **'التفاصيل'**
+  String get bookingsActionDetails;
+
+  /// No description provided for @bookingsToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'النهارده'**
+  String get bookingsToday;
+
+  /// No description provided for @bookingsNoteFree.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجاني'**
+  String get bookingsNoteFree;
+
+  /// No description provided for @bookingsNoteTrainer.
+  ///
+  /// In ar, this message translates to:
+  /// **'مع {name}'**
+  String bookingsNoteTrainer(String name);
+
+  /// No description provided for @bookingsNoteHold.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{فاضل دقيقة للدفع} =2{فاضل دقيقتين للدفع} other{فاضل {count} دقايق للدفع}}'**
+  String bookingsNoteHold(int count);
+
+  /// No description provided for @bookingsRowSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'{status}، {date}، {facility}، {notes}، رقم الحجز {code}، {action}'**
+  String bookingsRowSpoken(
+    String status,
+    String date,
+    String facility,
+    String notes,
+    String code,
+    String action,
+  );
+
+  /// No description provided for @bookingsLoadError.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقدرناش نحمّل حجوزاتك.'**
+  String get bookingsLoadError;
+
+  /// No description provided for @bookingsRetry.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة المحاولة'**
+  String get bookingsRetry;
+
+  /// No description provided for @bookingDetailsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفاصيل الحجز'**
+  String get bookingDetailsTitle;
+
+  /// No description provided for @bookingDetailsNotFoundTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز مش موجود'**
+  String get bookingDetailsNotFoundTitle;
+
+  /// No description provided for @bookingDetailsNotFoundBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'مش لاقيين الحجز ده في حجوزاتك.'**
+  String get bookingDetailsNotFoundBody;
+
+  /// No description provided for @bookingDetailsBackToBookings.
+  ///
+  /// In ar, this message translates to:
+  /// **'العودة للحجوزات'**
+  String get bookingDetailsBackToBookings;
+
+  /// No description provided for @bookingDetailsTier.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشريحة'**
+  String get bookingDetailsTier;
+
+  /// No description provided for @bookingDetailsTierInternal.
+  ///
+  /// In ar, this message translates to:
+  /// **'داخلي'**
+  String get bookingDetailsTierInternal;
+
+  /// No description provided for @bookingDetailsTierExternal.
+  ///
+  /// In ar, this message translates to:
+  /// **'خارجي'**
+  String get bookingDetailsTierExternal;
+
+  /// No description provided for @bookingDetailsPaid.
+  ///
+  /// In ar, this message translates to:
+  /// **'المدفوع'**
+  String get bookingDetailsPaid;
+
+  /// No description provided for @bookingDetailsAmount.
+  ///
+  /// In ar, this message translates to:
+  /// **'المبلغ'**
+  String get bookingDetailsAmount;
+
+  /// No description provided for @bookingDetailsRequired.
+  ///
+  /// In ar, this message translates to:
+  /// **'المطلوب'**
+  String get bookingDetailsRequired;
+
+  /// No description provided for @bookingDetailsNotPaid.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما اتدفعش'**
+  String get bookingDetailsNotPaid;
+
+  /// No description provided for @bookingDetailsPrice.
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر'**
+  String get bookingDetailsPrice;
+
+  /// No description provided for @bookingDetailsFree.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجاني'**
+  String get bookingDetailsFree;
+
+  /// No description provided for @bookingDetailsCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الحجز'**
+  String get bookingDetailsCode;
+
+  /// No description provided for @bookingDetailsCancel.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء الحجز'**
+  String get bookingDetailsCancel;
+
+  /// No description provided for @bookingDetailsPay.
+  ///
+  /// In ar, this message translates to:
+  /// **'إكمال الدفع · {amount}'**
+  String bookingDetailsPay(String amount);
+
+  /// No description provided for @bookingDetailsReceipt.
+  ///
+  /// In ar, this message translates to:
+  /// **'إيصال الدفع'**
+  String get bookingDetailsReceipt;
+
+  /// No description provided for @bookingDetailsHoldTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المكان متحجز لك'**
+  String get bookingDetailsHoldTitle;
+
+  /// No description provided for @bookingDetailsHoldSub.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{فاضل دقيقة للدفع، وبعدها المكان يرجع متاح} =2{فاضل دقيقتين للدفع، وبعدها المكان يرجع متاح} other{فاضل {count} دقايق للدفع، وبعدها المكان يرجع متاح}}'**
+  String bookingDetailsHoldSub(int count);
+
+  /// No description provided for @bookingDetailsAfterCutoff.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإلغاء كان متاح لحد {when}، وبعده زرار الإلغاء بيختفي.'**
+  String bookingDetailsAfterCutoff(String when);
+
+  /// No description provided for @bookingDetailsAttended.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تسجيل حضورك. شكرًا لاستخدامك سبرنت'**
+  String get bookingDetailsAttended;
+
+  /// No description provided for @bookingDetailsNoShow.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز ده عدّى من غير حضور. مفيش أي رسوم أو عقوبة'**
+  String get bookingDetailsNoShow;
+
+  /// No description provided for @bookingDetailsExpired.
+  ///
+  /// In ar, this message translates to:
+  /// **'المهلة خلصت من غير دفع، والمكان رجع متاح'**
+  String get bookingDetailsExpired;
+
+  /// No description provided for @bookingDetailsCancelledByYou.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز اتلغى.'**
+  String get bookingDetailsCancelledByYou;
+
+  /// No description provided for @bookingDetailsCancelledByFacility.
+  ///
+  /// In ar, this message translates to:
+  /// **'لغته إدارة المنشأة.'**
+  String get bookingDetailsCancelledByFacility;
+
+  /// No description provided for @bookingDetailsCancelReason.
+  ///
+  /// In ar, this message translates to:
+  /// **'السبب: {reason}'**
+  String bookingDetailsCancelReason(String reason);
+
+  /// No description provided for @bookingDetailsFacilityRefund.
+  ///
+  /// In ar, this message translates to:
+  /// **'الـ {amount} رجعت كاملة، واتبلّغت فورًا.'**
+  String bookingDetailsFacilityRefund(String amount);
+
+  /// No description provided for @bookingDetailsRefundFull.
+  ///
+  /// In ar, this message translates to:
+  /// **'الـ {amount} هترجع على نفس وسيلة الدفع.'**
+  String bookingDetailsRefundFull(String amount);
+
+  /// No description provided for @bookingDetailsRefundPartial.
+  ///
+  /// In ar, this message translates to:
+  /// **'هيرجع {refund} من {paid} على نفس وسيلة الدفع.'**
+  String bookingDetailsRefundPartial(String refund, String paid);
+
+  /// No description provided for @bookingDetailsRefundNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش مبلغ هيرجع.'**
+  String get bookingDetailsRefundNone;
+
+  /// No description provided for @bookingDetailsFreeCancelled.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز كان مجاني، والمكان رجع متاح.'**
+  String get bookingDetailsFreeCancelled;
+
+  /// No description provided for @bookingDetailsPendingCancelled.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز اتلغى ومفيش فلوس اتسحبت.'**
+  String get bookingDetailsPendingCancelled;
+
+  /// No description provided for @bookingTicketSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجز {status}، {facility}، {date}'**
+  String bookingTicketSpoken(String status, String facility, String date);
+
+  /// No description provided for @cancelDialogTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء الحجز؟'**
+  String get cancelDialogTitle;
+
+  /// No description provided for @cancelActionConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء الحجز'**
+  String get cancelActionConfirm;
+
+  /// No description provided for @cancelActionBack.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرجوع'**
+  String get cancelActionBack;
+
+  /// No description provided for @cancelMessageFull.
+  ///
+  /// In ar, this message translates to:
+  /// **'هترجع {amount} كاملة على نفس وسيلة الدفع.'**
+  String cancelMessageFull(String amount);
+
+  /// No description provided for @cancelMessagePartial.
+  ///
+  /// In ar, this message translates to:
+  /// **'هيرجع {refund} من {paid} على نفس وسيلة الدفع.'**
+  String cancelMessagePartial(String refund, String paid);
+
+  /// No description provided for @cancelMessageNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإلغاء دلوقتي من غير استرداد، ومفيش مبلغ هيرجع.'**
+  String get cancelMessageNone;
+
+  /// No description provided for @cancelMessageFree.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز مجاني، فمفيش مبلغ يرجع. المكان هيرجع متاح لغيرك.'**
+  String get cancelMessageFree;
+
+  /// No description provided for @cancelMessagePending.
+  ///
+  /// In ar, this message translates to:
+  /// **'هنلغي الحجز ومفيش فلوس اتسحبت.'**
+  String get cancelMessagePending;
+
+  /// No description provided for @cancelClosedTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'فات وقت الإلغاء'**
+  String get cancelClosedTitle;
+
+  /// No description provided for @cancelClosedBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإلغاء كان متاح لحد {when}.'**
+  String cancelClosedBody(String when);
+
+  /// No description provided for @cancelAlreadyTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز ده اتلغى قبل كده'**
+  String get cancelAlreadyTitle;
+
+  /// No description provided for @cancelFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإلغاء ماتمش والحجز زي ما هو.'**
+  String get cancelFailed;
+
+  /// No description provided for @cancelNotAllowedBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز ده مينفعش يتلغي دلوقتي.'**
+  String get cancelNotAllowedBody;
+
+  /// No description provided for @cancelResultTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز اتلغى'**
+  String get cancelResultTitle;
+
+  /// No description provided for @cancelResultBack.
+  ///
+  /// In ar, this message translates to:
+  /// **'العودة للحجوزات'**
+  String get cancelResultBack;
 }
 
 class _AppLocalizationsDelegate

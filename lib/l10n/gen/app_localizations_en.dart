@@ -2476,4 +2476,282 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get catalogueFacilitiesTitle => 'All facilities';
+
+  @override
+  String get bookingsTitle => 'My bookings';
+
+  @override
+  String bookingsSegmentUpcoming(int count) {
+    return 'Upcoming ($count)';
+  }
+
+  @override
+  String get bookingsSegmentUpcomingPlain => 'Upcoming';
+
+  @override
+  String get bookingsSegmentPast => 'Past';
+
+  @override
+  String bookingsSegmentUpcomingSpoken(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count bookings',
+      one: '1 booking',
+    );
+    return 'Upcoming, $_temp0';
+  }
+
+  @override
+  String get bookingsEmptyTitle => 'No bookings yet.';
+
+  @override
+  String get bookingsEmptyBody => 'The facilities are waiting for you';
+
+  @override
+  String get bookingsUpcomingEmptyTitle => 'No upcoming bookings';
+
+  @override
+  String get bookingsUpcomingEmptyBody =>
+      'Your older bookings are under \"Past\".';
+
+  @override
+  String get bookingsPastEmptyTitle => 'No past bookings';
+
+  @override
+  String get bookingsBrowse => 'Browse facilities';
+
+  @override
+  String get bookingsNoneSelected => 'No booking selected';
+
+  @override
+  String get bookingsActionTicket => 'View ticket';
+
+  @override
+  String get bookingsActionPay => 'Complete payment';
+
+  @override
+  String get bookingsActionDetails => 'Details';
+
+  @override
+  String get bookingsToday => 'Today';
+
+  @override
+  String get bookingsNoteFree => 'Free';
+
+  @override
+  String bookingsNoteTrainer(String name) {
+    return 'With $name';
+  }
+
+  @override
+  String bookingsNoteHold(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes left to pay',
+      one: '1 minute left to pay',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bookingsRowSpoken(
+    String status,
+    String date,
+    String facility,
+    String notes,
+    String code,
+    String action,
+  ) {
+    return '$status, $date, $facility, $notes, booking number $code, $action';
+  }
+
+  @override
+  String get bookingsLoadError => 'We could not load your bookings.';
+
+  @override
+  String get bookingsRetry => 'Try again';
+
+  @override
+  String get bookingDetailsTitle => 'Booking details';
+
+  @override
+  String get bookingDetailsNotFoundTitle => 'Booking not found';
+
+  @override
+  String get bookingDetailsNotFoundBody =>
+      'We could not find this booking in your bookings.';
+
+  @override
+  String get bookingDetailsBackToBookings => 'Back to bookings';
+
+  @override
+  String get bookingDetailsTier => 'Tier';
+
+  @override
+  String get bookingDetailsTierInternal => 'Internal';
+
+  @override
+  String get bookingDetailsTierExternal => 'External';
+
+  @override
+  String get bookingDetailsPaid => 'Paid';
+
+  @override
+  String get bookingDetailsAmount => 'Amount';
+
+  @override
+  String get bookingDetailsRequired => 'Due';
+
+  @override
+  String get bookingDetailsNotPaid => 'Not paid';
+
+  @override
+  String get bookingDetailsPrice => 'Price';
+
+  @override
+  String get bookingDetailsFree => 'Free';
+
+  @override
+  String get bookingDetailsCode => 'Booking number';
+
+  @override
+  String get bookingDetailsCancel => 'Cancel booking';
+
+  @override
+  String bookingDetailsPay(String amount) {
+    return 'Complete payment · $amount';
+  }
+
+  @override
+  String get bookingDetailsReceipt => 'Payment receipt';
+
+  @override
+  String get bookingDetailsHoldTitle => 'The place is held for you';
+
+  @override
+  String bookingDetailsHoldSub(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes left to pay, then the place is open again',
+      one: '1 minute left to pay, then the place is open again',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bookingDetailsAfterCutoff(String when) {
+    return 'Cancelling was open until $when; after that the button goes away.';
+  }
+
+  @override
+  String get bookingDetailsAttended =>
+      'Your attendance is recorded. Thanks for using Sprint';
+
+  @override
+  String get bookingDetailsNoShow =>
+      'This booking passed without attendance. There are no fees or penalties';
+
+  @override
+  String get bookingDetailsExpired =>
+      'The hold ran out without payment, and the place is open again';
+
+  @override
+  String get bookingDetailsCancelledByYou => 'The booking was cancelled.';
+
+  @override
+  String get bookingDetailsCancelledByFacility => 'The facility cancelled it.';
+
+  @override
+  String bookingDetailsCancelReason(String reason) {
+    return 'Reason: $reason';
+  }
+
+  @override
+  String bookingDetailsFacilityRefund(String amount) {
+    return 'The full $amount is refunded, and you were told right away.';
+  }
+
+  @override
+  String bookingDetailsRefundFull(String amount) {
+    return 'The $amount goes back to the same payment method.';
+  }
+
+  @override
+  String bookingDetailsRefundPartial(String refund, String paid) {
+    return '$refund of $paid goes back to the same payment method.';
+  }
+
+  @override
+  String get bookingDetailsRefundNone => 'No money goes back.';
+
+  @override
+  String get bookingDetailsFreeCancelled =>
+      'The booking was free, and the place is open again.';
+
+  @override
+  String get bookingDetailsPendingCancelled =>
+      'The booking was cancelled and nothing was charged.';
+
+  @override
+  String bookingTicketSpoken(String status, String facility, String date) {
+    return 'Booking $status, $facility, $date';
+  }
+
+  @override
+  String get cancelDialogTitle => 'Cancel this booking?';
+
+  @override
+  String get cancelActionConfirm => 'Cancel booking';
+
+  @override
+  String get cancelActionBack => 'Go back';
+
+  @override
+  String cancelMessageFull(String amount) {
+    return 'The full $amount goes back to the same payment method.';
+  }
+
+  @override
+  String cancelMessagePartial(String refund, String paid) {
+    return '$refund of $paid goes back to the same payment method.';
+  }
+
+  @override
+  String get cancelMessageNone =>
+      'Cancelling now is without a refund, and no money goes back.';
+
+  @override
+  String get cancelMessageFree =>
+      'The booking is free, so no money goes back. The place opens up for others.';
+
+  @override
+  String get cancelMessagePending =>
+      'We cancel the booking and nothing was charged.';
+
+  @override
+  String get cancelClosedTitle => 'The cancellation time has passed';
+
+  @override
+  String cancelClosedBody(String when) {
+    return 'Cancelling was open until $when.';
+  }
+
+  @override
+  String get cancelAlreadyTitle => 'This booking was already cancelled';
+
+  @override
+  String get cancelFailed =>
+      'The cancellation did not go through and the booking is unchanged.';
+
+  @override
+  String get cancelNotAllowedBody => 'This booking cannot be cancelled now.';
+
+  @override
+  String get cancelResultTitle => 'Booking cancelled';
+
+  @override
+  String get cancelResultBack => 'Back to bookings';
 }
