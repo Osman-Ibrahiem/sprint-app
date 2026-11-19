@@ -1789,5 +1789,16 @@
   "searchClearRecents": "مسح الكل",
   "searchCancel": "إلغاء",
   "searchNoResultsTitle": "مفيش نتايج",
-  "searchNoResultsBody": "مفيش منشأة بالاسم ده. جرّب كلمة تانية."
+  "searchNoResultsBody": "مفيش منشأة بالاسم ده. جرّب كلمة تانية.",
+  "notifReminderBodyLead": "الحجز {code} بيبدأ بعد {lead}.",
+  "@notifReminderBodyLead": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      },
+      "lead": {
+        "type": "String"
+      }
+    }
+  }
 }

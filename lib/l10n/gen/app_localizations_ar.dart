@@ -2920,4 +2920,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get searchNoResultsBody => 'مفيش منشأة بالاسم ده. جرّب كلمة تانية.';
+
+  @override
+  String notifReminderBodyLead(String code, String lead) {
+    return 'الحجز $code بيبدأ بعد $lead.';
+  }
 }

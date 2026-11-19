@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +23,7 @@ import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/features/booking/presentation/widgets/empty_state.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/presentation/cancel/cancel_dialog.dart';
+import 'package:sprint/features/booking/presentation/lead_time_text.dart';
 import 'package:sprint/features/booking/presentation/providers/my_bookings_providers.dart';
 import 'package:sprint/features/notifications/domain/notification.dart';
 import 'package:sprint/features/notifications/presentation/permission_dialog.dart';
@@ -46,9 +49,22 @@ class NotificationsScreen extends ConsumerStatefulWidget {
 }
 
 class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
+  Timer? _tick;
+
+  @override
+  void dispose() {
+    _tick?.cancel();
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
+    // Reminders decide the cancel action at display time, so re-read the
+    // clock-dependent previews as it moves (BR-40).
+    _tick = Timer.periodic(SprintExtras.detailsRefreshPeriod, (_) {
+      if (mounted) ref.invalidate(bookingDetailsProvider);
+    });
     // The first visit to the centre is the first notification step.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) maybeAskNotificationPermission(context, ref);
@@ -195,6 +211,13 @@ class NotificationTile extends ConsumerWidget {
     if (n.kind == NotificationKind.bookingReminder && bookingId != null) {
       final d = ref.watch(bookingDetailsProvider(bookingId)).value;
       if (d != null && d.booking.status == BookingStatus.confirmed) {
+        body = AppLocalizations.of(context).notifReminderBodyLead(
+          n.payload['code'] ?? '',
+          leadTimeText(
+            AppLocalizations.of(context),
+            d.settings.reminderLeadMinutes,
+          ),
+        );
         if (d.cancelPreview.canCancel) {
           actions = SprintButton(
             key: reminderCancelKey,

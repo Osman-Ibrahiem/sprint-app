@@ -4913,6 +4913,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'مفيش منشأة بالاسم ده. جرّب كلمة تانية.'**
   String get searchNoResultsBody;
+
+  /// No description provided for @notifReminderBodyLead.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز {code} بيبدأ بعد {lead}.'**
+  String notifReminderBodyLead(String code, String lead);
 }
 
 class _AppLocalizationsDelegate

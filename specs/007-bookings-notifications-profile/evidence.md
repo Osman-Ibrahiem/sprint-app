@@ -46,6 +46,12 @@ Web release build served locally, 390 wide, Arabic, dark (system), driven throug
 - **Bug found and fixed**: the permission dialog (Apple-style alert on web) drew Arabic as boxes because the Cupertino alert used its own font. Fixed by setting the Cairo styles explicitly in `showSprintDialog` (commit "fix(adaptive): Cairo text in the Cupertino dialog"); the rebuilt page was not re-checked by eye.
 - **Not walked**: desktop 1440, English, light theme, details and cancel on the page, pending payment, `/demo` reminder and facility cancel, account and edit profile, search, resize and fold, keyboard-only, iOS simulator. The browser session lost the demo user on reload, so these are covered by the widget and acceptance tests only. No screenshots were saved to the repo.
 
+## Reminders follow-up (T063, T064, T068)
+
+- Card: the reminder body now carries the lead in words from `reminderLeadMinutes` (`notifReminderBodyLead` with `leadTimeText`), and the screen re-reads the clock every `detailsRefreshPeriod` so the cancel action disappears when the cutoff passes.
+- `test/features/notifications/presentation/reminder_card_test.dart` (moving clock: cancel before the cutoff opens the dialog; after it the action goes, a line shows and the card opens the booking; cancelled booking keeps the card without the action; lead words follow the setting; one record however often the checker runs) and `test/acceptance/us13_reminder_test.dart` (scenarios 1, 2, 4, 5; scenario 3 is in the card test).
+- Test note: a repository write made inside `runAsync` reaches the card only after the details are re-read, so the cancelled-booking test invalidates and reads them explicitly.
+
 ## Not tested yet
 
 Everything below this line is filled in by the stage that ran it: Phase 1–2,

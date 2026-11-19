@@ -1785,5 +1785,16 @@
   "searchClearRecents": "Clear all",
   "searchCancel": "Cancel",
   "searchNoResultsTitle": "No results",
-  "searchNoResultsBody": "No facility matches. Try another word."
+  "searchNoResultsBody": "No facility matches. Try another word.",
+  "notifReminderBodyLead": "Booking {code} starts in {lead}.",
+  "@notifReminderBodyLead": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      },
+      "lead": {
+        "type": "String"
+      }
+    }
+  }
 }

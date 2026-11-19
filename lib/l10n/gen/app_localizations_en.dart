@@ -2949,4 +2949,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchNoResultsBody => 'No facility matches. Try another word.';
+
+  @override
+  String notifReminderBodyLead(String code, String lead) {
+    return 'Booking $code starts in $lead.';
+  }
 }
