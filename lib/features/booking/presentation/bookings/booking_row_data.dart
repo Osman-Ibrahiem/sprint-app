@@ -61,9 +61,15 @@ class BookingRowTexts {
     final start = CairoTime.toCairo(b.start);
     final end = CairoTime.toCairo(b.end);
     final isToday = cairoDayOf(b.start) == cairoDayOf(now);
-    final date = isToday
+    final rawDate = isToday
         ? '${l10n.bookingsToday} · ${format.timeRange(start, end)}'
         : format.dateTimeLine(start, end);
+    // A no-break space before the last word, so "م" never sits alone on a
+    // line.
+    final date = rawDate.replaceFirstMapped(
+      RegExp(r' (\S+)$'),
+      (m) => '\u00A0${m[1]}',
+    );
 
     final notes = <String>[
       info.unitName,

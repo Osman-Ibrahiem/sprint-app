@@ -272,10 +272,7 @@ void main() {
   group('Banner', () {
     testWidgets('every tone shows its text and an icon', (tester) async {
       for (final tone in BannerTone.values) {
-        await pumpWidgetUnder(
-          tester,
-          Banner(tone: tone, text: 'الحجز اتلغى'),
-        );
+        await pumpWidgetUnder(tester, Banner(tone: tone, text: 'الحجز اتلغى'));
         expect(find.text('الحجز اتلغى'), findsOneWidget, reason: '$tone');
         expect(find.byType(Icon), findsOneWidget, reason: '$tone');
         expect(
@@ -300,8 +297,9 @@ void main() {
   });
 
   group('SprintPopover', () {
-    testWidgets('rows are 48 high, select returns the value, Escape closes',
-        (tester) async {
+    testWidgets('rows are 48 high, select returns the value, Escape closes', (
+      tester,
+    ) async {
       String? chosen = 'unset';
       await pumpWidgetUnder(
         tester,
@@ -341,8 +339,9 @@ void main() {
   });
 
   group('SprintTextField locked and search', () {
-    testWidgets('locked shows the value read-only with a lock and the helper',
-        (tester) async {
+    testWidgets('locked shows the value read-only with a lock and the helper', (
+      tester,
+    ) async {
       await pumpWidgetUnder(
         tester,
         const SprintTextField(
@@ -355,7 +354,10 @@ void main() {
       );
       expect(find.text('mona@tanta.edu.eg'), findsOneWidget);
       expect(find.byKey(SprintTextField.lockIconKey), findsOneWidget);
-      expect(find.text('مربوط بتسجيل الدخول ومش بيتعدل من هنا'), findsOneWidget);
+      expect(
+        find.text('مربوط بتسجيل الدخول ومش بيتعدل من هنا'),
+        findsOneWidget,
+      );
       expect(find.byType(TextField), findsNothing);
       expect(
         tester.getSize(find.byKey(SprintTextField.fieldKey)).height,
@@ -363,34 +365,38 @@ void main() {
       );
     });
 
-    testWidgets('search: clear button (48) only when filled, plus cancel slot',
-        (tester) async {
-      final c = TextEditingController();
-      var cleared = 0;
-      var cancelled = 0;
-      await pumpWidgetUnder(
-        tester,
-        SprintTextField(
-          label: 'بحث',
-          type: SprintTextFieldType.search,
-          controller: c,
-          onClear: () => cleared++,
-          cancelLabel: 'إلغاء',
-          onCancel: () => cancelled++,
-        ),
-      );
-      expect(find.byKey(SprintTextField.clearKey), findsNothing);
-      await tester.enterText(find.byType(TextField), 'سباحة');
-      await tester.pump();
-      expect(tester.getSize(find.byKey(SprintTextField.clearKey)).shortestSide,
-          greaterThanOrEqualTo(48));
-      await tester.tap(find.byKey(SprintTextField.clearKey));
-      await tester.pump();
-      expect(c.text, isEmpty);
-      expect(cleared, 1);
-      await tester.tap(find.byKey(SprintTextField.cancelKey));
-      expect(cancelled, 1);
-    });
+    testWidgets(
+      'search: clear button (48) only when filled, plus cancel slot',
+      (tester) async {
+        final c = TextEditingController();
+        var cleared = 0;
+        var cancelled = 0;
+        await pumpWidgetUnder(
+          tester,
+          SprintTextField(
+            label: 'بحث',
+            type: SprintTextFieldType.search,
+            controller: c,
+            onClear: () => cleared++,
+            cancelLabel: 'إلغاء',
+            onCancel: () => cancelled++,
+          ),
+        );
+        expect(find.byKey(SprintTextField.clearKey), findsNothing);
+        await tester.enterText(find.byType(TextField), 'سباحة');
+        await tester.pump();
+        expect(
+          tester.getSize(find.byKey(SprintTextField.clearKey)).shortestSide,
+          greaterThanOrEqualTo(48),
+        );
+        await tester.tap(find.byKey(SprintTextField.clearKey));
+        await tester.pump();
+        expect(c.text, isEmpty);
+        expect(cleared, 1);
+        await tester.tap(find.byKey(SprintTextField.cancelKey));
+        expect(cancelled, 1);
+      },
+    );
   });
 
   testWidgets('real-shaped skeletons', (tester) async {
@@ -423,5 +429,48 @@ void main() {
       );
       expect(find.byType(StatusBadge), findsOneWidget, reason: '$status');
     }
+  });
+
+  group('BookingRow header (H3)', () {
+    Widget row() => BookingRow(
+      status: SprintStatus.confirmed,
+      facilityName: 'حمام السباحة',
+      notes: 'حارة 2',
+      dateLabel: 'الخميس 12 نوفمبر · 6:00 – 8:00 م',
+      isToday: false,
+      code: 'SP-1042',
+      action: 'عرض التذكرة',
+      onTap: () {},
+      semanticLabel: 'مؤكد',
+    );
+
+    for (final en in [false, true]) {
+      testWidgets(
+        'wide: date at the start, badge at the end (${en ? 'LTR' : 'RTL'})',
+        (t) async {
+          await pumpWidgetUnder(
+            t,
+            SizedBox(width: 380, child: row()),
+            locale: Locale(en ? 'en' : 'ar'),
+          );
+          final chip = t.getCenter(find.byKey(BookingRow.dateChipKey)).dx;
+          final badge = t.getCenter(find.byType(StatusBadge)).dx;
+          expect(en ? chip < badge : chip > badge, isTrue);
+        },
+      );
+    }
+
+    testWidgets('narrow: the badge keeps the end edge on its own line', (
+      t,
+    ) async {
+      await pumpWidgetUnder(t, SizedBox(width: 252, child: row()));
+      final badge = t.getRect(find.byType(StatusBadge));
+      final chip = t.getRect(find.byKey(BookingRow.dateChipKey));
+      final box = t.getRect(find.byType(BookingRow));
+      expect(badge.top, lessThan(chip.top));
+      // RTL: the end edge is the left one.
+      expect(badge.left - box.left, lessThan(24));
+      expect(box.right - chip.right, lessThan(24));
+    });
   });
 }

@@ -10,6 +10,7 @@ import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/status_badge/sprint_status.dart';
 import 'package:sprint/core/widgets/status_badge/status_badge.dart';
+import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// One booking in "حجوزاتي" (BookingRow README, FR-MYB-02). The whole row is
 /// the target. Plain values only: the caller builds [dateLabel], [notes] and
@@ -88,15 +89,13 @@ class BookingRow extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Wrap(
-            alignment: WrapAlignment.end,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: SprintSpacing.space2,
-            runSpacing: SprintSpacing.space2,
-            children: [
-              StatusBadge(status: status),
-              chip,
-            ],
+          _Header(
+            chip: chip,
+            badge: StatusBadge(status: status),
+            chipText: dateLabel,
+            chipStyle: text.label,
+            badgeText: status.label(AppLocalizations.of(context)),
+            badgeStyle: text.micro,
           ),
           const SizedBox(height: SprintSpacing.space2),
           Text(facilityName, style: text.headline.copyWith(color: colors.ink)),
@@ -154,6 +153,76 @@ class BookingRow extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// The date chip at the start and the status badge at the end of one line;
+/// when the two do not fit, the badge keeps the end edge on its own line and
+/// the chip goes under it at the start (BookingRow README, design QA H3).
+class _Header extends StatelessWidget {
+  const _Header({
+    required this.chip,
+    required this.badge,
+    required this.chipText,
+    required this.chipStyle,
+    required this.badgeText,
+    required this.badgeStyle,
+  });
+
+  final Widget chip;
+  final Widget badge;
+  final String chipText;
+  final TextStyle chipStyle;
+  final String badgeText;
+  final TextStyle badgeStyle;
+
+  double _textWidth(BuildContext context, String text, TextStyle style) {
+    final painter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: Directionality.of(context),
+      textScaler: MediaQuery.textScalerOf(context),
+      maxLines: 1,
+    )..layout();
+    return painter.width;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // chip: padding 2 x space3, gap space2, icon; badge: padding 2 x space3,
+    // gap space1, icon.
+    final chipWidth =
+        _textWidth(context, chipText, chipStyle) +
+        SprintSpacing.space3 * 2 +
+        SprintSpacing.space2 +
+        SprintSize.iconSm;
+    final badgeWidth =
+        _textWidth(context, badgeText, badgeStyle) +
+        SprintSpacing.space3 * 2 +
+        SprintSpacing.space1 +
+        SprintSize.iconSm;
+    return LayoutBuilder(
+      builder: (context, c) {
+        final fits =
+            chipWidth + badgeWidth + SprintSpacing.space2 <= c.maxWidth;
+        if (fits) {
+          return Row(
+            children: [
+              Flexible(child: chip),
+              const Spacer(),
+              badge,
+            ],
+          );
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Align(alignment: AlignmentDirectional.centerEnd, child: badge),
+            const SizedBox(height: SprintSpacing.space2),
+            Align(alignment: AlignmentDirectional.centerStart, child: chip),
+          ],
+        );
+      },
     );
   }
 }
