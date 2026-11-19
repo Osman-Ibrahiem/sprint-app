@@ -69,10 +69,10 @@ Build: `flutter build web --release --base-href /sprint-app/` served by `tool/se
 - Facilities: search field with "إلغاء" and the suggestions popover "الأكتر حجزًا" (two facilities).
 - Compact 375 wide, light: four tabs, bell with badge 3 in the header, list with "الجاية (5)" after the cancel.
 
-**Findings (open):**
-1. Account's verification card shows the masked national ID ("الرقم القومي: 0011*********") from feature 3's `VerificationSlot`; spec FR-023 and SC-008 say no national ID on the account screen (NFR-06 allows masked elsewhere). Decision needed: hide it here, or relax FR-023 to "never unmasked".
-2. In the wide details pane the "تفاصيل الحجز" title is drawn over the scrolled content (not clipped).
-3. The cancel dialog measures about 320 css px wide where `WideDialog` is specified at 400.
+**Findings (status after the fixes):**
+1. **Fixed**: `VerificationSlot` has `showNationalId` (default true for the old account card and review screens); `AccountScreen` passes false; test `account_screen_test.dart`. Original: account's verification card shows the masked national ID ("الرقم القومي: 0011*********") from feature 3's `VerificationSlot`; spec FR-023 and SC-008 say no national ID on the account screen (NFR-06 allows masked elsewhere). Decision needed: hide it here, or relax FR-023 to "never unmasked".
+2. **Fixed (defensive)**: heading on an opaque `bg` above a `ClipRect`ed scroll area; the widget test (`details_pane_scroll_test.dart`) already passed before the change, so the overlap could not be reproduced in tests, only seen on the web build; re-check by eye. Original: in the wide details pane the "تفاصيل الحجز" title is drawn over the scrolled content (not clipped).
+3. **Fixed**: `WideDialog` used `maxWidth: 400`, so it hugged its text; it is now exactly 400 (tests at 720 and 1024). Original: the cancel dialog measures about 320 css px wide where `WideDialog` is specified at 400.
 4. The facility master-detail placeholder "اختار منشأة تشوف تفاصيلها" is an imperative (feature 4, left for the Figma refactor).
 
 **Not walked:** typing in the search field (the browser tool's key events do not reach the Flutter text input; covered by `test/acceptance/us01_search_test.dart`), English, desktop 1440, light on wide, sign out, language and appearance popovers, resize and fold, keyboard-only, iOS simulator, `/demo` reminder and facility-cancel actions, pending-payment cancel, no screenshots saved to the repo (the tool returns images only).
