@@ -194,4 +194,8 @@ abstract final class SprintExtras {
   /// List pane of "حجوزاتي" from the expanded and the large class.
   static const double bookingsListPaneExpanded = 360;
   static const double bookingsListPaneLarge = 400;
+
+  /// How often an open booking's details re-read the clock (hold countdown,
+  /// cancellation cutoff); a presentation constant.
+  static const Duration detailsRefreshPeriod = Duration(seconds: 15);
 }

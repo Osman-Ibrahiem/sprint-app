@@ -75,7 +75,7 @@ class _BookingDetailsViewState extends ConsumerState<BookingDetailsView> {
     super.initState();
     // The hold countdown and the cutoff follow the clock; the repository
     // writes (no-show, expiry) already refresh the provider.
-    _tick = Timer.periodic(const Duration(seconds: 15), (_) {
+    _tick = Timer.periodic(SprintExtras.detailsRefreshPeriod, (_) {
       if (mounted) {
         ref.invalidate(bookingDetailsProvider(widget.bookingId));
         setState(() {});
