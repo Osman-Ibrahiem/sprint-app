@@ -71,20 +71,22 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
           .markAllRead(user.id, clock.now());
     }
 
-    final header = Row(
+    final header = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Semantics(
-            header: true,
-            child: Text(l10n.notificationsTitle, style: context.text.titleLg),
-          ),
+        Semantics(
+          header: true,
+          child: Text(l10n.notificationsTitle, style: context.text.titleLg),
         ),
         if (unread > 0)
-          SprintButton(
-            key: NotificationsScreen.markAllKey,
-            label: l10n.notificationsMarkAllRead,
-            variant: SprintButtonVariant.ghost,
-            onPressed: markAll,
+          Align(
+            alignment: AlignmentDirectional.centerEnd,
+            child: SprintButton(
+              key: NotificationsScreen.markAllKey,
+              label: l10n.notificationsMarkAllRead,
+              variant: SprintButtonVariant.ghost,
+              onPressed: markAll,
+            ),
           ),
       ],
     );
@@ -140,15 +142,16 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
               onPressed: () =>
                   context.canPop() ? context.pop() : context.go(AppPaths.home),
             ),
-            actions: [
-              if (unread > 0)
-                TextButton(
-                  key: NotificationsScreen.markAllKey,
-                  onPressed: markAll,
-                  child: Text(l10n.notificationsMarkAllRead),
-                ),
-            ],
           ),
+          if (unread > 0)
+            Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: TextButton(
+                key: NotificationsScreen.markAllKey,
+                onPressed: markAll,
+                child: Text(l10n.notificationsMarkAllRead),
+              ),
+            ),
           Expanded(child: body),
         ],
       );

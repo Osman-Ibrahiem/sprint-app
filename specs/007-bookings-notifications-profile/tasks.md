@@ -124,7 +124,7 @@ description: "Task list for feature 007 — my bookings, cancellation, notificat
 
 - [x] T053 [P] [US3] Write `test/features/booking/presentation/cancel/cancel_dialog_test.dart`: dialog text for `full`, `partial` ("هترجع X من Y ج.م" with X computed from `refundPercent`), `none`, `free` (no refund line); the refund line says "على نفس وسيلة الدفع" and promises no time; the dialog calls `previewCancel` on open and `cancel` re-checks: cutoff passed meanwhile → "فات وقت الإلغاء" and nothing changes; already cancelled → friendly "already cancelled" state; destructive action 48 high and last in reading order on wide; native dialog on compact per platform.
 - [x] T054 [US3] Create `lib/features/booking/presentation/cancel/` (`cancel_dialog.dart` through `showSprintDialog`, `cancel_wording.dart` mapping `CancelKind` to ARB keys with parameters, `cancel_result_screen.dart` for `/bookings/:bookingId/cancelled` with banner and refund line, "العودة للحجوزات"); `cancel_providers.dart` for the action state; the details screen's cancel action opens the dialog; strings `cancel*`.
-- [ ] T055 [US3] Facility cancel display: details and result show the cause ("لغته إدارة المنشأة"), 100% refund whatever the settings (BR-32) and "اتبلّغت فورًا" (BR-41); test in `test/features/booking/presentation/cancel/facility_cancel_view_test.dart`.
+- [x] T055 [US3] Facility cancel display: details and result show the cause ("لغته إدارة المنشأة"), 100% refund whatever the settings (BR-32) and "اتبلّغت فورًا" (BR-41); test in `test/features/booking/presentation/cancel/facility_cancel_view_test.dart`.
 - [x] T056 [US3] Acceptance test `test/acceptance/us13_cancel_test.dart` covering spec Story 3 scenarios 1–6, changing `refundPercent` and `cancellationCutoffHours` through the settings repository in the test.
 
 ---
@@ -133,9 +133,9 @@ description: "Task list for feature 007 — my bookings, cancellation, notificat
 
 **Goal**: BR-48 in the UI. **Independent test**: start a paid booking, cancel it from "حجوزاتي" while holding, and book the same place with another user at once.
 
-- [ ] T057 [P] [US4] Write `test/features/booking/presentation/cancel/pending_cancel_test.dart`: the action shows only in the details of a booking holding with no payment pending; short dialog ("هنلغي الحجز ومفيش فلوس اتسحبت") with no amount; after confirming the status is "اتلغى" (not "منتهي"), the place is bookable by another user immediately; with the fake provider set to delay and a payment processing the action is not offered; Hold ended meanwhile → expired state, no cancel.
-- [ ] T058 [US4] Implement the pending-cancel dialog, wording and state in `lib/features/booking/presentation/cancel/` and `details_actions.dart` over the repository's `cancel` for `pendingPayment`; strings.
-- [ ] T059 [US4] Acceptance test `test/acceptance/us13_pending_cancel_test.dart` covering spec Story 4 scenarios 1–3 including the release for another booker.
+- [x] T057 [P] [US4] Write `test/features/booking/presentation/cancel/pending_cancel_test.dart`: the action shows only in the details of a booking holding with no payment pending; short dialog ("هنلغي الحجز ومفيش فلوس اتسحبت") with no amount; after confirming the status is "اتلغى" (not "منتهي"), the place is bookable by another user immediately; with the fake provider set to delay and a payment processing the action is not offered; Hold ended meanwhile → expired state, no cancel.
+- [x] T058 [US4] Implement the pending-cancel dialog, wording and state in `lib/features/booking/presentation/cancel/` and `details_actions.dart` over the repository's `cancel` for `pendingPayment`; strings.
+- [x] T059 [US4] Acceptance test `test/acceptance/us13_pending_cancel_test.dart` covering spec Story 4 scenarios 1–3 including the release for another booker.
 
 ---
 
@@ -193,9 +193,9 @@ description: "Task list for feature 007 — my bookings, cancellation, notificat
 
 ## Phase 13: User Story 10 — Every size, language, theme and every branch on demand (P2)
 
-- [ ] T077 [P] [US10] `test/features/007_matrix_test.dart`: for each new screen (my bookings, details, cancel dialog and result, notifications, account, edit profile, search) pump at 390, 720, 1194 and 1440 wide, Arabic and English, light and dark, at text scale 2.0, asserting no overflow, 48 minimum targets (including links, popover rows, sidebar rows, clear buttons), visible focus ring on keyboard platforms, Arabic semantic labels, status always with word or icon; fold simulation (display feature) keeps selection.
-- [ ] T078 [P] [US10] `test/acceptance/us007_no_dead_ends_test.dart`: from Home, the four tabs, notifications, booking details, search and every `/demo` action, as guest and as booker, no route ends on a placeholder, "قريبًا" or a screen without a way back (FR-036, SC-009); `BookingsPlaceholder` and `ProfilePlaceholder` no longer exist.
-- [ ] T079 [US10] Fix whatever T077 and T078 find; keyboard-only walk on web for search, cancel dialog and notifications (Escape closes popover and dialogs, focus returns to the trigger).
+- [x] T077 [P] [US10] `test/features/007_matrix_test.dart`: for each new screen (my bookings, details, cancel dialog and result, notifications, account, edit profile, search) pump at 390, 720, 1194 and 1440 wide, Arabic and English, light and dark, at text scale 2.0, asserting no overflow, 48 minimum targets (including links, popover rows, sidebar rows, clear buttons), visible focus ring on keyboard platforms, Arabic semantic labels, status always with word or icon; fold simulation (display feature) keeps selection.
+- [x] T078 [P] [US10] `test/acceptance/us007_no_dead_ends_test.dart`: from Home, the four tabs, notifications, booking details, search and every `/demo` action, as guest and as booker, no route ends on a placeholder, "قريبًا" or a screen without a way back (FR-036, SC-009); `BookingsPlaceholder` and `ProfilePlaceholder` no longer exist.
+- [x] T079 [US10] Fix whatever T077 and T078 find; keyboard-only walk on web for search, cancel dialog and notifications (Escape closes popover and dialogs, focus returns to the trigger).
 
 ---
 

@@ -295,7 +295,14 @@ class _BookingTicketState extends State<BookingTicket> {
           style: context.text.body.copyWith(color: context.colors.inkMuted),
         ),
       ),
-      Text(value, style: context.text.bodyStrong),
+      const SizedBox(width: SprintSpacing.space2),
+      Flexible(
+        child: Text(
+          value,
+          textAlign: TextAlign.end,
+          style: context.text.bodyStrong,
+        ),
+      ),
     ],
   );
 

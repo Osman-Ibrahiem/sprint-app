@@ -104,9 +104,12 @@ class NotificationCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: SprintSpacing.space2),
-                    Text(
-                      time,
-                      style: text.caption.copyWith(color: colors.inkMuted),
+                    Flexible(
+                      child: Text(
+                        time,
+                        textAlign: TextAlign.end,
+                        style: text.caption.copyWith(color: colors.inkMuted),
+                      ),
                     ),
                   ],
                 ),

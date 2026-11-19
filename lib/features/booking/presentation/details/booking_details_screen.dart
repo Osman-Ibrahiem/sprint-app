@@ -212,9 +212,11 @@ class _TierRow extends StatelessWidget {
       key: BookingDetailsView.tierKey,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          l10n.bookingDetailsTier,
-          style: context.text.body.copyWith(color: colors.inkMuted),
+        Expanded(
+          child: Text(
+            l10n.bookingDetailsTier,
+            style: context.text.body.copyWith(color: colors.inkMuted),
+          ),
         ),
         Text(
           internal
