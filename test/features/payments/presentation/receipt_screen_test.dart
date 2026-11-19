@@ -15,6 +15,7 @@ import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/core/time/cairo_time.dart';
 import 'package:sprint/core/time/clock_provider.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
+import 'package:sprint/features/booking/presentation/providers/checkout_providers.dart';
 import 'package:sprint/features/payments/presentation/receipt/receipt_document.dart';
 import 'package:sprint/features/payments/presentation/receipt/receipt_providers.dart';
 import 'package:sprint/features/payments/presentation/receipt/receipt_screen.dart';
@@ -192,6 +193,28 @@ void main() {
     expect(text, contains(ar.receiptTotalPaid));
   });
 
+  testWidgets('a cancelled paid booking still has a receipt, with the refund '
+      'line', (tester) async {
+    await open(tester, () => paid);
+    expect(find.text(ar.receiptRefund), findsNothing);
+
+    final preview = await layer.bookings.previewCancel(paid.id, paid.userId);
+    await layer.bookings.cancel(paid.id, paid.userId);
+    containerOf(tester).invalidate(receiptProvider(paid.id));
+    routerOf(tester).go(AppPaths.home);
+    await tester.pumpAndSettle();
+    routerOf(tester).go(AppPaths.bookingReceipt(paid.id));
+    await tester.pumpAndSettle();
+
+    expect(find.text(ar.receiptRefund), findsOneWidget);
+    expect(
+      find.text(SprintFormat.of(tester.element(find.byType(ReceiptScreen)))
+          .price(preview.refundAmount)),
+      findsWidgets,
+    );
+    expect(find.text(ar.receiptTotalPaid), findsOneWidget);
+  });
+
   test('the document is built from the receipt, with only four digits', () {
     final r = Receipt(
       number: 'RC-261118-0001',
@@ -208,5 +231,26 @@ void main() {
     expect(doc.rows.map((e) => e.$1), contains(ar.receiptMethod));
     expect(doc.toText(), contains('RC-261118-0001'));
     expect(doc.number, 'RC-261118-0001');
+    expect(doc.refund, isNull);
+
+    final refunded = ReceiptDocument.of(
+      ar,
+      const SprintFormat('ar'),
+      Receipt(
+        number: 'RC-261118-0001',
+        bookingCode: 'SP-1234',
+        paidAt: seedNow,
+        facilityName: 'منشأة',
+        unitName: 'وحدة',
+        tier: PriceTier.internal,
+        cardLast4: '4242',
+        isTest: true,
+        amount: 80,
+        refundAmount: 40,
+      ),
+    );
+    expect(refunded.refundLabel, ar.receiptRefund);
+    expect(refunded.refund, '40 ج.م');
+    expect(refunded.toText(), contains('${ar.receiptRefund}: 40 ج.م'));
   });
 }

@@ -139,7 +139,8 @@ void main() {
         (await c.read(checkoutSettingsProvider(b.id).future)).cancellationCutoffHours);
   });
 
-  test('receipt: only for a paid, confirmed booking of the person', () async {
+  test('receipt: for any booking of the person with a succeeded payment, '
+      'with a refund line after cancelling', () async {
     final b = await create();
     expect(await c.read(receiptProvider(b.id).future), isNull);
     final s = (await layer.bookings.startPayment(b.id, b.userId) as Ok<PaymentSession>).value;
@@ -148,7 +149,18 @@ void main() {
     final r = (await c.read(receiptProvider(b.id).future))!;
     expect(r.cardLast4, '4242');
     expect(r.amount, 140);
+    expect(r.refundAmount, isNull);
     expect(r.number, startsWith('RC-'));
+
+    // The booking is cancelled and some of the money comes back; the receipt
+    // now also records the refund (research R10).
+    final preview = await layer.bookings.previewCancel(b.id, b.userId);
+    expect(preview.refundAmount, greaterThan(0));
+    expect(await layer.bookings.cancel(b.id, b.userId), isA<Ok<Booking>>());
+    c.invalidate(receiptProvider(b.id));
+    final cancelled = (await c.read(receiptProvider(b.id).future))!;
+    expect(cancelled.refundAmount, preview.refundAmount);
+
     // A free booking has none.
     final free = layer.bookings.allBookings.firstWhere((x) =>
         x.userId == SeedIds.bookerInternal &&

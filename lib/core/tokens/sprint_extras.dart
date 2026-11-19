@@ -145,4 +145,65 @@ abstract final class SprintExtras {
   static const double receiptPdfRowGap = 8;
   static const double receiptPdfSectionGap = 16;
   static const double receiptPdfTagGap = 6;
+
+  // Feature 007 layout constants of the design pack (R13). Figma states them
+  // as raw numbers with no token; promote them with the others later.
+
+  /// Selected BookingRow border, drawn inside so the height does not change.
+  static const double selectedBorderWidth = 2;
+
+  /// Medium-class pane widths: list pane of My bookings and Notifications,
+  /// Account column, edit-profile column and the wide dialog.
+  static const double medium007ListPane = 300;
+  static const double mediumFacilitiesPane = 260;
+  static const double mediumAccountColumn = 360;
+  static const double wideDialogWidth = 400;
+
+  /// Space below the last item of a scrolling screen so the tab bar or a bar
+  /// never covers it, and the larger spacer above a screen's last action.
+  static const double screenBottomPadding = 140;
+  static const double spacer32 = 32;
+
+  /// Heights of rows and skeleton shapes drawn in Figma.
+  static const double bookingRowHeight = 190;
+  static const double bookingRowSelectedHeight = 194;
+  static const double bookingRowWrappedHeight = 210;
+  static const double settingsRowHeight = 52;
+  static const double notificationCardHeight = 110;
+  static const double profileCardHeight = 140;
+
+  /// NotificationBell and NotificationCard anatomy.
+  static const double bellBadgeMinWidth = 18;
+  static const double bellBadgePaddingX = 5;
+  static const double bellBadgeTop = 6;
+  static const double bellBadgeOffset = 26;
+  static const double notificationIconTile = 40;
+  static const double unreadDot = 8;
+
+  /// Avatar sizes (README of the pack): account card and edit profile.
+  static const double avatarLarge = 64;
+  static const double avatarSmall = 48;
+
+  /// SegmentedControl: the segment is the track minus its padding; the whole
+  /// track height is the hit area.
+  static const double segmentHeight = 40;
+
+  /// Search clear button and its icon.
+  static const double searchClearTarget = 48;
+
+  /// List pane of "حجوزاتي" from the expanded and the large class.
+  static const double bookingsListPaneExpanded = 360;
+  static const double bookingsListPaneLarge = 400;
+
+  /// How often an open booking's details re-read the clock (hold countdown,
+  /// cancellation cutoff); a presentation constant.
+  static const Duration detailsRefreshPeriod = Duration(seconds: 15);
+
+  /// Content columns of the wide layouts (Figma, design QA H2): notifications
+  /// 800 on Large, accounts 560, edit profile 440 (Medium draws notifications
+  /// at 512; Medium and Compact keep the full pane). Applied from the expanded
+  /// window class by `ContentColumn`.
+  static const double notificationsColumnMax = 800;
+  static const double accountColumnMax = 560;
+  static const double editProfileColumnMax = 440;
 }

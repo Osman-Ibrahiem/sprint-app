@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/app/shell/shell_keys.dart';
+import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/widgets/app_navigation/app_navigation.dart';
 import 'package:sprint/core/widgets/app_navigation/nav_destination.dart';
 import 'package:sprint/core/window/display_feature_layout.dart';
 import 'package:sprint/core/window/window_size.dart';
+import 'package:sprint/features/notifications/presentation/providers/notification_providers.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// The app shell: tab bar, rail or sidebar chosen by window width, around one
@@ -15,7 +18,7 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 /// The shell body lives under a [GlobalKey], so a change of form (resize, fold,
 /// unfold) re-parents it instead of rebuilding it. The selected branch, typed
 /// text and scroll positions therefore survive (FR-005).
-class AdaptiveShell extends StatefulWidget {
+class AdaptiveShell extends ConsumerStatefulWidget {
   const AdaptiveShell({
     required this.navigationShell,
     required this.destinations,
@@ -26,18 +29,49 @@ class AdaptiveShell extends StatefulWidget {
   final List<ShellDestination> destinations;
 
   @override
-  State<AdaptiveShell> createState() => _AdaptiveShellState();
+  ConsumerState<AdaptiveShell> createState() => _AdaptiveShellState();
 }
 
-class _AdaptiveShellState extends State<AdaptiveShell> {
+class _AdaptiveShellState extends ConsumerState<AdaptiveShell> {
   final _bodyKey = GlobalKey(debugLabel: 'shell-body');
 
-  void _select(int index) {
+  /// The last branch that is a tab in every form. The notifications
+  /// destination has none on compact (the bell opens it), so while it is open
+  /// the tab the person came from stays highlighted (R1).
+  /// A direct load of `/notifications` has no earlier tab, so "الرئيسية" (the
+  /// first branch) is the documented default.
+  int _lastVisibleBranch = 0;
+
+  void _rememberBranch() {
+    final current = widget.navigationShell.currentIndex;
+    if (widget.destinations[current].name != AppRouteNames.notifications) {
+      _lastVisibleBranch = current;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _rememberBranch();
+  }
+
+  @override
+  void didUpdateWidget(AdaptiveShell oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _rememberBranch();
+  }
+
+  void _select(int branch) {
     widget.navigationShell.goBranch(
-      index,
-      initialLocation: index == widget.navigationShell.currentIndex,
+      branch,
+      initialLocation: branch == widget.navigationShell.currentIndex,
     );
   }
+
+  /// Notifications is a destination only for a signed-in person on medium and
+  /// up; on compact the bell opens it (FR-NTF-02).
+  bool _isVisible(ShellDestination d, WindowSize size, bool guest) =>
+      d.name != AppRouteNames.notifications || (!guest && !size.isCompact);
 
   @override
   Widget build(BuildContext context) {
@@ -49,20 +83,32 @@ class _AdaptiveShellState extends State<AdaptiveShell> {
   Widget _buildUi(BuildContext context) {
     final size = WindowSize.of(context);
     final l10n = AppLocalizations.of(context);
+    final guest = ref.watch(currentSessionProvider).isGuest;
+    final unread = ref.watch(unreadCountProvider);
+    final branches = [
+      for (var i = 0; i < widget.destinations.length; i++)
+        if (_isVisible(widget.destinations[i], size, guest)) i,
+    ];
+    final current = widget.navigationShell.currentIndex;
+    final shown = branches.contains(current) ? current : _lastVisibleBranch;
+    final selected = branches.indexOf(shown).clamp(0, branches.length - 1);
     final destinations = [
-      for (final destination in widget.destinations)
+      for (final i in branches)
         NavDestination(
-          label: destination.label(l10n),
-          icon: destination.icon,
-          selectedIcon: destination.selectedIcon,
-          mirrorInRtl: destination.mirrorInRtl,
+          label: widget.destinations[i].label(l10n),
+          icon: widget.destinations[i].icon,
+          selectedIcon: widget.destinations[i].selectedIcon,
+          mirrorInRtl: widget.destinations[i].mirrorInRtl,
+          badgeCount: widget.destinations[i].name == AppRouteNames.notifications
+              ? unread
+              : null,
         ),
     ];
     final form = AppNavigation.formFor(size);
     final navigation = AppNavigation(
       destinations: destinations,
-      selected: widget.navigationShell.currentIndex,
-      onSelected: _select,
+      selected: selected,
+      onSelected: (v) => _select(branches[v]),
       form: form,
     );
 

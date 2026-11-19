@@ -18,6 +18,7 @@ class Receipt {
     required this.cardLast4,
     required this.isTest,
     required this.amount,
+    this.refundAmount,
   });
 
   /// `RC-yyMMdd-NNNN`.
@@ -39,14 +40,19 @@ class Receipt {
   /// Whole Egyptian pounds.
   final int amount;
 
+  /// Whole pounds returned to the card after a cancellation, or null when
+  /// nothing came back (research R10).
+  final int? refundAmount;
+
   /// Null unless [payment] succeeded and carries a receipt number, a paid
   /// time and four card digits.
   static Receipt? fromPayment(
     Payment payment,
     Booking booking,
     Facility facility,
-    BookableUnit unit,
-  ) {
+    BookableUnit unit, {
+    int? refundAmount,
+  }) {
     final number = payment.receiptNumber;
     final paidAt = payment.paidAt;
     final last4 = payment.cardLast4;
@@ -67,6 +73,7 @@ class Receipt {
       cardLast4: last4,
       isTest: const {'FAKE', 'SANDBOX'}.contains(payment.provider.toUpperCase()),
       amount: payment.amount,
+      refundAmount: refundAmount,
     );
   }
 }

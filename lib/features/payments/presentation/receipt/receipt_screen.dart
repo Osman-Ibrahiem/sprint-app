@@ -205,6 +205,8 @@ class _Body extends StatelessWidget {
                     color: colors.line,
                   ),
                   _Row(label: doc.totalLabel, value: doc.total, strong: true),
+                  if (doc.refund != null && doc.refundLabel != null)
+                    _Row(label: doc.refundLabel!, value: doc.refund!),
                 ],
               ),
             ),

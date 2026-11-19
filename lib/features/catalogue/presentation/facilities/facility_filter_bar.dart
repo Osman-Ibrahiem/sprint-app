@@ -8,6 +8,7 @@ import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/features/catalogue/domain/facility.dart';
 import 'package:sprint/features/catalogue/presentation/providers/catalogue_providers.dart';
+import 'package:sprint/features/catalogue/presentation/search/search_providers.dart';
 import 'package:sprint/features/catalogue/presentation/widgets/facility_card_mapper.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 import 'package:sprint/core/l10n/sprint_icon.dart';
@@ -39,7 +40,7 @@ class FacilityFilterBar extends ConsumerWidget {
     final filter = ref.watch(facilityFilterProvider);
     final notifier = ref.read(facilityFilterProvider.notifier);
     final units = ref.watch(owningUnitOptionsProvider).value ?? const [];
-    final count = ref.watch(facilitySummariesProvider).value?.length;
+    final count = ref.watch(searchedSummariesProvider).value?.length;
 
     final unitName = filter.owningUnitId == null
         ? null

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/misc.dart' as rp;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sprint/core/adaptive/photo_source.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/seed/seed_units.dart';
 import 'package:sprint/features/verification/presentation/id_card_photo_picker.dart';
@@ -13,7 +14,7 @@ import 'pump_app.dart';
 import 'sign_up_steps.dart';
 
 /// A picker the test drives: no platform plugin is involved.
-class FakeIdCardSource implements IdCardPhotoSource {
+class FakeIdCardSource implements PhotoSourcePicker {
   FakeIdCardSource({Uint8List? bytes})
     : bytes =
           bytes ??
@@ -23,10 +24,10 @@ class FakeIdCardSource implements IdCardPhotoSource {
   Uint8List? bytes;
   Object? failWith;
   int calls = 0;
-  IdCardSource? lastSource;
+  PhotoSource? lastSource;
 
   @override
-  Future<Uint8List?> pick(IdCardSource source) async {
+  Future<Uint8List?> pick(PhotoSource source) async {
     calls++;
     lastSource = source;
     if (failWith != null) throw failWith!;
@@ -37,7 +38,7 @@ class FakeIdCardSource implements IdCardPhotoSource {
 /// Keeps the pipeline synchronous in widget tests (the real one uses an
 /// isolate); the encoder has its own test.
 List<rp.Override> fakePhotoOverrides(FakeIdCardSource source) => [
-  idCardPhotoSourceProvider.overrideWithValue(source),
+  photoSourceProvider.overrideWithValue(source),
   idCardEncoderProvider.overrideWithValue((b) async => b),
 ];
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/core/theme/sprint_theme.dart';
+import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// Platforms that stand for each adaptive style in tests. Desktop proxies the
 /// web/Windows/Linux column of `adaptive.md`.
@@ -19,9 +20,10 @@ Future<void> pumpHarness(
   WidgetBuilder builder, {
   Locale locale = const Locale('ar'),
   bool settle = true,
+  Size size = const Size(800, 900),
 }) async {
   tester.view.devicePixelRatio = 1;
-  tester.view.physicalSize = const Size(800, 900);
+  tester.view.physicalSize = size;
   addTearDown(tester.view.reset);
   await tester.pumpWidget(
     MaterialApp(
@@ -29,6 +31,7 @@ Future<void> pumpHarness(
       locale: locale,
       supportedLocales: const [Locale('ar'), Locale('en')],
       localizationsDelegates: const [
+        ...AppLocalizations.localizationsDelegates,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

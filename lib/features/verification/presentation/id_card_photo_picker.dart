@@ -1,14 +1,12 @@
-import 'dart:math' as math;
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image/image.dart' as img;
-import 'package:image_picker/image_picker.dart';
+import 'package:sprint/core/adaptive/photo_source.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/core/adaptive/adaptive_loader.dart';
 import 'package:sprint/core/adaptive/adaptive_sheet.dart';
 import 'package:sprint/core/adaptive/photo_capabilities.dart';
+import 'package:sprint/core/data/jpeg_encoder.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
@@ -24,53 +22,17 @@ const int idCardMaxSide = 1280;
 /// JPEG quality of the stored ID card photo (research R7).
 const int idCardJpegQuality = 80;
 
-enum IdCardSource { camera, gallery }
-
-/// Where the picture comes from. Injectable, so tests use a fake picker
-/// instead of the platform's.
-abstract interface class IdCardPhotoSource {
-  /// The raw bytes of the chosen image, or null when the person backed out.
-  /// Throws when the platform refuses (for example a denied permission).
-  Future<Uint8List?> pick(IdCardSource source);
-}
-
-/// `image_picker`: camera on Android and iOS, gallery or files everywhere.
-/// Images only; on the web and desktop it opens the file selector.
-class ImagePickerIdCardSource implements IdCardPhotoSource {
-  const ImagePickerIdCardSource();
-
-  @override
-  Future<Uint8List?> pick(IdCardSource source) async {
-    final file = await ImagePicker().pickImage(
-      source: source == IdCardSource.camera
-          ? ImageSource.camera
-          : ImageSource.gallery,
-    );
-    return file?.readAsBytes();
-  }
-}
-
-final idCardPhotoSourceProvider = Provider<IdCardPhotoSource>(
-  (ref) => const ImagePickerIdCardSource(),
-);
-
 /// Turns the chosen bytes into the stored picture, or null when they are not
 /// an image.
 typedef IdCardEncoder = Future<Uint8List?> Function(Uint8List bytes);
 
 /// Decodes, straightens, shrinks the longest side to [idCardMaxSide] and
 /// writes a JPEG at [idCardJpegQuality]. Pure, so it can run in an isolate.
-Uint8List? encodeIdCardJpeg(Uint8List bytes) {
-  final decoded = img.decodeImage(bytes);
-  if (decoded == null) return null;
-  var image = img.bakeOrientation(decoded);
-  if (math.max(image.width, image.height) > idCardMaxSide) {
-    image = image.width >= image.height
-        ? img.copyResize(image, width: idCardMaxSide)
-        : img.copyResize(image, height: idCardMaxSide);
-  }
-  return Uint8List.fromList(img.encodeJpg(image, quality: idCardJpegQuality));
-}
+Uint8List? encodeIdCardJpeg(Uint8List bytes) => encodeJpeg(
+      bytes,
+      maxSide: idCardMaxSide,
+      quality: idCardJpegQuality,
+    );
 
 /// Runs [encodeIdCardJpeg] in a background isolate (inline on the web).
 final idCardEncoderProvider = Provider<IdCardEncoder>(
@@ -109,20 +71,20 @@ class _IdCardPhotoPickerState extends ConsumerState<IdCardPhotoPicker> {
 
   Future<void> _choose() async {
     final l10n = AppLocalizations.of(context);
-    IdCardSource? source = IdCardSource.gallery;
+    PhotoSource? source = PhotoSource.gallery;
     if (cameraAvailableOf(context)) {
-      source = await showSprintSheet<IdCardSource>(
+      source = await showSprintSheet<PhotoSource>(
         context: context,
         title: l10n.verifPhotoSourceTitle,
         cancelLabel: l10n.verifPhotoCancel,
         actions: [
           SprintSheetAction(
             label: l10n.verifPhotoCamera,
-            value: IdCardSource.camera,
+            value: PhotoSource.camera,
           ),
           SprintSheetAction(
             label: l10n.verifPhotoGallery,
-            value: IdCardSource.gallery,
+            value: PhotoSource.gallery,
           ),
         ],
       );
@@ -135,7 +97,7 @@ class _IdCardPhotoPickerState extends ConsumerState<IdCardPhotoPicker> {
     String? problem;
     Uint8List? prepared;
     try {
-      final raw = await ref.read(idCardPhotoSourceProvider).pick(source);
+      final raw = await ref.read(photoSourceProvider).pick(source);
       if (raw != null) {
         prepared = await ref.read(idCardEncoderProvider)(raw);
         if (prepared == null && mounted) {

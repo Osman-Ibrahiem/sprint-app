@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
-import 'package:sprint/app/shell/placeholders/bookings_placeholder.dart';
 import 'package:sprint/app/shell/placeholders/no_access_screen.dart';
-import 'package:sprint/app/shell/placeholders/profile_placeholder.dart';
+import 'package:sprint/features/notifications/presentation/notifications_screen.dart';
+import 'package:sprint/features/account/presentation/account_screen.dart';
+import 'package:sprint/features/account/presentation/edit_profile_screen.dart';
 import 'package:sprint/core/providers/session_provider.dart';
+import 'package:sprint/core/window/window_size.dart';
+import 'package:sprint/features/booking/presentation/bookings/my_bookings_screen.dart';
+import 'package:sprint/features/booking/presentation/cancel/cancel_result_screen.dart';
+import 'package:sprint/features/booking/presentation/details/booking_details_screen.dart';
+import 'package:sprint/features/booking/presentation/providers/my_bookings_providers.dart';
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
 import 'package:sprint/features/booking/presentation/checkout/checkout_screen.dart';
 import 'package:sprint/features/booking/presentation/confirmed/booking_confirmed_screen.dart';
@@ -27,7 +33,9 @@ abstract final class AppPaths {
   static const home = '/home';
   static const facilities = '/facilities';
   static const bookings = '/bookings';
+  static const notifications = '/notifications';
   static const profile = '/profile';
+  static const profileEdit = '/profile/edit';
   static const demo = '/demo';
   static const demoComponents = '/demo/components';
 
@@ -125,6 +133,9 @@ abstract final class AppPaths {
   /// The confirmation ticket and the receipt, under the bookings destination.
   static String bookingConfirmed(String bookingId) =>
       '$bookings/$bookingId/confirmed';
+  static String bookingDetails(String bookingId) => '$bookings/$bookingId';
+  static String bookingCancelled(String bookingId) =>
+      '$bookings/$bookingId/cancelled';
   static String bookingReceipt(String bookingId) =>
       '$bookings/$bookingId/receipt';
 
@@ -146,6 +157,10 @@ abstract final class AppRouteNames {
   static const home = 'home';
   static const facilities = 'facilities';
   static const bookings = 'bookings';
+  static const notifications = 'notifications';
+  static const bookingDetails = 'bookingDetails';
+  static const bookingCancelled = 'bookingCancelled';
+  static const profileEdit = 'profileEdit';
   static const profile = 'profile';
   static const demo = 'demo';
   static const demoComponents = 'demoComponents';
@@ -377,8 +392,45 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
     icon: PhosphorIconsRegular.ticket,
     selectedIcon: PhosphorIconsFill.ticket,
     label: (l) => l.navBookings,
-    builder: BookingsPlaceholder.new,
+    builder: () => const MyBookingsScreen(),
     subRoutes: [
+      // Details and the result of a cancel (feature 007). The owner only.
+      GatedRoute(
+        path: ':bookingId',
+        name: AppRouteNames.bookingDetails,
+        access: const RouteAccess(requiresAccount: true),
+        builder: (context, state) {
+          final id = state.pathParameters['bookingId']!;
+          // Wide: the list with this booking beside it; compact: pushed.
+          if (!WindowSize.of(context).isCompact) {
+            return BookingOwnerGate(
+              bookingId: id,
+              child: MyBookingsScreen(
+                selectedId: id,
+                segment: _segmentOf(state),
+              ),
+            );
+          }
+          return BookingOwnerGate(
+            bookingId: id,
+            child: BookingDetailsScreen(bookingId: id),
+          );
+        },
+        routes: [
+          GatedRoute(
+            path: 'cancelled',
+            name: AppRouteNames.bookingCancelled,
+            access: const RouteAccess(requiresAccount: true),
+            builder: (context, state) {
+              final id = state.pathParameters['bookingId']!;
+              return BookingOwnerGate(
+                bookingId: id,
+                child: CancelResultScreen(bookingId: id),
+              );
+            },
+          ),
+        ],
+      ),
       // The confirmation ticket and the receipt need an account; another
       // person's booking shows `NoAccessScreen` (contracts/routes.md).
       GatedRoute(
@@ -408,13 +460,28 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
     ],
   ),
   ShellDestination(
+    name: AppRouteNames.notifications,
+    path: AppPaths.notifications,
+    icon: PhosphorIconsRegular.bell,
+    selectedIcon: PhosphorIconsFill.bell,
+    label: (l) => l.navNotifications,
+    builder: () => const NotificationsScreen(),
+    access: const RouteAccess(requiresAccount: true),
+  ),
+  ShellDestination(
     name: AppRouteNames.profile,
     path: AppPaths.profile,
     icon: PhosphorIconsRegular.user,
     selectedIcon: PhosphorIconsFill.user,
     label: (l) => l.navProfile,
-    builder: ProfilePlaceholder.new,
+    builder: AccountScreen.new,
     subRoutes: [
+      GatedRoute(
+        path: 'edit',
+        name: AppRouteNames.profileEdit,
+        access: const RouteAccess(requiresAccount: true),
+        builder: (context, state) => const EditProfileScreen(),
+      ),
       // `/profile/verification`: needs an account (contracts/routes.md).
       GatedRoute(
         path: 'verification',
@@ -441,3 +508,9 @@ String? _needsCompleteSelection(BuildContext context, GoRouterState state) {
   if (selection.isComplete) return null;
   return AppPaths.facilitySchedule(state.pathParameters['id']!, selection);
 }
+
+/// `?seg=past` selects the past list; anything else is upcoming.
+BookingSegment _segmentOf(GoRouterState state) =>
+    state.uri.queryParameters['seg'] == 'past'
+    ? BookingSegment.past
+    : BookingSegment.upcoming;

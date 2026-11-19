@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/router/routes.dart';
+import 'package:sprint/app/shell/root_header.dart';
 import 'package:sprint/core/adaptive/adaptive_pressable.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
@@ -16,6 +17,7 @@ import 'package:sprint/features/catalogue/domain/facility.dart';
 import 'package:sprint/features/catalogue/domain/facility_summary.dart';
 import 'package:sprint/features/catalogue/domain/home_content.dart';
 import 'package:sprint/features/catalogue/presentation/home/suggestions_section.dart';
+import 'package:sprint/features/catalogue/presentation/search/search_field.dart';
 import 'package:sprint/features/catalogue/presentation/home/upcoming_bookings_section.dart';
 import 'package:sprint/features/catalogue/presentation/providers/catalogue_providers.dart';
 import 'package:sprint/features/catalogue/presentation/widgets/catalogue_error_view.dart';
@@ -46,9 +48,8 @@ class HomeScreen extends ConsumerWidget {
           bottom: SprintSpacing.space8,
         ),
         children: [
-          Semantics(
-            header: true,
-            child: Text(l10n.catalogueHomeTitle, style: context.text.display),
+          RootHeader(
+            title: Text(l10n.catalogueHomeTitle, style: context.text.display),
           ),
           if (session.isGuest) ...[
             const SizedBox(height: SprintSpacing.space2),
@@ -57,6 +58,8 @@ class HomeScreen extends ConsumerWidget {
               style: context.text.body.copyWith(color: context.colors.inkMuted),
             ),
           ],
+          const SizedBox(height: SprintSpacing.space4),
+          const FacilitySearchField(openFacilitiesOnFocus: true),
           const SizedBox(height: SprintSpacing.space6),
           content.when(
             data: (value) => _Loaded(content: value, session: session),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -9,7 +10,8 @@ import 'package:sprint/core/theme/sprint_theme.dart';
 import 'package:sprint/core/widgets/app_navigation/sprint_tab_bar.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
-Widget _app(GoRouter router) => MaterialApp.router(
+Widget _app(GoRouter router) => ProviderScope(
+  child: MaterialApp.router(
   theme: SprintTheme.light,
   locale: const Locale('ar'),
   supportedLocales: AppLocalizations.supportedLocales,
@@ -20,6 +22,7 @@ Widget _app(GoRouter router) => MaterialApp.router(
     GlobalCupertinoLocalizations.delegate,
   ],
   routerConfig: router,
+),
 );
 
 List<ShellDestination> _destinations({List<RouteBase> subRoutes = const []}) =>

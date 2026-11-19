@@ -15,6 +15,8 @@ class ReceiptDocument {
     required this.number,
     required this.isTest,
     required this.testTag,
+    this.refundLabel,
+    this.refund,
   });
 
   /// "إيصال دفع".
@@ -29,6 +31,10 @@ class ReceiptDocument {
   final String number;
   final bool isTest;
   final String testTag;
+
+  /// The refund line, shown after the total only when money came back.
+  final String? refundLabel;
+  final String? refund;
 
   factory ReceiptDocument.of(
     AppLocalizations l10n,
@@ -53,6 +59,8 @@ class ReceiptDocument {
       number: r.number,
       isTest: r.isTest,
       testTag: l10n.checkoutSandboxTag,
+      refundLabel: r.refundAmount == null ? null : l10n.receiptRefund,
+      refund: r.refundAmount == null ? null : format.price(r.refundAmount!),
     );
   }
 
@@ -65,6 +73,7 @@ class ReceiptDocument {
       b.write('\n$label: $value');
     }
     b.write('\n$totalLabel: $total');
+    if (refund != null) b.write('\n$refundLabel: $refund');
     return b.toString();
   }
 }

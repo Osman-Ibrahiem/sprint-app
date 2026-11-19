@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/router/routes.dart';
+import 'package:sprint/app/shell/root_header.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
@@ -18,6 +19,8 @@ import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/features/catalogue/domain/facility_summary.dart';
 import 'package:sprint/features/catalogue/presentation/facilities/facility_filter_bar.dart';
 import 'package:sprint/features/catalogue/presentation/providers/catalogue_providers.dart';
+import 'package:sprint/features/catalogue/presentation/search/search_field.dart';
+import 'package:sprint/features/catalogue/presentation/search/search_providers.dart';
 import 'package:sprint/features/catalogue/presentation/widgets/catalogue_error_view.dart';
 import 'package:sprint/features/catalogue/presentation/widgets/facility_card_mapper.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
@@ -65,7 +68,7 @@ class _FacilityListViewState extends ConsumerState<FacilityListView> {
 
   @override
   Widget build(BuildContext context) {
-    final summaries = ref.watch(facilitySummariesProvider);
+    final summaries = ref.watch(searchedSummariesProvider);
     final session = ref.watch(currentSessionProvider);
     final size = WindowSize.of(context);
     final horizontal = size.isCompact;
@@ -86,6 +89,29 @@ class _FacilityListViewState extends ConsumerState<FacilityListView> {
           child: CustomScrollView(
             controller: _controller,
             slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.only(
+                    start: SprintSpacing.space4,
+                    end: SprintSpacing.space4,
+                    top: SprintSpacing.space4,
+                  ),
+                  child: RootHeader(
+                    title: Text(
+                      AppLocalizations.of(context).catalogueFacilitiesTitle,
+                      style: context.text.title,
+                    ),
+                  ),
+                ),
+              ),
+              const SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: SprintSpacing.space4,
+                  ),
+                  child: FacilitySearchField(),
+                ),
+              ),
               const SliverToBoxAdapter(child: FacilityFilterBar()),
               ...switch (summaries) {
                 AsyncData(:final value) when value.isEmpty => [
@@ -165,7 +191,7 @@ class _FacilityListViewState extends ConsumerState<FacilityListView> {
   }
 }
 
-class _Card extends StatelessWidget {
+class _Card extends ConsumerWidget {
   const _Card({
     required this.summary,
     required this.session,
@@ -179,7 +205,7 @@ class _Card extends StatelessWidget {
   final bool selected;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final colors = context.colors;
     final inputs = facilityCardInputs(
@@ -201,7 +227,17 @@ class _Card extends StatelessWidget {
       availability: inputs.availability,
       availableCount: inputs.availableCount,
       price: inputs.price,
-      onTap: () => context.go(AppPaths.facilityDetails(id)),
+      onTap: () {
+        final q = ref.read(searchQueryProvider).trim();
+        if (q.isNotEmpty) ref.read(recentSearchesProvider.notifier).add(q);
+        // Master-detail keeps the search in the address.
+        context.go(
+          Uri(
+            path: AppPaths.facilityDetails(id),
+            queryParameters: q.isEmpty ? null : {'q': q},
+          ).toString(),
+        );
+      },
     );
     if (!selected) return card;
     return Semantics(
@@ -249,13 +285,17 @@ class _Empty extends ConsumerWidget {
           ),
           const SizedBox(height: SprintSpacing.space3),
           Text(
-            l10n.catalogueEmptyTitle,
+            ref.watch(searchQueryProvider).trim().isNotEmpty
+                ? l10n.searchNoResultsTitle
+                : l10n.catalogueEmptyTitle,
             style: context.text.headline,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: SprintSpacing.space2),
           Text(
-            l10n.catalogueEmptyBody(names.join(' + ')),
+            ref.watch(searchQueryProvider).trim().isNotEmpty && names.isEmpty
+                ? l10n.searchNoResultsBody
+                : l10n.catalogueEmptyBody(names.join(' + ')),
             style: context.text.body.copyWith(color: colors.inkMuted),
             textAlign: TextAlign.center,
           ),

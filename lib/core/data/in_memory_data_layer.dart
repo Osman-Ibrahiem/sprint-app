@@ -416,5 +416,11 @@ class ForwardingPhotoStore implements DemoSnapshotStore {
   }
 
   @override
+  Future<void> deletePhoto(String id) async {
+    _memory.remove(id);
+    await target?.deletePhoto(id);
+  }
+
+  @override
   Future<void> clear() async => _memory.clear();
 }

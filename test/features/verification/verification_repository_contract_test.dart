@@ -718,5 +718,8 @@ class _Store implements DemoSnapshotStore {
   }
 
   @override
+  Future<void> deletePhoto(String id) async => photos.remove(id);
+
+  @override
   Future<void> clear() async => photos.clear();
 }

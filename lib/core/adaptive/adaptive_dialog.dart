@@ -5,6 +5,8 @@ import 'package:sprint/core/adaptive/platform.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_text_field/sprint_text_field.dart';
+import 'package:sprint/core/widgets/wide_dialog/wide_dialog.dart';
+import 'package:sprint/core/window/window_size.dart';
 
 /// One button of a [showSprintDialog]. [value] is what the dialog returns.
 class SprintDialogAction<T> {
@@ -34,21 +36,68 @@ Future<T?> showSprintDialog<T>({
   required List<SprintDialogAction<T>> actions,
   String? message,
 }) {
+  // From the medium window class every platform shows the wide dialog
+  // (WideDialog README); below it the platform's own alert.
+  if (!WindowSize.of(context).isCompact) {
+    return showDialog<T>(
+      context: context,
+      builder: (ctx) {
+        SprintDialogAction<T>? def;
+        for (final a in actions) {
+          if (a.isDefault) def = a;
+        }
+        return CallbackShortcuts(
+          bindings: {
+            const SingleActivator(LogicalKeyboardKey.enter): () {
+              if (def != null) Navigator.of(ctx).pop(def.value);
+            },
+            const SingleActivator(LogicalKeyboardKey.escape): () =>
+                Navigator.of(ctx).pop(),
+          },
+          child: Focus(
+            autofocus: true,
+            child: WideDialog(
+              key: const ValueKey('sprint-dialog-desktop'),
+              title: title,
+              message: message,
+              actions: [
+                for (final a in actions)
+                  WideDialogAction(
+                    label: a.label,
+                    destructive: a.isDestructive,
+                    onPressed: () => Navigator.of(ctx).pop(a.value),
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
   switch (adaptiveStyleOf(context)) {
     case AdaptiveStyle.apple:
       return showCupertinoDialog<T>(
         context: context,
         barrierDismissible: true,
         builder: (ctx) => CupertinoAlertDialog(
-          title: Text(title),
-          content: message == null ? null : Text(message),
+          // Cairo explicitly: the Cupertino default font has no Arabic glyphs
+          // on the web (they would show as boxes).
+          title: Text(title, style: ctx.text.headline),
+          content: message == null
+              ? null
+              : Text(message, style: ctx.text.caption),
           actions: [
             for (final a in actions)
               CupertinoDialogAction(
                 isDefaultAction: a.isDefault,
                 isDestructiveAction: a.isDestructive,
                 onPressed: () => Navigator.of(ctx).pop(a.value),
-                child: Text(a.label),
+                child: Text(
+                  a.label,
+                  style: ctx.text.body.copyWith(
+                    color: a.isDestructive ? ctx.colors.danger : null,
+                  ),
+                ),
               ),
           ],
         ),

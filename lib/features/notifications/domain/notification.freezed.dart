@@ -220,8 +220,8 @@ return $default(_that.id,_that.userId,_that.type,_that.channel,_that.payload,_th
 /// @nodoc
 @JsonSerializable()
 
-class _Notification implements Notification {
-  const _Notification({required this.id, required this.userId, required this.type, this.channel = NotificationChannel.push,  Map<String, String> payload = const <String, String>{}, required this.sentAt, this.readAt}): _payload = payload;
+class _Notification extends Notification {
+  const _Notification({required this.id, required this.userId, required this.type, this.channel = NotificationChannel.push,  Map<String, String> payload = const <String, String>{}, required this.sentAt, this.readAt}): _payload = payload,super._();
   factory _Notification.fromJson(Map<String, dynamic> json) => _$NotificationFromJson(json);
 
 @override final  String id;

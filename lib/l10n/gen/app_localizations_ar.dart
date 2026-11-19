@@ -2235,6 +2235,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get receiptTotalPaid => 'الإجمالي المدفوع';
 
   @override
+  String get receiptRefund => 'المبلغ المسترد';
+
+  @override
   String get receiptSave => 'حفظ الإيصال PDF';
 
   @override
@@ -2343,4 +2346,598 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get splashCaption => 'جامعة طنطا';
+
+  @override
+  String get notificationBellLabel => 'الإشعارات';
+
+  @override
+  String notificationBellLabelUnread(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count إشعارات جديدة',
+      two: 'إشعارين جدد',
+      one: 'إشعار جديد واحد',
+    );
+    return 'الإشعارات، $_temp0';
+  }
+
+  @override
+  String get commonCancel => 'إلغاء';
+
+  @override
+  String get commonClose => 'إغلاق';
+
+  @override
+  String get commonBack => 'رجوع';
+
+  @override
+  String lockedFieldReadOnly(String reason) {
+    return 'للقراءة فقط، $reason';
+  }
+
+  @override
+  String get lockedFieldIcon => 'مقفول';
+
+  @override
+  String get searchClear => 'مسح البحث';
+
+  @override
+  String get popoverClose => 'إغلاق القائمة';
+
+  @override
+  String get dialogConfirmDestructive => 'تأكيد';
+
+  @override
+  String get gallery007Section => 'جزء حجوزاتي والإشعارات والحساب';
+
+  @override
+  String get gallery007SampleTitle => 'تم تأكيد حجزك';
+
+  @override
+  String get gallery007SampleBody => 'حمام السباحة الأولمبي · حارة 2';
+
+  @override
+  String get gallery007SampleTime => '4:00 م';
+
+  @override
+  String get gallery007SampleDate => 'الخميس 12 نوفمبر · 6:00 – 8:00 م';
+
+  @override
+  String get gallery007SampleAction => 'عرض التذكرة';
+
+  @override
+  String get gallery007SampleUpcoming => 'الجاية (3)';
+
+  @override
+  String get gallery007SamplePast => 'اللي فاتت';
+
+  @override
+  String get gallery007SampleLanguage => 'اللغة';
+
+  @override
+  String get gallery007SampleLanguageValue => 'العربية';
+
+  @override
+  String get gallery007SampleSignOut => 'تسجيل الخروج';
+
+  @override
+  String get gallery007SampleName => 'منى سالم';
+
+  @override
+  String get gallery007SampleLockedHelper =>
+      'مربوط بتسجيل الدخول ومش بيتعدل من هنا';
+
+  @override
+  String get gallery007SampleBanner =>
+      'الحجز اتلغى. الفلوس هترجع على نفس وسيلة الدفع.';
+
+  @override
+  String get gallery007OpenDialog => 'فتح نافذة التأكيد';
+
+  @override
+  String get gallery007DialogTitle => 'إلغاء الحجز؟';
+
+  @override
+  String get gallery007DialogBack => 'الرجوع';
+
+  @override
+  String get gallery007OpenPopover => 'فتح القائمة';
+
+  @override
+  String get gallery007SampleSearch => 'بحث';
+
+  @override
+  String get gallery007SampleSearchCancel => 'إلغاء';
+
+  @override
+  String get gallery007SampleEmailLabel => 'الإيميل';
+
+  @override
+  String get navNotifications => 'الإشعارات';
+
+  @override
+  String get catalogueFacilitiesTitle => 'كل المنشآت';
+
+  @override
+  String get bookingsTitle => 'حجوزاتي';
+
+  @override
+  String bookingsSegmentUpcoming(int count) {
+    return 'الجاية ($count)';
+  }
+
+  @override
+  String get bookingsSegmentUpcomingPlain => 'الجاية';
+
+  @override
+  String get bookingsSegmentPast => 'اللي فاتت';
+
+  @override
+  String bookingsSegmentUpcomingSpoken(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count حجوزات',
+      two: 'حجزين',
+      one: 'حجز واحد',
+    );
+    return 'الجاية، $_temp0';
+  }
+
+  @override
+  String get bookingsEmptyTitle => 'لسه مفيش حجوزات.';
+
+  @override
+  String get bookingsEmptyBody => 'المنشآت مستنياك';
+
+  @override
+  String get bookingsUpcomingEmptyTitle => 'مفيش حجوزات جاية';
+
+  @override
+  String get bookingsUpcomingEmptyBody =>
+      'حجوزاتك القديمة موجودة في \"اللي فاتت\".';
+
+  @override
+  String get bookingsPastEmptyTitle => 'مفيش حجوزات سابقة';
+
+  @override
+  String get bookingsBrowse => 'استعراض المنشآت';
+
+  @override
+  String get bookingsNoneSelected => 'مفيش حجز محدد';
+
+  @override
+  String get bookingsActionTicket => 'عرض التذكرة';
+
+  @override
+  String get bookingsActionPay => 'إكمال الدفع';
+
+  @override
+  String get bookingsActionDetails => 'التفاصيل';
+
+  @override
+  String get bookingsToday => 'النهارده';
+
+  @override
+  String get bookingsNoteFree => 'مجاني';
+
+  @override
+  String bookingsNoteTrainer(String name) {
+    return 'مع $name';
+  }
+
+  @override
+  String bookingsNoteHold(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'فاضل $count دقايق للدفع',
+      two: 'فاضل دقيقتين للدفع',
+      one: 'فاضل دقيقة للدفع',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bookingsRowSpoken(
+    String status,
+    String date,
+    String facility,
+    String notes,
+    String code,
+    String action,
+  ) {
+    return '$status، $date، $facility، $notes، رقم الحجز $code، $action';
+  }
+
+  @override
+  String get bookingsLoadError => 'مقدرناش نحمّل حجوزاتك.';
+
+  @override
+  String get bookingsRetry => 'إعادة المحاولة';
+
+  @override
+  String get bookingDetailsTitle => 'تفاصيل الحجز';
+
+  @override
+  String get bookingDetailsNotFoundTitle => 'الحجز مش موجود';
+
+  @override
+  String get bookingDetailsNotFoundBody => 'مش لاقيين الحجز ده في حجوزاتك.';
+
+  @override
+  String get bookingDetailsBackToBookings => 'العودة للحجوزات';
+
+  @override
+  String get bookingDetailsTier => 'الشريحة';
+
+  @override
+  String get bookingDetailsTierInternal => 'داخلي';
+
+  @override
+  String get bookingDetailsTierExternal => 'خارجي';
+
+  @override
+  String get bookingDetailsPaid => 'المدفوع';
+
+  @override
+  String get bookingDetailsAmount => 'المبلغ';
+
+  @override
+  String get bookingDetailsRequired => 'المطلوب';
+
+  @override
+  String get bookingDetailsNotPaid => 'ما اتدفعش';
+
+  @override
+  String get bookingDetailsPrice => 'السعر';
+
+  @override
+  String get bookingDetailsFree => 'مجاني';
+
+  @override
+  String get bookingDetailsCode => 'رقم الحجز';
+
+  @override
+  String get bookingDetailsCancel => 'إلغاء الحجز';
+
+  @override
+  String bookingDetailsPay(String amount) {
+    return 'إكمال الدفع · $amount';
+  }
+
+  @override
+  String get bookingDetailsReceipt => 'إيصال الدفع';
+
+  @override
+  String get bookingDetailsHoldTitle => 'المكان متحجز لك';
+
+  @override
+  String bookingDetailsHoldSub(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'فاضل $count دقايق للدفع، وبعدها المكان يرجع متاح',
+      two: 'فاضل دقيقتين للدفع، وبعدها المكان يرجع متاح',
+      one: 'فاضل دقيقة للدفع، وبعدها المكان يرجع متاح',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bookingDetailsAfterCutoff(String when) {
+    return 'الإلغاء كان متاح لحد $when، وبعده زرار الإلغاء بيختفي';
+  }
+
+  @override
+  String get bookingDetailsAttended => 'تم تسجيل حضورك. شكرًا لاستخدامك سبرنت';
+
+  @override
+  String get bookingDetailsNoShow =>
+      'الحجز ده عدّى من غير حضور. مفيش أي رسوم أو عقوبة';
+
+  @override
+  String get bookingDetailsExpired =>
+      'المهلة خلصت من غير دفع، والمكان رجع متاح';
+
+  @override
+  String get bookingDetailsCancelledByFacility => 'لغته إدارة المنشأة';
+
+  @override
+  String bookingDetailsCancelReason(String reason) {
+    return 'السبب: $reason';
+  }
+
+  @override
+  String bookingDetailsFacilityRefund(String amount) {
+    return 'الـ $amount رجعت كاملة';
+  }
+
+  @override
+  String bookingDetailsRefundFull(String amount) {
+    return 'الحجز اتلغى والـ $amount هترجع بالكامل';
+  }
+
+  @override
+  String bookingDetailsRefundPartial(String refund, String paid) {
+    return 'الحجز اتلغى وهيرجع $refund من $paid';
+  }
+
+  @override
+  String get bookingDetailsRefundNone => 'الحجز اتلغى ومفيش مبلغ هيرجع';
+
+  @override
+  String get bookingDetailsFreeCancelled => 'الحجز اتلغى والمكان رجع متاح';
+
+  @override
+  String get bookingDetailsPendingCancelled => 'الحجز اتلغى ومفيش فلوس اتسحبت';
+
+  @override
+  String bookingTicketSpoken(String status, String facility, String date) {
+    return 'حجز $status، $facility، $date';
+  }
+
+  @override
+  String get cancelDialogTitle => 'إلغاء الحجز؟';
+
+  @override
+  String get cancelActionConfirm => 'إلغاء الحجز';
+
+  @override
+  String get cancelActionBack => 'الرجوع';
+
+  @override
+  String cancelMessageFull(String amount) {
+    return 'هترجع $amount كاملة على نفس وسيلة الدفع.';
+  }
+
+  @override
+  String cancelMessagePartial(String refund, String paid) {
+    return 'هيرجع $refund من $paid على نفس وسيلة الدفع.';
+  }
+
+  @override
+  String get cancelMessageNone =>
+      'الإلغاء دلوقتي من غير استرداد، ومفيش مبلغ هيرجع.';
+
+  @override
+  String get cancelMessageFree =>
+      'الحجز مجاني، فمفيش مبلغ يرجع. المكان هيرجع متاح لغيرك.';
+
+  @override
+  String get cancelMessagePending => 'هنلغي الحجز ومفيش فلوس اتسحبت.';
+
+  @override
+  String get cancelClosedTitle => 'فات وقت الإلغاء';
+
+  @override
+  String cancelClosedBody(String when) {
+    return 'الإلغاء كان متاح لحد $when.';
+  }
+
+  @override
+  String get cancelAlreadyTitle => 'الحجز ده اتلغى قبل كده';
+
+  @override
+  String get cancelFailed => 'الإلغاء ماتمش والحجز زي ما هو.';
+
+  @override
+  String get cancelNotAllowedBody => 'الحجز ده مينفعش يتلغي دلوقتي.';
+
+  @override
+  String get cancelResultTitle => 'الحجز اتلغى';
+
+  @override
+  String get cancelResultBack => 'العودة للحجوزات';
+
+  @override
+  String get notificationsTitle => 'الإشعارات';
+
+  @override
+  String get notificationsMarkAllRead => 'تعليم الكل كمقروء';
+
+  @override
+  String get notificationsEmptyTitle => 'مفيش إشعارات';
+
+  @override
+  String get notificationsEmptyBody => 'أي حاجة جديدة بخصوص حجوزاتك هتظهر هنا.';
+
+  @override
+  String get notificationsUnreadSpoken => 'جديد';
+
+  @override
+  String get notifBookingConfirmedTitle => 'حجزك اتأكد';
+
+  @override
+  String notifBookingConfirmedBody(String code) {
+    return 'رقم الحجز $code';
+  }
+
+  @override
+  String get notifReminderTitle => 'حجزك قرّب';
+
+  @override
+  String notifReminderBody(String code) {
+    return 'الحجز $code بيبدأ قريب.';
+  }
+
+  @override
+  String get notifReminderCutoffClosed => 'الإلغاء اتقفل، والحجز زي ما هو.';
+
+  @override
+  String get notifAdminCancelTitle => 'إدارة المنشأة لغت حجزك';
+
+  @override
+  String notifAdminCancelBody(String code) {
+    return 'الحجز $code. الفلوس رجعت كاملة.';
+  }
+
+  @override
+  String get notifOwnerCancelTitle => 'تم إلغاء حجزك';
+
+  @override
+  String notifOwnerCancelBody(String code) {
+    return 'الحجز $code.';
+  }
+
+  @override
+  String get notifRefundTitle => 'رجعنا لك فلوسك';
+
+  @override
+  String notifRefundBody(String amount) {
+    return '$amount رجعت على نفس وسيلة الدفع.';
+  }
+
+  @override
+  String get notifVerificationPendingTitle => 'توثيق الحساب قيد المراجعة';
+
+  @override
+  String get notifVerificationPendingBody => 'هنبلغك أول ما نخلص.';
+
+  @override
+  String get notifVerificationApprovedTitle => 'توثيق الحساب تمت الموافقة';
+
+  @override
+  String get notifVerificationApprovedBody => 'دلوقتي بتحجز بالسعر الداخلي.';
+
+  @override
+  String get notifVerificationRejectedTitle => 'توثيق الحساب مرفوض';
+
+  @override
+  String notifVerificationRejectedBody(String reason) {
+    return 'السبب: $reason';
+  }
+
+  @override
+  String get notifUnknownTitle => 'إشعار جديد';
+
+  @override
+  String get notifViewTicket => 'عرض التذكرة';
+
+  @override
+  String get notifCancelBooking => 'إلغاء الحجز';
+
+  @override
+  String get permissionTitle => 'تفعيل الإشعارات؟';
+
+  @override
+  String get permissionMessage => 'هنبعتلك تذكير قبل الحجز وأي تحديث عليه.';
+
+  @override
+  String get permissionAllow => 'تفعيل';
+
+  @override
+  String get permissionDeny => 'مش دلوقتي';
+
+  @override
+  String get demo007Section => 'تذكيرات وإلغاء من الإدارة';
+
+  @override
+  String get demo007ShowReminder => 'إظهار تذكير حجزي الجاي';
+
+  @override
+  String get demo007AdminCancel => 'إلغاء من الإدارة';
+
+  @override
+  String get demo007Done => 'تم';
+
+  @override
+  String get demo007NoBooking => 'مفيش حجز مؤكد جاي';
+
+  @override
+  String get accountTitle => 'حسابي';
+
+  @override
+  String get accountPersonalData => 'البيانات الشخصية';
+
+  @override
+  String get accountNotifications => 'الإشعارات';
+
+  @override
+  String get accountNotificationsOn => 'مفعّلة';
+
+  @override
+  String get accountNotificationsOff => 'متوقفة';
+
+  @override
+  String get accountGuestTitle => 'سجّل دخولك عشان تشوف حسابك';
+
+  @override
+  String get editProfileTitle => 'البيانات الشخصية';
+
+  @override
+  String get editProfileName => 'الاسم';
+
+  @override
+  String get editProfileNameError => 'الاسم لازم يكون حرفين على الأقل';
+
+  @override
+  String get editProfileEmail => 'الإيميل';
+
+  @override
+  String get editProfilePhone => 'رقم الموبايل';
+
+  @override
+  String get editProfileLockedHelper => 'مربوط بتسجيل الدخول ومش بيتعدل من هنا';
+
+  @override
+  String get editProfileSave => 'حفظ';
+
+  @override
+  String get editProfileChangePhoto => 'تغيير الصورة';
+
+  @override
+  String get editProfileRemovePhoto => 'حذف الصورة';
+
+  @override
+  String get editProfilePhotoError => 'الصورة مش مناسبة، وفضلت الصورة القديمة.';
+
+  @override
+  String get editProfileSaveError => 'الحفظ ماتمش، وبياناتك زي ما هي.';
+
+  @override
+  String get editProfilePhotoSourceTitle => 'صورة الحساب';
+
+  @override
+  String get searchMostBooked => 'الأكتر حجزًا';
+
+  @override
+  String get searchRecents => 'عمليات بحث سابقة';
+
+  @override
+  String get searchClearRecents => 'مسح الكل';
+
+  @override
+  String get searchCancel => 'إلغاء';
+
+  @override
+  String get searchNoResultsTitle => 'مفيش نتايج';
+
+  @override
+  String get searchNoResultsBody => 'مفيش منشأة بالاسم ده. جرّب كلمة تانية.';
+
+  @override
+  String notifReminderBodyAt(String code, String when) {
+    return 'الحجز $code بيبدأ $when.';
+  }
+
+  @override
+  String notifReminderWhenToday(String time) {
+    return 'الساعة $time';
+  }
+
+  @override
+  String notifReminderWhenDay(String date, String time) {
+    return '$date الساعة $time';
+  }
+
+  @override
+  String get bookingDetailsRefundedRow => 'المسترد';
+
+  @override
+  String get bookingDetailsRefundWay => 'الفلوس بترجع على نفس وسيلة الدفع';
+
+  @override
+  String get facilitiesSearchPlaceholder => 'البحث عن منشأة أو رياضة';
 }

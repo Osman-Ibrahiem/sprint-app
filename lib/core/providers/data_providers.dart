@@ -15,10 +15,12 @@ import 'package:sprint/features/auth/domain/auth_repository.dart';
 import 'package:sprint/features/auth/domain/email_outbox.dart';
 import 'package:sprint/features/booking/domain/availability_repository.dart';
 import 'package:sprint/features/booking/domain/booking_repository.dart';
+import 'package:sprint/features/catalogue/data/recent_searches_store.dart';
 import 'package:sprint/features/catalogue/domain/catalogue_repository.dart';
 import 'package:sprint/features/demo/demo_flags.dart';
 import 'package:sprint/features/identity/domain/identity_repository.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
+import 'package:sprint/features/notifications/data/notification_permission_store.dart';
 import 'package:sprint/features/notifications/domain/notification_repository.dart';
 import 'package:sprint/features/payments/data/fake_gateway_controller.dart';
 import 'package:sprint/features/payments/domain/payment_provider.dart';
@@ -84,6 +86,10 @@ InMemoryDataLayer dataLayer(Ref ref) {
 /// language stay) and rebuilds every repository from the seed.
 @Riverpod(keepAlive: true)
 Future<void> Function() resetDemoData(Ref ref) => () async {
+  await Future.wait([
+    ref.read(recentSearchesStoreProvider).clear(),
+    ref.read(notificationPermissionStoreProvider).clear(),
+  ]);
   await ref.read(dataLayerProvider).reset();
   ref.read(initialSnapshotProvider.notifier).clear();
   ref.invalidate(dataLayerProvider);

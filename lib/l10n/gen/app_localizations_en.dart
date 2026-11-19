@@ -2255,6 +2255,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get receiptTotalPaid => 'Total paid';
 
   @override
+  String get receiptRefund => 'Refunded';
+
+  @override
   String get receiptSave => 'Save receipt as PDF';
 
   @override
@@ -2362,4 +2365,611 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get splashCaption => 'Tanta University';
+
+  @override
+  String get notificationBellLabel => 'Notifications';
+
+  @override
+  String notificationBellLabelUnread(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unread',
+      one: '1 unread',
+    );
+    return 'Notifications, $_temp0';
+  }
+
+  @override
+  String get commonCancel => 'Cancel';
+
+  @override
+  String get commonClose => 'Close';
+
+  @override
+  String get commonBack => 'Back';
+
+  @override
+  String lockedFieldReadOnly(String reason) {
+    return 'Read only, $reason';
+  }
+
+  @override
+  String get lockedFieldIcon => 'Locked';
+
+  @override
+  String get searchClear => 'Clear search';
+
+  @override
+  String get popoverClose => 'Close menu';
+
+  @override
+  String get dialogConfirmDestructive => 'Confirm';
+
+  @override
+  String get gallery007Section => 'My bookings, notifications and account';
+
+  @override
+  String get gallery007SampleTitle => 'Your booking is confirmed';
+
+  @override
+  String get gallery007SampleBody => 'Olympic pool · lane 2';
+
+  @override
+  String get gallery007SampleTime => '4:00 PM';
+
+  @override
+  String get gallery007SampleDate => 'Thu 12 Nov · 6:00 – 8:00 PM';
+
+  @override
+  String get gallery007SampleAction => 'View ticket';
+
+  @override
+  String get gallery007SampleUpcoming => 'Upcoming (3)';
+
+  @override
+  String get gallery007SamplePast => 'Past';
+
+  @override
+  String get gallery007SampleLanguage => 'Language';
+
+  @override
+  String get gallery007SampleLanguageValue => 'Arabic';
+
+  @override
+  String get gallery007SampleSignOut => 'Sign out';
+
+  @override
+  String get gallery007SampleName => 'Mona Salem';
+
+  @override
+  String get gallery007SampleLockedHelper =>
+      'Linked to your sign-in, not editable here';
+
+  @override
+  String get gallery007SampleBanner =>
+      'Booking cancelled. The money goes back to the same payment method.';
+
+  @override
+  String get gallery007OpenDialog => 'Open the confirm dialog';
+
+  @override
+  String get gallery007DialogTitle => 'Cancel this booking?';
+
+  @override
+  String get gallery007DialogBack => 'Back';
+
+  @override
+  String get gallery007OpenPopover => 'Open the menu';
+
+  @override
+  String get gallery007SampleSearch => 'Search';
+
+  @override
+  String get gallery007SampleSearchCancel => 'Cancel';
+
+  @override
+  String get gallery007SampleEmailLabel => 'Email';
+
+  @override
+  String get navNotifications => 'Notifications';
+
+  @override
+  String get catalogueFacilitiesTitle => 'All facilities';
+
+  @override
+  String get bookingsTitle => 'My bookings';
+
+  @override
+  String bookingsSegmentUpcoming(int count) {
+    return 'Upcoming ($count)';
+  }
+
+  @override
+  String get bookingsSegmentUpcomingPlain => 'Upcoming';
+
+  @override
+  String get bookingsSegmentPast => 'Past';
+
+  @override
+  String bookingsSegmentUpcomingSpoken(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count bookings',
+      one: '1 booking',
+    );
+    return 'Upcoming, $_temp0';
+  }
+
+  @override
+  String get bookingsEmptyTitle => 'No bookings yet.';
+
+  @override
+  String get bookingsEmptyBody => 'The facilities are waiting for you';
+
+  @override
+  String get bookingsUpcomingEmptyTitle => 'No upcoming bookings';
+
+  @override
+  String get bookingsUpcomingEmptyBody =>
+      'Your older bookings are under \"Past\".';
+
+  @override
+  String get bookingsPastEmptyTitle => 'No past bookings';
+
+  @override
+  String get bookingsBrowse => 'Browse facilities';
+
+  @override
+  String get bookingsNoneSelected => 'No booking selected';
+
+  @override
+  String get bookingsActionTicket => 'View ticket';
+
+  @override
+  String get bookingsActionPay => 'Complete payment';
+
+  @override
+  String get bookingsActionDetails => 'Details';
+
+  @override
+  String get bookingsToday => 'Today';
+
+  @override
+  String get bookingsNoteFree => 'Free';
+
+  @override
+  String bookingsNoteTrainer(String name) {
+    return 'With $name';
+  }
+
+  @override
+  String bookingsNoteHold(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes left to pay',
+      one: '1 minute left to pay',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bookingsRowSpoken(
+    String status,
+    String date,
+    String facility,
+    String notes,
+    String code,
+    String action,
+  ) {
+    return '$status, $date, $facility, $notes, booking number $code, $action';
+  }
+
+  @override
+  String get bookingsLoadError => 'We could not load your bookings.';
+
+  @override
+  String get bookingsRetry => 'Try again';
+
+  @override
+  String get bookingDetailsTitle => 'Booking details';
+
+  @override
+  String get bookingDetailsNotFoundTitle => 'Booking not found';
+
+  @override
+  String get bookingDetailsNotFoundBody =>
+      'We could not find this booking in your bookings.';
+
+  @override
+  String get bookingDetailsBackToBookings => 'Back to bookings';
+
+  @override
+  String get bookingDetailsTier => 'Tier';
+
+  @override
+  String get bookingDetailsTierInternal => 'Internal';
+
+  @override
+  String get bookingDetailsTierExternal => 'External';
+
+  @override
+  String get bookingDetailsPaid => 'Paid';
+
+  @override
+  String get bookingDetailsAmount => 'Amount';
+
+  @override
+  String get bookingDetailsRequired => 'Due';
+
+  @override
+  String get bookingDetailsNotPaid => 'Not paid';
+
+  @override
+  String get bookingDetailsPrice => 'Price';
+
+  @override
+  String get bookingDetailsFree => 'Free';
+
+  @override
+  String get bookingDetailsCode => 'Booking number';
+
+  @override
+  String get bookingDetailsCancel => 'Cancel booking';
+
+  @override
+  String bookingDetailsPay(String amount) {
+    return 'Complete payment · $amount';
+  }
+
+  @override
+  String get bookingDetailsReceipt => 'Payment receipt';
+
+  @override
+  String get bookingDetailsHoldTitle => 'The place is held for you';
+
+  @override
+  String bookingDetailsHoldSub(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes left to pay, then the place is open again',
+      one: '1 minute left to pay, then the place is open again',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bookingDetailsAfterCutoff(String when) {
+    return 'Cancelling was open until $when; after that the button goes away';
+  }
+
+  @override
+  String get bookingDetailsAttended =>
+      'Your attendance is recorded. Thanks for using Sprint';
+
+  @override
+  String get bookingDetailsNoShow =>
+      'This booking passed without attendance. There are no fees or penalties';
+
+  @override
+  String get bookingDetailsExpired =>
+      'The hold ran out without payment, and the place is open again';
+
+  @override
+  String get bookingDetailsCancelledByFacility => 'The facility cancelled it';
+
+  @override
+  String bookingDetailsCancelReason(String reason) {
+    return 'Reason: $reason';
+  }
+
+  @override
+  String bookingDetailsFacilityRefund(String amount) {
+    return 'The full $amount is refunded';
+  }
+
+  @override
+  String bookingDetailsRefundFull(String amount) {
+    return 'The booking was cancelled and the full $amount goes back';
+  }
+
+  @override
+  String bookingDetailsRefundPartial(String refund, String paid) {
+    return 'The booking was cancelled and $refund of $paid goes back';
+  }
+
+  @override
+  String get bookingDetailsRefundNone =>
+      'The booking was cancelled and no money goes back';
+
+  @override
+  String get bookingDetailsFreeCancelled =>
+      'The booking was cancelled and the place is open again';
+
+  @override
+  String get bookingDetailsPendingCancelled =>
+      'The booking was cancelled and nothing was charged';
+
+  @override
+  String bookingTicketSpoken(String status, String facility, String date) {
+    return 'Booking $status, $facility, $date';
+  }
+
+  @override
+  String get cancelDialogTitle => 'Cancel this booking?';
+
+  @override
+  String get cancelActionConfirm => 'Cancel booking';
+
+  @override
+  String get cancelActionBack => 'Go back';
+
+  @override
+  String cancelMessageFull(String amount) {
+    return 'The full $amount goes back to the same payment method.';
+  }
+
+  @override
+  String cancelMessagePartial(String refund, String paid) {
+    return '$refund of $paid goes back to the same payment method.';
+  }
+
+  @override
+  String get cancelMessageNone =>
+      'Cancelling now is without a refund, and no money goes back.';
+
+  @override
+  String get cancelMessageFree =>
+      'The booking is free, so no money goes back. The place opens up for others.';
+
+  @override
+  String get cancelMessagePending =>
+      'We cancel the booking and nothing was charged.';
+
+  @override
+  String get cancelClosedTitle => 'The cancellation time has passed';
+
+  @override
+  String cancelClosedBody(String when) {
+    return 'Cancelling was open until $when.';
+  }
+
+  @override
+  String get cancelAlreadyTitle => 'This booking was already cancelled';
+
+  @override
+  String get cancelFailed =>
+      'The cancellation did not go through and the booking is unchanged.';
+
+  @override
+  String get cancelNotAllowedBody => 'This booking cannot be cancelled now.';
+
+  @override
+  String get cancelResultTitle => 'Booking cancelled';
+
+  @override
+  String get cancelResultBack => 'Back to bookings';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsMarkAllRead => 'Mark all as read';
+
+  @override
+  String get notificationsEmptyTitle => 'No notifications';
+
+  @override
+  String get notificationsEmptyBody =>
+      'Anything new about your bookings shows up here.';
+
+  @override
+  String get notificationsUnreadSpoken => 'unread';
+
+  @override
+  String get notifBookingConfirmedTitle => 'Your booking is confirmed';
+
+  @override
+  String notifBookingConfirmedBody(String code) {
+    return 'Booking number $code';
+  }
+
+  @override
+  String get notifReminderTitle => 'Your booking is coming up';
+
+  @override
+  String notifReminderBody(String code) {
+    return 'Booking $code starts soon.';
+  }
+
+  @override
+  String get notifReminderCutoffClosed =>
+      'Cancelling has closed; the booking stays.';
+
+  @override
+  String get notifAdminCancelTitle => 'The facility cancelled your booking';
+
+  @override
+  String notifAdminCancelBody(String code) {
+    return 'Booking $code. You are refunded in full.';
+  }
+
+  @override
+  String get notifOwnerCancelTitle => 'You cancelled your booking';
+
+  @override
+  String notifOwnerCancelBody(String code) {
+    return 'Booking $code.';
+  }
+
+  @override
+  String get notifRefundTitle => 'We refunded you';
+
+  @override
+  String notifRefundBody(String amount) {
+    return '$amount went back to the same payment method.';
+  }
+
+  @override
+  String get notifVerificationPendingTitle =>
+      'Account verification under review';
+
+  @override
+  String get notifVerificationPendingBody =>
+      'We will tell you as soon as we finish.';
+
+  @override
+  String get notifVerificationApprovedTitle => 'Account verification approved';
+
+  @override
+  String get notifVerificationApprovedBody =>
+      'You now book at the internal price.';
+
+  @override
+  String get notifVerificationRejectedTitle => 'Account verification rejected';
+
+  @override
+  String notifVerificationRejectedBody(String reason) {
+    return 'Reason: $reason';
+  }
+
+  @override
+  String get notifUnknownTitle => 'New notification';
+
+  @override
+  String get notifViewTicket => 'View ticket';
+
+  @override
+  String get notifCancelBooking => 'Cancel booking';
+
+  @override
+  String get permissionTitle => 'Turn on notifications?';
+
+  @override
+  String get permissionMessage =>
+      'We send you a reminder before a booking and any update on it.';
+
+  @override
+  String get permissionAllow => 'Turn on';
+
+  @override
+  String get permissionDeny => 'Not now';
+
+  @override
+  String get demo007Section => 'Reminders and facility cancel';
+
+  @override
+  String get demo007ShowReminder => 'Show a reminder for my next booking';
+
+  @override
+  String get demo007AdminCancel => 'Cancel as the facility';
+
+  @override
+  String get demo007Done => 'Done';
+
+  @override
+  String get demo007NoBooking => 'No upcoming confirmed booking';
+
+  @override
+  String get accountTitle => 'My account';
+
+  @override
+  String get accountPersonalData => 'Personal details';
+
+  @override
+  String get accountNotifications => 'Notifications';
+
+  @override
+  String get accountNotificationsOn => 'On';
+
+  @override
+  String get accountNotificationsOff => 'Off';
+
+  @override
+  String get accountGuestTitle => 'Sign in to see your account';
+
+  @override
+  String get editProfileTitle => 'Personal details';
+
+  @override
+  String get editProfileName => 'Name';
+
+  @override
+  String get editProfileNameError => 'The name needs at least two characters';
+
+  @override
+  String get editProfileEmail => 'Email';
+
+  @override
+  String get editProfilePhone => 'Mobile number';
+
+  @override
+  String get editProfileLockedHelper =>
+      'Linked to your sign-in and not editable here';
+
+  @override
+  String get editProfileSave => 'Save';
+
+  @override
+  String get editProfileChangePhoto => 'Change photo';
+
+  @override
+  String get editProfileRemovePhoto => 'Remove photo';
+
+  @override
+  String get editProfilePhotoError =>
+      'That photo does not work, and the old one stays.';
+
+  @override
+  String get editProfileSaveError =>
+      'Saving failed, and your details are unchanged.';
+
+  @override
+  String get editProfilePhotoSourceTitle => 'Profile photo';
+
+  @override
+  String get searchMostBooked => 'Most booked';
+
+  @override
+  String get searchRecents => 'Recent searches';
+
+  @override
+  String get searchClearRecents => 'Clear all';
+
+  @override
+  String get searchCancel => 'Cancel';
+
+  @override
+  String get searchNoResultsTitle => 'No results';
+
+  @override
+  String get searchNoResultsBody => 'No facility matches. Try another word.';
+
+  @override
+  String notifReminderBodyAt(String code, String when) {
+    return 'Booking $code starts $when.';
+  }
+
+  @override
+  String notifReminderWhenToday(String time) {
+    return 'at $time';
+  }
+
+  @override
+  String notifReminderWhenDay(String date, String time) {
+    return '$date at $time';
+  }
+
+  @override
+  String get bookingDetailsRefundedRow => 'Refunded';
+
+  @override
+  String get bookingDetailsRefundWay =>
+      'The money goes back to the same payment method';
+
+  @override
+  String get facilitiesSearchPlaceholder => 'Search a facility or a sport';
 }

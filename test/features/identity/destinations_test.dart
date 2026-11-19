@@ -14,19 +14,20 @@ void main() {
     AppSection.home,
     AppSection.facilities,
     AppSection.bookings,
+    AppSection.notifications,
     AppSection.profile,
   ];
 
   group('sections from roles', () {
-    test('a guest gets the four base sections', () {
+    test('a guest gets the five base sections', () {
       expect(sectionsFor(const []), base);
     });
 
-    test('a booker gets the same four', () {
+    test('a booker gets the same five', () {
       expect(sectionsFor([grant(Role.booker)]), base);
     });
 
-    test('a trainer gets the base four plus trainer sessions', () {
+    test('a trainer gets the base five plus trainer sessions', () {
       expect(sectionsFor([grant(Role.trainer)]), [
         ...base,
         AppSection.trainerSessions,
@@ -72,7 +73,7 @@ void main() {
         grant(Role.booker),
       ]);
       expect(s.toSet().length, s.length);
-      expect(s.take(4), base);
+      expect(s.take(5), base);
       // Stable: always in the order of the enum.
       expect(s, AppSection.values.where(s.contains).toList());
     });
@@ -90,7 +91,7 @@ void main() {
       builder: () => const SizedBox.shrink(),
     );
 
-    test('guest and booker both get the four registered destinations', () {
+    test('guest and booker both get the five registered destinations', () {
       for (final roles in [
         const <RoleAssignment>[],
         [grant(Role.booker)],
@@ -100,6 +101,7 @@ void main() {
           AppPaths.home,
           AppPaths.facilities,
           AppPaths.bookings,
+          AppPaths.notifications,
           AppPaths.profile,
         ]);
       }
@@ -114,7 +116,7 @@ void main() {
         sectionsFor([grant(Role.trainer)]),
         registry: registry,
       );
-      expect(d, hasLength(5));
+      expect(d, hasLength(6));
       expect(d.last.path, '/trainer');
     });
 
@@ -123,7 +125,7 @@ void main() {
         sectionsFor([grant(Role.trainer), grant(Role.unitAdmin)]),
         registry: baseRegistry,
       );
-      expect(d, hasLength(4));
+      expect(d, hasLength(5));
     });
   });
 }

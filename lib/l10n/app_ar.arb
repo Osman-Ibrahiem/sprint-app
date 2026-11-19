@@ -1244,8 +1244,6 @@
   },
   "checkoutRowTime": "الميعاد",
   "checkoutRowTotal": "الإجمالي",
-  "checkoutTierInternal": "داخلي · موثّق",
-  "checkoutTierExternal": "خارجي · السعر الكامل",
   "checkoutMethodTitle": "الدفع الإلكتروني",
   "checkoutMethodSubtitle": "بطاقة بنكية أو محفظة موبايل · صفحة المزوّد الآمنة",
   "checkoutSandboxTag": "وضع الاختبار · مفيش فلوس حقيقية بتتخصم",
@@ -1356,6 +1354,7 @@
     }
   },
   "receiptTotalPaid": "الإجمالي المدفوع",
+  "receiptRefund": "المبلغ المسترد",
   "receiptSave": "حفظ الإيصال PDF",
   "receiptShare": "مشاركة الإيصال",
   "receiptNavTitle": "الإيصال",
@@ -1434,5 +1433,393 @@
   "splashCaption": "جامعة طنطا",
   "@splashCaption": {
     "description": "Splash screen caption at the bottom (proposed copy, not yet in copy-review)"
-  }
+  },
+  "notificationBellLabel": "الإشعارات",
+  "notificationBellLabelUnread": "الإشعارات، {count, plural, =1{إشعار جديد واحد} =2{إشعارين جدد} other{{count} إشعارات جديدة}}",
+  "@notificationBellLabelUnread": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "commonCancel": "إلغاء",
+  "commonClose": "إغلاق",
+  "commonBack": "رجوع",
+  "lockedFieldReadOnly": "للقراءة فقط، {reason}",
+  "@lockedFieldReadOnly": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "lockedFieldIcon": "مقفول",
+  "searchClear": "مسح البحث",
+  "popoverClose": "إغلاق القائمة",
+  "dialogConfirmDestructive": "تأكيد",
+  "gallery007Section": "جزء حجوزاتي والإشعارات والحساب",
+  "gallery007SampleTitle": "تم تأكيد حجزك",
+  "gallery007SampleBody": "حمام السباحة الأولمبي · حارة 2",
+  "gallery007SampleTime": "4:00 م",
+  "gallery007SampleDate": "الخميس 12 نوفمبر · 6:00 – 8:00 م",
+  "gallery007SampleAction": "عرض التذكرة",
+  "gallery007SampleUpcoming": "الجاية (3)",
+  "gallery007SamplePast": "اللي فاتت",
+  "gallery007SampleLanguage": "اللغة",
+  "gallery007SampleLanguageValue": "العربية",
+  "gallery007SampleSignOut": "تسجيل الخروج",
+  "gallery007SampleName": "منى سالم",
+  "gallery007SampleLockedHelper": "مربوط بتسجيل الدخول ومش بيتعدل من هنا",
+  "gallery007SampleBanner": "الحجز اتلغى. الفلوس هترجع على نفس وسيلة الدفع.",
+  "gallery007OpenDialog": "فتح نافذة التأكيد",
+  "gallery007DialogTitle": "إلغاء الحجز؟",
+  "gallery007DialogBack": "الرجوع",
+  "gallery007OpenPopover": "فتح القائمة",
+  "gallery007SampleSearch": "بحث",
+  "gallery007SampleSearchCancel": "إلغاء",
+  "gallery007SampleEmailLabel": "الإيميل",
+  "navNotifications": "الإشعارات",
+  "catalogueFacilitiesTitle": "كل المنشآت",
+  "bookingsTitle": "حجوزاتي",
+  "bookingsSegmentUpcoming": "الجاية ({count})",
+  "@bookingsSegmentUpcoming": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingsSegmentUpcomingPlain": "الجاية",
+  "bookingsSegmentPast": "اللي فاتت",
+  "bookingsSegmentUpcomingSpoken": "الجاية، {count, plural, =1{حجز واحد} =2{حجزين} other{{count} حجوزات}}",
+  "@bookingsSegmentUpcomingSpoken": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingsEmptyTitle": "لسه مفيش حجوزات.",
+  "bookingsEmptyBody": "المنشآت مستنياك",
+  "bookingsUpcomingEmptyTitle": "مفيش حجوزات جاية",
+  "bookingsUpcomingEmptyBody": "حجوزاتك القديمة موجودة في \"اللي فاتت\".",
+  "bookingsPastEmptyTitle": "مفيش حجوزات سابقة",
+  "bookingsBrowse": "استعراض المنشآت",
+  "bookingsNoneSelected": "مفيش حجز محدد",
+  "bookingsActionTicket": "عرض التذكرة",
+  "bookingsActionPay": "إكمال الدفع",
+  "bookingsActionDetails": "التفاصيل",
+  "bookingsToday": "النهارده",
+  "bookingsNoteFree": "مجاني",
+  "bookingsNoteTrainer": "مع {name}",
+  "@bookingsNoteTrainer": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingsNoteHold": "{count, plural, =1{فاضل دقيقة للدفع} =2{فاضل دقيقتين للدفع} other{فاضل {count} دقايق للدفع}}",
+  "@bookingsNoteHold": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingsRowSpoken": "{status}، {date}، {facility}، {notes}، رقم الحجز {code}، {action}",
+  "@bookingsRowSpoken": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      },
+      "facility": {
+        "type": "String"
+      },
+      "notes": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      },
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingsLoadError": "مقدرناش نحمّل حجوزاتك.",
+  "bookingsRetry": "إعادة المحاولة",
+  "bookingDetailsTitle": "تفاصيل الحجز",
+  "bookingDetailsNotFoundTitle": "الحجز مش موجود",
+  "bookingDetailsNotFoundBody": "مش لاقيين الحجز ده في حجوزاتك.",
+  "bookingDetailsBackToBookings": "العودة للحجوزات",
+  "bookingDetailsTier": "الشريحة",
+  "bookingDetailsTierInternal": "داخلي",
+  "bookingDetailsTierExternal": "خارجي",
+  "bookingDetailsPaid": "المدفوع",
+  "bookingDetailsAmount": "المبلغ",
+  "bookingDetailsRequired": "المطلوب",
+  "bookingDetailsNotPaid": "ما اتدفعش",
+  "bookingDetailsPrice": "السعر",
+  "bookingDetailsFree": "مجاني",
+  "bookingDetailsCode": "رقم الحجز",
+  "bookingDetailsCancel": "إلغاء الحجز",
+  "bookingDetailsPay": "إكمال الدفع · {amount}",
+  "@bookingDetailsPay": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsReceipt": "إيصال الدفع",
+  "bookingDetailsHoldTitle": "المكان متحجز لك",
+  "bookingDetailsHoldSub": "{count, plural, =1{فاضل دقيقة للدفع، وبعدها المكان يرجع متاح} =2{فاضل دقيقتين للدفع، وبعدها المكان يرجع متاح} other{فاضل {count} دقايق للدفع، وبعدها المكان يرجع متاح}}",
+  "@bookingDetailsHoldSub": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookingDetailsAfterCutoff": "الإلغاء كان متاح لحد {when}، وبعده زرار الإلغاء بيختفي",
+  "@bookingDetailsAfterCutoff": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsAttended": "تم تسجيل حضورك. شكرًا لاستخدامك سبرنت",
+  "bookingDetailsNoShow": "الحجز ده عدّى من غير حضور. مفيش أي رسوم أو عقوبة",
+  "bookingDetailsExpired": "المهلة خلصت من غير دفع، والمكان رجع متاح",
+  "bookingDetailsCancelledByFacility": "لغته إدارة المنشأة",
+  "bookingDetailsCancelReason": "السبب: {reason}",
+  "@bookingDetailsCancelReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsFacilityRefund": "الـ {amount} رجعت كاملة",
+  "@bookingDetailsFacilityRefund": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsRefundFull": "الحجز اتلغى والـ {amount} هترجع بالكامل",
+  "@bookingDetailsRefundFull": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsRefundPartial": "الحجز اتلغى وهيرجع {refund} من {paid}",
+  "@bookingDetailsRefundPartial": {
+    "placeholders": {
+      "refund": {
+        "type": "String"
+      },
+      "paid": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsRefundNone": "الحجز اتلغى ومفيش مبلغ هيرجع",
+  "bookingDetailsFreeCancelled": "الحجز اتلغى والمكان رجع متاح",
+  "bookingDetailsPendingCancelled": "الحجز اتلغى ومفيش فلوس اتسحبت",
+  "bookingTicketSpoken": "حجز {status}، {facility}، {date}",
+  "@bookingTicketSpoken": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      },
+      "facility": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelDialogTitle": "إلغاء الحجز؟",
+  "cancelActionConfirm": "إلغاء الحجز",
+  "cancelActionBack": "الرجوع",
+  "cancelMessageFull": "هترجع {amount} كاملة على نفس وسيلة الدفع.",
+  "@cancelMessageFull": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelMessagePartial": "هيرجع {refund} من {paid} على نفس وسيلة الدفع.",
+  "@cancelMessagePartial": {
+    "placeholders": {
+      "refund": {
+        "type": "String"
+      },
+      "paid": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelMessageNone": "الإلغاء دلوقتي من غير استرداد، ومفيش مبلغ هيرجع.",
+  "cancelMessageFree": "الحجز مجاني، فمفيش مبلغ يرجع. المكان هيرجع متاح لغيرك.",
+  "cancelMessagePending": "هنلغي الحجز ومفيش فلوس اتسحبت.",
+  "cancelClosedTitle": "فات وقت الإلغاء",
+  "cancelClosedBody": "الإلغاء كان متاح لحد {when}.",
+  "@cancelClosedBody": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelAlreadyTitle": "الحجز ده اتلغى قبل كده",
+  "cancelFailed": "الإلغاء ماتمش والحجز زي ما هو.",
+  "cancelNotAllowedBody": "الحجز ده مينفعش يتلغي دلوقتي.",
+  "cancelResultTitle": "الحجز اتلغى",
+  "cancelResultBack": "العودة للحجوزات",
+  "notificationsTitle": "الإشعارات",
+  "notificationsMarkAllRead": "تعليم الكل كمقروء",
+  "notificationsEmptyTitle": "مفيش إشعارات",
+  "notificationsEmptyBody": "أي حاجة جديدة بخصوص حجوزاتك هتظهر هنا.",
+  "notificationsUnreadSpoken": "جديد",
+  "notifBookingConfirmedTitle": "حجزك اتأكد",
+  "notifBookingConfirmedBody": "رقم الحجز {code}",
+  "@notifBookingConfirmedBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "notifReminderTitle": "حجزك قرّب",
+  "notifReminderBody": "الحجز {code} بيبدأ قريب.",
+  "@notifReminderBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "notifReminderCutoffClosed": "الإلغاء اتقفل، والحجز زي ما هو.",
+  "notifAdminCancelTitle": "إدارة المنشأة لغت حجزك",
+  "notifAdminCancelBody": "الحجز {code}. الفلوس رجعت كاملة.",
+  "@notifAdminCancelBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "notifOwnerCancelTitle": "تم إلغاء حجزك",
+  "notifOwnerCancelBody": "الحجز {code}.",
+  "@notifOwnerCancelBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "notifRefundTitle": "رجعنا لك فلوسك",
+  "notifRefundBody": "{amount} رجعت على نفس وسيلة الدفع.",
+  "@notifRefundBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "notifVerificationPendingTitle": "توثيق الحساب قيد المراجعة",
+  "notifVerificationPendingBody": "هنبلغك أول ما نخلص.",
+  "notifVerificationApprovedTitle": "توثيق الحساب تمت الموافقة",
+  "notifVerificationApprovedBody": "دلوقتي بتحجز بالسعر الداخلي.",
+  "notifVerificationRejectedTitle": "توثيق الحساب مرفوض",
+  "notifVerificationRejectedBody": "السبب: {reason}",
+  "@notifVerificationRejectedBody": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "notifUnknownTitle": "إشعار جديد",
+  "notifViewTicket": "عرض التذكرة",
+  "notifCancelBooking": "إلغاء الحجز",
+  "permissionTitle": "تفعيل الإشعارات؟",
+  "permissionMessage": "هنبعتلك تذكير قبل الحجز وأي تحديث عليه.",
+  "permissionAllow": "تفعيل",
+  "permissionDeny": "مش دلوقتي",
+  "demo007Section": "تذكيرات وإلغاء من الإدارة",
+  "demo007ShowReminder": "إظهار تذكير حجزي الجاي",
+  "demo007AdminCancel": "إلغاء من الإدارة",
+  "demo007Done": "تم",
+  "demo007NoBooking": "مفيش حجز مؤكد جاي",
+  "accountTitle": "حسابي",
+  "accountPersonalData": "البيانات الشخصية",
+  "accountNotifications": "الإشعارات",
+  "accountNotificationsOn": "مفعّلة",
+  "accountNotificationsOff": "متوقفة",
+  "accountGuestTitle": "سجّل دخولك عشان تشوف حسابك",
+  "editProfileTitle": "البيانات الشخصية",
+  "editProfileName": "الاسم",
+  "editProfileNameError": "الاسم لازم يكون حرفين على الأقل",
+  "editProfileEmail": "الإيميل",
+  "editProfilePhone": "رقم الموبايل",
+  "editProfileLockedHelper": "مربوط بتسجيل الدخول ومش بيتعدل من هنا",
+  "editProfileSave": "حفظ",
+  "editProfileChangePhoto": "تغيير الصورة",
+  "editProfileRemovePhoto": "حذف الصورة",
+  "editProfilePhotoError": "الصورة مش مناسبة، وفضلت الصورة القديمة.",
+  "editProfileSaveError": "الحفظ ماتمش، وبياناتك زي ما هي.",
+  "editProfilePhotoSourceTitle": "صورة الحساب",
+  "searchMostBooked": "الأكتر حجزًا",
+  "searchRecents": "عمليات بحث سابقة",
+  "searchClearRecents": "مسح الكل",
+  "searchCancel": "إلغاء",
+  "searchNoResultsTitle": "مفيش نتايج",
+  "searchNoResultsBody": "مفيش منشأة بالاسم ده. جرّب كلمة تانية.",
+  "notifReminderBodyAt": "الحجز {code} بيبدأ {when}.",
+  "@notifReminderBodyAt": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "notifReminderWhenToday": "الساعة {time}",
+  "@notifReminderWhenToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notifReminderWhenDay": "{date} الساعة {time}",
+  "@notifReminderWhenDay": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingDetailsRefundedRow": "المسترد",
+  "bookingDetailsRefundWay": "الفلوس بترجع على نفس وسيلة الدفع",
+  "facilitiesSearchPlaceholder": "البحث عن منشأة أو رياضة"
 }

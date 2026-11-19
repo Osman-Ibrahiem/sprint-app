@@ -17,6 +17,7 @@ import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/features/demo/demo_flags.dart';
 import 'package:sprint/features/demo/presentation/adaptive_controls_demo.dart';
+import 'package:sprint/features/demo/presentation/demo_007_section.dart';
 import 'package:sprint/features/demo/presentation/demo_payment_section.dart';
 import 'package:sprint/features/demo/presentation/demo_user_switcher.dart';
 import 'package:sprint/features/demo/presentation/gate_demo.dart';
@@ -115,6 +116,8 @@ class DemoScreen extends ConsumerWidget {
                   const SettingsInspector(),
                   const SizedBox(height: SprintSpacing.space6),
                   const DemoPaymentSection(),
+                  const SizedBox(height: SprintSpacing.space6),
+                  const Demo007Section(),
                   const SizedBox(height: SprintSpacing.space6),
                   const GateDemo(),
                   const SizedBox(height: SprintSpacing.space6),

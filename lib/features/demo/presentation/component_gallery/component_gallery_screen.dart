@@ -14,6 +14,7 @@ import 'package:sprint/features/demo/presentation/component_gallery/sections/day
 import 'package:sprint/features/demo/presentation/component_gallery/sections/facility_card_section.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/sections/logo_section.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/sections/slot_chip_section.dart';
+import 'package:sprint/features/demo/presentation/component_gallery/sections/feature_007_section.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/sections/stat_tile_section.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/sections/status_badge_section.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/sections/text_field_section.dart';
@@ -70,6 +71,7 @@ class _ComponentGalleryScreenState extends ConsumerState<ComponentGalleryScreen>
           BookingTicketSection(l10n: l10n),
           AppNavigationSection(l10n: l10n),
           StatTileSection(l10n: l10n),
+          Feature007Section(l10n: l10n),
         ];
 
         return Scaffold(

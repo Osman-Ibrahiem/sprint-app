@@ -2,6 +2,7 @@ import 'package:sprint/core/result/result.dart';
 import 'package:sprint/features/attendance/domain/attendance.dart';
 import 'package:sprint/features/booking/domain/booking.dart';
 import 'package:sprint/features/booking/domain/booking_quote.dart';
+import 'package:sprint/features/booking/domain/cancel_preview.dart';
 import 'package:sprint/features/payments/domain/payment.dart';
 import 'package:sprint/features/payments/domain/payment_provider.dart';
 import 'package:sprint/features/payments/domain/refund.dart';
@@ -84,10 +85,22 @@ abstract interface class BookingRepository {
   Stream<BookingCheckoutState> watchBooking(String bookingId);
 
   /// By the owner (before the cutoff) or an admin (always 100% back).
+  /// A second call on a cancelled booking returns it unchanged (idempotent).
   Future<Result<Booking>> cancel(
     String id,
     String actorUserId, {
     String? reason,
+  });
+
+  /// The same decision [cancel] would make, without writing anything
+  /// (research R3). The dialog reads it on open; [cancel] re-checks.
+  Future<CancelPreview> previewCancel(String id, String actorUserId);
+
+  /// facilityId -> how many confirmed and attended bookings start in [since, until],
+  /// across every user (a future booking is not "booked" yet). Feeds the "most booked" suggestions.
+  Future<Map<String, int>> bookedCounts({
+    required DateTime since,
+    required DateTime until,
   });
 
   Future<Result<Booking>> markAttendance(

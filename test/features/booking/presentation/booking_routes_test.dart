@@ -11,8 +11,14 @@ import '../../../helpers/pump_app.dart';
 
 /// Routes of the booking flow (contracts/routes.md).
 void main() {
+  // Two days ahead of the real clock, so a slot is never in the past
+  // whenever the suite runs (the day was once a fixed date).
+  final soon = DateTime.now().add(const Duration(days: 2));
+  final day = DateTime(soon.year, soon.month, soon.day);
+  final dayText =
+      '${day.year}-${day.month.toString().padLeft(2, '0')}-${day.day.toString().padLeft(2, '0')}';
   final selection = ScheduleSelection(
-    day: DateTime(2026, 11, 19),
+    day: day,
     unitId: SeedIds.pool2,
     startMinutes: 18 * 60,
     endMinutes: 19 * 60,
@@ -48,15 +54,15 @@ void main() {
   ) async {
     expect(
       AppPaths.facilitySchedule(pool, selection),
-      '/facilities/$pool/schedule?day=2026-11-19&unit=u-pool-2&start=1800&end=1900',
+      '/facilities/$pool/schedule?day=$dayText&unit=u-pool-2&start=1800&end=1900',
     );
     expect(
       AppPaths.bookingSummary(pool, selection, shown: 40),
-      '/facilities/$pool/schedule/summary?day=2026-11-19&unit=u-pool-2&start=1800&end=1900&shown=40',
+      '/facilities/$pool/schedule/summary?day=$dayText&unit=u-pool-2&start=1800&end=1900&shown=40',
     );
     expect(
       AppPaths.bookingCheckout(pool, selection),
-      '/facilities/$pool/schedule/checkout?day=2026-11-19&unit=u-pool-2&start=1800&end=1900',
+      '/facilities/$pool/schedule/checkout?day=$dayText&unit=u-pool-2&start=1800&end=1900',
     );
     expect(
       AppPaths.bookingDone(pool, 'bk-1'),
@@ -92,7 +98,7 @@ void main() {
     await tester.pumpAndSettle();
 
     final partial = ScheduleSelection(
-      day: DateTime(2026, 11, 19),
+      day: day,
       unitId: 'u-pool-2',
     );
     routerOf(tester).go(AppPaths.bookingSummary(pool, partial));
@@ -100,7 +106,7 @@ void main() {
 
     expect(currentPath(tester), AppPaths.facilitySchedule(pool));
     final uri = routerOf(tester).routerDelegate.currentConfiguration.uri;
-    expect(uri.queryParameters, {'day': '2026-11-19', 'unit': 'u-pool-2'});
+    expect(uri.queryParameters, {'day': dayText, 'unit': 'u-pool-2'});
     expect(find.byType(ScheduleScreen), findsOneWidget);
   });
 
