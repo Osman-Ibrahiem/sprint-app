@@ -185,30 +185,34 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Center(
-                        child: Avatar(name: _trimmed, photo: photo),
-                      ),
-                      const SizedBox(height: SprintSpacing.space3),
-                      Wrap(
-                        alignment: WrapAlignment.center,
-                        spacing: SprintSpacing.space2,
+                      Row(
                         children: [
-                          SprintButton(
-                            key: EditProfileScreen.changePhotoKey,
-                            label: l10n.editProfileChangePhoto,
-                            variant: SprintButtonVariant.secondary,
-                            onPressed: _choosePhoto,
-                          ),
-                          if (hasPhoto)
-                            SprintButton(
-                              key: EditProfileScreen.removePhotoKey,
-                              label: l10n.editProfileRemovePhoto,
-                              variant: SprintButtonVariant.ghost,
-                              onPressed: () => setState(() {
-                                _newPhoto = null;
-                                _removed = true;
-                              }),
+                          Avatar(name: _trimmed, photo: photo),
+                          const SizedBox(width: SprintSpacing.space4),
+                          Expanded(
+                            child: Wrap(
+                              spacing: SprintSpacing.space2,
+                              runSpacing: SprintSpacing.space2,
+                              children: [
+                                SprintButton(
+                                  key: EditProfileScreen.changePhotoKey,
+                                  label: l10n.editProfileChangePhoto,
+                                  variant: SprintButtonVariant.secondary,
+                                  onPressed: _choosePhoto,
+                                ),
+                                if (hasPhoto)
+                                  SprintButton(
+                                    key: EditProfileScreen.removePhotoKey,
+                                    label: l10n.editProfileRemovePhoto,
+                                    variant: SprintButtonVariant.ghost,
+                                    onPressed: () => setState(() {
+                                      _newPhoto = null;
+                                      _removed = true;
+                                    }),
+                                  ),
+                              ],
                             ),
+                          ),
                         ],
                       ),
                       if (_photoProblem != null) ...[
@@ -233,18 +237,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       ),
                       const SizedBox(height: SprintSpacing.space4),
                       SprintTextField(
-                        label: l10n.editProfileEmail,
-                        type: SprintTextFieldType.email,
-                        locked: true,
-                        lockedValue: user.email,
-                        helper: l10n.editProfileLockedHelper,
-                      ),
-                      const SizedBox(height: SprintSpacing.space4),
-                      SprintTextField(
                         label: l10n.editProfilePhone,
                         type: SprintTextFieldType.phone,
                         locked: true,
                         lockedValue: user.phone,
+                        helper: l10n.editProfileLockedHelper,
+                      ),
+                      const SizedBox(height: SprintSpacing.space4),
+                      SprintTextField(
+                        label: l10n.editProfileEmail,
+                        type: SprintTextFieldType.email,
+                        locked: true,
+                        lockedValue: user.email,
                         helper: l10n.editProfileLockedHelper,
                       ),
                       if (_failed) ...[

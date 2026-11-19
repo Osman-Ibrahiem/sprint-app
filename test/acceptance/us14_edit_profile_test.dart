@@ -4,6 +4,7 @@ import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
+import 'package:sprint/core/widgets/avatar/avatar.dart';
 import 'package:sprint/features/account/presentation/edit_profile_screen.dart';
 
 import '../helpers/pump_app.dart';
@@ -66,5 +67,19 @@ void main() {
     await t.pump();
     expect(find.text(ar.editProfileNameError), findsOneWidget);
     expect(saveEnabled(t), isFalse);
+  });
+
+  testWidgets('M7: title, field order and the avatar beside the photo buttons',
+      (t) async {
+    await open(t);
+    expect(find.text(ar.accountPersonalData), findsWidgets);
+    final name = t.getTopLeft(find.byKey(EditProfileScreen.nameKey)).dy;
+    final phone = t.getTopLeft(find.text(ar.editProfilePhone)).dy;
+    final email = t.getTopLeft(find.text(ar.editProfileEmail)).dy;
+    expect(name, lessThan(phone));
+    expect(phone, lessThan(email));
+    final avatar = t.getCenter(find.byType(Avatar)).dy;
+    final change = t.getCenter(find.byKey(EditProfileScreen.changePhotoKey)).dy;
+    expect((avatar - change).abs(), lessThan(40));
   });
 }

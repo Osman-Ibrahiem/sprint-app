@@ -2864,7 +2864,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get accountGuestTitle => 'سجّل دخولك عشان تشوف حسابك';
 
   @override
-  String get editProfileTitle => 'تعديل البيانات';
+  String get editProfileTitle => 'البيانات الشخصية';
 
   @override
   String get editProfileName => 'الاسم';

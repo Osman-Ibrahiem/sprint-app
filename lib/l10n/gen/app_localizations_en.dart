@@ -2892,7 +2892,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountGuestTitle => 'Sign in to see your account';
 
   @override
-  String get editProfileTitle => 'Edit details';
+  String get editProfileTitle => 'Personal details';
 
   @override
   String get editProfileName => 'Name';

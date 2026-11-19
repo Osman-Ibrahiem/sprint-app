@@ -1767,7 +1767,7 @@
   "accountNotificationsOn": "On",
   "accountNotificationsOff": "Off",
   "accountGuestTitle": "Sign in to see your account",
-  "editProfileTitle": "Edit details",
+  "editProfileTitle": "Personal details",
   "editProfileName": "Name",
   "editProfileNameError": "The name needs at least two characters",
   "editProfileEmail": "Email",

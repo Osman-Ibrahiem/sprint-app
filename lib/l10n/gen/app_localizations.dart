@@ -4803,7 +4803,7 @@ abstract class AppLocalizations {
   /// No description provided for @editProfileTitle.
   ///
   /// In ar, this message translates to:
-  /// **'تعديل البيانات'**
+  /// **'البيانات الشخصية'**
   String get editProfileTitle;
 
   /// No description provided for @editProfileName.
