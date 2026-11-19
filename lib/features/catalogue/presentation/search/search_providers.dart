@@ -26,6 +26,29 @@ final searchQueryProvider = NotifierProvider<SearchQuery, String>(
   SearchQuery.new,
 );
 
+/// The recent terms, live: `add` and `clear` write the device store and update
+/// every listener (the suggestions), so nothing needs a manual invalidate.
+class RecentSearches extends Notifier<List<String>> {
+  @override
+  List<String> build() => ref.watch(recentSearchesStoreProvider).read();
+
+  Future<void> add(String term) async {
+    final store = ref.read(recentSearchesStoreProvider);
+    await store.add(term);
+    state = store.read();
+  }
+
+  Future<void> clear() async {
+    final store = ref.read(recentSearchesStoreProvider);
+    await store.clear();
+    state = store.read();
+  }
+}
+
+final recentSearchesProvider = NotifierProvider<RecentSearches, List<String>>(
+  RecentSearches.new,
+);
+
 /// The filtered facilities with the search applied: names, type labels and
 /// owning units, open ones first by places available today.
 final searchedSummariesProvider = FutureProvider.autoDispose<
@@ -65,6 +88,6 @@ final searchSuggestionsProvider = FutureProvider.autoDispose<SuggestionView>((
     mostBooked: [
       for (final id in ids) all.firstWhere((s) => s.facility.id == id),
     ],
-    recents: ref.watch(recentSearchesStoreProvider).read(),
+    recents: ref.watch(recentSearchesProvider),
   );
 });

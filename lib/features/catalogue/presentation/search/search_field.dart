@@ -8,7 +8,6 @@ import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_text_field/sprint_text_field.dart';
-import 'package:sprint/features/catalogue/data/recent_searches_store.dart';
 import 'package:sprint/features/catalogue/presentation/search/search_providers.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
@@ -70,7 +69,7 @@ class _State extends ConsumerState<FacilitySearchField> {
   }
 
   Future<void> _remember(String term) =>
-      ref.read(recentSearchesStoreProvider).add(term);
+      ref.read(recentSearchesProvider.notifier).add(term);
 
   @override
   Widget build(BuildContext context) {
@@ -169,8 +168,7 @@ class _Suggestions extends ConsumerWidget {
                 TextButton(
                   key: FacilitySearchField.clearRecentsKey,
                   onPressed: () async {
-                    await ref.read(recentSearchesStoreProvider).clear();
-                    ref.invalidate(searchSuggestionsProvider);
+                    await ref.read(recentSearchesProvider.notifier).clear();
                   },
                   child: Text(l10n.searchClearRecents),
                 ),

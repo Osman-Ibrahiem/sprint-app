@@ -19,7 +19,6 @@ import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/features/catalogue/domain/facility_summary.dart';
 import 'package:sprint/features/catalogue/presentation/facilities/facility_filter_bar.dart';
 import 'package:sprint/features/catalogue/presentation/providers/catalogue_providers.dart';
-import 'package:sprint/features/catalogue/data/recent_searches_store.dart';
 import 'package:sprint/features/catalogue/presentation/search/search_field.dart';
 import 'package:sprint/features/catalogue/presentation/search/search_providers.dart';
 import 'package:sprint/features/catalogue/presentation/widgets/catalogue_error_view.dart';
@@ -230,7 +229,7 @@ class _Card extends ConsumerWidget {
       price: inputs.price,
       onTap: () {
         final q = ref.read(searchQueryProvider).trim();
-        if (q.isNotEmpty) ref.read(recentSearchesStoreProvider).add(q);
+        if (q.isNotEmpty) ref.read(recentSearchesProvider.notifier).add(q);
         context.go(AppPaths.facilityDetails(id));
       },
     );
