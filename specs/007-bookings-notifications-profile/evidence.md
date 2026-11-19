@@ -56,3 +56,23 @@ Web release build served locally, 390 wide, Arabic, dark (system), driven throug
 
 Everything below this line is filled in by the stage that ran it: Phase 1–2,
 Phase 3, US1–US10, the copy review and the web build/walk.
+
+## Walk of the web build, 2026-11-19 (T085, Claude, in-app browser)
+
+Build: `flutter build web --release --base-href /sprint-app/` served by `tool/serve_web.mjs` on port 8093 (a stray server from 2026-11-15 owns port 8081 and serves an old build; ignore it). Verified by me: `flutter analyze` no issues; `flutter test` 2283 passed.
+
+**Walked (dark, 1024 wide = expanded rail layout, Arabic):**
+- Demo switcher to the booker, then "حجوزاتي": master-detail with the first booking selected, four rail items plus "الإشعارات" with badge 3, "الجاية (6)", status chips, "عرض التذكرة", booking within the cutoff shows "الإلغاء مش متاح"; a later booking shows the cancel button and "الإلغاء متاح لحد الأحد 22 نوفمبر 6:00 ص".
+- Cancel: dialog "إلغاء الحجز؟ هترجع 20 ج.م كاملة على نفس وسيلة الدفع."; confirming opens `/bookings/bk-19/cancelled` with "الحجز اتلغى. الـ 20 ج.م هترجع على نفس وسيلة الدفع." and "العودة للحجوزات"; the badge stayed 3 (the self-cancel record is already read).
+- Notifications: simulated permission dialog "تفعيل الإشعارات؟" appeared once on the first visit; centre lists the self-cancel, reminder, confirmed, facility cancel, refund and verification records with unread dots; "تعليم الكل كمقروء" at the inline end.
+- Account: card with masked phone and email, verification card, rows (البيانات الشخصية, اللغة, المظهر, الإشعارات "مفعّلة", شاشة العرض للمراجعين, تسجيل الخروج); Edit profile with name editable and email and phone locked with the helper line.
+- Facilities: search field with "إلغاء" and the suggestions popover "الأكتر حجزًا" (two facilities).
+- Compact 375 wide, light: four tabs, bell with badge 3 in the header, list with "الجاية (5)" after the cancel.
+
+**Findings (open):**
+1. Account's verification card shows the masked national ID ("الرقم القومي: 0011*********") from feature 3's `VerificationSlot`; spec FR-023 and SC-008 say no national ID on the account screen (NFR-06 allows masked elsewhere). Decision needed: hide it here, or relax FR-023 to "never unmasked".
+2. In the wide details pane the "تفاصيل الحجز" title is drawn over the scrolled content (not clipped).
+3. The cancel dialog measures about 320 css px wide where `WideDialog` is specified at 400.
+4. The facility master-detail placeholder "اختار منشأة تشوف تفاصيلها" is an imperative (feature 4, left for the Figma refactor).
+
+**Not walked:** typing in the search field (the browser tool's key events do not reach the Flutter text input; covered by `test/acceptance/us01_search_test.dart`), English, desktop 1440, light on wide, sign out, language and appearance popovers, resize and fold, keyboard-only, iOS simulator, `/demo` reminder and facility-cancel actions, pending-payment cancel, no screenshots saved to the repo (the tool returns images only).
