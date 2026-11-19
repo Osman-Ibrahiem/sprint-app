@@ -6,6 +6,8 @@ import 'package:sprint/core/widgets/avatar/avatar.dart';
 import 'package:sprint/core/widgets/banner/banner.dart';
 import 'package:sprint/core/widgets/popover/popover.dart';
 import 'package:sprint/core/widgets/booking_row/booking_row.dart';
+import 'package:sprint/core/widgets/booking_ticket/booking_ticket.dart';
+import 'package:sprint/core/widgets/status_badge/status_badge.dart';
 import 'package:sprint/core/widgets/notification_bell/notification_bell.dart';
 import 'package:sprint/core/widgets/notification_card/notification_card.dart';
 import 'package:sprint/core/widgets/segmented_control/segmented_control.dart';
@@ -398,5 +400,28 @@ void main() {
     );
     expect(tester.getSize(find.byKey(ProfileCardSkeleton.key0)).height, 140);
     expect(tester.getSize(find.byKey(SettingsRowSkeleton.key0)).height, 52);
+  });
+
+  testWidgets('M3: the ticket shows a past status once, not twice', (t) async {
+    for (final status in [
+      SprintStatus.cancelled,
+      SprintStatus.noShow,
+      SprintStatus.attended,
+    ]) {
+      await pumpWidgetUnder(
+        t,
+        BookingTicket(
+          state: BookingTicketState.past,
+          status: status,
+          facilityName: 'حمام السباحة',
+          unitName: 'حارة 2',
+          start: DateTime(2026, 11, 1, 17),
+          end: DateTime(2026, 11, 1, 18),
+          code: 'SP-1042',
+          paid: '80 ج.م',
+        ),
+      );
+      expect(find.byType(StatusBadge), findsOneWidget, reason: '$status');
+    }
   });
 }

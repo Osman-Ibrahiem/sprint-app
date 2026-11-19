@@ -313,12 +313,8 @@ class _BookingTicketState extends State<BookingTicket> {
   ) {
     final token = widget.qrToken ?? '';
     if (!_showQr) {
-      return Padding(
-        padding: const EdgeInsetsDirectional.symmetric(
-          vertical: SprintSpacing.space4,
-        ),
-        child: ExcludeSemantics(child: StatusBadge(status: widget.status)),
-      );
+      // The status is in the header already: once is enough.
+      return const SizedBox(height: SprintSpacing.space2);
     }
     final side = SprintExtras.ticketWidth / 2 + SprintExtras.qrQuietMargin * 2;
     if (token.isEmpty || !SprintQrPainter.canEncode(token)) {
