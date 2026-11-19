@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/shell/placeholders/no_access_screen.dart';
-import 'package:sprint/app/shell/placeholders/pending_screen.dart';
 import 'package:sprint/features/notifications/presentation/notifications_screen.dart';
-import 'package:sprint/app/shell/placeholders/profile_placeholder.dart';
+import 'package:sprint/features/account/presentation/account_screen.dart';
+import 'package:sprint/features/account/presentation/edit_profile_screen.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/features/booking/presentation/bookings/my_bookings_screen.dart';
@@ -474,13 +474,13 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
     icon: PhosphorIconsRegular.user,
     selectedIcon: PhosphorIconsFill.user,
     label: (l) => l.navProfile,
-    builder: ProfilePlaceholder.new,
+    builder: AccountScreen.new,
     subRoutes: [
       GatedRoute(
         path: 'edit',
         name: AppRouteNames.profileEdit,
         access: const RouteAccess(requiresAccount: true),
-        builder: (context, state) => const PendingScreen(title: 'edit'),
+        builder: (context, state) => const EditProfileScreen(),
       ),
       // `/profile/verification`: needs an account (contracts/routes.md).
       GatedRoute(

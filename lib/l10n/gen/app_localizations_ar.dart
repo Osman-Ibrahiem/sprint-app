@@ -2848,4 +2848,58 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get demo007NoBooking => 'مفيش حجز مؤكد جاي';
+
+  @override
+  String get accountTitle => 'حسابي';
+
+  @override
+  String get accountPersonalData => 'البيانات الشخصية';
+
+  @override
+  String get accountNotifications => 'الإشعارات';
+
+  @override
+  String get accountNotificationsOn => 'مفعّلة';
+
+  @override
+  String get accountNotificationsOff => 'متوقفة';
+
+  @override
+  String get accountGuestTitle => 'سجّل دخولك عشان تشوف حسابك';
+
+  @override
+  String get editProfileTitle => 'تعديل البيانات';
+
+  @override
+  String get editProfileName => 'الاسم';
+
+  @override
+  String get editProfileNameError => 'الاسم لازم يكون حرفين على الأقل';
+
+  @override
+  String get editProfileEmail => 'الإيميل';
+
+  @override
+  String get editProfilePhone => 'رقم الموبايل';
+
+  @override
+  String get editProfileLockedHelper => 'مربوط بتسجيل الدخول ومش بيتعدل من هنا';
+
+  @override
+  String get editProfileSave => 'حفظ';
+
+  @override
+  String get editProfileChangePhoto => 'تغيير الصورة';
+
+  @override
+  String get editProfileRemovePhoto => 'حذف الصورة';
+
+  @override
+  String get editProfilePhotoError => 'الصورة مش مناسبة، وفضلت الصورة القديمة.';
+
+  @override
+  String get editProfileSaveError => 'الحفظ ماتمش، وبياناتك زي ما هي.';
+
+  @override
+  String get editProfilePhotoSourceTitle => 'صورة الحساب';
 }

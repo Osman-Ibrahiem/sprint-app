@@ -4769,6 +4769,114 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'مفيش حجز مؤكد جاي'**
   String get demo007NoBooking;
+
+  /// No description provided for @accountTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابي'**
+  String get accountTitle;
+
+  /// No description provided for @accountPersonalData.
+  ///
+  /// In ar, this message translates to:
+  /// **'البيانات الشخصية'**
+  String get accountPersonalData;
+
+  /// No description provided for @accountNotifications.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإشعارات'**
+  String get accountNotifications;
+
+  /// No description provided for @accountNotificationsOn.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفعّلة'**
+  String get accountNotificationsOn;
+
+  /// No description provided for @accountNotificationsOff.
+  ///
+  /// In ar, this message translates to:
+  /// **'متوقفة'**
+  String get accountNotificationsOff;
+
+  /// No description provided for @accountGuestTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجّل دخولك عشان تشوف حسابك'**
+  String get accountGuestTitle;
+
+  /// No description provided for @editProfileTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل البيانات'**
+  String get editProfileTitle;
+
+  /// No description provided for @editProfileName.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم'**
+  String get editProfileName;
+
+  /// No description provided for @editProfileNameError.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم لازم يكون حرفين على الأقل'**
+  String get editProfileNameError;
+
+  /// No description provided for @editProfileEmail.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإيميل'**
+  String get editProfileEmail;
+
+  /// No description provided for @editProfilePhone.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الموبايل'**
+  String get editProfilePhone;
+
+  /// No description provided for @editProfileLockedHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'مربوط بتسجيل الدخول ومش بيتعدل من هنا'**
+  String get editProfileLockedHelper;
+
+  /// No description provided for @editProfileSave.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ'**
+  String get editProfileSave;
+
+  /// No description provided for @editProfileChangePhoto.
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيير الصورة'**
+  String get editProfileChangePhoto;
+
+  /// No description provided for @editProfileRemovePhoto.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف الصورة'**
+  String get editProfileRemovePhoto;
+
+  /// No description provided for @editProfilePhotoError.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصورة مش مناسبة، وفضلت الصورة القديمة.'**
+  String get editProfilePhotoError;
+
+  /// No description provided for @editProfileSaveError.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحفظ ماتمش، وبياناتك زي ما هي.'**
+  String get editProfileSaveError;
+
+  /// No description provided for @editProfilePhotoSourceTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة الحساب'**
+  String get editProfilePhotoSourceTitle;
 }
 
 class _AppLocalizationsDelegate

@@ -2874,4 +2874,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get demo007NoBooking => 'No upcoming confirmed booking';
+
+  @override
+  String get accountTitle => 'My account';
+
+  @override
+  String get accountPersonalData => 'Personal details';
+
+  @override
+  String get accountNotifications => 'Notifications';
+
+  @override
+  String get accountNotificationsOn => 'On';
+
+  @override
+  String get accountNotificationsOff => 'Off';
+
+  @override
+  String get accountGuestTitle => 'Sign in to see your account';
+
+  @override
+  String get editProfileTitle => 'Edit details';
+
+  @override
+  String get editProfileName => 'Name';
+
+  @override
+  String get editProfileNameError => 'The name needs at least two characters';
+
+  @override
+  String get editProfileEmail => 'Email';
+
+  @override
+  String get editProfilePhone => 'Mobile number';
+
+  @override
+  String get editProfileLockedHelper =>
+      'Linked to your sign-in and not editable here';
+
+  @override
+  String get editProfileSave => 'Save';
+
+  @override
+  String get editProfileChangePhoto => 'Change photo';
+
+  @override
+  String get editProfileRemovePhoto => 'Remove photo';
+
+  @override
+  String get editProfilePhotoError =>
+      'That photo does not work, and the old one stays.';
+
+  @override
+  String get editProfileSaveError =>
+      'Saving failed, and your details are unchanged.';
+
+  @override
+  String get editProfilePhotoSourceTitle => 'Profile photo';
 }
