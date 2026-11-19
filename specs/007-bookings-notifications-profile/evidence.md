@@ -31,6 +31,13 @@ Checked: git log against the boxes (T001 to T003 were done but unchecked; fixed)
   failed `checkout_screen_awaiting_test` and `checkout_screen_expiry_test`.
   The cancel now happens after the await. All of `test/features/booking` passes.
 
+## Progress of the continuation (2026-11-19)
+
+- Done and green (full `flutter test` 2121 passed at the end of Phase 3; booking, app, shell and catalogue folders green after US1 to US3): T028 to T054, T056, T047.
+- Notes: the notifications destination is always a route (hidden from guests and from the compact tab bar by the shell), so signing in never rebuilds the router; `showSprintDialog` renders `WideDialog` from the medium class; the facilities list got a "كل المنشآت" title for the root header.
+- Pending cancel (BR-48, T057 to T059) already works through the details actions and the repository, but has no dedicated tests yet. T055 (facility cancel display) is implemented in `StatusBanner` without its own test.
+- Not started: T057 to T079 (tests for pending cancel and facility view, notifications centre and reminders, permission dialog, demo actions, account, edit profile, search, matrix and dead-end tests), T080, T084, T085. Placeholders `PendingScreen` still stand for `/notifications` and `/profile/edit`; `ProfilePlaceholder` still exists.
+
 ## Not tested yet
 
 Everything below this line is filled in by the stage that ran it: Phase 1–2,

@@ -7,6 +7,7 @@ import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
+import 'package:sprint/features/booking/presentation/bookings/booking_row_data.dart';
 import 'package:sprint/core/widgets/status_badge/sprint_status.dart';
 import 'package:sprint/core/widgets/status_badge/status_badge.dart';
 import 'package:sprint/features/catalogue/domain/home_content.dart';
@@ -77,11 +78,12 @@ class _Row extends StatelessWidget {
     final date = cairoDateText(b.start, l10n);
     final time = cairoTimeText(b.start, l10n);
     final when = '$date · $time';
+    final status = sprintStatusOf(b.status);
     return AdaptivePressable(
       key: UpcomingBookingsSection.rowKey(b.id),
       label: l10n.catalogueBookingSpoken(
-          booking.facilityName, date, time, l10n.statusConfirmed),
-      onTap: () => context.go(AppPaths.bookings),
+          booking.facilityName, date, time, status.label(l10n)),
+      onTap: () => context.go(AppPaths.bookingDetails(b.id)),
       restingColor: colors.surface,
       hoverColor: colors.surfaceSunken,
       borderRadius: SprintRadius.lgBorder,
@@ -101,7 +103,7 @@ class _Row extends StatelessWidget {
               ),
             ),
             const SizedBox(width: SprintSpacing.space2),
-            const StatusBadge(status: SprintStatus.confirmed),
+            StatusBadge(status: status),
           ],
         ),
       ),
