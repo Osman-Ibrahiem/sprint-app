@@ -1820,5 +1820,6 @@
     }
   },
   "bookingDetailsRefundedRow": "المسترد",
-  "bookingDetailsRefundWay": "الفلوس بترجع على نفس وسيلة الدفع"
+  "bookingDetailsRefundWay": "الفلوس بترجع على نفس وسيلة الدفع",
+  "facilitiesSearchPlaceholder": "البحث عن منشأة أو رياضة"
 }

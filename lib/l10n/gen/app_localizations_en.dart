@@ -2969,4 +2969,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get bookingDetailsRefundWay =>
       'The money goes back to the same payment method';
+
+  @override
+  String get facilitiesSearchPlaceholder => 'Search a facility or a sport';
 }

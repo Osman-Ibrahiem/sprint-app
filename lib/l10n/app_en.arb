@@ -1816,5 +1816,6 @@
     }
   },
   "bookingDetailsRefundedRow": "Refunded",
-  "bookingDetailsRefundWay": "The money goes back to the same payment method"
+  "bookingDetailsRefundWay": "The money goes back to the same payment method",
+  "facilitiesSearchPlaceholder": "Search a facility or a sport"
 }

@@ -71,4 +71,11 @@ void main() {
     expect(detail.path, startsWith('/facilities/'));
     expect(detail.queryParameters['q'], 'تنس');
   });
+
+  testWidgets('M9: no label above the field, the hint is the placeholder',
+      (t) async {
+    await open(t);
+    expect(find.text(ar.facilitiesSearchHint), findsNothing);
+    expect(find.text(ar.facilitiesSearchPlaceholder), findsOneWidget);
+  });
 }

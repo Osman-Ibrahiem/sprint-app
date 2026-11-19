@@ -73,6 +73,7 @@ class SprintTextField extends StatefulWidget {
     this.autofillHints,
     this.textInputAction,
     this.focusNode,
+    this.showLabel = true,
     this.locked = false,
     this.lockedValue,
     this.onClear,
@@ -101,6 +102,10 @@ class SprintTextField extends StatefulWidget {
 
   /// An external node for form order; the field does not dispose it.
   final FocusNode? focusNode;
+
+  /// False draws no label above the field (a search field with only a
+  /// placeholder); the label still names it for screen readers.
+  final bool showLabel;
 
   /// Read-only value that is still readable (FR-MYB-03): `ink-muted` on
   /// `surface-sunken` with a lock icon; [helper] says why. Not "disabled",
@@ -260,11 +265,13 @@ class _SprintTextFieldState extends State<SprintTextField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            widget.label,
-            style: context.text.label.copyWith(color: labelColor),
-          ),
-          const SizedBox(height: SprintSpacing.space1),
+          if (widget.showLabel) ...[
+            Text(
+              widget.label,
+              style: context.text.label.copyWith(color: labelColor),
+            ),
+            const SizedBox(height: SprintSpacing.space1),
+          ],
           _withCancel(
             context,
             DecoratedBox(

@@ -4937,6 +4937,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الفلوس بترجع على نفس وسيلة الدفع'**
   String get bookingDetailsRefundWay;
+
+  /// No description provided for @facilitiesSearchPlaceholder.
+  ///
+  /// In ar, this message translates to:
+  /// **'البحث عن منشأة أو رياضة'**
+  String get facilitiesSearchPlaceholder;
 }
 
 class _AppLocalizationsDelegate

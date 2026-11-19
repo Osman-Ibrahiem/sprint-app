@@ -128,6 +128,8 @@ class _State extends ConsumerState<FacilitySearchField> {
       children: [
         SprintTextField(
           label: l10n.facilitiesSearchHint,
+          placeholder: l10n.facilitiesSearchPlaceholder,
+          showLabel: false,
           type: SprintTextFieldType.search,
           controller: _controller,
           focusNode: _focus,

@@ -2937,4 +2937,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get bookingDetailsRefundWay => 'الفلوس بترجع على نفس وسيلة الدفع';
+
+  @override
+  String get facilitiesSearchPlaceholder => 'البحث عن منشأة أو رياضة';
 }
