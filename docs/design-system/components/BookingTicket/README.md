@@ -8,7 +8,7 @@
 - `facilityName` و `unitName` و `trainerName` (لو فيه).
 - `start` و `end`: "التلات 10 نوفمبر · 5:00 – 6:00 م".
 - `qrToken`: الـ token الموقّع (مش رقم الحجز الخام) بيتحول QR.
-- `code`: كود الحجز ("SPR-7K2Q9") بخط `code`، LTR، وقابل للنسخ.
+- `code`: كود الحجز ("SP-1042") بخط `code`، LTR، وقابل للنسخ.
 - `paid` و `cancelUntil`: الصفوف اللي تحت. لو الإلغاء مش متاح، الصف بيقول "الإلغاء مش متاح".
 - `state`: `upcoming` | `today` | `past`.
 
