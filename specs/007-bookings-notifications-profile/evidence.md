@@ -65,6 +65,14 @@ Web release build served locally, 390 wide, Arabic, dark (system), driven throug
 9. **Fixed**: details use `PaymentRepository.latestPayment`.
 10. **Fixed**: `PhotoSource`, `PhotoSourcePicker` and `photoSourceProvider` live in `lib/core/adaptive/photo_source.dart`. `lib/features/account/` still imports `VerificationSlot` and `VerificationNotice` from feature 3 (the verification area is reused on purpose); only the picker types were decoupled.
 
+## Design QA 2026-11-19
+
+Fixed (one commit each, with tests): **H1** disabled `SprintButton` in every variant (surface-sunken fill, ink-disabled text; loading unchanged); **H2** `ContentColumn` with `SprintExtras` constants (notifications 800, account 560, edit profile 440) from the expanded class; **H3** BookingRow: date at the start, badge at the end (kept at the end when wrapped), README updated; **M3** one status badge on past tickets; **M4** "المسترد" row, "الفلوس بترجع على نفس وسيلة الدفع" line and banners without a final dot; **M5** facility cancel is a success banner with reason and full refund, no "informed" phrase; **M6** verification titles as designed (the approved one, "تمت الموافقة", is MSA wording, as in the design); **M7** edit details title "البيانات الشخصية", name-phone-email, avatar beside the photo buttons; **M9** no label above the search field, placeholder "البحث عن منشأة أو رياضة"; **M10** mark-all measured at 48; **small** no lone "م" (no-break space before the last word).
+
+Deferred to the Figma refactor (not touched): M1 (tab bar in details), M2 (details structure), M8 (account), the compact search popover (M9 part).
+
+Known unrelated flake: two tests in `booking_routes_test.dart` fail after about 18:00 real time because they book "today at 18:00"; they also fail on the commit before these fixes.
+
 ## Not tested yet
 
 Everything below this line is filled in by the stage that ran it: Phase 1–2,
