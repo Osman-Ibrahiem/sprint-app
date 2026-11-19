@@ -17,6 +17,7 @@ import 'package:sprint/features/catalogue/domain/facility.dart';
 import 'package:sprint/features/catalogue/domain/facility_summary.dart';
 import 'package:sprint/features/catalogue/domain/home_content.dart';
 import 'package:sprint/features/catalogue/presentation/home/suggestions_section.dart';
+import 'package:sprint/features/catalogue/presentation/search/search_field.dart';
 import 'package:sprint/features/catalogue/presentation/home/upcoming_bookings_section.dart';
 import 'package:sprint/features/catalogue/presentation/providers/catalogue_providers.dart';
 import 'package:sprint/features/catalogue/presentation/widgets/catalogue_error_view.dart';
@@ -57,6 +58,8 @@ class HomeScreen extends ConsumerWidget {
               style: context.text.body.copyWith(color: context.colors.inkMuted),
             ),
           ],
+          const SizedBox(height: SprintSpacing.space4),
+          const FacilitySearchField(openFacilitiesOnFocus: true),
           const SizedBox(height: SprintSpacing.space6),
           content.when(
             data: (value) => _Loaded(content: value, session: session),

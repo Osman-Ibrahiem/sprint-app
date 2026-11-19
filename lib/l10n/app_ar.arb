@@ -1783,5 +1783,11 @@
   "editProfileRemovePhoto": "حذف الصورة",
   "editProfilePhotoError": "الصورة مش مناسبة، وفضلت الصورة القديمة.",
   "editProfileSaveError": "الحفظ ماتمش، وبياناتك زي ما هي.",
-  "editProfilePhotoSourceTitle": "صورة الحساب"
+  "editProfilePhotoSourceTitle": "صورة الحساب",
+  "searchMostBooked": "الأكتر حجزًا",
+  "searchRecents": "عمليات بحث سابقة",
+  "searchClearRecents": "مسح الكل",
+  "searchCancel": "إلغاء",
+  "searchNoResultsTitle": "مفيش نتايج",
+  "searchNoResultsBody": "مفيش منشأة بالاسم ده. جرّب كلمة تانية."
 }

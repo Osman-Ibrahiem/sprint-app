@@ -1779,5 +1779,11 @@
   "editProfileRemovePhoto": "Remove photo",
   "editProfilePhotoError": "That photo does not work, and the old one stays.",
   "editProfileSaveError": "Saving failed, and your details are unchanged.",
-  "editProfilePhotoSourceTitle": "Profile photo"
+  "editProfilePhotoSourceTitle": "Profile photo",
+  "searchMostBooked": "Most booked",
+  "searchRecents": "Recent searches",
+  "searchClearRecents": "Clear all",
+  "searchCancel": "Cancel",
+  "searchNoResultsTitle": "No results",
+  "searchNoResultsBody": "No facility matches. Try another word."
 }

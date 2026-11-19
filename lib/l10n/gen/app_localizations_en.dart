@@ -2931,4 +2931,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editProfilePhotoSourceTitle => 'Profile photo';
+
+  @override
+  String get searchMostBooked => 'Most booked';
+
+  @override
+  String get searchRecents => 'Recent searches';
+
+  @override
+  String get searchClearRecents => 'Clear all';
+
+  @override
+  String get searchCancel => 'Cancel';
+
+  @override
+  String get searchNoResultsTitle => 'No results';
+
+  @override
+  String get searchNoResultsBody => 'No facility matches. Try another word.';
 }

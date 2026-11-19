@@ -10,9 +10,12 @@ part 'recent_searches_store.g.dart';
 /// The last few search terms, newest first, kept on the device (data-model).
 /// Storage failures simply mean no recents, never an error (FR-010).
 class RecentSearchesStore {
-  const RecentSearchesStore(this._prefs);
+  RecentSearchesStore(this._prefs);
 
   final SharedPreferences? _prefs;
+
+  /// Kept while the app runs when the device store is missing or fails.
+  List<String> _memory = const [];
 
   static const key = 'recentSearches';
   static const maxTerms = 5;
@@ -21,7 +24,7 @@ class RecentSearchesStore {
   List<String> read() {
     try {
       final raw = _prefs?.getString(key);
-      if (raw == null) return const [];
+      if (raw == null) return _memory;
       final decoded = jsonDecode(raw);
       if (decoded is! List) return const [];
       return [
@@ -29,7 +32,7 @@ class RecentSearchesStore {
           if (term is String && term.trim().isNotEmpty) term,
       ].take(maxTerms).toList(growable: false);
     } on Object {
-      return const [];
+      return _memory;
     }
   }
 
@@ -43,6 +46,7 @@ class RecentSearchesStore {
       trimmed,
       ...read().where((t) => ArabicNormalizer.normalize(t) != normalized),
     ].take(maxTerms).toList(growable: false);
+    _memory = next;
     try {
       await _prefs?.setString(key, jsonEncode(next));
     } on Object {
@@ -51,6 +55,7 @@ class RecentSearchesStore {
   }
 
   Future<void> clear() async {
+    _memory = const [];
     try {
       await _prefs?.remove(key);
     } on Object {

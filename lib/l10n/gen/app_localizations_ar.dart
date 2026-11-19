@@ -2902,4 +2902,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get editProfilePhotoSourceTitle => 'صورة الحساب';
+
+  @override
+  String get searchMostBooked => 'الأكتر حجزًا';
+
+  @override
+  String get searchRecents => 'عمليات بحث سابقة';
+
+  @override
+  String get searchClearRecents => 'مسح الكل';
+
+  @override
+  String get searchCancel => 'إلغاء';
+
+  @override
+  String get searchNoResultsTitle => 'مفيش نتايج';
+
+  @override
+  String get searchNoResultsBody => 'مفيش منشأة بالاسم ده. جرّب كلمة تانية.';
 }

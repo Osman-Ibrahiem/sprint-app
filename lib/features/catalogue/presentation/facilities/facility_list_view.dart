@@ -19,6 +19,9 @@ import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/features/catalogue/domain/facility_summary.dart';
 import 'package:sprint/features/catalogue/presentation/facilities/facility_filter_bar.dart';
 import 'package:sprint/features/catalogue/presentation/providers/catalogue_providers.dart';
+import 'package:sprint/features/catalogue/data/recent_searches_store.dart';
+import 'package:sprint/features/catalogue/presentation/search/search_field.dart';
+import 'package:sprint/features/catalogue/presentation/search/search_providers.dart';
 import 'package:sprint/features/catalogue/presentation/widgets/catalogue_error_view.dart';
 import 'package:sprint/features/catalogue/presentation/widgets/facility_card_mapper.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
@@ -66,7 +69,7 @@ class _FacilityListViewState extends ConsumerState<FacilityListView> {
 
   @override
   Widget build(BuildContext context) {
-    final summaries = ref.watch(facilitySummariesProvider);
+    final summaries = ref.watch(searchedSummariesProvider);
     final session = ref.watch(currentSessionProvider);
     final size = WindowSize.of(context);
     final horizontal = size.isCompact;
@@ -100,6 +103,14 @@ class _FacilityListViewState extends ConsumerState<FacilityListView> {
                       style: context.text.title,
                     ),
                   ),
+                ),
+              ),
+              const SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: SprintSpacing.space4,
+                  ),
+                  child: FacilitySearchField(),
                 ),
               ),
               const SliverToBoxAdapter(child: FacilityFilterBar()),
@@ -181,7 +192,7 @@ class _FacilityListViewState extends ConsumerState<FacilityListView> {
   }
 }
 
-class _Card extends StatelessWidget {
+class _Card extends ConsumerWidget {
   const _Card({
     required this.summary,
     required this.session,
@@ -195,7 +206,7 @@ class _Card extends StatelessWidget {
   final bool selected;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final colors = context.colors;
     final inputs = facilityCardInputs(
@@ -217,7 +228,11 @@ class _Card extends StatelessWidget {
       availability: inputs.availability,
       availableCount: inputs.availableCount,
       price: inputs.price,
-      onTap: () => context.go(AppPaths.facilityDetails(id)),
+      onTap: () {
+        final q = ref.read(searchQueryProvider).trim();
+        if (q.isNotEmpty) ref.read(recentSearchesStoreProvider).add(q);
+        context.go(AppPaths.facilityDetails(id));
+      },
     );
     if (!selected) return card;
     return Semantics(
@@ -265,13 +280,17 @@ class _Empty extends ConsumerWidget {
           ),
           const SizedBox(height: SprintSpacing.space3),
           Text(
-            l10n.catalogueEmptyTitle,
+            ref.watch(searchQueryProvider).trim().isNotEmpty
+                ? l10n.searchNoResultsTitle
+                : l10n.catalogueEmptyTitle,
             style: context.text.headline,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: SprintSpacing.space2),
           Text(
-            l10n.catalogueEmptyBody(names.join(' + ')),
+            ref.watch(searchQueryProvider).trim().isNotEmpty && names.isEmpty
+                ? l10n.searchNoResultsBody
+                : l10n.catalogueEmptyBody(names.join(' + ')),
             style: context.text.body.copyWith(color: colors.inkMuted),
             textAlign: TextAlign.center,
           ),

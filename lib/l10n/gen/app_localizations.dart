@@ -4877,6 +4877,42 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'صورة الحساب'**
   String get editProfilePhotoSourceTitle;
+
+  /// No description provided for @searchMostBooked.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأكتر حجزًا'**
+  String get searchMostBooked;
+
+  /// No description provided for @searchRecents.
+  ///
+  /// In ar, this message translates to:
+  /// **'عمليات بحث سابقة'**
+  String get searchRecents;
+
+  /// No description provided for @searchClearRecents.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسح الكل'**
+  String get searchClearRecents;
+
+  /// No description provided for @searchCancel.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء'**
+  String get searchCancel;
+
+  /// No description provided for @searchNoResultsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش نتايج'**
+  String get searchNoResultsTitle;
+
+  /// No description provided for @searchNoResultsBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش منشأة بالاسم ده. جرّب كلمة تانية.'**
+  String get searchNoResultsBody;
 }
 
 class _AppLocalizationsDelegate
