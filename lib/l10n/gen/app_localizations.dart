@@ -4565,6 +4565,156 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'العودة للحجوزات'**
   String get cancelResultBack;
+
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإشعارات'**
+  String get notificationsTitle;
+
+  /// No description provided for @notificationsMarkAllRead.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعليم الكل كمقروء'**
+  String get notificationsMarkAllRead;
+
+  /// No description provided for @notificationsEmptyTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفيش إشعارات'**
+  String get notificationsEmptyTitle;
+
+  /// No description provided for @notificationsEmptyBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'أي حاجة جديدة بخصوص حجوزاتك هتظهر هنا.'**
+  String get notificationsEmptyBody;
+
+  /// No description provided for @notificationsUnreadSpoken.
+  ///
+  /// In ar, this message translates to:
+  /// **'جديد'**
+  String get notificationsUnreadSpoken;
+
+  /// No description provided for @notifBookingConfirmedTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجزك اتأكد'**
+  String get notifBookingConfirmedTitle;
+
+  /// No description provided for @notifBookingConfirmedBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الحجز {code}'**
+  String notifBookingConfirmedBody(String code);
+
+  /// No description provided for @notifReminderTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجزك قرّب'**
+  String get notifReminderTitle;
+
+  /// No description provided for @notifReminderBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز {code} بيبدأ قريب.'**
+  String notifReminderBody(String code);
+
+  /// No description provided for @notifReminderCutoffClosed.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإلغاء اتقفل، والحجز زي ما هو.'**
+  String get notifReminderCutoffClosed;
+
+  /// No description provided for @notifAdminCancelTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إدارة المنشأة لغت حجزك'**
+  String get notifAdminCancelTitle;
+
+  /// No description provided for @notifAdminCancelBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز {code}. الفلوس رجعت كاملة.'**
+  String notifAdminCancelBody(String code);
+
+  /// No description provided for @notifOwnerCancelTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إلغاء حجزك'**
+  String get notifOwnerCancelTitle;
+
+  /// No description provided for @notifOwnerCancelBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجز {code}.'**
+  String notifOwnerCancelBody(String code);
+
+  /// No description provided for @notifRefundTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'رجعنا لك فلوسك'**
+  String get notifRefundTitle;
+
+  /// No description provided for @notifRefundBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'{amount} رجعت على نفس وسيلة الدفع.'**
+  String notifRefundBody(String amount);
+
+  /// No description provided for @notifVerificationPendingTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب التوثيق تحت المراجعة'**
+  String get notifVerificationPendingTitle;
+
+  /// No description provided for @notifVerificationPendingBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'هنبلغك أول ما نخلص.'**
+  String get notifVerificationPendingBody;
+
+  /// No description provided for @notifVerificationApprovedTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابك اتوثّق'**
+  String get notifVerificationApprovedTitle;
+
+  /// No description provided for @notifVerificationApprovedBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'دلوقتي بتحجز بالسعر الداخلي.'**
+  String get notifVerificationApprovedBody;
+
+  /// No description provided for @notifVerificationRejectedTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب التوثيق اترفض'**
+  String get notifVerificationRejectedTitle;
+
+  /// No description provided for @notifVerificationRejectedBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'السبب: {reason}'**
+  String notifVerificationRejectedBody(String reason);
+
+  /// No description provided for @notifUnknownTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إشعار جديد'**
+  String get notifUnknownTitle;
+
+  /// No description provided for @notifViewTicket.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض التذكرة'**
+  String get notifViewTicket;
+
+  /// No description provided for @notifCancelBooking.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء الحجز'**
+  String get notifCancelBooking;
 }
 
 class _AppLocalizationsDelegate

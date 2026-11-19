@@ -1685,5 +1685,72 @@
   "cancelFailed": "The cancellation did not go through and the booking is unchanged.",
   "cancelNotAllowedBody": "This booking cannot be cancelled now.",
   "cancelResultTitle": "Booking cancelled",
-  "cancelResultBack": "Back to bookings"
+  "cancelResultBack": "Back to bookings",
+  "notificationsTitle": "Notifications",
+  "notificationsMarkAllRead": "Mark all as read",
+  "notificationsEmptyTitle": "No notifications",
+  "notificationsEmptyBody": "Anything new about your bookings shows up here.",
+  "notificationsUnreadSpoken": "unread",
+  "notifBookingConfirmedTitle": "Your booking is confirmed",
+  "notifBookingConfirmedBody": "Booking number {code}",
+  "@notifBookingConfirmedBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "notifReminderTitle": "Your booking is coming up",
+  "notifReminderBody": "Booking {code} starts soon.",
+  "@notifReminderBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "notifReminderCutoffClosed": "Cancelling has closed; the booking stays.",
+  "notifAdminCancelTitle": "The facility cancelled your booking",
+  "notifAdminCancelBody": "Booking {code}. You are refunded in full.",
+  "@notifAdminCancelBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "notifOwnerCancelTitle": "You cancelled your booking",
+  "notifOwnerCancelBody": "Booking {code}.",
+  "@notifOwnerCancelBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "notifRefundTitle": "We refunded you",
+  "notifRefundBody": "{amount} went back to the same payment method.",
+  "@notifRefundBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "notifVerificationPendingTitle": "Your verification is under review",
+  "notifVerificationPendingBody": "We will tell you as soon as we finish.",
+  "notifVerificationApprovedTitle": "Your account is verified",
+  "notifVerificationApprovedBody": "You now book at the internal price.",
+  "notifVerificationRejectedTitle": "Your verification was rejected",
+  "notifVerificationRejectedBody": "Reason: {reason}",
+  "@notifVerificationRejectedBody": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "notifUnknownTitle": "New notification",
+  "notifViewTicket": "View ticket",
+  "notifCancelBooking": "Cancel booking"
 }

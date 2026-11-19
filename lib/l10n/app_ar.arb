@@ -1689,5 +1689,72 @@
   "cancelFailed": "الإلغاء ماتمش والحجز زي ما هو.",
   "cancelNotAllowedBody": "الحجز ده مينفعش يتلغي دلوقتي.",
   "cancelResultTitle": "الحجز اتلغى",
-  "cancelResultBack": "العودة للحجوزات"
+  "cancelResultBack": "العودة للحجوزات",
+  "notificationsTitle": "الإشعارات",
+  "notificationsMarkAllRead": "تعليم الكل كمقروء",
+  "notificationsEmptyTitle": "مفيش إشعارات",
+  "notificationsEmptyBody": "أي حاجة جديدة بخصوص حجوزاتك هتظهر هنا.",
+  "notificationsUnreadSpoken": "جديد",
+  "notifBookingConfirmedTitle": "حجزك اتأكد",
+  "notifBookingConfirmedBody": "رقم الحجز {code}",
+  "@notifBookingConfirmedBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "notifReminderTitle": "حجزك قرّب",
+  "notifReminderBody": "الحجز {code} بيبدأ قريب.",
+  "@notifReminderBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "notifReminderCutoffClosed": "الإلغاء اتقفل، والحجز زي ما هو.",
+  "notifAdminCancelTitle": "إدارة المنشأة لغت حجزك",
+  "notifAdminCancelBody": "الحجز {code}. الفلوس رجعت كاملة.",
+  "@notifAdminCancelBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "notifOwnerCancelTitle": "تم إلغاء حجزك",
+  "notifOwnerCancelBody": "الحجز {code}.",
+  "@notifOwnerCancelBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "notifRefundTitle": "رجعنا لك فلوسك",
+  "notifRefundBody": "{amount} رجعت على نفس وسيلة الدفع.",
+  "@notifRefundBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "notifVerificationPendingTitle": "طلب التوثيق تحت المراجعة",
+  "notifVerificationPendingBody": "هنبلغك أول ما نخلص.",
+  "notifVerificationApprovedTitle": "حسابك اتوثّق",
+  "notifVerificationApprovedBody": "دلوقتي بتحجز بالسعر الداخلي.",
+  "notifVerificationRejectedTitle": "طلب التوثيق اترفض",
+  "notifVerificationRejectedBody": "السبب: {reason}",
+  "@notifVerificationRejectedBody": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "notifUnknownTitle": "إشعار جديد",
+  "notifViewTicket": "عرض التذكرة",
+  "notifCancelBooking": "إلغاء الحجز"
 }

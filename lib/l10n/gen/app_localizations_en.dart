@@ -2754,4 +2754,96 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancelResultBack => 'Back to bookings';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsMarkAllRead => 'Mark all as read';
+
+  @override
+  String get notificationsEmptyTitle => 'No notifications';
+
+  @override
+  String get notificationsEmptyBody =>
+      'Anything new about your bookings shows up here.';
+
+  @override
+  String get notificationsUnreadSpoken => 'unread';
+
+  @override
+  String get notifBookingConfirmedTitle => 'Your booking is confirmed';
+
+  @override
+  String notifBookingConfirmedBody(String code) {
+    return 'Booking number $code';
+  }
+
+  @override
+  String get notifReminderTitle => 'Your booking is coming up';
+
+  @override
+  String notifReminderBody(String code) {
+    return 'Booking $code starts soon.';
+  }
+
+  @override
+  String get notifReminderCutoffClosed =>
+      'Cancelling has closed; the booking stays.';
+
+  @override
+  String get notifAdminCancelTitle => 'The facility cancelled your booking';
+
+  @override
+  String notifAdminCancelBody(String code) {
+    return 'Booking $code. You are refunded in full.';
+  }
+
+  @override
+  String get notifOwnerCancelTitle => 'You cancelled your booking';
+
+  @override
+  String notifOwnerCancelBody(String code) {
+    return 'Booking $code.';
+  }
+
+  @override
+  String get notifRefundTitle => 'We refunded you';
+
+  @override
+  String notifRefundBody(String amount) {
+    return '$amount went back to the same payment method.';
+  }
+
+  @override
+  String get notifVerificationPendingTitle =>
+      'Your verification is under review';
+
+  @override
+  String get notifVerificationPendingBody =>
+      'We will tell you as soon as we finish.';
+
+  @override
+  String get notifVerificationApprovedTitle => 'Your account is verified';
+
+  @override
+  String get notifVerificationApprovedBody =>
+      'You now book at the internal price.';
+
+  @override
+  String get notifVerificationRejectedTitle => 'Your verification was rejected';
+
+  @override
+  String notifVerificationRejectedBody(String reason) {
+    return 'Reason: $reason';
+  }
+
+  @override
+  String get notifUnknownTitle => 'New notification';
+
+  @override
+  String get notifViewTicket => 'View ticket';
+
+  @override
+  String get notifCancelBooking => 'Cancel booking';
 }

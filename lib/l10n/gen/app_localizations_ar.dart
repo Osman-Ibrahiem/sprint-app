@@ -2734,4 +2734,91 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get cancelResultBack => 'العودة للحجوزات';
+
+  @override
+  String get notificationsTitle => 'الإشعارات';
+
+  @override
+  String get notificationsMarkAllRead => 'تعليم الكل كمقروء';
+
+  @override
+  String get notificationsEmptyTitle => 'مفيش إشعارات';
+
+  @override
+  String get notificationsEmptyBody => 'أي حاجة جديدة بخصوص حجوزاتك هتظهر هنا.';
+
+  @override
+  String get notificationsUnreadSpoken => 'جديد';
+
+  @override
+  String get notifBookingConfirmedTitle => 'حجزك اتأكد';
+
+  @override
+  String notifBookingConfirmedBody(String code) {
+    return 'رقم الحجز $code';
+  }
+
+  @override
+  String get notifReminderTitle => 'حجزك قرّب';
+
+  @override
+  String notifReminderBody(String code) {
+    return 'الحجز $code بيبدأ قريب.';
+  }
+
+  @override
+  String get notifReminderCutoffClosed => 'الإلغاء اتقفل، والحجز زي ما هو.';
+
+  @override
+  String get notifAdminCancelTitle => 'إدارة المنشأة لغت حجزك';
+
+  @override
+  String notifAdminCancelBody(String code) {
+    return 'الحجز $code. الفلوس رجعت كاملة.';
+  }
+
+  @override
+  String get notifOwnerCancelTitle => 'تم إلغاء حجزك';
+
+  @override
+  String notifOwnerCancelBody(String code) {
+    return 'الحجز $code.';
+  }
+
+  @override
+  String get notifRefundTitle => 'رجعنا لك فلوسك';
+
+  @override
+  String notifRefundBody(String amount) {
+    return '$amount رجعت على نفس وسيلة الدفع.';
+  }
+
+  @override
+  String get notifVerificationPendingTitle => 'طلب التوثيق تحت المراجعة';
+
+  @override
+  String get notifVerificationPendingBody => 'هنبلغك أول ما نخلص.';
+
+  @override
+  String get notifVerificationApprovedTitle => 'حسابك اتوثّق';
+
+  @override
+  String get notifVerificationApprovedBody => 'دلوقتي بتحجز بالسعر الداخلي.';
+
+  @override
+  String get notifVerificationRejectedTitle => 'طلب التوثيق اترفض';
+
+  @override
+  String notifVerificationRejectedBody(String reason) {
+    return 'السبب: $reason';
+  }
+
+  @override
+  String get notifUnknownTitle => 'إشعار جديد';
+
+  @override
+  String get notifViewTicket => 'عرض التذكرة';
+
+  @override
+  String get notifCancelBooking => 'إلغاء الحجز';
 }

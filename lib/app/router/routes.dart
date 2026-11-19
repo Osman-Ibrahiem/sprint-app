@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/shell/placeholders/no_access_screen.dart';
 import 'package:sprint/app/shell/placeholders/pending_screen.dart';
+import 'package:sprint/features/notifications/presentation/notifications_screen.dart';
 import 'package:sprint/app/shell/placeholders/profile_placeholder.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/window/window_size.dart';
@@ -464,7 +465,7 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
     icon: PhosphorIconsRegular.bell,
     selectedIcon: PhosphorIconsFill.bell,
     label: (l) => l.navNotifications,
-    builder: () => const PendingScreen(title: 'notifications'),
+    builder: () => const NotificationsScreen(),
     access: const RouteAccess(requiresAccount: true),
   ),
   ShellDestination(
