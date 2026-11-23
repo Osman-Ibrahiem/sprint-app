@@ -12,17 +12,19 @@
 | Spacing | واحد | `space-1` لحد `space-16` كـ number |
 | Radius | واحد | `radius-sm` لحد `radius-full` |
 | Size | واحد | `control-height`، الأيقونات، `tabbar-height`، `rail-width`، `sidebar-width`، `content-max` |
-| Motion | واحد | `duration-fast` لحد `duration-pulse` كـ number بالـ ms. الـ easing (`ease-*`) بيتوثق في صفحة Foundations لأن الـ Variables مبتشيلش curves |
-| Copy | ar, en | نصوص الأزرار والحالات من جدول المحتوى في الـ README، عشان نفس الشاشة تتبدل لغتها بتغيير الـ mode |
+| Motion | واحد | `duration-fast` لحد `duration-pulse` كـ number بالـ ms، و `ease-standard` و `ease-enter` و `ease-exit` كـ string بنفس قيم الـ `cubic-bezier` في `tokens.json` |
+| Breakpoint | واحد | `bp-medium` و `bp-expanded` و `bp-large` كـ number |
+| Typography | واحد | `font-heading` و `font-text` و `font-code`، والتلاتة Cairo دلوقتي (أدوار ممكن تتفصل لخطوط مختلفة بعدين) |
+| Copy | ar, en | مرجع الصياغة: نصوص الأزرار والحالات والرسايل بالعربي والإنجليزي، وكل feature بتاخد نصوصها منه حرف بحرف (قرار 15). النصوص في الشاشات مش مربوطة بيه، فتبديل الـ mode مش بيطلّع شاشة إنجليزي |
 
 - **Text styles** بنفس أسماء الـ type styles. كلها بخط Cairo: `display`، `title-lg`، `title`، `headline`، `button`، `number-lg`، `number`، `body`، `body-strong`، `label`، `caption`، `micro`، `code`.
-- **Effect styles:** `shadow-card`، `shadow-sheet`، `shadow-popover`. في Dark الكارت من غير ظل.
+- **Effect styles:** `shadow-card`، `shadow-sheet`، `shadow-popover`. لون كل ظل متربوط بـ variable في Color collection ليه قيمة Light وقيمة Dark، فنفس الـ effect style بيشتغل في الـ mode الاتنين ومفيش styles منفصلة بـ `-dark`. في Dark لون ظل الكارت شفاف (الكارت من غير ظل)، والـ sheet والـ popover بقيم الـ `-dark` بتاعتهم من `tokens.json` (refactor 000، قرار D1).
 
 ### صفحات الملف
 
 1. **Cover:** الغلاف 1920 × 960 حسب `components/Cover/preview.html`.
-2. **Foundations:** الألوان في الثيمين، والخط، والمسافات، والزوايا، والأيقونات، والحركة.
-3. **Components:** كل component بالـ variants بتاعته (الـ properties أسفل).
+2. **Foundations:** الألوان في الثيمين، والخط، والمسافات، والزوايا، والحركة.
+3. **Components:** كل component بالـ variants بتاعته (الـ properties أسفل)، والأيقونات في frame `Icons` (71 icon component).
 4. **Compact:** كل الشاشات على 390 × 844 (iPhone) و 412 × 915 (Android).
 5. **Medium:** الشاشات الأساسية على عرض 720 (فولد مفتوح / تابلت صغير).
 6. **Expanded و Large:** الشاشات على 1194 × 834 (iPad عرضي) و 1440 × 900 (ديسكتوب).
@@ -35,19 +37,19 @@
 | Component | Properties |
 | --- | --- |
 | Button | `variant`: primary, secondary, tonal, ghost, danger · `size`: md, sm · `state`: default, hover, pressed, loading, disabled · `icon`: none, start, end |
-| TextField | `state`: default, focused, error, disabled · `type`: text, password, search |
-| SlotChip | `state`: available, selected, few-left, full, past |
+| TextField | `type`: text, password, search · `state`: default, focused, filled, error, locked, disabled (الـ 6 لكل شكل، و `search` مالوش `error`: "مفيش نتايج" empty state مش خطأ، قرار U2). الموبايل والإيميل والرقم القومي إعدادات كيبورد وتحقق على `text` مش أشكال |
+| SlotChip | `state`: available, selected, few-left, full, past, in-range |
 | DayStrip | `selected`: 1–7 · `today`: true, false |
-| FacilityCard | `type`: paid, free, with-trainer · `layout`: vertical, horizontal |
+| FacilityCard | `type`: paid, free, with-trainer · `layout`: vertical, horizontal · `audience`: guest, internal, external (السعر حسب اللي بيشوف، زي `facility_card_mapper.dart`: الضيف السعرين، والموثّق سعر الطلاب والعاملين، والخارجي السعر الكامل) |
 | StatusBadge | `status`: confirmed, pending-payment, cancelled, attended, no-show, expired |
 | BookingTicket | `state`: upcoming, today, past |
-| AppNavigation | `form`: tab-bar, rail, sidebar · `platform`: ios, android, web · `role`: booker, trainer, admin · `selected`: القسم المحدد (`default` للحاجز). متغيرات trainer و admin في Figma موجودة لـ `platform=ios` بس لحد دلوقتي |
-| StatTile | `trend`: up, down, flat |
+| AppNavigation | `form`: tab-bar, rail, sidebar · `platform`: ios, android, web · `role`: booker, trainer, admin · `selected`: الحاجز `default` (معناه حجوزاتي) و `home` و `facilities` و `notifications` و `account`، والإدارة كمان `more`. متغيرات trainer و admin في Figma موجودة لـ `platform=ios` بس لحد دلوقتي |
+| StatTile | `trend`: up, down, flat (اتجاه الرقم) · `tone`: good, bad, neutral (كويس ولا وحش للمؤشر ده). في الكود `StatDelta` بـ `trend` و `higherIsBetter` |
 | Logo | `variant`: mark, tile-primary, tile-ink, lockup-ar, lockup-en. الأشكال من `logo/`، وألوانها ثابتة في الثيمين |
 
 ### قواعد البناء
 
-- **Arabic first:** الـ frame الأساسي عربي و RTL، بترتيب العناصر من اليمين. النسخة الإنجليزي بتتعمل بتبديل الـ Copy mode وعكس الترتيب.
+- **Arabic first:** الشاشات في Figma عربي و RTL بس، بترتيب العناصر من اليمين. الإنجليزي بيتراجع في التطبيق وهو شغال: كل feature بعد ما تتبني بتاخد screenshots إنجليزي لشاشاتها (compact ومقاس عريض واحد، Light و Dark) في خطوة الـ design QA، فوق مصفوفات الاختبار ar و en. الـ Copy collection فاضل مرجع الصياغة (refactor 000، قرار E1).
 - Auto layout في كل حاجة، والمسافات والزوايا متربوطة بالـ variables.
 - كل شاشة ليها Light و Dark بتبديل mode الـ Color collection، مش نسخة متلونة باليد.
 - الداتا في الشاشات واقعية من الـ seed data: أسماء منشآت، أسعار بالجنيه، أوقات 12 ساعة.
@@ -132,7 +134,7 @@
   - القاعدة للتنفيذ: كل نص بيلف مش بيتقص، ومفيش ارتفاعات ثابتة للأشرطة، والشبكة تقلّ أعمدتها لما النص يكبر (من 3 لـ 2 أو 1)، مع الحفاظ على 48dp للأهداف. التقييم تقريبي، ولازم يتأكد على الـ Flutter نفسه بـ `TextScaler` 2.0.
 - **خريطة الشاشات حسب الـ US:** [`screens-map.md`](screens-map.md).
 - **حساب الضيف، تفاصيل حجز في انتظار الدفع، البحث (اقتراحات ونتايج):** اتضافوا في قسم "Pending, guest account, search · Compact" وواسعين.
-- **التنقل:** في الشاشات الواسعة التبويب المتحدد بيتغير حسب الشاشة (الهوم، المنشآت، حجوزاتي، الإشعارات، حسابي)، وعدّاد الإشعارات مخفي عند الضيف. ده تعديل على نسخ الـ instance في الشاشات، وسطر الـ `selected` في الـ component نفسه لسه `default` للحاجز.
+- **التنقل:** في الشاشات الواسعة التبويب المتحدد بيتغير حسب الشاشة (الهوم، المنشآت، حجوزاتي، الإشعارات، حسابي)، وعدّاد الإشعارات مخفي عند الضيف. الـ variants بتاعة كل تبويب في سطر AppNavigation فوق.
 
 ## Flutter
 
