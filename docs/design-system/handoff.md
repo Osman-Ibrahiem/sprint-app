@@ -39,7 +39,10 @@
 | Button | `variant`: primary, secondary, tonal, ghost, danger · `size`: md, sm · `state`: default, hover, pressed, loading, disabled · `icon`: none, start, end |
 | TextField | `type`: text, password, search · `state`: default, focused, filled, error, locked, disabled (الـ 6 لكل شكل، و `search` مالوش `error`: "مفيش نتايج" empty state مش خطأ، قرار U2). الموبايل والإيميل والرقم القومي إعدادات كيبورد وتحقق على `text` مش أشكال |
 | SlotChip | `state`: available, selected, few-left, full, past, in-range |
-| DayStrip | `selected`: 1–7 · `today`: true, false |
+| DayStrip | `selected`: 1–7 · `today`: true, false. الأيام `DayItem` (قرار 18) |
+| DayItem | `state`: default, selected, today, closed، وكل واحدة بـ `today`: true, false، في Light و Dark. بيترسم من جديد بالدايرة والذيل (قرار 18، `components/DayStrip/README.md`) |
+| FilterChip | `state`: selected, unselected. الحد `control-border` والمختار `primary` (قرار 21) |
+| CodeEntry | `state`: default, focused, error, ready. 6 خانات (قرار 2) |
 | FacilityCard | `type`: paid, free, with-trainer · `layout`: vertical, horizontal · `audience`: guest, internal, external (السعر حسب اللي بيشوف، زي `facility_card_mapper.dart`: الضيف السعرين، والموثّق سعر الطلاب والعاملين، والخارجي السعر الكامل) |
 | StatusBadge | `status`: confirmed, pending-payment, cancelled, attended, no-show, expired |
 | BookingTicket | `state`: upcoming, today, past |
@@ -154,6 +157,6 @@
 
 ### أسماء الـ widgets
 
-`SprintButton`، `SprintTextField`، `SlotChip`، `DayStrip`، `FacilityCard`، `StatusBadge`، `BookingTicket`، `AppNavigation`، `StatTile`، `SprintLogo`، ومعاهم الـ adaptive: `AdaptiveAppBar`، `AdaptiveDialog`، `AdaptiveSheet`، `AdaptiveSwitch`، `AdaptiveLoader`.
+`SprintButton`، `SprintTextField`، `SlotChip`، `DayStrip`، `FacilityCard`، `StatusBadge`، `BookingTicket`، `AppNavigation`، `StatTile`، `SprintLogo`، `SprintFilterChip`، `Skeleton`، `CodeEntry`، `AccountGatePrompt`، `DemoCodeNotice`، `VerificationStatusBadge`، و `SprintQrPainter` (الـ QR جوه `BookingTicket`)، ومعاهم الـ adaptive: `AdaptiveAppBar`، `AdaptiveDialog`، `AdaptiveSheet`، `AdaptiveSwitch`، `AdaptiveLoader`.
 
 كل widget بيعرض نفس الـ properties اللي في جدول Figma، فالـ Code Connect بين الاتنين يبقى مباشر.
