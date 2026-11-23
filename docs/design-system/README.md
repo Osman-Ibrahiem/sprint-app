@@ -25,8 +25,8 @@
 | slot قرب يخلص | فاضل مكانين | 2 places left |
 | slot مليان | مكتمل | Full |
 | نجاح الحجز | حجزك اتأكد | Your booking's confirmed |
-| فشل الدفع | الدفع ماتمّش. ممكن تحاول تاني | Payment didn't go through. Try again |
-| انتهاء المهلة | المهلة خلصت والمكان رجع متاح | Time ran out and the place was released |
+| فشل الدفع | الدفع ماتمّش. ممكن تحاول تاني | Payment didn't go through. You can try again |
+| انتهاء المهلة | عنوان: المهلة خلصت. وتحته: المكان رجع متاح للناس. ممكن تختار الميعاد من جديد. | Title: Time ran out. Body: The place is available to others again. You can pick a time again. |
 | إلغاء من الإدارة | الحجز اتلغى من الإدارة وفلوسك هترجع بالكامل | The facility cancelled this booking. You'll get a full refund |
 | توثيق قيد المراجعة | طلب التوثيق بيتراجع. لحد ما يتقبل هتحجز بالسعر الكامل | We're reviewing your request. Until then, full prices apply |
 | مفيش حجوزات | لسه مفيش حجوزات. المنشآت مستنياك | No bookings yet. Find a facility |
@@ -61,7 +61,7 @@
 - شبكة 4: `space-1` (4) لحد `space-16` (64).
 - هامش الشاشة: `space-4` على compact، و `space-6` على medium، و `space-8` على expanded و large.
 - الكروت padding `space-4`، والمسافة بين الكروت `space-4`، وبين الأقسام `space-6`.
-- الزوايا: `radius-sm` للـ chips والحقول، و `radius-md` للأزرار، و `radius-lg` للكروت والتذكرة، و `radius-xl` لحواف الـ sheets، و `radius-full` للـ pills. على iOS الزوايا continuous (squircle).
+- الزوايا: `radius-sm` للـ chips والحقول والزرار الصغير (`sm`)، و `radius-md` للزرار العادي (`md`)، و `radius-lg` للكروت والتذكرة، و `radius-xl` لحواف الـ sheets، و `radius-full` للـ pills. على iOS الزوايا continuous (squircle).
 - الظل: `shadow-card` للكروت على `bg` في الـ light بس. `shadow-sheet` للـ sheets وشريط ملخص الحجز. `shadow-popover` للقوايم والـ dialogs.
 - أي حاجة تتلمس ارتفاعها ولمستها 48 على الأقل (`control-height`).
 
@@ -119,12 +119,12 @@
 
 | المكان | الحركة |
 | --- | --- |
-| تأكيد الحجز والدفع | البرق بيلمع مرة واحدة بـ `volt`. دي اللحظة الاحتفالية الوحيدة في التطبيق، ومفيش confetti |
+| تأكيد الحجز والدفع | علامة صح `success` بتترسم مرة واحدة جوه دايرة `success-soft`، نفس شكل الفشل بدايرة `danger-soft`. آخر frame بيتقري "نجاح" لوحده، فمش اللوجو. دي اللحظة الاحتفالية الوحيدة في التطبيق، ومفيش confetti ولا لمعة `volt` (refactor 000، قرار 19) |
 | فشل الدفع | حركة هادية مع أيقونة الخطأ بلون `danger` |
 | الـ empty states | مفيش حجوزات، مفيش مواعيد متاحة، مفيش نتايج بحث، مفيش إشعارات |
 
 - **بتشتغل مرة واحدة وتقف على آخر frame**، وآخر frame لازم يبقى رسمة كاملة لوحده. مفيش loop لا نهائي، ومفيش Lottie كـ loader.
-- **الألوان من الـ tokens مش من الملف.** كل layer متلون اسمه على اسم الـ token (`primary`، `volt`، `ink`، `ink-muted`، `danger`، `surface-sunken`)، وفي Flutter بيتلون وقت التشغيل بـ `ValueDelegate.color` من `context.colors`. كده ملف واحد يشتغل في Light و Dark. و `volt` بيفضل fill بس زي أي مكان تاني.
+- **الألوان من الـ tokens مش من الملف.** كل layer متلون اسمه على اسم الـ token (`primary`، `volt`، `ink`، `ink-muted`، `success`، `success-soft`، `danger`، `danger-soft`، `surface-sunken`)، وفي Flutter بيتلون وقت التشغيل بـ `ValueDelegate.color` من `context.colors`. كده ملف واحد يشتغل في Light و Dark. و `volt` بيفضل fill بس زي أي مكان تاني.
 - **RTL:** أي animation فيها اتجاه (سهم، حاجة ماشية لقدام) بتنعكس في العربي. البرق واللوجو عمرهم ما بيتعكسوا.
 - **الحجم والمدة:** 100KB كحد أقصى للملف، وحركة النجاح والفشل 2 ثانية أو أقل.
 - **الملفات** في `assets/lottie/<name>.json`، ومصدر كل ملف ورخصته متسجلين في `assets/lottie/SOURCES.md`. الأفضل ترسم من البرق والـ tokens بستايل واحد. لو الملف جاهز (LottieFiles مثلًا)، لازم رخصته تسمح بالاستخدام التجاري، وألوانه تتعاد على أسماء الـ tokens.
