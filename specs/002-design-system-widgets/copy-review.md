@@ -1,5 +1,7 @@
 # Copy review (T070)
 
+> **2026-11-23, refactor 000 decision 13 (Osman):** these English values were changed to follow Figma's Copy collection and override this review: `statusPendingPayment` "Pending payment"; `confirmedTitle` "Your booking's confirmed"; `slotFewLeft` =1 "1 left", =2 "2 places left" (`slotFewLeftSpoken` stays for screen readers); the account tab (`navProfile`, Figma `nav/account`) "Account". See `docs/decisions.md` 2026-11-23. The table below is kept as reviewed.
+
 Every Arabic and English string added by feature 002, for Osman's review before merge. Checked against `docs/design-system/README.md` § المحتوى والصوت: light Egyptian dialect, no imperative verbs, verbal-noun buttons, gender-neutral wording, Western digits, English in sentence case. Plural forms are shown in ICU syntax as stored.
 
 | Key | Arabic | English | Shown in |
