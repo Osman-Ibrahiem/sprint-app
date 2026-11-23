@@ -41,7 +41,7 @@
 | SlotChip | `state`: available, selected, few-left, full, past, in-range |
 | DayStrip | `selected`: 1–7 · `today`: true, false. الأيام `DayItem` (قرار 18) |
 | DayItem | `state`: default, selected, closed · `today`: true, false · `Has availability`: boolean (الافتراضي true)، في Light و Dark. بيترسم من جديد بالدايرة والذيل بنفس الأسماء (قرار 18، `components/DayStrip/README.md`) |
-| FilterChip | `state`: selected, unselected. الحد `control-border` والمختار `primary` (قرار 21) |
+| FilterChip | `kind`: label, icon · `state`: unselected, selected · نص `Label`. غير المختار حده `control-border` والمختار `primary` (قرار 21) |
 | CodeEntry | `state`: default, focused, error, ready. 6 خانات LTR (قرار 2) |
 | Skeleton | `shape`: facility-card, facility-card-horizontal, list-row, slots, profile-card, settings-row · `phase`: rest, dim (طرفين النبض) |
 | VerificationStatusBadge | `status`: none, pending, approved, rejected, expired (`pending` في Figma = `underReview` في الكود) |
