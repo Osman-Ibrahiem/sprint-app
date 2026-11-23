@@ -18,7 +18,7 @@
 | Copy | ar, en | مرجع الصياغة: نصوص الأزرار والحالات والرسايل بالعربي والإنجليزي، وكل feature بتاخد نصوصها منه حرف بحرف (قرار 15). النصوص في الشاشات مش مربوطة بيه، فتبديل الـ mode مش بيطلّع شاشة إنجليزي |
 
 - **Text styles** بنفس أسماء الـ type styles. كلها بخط Cairo: `display`، `title-lg`، `title`، `headline`، `button`، `number-lg`، `number`، `body`، `body-strong`، `label`، `caption`، `micro`، `code`.
-- **Effect styles:** `shadow-card`، `shadow-sheet`، `shadow-popover`. لون كل ظل متربوط بـ variable في Color collection ليه قيمة Light وقيمة Dark، فنفس الـ effect style بيشتغل في الـ mode الاتنين ومفيش styles منفصلة بـ `-dark`. في Dark لون ظل الكارت شفاف (الكارت من غير ظل)، والـ sheet والـ popover بقيم الـ `-dark` بتاعتهم من `tokens.json` (refactor 000، قرار D1).
+- **Effect styles:** `shadow-card`، `shadow-sheet`، `shadow-popover`. لون كل ظل متربوط بـ variable في Color collection ليه قيمة Light وقيمة Dark (`shadow-card-color` و `shadow-sheet-color` و `shadow-popover-color`، scope `EFFECT_COLOR`)، فنفس الـ effect style بيشتغل في الـ mode الاتنين ومفيش styles منفصلة بـ `-dark`. في Dark لون ظل الكارت شفاف (الكارت من غير ظل)، والـ sheet والـ popover بقيم الـ `-dark` بتاعتهم من `tokens.json` (refactor 000، قرار D1).
 
 ### صفحات الملف
 
@@ -37,12 +37,15 @@
 | Component | Properties |
 | --- | --- |
 | Button | `variant`: primary, secondary, tonal, ghost, danger · `size`: md, sm · `state`: default, hover, pressed, loading, disabled · `icon`: none, start, end |
-| TextField | `type`: text, password, search · `state`: default, focused, filled, error, locked, disabled (الـ 6 لكل شكل، و `search` مالوش `error`: "مفيش نتايج" empty state مش خطأ، قرار U2). الموبايل والإيميل والرقم القومي إعدادات كيبورد وتحقق على `text` مش أشكال |
+| TextField | `type`: text, password, search · `state`: default, focused, filled, error, locked, disabled، و `shown` للـ password بس (الباسورد ظاهر وعلى الزرار "إخفاء"، قرار V3) (الـ 6 لكل شكل، و `search` مالوش `error`: "مفيش نتايج" empty state مش خطأ، قرار U2). الموبايل والإيميل والرقم القومي إعدادات كيبورد وتحقق على `text` مش أشكال |
 | SlotChip | `state`: available, selected, few-left, full, past, in-range |
 | DayStrip | `selected`: 1–7 · `today`: true, false. الأيام `DayItem` (قرار 18) |
-| DayItem | `state`: default, selected, today, closed، وكل واحدة بـ `today`: true, false، في Light و Dark. بيترسم من جديد بالدايرة والذيل (قرار 18، `components/DayStrip/README.md`) |
+| DayItem | `state`: default, selected, closed · `today`: true, false · `Has availability`: boolean (الافتراضي true)، في Light و Dark. بيترسم من جديد بالدايرة والذيل بنفس الأسماء (قرار 18، `components/DayStrip/README.md`) |
 | FilterChip | `state`: selected, unselected. الحد `control-border` والمختار `primary` (قرار 21) |
-| CodeEntry | `state`: default, focused, error, ready. 6 خانات (قرار 2) |
+| CodeEntry | `state`: default, focused, error, ready. 6 خانات LTR (قرار 2) |
+| Skeleton | `shape`: facility-card, facility-card-horizontal, list-row, slots, profile-card, settings-row · `phase`: rest, dim (طرفين النبض) |
+| VerificationStatusBadge | `status`: none, pending, approved, rejected, expired (`pending` في Figma = `underReview` في الكود) |
+| AccountGatePrompt، DemoCodeNotice، QRCode | من غير properties (component واحد لكل واحد) |
 | FacilityCard | `type`: paid, free, with-trainer · `layout`: vertical, horizontal · `audience`: guest, internal, external (السعر حسب اللي بيشوف، زي `facility_card_mapper.dart`: الضيف السعرين، والموثّق سعر الطلاب والعاملين، والخارجي السعر الكامل) |
 | StatusBadge | `status`: confirmed, pending-payment, cancelled, attended, no-show, expired |
 | BookingTicket | `state`: upcoming, today, past |
