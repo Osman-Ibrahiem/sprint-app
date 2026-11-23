@@ -24,14 +24,14 @@
 الـ component set فيه محورين زيادة على `form` و `platform`:
 
 - `role`: `booker` (الافتراضي) أو `trainer` أو `admin`. كل دور بعناصره: الحاجز 5 عناصر في الـ rail والـ sidebar و4 في الـ tab bar، المدرب 4 (حصصي، مسح QR، الإشعارات، حسابي)، والإدارة 8 في الـ rail والـ sidebar و5 في الـ tab bar (الخامس "المزيد").
-- `selected`: القسم المحدد جوه الـ variant (مثلًا `bookings` أو `scan`)، و `default` للحاجز.
+- `selected`: القسم المحدد جوه الـ variant (مثلًا `bookings` أو `scan`). الحاجز: `default` ومعناه حجوزاتي، و `home` و `facilities` و `notifications` و `account`. الإدارة كمان `more`.
 
 الـ rail بيستخدم أسماء مختصرة (المتابعة، الأدوار…) عشان تتسع في `rail-width`. متغيرات المدرب والإدارة معمولة لـ `platform=ios` بس.
 
 ## حسب المنصة
 
 - iOS: الـ tab bar شفاف بـ blur فوق المحتوى، من غير pill ورا الأيقونة.
-- Android: الـ tab bar `surface`، والنشط ممكن ياخد pill `primary-soft` زي الـ rail.
+- Android: الـ tab bar `surface`، والنشط ممكن ياخد pill `primary-soft` زي الـ rail. الـ pill على العنصر المحدد بس: عمر ما عنصرين يبانوا متحددين (refactor 000، قرار U5).
 - Web و Desktop: hover بـ `surface-sunken`، و `focus-ring` مع الكيبورد، واختصارات أرقام (1–5) للتنقل.
 
 ## قواعد
@@ -40,3 +40,4 @@
 - الإدارة على compact أكتر من 5 عناصر: الخامس "المزيد" وبيفتح قايمة.
 - الشاشة اللي اتفتحت من تاب بتحافظ على مكانها لما المستخدم يرجع للتاب.
 - لا تخبي الـ tab bar وقت التمرير على compact.
+- التسميات ظاهرة في كل أحجام النص، وتكبيرها واقف عند `navLabelMaxTextScale` (1.3) والأيقونات مقاسها ثابت. مفيش وضع أيقونات من غير كلام (refactor 000، قرار T2).
