@@ -1,3 +1,27 @@
+<!--
+Sync Impact Report
+- Version change: 1.2.0 → 1.3.0 (MINOR: one principle added, one principle expanded)
+- Reason: refactor 000 decision F1 (Osman, 2026-11-23); evidence in the refactor 000 UX review (F1)
+- Modified principles:
+  - V. Arabic First, Adaptive, Accessible: expanded with two required tests, a token contrast
+    test (decision C1) and a no-truncation text test (decision T1)
+- Added sections:
+  - VI. Design Source: CLAUDE.md § "Design source (feature 006 onward)" (Figma is the screen
+    source, `/design-check` before specify, the Design Pack and its delete-before-merge rule,
+    implementers stop when the pack is missing or older than Figma, design QA before the PR),
+    plus strings word for word from Figma's Copy collection (decision 15) and English checked in
+    the running app with screenshots in design QA (decision E1)
+- Removed sections: none
+- Templates and guidance:
+  - ✅ .specify/templates/plan-template.md: its Constitution Check reads this file at run time, no edit
+  - ✅ .specify/templates/spec-template.md, tasks-template.md: no principle-specific text to change
+  - ✅ docs/decisions.md: rows for decisions 15, C1/C2, T1 and E1 added in the same pull request
+  - ⚠ CLAUDE.md: § Design source already matches VI; the standing rules (Copy word for word,
+    contrast and truncation tests, English screenshots in design QA) are not in it yet
+  - ⚠ .claude/skills/design-check: its checklist does not yet list the feature's Copy strings
+    (decision 15)
+- Deferred TODOs: none
+-->
 # Sprint (سبرنت) Constitution
 
 ## Core Principles
@@ -44,8 +68,35 @@ light Egyptian dialect with no imperative verbs, Western digits, 12-hour time, a
 "120 ج.م" / "EGP 120". Interactive targets are at least 48dp, except the native Apple navigation bar and its back
 button, which keep the platform's 44pt height (decisions.md, 2026-11-11); every state carries a word or an
 icon, never colour alone; text scales to 200% with a minimum size of 12; animation respects the
-reduce-motion setting.
+reduce-motion setting. Two tests MUST pass in CI: a token contrast test over the colour pairs in
+`tokens.json` (text 4.5:1, controls and focus 3:1, in both themes), and a no-truncation text test
+that fails when any text is cut with an ellipsis at text scale 1.0, 1.5 and 2.0 (refactor 000,
+decisions C1 and T1).
 Rationale: the users are Egyptian university students on every kind of device.
+
+### VI. Design Source
+From feature 006 onward Figma (file key `xeuMQ0KyXsXVh4QldmkbDf`) is the live source for screens,
+with every variant (compact, medium, expanded, large, Light and Dark). The repository MUST NOT
+describe screens or where components sit; tokens, rules and components still live in the
+repository and win over Figma (Principle I). Only the session with the Figma MCP reads Figma;
+other sessions and OpenCode MUST NOT guess a screen.
+- `/design-check <feature>` runs before specify. It reads the screens live, compares them with the
+  BRD and reports gaps; Osman decides each gap: fix Figma, change the BRD, or continue with a note.
+- Its result is a Design Pack in `specs/<feature>/design-pack/` on the feature branch. The spec
+  holds only a pointer to the Figma page or section, never a description of a screen.
+- The pack is deleted before merge and MUST NOT reach `develop`; CI fails the pull request while
+  `design-pack/` exists.
+- Implementers read the pack first. When it is missing, or Figma changed after its generation
+  date, they stop and ask Osman to re-run `/design-check`. A session that implements with the
+  Figma MCP reads Figma directly and needs no pack.
+- After implementing, design QA compares the result with Figma before the pull request is opened.
+- New strings are taken word for word from Figma's Copy collection, and `/design-check` lists the
+  feature's strings (refactor 000, decision 15).
+- Figma is drawn in Arabic only. English is checked in the running app: design QA includes English
+  screenshots of the feature's screens (compact and one wide size, Light and Dark), on top of the
+  Arabic and English test matrices (refactor 000, decision E1).
+Rationale: one live screen source avoids stale screen descriptions in the repository, and the pack
+lets sessions without Figma access build from Figma's numbers instead of guesses.
 
 ## Product Constraints
 
@@ -85,4 +136,4 @@ same pull request. Versioning follows semantic rules: MAJOR for removing or rede
 principle, MINOR for adding a principle or materially expanding one, PATCH for wording fixes.
 `CLAUDE.md` is the runtime guidance for day-to-day work and is kept consistent with this file.
 
-**Version**: 1.2.0 | **Ratified**: 2026-11-10 | **Last Amended**: 2026-11-15
+**Version**: 1.3.0 | **Ratified**: 2026-11-10 | **Last Amended**: 2026-11-23
