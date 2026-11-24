@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:sprint/core/adaptive/platform.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
+import 'package:sprint/core/tokens/sprint_blur.g.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 
 /// The background of a bar that sits over content (the tab bar): translucent
@@ -20,8 +21,9 @@ class AdaptiveBarSurface extends StatelessWidget {
     final bar = DecoratedBox(
       decoration: BoxDecoration(
         color: apple
-            ? colors.surface
-                .withValues(alpha: SprintExtras.tabBarTranslucentAlpha)
+            ? colors.surface.withValues(
+                alpha: SprintExtras.tabBarTranslucentAlpha,
+              )
             : colors.surface,
         border: border,
       ),
@@ -31,8 +33,8 @@ class AdaptiveBarSurface extends StatelessWidget {
     return ClipRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(
-          sigmaX: SprintExtras.tabBarBlurSigma,
-          sigmaY: SprintExtras.tabBarBlurSigma,
+          sigmaX: SprintBlur.barSigma,
+          sigmaY: SprintBlur.barSigma,
         ),
         child: bar,
       ),
