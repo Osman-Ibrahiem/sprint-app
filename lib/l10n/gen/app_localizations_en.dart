@@ -2486,7 +2486,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gallery007SampleEmailLabel => 'Email';
 
   @override
-  String get navNotifications => 'Notifications';
+  String get navNotifications => 'Alerts';
 
   @override
   String get catalogueFacilitiesTitle => 'All facilities';

@@ -66,6 +66,11 @@ class ScheduleScreen extends ConsumerStatefulWidget {
   static const refreshKey = ValueKey<String>('schedule-refresh');
   static const gridKey = ValueKey<String>('schedule-grid');
   static const emptyKey = ValueKey<String>('schedule-empty');
+
+  /// The facility's full name in the page body (decision T3).
+  static const facilityHeadingKey = ValueKey<String>(
+    'schedule-facility-heading',
+  );
   static const nothingLeftKey = ValueKey<String>('schedule-nothing-left');
   static const loadingKey = ValueKey<String>('schedule-loading');
   static const trainerStepKey = ValueKey<String>('schedule-trainer-step');
@@ -424,19 +429,23 @@ class _Loaded extends ConsumerWidget {
     // The trainer path starts with who gives the session (FR-017).
     if (schedule.needsTrainer) {
       if (schedule.trainers.isEmpty) {
-        return EmptyState(
-          key: ScheduleScreen.emptyKey,
-          icon: PhosphorIconsRegular.calendarBlank,
-          title: l10n.bookingNoTrainersTitle,
-          body: l10n.bookingNoTrainersBody,
-          actionLabel: l10n.bookingBackToFacility,
-          onAction: onBack,
+        return _WithHeading(
+          name: schedule.facility.name,
+          child: EmptyState(
+            key: ScheduleScreen.emptyKey,
+            icon: PhosphorIconsRegular.calendarBlank,
+            title: l10n.bookingNoTrainersTitle,
+            body: l10n.bookingNoTrainersBody,
+            actionLabel: l10n.bookingBackToFacility,
+            onAction: onBack,
+          ),
         );
       }
       return ListView(
         key: ScheduleScreen.trainerStepKey,
         padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
         children: [
+          _FacilityHeading(name: schedule.facility.name),
           if (notice != null) ...[
             ScheduleNoticeView(notice: notice!, onDismiss: onDismissNotice),
             const SizedBox(height: SprintSpacing.space3),
@@ -462,6 +471,7 @@ class _Loaded extends ConsumerWidget {
           key: ScheduleScreen.emptyKey,
           padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
           children: [
+            _FacilityHeading(name: schedule.facility.name),
             chosenTrainer,
             const SizedBox(height: SprintSpacing.space4),
             Text(
@@ -471,13 +481,16 @@ class _Loaded extends ConsumerWidget {
           ],
         );
       }
-      return EmptyState(
-        key: ScheduleScreen.emptyKey,
-        icon: PhosphorIconsRegular.calendarBlank,
-        title: l10n.bookingNoUnitsTitle,
-        body: l10n.bookingNoUnitsBody,
-        actionLabel: l10n.bookingBackToFacility,
-        onAction: onBack,
+      return _WithHeading(
+        name: schedule.facility.name,
+        child: EmptyState(
+          key: ScheduleScreen.emptyKey,
+          icon: PhosphorIconsRegular.calendarBlank,
+          title: l10n.bookingNoUnitsTitle,
+          body: l10n.bookingNoUnitsBody,
+          actionLabel: l10n.bookingBackToFacility,
+          onAction: onBack,
+        ),
       );
     }
 
@@ -497,6 +510,7 @@ class _Loaded extends ConsumerWidget {
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
         children: [
+          _FacilityHeading(name: schedule.facility.name),
           if (notice != null) ...[
             ScheduleNoticeView(notice: notice!, onDismiss: onDismissNotice),
             const SizedBox(height: SprintSpacing.space3),
@@ -656,4 +670,45 @@ ScheduleNotice _whyDropped(FacilitySchedule schedule, ScheduleSelection asked) {
     }
   }
   return gone;
+}
+
+/// The facility's full name at the top of the page: the app bar title may end
+/// with "…" like the native bars (decision T3 of refactor 000), so the page
+/// always shows the whole name. The app bar title already speaks it in full,
+/// so this copy is hidden from screen readers.
+class _FacilityHeading extends StatelessWidget {
+  const _FacilityHeading({required this.name});
+
+  final String name;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    key: ScheduleScreen.facilityHeadingKey,
+    padding: const EdgeInsetsDirectional.only(bottom: SprintSpacing.space3),
+    child: ExcludeSemantics(child: Text(name, style: context.text.headline)),
+  );
+}
+
+/// [_FacilityHeading] above a state that fills the page (an empty state).
+class _WithHeading extends StatelessWidget {
+  const _WithHeading({required this.name, required this.child});
+
+  final String name;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      Padding(
+        padding: const EdgeInsetsDirectional.only(
+          start: SprintSpacing.space4,
+          end: SprintSpacing.space4,
+          top: SprintSpacing.space4,
+        ),
+        child: _FacilityHeading(name: name),
+      ),
+      Expanded(child: child),
+    ],
+  );
 }

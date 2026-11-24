@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/app/router/routes.dart';
+import 'package:sprint/core/l10n/locale_notifier.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/core/widgets/app_navigation/app_navigation.dart';
+import 'package:sprint/l10n/gen/app_localizations.dart';
 
 import '../../helpers/pump_app.dart';
 
@@ -38,6 +40,19 @@ void main() {
     expect(unread, greaterThan(0));
     // Between bookings and account.
     expect(nav.destinations.map((d) => d.label).toList().indexOf(ar.navNotifications), 3);
+  });
+
+  testWidgets('English: the navigation item says "Alerts", the screen title '
+      'stays "Notifications"; Arabic is "الإشعارات" (decision N1)', (t) async {
+    final en = lookupAppLocalizations(const Locale('en'));
+    expect(en.navNotifications, 'Alerts');
+    expect(en.notificationsTitle, 'Notifications');
+    expect(ar.navNotifications, 'الإشعارات');
+    await signedIn(t, const Size(700, 900));
+    await containerOf(t).read(localeProvider.notifier).set(const Locale('en'));
+    await t.pumpAndSettle();
+    final nav = t.widget<AppNavigation>(find.byType(AppNavigation));
+    expect(nav.destinations.map((d) => d.label), contains('Alerts'));
   });
 
   testWidgets('a guest never gets the notifications item', (t) async {
