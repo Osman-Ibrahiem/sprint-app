@@ -31,8 +31,12 @@ abstract final class SprintExtras {
   static const double slotChipMinHeight = 56;
   static const double slotChipMinWidth = 100;
 
-  /// DayStrip README § الشكل: each day pill is 64 high.
+  /// The old day pill height (64), still the unit of a few skeletons.
   static const double dayPillHeight = 64;
+
+  /// DayStrip v2 (decision 18): circle 48, name, dot and their gaps, at 100%
+  /// text; the schedule's loading skeleton uses it.
+  static const double dayItemHeight = 88;
 
   /// StatusBadge README § الشكل: pill height 28.
   static const double statusBadgeHeight = 28;

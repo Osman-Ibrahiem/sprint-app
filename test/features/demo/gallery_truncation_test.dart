@@ -3,7 +3,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/core/theme/sprint_theme.dart';
-import 'package:sprint/core/widgets/day_strip/day_strip.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/component_gallery_screen.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
@@ -12,8 +11,7 @@ import '../../helpers/pump_app.dart';
 
 /// Decision T1 of refactor 000: no component in the gallery cuts its text at
 /// 100%, 150% or 200%, in Arabic and English, measured with the bundled
-/// Cairo. The DayStrip is a known failure until its redesign (decision 18)
-/// lands; `day_strip_truncation_test.dart` keeps it visible as skipped tests.
+/// Cairo. No exceptions: the DayStrip v2 (decision 18) passes too.
 void main() {
   setUpAll(loadSprintFonts);
 
@@ -49,7 +47,7 @@ void main() {
             .state<ScrollableState>(find.byType(Scrollable).first)
             .position;
         for (var i = 0; i < 400; i++) {
-          cut.addAll(truncatedTexts(tester, knownFailures: {DayStrip}));
+          cut.addAll(truncatedTexts(tester));
           if (position.pixels >= position.maxScrollExtent) break;
           position.jumpTo(
             (position.pixels + 400).clamp(0, position.maxScrollExtent),

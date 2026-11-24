@@ -7,11 +7,8 @@ import '../../helpers/no_truncation.dart';
 import '../../helpers/widget_harness.dart';
 
 /// Decision T1 of refactor 000 on the DayStrip: every day name in full, never
-/// an ellipsis, at 100%, 150% and 200%.
-///
-/// KNOWN FAILURE: at 150% and 200% today's DayStrip cuts six of seven day
-/// names ("الأربع…"). Its redesign (decision 18) fixes it once Osman approves
-/// the Figma drawing; then drop the `skip` below so these run.
+/// an ellipsis, at 100%, 150% and 200%. The v2 day item (decision 18) fixed
+/// the old pill, which cut six of seven names at 150% and 200%.
 void main() {
   setUpAll(loadSprintFonts);
 
@@ -34,9 +31,8 @@ void main() {
           textScale: scale,
         );
         expectNoTruncation(tester, reason: 'DayStrip $lang x$scale');
-        // Known failure until decision 18: a String skip reason is reported
-        // by `flutter test` as a skipped test, so it stays visible.
-      }, skip: scale > 1.0);
+        expect(tester.takeException(), isNull);
+      });
     }
   }
 }

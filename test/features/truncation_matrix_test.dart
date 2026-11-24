@@ -5,7 +5,6 @@ import 'package:sprint/core/l10n/locale_notifier.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/seed/seed_ids.dart';
 import 'package:sprint/core/time/clock_provider.dart';
-import 'package:sprint/core/widgets/day_strip/day_strip.dart';
 import 'package:sprint/features/booking/domain/schedule_selection.dart';
 
 import '../helpers/no_truncation.dart';
@@ -19,9 +18,7 @@ import 'booking/presentation/schedule_harness.dart';
 ///
 /// Allowed (decision T3): an app bar title may end with "…" as the native
 /// bars do, and then the full title must show in the page body; checked here.
-///
-/// Known failure: the DayStrip cuts day names at 150% and 200% until its
-/// redesign (decision 18) lands.
+/// No other exception: the DayStrip v2 (decision 18) passes too.
 void main() {
   setUpAll(loadSprintFonts);
 
@@ -73,10 +70,7 @@ void main() {
     for (final path in paths) {
       routerOf(tester).go(path);
       await tester.pumpAndSettle();
-      for (final text in truncatedTexts(
-        tester,
-        knownFailures: const {DayStrip},
-      )) {
+      for (final text in truncatedTexts(tester)) {
         cut.add('$text on $path');
       }
       for (final title in cutTitlesMissingFromBody(tester)) {

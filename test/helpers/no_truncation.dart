@@ -68,7 +68,8 @@ List<String> cutTitlesMissingFromBody(WidgetTester tester) {
 /// cut text lays out without an error.
 ///
 /// Texts inside a widget whose type is in [knownFailures] are skipped: a known
-/// failure waiting for its own decision (the DayStrip waits for decision 18).
+/// failure waiting for its own decision (none today; the DayStrip waited for
+/// decision 18).
 /// App bar titles are always skipped ([allowedTruncation], decision T3).
 List<String> truncatedTexts(
   WidgetTester tester, {

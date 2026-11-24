@@ -360,7 +360,7 @@ class _Loading extends StatelessWidget {
     physics: const NeverScrollableScrollPhysics(),
     padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
     children: [
-      const Skeleton(height: SprintExtras.dayPillHeight),
+      const Skeleton(height: SprintExtras.dayItemHeight),
       const SizedBox(height: SprintSpacing.space4),
       const Skeleton(height: SprintSize.controlHeight),
       const SizedBox(height: SprintSpacing.space4),
