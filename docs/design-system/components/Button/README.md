@@ -6,7 +6,7 @@
 
 - `label`: مصدر مش فعل أمر ("تأكيد الحجز"، "إلغاء الحجز") عشان يبقى محايد للجنسين. بخط `button` (Cairo 600).
 - `variant`: `primary` | `secondary` | `tonal` | `ghost` | `danger`.
-- `size`: `md` (ارتفاع `control-height`، الافتراضي) | `sm` (`control-height-sm`، في جداول الإدارة بس، ومنطقة اللمس حواليه 48).
+- `size`: `md` (ارتفاع `control-height`، الافتراضي، زوايا `radius-md` و padding أفقي `space-5`) | `sm` (`control-height-sm`، زوايا `radius-sm` و padding أفقي `space-3`، في جداول الإدارة بس، ومنطقة اللمس حواليه 48) (refactor 000، قرار 12).
 - `icon` اختياري في البداية أو النهاية، مقاس `icon-md`. الأسهم بتنعكس في RTL.
 - `loading`: بيبدّل الأيقونة بـ spinner ويغيّر النص لحالة جارية ("جاري الدفع…") وما بيتضغطش تاني.
 - `onPressed`. لو مش متاح، الأفضل يفضل شغال ويقول السبب، والـ disabled للحالات اللي مالهاش معنى غير كده.
@@ -24,6 +24,7 @@
 - iOS: الضغط بيخفت الـ fill لـ 70%، مفيش ripple. الشكل بزوايا continuous.
 - Android: ripple بـ `primary-pressed`.
 - Web و Desktop: hover بـ `primary-hover`، و focus بـ `focus-ring` (2px بمسافة 2px)، والمؤشر pointer.
+- كل variant بيتغير في الـ hover والضغط بلون من عيلته، والنص فاضل مقروء: `primary` بـ `primary-hover` و `primary-pressed`، و `secondary` و `ghost` بـ `surface-sunken`، و `tonal` بدرجة أغمق من `primary-soft`، و `danger` بدرجة أغمق من `danger`. درجات tonal و danger tokens بتتضاف لـ `tokens.json` بقيم Light و Dark (refactor 000، قرار U1).
 
 ## افعل ولا تفعل
 

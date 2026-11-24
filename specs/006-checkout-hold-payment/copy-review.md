@@ -1,5 +1,7 @@
 # Copy review: Checkout with Hold and Sandbox Payment, Confirmation Ticket
 
+> **2026-11-23, refactor 000 decision 13 (Osman):** these English values were changed to follow Figma's Copy collection and override this review: `statusPendingPayment` "Pending payment"; `confirmedTitle` "Your booking's confirmed"; `slotFewLeft` =1 "1 left", =2 "2 places left" (`slotFewLeftSpoken` stays for screen readers); the account tab (`navProfile`, Figma `nav/account`) "Account". See `docs/decisions.md` 2026-11-23. The table below is kept as reviewed.
+
 Every string this feature added, in Arabic and English, checked on 2026-11-18 against the project's
 copy rules (CLAUDE.md, constitution V) and `design-pack/copy.md`, which wins over Figma. Keys carry the
 `checkout`, `gateway`, `processing`, `awaiting`, `holdExpired`, `receipt`, `confirmed`, `lead` and

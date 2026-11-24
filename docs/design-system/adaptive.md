@@ -11,10 +11,10 @@
 | شريط العنوان | العنوان في النص، large title على الشاشات الرئيسية، chevron للرجوع | العنوان في البداية، سهم رجوع | زي Android، مع hover |
 | الرجوع | سحب من طرف الشاشة | زرار الرجوع و predictive back | زرار المتصفح، و Esc يقفل الـ sheet |
 | Tab bar | شفاف بـ blur فوق المحتوى | `surface` بلون صلب | يتحول rail أو sidebar حسب العرض |
-| Dialog | Cupertino alert، الإجراءات تحت بعض أو جنب بعض | Dialog بزوايا `radius-xl` والأزرار في الآخر | Dialog في نص الشاشة، Enter و Esc شغالين |
+| Dialog | Cupertino alert، الإجراءات تحت بعض أو جنب بعض، والمدمّر بالأحمر الـ native (نص) | Dialog بزوايا `radius-xl` والأزرار في الآخر، والمدمّر زرار `danger` مليان | Dialog في نص الشاشة، Enter و Esc شغالين، والمدمّر زرار `danger` مليان |
 | اختيار من قايمة إجراءات | Action sheet من تحت | Bottom sheet | Menu تحت الزرار |
 | Switch و Checkbox | Cupertino | Material بلون `primary` | Material |
-| Loading | Activity indicator | Circular progress | Circular progress |
+| Loading | Activity indicator بتاع النظام (أسنان بتلف وبتبهت) بلون `ink-muted` | Circular progress بلون `primary` | Circular progress بلون `primary` |
 | Pull to refresh | Cupertino مع bounce | Material مع stretch | مفيش، زرار تحديث |
 | التمرير | Bounce | Stretch | Scrollbar ظاهر |
 | الضغط | الـ fill يخفت لـ 70% | Ripple بلون `primary-pressed` | Hover بـ `primary-hover` وتغيير المؤشر |
@@ -23,14 +23,19 @@
 
 في Flutter: كل عنصر من دول بيتعمل كـ widget واحد adaptive بيقرا `Theme.of(context).platform`، والشاشات ما بتعرفش هي على أنهي نظام.
 
+- **ترتيب أزرار الـ Dialog:** `AdaptiveDialog` بيرتّب الأزرار بنفسه مهما كان الترتيب اللي الشاشة باعتاه: الآمن (الرجوع أو الإلغاء) الأول، والمؤكد أو المدمّر الأخير. بعدها كل نظام بيحطهم بقاعدته: iOS في RTL الآمن يمين، و Material في RTL الأزرار في الآخر والمدمّر في أقصى الآخر (شمال). مثال: "الرجوع" يمين و"إلغاء الحجز" شمال. نفس القاعدة على `WideDialog` اللي بيحل محل نافذة المنصة من medium وأكبر (refactor 000، قرار P1).
+- **تسميات التنقل والخط الكبير:** تسميات الـ tab bar والـ rail بتفضل ظاهرة في كل أحجام النص، وتكبيرها واقف عند `navLabelMaxTextScale` (1.3) والأيقونات مقاسها ثابت. باقي التطبيق بيكبر لحد 200% (refactor 000، قرار T2).
+
 ## الأحجام (Window size classes)
 
 | الفئة | العرض | الأجهزة | التنقل | الـ layout |
 | --- | --- | --- | --- | --- |
-| Compact | أقل من `bp-medium` (600) | موبايلات، فولد مقفول، iPad split ضيق | Tab bar تحت (`tabbar-height`) | عمود واحد، هامش `space-4` |
-| Medium | 600 لحد 839 | فولد مفتوح، تابلت صغير، iPad split | Rail (`rail-width`) | قايمة وتفاصيل جنب بعض، هامش `space-6` |
+| Compact | أقل من `bp-medium` (600) | موبايلات، فولد مقفول، iPad split ضيق | Tab bar تحت (`tabbar-height`)، وللحاجز جرس الإشعارات في header الشاشات الرئيسية | عمود واحد، هامش `space-4` |
+| Medium | 600 لحد 839 | فولد مفتوح، تابلت صغير، iPad split | Rail (`rail-width`)، والإشعارات وجهة خامسة للحاجز | قايمة وتفاصيل جنب بعض، هامش `space-6` |
 | Expanded | 840 لحد 1199 | iPad وتابلت عرضي | Sidebar (`sidebar-width`) | قايمة وتفاصيل، هامش `space-8` |
 | Large | 1200 فأكتر | ويب وديسكتوب | Sidebar | المحتوى لحد `content-max` في النص، جداول الإدارة كاملة |
+
+**إشعارات الحاجز:** على compact الـ tab bar أربع عناصر (الرئيسية، المنشآت، حجوزاتي، حسابي) والإشعارات بتتفتح من `NotificationBell` في header كل شاشة رئيسية. من medium وأكبر الإشعارات وجهة خامسة في الـ rail والـ sidebar بالعدّاد. عنصر واحد بس بيبان متحدد في أي وقت. الضيف مالوش جرس ولا وجهة (قرار 2026-11-18، refactor 000 قرار U5).
 
 **الشاشات على كل فئة:**
 

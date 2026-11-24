@@ -5,10 +5,10 @@
 ## اللي بيتبعت للـ component
 
 - `start`: وقت البداية، بيتعرض 12 ساعة ("5:00 م").
-- `state`: `available` | `selected` | `fewLeft` | `full` | `past`.
+- `state`: `available` | `selected` | `fewLeft` | `full` | `past` | `inRange`. الـ 6 بنفس الأسماء في Figma (`few-left` و `in-range`) والكود والـ docs (refactor 000، قرار 3).
 - `remaining`: عدد الأماكن المتبقية في وحدة `SHARED`. في `EXCLUSIVE` مش بيتعرض رقم.
 - `fewLeftThreshold`: من الإعدادات (افتراضي 2، BR-45). لما `remaining` يوصل له أو أقل، الحالة تبقى `fewLeft`.
-- `onSelected`. في المنشأة المجانية بيتختار نطاق (أول وآخر chip، واللي بينهم يتلون `primary-soft`).
+- `onSelected`. في المنشأة المجانية بيتختار نطاق: أول وآخر chip `selected`، واللي بينهم `inRange`.
 
 ## الحالات
 
@@ -19,10 +19,11 @@
 | `fewLeft` | `volt` ونص `on-volt` | "فاضل 1" / "فاضل مكانين" |
 | `full` | `surface-sunken` ونص `ink-muted` | "مكتمل" |
 | `past` | شفاف وحد `line` ونص `ink-disabled` | "فات" |
+| `inRange` | `primary-soft` ونص `on-primary-soft` | "ضمن النطاق" |
 
 ## قواعد
 
-- ارتفاع 56 على الأقل وعرض 100 على الأقل، في grid بمسافة `space-2`. الترتيب من بدري لمتأخر مع اتجاه القراية.
+- ارتفاع 56 على الأقل وعرض 100 على الأقل، زوايا `radius-sm`، في grid بمسافة `space-2`. الترتيب من بدري لمتأخر مع اتجاه القراية.
 - `full` و `past` مش بيتضغطوا، وقارئ الشاشة بيقول السبب.
 - قارئ الشاشة بيقرا الـ chip كجملة: "الساعة 6 مساءً، فاضل مكان واحد".
 - اختيار chip بيعمل haptic خفيف على iOS و Android.
