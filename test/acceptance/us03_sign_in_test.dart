@@ -31,7 +31,7 @@ void main() {
     expect(sessionOf(tester).user?.id, SeedIds.bookerInternal);
     expect(sessionOf(tester).tier, PriceTier.internal);
     expect(currentPath(tester), '/home');
-    expect(find.text(ar.navProfile), findsWidgets);
+    expect(find.text(ar.navAccount), findsWidgets);
   });
 
   testWidgets('a mobile number works too, in any case or spacing', (

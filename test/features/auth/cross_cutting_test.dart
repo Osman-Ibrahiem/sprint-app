@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/core/l10n/locale_notifier.dart';
 import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/core/result/result.dart';
+import 'package:sprint/core/widgets/code_field/sprint_code_field.dart';
 import 'package:sprint/core/widgets/sprint_text_field/sprint_text_field.dart';
 import 'package:sprint/features/auth/domain/masking.dart';
 import 'package:sprint/features/identity/domain/verification.dart';
@@ -140,7 +141,6 @@ void main() {
           SprintTextFieldType.phone,
           SprintTextFieldType.email,
           SprintTextFieldType.nationalId,
-          SprintTextFieldType.code,
           SprintTextFieldType.password,
         };
         var checked = 0;
@@ -159,6 +159,22 @@ void main() {
               editable.textDirection,
               TextDirection.ltr,
               reason: '${f.type} field flips in Arabic',
+            );
+            checked++;
+          }
+          // The confirmation code boxes run left to right too (decision 2).
+          for (final e in find.byType(SprintCodeField).evaluate()) {
+            final boxes = find.descendant(
+              of: find.byWidget(e.widget),
+              matching: find.byKey(SprintCodeField.boxKey(0)),
+            );
+            expect(_isLtr(tester.element(boxes)), isTrue);
+            expect(
+              tester.getCenter(boxes).dx,
+              lessThan(
+                tester.getCenter(find.byKey(SprintCodeField.boxKey(5))).dx,
+              ),
+              reason: 'the first box sits on the left in Arabic too',
             );
             checked++;
           }

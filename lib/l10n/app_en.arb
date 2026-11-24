@@ -4,7 +4,7 @@
   "navHome": "Home",
   "navFacilities": "Facilities",
   "navBookings": "My bookings",
-  "navProfile": "Profile",
+  "navAccount": "Account",
   "navMainLabel": "Main navigation",
   "placeholderNote": "This screen is still being built.",
   "homeIntro": "Nearby facilities and upcoming slots will show up here.",
@@ -64,6 +64,13 @@
   "dayFullWednesday": "Wednesday",
   "dayFullThursday": "Thursday",
   "dayFullFriday": "Friday",
+  "dayStripSaturday": "Saturday",
+  "dayStripSunday": "Sunday",
+  "dayStripMonday": "Monday",
+  "dayStripTuesday": "Tuesday",
+  "dayStripWednesday": "Wednesday",
+  "dayStripThursday": "Thursday",
+  "dayStripFriday": "Friday",
   "@priceEgp": {
     "placeholders": {
       "amount": {
@@ -166,6 +173,14 @@
   "fieldShowPassword": "Show",
   "fieldHidePassword": "Hide",
   "codeEntryLabel": "Confirmation code",
+  "codeBoxEmpty": "Box {index} of {count}, empty",
+  "@codeBoxEmpty": {
+    "placeholders": { "index": { "type": "int" }, "count": { "type": "int" } }
+  },
+  "codeBoxFilled": "Box {index} of {count}: {digit}",
+  "@codeBoxFilled": {
+    "placeholders": { "index": { "type": "int" }, "count": { "type": "int" }, "digit": { "type": "String" } }
+  },
   "codeEntrySentTo": "The code was sent to",
   "codeEntryResend": "Resend the code",
   "codeEntryResendIn": "Resend the code in {seconds} s",
@@ -179,10 +194,11 @@
   "fieldSearchHint": "Search",
   "slotAvailablePlaces": "{count, plural, =1{1 place} other{{count} places}}",
   "slotSelected": "Selected",
-  "slotFewLeft": "{count, plural, =1{1 place left} other{{count} places left}}",
+  "slotFewLeft": "{count, plural, =1{1 left} =2{2 places left} other{{count} places left}}",
   "slotFewLeftSpoken": "{count, plural, =1{one place left} other{{count} places left}}",
   "slotFull": "Full",
   "slotPast": "Past",
+  "slotInRange": "In range",
   "slotSpoken": "At {time}, {state}",
   "slotSpokenWithPrice": "At {time}, {state}, {price}",
   "dayToday": "Today",
@@ -191,7 +207,7 @@
   "daySpoken": "Day {day}, {state}",
   "statusSpoken": "Status: {status}",
   "statusConfirmed": "Confirmed",
-  "statusPendingPayment": "Awaiting payment",
+  "statusPendingPayment": "Pending payment",
   "statusCancelled": "Cancelled",
   "statusAttended": "Attended",
   "statusNoShow": "No-show",
@@ -997,7 +1013,7 @@
       }
     }
   },
-  "bookingNothingLeftDay": "Nothing is left on this day. Other days have places.",
+  "bookingNothingLeftDay": "No free times on this day. Days with places have a green dot",
   "bookingNothingLeftWindow": "Nothing is left in the coming days.",
   "bookingNoUnitsTitle": "No times to book",
   "bookingNoUnitsBody": "This facility has no bookable times right now.",
@@ -1357,7 +1373,7 @@
   "receiptPdfFailed": "The PDF couldn't be made. A text copy was shared instead",
   "receiptNotFoundTitle": "Receipt not found",
   "receiptNotFoundBody": "There is no receipt for this booking. A receipt appears after a successful payment.",
-  "confirmedTitle": "Your booking is confirmed",
+  "confirmedTitle": "Your booking's confirmed",
   "confirmedSubtitle": "You got a notification with the details, and we'll remind you {lead} before.",
   "@confirmedSubtitle": {
     "placeholders": {
@@ -1475,7 +1491,7 @@
   "gallery007SampleSearch": "Search",
   "gallery007SampleSearchCancel": "Cancel",
   "gallery007SampleEmailLabel": "Email",
-  "navNotifications": "Notifications",
+  "navNotifications": "Alerts",
   "catalogueFacilitiesTitle": "All facilities",
   "bookingsTitle": "My bookings",
   "bookingsSegmentUpcoming": "Upcoming ({count})",

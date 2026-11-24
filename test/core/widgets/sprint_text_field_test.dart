@@ -158,28 +158,6 @@ void main() {
     );
   });
 
-  testWidgets('the password reveal control has a 48 target and the show/hide '
-      'labels', (tester) async {
-    await pump(
-      tester,
-      const SprintTextField(
-        label: 'كلمة السر',
-        type: SprintTextFieldType.password,
-      ),
-    );
-    expect(
-      tester.getSize(find.byTooltip('إظهار')).height,
-      greaterThanOrEqualTo(48),
-    );
-    await tester.tap(find.byTooltip('إظهار'));
-    await tester.pumpAndSettle();
-    expect(find.byTooltip('إخفاء'), findsOneWidget);
-    expect(
-      tester.widget<TextField>(find.byType(TextField)).obscureText,
-      isFalse,
-    );
-  });
-
   testWidgets('search is a pill on surface-sunken with a search icon', (
     tester,
   ) async {
@@ -248,56 +226,158 @@ void main() {
     expect(find.text('Email'), findsOneWidget);
   });
 
-  group('code type', () {
-    testWidgets('is LTR with a numeric keyboard and the one-time-code hint', (
-      tester,
-    ) async {
-      await pump(
-        tester,
-        const SprintTextField(
-          label: 'كود التأكيد',
-          type: SprintTextFieldType.code,
-        ),
-      );
-      final field = tester.widget<TextField>(find.byType(TextField));
-      expect(field.textDirection, TextDirection.ltr);
-      expect(field.keyboardType, TextInputType.number);
-      expect(field.autofillHints, contains(AutofillHints.oneTimeCode));
+  group('states (decision 2): every shape has the same six', () {
+    const shapes = [
+      SprintTextFieldType.text,
+      SprintTextFieldType.password,
+      SprintTextFieldType.search,
+    ];
+
+    test('the rule picks one state, and search never shows error', () {
+      for (final type in shapes) {
+        expect(
+          resolveTextFieldState(type: type),
+          SprintTextFieldState.resting,
+        );
+        expect(
+          resolveTextFieldState(type: type, hasText: true),
+          SprintTextFieldState.filled,
+        );
+        expect(
+          resolveTextFieldState(type: type, hasText: true, focused: true),
+          SprintTextFieldState.focused,
+        );
+        expect(
+          resolveTextFieldState(type: type, hasError: true, focused: true),
+          type == SprintTextFieldType.search
+              ? SprintTextFieldState.focused
+              : SprintTextFieldState.error,
+        );
+        expect(
+          resolveTextFieldState(type: type, enabled: false, hasError: true),
+          SprintTextFieldState.disabled,
+        );
+        expect(
+          resolveTextFieldState(type: type, locked: true, enabled: false),
+          SprintTextFieldState.locked,
+        );
+      }
     });
 
-    testWidgets('converts Arabic-Indic digits, drops non-digits, caps at 6', (
-      tester,
-    ) async {
-      final controller = TextEditingController();
-      addTearDown(controller.dispose);
-      await pump(
-        tester,
-        SprintTextField(
-          label: 'كود التأكيد',
-          type: SprintTextFieldType.code,
-          controller: controller,
-        ),
-      );
-      await tester.enterText(find.byType(TextField), '١٢ab٣-4567');
-      expect(controller.text, '123456');
-    });
+    for (final type in shapes) {
+      testWidgets('${type.name}: resting, filled, focused, error, locked and '
+          'disabled each draw their look', (tester) async {
+        final search = type == SprintTextFieldType.search;
+        final restingFill = search ? colors.surfaceSunken : colors.surface;
 
-    testWidgets('screen readers get one field carrying the label', (
+        // Resting.
+        final controller = TextEditingController();
+        addTearDown(controller.dispose);
+        await pump(
+          tester,
+          SprintTextField(label: 'حقل', type: type, controller: controller),
+        );
+        expect(fieldDecoration(tester).color, restingFill);
+
+        // Filled: same container, the value in ink.
+        controller.text = 'قيمة';
+        await tester.pump();
+        expect(fieldDecoration(tester).color, restingFill);
+        final editable = tester.widget<EditableText>(find.byType(EditableText));
+        expect(editable.style.color, colors.ink);
+
+        // Focused: 2px primary.
+        await tester.tap(find.byType(TextField));
+        await tester.pump();
+        expect(
+          (fieldDecoration(tester).border! as Border).top,
+          BorderSide(color: colors.primary, width: SprintExtras.focusRingWidth),
+        );
+
+        // Error: danger-soft, except on search (decision U2).
+        await tester.pumpWidget(const SizedBox());
+        await pump(
+          tester,
+          SprintTextField(label: 'حقل', type: type, error: 'غلط'),
+        );
+        expect(
+          fieldDecoration(tester).color,
+          search ? restingFill : colors.dangerSoft,
+        );
+        expect(find.text('غلط'), search ? findsNothing : findsOneWidget);
+
+        // Locked: readable, a lock icon, no editable text.
+        await pump(
+          tester,
+          SprintTextField(
+            label: 'حقل',
+            type: type,
+            locked: true,
+            lockedValue: 'abc',
+          ),
+        );
+        expect(find.byKey(SprintTextField.lockIconKey), findsOneWidget);
+        expect(find.byType(TextField), findsNothing);
+        expect(
+          find.text('abc'),
+          type == SprintTextFieldType.password ? findsNothing : findsOneWidget,
+        );
+
+        // Disabled: sunken and not editable.
+        await pump(
+          tester,
+          SprintTextField(label: 'حقل', type: type, enabled: false),
+        );
+        expect(fieldDecoration(tester).color, colors.surfaceSunken);
+        expect(tester.widget<TextField>(find.byType(TextField)).enabled, false);
+      });
+    }
+  });
+
+  testWidgets('password: the toggle shows a word with the icon, 48 high, and '
+      'the word is the spoken label (decision V3)', (tester) async {
+    final handle = tester.ensureSemantics();
+    await pump(
       tester,
-    ) async {
-      final handle = tester.ensureSemantics();
-      await pump(
-        tester,
-        const SprintTextField(
-          label: 'كود التأكيد',
-          type: SprintTextFieldType.code,
-        ),
-      );
-      final semantics = tester.getSemantics(find.byType(SprintTextField));
-      expect(semantics.label, contains('كود التأكيد'));
-      expect(find.byType(TextField), findsOneWidget);
-      handle.dispose();
-    });
+      const SprintTextField(label: 'كلمة السر', type: SprintTextFieldType.password),
+    );
+    expect(find.text('إظهار'), findsOneWidget);
+    expect(
+      tester.getSize(find.byKey(SprintTextField.revealKey)).height,
+      greaterThanOrEqualTo(48),
+    );
+    expect(find.bySemanticsLabel('إظهار'), findsOneWidget);
+    expect(tester.widget<TextField>(find.byType(TextField)).obscureText, true);
+
+    await tester.tap(find.byKey(SprintTextField.revealKey));
+    await tester.pump();
+    expect(find.text('إخفاء'), findsOneWidget);
+    expect(find.bySemanticsLabel('إخفاء'), findsOneWidget);
+    expect(tester.widget<TextField>(find.byType(TextField)).obscureText, false);
+    handle.dispose();
+  });
+
+  testWidgets('password toggle reads Show / Hide in English', (tester) async {
+    await pump(
+      tester,
+      const SprintTextField(label: 'Password', type: SprintTextFieldType.password),
+      locale: const Locale('en'),
+    );
+    expect(find.text('Show'), findsOneWidget);
+    await tester.tap(find.byKey(SprintTextField.revealKey));
+    await tester.pump();
+    expect(find.text('Hide'), findsOneWidget);
+  });
+
+  testWidgets('the password field sets no placeholder by default (U8)', (
+    tester,
+  ) async {
+    await pump(
+      tester,
+      const SprintTextField(label: 'كلمة السر', type: SprintTextFieldType.password),
+    );
+    final field = tester.widget<TextField>(find.byType(TextField));
+    expect(field.decoration?.hintText, isNull);
   });
 
   testWidgets('autofillHints, textInputAction and focusNode are honoured', (

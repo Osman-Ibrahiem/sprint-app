@@ -29,40 +29,38 @@ class SprintTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final colors = context.colors;
-    final showLabels = MediaQuery.textScalerOf(context).scale(1) <=
-        SprintExtras.navLabelMaxTextScale;
     final overflow = data.destinations.length > maxVisible;
 
     final bar = AdaptiveBarSurface(
       border: BorderDirectional(top: BorderSide(color: colors.line)),
       child: SafeArea(
         top: false,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: SprintSize.tabbarHeight),
-          child: SizedBox(
-            height: SprintSize.tabbarHeight,
+        // Labels stay visible at every text size; their scale stops at
+        // `navLabelMaxTextScale` and the icons keep their size, so the bar
+        // grows a little at most (decision T2 of refactor 000).
+        child: MediaQuery.withClampedTextScaling(
+          maxScaleFactor: SprintExtras.navLabelMaxTextScale,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              minHeight: SprintSize.tabbarHeight,
+            ),
             child: Row(
               children: [
-                for (var i = 0;
-                    i <
-                        (overflow
-                            ? maxVisible - 1
-                            : data.destinations.length);
-                    i++)
+                for (
+                  var i = 0;
+                  i < (overflow ? maxVisible - 1 : data.destinations.length);
+                  i++
+                )
                   Expanded(
                     child: _TabItem(
                       destination: data.destinations[i],
                       selected: i == data.selectedIndex,
-                      showLabel: showLabels,
                       onTap: () => data.onSelect(i),
                     ),
                   ),
                 if (overflow)
                   Expanded(
-                    child: _MoreItem(
-                      showLabel: showLabels,
-                      onTap: () => _openMore(context, l10n),
-                    ),
+                    child: _MoreItem(onTap: () => _openMore(context, l10n)),
                   ),
               ],
             ),
@@ -71,11 +69,7 @@ class SprintTabBar extends StatelessWidget {
       ),
     );
 
-    return Semantics(
-      container: true,
-      label: l10n.navMainLabel,
-      child: bar,
-    );
+    return Semantics(container: true, label: l10n.navMainLabel, child: bar);
   }
 
   Future<void> _openMore(BuildContext context, AppLocalizations l10n) async {
@@ -98,27 +92,28 @@ class SprintTabBar extends StatelessWidget {
   static String _spoken(NavDestination destination, AppLocalizations l10n) {
     if (!destination.hasBadge) return destination.label;
     final count = destination.badgeCount!;
-    final capped =
-        count > SprintExtras.navigationBadgeCap ? SprintExtras.navigationBadgeCap : count;
+    final capped = count > SprintExtras.navigationBadgeCap
+        ? SprintExtras.navigationBadgeCap
+        : count;
     return '${destination.label}، ${l10n.navBadgeSpoken(capped)}';
   }
 
   /// The title an item exposes to assistive technology and to the gallery.
-  static String spokenLabel(NavDestination destination, AppLocalizations l10n) =>
-      _spoken(destination, l10n);
+  static String spokenLabel(
+    NavDestination destination,
+    AppLocalizations l10n,
+  ) => _spoken(destination, l10n);
 }
 
 class _TabItem extends StatelessWidget {
   const _TabItem({
     required this.destination,
     required this.selected,
-    required this.showLabel,
     required this.onTap,
   });
 
   final NavDestination destination;
   final bool selected;
-  final bool showLabel;
   final VoidCallback onTap;
 
   @override
@@ -174,16 +169,16 @@ class _TabItem extends StatelessWidget {
                 ],
               ),
             ),
-            if (showLabel) ...[
-              const SizedBox(height: SprintSpacing.space1),
-              Text(
-                destination.label,
-                style: context.text.micro.copyWith(color: color),
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+            const SizedBox(height: SprintSpacing.space1),
+            Text(
+              destination.label,
+              style: context.text.micro.copyWith(color: color),
+              textAlign: TextAlign.center,
+              // A long label ("My bookings" in a narrow item) takes a second
+              // line instead of an ellipsis (decision T1 of refactor 000).
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
         ),
       ),
@@ -192,9 +187,8 @@ class _TabItem extends StatelessWidget {
 }
 
 class _MoreItem extends StatelessWidget {
-  const _MoreItem({required this.showLabel, required this.onTap});
+  const _MoreItem({required this.onTap});
 
-  final bool showLabel;
   final VoidCallback onTap;
 
   @override
@@ -221,15 +215,15 @@ class _MoreItem extends StatelessWidget {
               size: SprintSize.iconLg,
               color: colors.inkMuted,
             ),
-            if (showLabel) ...[
-              const SizedBox(height: SprintSpacing.space1),
-              Text(
-                l10n.navMore,
-                style: context.text.micro.copyWith(color: colors.inkMuted),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+            const SizedBox(height: SprintSpacing.space1),
+            Text(
+              l10n.navMore,
+              style: context.text.micro.copyWith(color: colors.inkMuted),
+              // A long label ("My bookings" in a narrow item) takes a second
+              // line instead of an ellipsis (decision T1 of refactor 000).
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
         ),
       ),

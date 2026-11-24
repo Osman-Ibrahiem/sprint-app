@@ -7,7 +7,7 @@ import 'package:sprint/core/widgets/app_navigation/sprint_tab_bar.dart';
 import '../helpers/pump_app.dart';
 
 void main() {
-  final labels = [ar.navHome, ar.navFacilities, ar.navBookings, ar.navProfile];
+  final labels = [ar.navHome, ar.navFacilities, ar.navBookings, ar.navAccount];
 
   final forms = <Size, Type>{
     const Size(400, 800): SprintTabBar,

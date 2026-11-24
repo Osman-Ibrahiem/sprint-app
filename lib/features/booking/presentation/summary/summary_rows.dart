@@ -42,10 +42,7 @@ class SummaryRows extends StatelessWidget {
       (l10n.bookingRowFacility, view.facilityName),
       (l10n.bookingRowUnit, view.unitName),
       (l10n.bookingRowDate, format.date(view.start)),
-      (
-        l10n.bookingRowTime,
-        '${format.time(view.start)} – ${format.time(view.end)}',
-      ),
+      (l10n.bookingRowTime, format.instantRange(view.start, view.end)),
       (
         l10n.bookingRowLength,
         view.trainerName != null

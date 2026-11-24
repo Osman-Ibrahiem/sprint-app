@@ -43,7 +43,7 @@ void main() {
     ),
     SprintStatus.pendingPayment: (
       'في انتظار الدفع',
-      'Awaiting payment',
+      'Pending payment',
       colors.warning,
       colors.warningSoft,
     ),

@@ -1,4 +1,5 @@
-// Generates lib/core/tokens/*.g.dart from docs/design-system/tokens.json.
+// Generates lib/core/tokens/*.g.dart and docs/design-system/tokens.css from
+// docs/design-system/tokens.json.
 //
 // Run: dart run tool/gen_tokens.dart
 // Contract: specs/001-foundation/contracts/tokens.md
@@ -9,6 +10,7 @@ import 'dart:io';
 
 const tokensPath = 'docs/design-system/tokens.json';
 const outDir = 'lib/core/tokens';
+const cssPath = 'docs/design-system/tokens.css';
 
 const _header = '''// GENERATED CODE - DO NOT EDIT.
 // Source: docs/design-system/tokens.json (run `dart run tool/gen_tokens.dart`).
@@ -23,7 +25,8 @@ void main() {
   files.forEach((name, content) {
     File('$outDir/$name').writeAsStringSync(content);
   });
-  stdout.writeln('Wrote ${files.length} token files to $outDir');
+  File(cssPath).writeAsStringSync(generateCss(json));
+  stdout.writeln('Wrote ${files.length} token files to $outDir and $cssPath');
 }
 
 /// Returns file name -> generated source for every token file.
@@ -35,6 +38,7 @@ Map<String, String> generateTokens(Map<String, dynamic> json) {
     'sprint_size.g.dart': _size(json),
     'sprint_motion.g.dart': _motion(json),
     'sprint_text.g.dart': _text(json),
+    'sprint_blur.g.dart': _blur(json),
   };
 }
 
@@ -308,6 +312,83 @@ String _text(Map<String, dynamic> json) {
       }
       b.writeln('  );');
     }
+  }
+  b.writeln('}');
+  return b.toString();
+}
+
+// ------------------------------------------------------------------- blur
+
+/// Blur tokens are CSS blur values, which are the same unit as Flutter's
+/// `ImageFilter.blur` sigma (one standard deviation). Figma's background-blur
+/// radius is twice that and lives in the token's `figma` field.
+String _blur(Map<String, dynamic> json) {
+  final b = StringBuffer(_header)..writeln('abstract final class SprintBlur {');
+  for (final t in _tokens(json, 'blur')) {
+    final n = camel((t['name'] as String).replaceFirst('blur-', ''));
+    b
+      ..writeln('  /// Flutter sigma (= CSS blur); Figma radius ${t['figma']}.')
+      ..writeln(
+        '  static const double ${n}Sigma = ${_num(_px(t['value'] as String))};',
+      );
+  }
+  b.writeln('}');
+  return b.toString();
+}
+
+// -------------------------------------------------------------------- css
+
+/// The CSS custom properties the HTML previews read (`tokens.css`).
+String generateCss(Map<String, dynamic> json) {
+  final colors = _tokens(json, 'color');
+  final shadows = _tokens(json, 'shadow');
+
+  String colorValue(Map<String, dynamic> t, String theme) {
+    final raw = t['value'];
+    final v = raw is Map ? raw[theme] as String : raw as String;
+    if (v.startsWith('{') && v.endsWith('}')) {
+      return 'var(--${v.substring(1, v.length - 1)})';
+    }
+    return v;
+  }
+
+  void themeBlock(StringBuffer b, String theme) {
+    for (final t in colors) {
+      b.writeln('  --${t['name']}: ${colorValue(t, theme)};');
+    }
+    for (final s in shadows) {
+      b.writeln('  --${s['name']}: ${(s['value'] as Map)[theme]};');
+    }
+  }
+
+  final b = StringBuffer(
+    '/* Sprint — generated from tokens.json. Do not edit by hand. */\n',
+  )..writeln(':root, [data-theme="light"] {');
+  themeBlock(b, 'light');
+  b
+    ..writeln('}')
+    ..writeln('[data-theme="dark"] {');
+  themeBlock(b, 'dark');
+  b
+    ..writeln('}')
+    ..writeln(
+      '@media (prefers-color-scheme: dark) { '
+      ':root:not([data-theme="light"]) {',
+    );
+  themeBlock(b, 'dark');
+  b
+    ..writeln('} }')
+    ..writeln(':root {');
+  for (final group in ['spacing', 'radius', 'size', 'breakpoint', 'blur']) {
+    for (final t in _tokens(json, group)) {
+      b.writeln('  --${t['name']}: ${t['value']};');
+    }
+  }
+  final families =
+      (json['type'] as Map<String, dynamic>)['families'] as Map<String, dynamic>;
+  families.forEach((k, v) => b.writeln('  --font-$k: $v;'));
+  for (final t in _tokens(json, 'motion')) {
+    b.writeln('  --${t['name']}: ${t['value']};');
   }
   b.writeln('}');
   return b.toString();

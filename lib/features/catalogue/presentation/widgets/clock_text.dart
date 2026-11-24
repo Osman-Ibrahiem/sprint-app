@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:sprint/core/l10n/sprint_format.dart';
 import 'package:sprint/core/time/cairo_time.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
@@ -6,13 +7,15 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 /// digits are written here, never by intl: the plain `ar` locale would print
 /// Arabic-Indic digits.
 
-/// "5:00 م" / "5:00 PM" for [minutes] after midnight.
+/// "5:00 م" / "5:00 PM" for [minutes] after midnight, with a no-break space
+/// before the period (decision V1).
 String minutesText(int minutes, AppLocalizations l10n) {
   final period = DateFormat('a', l10n.localeName == 'en' ? 'en' : 'ar');
   final hour = minutes ~/ 60;
   final h = hour % 12 == 0 ? 12 : hour % 12;
   final min = (minutes % 60).toString().padLeft(2, '0');
-  return '$h:$min ${period.format(DateTime(2000, 1, 1, hour))}';
+  return '$h:$min${SprintFormat.nbsp}'
+      '${period.format(DateTime(2000, 1, 1, hour))}';
 }
 
 /// The Cairo time of a UTC instant.

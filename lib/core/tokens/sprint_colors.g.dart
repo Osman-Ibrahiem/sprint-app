@@ -20,6 +20,8 @@ class SprintColors extends ThemeExtension<SprintColors> {
     required this.primaryPressed,
     required this.onPrimary,
     required this.primarySoft,
+    required this.primarySoftHover,
+    required this.primarySoftPressed,
     required this.onPrimarySoft,
     required this.volt,
     required this.onVolt,
@@ -29,6 +31,8 @@ class SprintColors extends ThemeExtension<SprintColors> {
     required this.warningSoft,
     required this.danger,
     required this.dangerSoft,
+    required this.dangerHover,
+    required this.dangerPressed,
     required this.onDanger,
     required this.focusRing,
     required this.scrim,
@@ -53,6 +57,8 @@ class SprintColors extends ThemeExtension<SprintColors> {
   final Color primaryPressed;
   final Color onPrimary;
   final Color primarySoft;
+  final Color primarySoftHover;
+  final Color primarySoftPressed;
   final Color onPrimarySoft;
   final Color volt;
   final Color onVolt;
@@ -62,6 +68,8 @@ class SprintColors extends ThemeExtension<SprintColors> {
   final Color warningSoft;
   final Color danger;
   final Color dangerSoft;
+  final Color dangerHover;
+  final Color dangerPressed;
   final Color onDanger;
   final Color focusRing;
   final Color scrim;
@@ -77,7 +85,7 @@ class SprintColors extends ThemeExtension<SprintColors> {
     surfaceRaised: Color(0xFFFFFFFF),
     surfaceSunken: Color(0xFFEEF0F6),
     line: Color(0xFFE2E5EE),
-    controlBorder: Color(0xFF8A93A8),
+    controlBorder: Color(0xFF80899E),
     ink: Color(0xFF0F1729),
     inkMuted: Color(0xFF5B6478),
     inkDisabled: Color(0xFFA6ADBD),
@@ -86,15 +94,19 @@ class SprintColors extends ThemeExtension<SprintColors> {
     primaryPressed: Color(0xFF172E9E),
     onPrimary: Color(0xFFFFFFFF),
     primarySoft: Color(0xFFE8ECFD),
+    primarySoftHover: Color(0xFFDAE0FB),
+    primarySoftPressed: Color(0xFFCBD4F9),
     onPrimarySoft: Color(0xFF1A33A8),
     volt: Color(0xFFD4F536),
     onVolt: Color(0xFF1A2005),
-    success: Color(0xFF15803D),
+    success: Color(0xFF157C3C),
     successSoft: Color(0xFFE7F6EC),
     warning: Color(0xFFA15C07),
     warningSoft: Color(0xFFFDF3E1),
     danger: Color(0xFFB91C1C),
     dangerSoft: Color(0xFFFDECEC),
+    dangerHover: Color(0xFF9F1818),
+    dangerPressed: Color(0xFF861414),
     onDanger: Color(0xFFFFFFFF),
     focusRing: Color(0xFF2445E0),
     scrim: Color(0x7A0B0F1A),
@@ -118,7 +130,7 @@ class SprintColors extends ThemeExtension<SprintColors> {
     surfaceRaised: Color(0xFF1C2336),
     surfaceSunken: Color(0xFF080B14),
     line: Color(0xFF262E42),
-    controlBorder: Color(0xFF5F6B88),
+    controlBorder: Color(0xFF65708C),
     ink: Color(0xFFEEF1F8),
     inkMuted: Color(0xFF9AA3B8),
     inkDisabled: Color(0xFF4A5368),
@@ -127,6 +139,8 @@ class SprintColors extends ThemeExtension<SprintColors> {
     primaryPressed: Color(0xFFBCC8FF),
     onPrimary: Color(0xFF0B1233),
     primarySoft: Color(0xFF1B2552),
+    primarySoftHover: Color(0xFF233066),
+    primarySoftPressed: Color(0xFF2C3B7C),
     onPrimarySoft: Color(0xFFC9D3FF),
     volt: Color(0xFFD4F536),
     onVolt: Color(0xFF1A2005),
@@ -136,6 +150,8 @@ class SprintColors extends ThemeExtension<SprintColors> {
     warningSoft: Color(0xFF2E2108),
     danger: Color(0xFFF87171),
     dangerSoft: Color(0xFF2F1214),
+    dangerHover: Color(0xFFF98B8B),
+    dangerPressed: Color(0xFFFBA5A5),
     onDanger: Color(0xFF2A0606),
     focusRing: Color(0xFFD4F536),
     scrim: Color(0xA3000000),
@@ -166,6 +182,8 @@ class SprintColors extends ThemeExtension<SprintColors> {
     Color? primaryPressed,
     Color? onPrimary,
     Color? primarySoft,
+    Color? primarySoftHover,
+    Color? primarySoftPressed,
     Color? onPrimarySoft,
     Color? volt,
     Color? onVolt,
@@ -175,6 +193,8 @@ class SprintColors extends ThemeExtension<SprintColors> {
     Color? warningSoft,
     Color? danger,
     Color? dangerSoft,
+    Color? dangerHover,
+    Color? dangerPressed,
     Color? onDanger,
     Color? focusRing,
     Color? scrim,
@@ -199,6 +219,8 @@ class SprintColors extends ThemeExtension<SprintColors> {
       primaryPressed: primaryPressed ?? this.primaryPressed,
       onPrimary: onPrimary ?? this.onPrimary,
       primarySoft: primarySoft ?? this.primarySoft,
+      primarySoftHover: primarySoftHover ?? this.primarySoftHover,
+      primarySoftPressed: primarySoftPressed ?? this.primarySoftPressed,
       onPrimarySoft: onPrimarySoft ?? this.onPrimarySoft,
       volt: volt ?? this.volt,
       onVolt: onVolt ?? this.onVolt,
@@ -208,6 +230,8 @@ class SprintColors extends ThemeExtension<SprintColors> {
       warningSoft: warningSoft ?? this.warningSoft,
       danger: danger ?? this.danger,
       dangerSoft: dangerSoft ?? this.dangerSoft,
+      dangerHover: dangerHover ?? this.dangerHover,
+      dangerPressed: dangerPressed ?? this.dangerPressed,
       onDanger: onDanger ?? this.onDanger,
       focusRing: focusRing ?? this.focusRing,
       scrim: scrim ?? this.scrim,
@@ -237,6 +261,8 @@ class SprintColors extends ThemeExtension<SprintColors> {
       primaryPressed: Color.lerp(primaryPressed, other.primaryPressed, t)!,
       onPrimary: Color.lerp(onPrimary, other.onPrimary, t)!,
       primarySoft: Color.lerp(primarySoft, other.primarySoft, t)!,
+      primarySoftHover: Color.lerp(primarySoftHover, other.primarySoftHover, t)!,
+      primarySoftPressed: Color.lerp(primarySoftPressed, other.primarySoftPressed, t)!,
       onPrimarySoft: Color.lerp(onPrimarySoft, other.onPrimarySoft, t)!,
       volt: Color.lerp(volt, other.volt, t)!,
       onVolt: Color.lerp(onVolt, other.onVolt, t)!,
@@ -246,6 +272,8 @@ class SprintColors extends ThemeExtension<SprintColors> {
       warningSoft: Color.lerp(warningSoft, other.warningSoft, t)!,
       danger: Color.lerp(danger, other.danger, t)!,
       dangerSoft: Color.lerp(dangerSoft, other.dangerSoft, t)!,
+      dangerHover: Color.lerp(dangerHover, other.dangerHover, t)!,
+      dangerPressed: Color.lerp(dangerPressed, other.dangerPressed, t)!,
       onDanger: Color.lerp(onDanger, other.onDanger, t)!,
       focusRing: Color.lerp(focusRing, other.focusRing, t)!,
       scrim: Color.lerp(scrim, other.scrim, t)!,

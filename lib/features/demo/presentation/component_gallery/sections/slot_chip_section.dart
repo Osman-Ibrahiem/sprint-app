@@ -40,6 +40,7 @@ class _SlotChipSectionState extends State<SlotChipSection> {
               SlotState.fewLeft => l10n.slotFewLeft(2),
               SlotState.full => l10n.slotFull,
               SlotState.past => l10n.slotPast,
+              SlotState.inRange => l10n.slotInRange,
             },
             child: SlotChip(
               start: _start,
@@ -72,10 +73,11 @@ class _SlotChipSectionState extends State<SlotChipSection> {
               ),
               SlotChip(
                 start: _start,
-                state: _selected,
+                state: _selected == SlotState.selected
+                    ? SlotState.selected
+                    : SlotState.inRange,
                 remaining: 5,
                 fewLeftThreshold: widget.fewLeftThreshold,
-                rangeFill: true,
                 onSelected: () {},
               ),
               SlotChip(
@@ -87,10 +89,9 @@ class _SlotChipSectionState extends State<SlotChipSection> {
               ),
               SlotChip(
                 start: _start.add(const Duration(hours: 2)),
-                state: SlotState.available,
+                state: SlotState.inRange,
                 remaining: 5,
                 fewLeftThreshold: widget.fewLeftThreshold,
-                rangeFill: true,
                 onSelected: () {},
               ),
             ],

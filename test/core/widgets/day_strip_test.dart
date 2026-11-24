@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sprint/core/adaptive/adaptive_pressable.dart';
 import 'package:sprint/core/tokens/sprint_colors.g.dart';
+import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip_day.dart';
 
@@ -63,7 +65,8 @@ void main() {
       '"النهارده"', (tester) async {
     await pump(tester, week().take(3).toList());
     expect(find.text('النهارده'), findsOneWidget);
-    expect(find.text('الحد'), findsOneWidget);
+    // Wide enough: the full dialect names (decision 18 day names).
+    expect(find.text('الأحد'), findsOneWidget);
     expect(find.text('الاتنين'), findsOneWidget);
     expect(find.text('التلات'), findsNothing);
     // Today is on the start side: right in Arabic.
@@ -78,20 +81,183 @@ void main() {
     expect(find.text('Today'), findsOneWidget);
     expect(
       tester.getCenter(find.text('Today')).dx,
-      lessThan(tester.getCenter(find.text('Mon')).dx),
+      lessThan(tester.getCenter(find.text('Monday')).dx),
     );
   });
 
-  testWidgets('the selected day is primary / on-primary', (tester) async {
-    await pump(tester, week(), selected: DateTime(2026, 11, 15));
-    final sunday = tester.widget<Text>(find.text('الحد'));
-    expect(sunday.style!.color, SprintColors.light.onPrimary);
-    final pill = tester.widget<Container>(
-      find
-          .ancestor(of: find.text('الحد'), matching: find.byType(Container))
-          .first,
-    );
-    expect((pill.decoration! as BoxDecoration).color, SprintColors.light.primary);
+  group('v2 day item (decision 18)', () {
+    final sat = DateTime(2026, 11, 14); // today
+    final sun = DateTime(2026, 11, 15);
+
+    BoxDecoration circle(WidgetTester tester, DateTime d) => tester
+        .widget<DecoratedBox>(
+          find.descendant(
+            of: find.byKey(DayStrip.circleKey(d)),
+            matching: find.byType(DecoratedBox),
+          ),
+        )
+        .decoration as BoxDecoration;
+
+    Color? tail(WidgetTester tester, DateTime d) =>
+        (tester.widget<DecoratedBox>(
+                  find
+                      .ancestor(
+                        of: find.byKey(DayStrip.itemKey(d)),
+                        matching: find.byKey(AdaptivePressable.surfaceKey),
+                      )
+                      .first,
+                ).decoration
+                as BoxDecoration)
+            .color;
+
+    for (final dark in [false, true]) {
+      final colors = dark ? SprintColors.dark : SprintColors.light;
+      final theme = dark ? 'dark' : 'light';
+
+      testWidgets('selected: primary tail, surface circle, primary number, '
+          'on-primary name ($theme)', (tester) async {
+        await pumpWidgetUnderAndSettle(
+          tester,
+          DayStrip(
+            days: week(),
+            today: today,
+            selected: sun,
+            onSelected: (_) {},
+          ),
+          size: const Size(800, 900),
+          dark: dark,
+        );
+        expect(tail(tester, sun), colors.primary);
+        expect(circle(tester, sun).color, colors.surface);
+        expect(tester.widget<Text>(find.text('15')).style!.color, colors.primary);
+        expect(
+          tester.widget<Text>(find.byKey(DayStrip.nameKey(sun))).style!.color,
+          colors.onPrimary,
+        );
+        // An unselected day has no tail.
+        expect(tail(tester, DateTime(2026, 11, 16)), isNull);
+      });
+
+      testWidgets('today: a primary ring and the name in primary ($theme)', (
+        tester,
+      ) async {
+        await pumpWidgetUnderAndSettle(
+          tester,
+          DayStrip(
+            days: week(),
+            today: today,
+            selected: sun,
+            onSelected: (_) {},
+          ),
+          size: const Size(800, 900),
+          dark: dark,
+        );
+        final ring = circle(tester, sat).border! as Border;
+        expect(ring.top.color, colors.primary);
+        expect(
+          tester.widget<Text>(find.byKey(DayStrip.nameKey(sat))).style!.color,
+          colors.primary,
+        );
+        // Other days: a control-border edge.
+        expect(
+          (circle(tester, DateTime(2026, 11, 16)).border! as Border).top.color,
+          colors.controlBorder,
+        );
+      });
+
+      testWidgets('closed: dashed circle, disabled text, no dot ($theme)', (
+        tester,
+      ) async {
+        final closed = DateTime(2026, 11, 20);
+        await pumpWidgetUnderAndSettle(
+          tester,
+          DayStrip(
+            days: week(lastClosed: true),
+            today: today,
+            onSelected: (_) {},
+          ),
+          size: const Size(800, 900),
+          dark: dark,
+        );
+        expect(
+          find.descendant(
+            of: find.byKey(DayStrip.circleKey(closed)),
+            matching: find.byWidgetPredicate(
+              (w) => w is CustomPaint && w.painter != null,
+            ),
+          ),
+          findsOneWidget,
+        );
+        expect(circle(tester, closed).border, isNull);
+        expect(
+          tester.widget<Text>(find.text('20')).style!.color,
+          colors.inkDisabled,
+        );
+        expect(
+          tester.widget<Text>(find.byKey(DayStrip.nameKey(closed))).style!.color,
+          colors.inkDisabled,
+        );
+      });
+    }
+
+    testWidgets('the circle is at least 48 and the whole item a 48 target', (
+      tester,
+    ) async {
+      await pump(tester, week());
+      final c = tester.getSize(find.byKey(DayStrip.circleKey(sat)));
+      expect(c.width, greaterThanOrEqualTo(48));
+      expect(c.width, c.height);
+      final item = tester.getSize(
+        find
+            .ancestor(
+              of: find.byKey(DayStrip.itemKey(sat)),
+              matching: find.byType(AdaptivePressable),
+            )
+            .first,
+      );
+      expect(item.width, greaterThanOrEqualTo(48));
+      expect(item.height, greaterThanOrEqualTo(48));
+    });
+
+    testWidgets('at 200% the number scales fully and the circle grows; the '
+        'name stops at 1.3 and keeps space-2 each side in the tail', (
+      tester,
+    ) async {
+      // "الأربعاء" is the longest name: pick that Wednesday.
+      final wed = DateTime(2026, 11, 18);
+      await pump(
+        tester,
+        week(),
+        selected: wed,
+        size: const Size(390, 800),
+        textScale: 2,
+      );
+      expect(tester.takeException(), isNull);
+      expect(
+        tester.getSize(find.byKey(DayStrip.circleKey(wed))).width,
+        greaterThan(48),
+      );
+      final nameScale = MediaQuery.textScalerOf(
+        tester.element(find.byKey(DayStrip.nameKey(wed))),
+      ).scale(10);
+      expect(nameScale, closeTo(10 * SprintExtras.navLabelMaxTextScale, 0.001));
+      final numberScale = MediaQuery.textScalerOf(
+        tester.element(find.text('18')),
+      ).scale(10);
+      expect(numberScale, closeTo(20, 0.001));
+
+      final tailRect = tester.getRect(
+        find
+            .ancestor(
+              of: find.byKey(DayStrip.itemKey(wed)),
+              matching: find.byKey(AdaptivePressable.surfaceKey),
+            )
+            .first,
+      );
+      final nameRect = tester.getRect(find.byKey(DayStrip.nameKey(wed)));
+      expect(nameRect.left - tailRect.left, greaterThanOrEqualTo(8));
+      expect(tailRect.right - nameRect.right, greaterThanOrEqualTo(8));
+    });
   });
 
   testWidgets('a closed day is not pressable and is spoken "مقفول"',
@@ -173,14 +339,6 @@ void main() {
     ];
     await pump(tester, broken);
     expect(tester.takeException(), isA<AssertionError>());
-  });
-
-  testWidgets('the day pill is 64 high', (tester) async {
-    await pump(tester, week());
-    final pill = find
-        .descendant(of: find.byType(DayStrip), matching: find.byType(Container))
-        .first;
-    expect(tester.getSize(pill).height, 64);
   });
 
   testWidgets('200% text does not overflow', (tester) async {

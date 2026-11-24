@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sprint/core/widgets/filter_chip/sprint_filter_chip.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/app/shell/root_header.dart';
-import 'package:sprint/core/adaptive/adaptive_pressable.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
-import 'package:sprint/core/tokens/sprint_radius.g.dart';
-import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/facility_card/facility_card.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
@@ -23,7 +21,6 @@ import 'package:sprint/features/catalogue/presentation/providers/catalogue_provi
 import 'package:sprint/features/catalogue/presentation/widgets/catalogue_error_view.dart';
 import 'package:sprint/features/catalogue/presentation/widgets/facility_card_mapper.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
-import 'package:sprint/core/l10n/sprint_icon.dart';
 
 /// The first screen: a guest discovers facility types and featured facilities
 /// and reaches any facility in two taps (FR-001, FR-002, FR-006).
@@ -189,9 +186,8 @@ class _TypeChips extends StatelessWidget {
               padding: const EdgeInsetsDirectional.only(
                 end: SprintSpacing.space2,
               ),
-              child: _TypeChip(
+              child: SprintFilterChip(
                 key: HomeScreen.typeChipKey(type),
-                type: type,
                 label: typeLabelOf(type, l10n),
                 icon: _typeIcon(type),
                 selected: false,
@@ -199,71 +195,6 @@ class _TypeChips extends StatelessWidget {
               ),
             ),
         ],
-      ),
-    );
-  }
-}
-
-class _TypeChip extends StatelessWidget {
-  const _TypeChip({
-    required this.type,
-    required this.label,
-    required this.icon,
-    required this.selected,
-    required this.onTap,
-    super.key,
-  });
-
-  final FacilityType type;
-  final String label;
-  final IconData icon;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    return AdaptivePressable(
-      label: label,
-      selected: selected,
-      onTap: onTap,
-      restingColor: selected ? colors.primarySoft : colors.surface,
-      hoverColor: selected ? colors.primarySoft : colors.surfaceSunken,
-      borderRadius: SprintRadius.fullBorder,
-      builder: (context, state) => Container(
-        padding: const EdgeInsetsDirectional.symmetric(
-          horizontal: SprintSpacing.space4,
-          vertical: SprintSpacing.space2,
-        ),
-        decoration: BoxDecoration(
-          border: Border.all(color: selected ? colors.primary : colors.line),
-          borderRadius: SprintRadius.fullBorder,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SprintIcon(
-              icon,
-              size: SprintSize.iconMd,
-              color: selected ? colors.onPrimarySoft : colors.inkMuted,
-            ),
-            const SizedBox(width: SprintSpacing.space2),
-            Text(
-              label,
-              style: context.text.label.copyWith(
-                color: selected ? colors.onPrimarySoft : colors.ink,
-              ),
-            ),
-            if (selected) ...[
-              const SizedBox(width: SprintSpacing.space1),
-              SprintIcon(
-                PhosphorIconsRegular.check,
-                size: SprintSize.iconSm,
-                color: colors.onPrimarySoft,
-              ),
-            ],
-          ],
-        ),
       ),
     );
   }

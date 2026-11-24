@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/core/adaptive/adaptive_loader.dart';
@@ -7,6 +9,7 @@ import 'package:sprint/core/adaptive/platform.dart';
 import 'package:sprint/core/tokens/sprint_colors.g.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
+import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 
 import '../../helpers/widget_harness.dart';
@@ -80,6 +83,105 @@ void main() {
         find.byKey(AdaptivePressable.surfaceKey),
       );
       expect((surface.decoration as BoxDecoration).color, entry.value);
+    }
+  });
+
+  Color? surfaceColor(WidgetTester tester) =>
+      (tester.widget<DecoratedBox>(find.byKey(AdaptivePressable.surfaceKey))
+                  .decoration
+              as BoxDecoration)
+          .color;
+
+  testWidgets('every variant changes on hover and on press, in its own colour '
+      'family (decision U1)', (tester) async {
+    final expected = {
+      SprintButtonVariant.primary: (colors.primaryHover, colors.primaryPressed),
+      SprintButtonVariant.secondary: (colors.surfaceSunken, colors.surfaceSunken),
+      SprintButtonVariant.tonal: (
+        colors.primarySoftHover,
+        colors.primarySoftPressed,
+      ),
+      SprintButtonVariant.ghost: (colors.surfaceSunken, colors.surfaceSunken),
+      SprintButtonVariant.danger: (colors.dangerHover, colors.dangerPressed),
+    };
+    expect(expected.keys.toSet(), SprintButtonVariant.values.toSet());
+    // Hover highlights show in the traditional (mouse and keyboard) mode.
+    FocusManager.instance.highlightStrategy =
+        FocusHighlightStrategy.alwaysTraditional;
+    addTearDown(
+      () => FocusManager.instance.highlightStrategy =
+          FocusHighlightStrategy.automatic,
+    );
+    final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+    await mouse.addPointer(location: Offset.zero);
+    addTearDown(mouse.removePointer);
+    for (final MapEntry(key: variant, value: (hover, pressed))
+        in expected.entries) {
+      await pump(
+        tester,
+        SprintButton(label: 'تأكيد', variant: variant, onPressed: () {}),
+        style: AdaptiveStyle.desktop,
+      );
+      final resting = surfaceColor(tester);
+
+      await mouse.moveTo(tester.getCenter(find.byType(SprintButton)));
+      await tester.pumpAndSettle();
+      expect(surfaceColor(tester), hover, reason: '$variant hover');
+      expect(surfaceColor(tester), isNot(resting), reason: '$variant hover');
+
+      await mouse.down(tester.getCenter(find.byType(SprintButton)));
+      await tester.pump();
+      expect(surfaceColor(tester), pressed, reason: '$variant pressed');
+      expect(surfaceColor(tester), isNot(resting), reason: '$variant pressed');
+      await mouse.up();
+      await mouse.moveTo(Offset.zero);
+      await tester.pumpAndSettle();
+    }
+  });
+
+  testWidgets('md has radius-md and space-5 sides; sm has radius-sm and '
+      'space-3 sides (decision 12)', (tester) async {
+    for (final (size, radius, side) in [
+      (SprintButtonSize.md, SprintRadius.mdBorder, SprintSpacing.space5),
+      (SprintButtonSize.sm, SprintRadius.smBorder, SprintSpacing.space3),
+    ]) {
+      await pump(
+        tester,
+        SprintButton(label: 'تأكيد', size: size, onPressed: () {}),
+      );
+      final surface = tester.widget<DecoratedBox>(
+        find.byKey(AdaptivePressable.surfaceKey),
+      );
+      expect((surface.decoration as BoxDecoration).borderRadius, radius);
+      final padding = tester.widget<Padding>(
+        find
+            .descendant(
+              of: find.byKey(SprintButton.visualKey),
+              matching: find.byType(Padding),
+            )
+            .first,
+      );
+      final insets = padding.padding as EdgeInsetsDirectional;
+      expect(insets.start, side, reason: '$size');
+      expect(insets.end, side, reason: '$size');
+    }
+  });
+
+  testWidgets('labels stay whole on a 320 window at 200% text', (
+    tester,
+  ) async {
+    for (final size in SprintButtonSize.values) {
+      await pumpWidgetUnderAndSettle(
+        tester,
+        SprintButton(label: 'متابعة للدفع', size: size, onPressed: () {}),
+        textScale: 2,
+        size: const Size(320, 800),
+      );
+      expect(tester.takeException(), isNull);
+      final paragraph = tester.renderObject<RenderParagraph>(
+        find.text('متابعة للدفع'),
+      );
+      expect(paragraph.didExceedMaxLines, isFalse);
     }
   });
 

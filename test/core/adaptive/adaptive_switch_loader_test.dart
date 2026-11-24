@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/core/adaptive/adaptive_loader.dart';
 import 'package:sprint/core/adaptive/adaptive_switch.dart';
+import 'package:sprint/core/tokens/sprint_colors.g.dart';
 
 import '../../helpers/adaptive_harness.dart';
 
@@ -53,12 +54,32 @@ void main() {
       (_) => const AdaptiveLoader(semanticLabel: 'جاري التحميل'),
       settle: false, // the indicator spins forever
     );
+    final colors = Theme.of(
+      tester.element(find.byType(AdaptiveLoader)),
+    ).extension<SprintColors>()!;
     if (isApple(platform)) {
       expect(find.byType(CupertinoActivityIndicator), findsOneWidget);
       expect(find.byType(CircularProgressIndicator), findsNothing);
+      // Decision 20: the native indicator in ink-muted, like iOS.
+      expect(
+        tester
+            .widget<CupertinoActivityIndicator>(
+              find.byType(CupertinoActivityIndicator),
+            )
+            .color,
+        colors.inkMuted,
+      );
     } else {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
       expect(find.byType(CupertinoActivityIndicator), findsNothing);
+      expect(
+        tester
+            .widget<CircularProgressIndicator>(
+              find.byType(CircularProgressIndicator),
+            )
+            .color,
+        colors.primary,
+      );
     }
     expect(find.bySemanticsLabel('جاري التحميل'), findsWidgets);
     handle.dispose();

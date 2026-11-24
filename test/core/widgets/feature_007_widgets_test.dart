@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide Banner;
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
@@ -269,14 +269,27 @@ void main() {
     });
   });
 
-  group('Banner', () {
-    testWidgets('every tone shows its text and an icon', (tester) async {
-      for (final tone in BannerTone.values) {
-        await pumpWidgetUnder(tester, Banner(tone: tone, text: 'الحجز اتلغى'));
+  group('SprintBanner', () {
+    testWidgets('every tone shows its text and its own icon (decision U4)', (
+      tester,
+    ) async {
+      const icons = {
+        SprintBannerTone.success: PhosphorIconsRegular.checkCircle,
+        SprintBannerTone.danger: PhosphorIconsRegular.xCircle,
+        SprintBannerTone.info: PhosphorIconsRegular.info,
+        SprintBannerTone.neutral: PhosphorIconsRegular.info,
+        SprintBannerTone.hold: PhosphorIconsRegular.hourglass,
+      };
+      expect(icons.keys.toSet(), SprintBannerTone.values.toSet());
+      for (final tone in SprintBannerTone.values) {
+        await pumpWidgetUnder(
+          tester,
+          SprintBanner(tone: tone, text: 'الحجز اتلغى'),
+        );
         expect(find.text('الحجز اتلغى'), findsOneWidget, reason: '$tone');
-        expect(find.byType(Icon), findsOneWidget, reason: '$tone');
+        expect(find.byIcon(icons[tone]!), findsOneWidget, reason: '$tone');
         expect(
-          tester.getSize(find.byKey(Banner.bannerKey)).height,
+          tester.getSize(find.byKey(SprintBanner.bannerKey)).height,
           greaterThanOrEqualTo(48),
         );
       }
@@ -285,8 +298,8 @@ void main() {
     testWidgets('a long text wraps at 200% without overflow', (tester) async {
       await pumpWidgetUnder(
         tester,
-        const Banner(
-          tone: BannerTone.info,
+        const SprintBanner(
+          tone: SprintBannerTone.info,
           text: 'هتقدر تلغي الحجز لحد ساعتين قبل الميعاد ومش هتقدر بعد كده',
         ),
         textScale: 2,

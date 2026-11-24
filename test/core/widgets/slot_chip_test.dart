@@ -5,6 +5,7 @@ import 'package:sprint/core/adaptive/platform.dart';
 import 'package:sprint/core/tokens/sprint_colors.g.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_motion.g.dart';
+import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/widgets/slot_chip/slot_chip.dart';
 import 'package:sprint/core/widgets/slot_chip/slot_state.dart';
 
@@ -114,20 +115,43 @@ void main() {
     expect(semantics.label, contains('120 ج.م'));
   });
 
-  testWidgets('a range fill tints an available chip primary-soft',
+  testWidgets('in-range is tinted primary-soft and carries its word',
       (tester) async {
     await pumpWidgetUnderAndSettle(
       tester,
       SlotChip(
         start: start,
-        state: SlotState.available,
+        state: SlotState.inRange,
         remaining: 5,
         fewLeftThreshold: 2,
-        rangeFill: true,
         onSelected: () {},
       ),
     );
     expect(background(tester), colors.primarySoft);
+    expect(find.text('ضمن النطاق'), findsOneWidget);
+    expect(
+      tester.getSemantics(find.byType(SlotChip)).label,
+      contains('ضمن النطاق'),
+    );
+  });
+
+  testWidgets('corners are radius-sm (decision 11)', (tester) async {
+    await pumpWidgetUnderAndSettle(
+      tester,
+      SlotChip(
+        start: start,
+        state: SlotState.available,
+        fewLeftThreshold: 2,
+        onSelected: () {},
+      ),
+    );
+    final box = tester.widget<AnimatedContainer>(
+      find.byKey(SlotChip.visualKey),
+    );
+    expect(
+      (box.decoration! as BoxDecoration).borderRadius,
+      SprintRadius.smBorder,
+    );
   });
 
   testWidgets('selection calls the haptic on Apple and Android but not on '

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/core/theme/sprint_theme.dart';
 import 'package:sprint/core/tokens/sprint_colors.g.dart';
 import 'package:sprint/core/time/cairo_time.dart';
@@ -127,6 +128,29 @@ void main() {
     expect(find.text('عنوان'), findsOneWidget);
     expect(find.text('نص'), findsOneWidget);
     expect(tester.hasRunningAnimations, isFalse);
+  });
+
+  testWidgets('the success moment is a check in a success-soft disc, not the '
+      'logo (decision 19)', (tester) async {
+    await pumpWidgetUnder(
+      tester,
+      const MomentPlaceholder(kind: MomentKind.success, title: 'حجزك اتأكد'),
+    );
+    final disc = tester.widget<Container>(
+      find.byKey(MomentPlaceholder.successKey),
+    );
+    expect(
+      (disc.decoration! as BoxDecoration).color,
+      SprintColors.light.successSoft,
+    );
+    final icon = tester.widget<Icon>(
+      find.descendant(
+        of: find.byKey(MomentPlaceholder.successKey),
+        matching: find.byType(Icon),
+      ),
+    );
+    expect(icon.icon, PhosphorIconsBold.check);
+    expect(icon.color, SprintColors.light.success);
   });
 
   testWidgets('the method card shows the test tag only when asked',

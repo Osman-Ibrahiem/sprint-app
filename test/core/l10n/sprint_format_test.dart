@@ -23,12 +23,12 @@ void main() {
   test('time: 12-hour in Cairo time (ص/م and AM/PM)', () {
     // 15:00 UTC in January is 17:00 in Cairo (UTC+2).
     final winter = DateTime.utc(2026, 1, 15, 15);
-    expect(ar.time(winter), '5:00 م');
-    expect(en.time(winter), '5:00 PM');
+    expect(ar.time(winter), '5:00\u00A0م');
+    expect(en.time(winter), '5:00\u00A0PM');
     // The same UTC instant in July is 18:00 in Cairo (UTC+3).
     final summer = DateTime.utc(2026, 7, 15, 15);
-    expect(en.time(summer), '6:00 PM');
-    expect(ar.time(DateTime.utc(2026, 1, 15, 6)), '8:00 ص');
+    expect(en.time(summer), '6:00\u00A0PM');
+    expect(ar.time(DateTime.utc(2026, 1, 15, 6)), '8:00\u00A0ص');
   });
 
   test('date: weekday, day and month', () {

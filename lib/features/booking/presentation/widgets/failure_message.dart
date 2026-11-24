@@ -38,7 +38,7 @@ String bookingFailureMessage(
           : l10n.bookingFailOverlap(
               overlap.facilityName,
               '${format.date(overlap.start)} · '
-              '${format.time(overlap.start)} – ${format.time(overlap.end)}',
+              '${format.instantRange(overlap.start, overlap.end)}',
             ),
     TooManyActiveBookings(:final max) =>
       max == null

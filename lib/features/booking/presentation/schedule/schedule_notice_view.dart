@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide Banner;
+import 'package:flutter/material.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/core/l10n/sprint_icon.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
@@ -25,8 +25,11 @@ class ScheduleNoticeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Banner(
-      tone: BannerTone.hold,
+    return SprintBanner(
+      tone: SprintBannerTone.hold,
+      // A refusal, not a countdown: the warning sign, not the hold's
+      // hourglass.
+      icon: PhosphorIconsRegular.warningCircle,
       text: scheduleNoticeMessage(context, notice),
       trailing: Semantics(
         button: true,

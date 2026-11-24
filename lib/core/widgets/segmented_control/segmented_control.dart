@@ -36,8 +36,10 @@ class SegmentedControl extends StatelessWidget {
     final duration = ReducedMotion.fade(context, SprintMotion.durationBase);
     final rtl = Directionality.of(context) == TextDirection.rtl;
 
+    // At least 48 high; a label too long for its half takes a second line
+    // and the track grows with it, never an ellipsis (decision T1).
     return Container(
-      height: SprintSize.controlHeight,
+      constraints: const BoxConstraints(minHeight: SprintSize.controlHeight),
       padding: const EdgeInsetsDirectional.symmetric(
         horizontal: SprintSpacing.space1,
       ),
@@ -45,57 +47,69 @@ class SegmentedControl extends StatelessWidget {
         color: colors.surfaceSunken,
         borderRadius: SprintRadius.mdBorder,
       ),
-      child: Row(
-        children: [
-          for (var i = 0; i < labels.length; i++) ...[
-            if (i > 0) const SizedBox(width: SprintSpacing.space1),
-            Expanded(
-              child: Focus(
-                onKeyEvent: (node, event) {
-                  if (event is! KeyDownEvent) return KeyEventResult.ignored;
-                  final forward = rtl
-                      ? LogicalKeyboardKey.arrowLeft
-                      : LogicalKeyboardKey.arrowRight;
-                  final back = rtl
-                      ? LogicalKeyboardKey.arrowRight
-                      : LogicalKeyboardKey.arrowLeft;
-                  if (event.logicalKey == forward && i < labels.length - 1) {
-                    onChanged(i + 1);
-                    return KeyEventResult.handled;
-                  }
-                  if (event.logicalKey == back && i > 0) {
-                    onChanged(i - 1);
-                    return KeyEventResult.handled;
-                  }
-                  return KeyEventResult.ignored;
-                },
-                child: AdaptivePressable(
-                  key: segmentKey(i),
-                  label: semanticLabels?[i] ?? labels[i],
-                  selected: i == selected,
-                  onTap: () => onChanged(i),
-                  expand: true,
-                  borderRadius: SprintRadius.smBorder,
-                  builder: (context, _) => SizedBox(
-                    height: SprintSize.controlHeight,
-                    child: Center(
-                      child: AnimatedContainer(
-                        duration: duration,
-                        curve: SprintMotion.easeStandard,
-                        height: SprintExtras.segmentHeight,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: i == selected
-                              ? colors.surface
-                              : Colors.transparent,
-                          borderRadius: SprintRadius.smBorder,
-                        ),
-                        child: Text(
-                          labels[i],
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: context.text.label.copyWith(
-                            color: i == selected ? colors.ink : colors.inkMuted,
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (var i = 0; i < labels.length; i++) ...[
+              if (i > 0) const SizedBox(width: SprintSpacing.space1),
+              Expanded(
+                child: Focus(
+                  onKeyEvent: (node, event) {
+                    if (event is! KeyDownEvent) return KeyEventResult.ignored;
+                    final forward = rtl
+                        ? LogicalKeyboardKey.arrowLeft
+                        : LogicalKeyboardKey.arrowRight;
+                    final back = rtl
+                        ? LogicalKeyboardKey.arrowRight
+                        : LogicalKeyboardKey.arrowLeft;
+                    if (event.logicalKey == forward && i < labels.length - 1) {
+                      onChanged(i + 1);
+                      return KeyEventResult.handled;
+                    }
+                    if (event.logicalKey == back && i > 0) {
+                      onChanged(i - 1);
+                      return KeyEventResult.handled;
+                    }
+                    return KeyEventResult.ignored;
+                  },
+                  child: AdaptivePressable(
+                    key: segmentKey(i),
+                    label: semanticLabels?[i] ?? labels[i],
+                    selected: i == selected,
+                    onTap: () => onChanged(i),
+                    expand: true,
+                    borderRadius: SprintRadius.smBorder,
+                    builder: (context, _) => ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        minHeight: SprintSize.controlHeight,
+                      ),
+                      child: Center(
+                        child: AnimatedContainer(
+                          duration: duration,
+                          curve: SprintMotion.easeStandard,
+                          constraints: const BoxConstraints(
+                            minHeight: SprintExtras.segmentHeight,
+                          ),
+                          padding: const EdgeInsetsDirectional.symmetric(
+                            horizontal: SprintSpacing.space2,
+                            vertical: SprintSpacing.space1,
+                          ),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: i == selected
+                                ? colors.surface
+                                : Colors.transparent,
+                            borderRadius: SprintRadius.smBorder,
+                          ),
+                          child: Text(
+                            labels[i],
+                            textAlign: TextAlign.center,
+                            style: context.text.label.copyWith(
+                              color: i == selected
+                                  ? colors.ink
+                                  : colors.inkMuted,
+                            ),
                           ),
                         ),
                       ),
@@ -103,9 +117,9 @@ class SegmentedControl extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:sprint/core/adaptive/platform.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
+import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
 import 'package:sprint/core/widgets/sprint_text_field/sprint_text_field.dart';
 import 'package:sprint/core/widgets/wide_dialog/wide_dialog.dart';
 import 'package:sprint/core/window/window_size.dart';
@@ -27,6 +28,29 @@ class SprintDialogAction<T> {
   final bool isDefault;
 }
 
+/// The order every dialog shows its actions in, whatever order a screen
+/// passes (decision P1 of refactor 000): the safe or dismissive actions
+/// first, then the confirming one (`isDefault`), the destructive one last.
+/// Each platform then places them by its own rule: on iOS in RTL the first
+/// sits on the right; Material puts them at the end, so the last
+/// (destructive) one lands at the far end, on the left in RTL.
+List<SprintDialogAction<T>> orderDialogActions<T>(
+  List<SprintDialogAction<T>> actions,
+) {
+  int rank(SprintDialogAction<T> a) => a.isDestructive
+      ? 2
+      : a.isDefault
+      ? 1
+      : 0;
+  // A stable sort: actions of the same rank keep the screen's order.
+  final indexed = [for (var i = 0; i < actions.length; i++) (i, actions[i])];
+  indexed.sort((x, y) {
+    final r = rank(x.$2).compareTo(rank(y.$2));
+    return r != 0 ? r : x.$1.compareTo(y.$1);
+  });
+  return [for (final (_, a) in indexed) a];
+}
+
 /// A confirmation dialog in the platform's form: Cupertino alert on Apple,
 /// Material dialog on Android, centred dialog with Enter and Esc on desktop.
 /// Returns the chosen action's value, or null when dismissed.
@@ -36,6 +60,7 @@ Future<T?> showSprintDialog<T>({
   required List<SprintDialogAction<T>> actions,
   String? message,
 }) {
+  final ordered = orderDialogActions(actions);
   // From the medium window class every platform shows the wide dialog
   // (WideDialog README); below it the platform's own alert.
   if (!WindowSize.of(context).isCompact) {
@@ -43,7 +68,7 @@ Future<T?> showSprintDialog<T>({
       context: context,
       builder: (ctx) {
         SprintDialogAction<T>? def;
-        for (final a in actions) {
+        for (final a in ordered) {
           if (a.isDefault) def = a;
         }
         return CallbackShortcuts(
@@ -61,7 +86,7 @@ Future<T?> showSprintDialog<T>({
               title: title,
               message: message,
               actions: [
-                for (final a in actions)
+                for (final a in ordered)
                   WideDialogAction(
                     label: a.label,
                     destructive: a.isDestructive,
@@ -87,7 +112,7 @@ Future<T?> showSprintDialog<T>({
               ? null
               : Text(message, style: ctx.text.caption),
           actions: [
-            for (final a in actions)
+            for (final a in ordered)
               CupertinoDialogAction(
                 isDefaultAction: a.isDefault,
                 isDestructiveAction: a.isDestructive,
@@ -105,14 +130,14 @@ Future<T?> showSprintDialog<T>({
     case AdaptiveStyle.android:
       return showDialog<T>(
         context: context,
-        builder: (ctx) => _materialDialog(ctx, title, message, actions),
+        builder: (ctx) => _materialDialog(ctx, title, message, ordered),
       );
     case AdaptiveStyle.desktop:
       return showDialog<T>(
         context: context,
         builder: (ctx) {
           SprintDialogAction<T>? def;
-          for (final a in actions) {
+          for (final a in ordered) {
             if (a.isDefault) def = a;
           }
           return CallbackShortcuts(
@@ -129,7 +154,7 @@ Future<T?> showSprintDialog<T>({
                 ctx,
                 title,
                 message,
-                actions,
+                ordered,
                 key: const ValueKey('sprint-dialog-desktop'),
               ),
             ),
@@ -153,20 +178,25 @@ Widget _materialDialog<T>(
     content: message == null ? null : Text(message, style: ctx.text.body),
     actions: [
       for (final a in actions)
-        TextButton(
-          onPressed: () => Navigator.of(ctx).pop(a.value),
-          style: a.isDestructive
-              ? TextButton.styleFrom(foregroundColor: colors.danger)
-              : null,
-          // The text carries the colour itself: `button` has its own colour
-          // and would hide the button style's.
-          child: Text(
-            a.label,
-            style: ctx.text.button.copyWith(
-              color: a.isDestructive ? colors.danger : colors.primary,
+        // The destructive action is a filled `danger` button on Android and
+        // the web, as in Figma and the wide dialog (decision P1); iOS keeps
+        // its native red text action.
+        if (a.isDestructive)
+          SprintButton(
+            label: a.label,
+            variant: SprintButtonVariant.danger,
+            onPressed: () => Navigator.of(ctx).pop(a.value),
+          )
+        else
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(a.value),
+            // The text carries the colour itself: `button` has its own
+            // colour and would hide the button style's.
+            child: Text(
+              a.label,
+              style: ctx.text.button.copyWith(color: colors.primary),
             ),
           ),
-        ),
     ],
   );
 }

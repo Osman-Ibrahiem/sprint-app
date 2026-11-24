@@ -24,6 +24,14 @@ void main() {
     });
   });
 
+  test('committed tokens.css matches tokens.json', () {
+    expect(
+      File(cssPath).readAsStringSync(),
+      generateCss(json),
+      reason: 'tokens.css drifted: run dart run tool/gen_tokens.dart',
+    );
+  });
+
   test('every font weight used by a type style is declared in pubspec', () {
     final pubspec = File('pubspec.yaml').readAsStringSync();
     final declared = <String, Set<int>>{};

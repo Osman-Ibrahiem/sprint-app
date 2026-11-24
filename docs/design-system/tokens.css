@@ -5,7 +5,7 @@
   --surface-raised: #ffffff;
   --surface-sunken: #eef0f6;
   --line: #e2e5ee;
-  --control-border: #8a93a8;
+  --control-border: #80899e;
   --ink: #0f1729;
   --ink-muted: #5b6478;
   --ink-disabled: #a6adbd;
@@ -14,15 +14,19 @@
   --primary-pressed: #172e9e;
   --on-primary: #ffffff;
   --primary-soft: #e8ecfd;
+  --primary-soft-hover: #dae0fb;
+  --primary-soft-pressed: #cbd4f9;
   --on-primary-soft: #1a33a8;
   --volt: #d4f536;
   --on-volt: #1a2005;
-  --success: #15803d;
+  --success: #157c3c;
   --success-soft: #e7f6ec;
   --warning: #a15c07;
   --warning-soft: #fdf3e1;
   --danger: #b91c1c;
   --danger-soft: #fdecec;
+  --danger-hover: #9f1818;
+  --danger-pressed: #861414;
   --on-danger: #ffffff;
   --focus-ring: var(--primary);
   --scrim: rgba(11, 15, 26, 0.48);
@@ -38,7 +42,7 @@
   --surface-raised: #1c2336;
   --surface-sunken: #080b14;
   --line: #262e42;
-  --control-border: #5f6b88;
+  --control-border: #65708c;
   --ink: #eef1f8;
   --ink-muted: #9aa3b8;
   --ink-disabled: #4a5368;
@@ -47,6 +51,8 @@
   --primary-pressed: #bcc8ff;
   --on-primary: #0b1233;
   --primary-soft: #1b2552;
+  --primary-soft-hover: #233066;
+  --primary-soft-pressed: #2c3b7c;
   --on-primary-soft: #c9d3ff;
   --volt: #d4f536;
   --on-volt: #1a2005;
@@ -56,6 +62,8 @@
   --warning-soft: #2e2108;
   --danger: #f87171;
   --danger-soft: #2f1214;
+  --danger-hover: #f98b8b;
+  --danger-pressed: #fba5a5;
   --on-danger: #2a0606;
   --focus-ring: var(--volt);
   --scrim: rgba(0, 0, 0, 0.64);
@@ -71,7 +79,7 @@
   --surface-raised: #1c2336;
   --surface-sunken: #080b14;
   --line: #262e42;
-  --control-border: #5f6b88;
+  --control-border: #65708c;
   --ink: #eef1f8;
   --ink-muted: #9aa3b8;
   --ink-disabled: #4a5368;
@@ -80,6 +88,8 @@
   --primary-pressed: #bcc8ff;
   --on-primary: #0b1233;
   --primary-soft: #1b2552;
+  --primary-soft-hover: #233066;
+  --primary-soft-pressed: #2c3b7c;
   --on-primary-soft: #c9d3ff;
   --volt: #d4f536;
   --on-volt: #1a2005;
@@ -89,6 +99,8 @@
   --warning-soft: #2e2108;
   --danger: #f87171;
   --danger-soft: #2f1214;
+  --danger-hover: #f98b8b;
+  --danger-pressed: #fba5a5;
   --on-danger: #2a0606;
   --focus-ring: var(--volt);
   --scrim: rgba(0, 0, 0, 0.64);
@@ -126,9 +138,10 @@
   --bp-medium: 600px;
   --bp-expanded: 840px;
   --bp-large: 1200px;
+  --blur-bar: 10px;
   --font-heading: "Cairo", system-ui, sans-serif;
   --font-text: "Cairo", system-ui, sans-serif;
-  --font-mono: "Cairo", system-ui, sans-serif;
+  --font-code: "Cairo", system-ui, sans-serif;
   --duration-fast: 150ms;
   --duration-base: 250ms;
   --duration-slow: 350ms;

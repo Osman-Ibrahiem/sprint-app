@@ -9,6 +9,7 @@ void main() {
     bool past = false,
     bool selected = false,
     bool full = false,
+    bool inRange = false,
   }) =>
       resolveSlotState(
         remaining: remaining,
@@ -16,6 +17,7 @@ void main() {
         isPast: past,
         isSelected: selected,
         isFull: full,
+        isInRange: inRange,
       );
 
   test('precedence past > full > selected > fewLeft > available', () {
@@ -25,6 +27,14 @@ void main() {
     expect(resolve(remaining: 1, selected: true), SlotState.selected);
     expect(resolve(remaining: 1), SlotState.fewLeft);
     expect(resolve(remaining: 4), SlotState.available);
+  });
+
+  test('in-range sits below selected and above few-left (decision 3)', () {
+    expect(resolve(remaining: 1, selected: true, inRange: true),
+        SlotState.selected);
+    expect(resolve(remaining: 1, inRange: true), SlotState.inRange);
+    expect(resolve(remaining: 0, inRange: true), SlotState.full);
+    expect(resolve(remaining: 4, past: true, inRange: true), SlotState.past);
   });
 
   test('boundaries: 0, threshold, threshold + 1', () {

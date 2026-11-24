@@ -6,7 +6,8 @@ import 'package:sprint/core/tokens/reduced_motion.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 
-/// Activity indicator on Apple, circular progress elsewhere. For buttons and
+/// Activity indicator on Apple in `ink-muted`, like the iOS default; circular
+/// progress in `primary` elsewhere (decision 20 of refactor 000). For buttons and
 /// short operations only; content loads with skeletons (FR-018). It stops
 /// spinning under reduced motion.
 class AdaptiveLoader extends StatelessWidget {
@@ -33,18 +34,20 @@ class AdaptiveLoader extends StatelessWidget {
           height: size,
           child: apple
               ? (still
-                  ? CupertinoActivityIndicator.partiallyRevealed(
-                      radius: size / 2,
-                      color: colors.primary,
-                      progress: SprintExtras.reducedMotionLoaderProgress,
-                    )
-                  : CupertinoActivityIndicator(
-                      radius: size / 2,
-                      color: colors.primary,
-                    ))
+                    ? CupertinoActivityIndicator.partiallyRevealed(
+                        radius: size / 2,
+                        color: colors.inkMuted,
+                        progress: SprintExtras.reducedMotionLoaderProgress,
+                      )
+                    : CupertinoActivityIndicator(
+                        radius: size / 2,
+                        color: colors.inkMuted,
+                      ))
               : CircularProgressIndicator(
                   color: colors.primary,
-                  value: still ? SprintExtras.reducedMotionLoaderProgress : null,
+                  value: still
+                      ? SprintExtras.reducedMotionLoaderProgress
+                      : null,
                 ),
         ),
       ),

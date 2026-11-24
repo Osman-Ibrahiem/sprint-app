@@ -22,7 +22,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navBookings => 'My bookings';
 
   @override
-  String get navProfile => 'Profile';
+  String get navAccount => 'Account';
 
   @override
   String get navMainLabel => 'Main navigation';
@@ -190,6 +190,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dayFullFriday => 'Friday';
+
+  @override
+  String get dayStripSaturday => 'Saturday';
+
+  @override
+  String get dayStripSunday => 'Sunday';
+
+  @override
+  String get dayStripMonday => 'Monday';
+
+  @override
+  String get dayStripTuesday => 'Tuesday';
+
+  @override
+  String get dayStripWednesday => 'Wednesday';
+
+  @override
+  String get dayStripThursday => 'Thursday';
+
+  @override
+  String get dayStripFriday => 'Friday';
 
   @override
   String get demoTitle => 'Demo screen';
@@ -364,6 +385,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get codeEntryLabel => 'Confirmation code';
 
   @override
+  String codeBoxEmpty(int index, int count) {
+    return 'Box $index of $count, empty';
+  }
+
+  @override
+  String codeBoxFilled(int index, int count, String digit) {
+    return 'Box $index of $count: $digit';
+  }
+
+  @override
   String get codeEntrySentTo => 'The code was sent to';
 
   @override
@@ -397,7 +428,8 @@ class AppLocalizationsEn extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count places left',
-      one: '1 place left',
+      two: '2 places left',
+      one: '1 left',
     );
     return '$_temp0';
   }
@@ -418,6 +450,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get slotPast => 'Past';
+
+  @override
+  String get slotInRange => 'In range';
 
   @override
   String slotSpoken(String time, String state) {
@@ -452,7 +487,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statusConfirmed => 'Confirmed';
 
   @override
-  String get statusPendingPayment => 'Awaiting payment';
+  String get statusPendingPayment => 'Pending payment';
 
   @override
   String get statusCancelled => 'Cancelled';
@@ -1691,7 +1726,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bookingNothingLeftDay =>
-      'Nothing is left on this day. Other days have places.';
+      'No free times on this day. Days with places have a green dot';
 
   @override
   String get bookingNothingLeftWindow => 'Nothing is left in the coming days.';
@@ -2278,7 +2313,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'There is no receipt for this booking. A receipt appears after a successful payment.';
 
   @override
-  String get confirmedTitle => 'Your booking is confirmed';
+  String get confirmedTitle => 'Your booking\'s confirmed';
 
   @override
   String confirmedSubtitle(String lead) {
@@ -2472,7 +2507,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gallery007SampleEmailLabel => 'Email';
 
   @override
-  String get navNotifications => 'Notifications';
+  String get navNotifications => 'Alerts';
 
   @override
   String get catalogueFacilitiesTitle => 'All facilities';

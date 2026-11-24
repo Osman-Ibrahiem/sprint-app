@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide Banner;
+import 'package:flutter/material.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/core/l10n/sprint_format.dart';
 import 'package:sprint/core/time/cairo_time.dart';
@@ -27,39 +27,43 @@ class StatusBanner extends StatelessWidget {
       case BookingStatus.pendingPayment:
         final left = b.holdExpiresAt == null
             ? 0
-            : (b.holdExpiresAt!.difference(now).inSeconds / 60).ceil().clamp(0, 1 << 20);
-        return Banner(
-          tone: BannerTone.hold,
+            : (b.holdExpiresAt!.difference(now).inSeconds / 60).ceil().clamp(
+                0,
+                1 << 20,
+              );
+        return SprintBanner(
+          tone: SprintBannerTone.hold,
           icon: PhosphorIconsRegular.hourglass,
-          text: '${l10n.bookingDetailsHoldTitle}\n${l10n.bookingDetailsHoldSub(left)}',
+          text:
+              '${l10n.bookingDetailsHoldTitle}\n${l10n.bookingDetailsHoldSub(left)}',
         );
       case BookingStatus.confirmed:
         if (details.cancelPreview.kind != CancelKind.closed) {
           return const SizedBox.shrink();
         }
         final until = CairoTime.toCairo(details.cancelPreview.cancelUntil);
-        return Banner(
-          tone: BannerTone.info,
+        return SprintBanner(
+          tone: SprintBannerTone.info,
           icon: PhosphorIconsRegular.clock,
           text: l10n.bookingDetailsAfterCutoff(
             '${format.date(until)} ${format.localTime(until)}',
           ),
         );
       case BookingStatus.attended:
-        return Banner(
-          tone: BannerTone.info,
+        return SprintBanner(
+          tone: SprintBannerTone.info,
           icon: PhosphorIconsRegular.checkCircle,
           text: l10n.bookingDetailsAttended,
         );
       case BookingStatus.noShow:
-        return Banner(
-          tone: BannerTone.info,
+        return SprintBanner(
+          tone: SprintBannerTone.info,
           icon: PhosphorIconsRegular.userMinus,
           text: l10n.bookingDetailsNoShow,
         );
       case BookingStatus.expired:
-        return Banner(
-          tone: BannerTone.info,
+        return SprintBanner(
+          tone: SprintBannerTone.info,
           icon: PhosphorIconsRegular.hourglass,
           text: l10n.bookingDetailsExpired,
         );
@@ -86,8 +90,8 @@ class StatusBanner extends StatelessWidget {
       ];
       // The facility's cancel is good news for the booker: everything comes
       // back (BR-32), so the tone is success.
-      return Banner(
-        tone: BannerTone.success,
+      return SprintBanner(
+        tone: SprintBannerTone.success,
         icon: PhosphorIconsRegular.xCircle,
         text: parts.join('. '),
       );
@@ -99,8 +103,8 @@ class StatusBanner extends StatelessWidget {
       refundAmount: details.refundAmount,
     );
     final refunded = details.refundAmount > 0;
-    return Banner(
-      tone: refunded ? BannerTone.success : BannerTone.neutral,
+    return SprintBanner(
+      tone: refunded ? SprintBannerTone.success : SprintBannerTone.neutral,
       icon: refunded
           ? PhosphorIconsRegular.checkCircle
           : PhosphorIconsRegular.xCircle,

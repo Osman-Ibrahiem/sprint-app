@@ -43,7 +43,7 @@ class AppNavigationSection extends StatelessWidget {
             ),
           ),
           GalleryRow(
-            label: '${form.name} · ${l10n.navProfile}',
+            label: '${form.name} · ${l10n.navAccount}',
             child: _box(
               form,
               booker,
@@ -81,7 +81,7 @@ class AppNavigationSection extends StatelessWidget {
           badgeCount: badge,
         ),
         NavDestination(
-          label: l10n.navProfile,
+          label: l10n.navAccount,
           icon: Icons.person_outline,
           selectedIcon: Icons.person,
         ),

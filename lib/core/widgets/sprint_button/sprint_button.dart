@@ -121,41 +121,44 @@ class SprintButton extends StatelessWidget {
           )
         : null;
 
+    // Figma: `md` = radius-md and space-5 sides; `sm` = radius-sm and space-3
+    // sides (decision 12, refactor 000).
+    final md = size == SprintButtonSize.md;
+    final radius = md ? SprintRadius.mdBorder : SprintRadius.smBorder;
+
     return AdaptivePressable(
       label: spokenLabel,
       onTap: enabled ? onPressed : null,
       restingColor: background,
+      // Every variant changes on hover and press in its own colour family
+      // (decision U1, refactor 000).
       pressedColor: switch (variant) {
         SprintButtonVariant.primary => colors.primaryPressed,
         SprintButtonVariant.secondary ||
         SprintButtonVariant.ghost => colors.surfaceSunken,
-        SprintButtonVariant.tonal => colors.primarySoft,
-        SprintButtonVariant.danger => colors.danger,
+        SprintButtonVariant.tonal => colors.primarySoftPressed,
+        SprintButtonVariant.danger => colors.dangerPressed,
       },
       hoverColor: switch (variant) {
         SprintButtonVariant.primary => colors.primaryHover,
-        _ => colors.surfaceSunken,
+        SprintButtonVariant.secondary ||
+        SprintButtonVariant.ghost => colors.surfaceSunken,
+        SprintButtonVariant.tonal => colors.primarySoftHover,
+        SprintButtonVariant.danger => colors.dangerHover,
       },
-      borderRadius: SprintRadius.mdBorder,
+      borderRadius: radius,
       expand: expand,
       builder: (context, state) => ConstrainedBox(
         key: visualKey,
         constraints: BoxConstraints(
-          minHeight: size == SprintButtonSize.md
-              ? SprintSize.controlHeight
-              : SprintSize.controlHeightSm,
+          minHeight: md ? SprintSize.controlHeight : SprintSize.controlHeightSm,
         ),
         child: DecoratedBox(
-          decoration: BoxDecoration(
-            border: border,
-            borderRadius: SprintRadius.mdBorder,
-          ),
+          decoration: BoxDecoration(border: border, borderRadius: radius),
           child: Padding(
             padding: EdgeInsetsDirectional.symmetric(
-              horizontal: SprintSpacing.space4,
-              vertical: size == SprintButtonSize.md
-                  ? SprintSpacing.space2
-                  : SprintSpacing.space1,
+              horizontal: md ? SprintSpacing.space5 : SprintSpacing.space3,
+              vertical: md ? SprintSpacing.space2 : SprintSpacing.space1,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,

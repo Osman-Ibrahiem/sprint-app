@@ -21,7 +21,7 @@ String selectionTimeText(BuildContext context, DateTime start, DateTime end) {
   final l10n = AppLocalizations.of(context);
   final format = SprintFormat.of(context);
   return l10n.bookingTimeWithLength(
-    '${format.time(start)} – ${format.time(end)}',
+    format.instantRange(start, end),
     selectionLengthText(context, start, end),
   );
 }

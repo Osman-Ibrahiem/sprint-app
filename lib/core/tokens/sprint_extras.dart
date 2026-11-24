@@ -10,13 +10,13 @@ abstract final class SprintExtras {
   /// iOS press feedback: the fill fades to 70% (adaptive.md).
   static const double applePressedOpacity = 0.7;
 
-  /// Apple tab bar: translucent with a blur over the content (adaptive.md).
-  /// The strength is a design judgement, not a documented value.
-  static const double tabBarBlurSigma = 24;
+  /// Apple tab bar: translucent over the content (adaptive.md). The blur
+  /// strength is the `blur-bar` token (`SprintBlur.barSigma`).
   static const double tabBarTranslucentAlpha = 0.85;
 
-  /// Above this text scale, narrow navigation drops visible labels and keeps
-  /// the icon plus its spoken label, so nothing is clipped at 200% (FR-017).
+  /// Navigation labels (tab bar and rail) stop growing at this text scale
+  /// and stay visible; the rest of the app scales to 200% (decision T2,
+  /// refactor 000).
   static const double navLabelMaxTextScale = 1.3;
 
   /// Lowest opacity of the skeleton pulse (a design judgement; the docs only
@@ -31,8 +31,12 @@ abstract final class SprintExtras {
   static const double slotChipMinHeight = 56;
   static const double slotChipMinWidth = 100;
 
-  /// DayStrip README § الشكل: each day pill is 64 high.
+  /// The old day pill height (64), still the unit of a few skeletons.
   static const double dayPillHeight = 64;
+
+  /// DayStrip v2 (decision 18): circle 48, name, dot and their gaps, at 100%
+  /// text; the schedule's loading skeleton uses it.
+  static const double dayItemHeight = 88;
 
   /// StatusBadge README § الشكل: pill height 28.
   static const double statusBadgeHeight = 28;
@@ -110,7 +114,8 @@ abstract final class SprintExtras {
   /// (research R14): a presentation timing, not a BRD setting.
   static const Duration checkoutProcessingWait = Duration(seconds: 20);
 
-  /// The success moment's stand-in (design: tile 88 in a ring 128 in a disc 160).
+  /// The success and failure moments' stand-in: a disc of 160 with a 72 icon
+  /// (decision 19 of refactor 000 replaced the brand tile with a check).
   /// The widest share of a label-and-value row a label may take (the value
   /// takes the rest), so values stay on one line where they fit.
   static const double rowLabelShare = 0.45;
@@ -120,14 +125,12 @@ abstract final class SprintExtras {
   static const double stateDiscIcon = 40;
 
   static const double momentOuter = 160;
-  static const double momentFailureIcon = 72;
+  static const double momentIcon = 72;
   static const double momentBadge = 44;
   static const double momentBadgeInset = 8;
 
   /// The loader on the processing screen (design: a ring of about 72).
   static const double processingLoader = 72;
-  static const double momentRing = 128;
-  static const double momentTile = 88;
 
   static const double confirmationColumn = 358;
   static const double confirmationGap = 48;

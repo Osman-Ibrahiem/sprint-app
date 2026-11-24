@@ -16,13 +16,16 @@ class WideDialogAction {
   final String label;
   final VoidCallback onPressed;
 
-  /// Danger fill, listed first in reading order.
+  /// Danger fill, listed last in reading order (decision P1).
   final bool destructive;
 }
 
 /// The confirmation dialog from the medium window class (WideDialog README):
-/// centred, 400 wide, `radius-xl`, real buttons 48 high, destructive action
-/// first in reading order. Enter and Esc are handled by `showSprintDialog`.
+/// centred, 400 wide, `radius-xl`, real buttons 48 high. The safe action
+/// comes first in reading order and the destructive one last, as on every
+/// platform (decision P1 of refactor 000): in Arabic "الرجوع" on the right
+/// and the red action on the left. Enter and Esc are handled by
+/// `showSprintDialog`.
 class WideDialog extends StatelessWidget {
   const WideDialog({
     required this.title,
@@ -41,8 +44,8 @@ class WideDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final ordered = [
-      ...actions.where((a) => a.destructive),
       ...actions.where((a) => !a.destructive),
+      ...actions.where((a) => a.destructive),
     ];
     return Dialog(
       backgroundColor: colors.surfaceRaised,

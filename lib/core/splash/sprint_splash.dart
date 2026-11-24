@@ -102,11 +102,14 @@ class SprintSplash extends StatefulWidget {
   static const double _laneGap = 8;
   static const List<double> _laneWidths = [56, 36, 46];
   static const double _laneTravel = 8;
-  static const double _loaderBottom = 116; // loader above the screen bottom
-  static const double _captionBottom = 74; // caption above the screen bottom
-  static const double _captionBottomWide = 32;
-  static const double _loaderBottomWide = 72;
-  static const double _wideFrom = 600; // medium window class
+
+  /// Loader and caption above the screen bottom, the same on every window
+  /// class (Figma, decisions 2026-11-17; decision 10 of refactor 000).
+  static const double loaderBottom = 116;
+  static const double captionBottom = 74;
+
+  static const loaderKey = ValueKey<String>('splash-loader');
+  static const captionKey = ValueKey<String>('splash-caption');
 
   static const markAsset = 'docs/design-system/logo/sprint-mark.svg';
 
@@ -192,7 +195,6 @@ class _SprintSplashState extends State<SprintSplash>
         child: LayoutBuilder(
           builder: (context, box) {
             final centerY = box.maxHeight / 2;
-            final wide = box.maxWidth >= SprintSplash._wideFrom;
             final top3 =
                 centerY - SprintSplash.boltSize / 2 - SprintSplash._boltRise;
             return AnimatedBuilder(
@@ -266,28 +268,30 @@ class _SprintSplashState extends State<SprintSplash>
                     ),
                     Positioned(
                       // Always at the bottom, above the caption (Osman's call).
-                      bottom: wide
-                          ? SprintSplash._loaderBottomWide
-                          : SprintSplash._loaderBottom,
+                      bottom: SprintSplash.loaderBottom,
                       left: 0,
                       right: 0,
                       child: Opacity(
                         opacity: content,
                         child: ExcludeSemantics(
-                          child: Center(child: _LaneLoader(animation: _loader)),
+                          child: Center(
+                            child: _LaneLoader(
+                              key: SprintSplash.loaderKey,
+                              animation: _loader,
+                            ),
+                          ),
                         ),
                       ),
                     ),
                     Positioned(
-                      bottom: wide
-                          ? SprintSplash._captionBottomWide
-                          : SprintSplash._captionBottom,
+                      bottom: SprintSplash.captionBottom,
                       left: 0,
                       right: 0,
                       child: Opacity(
                         opacity: content,
                         child: Text(
                           l10n.splashCaption,
+                          key: SprintSplash.captionKey,
                           textAlign: TextAlign.center,
                           style: text.micro.copyWith(color: soft),
                         ),
@@ -307,7 +311,7 @@ class _SprintSplashState extends State<SprintSplash>
 /// Three volt lanes sliding like lane ropes, one cycle per `duration-pulse`.
 /// Static when the controller is stopped (reduced motion).
 class _LaneLoader extends StatelessWidget {
-  const _LaneLoader({required this.animation});
+  const _LaneLoader({required this.animation, super.key});
 
   final Animation<double> animation;
 

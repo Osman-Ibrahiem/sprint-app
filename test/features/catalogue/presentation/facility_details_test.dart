@@ -106,7 +106,7 @@ void main() {
       findsOneWidget,
     );
     expect(find.textContaining('8:00'), findsWidgets);
-    expect(find.textContaining('10:00 م'), findsWidgets);
+    expect(find.textContaining('10:00\u00A0م'), findsWidgets);
   });
 
   testWidgets(

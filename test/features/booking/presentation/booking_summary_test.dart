@@ -58,7 +58,7 @@ void main() {
       expect(find.text('ملعب كرة القدم الخماسي'), findsWidgets);
       expect(find.text('ملعب ب'), findsWidgets);
       expect(find.text('الأحد 15 نوفمبر'), findsOneWidget);
-      expect(find.text('6:00 م – 7:00 م'), findsOneWidget);
+      expect(find.text('6:00\u00A0م\u00A0–\u00A07:00\u00A0م'), findsOneWidget);
       expect(find.text(ar.bookingLengthHours(1)), findsOneWidget);
       expect(find.text(ar.bookingCoverageWholeMax(22)), findsOneWidget);
       expect(find.text(ar.cataloguePriceInternalLabel), findsOneWidget);

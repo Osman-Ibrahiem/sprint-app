@@ -20,6 +20,19 @@ class SprintFormat {
 
   final String _lang;
 
+  /// A no-break space: a time keeps its م/ص (AM/PM) on its line (decision V1
+  /// of refactor 000).
+  static const String nbsp = '\u00A0';
+
+  /// The dash between two times, held to both of them, so "5:00 م – 6:00 م"
+  /// never breaks inside (decision V1).
+  static const String rangeDash = '$nbsp–$nbsp';
+
+  /// Glues the period to its digits: any space intl puts before م/ص, AM/PM
+  /// (a plain or a narrow space) becomes [nbsp].
+  static String _glue(String time) =>
+      time.replaceAll(RegExp('[ \u202F\u2009]'), nbsp);
+
   /// Once the Material localizations have loaded, intl's plain `ar` can print
   /// Arabic-Indic digits; the product rule is Western digits in both languages.
   static String _western(String text) =>
@@ -40,8 +53,13 @@ class SprintFormat {
   String price(num amount) => _l10n.priceEgp(number(amount));
 
   /// 12-hour Cairo time: "5:00 م" / "5:00 PM". [instant] is a UTC instant.
-  String time(DateTime instant) =>
-      _western(DateFormat('h:mm a', _lang).format(CairoTime.toCairo(instant)));
+  String time(DateTime instant) => _glue(
+    _western(DateFormat('h:mm a', _lang).format(CairoTime.toCairo(instant))),
+  );
+
+  /// "5:00 م – 6:00 م" for two UTC instants, unbreakable (decision V1).
+  String instantRange(DateTime start, DateTime end) =>
+      '${time(start)}$rangeDash${time(end)}';
 
   /// "السبت 14 نوفمبر" / "Sat, 14 Nov", for the Cairo calendar day.
   String date(DateTime instant) {
@@ -62,22 +80,22 @@ class SprintFormat {
   /// A Cairo-local time, without the conversion [time] applies. Screens that
   /// already hold Cairo wall-clock times use the methods below.
   String _localTime(DateTime t) =>
-      _western(DateFormat('h:mm a', _lang).format(t));
+      _glue(_western(DateFormat('h:mm a', _lang).format(t)));
 
   /// The short form of a Cairo-local time ("5:00 م").
   String localTime(DateTime t) => _localTime(t);
 
   /// "5:00 – 6:00 م" when both ends share the period, otherwise
-  /// "11:00 ص – 1:00 م" / "11:00 AM – 1:00 PM".
+  /// "11:00 ص – 1:00 م" / "11:00 AM – 1:00 PM". Unbreakable (decision V1).
   String timeRange(DateTime start, DateTime end) {
     final a = _localTime(start);
     final b = _localTime(end);
-    final aPeriod = a.split(' ').last;
-    final bPeriod = b.split(' ').last;
+    final aPeriod = a.split(nbsp).last;
+    final bPeriod = b.split(nbsp).last;
     if (aPeriod == bPeriod) {
-      return '${a.substring(0, a.length - aPeriod.length - 1)} – $b';
+      return '${a.substring(0, a.length - aPeriod.length - 1)}$rangeDash$b';
     }
-    return '$a – $b';
+    return '$a$rangeDash$b';
   }
 
   /// "التلات 10 نوفمبر · 5:00 – 6:00 م" / "Tue 10 Nov · 5:00 – 6:00 PM".
@@ -100,6 +118,22 @@ class SprintFormat {
         short ? l10n.dayShortWednesday : l10n.dayFullWednesday,
       DateTime.thursday => short ? l10n.dayShortThursday : l10n.dayFullThursday,
       _ => short ? l10n.dayShortFriday : l10n.dayFullFriday,
+    };
+  }
+
+  /// The day strip's full name, in dialect ("الأربعاء", "الاتنين"; not the
+  /// Modern Standard `dayFull*` forms) or the full English name. The strip
+  /// falls back to [dayName] `short` when this does not fit (decision 18).
+  String dayStripName(DateTime day) {
+    final l10n = _l10n;
+    return switch (day.weekday) {
+      DateTime.saturday => l10n.dayStripSaturday,
+      DateTime.sunday => l10n.dayStripSunday,
+      DateTime.monday => l10n.dayStripMonday,
+      DateTime.tuesday => l10n.dayStripTuesday,
+      DateTime.wednesday => l10n.dayStripWednesday,
+      DateTime.thursday => l10n.dayStripThursday,
+      _ => l10n.dayStripFriday,
     };
   }
 
