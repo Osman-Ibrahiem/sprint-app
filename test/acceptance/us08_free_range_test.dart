@@ -86,8 +86,8 @@ void main() {
       await pickFourToSeven(tester);
       expect(chipAtHour(tester, 16)!.state, chip.SlotState.selected);
       expect(chipAtHour(tester, 18)!.state, chip.SlotState.selected);
-      expect(chipAtHour(tester, 17)!.rangeFill, isTrue);
-      expect(inBar(find.textContaining('4:00 م – 7:00 م')), findsOneWidget);
+      expect(chipAtHour(tester, 17)!.state, chip.SlotState.inRange);
+      expect(inBar(find.textContaining('4:00\u00A0م\u00A0–\u00A07:00\u00A0م')), findsOneWidget);
       expect(
         inBar(find.textContaining(ar.bookingLengthHours(3))),
         findsOneWidget,
@@ -155,7 +155,7 @@ void main() {
       );
       await tapHour(tester, 9, SeedIds.hall1);
       await tapHour(tester, 12, SeedIds.hall1);
-      expect(find.text(ar.bookingFailSlotTakenAt('10:00 ص')), findsOneWidget);
+      expect(find.text(ar.bookingFailSlotTakenAt('10:00\u00A0ص')), findsOneWidget);
       expect(chipAtHour(tester, 12)!.state, isNot(chip.SlotState.selected));
     });
   });
@@ -312,7 +312,7 @@ void main() {
         expect(bookingCount(tester), before);
         expect(find.byType(ScheduleScreen), findsOneWidget);
         expect(
-          find.textContaining(ar.bookingFailSlotTakenAt('5:00 م')),
+          find.textContaining(ar.bookingFailSlotTakenAt('5:00\u00A0م')),
           findsOneWidget,
         );
       },

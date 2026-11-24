@@ -473,7 +473,7 @@ final List<ShellDestination> baseDestinations = <ShellDestination>[
     path: AppPaths.profile,
     icon: PhosphorIconsRegular.user,
     selectedIcon: PhosphorIconsFill.user,
-    label: (l) => l.navProfile,
+    label: (l) => l.navAccount,
     builder: AccountScreen.new,
     subRoutes: [
       GatedRoute(

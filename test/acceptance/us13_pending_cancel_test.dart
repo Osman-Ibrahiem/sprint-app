@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide Banner;
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/app/router/routes.dart';
 import 'package:sprint/core/providers/data_providers.dart';
@@ -79,9 +79,9 @@ void main() {
     await t.pumpAndSettle();
     expect(find.byKey(BookingDetailsView.refundedKey), findsOneWidget);
     expect(find.text(ar.bookingDetailsRefundWay), findsOneWidget);
-    final banner = t.widget<Banner>(find.byType(Banner));
+    final banner = t.widget<SprintBanner>(find.byType(SprintBanner));
     expect(banner.text.endsWith('.'), isFalse);
-    expect(banner.tone, BannerTone.success);
+    expect(banner.tone, SprintBannerTone.success);
   });
 
   testWidgets('M5: a facility cancel is a success banner with the reason and '
@@ -92,8 +92,8 @@ void main() {
         .actAs(SeedIds.bookerInternal);
     routerOf(t).go(AppPaths.bookingDetails('bk-15'));
     await t.pumpAndSettle();
-    final banner = t.widget<Banner>(find.byType(Banner));
-    expect(banner.tone, BannerTone.success);
+    final banner = t.widget<SprintBanner>(find.byType(SprintBanner));
+    expect(banner.tone, SprintBannerTone.success);
     expect(banner.text, contains(ar.bookingDetailsCancelledByFacility));
     expect(banner.text, contains('إغلاق طارئ'));
     expect(banner.text.contains('واتبلّغت'), isFalse);

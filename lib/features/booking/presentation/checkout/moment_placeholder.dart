@@ -6,7 +6,6 @@ import 'package:sprint/core/tokens/sprint_colors.g.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
-import 'package:sprint/core/widgets/sprint_logo/sprint_logo.dart';
 
 /// Success or failure.
 enum MomentKind { success, failure }
@@ -30,6 +29,7 @@ class MomentPlaceholder extends StatelessWidget {
   final bool announce;
 
   static const titleKey = ValueKey<String>('moment-title');
+  static const successKey = ValueKey<String>('moment-success');
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class MomentPlaceholder extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ExcludeSemantics(
-          child: success ? const _BrandBadge() : _failureBadge(colors),
+          child: success ? _successBadge(colors) : _failureBadge(colors),
         ),
         const SizedBox(height: SprintSpacing.space3),
         Semantics(
@@ -83,7 +83,7 @@ Widget _failureBadge(SprintColors colors) => SizedBox(
         alignment: Alignment.center,
         child: SprintIcon(
           PhosphorIconsRegular.creditCard,
-          size: SprintExtras.momentFailureIcon,
+          size: SprintExtras.momentIcon,
           color: colors.danger,
         ),
       ),
@@ -109,36 +109,19 @@ Widget _failureBadge(SprintColors colors) => SizedBox(
   ),
 );
 
-/// The success moment's stand-in: the brand tile in two soft rings, as the
-/// design draws it (feature 11 replaces it with the Lottie moment).
-class _BrandBadge extends StatelessWidget {
-  const _BrandBadge();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    return Container(
-      key: const ValueKey<String>('moment-brand'),
-      width: SprintExtras.momentOuter,
-      height: SprintExtras.momentOuter,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: colors.primarySoft,
-      ),
-      alignment: Alignment.center,
-      child: Container(
-        width: SprintExtras.momentRing,
-        height: SprintExtras.momentRing,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: colors.primary.withValues(alpha: 0.35)),
-        ),
-        alignment: Alignment.center,
-        child: const SprintLogo(
-          variant: LogoVariant.tilePrimary,
-          size: SprintExtras.momentTile,
-        ),
-      ),
-    );
-  }
-}
+/// The success moment's stand-in: a check in a `success-soft` disc (decision
+/// 19 of refactor 000). The last frame must read as "success" on its own,
+/// because reduced motion shows only that frame; feature 11 draws the check
+/// in once with Lottie.
+Widget _successBadge(SprintColors colors) => Container(
+  key: MomentPlaceholder.successKey,
+  width: SprintExtras.momentOuter,
+  height: SprintExtras.momentOuter,
+  decoration: BoxDecoration(shape: BoxShape.circle, color: colors.successSoft),
+  alignment: Alignment.center,
+  child: SprintIcon(
+    PhosphorIconsBold.check,
+    size: SprintExtras.momentIcon,
+    color: colors.success,
+  ),
+);

@@ -7,7 +7,7 @@
   "navHome": "الرئيسية",
   "navFacilities": "المنشآت",
   "navBookings": "حجوزاتي",
-  "navProfile": "حسابي",
+  "navAccount": "حسابي",
   "navMainLabel": "التنقل الرئيسي",
   "placeholderNote": "الشاشة دي لسه تحت التجهيز.",
   "homeIntro": "هنا هتلاقي المنشآت والمواعيد القريبة.",
@@ -170,6 +170,14 @@
   "fieldShowPassword": "إظهار",
   "fieldHidePassword": "إخفاء",
   "codeEntryLabel": "كود التأكيد",
+  "codeBoxEmpty": "الخانة {index} من {count}، فاضية",
+  "@codeBoxEmpty": {
+    "placeholders": { "index": { "type": "int" }, "count": { "type": "int" } }
+  },
+  "codeBoxFilled": "الخانة {index} من {count}: {digit}",
+  "@codeBoxFilled": {
+    "placeholders": { "index": { "type": "int" }, "count": { "type": "int" }, "digit": { "type": "String" } }
+  },
   "codeEntrySentTo": "بعتنا كود على",
   "codeEntryResend": "إرسال الكود تاني",
   "codeEntryResendIn": "إرسال الكود تاني بعد {seconds} ثانية",
@@ -187,6 +195,7 @@
   "slotFewLeftSpoken": "{count, plural, =1{فاضل مكان واحد} =2{فاضل مكانين} other{فاضل {count} أماكن}}",
   "slotFull": "مكتمل",
   "slotPast": "فات",
+  "slotInRange": "ضمن النطاق",
   "slotSpoken": "الساعة {time}، {state}",
   "slotSpokenWithPrice": "الساعة {time}، {state}، {price}",
   "dayToday": "النهارده",
@@ -1001,7 +1010,7 @@
       }
     }
   },
-  "bookingNothingLeftDay": "مفيش مواعيد فاضلة في اليوم ده، وفيه أيام تانية متاحة.",
+  "bookingNothingLeftDay": "مفيش مواعيد فاضية في اليوم ده. الأيام اللي فيها أماكن عليها نقطة خضرا",
   "bookingNothingLeftWindow": "مفيش مواعيد فاضلة في الأيام الجاية.",
   "bookingNoUnitsTitle": "مفيش مواعيد للحجز",
   "bookingNoUnitsBody": "المنشأة دي ملهاش مواعيد متاحة للحجز دلوقتي.",

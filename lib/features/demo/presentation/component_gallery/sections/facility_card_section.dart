@@ -8,6 +8,7 @@ import 'package:sprint/core/widgets/facility_card/facility_card.dart';
 import 'package:sprint/features/catalogue/domain/catalogue_repository.dart';
 import 'package:sprint/features/catalogue/domain/facility.dart';
 import 'package:sprint/features/catalogue/domain/price.dart';
+import 'package:sprint/features/catalogue/presentation/widgets/facility_card_mapper.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/gallery_section.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
@@ -77,7 +78,8 @@ class FacilityCardSection extends ConsumerWidget {
       unitCount: row.unitCount,
       availability: AvailabilityLevel.values[index % 3],
       tags: [
-        FacilityTag(label: f.type.name, kind: FacilityTagKind.sport),
+        // The type in the reader's language, as the real cards (decision V2).
+        FacilityTag(label: typeLabelOf(f.type, l10n), kind: FacilityTagKind.sport),
         if (f.requiresTrainer)
           FacilityTag(label: l10n.facilityTrainerTag, kind: FacilityTagKind.trainer),
         if (f.isFree)

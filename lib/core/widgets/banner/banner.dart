@@ -10,14 +10,14 @@ import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 /// The five tones of the shared banner (Banner README): `hold` is a payment
 /// or notice on `warning-soft`, `neutral` is quiet, `success` is money on its
 /// way, `info` is a note on `primary-soft`, `danger` is a cancellation or
-/// failure.
-enum BannerTone { hold, neutral, success, info, danger }
+/// failure. Each tone has its own icon (decision U4 of refactor 000).
+enum SprintBannerTone { hold, neutral, success, info, danger }
 
-/// An icon and a sentence on a soft surface, announced as a live region. Never
-/// colour alone: the [icon] always shows. [trailing] (a dismiss action) stays
+/// An icon and a sentence on a soft surface, announced as a live region
+/// (Figma `Banner`). Never colour alone: the tone's icon always shows. [trailing] (a dismiss action) stays
 /// in the semantics tree so a screen reader can reach it.
-class Banner extends StatelessWidget {
-  const Banner({
+class SprintBanner extends StatelessWidget {
+  const SprintBanner({
     required this.tone,
     required this.text,
     this.icon,
@@ -25,28 +25,32 @@ class Banner extends StatelessWidget {
     super.key,
   });
 
-  final BannerTone tone;
+  final SprintBannerTone tone;
   final String text;
 
-  /// The icon of this use; a per-tone default when null.
+  /// A more specific icon of the same meaning for this use (a clock for a
+  /// cutoff); the tone's own icon ([iconFor]) when null.
   final IconData? icon;
   final Widget? trailing;
 
   static const bannerKey = ValueKey<String>('banner');
 
   (Color, Color) _tint(SprintColors c) => switch (tone) {
-    BannerTone.hold => (c.warningSoft, c.ink),
-    BannerTone.neutral => (c.surfaceSunken, c.ink),
-    BannerTone.success => (c.successSoft, c.success),
-    BannerTone.info => (c.primarySoft, c.onPrimarySoft),
-    BannerTone.danger => (c.dangerSoft, c.danger),
+    SprintBannerTone.hold => (c.warningSoft, c.ink),
+    SprintBannerTone.neutral => (c.surfaceSunken, c.ink),
+    SprintBannerTone.success => (c.successSoft, c.success),
+    SprintBannerTone.info => (c.primarySoft, c.onPrimarySoft),
+    SprintBannerTone.danger => (c.dangerSoft, c.danger),
   };
 
-  IconData get _defaultIcon => switch (tone) {
-    BannerTone.hold => PhosphorIconsRegular.info,
-    BannerTone.success => PhosphorIconsRegular.checkCircle,
-    BannerTone.danger => PhosphorIconsRegular.xCircle,
-    _ => PhosphorIconsRegular.info,
+  /// The icon each tone carries (decision U4): success check-circle, danger
+  /// x-circle, info and neutral info, hold hourglass.
+  static IconData iconFor(SprintBannerTone tone) => switch (tone) {
+    SprintBannerTone.hold => PhosphorIconsRegular.hourglass,
+    SprintBannerTone.success => PhosphorIconsRegular.checkCircle,
+    SprintBannerTone.danger => PhosphorIconsRegular.xCircle,
+    SprintBannerTone.info ||
+    SprintBannerTone.neutral => PhosphorIconsRegular.info,
   };
 
   @override
@@ -67,7 +71,7 @@ class Banner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SprintIcon(icon ?? _defaultIcon, size: SprintSize.iconMd, color: fg),
+          SprintIcon(icon ?? iconFor(tone), size: SprintSize.iconMd, color: fg),
           const SizedBox(width: SprintSpacing.space2),
           Expanded(
             child: Semantics(

@@ -122,11 +122,11 @@ abstract class AppLocalizations {
   /// **'حجوزاتي'**
   String get navBookings;
 
-  /// No description provided for @navProfile.
+  /// No description provided for @navAccount.
   ///
   /// In ar, this message translates to:
   /// **'حسابي'**
-  String get navProfile;
+  String get navAccount;
 
   /// No description provided for @navMainLabel.
   ///
@@ -758,6 +758,18 @@ abstract class AppLocalizations {
   /// **'كود التأكيد'**
   String get codeEntryLabel;
 
+  /// No description provided for @codeBoxEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخانة {index} من {count}، فاضية'**
+  String codeBoxEmpty(int index, int count);
+
+  /// No description provided for @codeBoxFilled.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخانة {index} من {count}: {digit}'**
+  String codeBoxFilled(int index, int count, String digit);
+
   /// No description provided for @codeEntrySentTo.
   ///
   /// In ar, this message translates to:
@@ -817,6 +829,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'فات'**
   String get slotPast;
+
+  /// No description provided for @slotInRange.
+  ///
+  /// In ar, this message translates to:
+  /// **'ضمن النطاق'**
+  String get slotInRange;
 
   /// No description provided for @slotSpoken.
   ///
@@ -2918,7 +2936,7 @@ abstract class AppLocalizations {
   /// No description provided for @bookingNothingLeftDay.
   ///
   /// In ar, this message translates to:
-  /// **'مفيش مواعيد فاضلة في اليوم ده، وفيه أيام تانية متاحة.'**
+  /// **'مفيش مواعيد فاضية في اليوم ده. الأيام اللي فيها أماكن عليها نقطة خضرا'**
   String get bookingNothingLeftDay;
 
   /// No description provided for @bookingNothingLeftWindow.

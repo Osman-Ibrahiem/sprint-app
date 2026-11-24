@@ -6,11 +6,11 @@ import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
-import 'package:sprint/core/widgets/sprint_text_field/sprint_text_field.dart';
+import 'package:sprint/core/widgets/code_field/sprint_code_field.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// Confirmation code entry (contracts/ui.md): the address the code went to in
-/// an LTR isolate, a `code` field, resend with a countdown to [resendAfter],
+/// an LTR isolate, the six code boxes ([SprintCodeField]), resend with a countdown to [resendAfter],
 /// and a slot for the demo notice ([demoNotice], built by the caller only
 /// when demo tools are on, FR-023).
 class CodeEntry extends StatefulWidget {
@@ -117,15 +117,13 @@ class _CodeEntryState extends State<CodeEntry> {
           widget.demoNotice!,
         ],
         const SizedBox(height: SprintSpacing.space4),
-        SprintTextField(
+        SprintCodeField(
           label: l10n.codeEntryLabel,
-          type: SprintTextFieldType.code,
           controller: widget.controller,
           focusNode: widget.focusNode,
           error: widget.error,
           onChanged: widget.onChanged,
           onSubmitted: widget.onSubmitted,
-          textInputAction: TextInputAction.done,
         ),
         const SizedBox(height: SprintSpacing.space2),
         Align(

@@ -55,7 +55,7 @@ void main() {
       ar.navHome,
       ar.navFacilities,
       ar.navBookings,
-      ar.navProfile,
+      ar.navAccount,
     ]) {
       expect(find.text(l), findsWidgets, reason: l);
     }

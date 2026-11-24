@@ -76,6 +76,8 @@ class SlotGrid extends StatelessWidget {
     final selected = _isSelected(s);
     final state = selected
         ? chip.SlotState.selected
+        : _inRange(s) && s.isBookable
+        ? chip.SlotState.inRange
         : switch (s.slot.state) {
             SlotState.available => chip.SlotState.available,
             SlotState.fewLeft => chip.SlotState.fewLeft,
@@ -89,7 +91,6 @@ class SlotGrid extends StatelessWidget {
       fewLeftThreshold: unit?.fewLeftThreshold ?? 0,
       remaining: shared ? s.slot.remaining : null,
       price: tier == null ? null : unit?.priceFor(tier!),
-      rangeFill: _inRange(s),
       onSelected: s.isBookable && onTap != null ? () => onTap!(s) : null,
     );
   }

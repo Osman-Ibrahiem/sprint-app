@@ -12,7 +12,8 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 String hoursLine(DayHours day, AppLocalizations l10n) {
   if (day.isClosed) return l10n.catalogueHoursClosedDay;
   String at(int m) => minutesText(m, l10n);
-  return '${at(day.openMinutes!)} – ${at(day.closeMinutes!)}';
+  return '${at(day.openMinutes!)}${SprintFormat.rangeDash}'
+      '${at(day.closeMinutes!)}';
 }
 
 class HoursSection extends StatelessWidget {
@@ -65,14 +66,15 @@ class HoursSection extends StatelessWidget {
                             child: Text(
                               line,
                               textAlign: TextAlign.end,
-                              style: (isToday
-                                      ? context.text.label
-                                      : context.text.body)
-                                  .copyWith(
-                                color: day.isClosed
-                                    ? colors.inkMuted
-                                    : colors.ink,
-                              ),
+                              style:
+                                  (isToday
+                                          ? context.text.label
+                                          : context.text.body)
+                                      .copyWith(
+                                        color: day.isClosed
+                                            ? colors.inkMuted
+                                            : colors.ink,
+                                      ),
                             ),
                           ),
                         ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sprint/core/widgets/code_field/sprint_code_field.dart';
 import 'package:sprint/core/theme/sprint_theme.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/widgets/sprint_button/sprint_button.dart';
@@ -156,7 +157,7 @@ void main() {
       );
       expect(dir, TextDirection.ltr);
       expect(find.text('للعرض بس'), findsOneWidget);
-      expect(find.byType(TextField), findsOneWidget);
+      expect(find.byType(SprintCodeField), findsOneWidget);
     });
 
     testWidgets('English and 200% text render without overflow', (

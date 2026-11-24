@@ -69,7 +69,7 @@ void main() {
       expect(find.text(newEmail), findsOneWidget);
       expect(find.textContaining(code), findsOneWidget);
       // 14:05 UTC is 4:05 PM in Cairo in November (UTC+2).
-      expect(find.textContaining('4:05 م'), findsOneWidget);
+      expect(find.textContaining('4:05\u00A0م'), findsOneWidget);
       expect(find.text(ar.mailboxCopyCode), findsOneWidget);
     },
   );

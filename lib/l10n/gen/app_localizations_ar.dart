@@ -22,7 +22,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get navBookings => 'حجوزاتي';
 
   @override
-  String get navProfile => 'حسابي';
+  String get navAccount => 'حسابي';
 
   @override
   String get navMainLabel => 'التنقل الرئيسي';
@@ -362,6 +362,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get codeEntryLabel => 'كود التأكيد';
 
   @override
+  String codeBoxEmpty(int index, int count) {
+    return 'الخانة $index من $count، فاضية';
+  }
+
+  @override
+  String codeBoxFilled(int index, int count, String digit) {
+    return 'الخانة $index من $count: $digit';
+  }
+
+  @override
   String get codeEntrySentTo => 'بعتنا كود على';
 
   @override
@@ -419,6 +429,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get slotPast => 'فات';
+
+  @override
+  String get slotInRange => 'ضمن النطاق';
 
   @override
   String slotSpoken(String time, String state) {
@@ -1677,7 +1690,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get bookingNothingLeftDay =>
-      'مفيش مواعيد فاضلة في اليوم ده، وفيه أيام تانية متاحة.';
+      'مفيش مواعيد فاضية في اليوم ده. الأيام اللي فيها أماكن عليها نقطة خضرا';
 
   @override
   String get bookingNothingLeftWindow => 'مفيش مواعيد فاضلة في الأيام الجاية.';

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide Banner;
+import 'package:flutter/material.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:sprint/core/adaptive/adaptive_dialog.dart';
 import 'package:sprint/core/motion/skeleton.dart';
@@ -112,10 +112,10 @@ class _Feature007SectionState extends State<Feature007Section> {
         ),
         Avatar(name: l.gallery007SampleName),
         Avatar(name: l.gallery007SampleName, size: 48),
-        for (final tone in BannerTone.values)
+        for (final tone in SprintBannerTone.values)
           SizedBox(
             width: _frameWidth,
-            child: Banner(tone: tone, text: l.gallery007SampleBanner),
+            child: SprintBanner(tone: tone, text: l.gallery007SampleBanner),
           ),
         SizedBox(
           width: _frameWidth,

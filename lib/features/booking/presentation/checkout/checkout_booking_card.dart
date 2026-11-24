@@ -58,7 +58,7 @@ class CheckoutBookingCard extends StatelessWidget {
           const SizedBox(height: SprintSpacing.space1),
           Text(
             '${format.date(view.start)} · '
-            '${format.time(view.start)} – ${format.time(view.end)}',
+            '${format.instantRange(view.start, view.end)}',
             style: context.text.body,
           ),
           if (footer != null) ...[

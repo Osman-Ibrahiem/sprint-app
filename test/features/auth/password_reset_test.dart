@@ -15,6 +15,7 @@ import 'package:sprint/l10n/gen/app_localizations.dart';
 import '../../helpers/data_env.dart';
 import '../../helpers/pump_app.dart';
 import '../../helpers/sign_in_steps.dart';
+import '../../helpers/sign_up_steps.dart';
 
 const _email = 'mona@example.test';
 const _newPassword = 'Fresh2026x';
@@ -205,9 +206,9 @@ void main() {
       final code = mailbox.latestCodeFor(_email, CodePurpose.resetPassword)!;
 
       // Wrong code first: message, stays on the screen.
-      final fields = find.byType(TextField);
-      await tester.enterText(fields.at(0), '000000');
-      await tester.enterText(fields.at(1), _newPassword);
+      final password = find.byType(TextField);
+      await tester.enterText(codeInput, '000000');
+      await tester.enterText(password, _newPassword);
       await tester.pump();
       await tester.tap(find.text(ar.resetSaveButton));
       await tester.pumpAndSettle();
@@ -215,14 +216,14 @@ void main() {
       expect(topUri(tester).path, '/reset-password');
 
       // Weak password: message, no call.
-      await tester.enterText(fields.at(0), code);
-      await tester.enterText(fields.at(1), 'short');
+      await tester.enterText(codeInput, code);
+      await tester.enterText(password, 'short');
       await tester.pump();
       await tester.tap(find.text(ar.resetSaveButton));
       await tester.pumpAndSettle();
       expect(find.text(ar.resetPasswordTooShort), findsOneWidget);
 
-      await tester.enterText(fields.at(1), _newPassword);
+      await tester.enterText(password, _newPassword);
       await tester.pump();
       await tester.tap(find.text(ar.resetSaveButton));
       await tester.pumpAndSettle();
@@ -239,9 +240,8 @@ void main() {
           .read(dataLayerProvider)
           .mailbox
           .latestCodeFor(_email, CodePurpose.resetPassword)!;
-      final fields = find.byType(TextField);
-      await tester.enterText(fields.at(0), code);
-      await tester.enterText(fields.at(1), _newPassword);
+      await tester.enterText(codeInput, code);
+      await tester.enterText(find.byType(TextField), _newPassword);
       await tester.pump();
       await tester.tap(find.text(ar.resetSaveButton));
       await tester.pumpAndSettle();
@@ -257,8 +257,8 @@ void main() {
       final fields = tester
           .widgetList<TextField>(find.byType(TextField))
           .toList();
-      expect(fields[1].obscureText, isTrue);
-      expect(fields[1].autofillHints, contains(AutofillHints.newPassword));
+      expect(fields.single.obscureText, isTrue);
+      expect(fields.single.autofillHints, contains(AutofillHints.newPassword));
     });
 
     testWidgets('/reset-password without an identifier goes to forgot', (

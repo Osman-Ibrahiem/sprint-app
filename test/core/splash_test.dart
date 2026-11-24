@@ -65,4 +65,30 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(SprintSplash), findsNothing);
   });
+
+  testWidgets('loader and caption sit at the same offsets on every width '
+      '(decision 10)', (tester) async {
+    addTearDown(tester.view.reset);
+    for (final width in [390.0, 720.0, 1194.0, 1440.0]) {
+      tester.view
+        ..devicePixelRatio = 1
+        ..physicalSize = Size(width, 900);
+      // A fresh gate each time, so the splash shows again.
+      await tester.pumpWidget(const SizedBox());
+      await tester.pumpWidget(_app(theme: SprintTheme.light, reduced: true));
+      await tester.pump();
+      final height = tester.view.physicalSize.height;
+      expect(
+        height - tester.getBottomLeft(find.byKey(SprintSplash.loaderKey)).dy,
+        SprintSplash.loaderBottom,
+        reason: 'loader at width $width',
+      );
+      expect(
+        height - tester.getBottomLeft(find.byKey(SprintSplash.captionKey)).dy,
+        SprintSplash.captionBottom,
+        reason: 'caption at width $width',
+      );
+      await tester.pumpAndSettle();
+    }
+  });
 }

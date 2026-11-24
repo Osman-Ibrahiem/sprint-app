@@ -19,25 +19,25 @@ void main() {
   final end = DateTime(2026, 11, 10, 18);
 
   test('timeRange shows the period once when both ends share it', () {
-    expect(ar.timeRange(start, end), '5:00 – 6:00 م');
-    expect(en.timeRange(start, end), '5:00 – 6:00 PM');
+    expect(ar.timeRange(start, end), '5:00\u00A0–\u00A06:00\u00A0م');
+    expect(en.timeRange(start, end), '5:00\u00A0–\u00A06:00\u00A0PM');
   });
 
   test('timeRange shows the period on both ends when they differ', () {
     final morning = DateTime(2026, 11, 10, 11);
     final afternoon = DateTime(2026, 11, 10, 13);
-    expect(ar.timeRange(morning, afternoon), '11:00 ص – 1:00 م');
-    expect(en.timeRange(morning, afternoon), '11:00 AM – 1:00 PM');
+    expect(ar.timeRange(morning, afternoon), '11:00\u00A0ص\u00A0–\u00A01:00\u00A0م');
+    expect(en.timeRange(morning, afternoon), '11:00\u00A0AM\u00A0–\u00A01:00\u00A0PM');
   });
 
   test('dateTimeLine: Arabic and English', () {
     expect(
       ar.dateTimeLine(start, end),
-      'التلات 10 نوفمبر · 5:00 – 6:00 م',
+      'التلات 10 نوفمبر · 5:00\u00A0–\u00A06:00\u00A0م',
     );
     expect(
       en.dateTimeLine(start, end),
-      'Tue 10 Nov · 5:00 – 6:00 PM',
+      'Tue 10 Nov · 5:00\u00A0–\u00A06:00\u00A0PM',
     );
   });
 
@@ -74,5 +74,25 @@ void main() {
         expect(arabicIndic.hasMatch(out), isFalse, reason: out);
       }
     }
+  });
+
+  test('times and ranges never break inside: no breakable space in any time, '
+      'range or line, in Arabic and English (decision V1)', () {
+    final breakable = RegExp(r'[ \u202F\u2009]');
+    final morning = DateTime(2026, 11, 10, 11);
+    final utcStart = DateTime.utc(2026, 11, 10, 15);
+    final utcEnd = DateTime.utc(2026, 11, 10, 16);
+    for (final f in [ar, en]) {
+      for (final text in [
+        f.localTime(start),
+        f.timeRange(start, end),
+        f.timeRange(morning, end),
+        f.time(utcStart),
+        f.instantRange(utcStart, utcEnd),
+      ]) {
+        expect(text.contains(breakable), isFalse, reason: text);
+      }
+    }
+    expect(ar.instantRange(utcStart, utcEnd), '5:00\u00A0م\u00A0–\u00A06:00\u00A0م');
   });
 }

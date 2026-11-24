@@ -37,11 +37,11 @@ void main() {
 
   testWidgets('the four destinations are reachable in order', (tester) async {
     await pumpSprintApp(tester, size: const Size(400, 800));
-    final labels = [ar.navHome, ar.navFacilities, ar.navBookings, ar.navProfile];
+    final labels = [ar.navHome, ar.navFacilities, ar.navBookings, ar.navAccount];
     final xs = <double>[for (final l in labels) tester.getCenter(find.text(l)).dx];
     // Arabic RTL: Home is at the start (right) edge, so x decreases.
     expect(xs, orderedEquals(<double>[...xs]..sort((a, b) => b.compareTo(a))));
-    await tester.tap(find.text(ar.navProfile));
+    await tester.tap(find.text(ar.navAccount));
     await tester.pumpAndSettle();
     expect(currentPath(tester), '/profile');
   });

@@ -21,7 +21,7 @@ void main() {
   testWidgets('compact booker: four tabs, no notifications item', (t) async {
     await signedIn(t, const Size(400, 800));
     expect(find.text(ar.navNotifications), findsNothing);
-    for (final l in [ar.navHome, ar.navFacilities, ar.navBookings, ar.navProfile]) {
+    for (final l in [ar.navHome, ar.navFacilities, ar.navBookings, ar.navAccount]) {
       expect(find.text(l), findsWidgets, reason: l);
     }
   });

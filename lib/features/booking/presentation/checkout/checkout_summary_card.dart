@@ -58,7 +58,7 @@ class CheckoutSummaryCard extends StatelessWidget {
             label: l10n.checkoutRowTime,
             value:
                 '${format.date(view.start)} · '
-                '${format.time(view.start)} – ${format.time(view.end)}',
+                '${format.instantRange(view.start, view.end)}',
           ),
           _Line(label: l10n.bookingRowTier, value: tier),
           Divider(

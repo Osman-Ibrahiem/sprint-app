@@ -5,6 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/core/adaptive/adaptive_pressable.dart';
 import 'package:sprint/core/adaptive/platform.dart';
 import 'package:sprint/core/tokens/sprint_colors.g.dart';
+import 'package:sprint/core/tokens/sprint_extras.dart';
+import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/widgets/app_navigation/app_navigation.dart';
 import 'package:sprint/core/widgets/app_navigation/nav_destination.dart';
 import 'package:sprint/core/widgets/app_navigation/sprint_nav_rail.dart';
@@ -306,18 +308,36 @@ void main() {
     expect(find.byType(SprintLogo), findsOneWidget);
   });
 
-  testWidgets('200% text drops tab labels but keeps the spoken label',
-      (tester) async {
-    final handle = tester.ensureSemantics();
+  testWidgets('200% text keeps the tab and rail labels, their scale capped '
+      'at navLabelMaxTextScale, icons fixed (decision T2)', (tester) async {
+    for (final form in [NavigationForm.tabBar, NavigationForm.rail]) {
+      final handle = tester.ensureSemantics();
+      await pumpNav(tester, destinations(), form: form, textScale: 2);
+      expect(tester.takeException(), isNull, reason: form.name);
+      expect(find.text('الرئيسية'), findsOneWidget, reason: form.name);
+      expect(find.bySemanticsLabel('الرئيسية'), findsOneWidget);
+      final scaler = MediaQuery.textScalerOf(
+        tester.element(find.text('الرئيسية')),
+      );
+      expect(
+        scaler.scale(10),
+        closeTo(10 * SprintExtras.navLabelMaxTextScale, 0.001),
+        reason: form.name,
+      );
+      handle.dispose();
+    }
+    // An item grows a little (a capped label, on two lines at most); it never
+    // doubles with the text.
     await pumpNav(
       tester,
       destinations(),
       form: NavigationForm.tabBar,
       textScale: 2,
     );
-    expect(find.text('الرئيسية'), findsNothing);
-    expect(find.bySemanticsLabel('الرئيسية'), findsOneWidget);
-    handle.dispose();
+    expect(
+      tester.getSize(find.byType(AdaptivePressable).first).height,
+      lessThan(SprintSize.tabbarHeight * 1.5),
+    );
   });
 
   testWidgets('every item is at least 48', (tester) async {

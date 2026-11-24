@@ -21,7 +21,6 @@ class SlotChip extends StatelessWidget {
     this.remaining,
     this.price,
     this.onSelected,
-    this.rangeFill = false,
     super.key,
   });
 
@@ -35,7 +34,7 @@ class SlotChip extends StatelessWidget {
     bool isPast = false,
     bool isSelected = false,
     bool isFull = false,
-    bool rangeFill = false,
+    bool isInRange = false,
     Key? key,
   }) {
     return SlotChip(
@@ -47,12 +46,12 @@ class SlotChip extends StatelessWidget {
         isPast: isPast,
         isSelected: isSelected,
         isFull: isFull,
+        isInRange: isInRange,
       ),
       fewLeftThreshold: fewLeftThreshold,
       remaining: remaining,
       price: price,
       onSelected: onSelected,
-      rangeFill: rangeFill,
     );
   }
 
@@ -68,9 +67,6 @@ class SlotChip extends StatelessWidget {
   final int fewLeftThreshold;
   final VoidCallback? onSelected;
 
-  /// Chips between the first and last of a free-facility range.
-  final bool rangeFill;
-
   static const visualKey = ValueKey<String>('slot-chip-visual');
 
   @override
@@ -81,51 +77,61 @@ class SlotChip extends StatelessWidget {
 
     final (background, foreground, border, word) = switch (state) {
       SlotState.available => (
-          rangeFill ? colors.primarySoft : colors.surface,
-          colors.ink,
-          Border.all(
-            color: colors.controlBorder,
-            width: SprintExtras.hairlineWidth,
-          ),
-          remaining == null ? null : l10n.slotAvailablePlaces(remaining!),
+        colors.surface,
+        colors.ink,
+        Border.all(
+          color: colors.controlBorder,
+          width: SprintExtras.hairlineWidth,
         ),
+        remaining == null ? null : l10n.slotAvailablePlaces(remaining!),
+      ),
       SlotState.selected => (
-          colors.primary,
-          colors.onPrimary,
-          null,
-          l10n.slotSelected,
-        ),
+        colors.primary,
+        colors.onPrimary,
+        null,
+        l10n.slotSelected,
+      ),
       SlotState.fewLeft => (
-          colors.volt,
-          colors.onVolt,
-          null,
-          l10n.slotFewLeft(remaining ?? 0),
-        ),
+        colors.volt,
+        colors.onVolt,
+        null,
+        l10n.slotFewLeft(remaining ?? 0),
+      ),
       SlotState.full => (
-          colors.surfaceSunken,
-          colors.inkMuted,
-          null,
-          l10n.slotFull,
-        ),
+        colors.surfaceSunken,
+        colors.inkMuted,
+        null,
+        l10n.slotFull,
+      ),
       SlotState.past => (
-          null,
-          colors.inkDisabled,
-          Border.all(
-            color: colors.line,
-            width: SprintExtras.hairlineWidth,
-          ),
-          l10n.slotPast,
+        null,
+        colors.inkDisabled,
+        Border.all(color: colors.line, width: SprintExtras.hairlineWidth),
+        l10n.slotPast,
+      ),
+      // Between the two ends of a free range: tinted and named, never colour
+      // alone (decision 3, refactor 000).
+      SlotState.inRange => (
+        colors.primarySoft,
+        colors.onPrimarySoft,
+        Border.all(
+          color: colors.controlBorder,
+          width: SprintExtras.hairlineWidth,
         ),
+        l10n.slotInRange,
+      ),
     };
 
     final spokenState = switch (state) {
-      SlotState.available => remaining == null
-          ? l10n.slotAvailableWord
-          : l10n.slotAvailablePlaces(remaining!),
+      SlotState.available =>
+        remaining == null
+            ? l10n.slotAvailableWord
+            : l10n.slotAvailablePlaces(remaining!),
       SlotState.selected => l10n.slotSelected,
       SlotState.fewLeft => l10n.slotFewLeftSpoken(remaining ?? 0),
       SlotState.full => l10n.slotFull,
       SlotState.past => l10n.slotPast,
+      SlotState.inRange => l10n.slotInRange,
     };
     final spokenTime =
         '${start.hour % 12 == 0 ? 12 : start.hour % 12} '
@@ -153,7 +159,7 @@ class SlotChip extends StatelessWidget {
           : null,
       pressedColor: colors.primaryPressed,
       hoverColor: colors.surfaceSunken,
-      borderRadius: SprintRadius.mdBorder,
+      borderRadius: SprintRadius.smBorder,
       builder: (context, pressState) => AnimatedContainer(
         key: visualKey,
         duration: duration,
@@ -167,7 +173,7 @@ class SlotChip extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: background,
-          borderRadius: SprintRadius.mdBorder,
+          borderRadius: SprintRadius.smBorder,
           border: border,
         ),
         child: Column(

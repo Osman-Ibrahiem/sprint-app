@@ -4,7 +4,7 @@ import 'package:sprint/core/l10n/locale_notifier.dart';
 import 'package:sprint/core/providers/session_provider.dart';
 import 'package:sprint/core/theme/theme_mode_notifier.dart';
 import 'package:sprint/core/time/clock_provider.dart';
-import 'package:sprint/core/widgets/sprint_text_field/sprint_text_field.dart';
+import 'package:sprint/core/widgets/code_field/sprint_code_field.dart';
 import 'package:sprint/features/auth/domain/auth_limits.dart';
 import 'package:sprint/features/auth/presentation/widgets/demo_code_notice.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
@@ -54,25 +54,25 @@ void main() {
     expect(find.text(ar.signUpNameLabel), findsOneWidget);
   });
 
-  testWidgets('the code is one field: its label read as a whole, digits only', (
-    tester,
-  ) async {
+  testWidgets('the code is six boxes on one input: its label read as a '
+      'whole, digits only (decision 2)', (tester) async {
     final handle = tester.ensureSemantics();
     await pumpSprintApp(tester, size: const Size(400, 1100));
     await signUpNewAccount(tester);
 
-    expect(find.byType(TextField), findsOneWidget);
+    expect(find.byType(SprintCodeField), findsOneWidget);
+    expect(codeInput, findsOneWidget);
+    for (var i = 0; i < sprintCodeLength; i++) {
+      expect(find.byKey(SprintCodeField.boxKey(i)), findsOneWidget);
+    }
     expect(find.bySemanticsLabel(RegExp(ar.codeEntryLabel)), findsOneWidget);
-    final field = tester.widget<TextField>(find.byType(TextField));
+    final field = tester.widget<EditableText>(codeInput);
     expect(field.autofillHints, contains(AutofillHints.oneTimeCode));
     expect(field.keyboardType, TextInputType.number);
 
-    await tester.enterText(find.byType(TextField), '١٢٣a٤٥٦٧٨');
+    await tester.enterText(codeInput, '١٢٣a٤٥٦٧٨');
     await tester.pump();
-    expect(
-      tester.widget<EditableText>(find.byType(EditableText)).controller.text,
-      '123456',
-    );
+    expect(tester.widget<EditableText>(codeInput).controller.text, '123456');
     handle.dispose();
   });
 
@@ -139,7 +139,9 @@ void main() {
   testWidgets('the field and labels keep 48 high targets', (tester) async {
     await pumpSprintApp(tester, size: const Size(400, 1100));
     await signUpNewAccount(tester);
-    final box = tester.getSize(find.byType(SprintTextField));
-    expect(box.height, greaterThanOrEqualTo(48));
+    for (var i = 0; i < sprintCodeLength; i++) {
+      final box = tester.getSize(find.byKey(SprintCodeField.boxKey(i)));
+      expect(box.height, greaterThanOrEqualTo(48));
+    }
   });
 }

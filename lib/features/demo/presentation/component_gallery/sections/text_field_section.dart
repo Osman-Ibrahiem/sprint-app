@@ -5,7 +5,8 @@ import 'package:sprint/core/widgets/sprint_text_field/sprint_text_field.dart';
 import 'package:sprint/features/demo/presentation/component_gallery/gallery_section.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
-/// Every field type with default, error and disabled examples.
+/// Every field type with default, error (not on search) and disabled
+/// examples.
 class TextFieldSection extends StatelessWidget {
   const TextFieldSection({required this.l10n, super.key});
 
@@ -29,12 +30,16 @@ class TextFieldSection extends StatelessWidget {
                   type: type,
                   helper: l10n.gallerySampleNote,
                 ),
-                const SizedBox(height: SprintSpacing.space2),
-                SprintTextField(
-                  label: l10n.galleryTextFieldSection,
-                  type: type,
-                  error: l10n.fieldSearchHint,
-                ),
+                // Search has no error state: "no results" shows where the
+                // results would be (decision U2).
+                if (type != SprintTextFieldType.search) ...[
+                  const SizedBox(height: SprintSpacing.space2),
+                  SprintTextField(
+                    label: l10n.galleryTextFieldSection,
+                    type: type,
+                    error: l10n.fieldSearchHint,
+                  ),
+                ],
                 const SizedBox(height: SprintSpacing.space2),
                 SprintTextField(
                   label: l10n.galleryTextFieldSection,

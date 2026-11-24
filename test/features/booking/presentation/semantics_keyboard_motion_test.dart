@@ -126,7 +126,7 @@ void main() {
         findsOneWidget,
       );
       expect(
-        find.bySemanticsLabel('${ar.bookingRowTime}: 6:00 م – 7:00 م'),
+        find.bySemanticsLabel('${ar.bookingRowTime}: 6:00\u00A0م\u00A0–\u00A07:00\u00A0م'),
         findsOneWidget,
       );
       handle.dispose();

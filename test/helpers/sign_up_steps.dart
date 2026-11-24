@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sprint/core/widgets/code_field/sprint_code_field.dart';
 import 'package:sprint/core/providers/data_providers.dart';
 import 'package:sprint/features/auth/domain/email_code.dart';
 
@@ -66,9 +67,15 @@ String? mailboxCode(
         .read(simulatedMailboxProvider)
         ?.latestCodeFor(email, purpose);
 
-/// Types [code] into the confirmation field.
+/// The one hidden input behind the six confirmation-code boxes.
+Finder get codeInput => find.descendant(
+  of: find.byType(SprintCodeField),
+  matching: find.byType(EditableText),
+);
+
+/// Types (or pastes) [code] into the confirmation boxes.
 Future<void> enterCode(WidgetTester tester, String code) async {
-  await tester.enterText(find.byType(TextField).first, code);
+  await tester.enterText(codeInput, code);
   await tester.pump();
 }
 

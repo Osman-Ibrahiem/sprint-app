@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide Banner;
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sprint/app/router/routes.dart';
@@ -226,8 +226,8 @@ class _Body extends StatelessWidget {
       padding: const EdgeInsetsDirectional.all(SprintSpacing.space4),
       children: [
         if (view.priceChanged) ...[
-          Banner(
-      tone: BannerTone.hold,
+          SprintBanner(
+            tone: SprintBannerTone.hold,
             key: BookingSummaryScreen.priceChangedKey,
             text: l10n.bookingPriceChanged,
           ),
