@@ -121,6 +121,22 @@ class SprintFormat {
     };
   }
 
+  /// The day strip's full name, in dialect ("الأربعاء", "الاتنين"; not the
+  /// Modern Standard `dayFull*` forms) or the full English name. The strip
+  /// falls back to [dayName] `short` when this does not fit (decision 18).
+  String dayStripName(DateTime day) {
+    final l10n = _l10n;
+    return switch (day.weekday) {
+      DateTime.saturday => l10n.dayStripSaturday,
+      DateTime.sunday => l10n.dayStripSunday,
+      DateTime.monday => l10n.dayStripMonday,
+      DateTime.tuesday => l10n.dayStripTuesday,
+      DateTime.wednesday => l10n.dayStripWednesday,
+      DateTime.thursday => l10n.dayStripThursday,
+      _ => l10n.dayStripFriday,
+    };
+  }
+
   /// 99 -> "99", 100 -> "99+" (the navigation badge cap).
   String compactCount(int value) => value > SprintExtras.navigationBadgeCap
       ? '${SprintExtras.navigationBadgeCap}+'

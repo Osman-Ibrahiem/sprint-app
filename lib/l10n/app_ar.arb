@@ -67,6 +67,13 @@
   "dayFullWednesday": "الأربعاء",
   "dayFullThursday": "الخميس",
   "dayFullFriday": "الجمعة",
+  "dayStripSaturday": "السبت",
+  "dayStripSunday": "الأحد",
+  "dayStripMonday": "الاتنين",
+  "dayStripTuesday": "التلات",
+  "dayStripWednesday": "الأربعاء",
+  "dayStripThursday": "الخميس",
+  "dayStripFriday": "الجمعة",
   "@priceEgp": {
     "description": "Price in Egyptian pounds; amount is already formatted with Western digits",
     "placeholders": {

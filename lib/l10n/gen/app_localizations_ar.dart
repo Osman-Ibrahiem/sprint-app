@@ -190,6 +190,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dayFullFriday => 'الجمعة';
 
   @override
+  String get dayStripSaturday => 'السبت';
+
+  @override
+  String get dayStripSunday => 'الأحد';
+
+  @override
+  String get dayStripMonday => 'الاتنين';
+
+  @override
+  String get dayStripTuesday => 'التلات';
+
+  @override
+  String get dayStripWednesday => 'الأربعاء';
+
+  @override
+  String get dayStripThursday => 'الخميس';
+
+  @override
+  String get dayStripFriday => 'الجمعة';
+
+  @override
   String get demoTitle => 'شاشة العرض';
 
   @override

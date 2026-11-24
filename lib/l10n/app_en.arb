@@ -64,6 +64,13 @@
   "dayFullWednesday": "Wednesday",
   "dayFullThursday": "Thursday",
   "dayFullFriday": "Friday",
+  "dayStripSaturday": "Saturday",
+  "dayStripSunday": "Sunday",
+  "dayStripMonday": "Monday",
+  "dayStripTuesday": "Tuesday",
+  "dayStripWednesday": "Wednesday",
+  "dayStripThursday": "Thursday",
+  "dayStripFriday": "Friday",
   "@priceEgp": {
     "placeholders": {
       "amount": {

@@ -38,6 +38,30 @@ class DayStrip extends StatefulWidget {
   static ValueKey<String> nameKey(DateTime d) =>
       ValueKey<String>('day-name-${d.year}-${d.month}-${d.day}');
 
+  /// The full name when it fits on one line in the slot, minus `space-2` on
+  /// each side (the tail's padding, always kept so the name does not change
+  /// when the day is selected); else the short name (decision 18 day names).
+  static String fittingName({
+    required String full,
+    required String short,
+    required double slotWidth,
+    required TextStyle style,
+    required TextScaler scaler,
+    required TextDirection direction,
+  }) {
+    final painter = TextPainter(
+      text: TextSpan(text: full, style: style),
+      textDirection: direction,
+      textScaler: scaler,
+      maxLines: 1,
+    )..layout();
+    final fits =
+        painter.width <= slotWidth - SprintSpacing.space2 * 2 &&
+        !painter.didExceedMaxLines;
+    painter.dispose();
+    return fits ? full : short;
+  }
+
   /// The first day with room, else the first open day, else null.
   static DayStripDay? defaultSelection(List<DayStripDay> days) {
     for (final day in days) {
@@ -78,10 +102,9 @@ class _DayStripState extends State<DayStrip> {
     while (_nodes.length < widget.days.length) {
       final index = _nodes.length;
       _nodes.add(
-        FocusNode(debugLabel: 'day-$index')
-          ..addListener(() {
-            if (_nodes[index].hasFocus) setState(() => _focused = index);
-          }),
+        FocusNode(debugLabel: 'day-$index')..addListener(() {
+          if (_nodes[index].hasFocus) setState(() => _focused = index);
+        }),
       );
     }
     assert(
@@ -99,8 +122,10 @@ class _DayStripState extends State<DayStrip> {
       );
     }
     for (final day in widget.days) {
-      assert(!_asDate(day.date).isBefore(_asDate(widget.today)),
-          'no day before today');
+      assert(
+        !_asDate(day.date).isBefore(_asDate(widget.today)),
+        'no day before today',
+      );
     }
   }
 
@@ -131,17 +156,27 @@ class _DayStripState extends State<DayStrip> {
   Widget build(BuildContext context) {
     final traits = AdaptiveTraits.of(context);
     final rtl = Directionality.of(context) == TextDirection.rtl;
-    final chosen = widget.selected ??
-        DayStrip.defaultSelection(widget.days)?.date;
+    final chosen =
+        widget.selected ?? DayStrip.defaultSelection(widget.days)?.date;
 
     return LayoutBuilder(
       builder: (context, constraints) {
         final compact =
             WindowSize.fromWidth(constraints.maxWidth) == WindowSize.compact;
+        final count = widget.days.length;
+        // The width one day gets: 64 on compact (it scrolls), an even share
+        // of the strip from medium up.
+        final slotWidth = compact
+            ? SprintSpacing.space16
+            : (constraints.maxWidth - SprintSpacing.space2 * (count - 1)) /
+                  count;
         final items = [
           for (var i = 0; i < widget.days.length; i++)
             _DayItem(
-              key: _isSameDay(widget.days[i].date, chosen) ? _selectedKey : null,
+              key: _isSameDay(widget.days[i].date, chosen)
+                  ? _selectedKey
+                  : null,
+              slotWidth: slotWidth,
               day: widget.days[i],
               today: widget.today,
               selected: _isSameDay(widget.days[i].date, chosen),
@@ -219,6 +254,7 @@ class _DayStripState extends State<DayStrip> {
 /// each side inside the tail, which may grow a little past the circle.
 class _DayItem extends StatelessWidget {
   const _DayItem({
+    required this.slotWidth,
     required this.day,
     required this.today,
     required this.selected,
@@ -227,6 +263,8 @@ class _DayItem extends StatelessWidget {
     super.key,
   });
 
+  /// The width this day gets in the strip; the name is measured against it.
+  final double slotWidth;
   final DayStripDay day;
   final DateTime today;
   final bool selected;
@@ -238,33 +276,48 @@ class _DayItem extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final colors = context.colors;
     final format = SprintFormat.of(context);
-    final isToday = day.date.year == today.year &&
+    final isToday =
+        day.date.year == today.year &&
         day.date.month == today.month &&
         day.date.day == today.day;
 
+    final nameStyle = context.text.micro;
+    final nameScaler = MediaQuery.textScalerOf(context)
+        .clamp(maxScaleFactor: SprintExtras.navLabelMaxTextScale);
     final dayName = isToday
         ? l10n.dayToday
-        : format.dayName(day.date, short: true);
+        : DayStrip.fittingName(
+            full: format.dayStripName(day.date),
+            short: format.dayName(day.date, short: true),
+            slotWidth: slotWidth,
+            style: nameStyle,
+            scaler: nameScaler,
+            direction: Directionality.of(context),
+          );
     final state = day.isClosed
         ? l10n.dayClosed
         : day.hasAvailability
-            ? l10n.dayHasRoom
-            : l10n.slotAvailableWord;
-    final spoken = l10n.daySpoken(dayName, state);
+        ? l10n.dayHasRoom
+        : l10n.slotAvailableWord;
+    // Screen readers always hear the full name, whatever fits on screen.
+    final spoken = l10n.daySpoken(
+      isToday ? l10n.dayToday : format.dayStripName(day.date),
+      state,
+    );
 
     final closed = day.isClosed;
     final nameColor = selected
         ? colors.onPrimary
         : closed
-            ? colors.inkDisabled
-            : isToday
-                ? colors.primary
-                : colors.inkMuted;
+        ? colors.inkDisabled
+        : isToday
+        ? colors.primary
+        : colors.inkMuted;
     final numberColor = closed
         ? colors.inkDisabled
         : selected
-            ? colors.primary
-            : colors.ink;
+        ? colors.primary
+        : colors.ink;
 
     // The circle grows with the number so it stays a circle at 200%.
     final scaler = MediaQuery.textScalerOf(context);
@@ -275,7 +328,9 @@ class _DayItem extends StatelessWidget {
       numberLine + SprintSpacing.space2 * 2,
     );
 
-    final ringColor = isToday && !closed ? colors.primary : colors.controlBorder;
+    final ringColor = isToday && !closed
+        ? colors.primary
+        : colors.controlBorder;
     final ringWidth = isToday && !closed
         ? SprintExtras.selectedBorderWidth
         : SprintExtras.hairlineWidth;
@@ -335,7 +390,7 @@ class _DayItem extends StatelessWidget {
                 dayName,
                 key: DayStrip.nameKey(day.date),
                 textAlign: TextAlign.center,
-                style: context.text.micro.copyWith(color: nameColor),
+                style: nameStyle.copyWith(color: nameColor),
               ),
             ),
             const SizedBox(height: SprintSpacing.space1),
@@ -347,8 +402,8 @@ class _DayItem extends StatelessWidget {
                 color: closed || !day.hasAvailability
                     ? Colors.transparent
                     : selected
-                        ? colors.onPrimary
-                        : colors.success,
+                    ? colors.onPrimary
+                    : colors.success,
               ),
             ),
             const SizedBox(height: SprintSpacing.space1),

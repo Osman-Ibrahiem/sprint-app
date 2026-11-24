@@ -192,6 +192,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dayFullFriday => 'Friday';
 
   @override
+  String get dayStripSaturday => 'Saturday';
+
+  @override
+  String get dayStripSunday => 'Sunday';
+
+  @override
+  String get dayStripMonday => 'Monday';
+
+  @override
+  String get dayStripTuesday => 'Tuesday';
+
+  @override
+  String get dayStripWednesday => 'Wednesday';
+
+  @override
+  String get dayStripThursday => 'Thursday';
+
+  @override
+  String get dayStripFriday => 'Friday';
+
+  @override
   String get demoTitle => 'Demo screen';
 
   @override

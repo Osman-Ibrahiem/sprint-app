@@ -440,6 +440,48 @@ abstract class AppLocalizations {
   /// **'الجمعة'**
   String get dayFullFriday;
 
+  /// No description provided for @dayStripSaturday.
+  ///
+  /// In ar, this message translates to:
+  /// **'السبت'**
+  String get dayStripSaturday;
+
+  /// No description provided for @dayStripSunday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأحد'**
+  String get dayStripSunday;
+
+  /// No description provided for @dayStripMonday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاتنين'**
+  String get dayStripMonday;
+
+  /// No description provided for @dayStripTuesday.
+  ///
+  /// In ar, this message translates to:
+  /// **'التلات'**
+  String get dayStripTuesday;
+
+  /// No description provided for @dayStripWednesday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأربعاء'**
+  String get dayStripWednesday;
+
+  /// No description provided for @dayStripThursday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخميس'**
+  String get dayStripThursday;
+
+  /// No description provided for @dayStripFriday.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجمعة'**
+  String get dayStripFriday;
+
   /// No description provided for @demoTitle.
   ///
   /// In ar, this message translates to:

@@ -65,7 +65,8 @@ void main() {
       '"النهارده"', (tester) async {
     await pump(tester, week().take(3).toList());
     expect(find.text('النهارده'), findsOneWidget);
-    expect(find.text('الحد'), findsOneWidget);
+    // Wide enough: the full dialect names (decision 18 day names).
+    expect(find.text('الأحد'), findsOneWidget);
     expect(find.text('الاتنين'), findsOneWidget);
     expect(find.text('التلات'), findsNothing);
     // Today is on the start side: right in Arabic.
@@ -80,7 +81,7 @@ void main() {
     expect(find.text('Today'), findsOneWidget);
     expect(
       tester.getCenter(find.text('Today')).dx,
-      lessThan(tester.getCenter(find.text('Mon')).dx),
+      lessThan(tester.getCenter(find.text('Monday')).dx),
     );
   });
 
