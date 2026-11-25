@@ -46,7 +46,8 @@
 | Skeleton | `shape`: facility-card, facility-card-horizontal, list-row, slots, profile-card, settings-row · `phase`: rest, dim (طرفين النبض) |
 | VerificationStatusBadge | `status`: none, pending, approved, rejected, expired (`pending` في Figma = `underReview` في الكود) |
 | Banner | `tone`: hold, neutral, success, info, danger. الجملة والأيقونة بيتغيروا في كل instance، والأيقونة الافتراضية لكل درجة: hold ساعة رملية، neutral و info أيقونة info، success دايرة صح، danger دايرة X (قرار U4) |
-| AccountGatePrompt، DemoCodeNotice، QRCode | من غير properties (component واحد لكل واحد) |
+| WideDialog | من غير variants. نصين: `Title` و `Body`. الأزرار layers ثابتة بتتغير في كل instance: "الرجوع" الأول والمدمّر في الآخر (قرار P1) |
+| AccountGatePrompt، DemoCodeNotice، QRCode، Popover | من غير properties (component واحد لكل واحد) |
 | FacilityCard | `type`: paid, free, with-trainer · `layout`: vertical, horizontal · `audience`: guest, internal, external (السعر حسب اللي بيشوف، زي `facility_card_mapper.dart`: الضيف السعرين، والموثّق سعر الطلاب والعاملين، والخارجي السعر الكامل) |
 | StatusBadge | `status`: confirmed, pending-payment, cancelled, attended, no-show, expired |
 | BookingTicket | `state`: upcoming, today, past |
