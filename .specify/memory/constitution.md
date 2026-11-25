@@ -12,10 +12,10 @@ Sync Impact Report
   - ✅ .specify/templates/plan-template.md, spec-template.md, tasks-template.md: no edit needed
   - ✅ docs/decisions.md and docs/design-system/README.md § الخط, adaptive.md: T3 recorded in the
     same pull request
-  - ⚠ CLAUDE.md: § Design source does not yet list the standing rules (Copy word for word,
-    contrast and truncation tests with the T3 exception, English screenshots in design QA)
-  - ⚠ .claude/skills/design-check: its checklist does not yet list the feature's Copy strings
-    (decision 15), the English, contrast and truncation checks
+  - ✅ CLAUDE.md: § Design source lists the standing rules (Copy word for word, contrast and
+    truncation tests with the T3 exception, English screenshots in design QA)
+  - ✅ .claude/skills/design-check: its checklist lists the feature's Copy strings (decision 15)
+    and the English, contrast and truncation checks; the pack gets a `copy.md`
 - Deferred TODOs: none
 -->
 # Sprint (سبرنت) Constitution
