@@ -45,7 +45,9 @@
 | CodeEntry | `state`: default, focused, error, ready. 6 خانات LTR (قرار 2) |
 | Skeleton | `shape`: facility-card, facility-card-horizontal, list-row, slots, profile-card, settings-row · `phase`: rest, dim (طرفين النبض) |
 | VerificationStatusBadge | `status`: none, pending, approved, rejected, expired (`pending` في Figma = `underReview` في الكود) |
-| AccountGatePrompt، DemoCodeNotice، QRCode | من غير properties (component واحد لكل واحد) |
+| Banner | `tone`: hold, neutral, success, info, danger. الجملة والأيقونة بيتغيروا في كل instance، والأيقونة الافتراضية لكل درجة: hold ساعة رملية، neutral و info أيقونة info، success دايرة صح، danger دايرة X (قرار U4) |
+| WideDialog | من غير variants. نصين: `Title` و `Body`. الأزرار layers ثابتة بتتغير في كل instance: "الرجوع" الأول والمدمّر في الآخر (قرار P1) |
+| AccountGatePrompt، DemoCodeNotice، QRCode، Popover | من غير properties (component واحد لكل واحد) |
 | FacilityCard | `type`: paid, free, with-trainer · `layout`: vertical, horizontal · `audience`: guest, internal, external (السعر حسب اللي بيشوف، زي `facility_card_mapper.dart`: الضيف السعرين، والموثّق سعر الطلاب والعاملين، والخارجي السعر الكامل) |
 | StatusBadge | `status`: confirmed, pending-payment, cancelled, attended, no-show, expired |
 | BookingTicket | `state`: upcoming, today, past |
@@ -160,6 +162,6 @@
 
 ### أسماء الـ widgets
 
-`SprintButton`، `SprintTextField`، `SlotChip`، `DayStrip`، `FacilityCard`، `StatusBadge`، `BookingTicket`، `AppNavigation`، `StatTile`، `SprintLogo`، `SprintFilterChip`، `Skeleton`، `CodeEntry`، `AccountGatePrompt`، `DemoCodeNotice`، `VerificationStatusBadge`، و `SprintQrPainter` (الـ QR جوه `BookingTicket`)، ومعاهم الـ adaptive: `AdaptiveAppBar`، `AdaptiveDialog`، `AdaptiveSheet`، `AdaptiveSwitch`، `AdaptiveLoader`.
+`SprintButton`، `SprintTextField`، `SlotChip`، `DayStrip`، `FacilityCard`، `StatusBadge`، `BookingTicket`، `AppNavigation`، `StatTile`، `SprintLogo`، `SprintFilterChip`، `Skeleton`، `CodeEntry`، `AccountGatePrompt`، `DemoCodeNotice`، `VerificationStatusBadge`، `SprintBanner`، `SprintPopover` (بيتفتح بـ `showSprintPopover`)، `WideDialog`، و `SprintQrPainter` (الـ QR جوه `BookingTicket`)، ومعاهم الـ adaptive: `AdaptiveAppBar`، `AdaptiveDialog`، `AdaptiveSheet`، `AdaptiveSwitch`، `AdaptiveLoader`.
 
 كل widget بيعرض نفس الـ properties اللي في جدول Figma، فالـ Code Connect بين الاتنين يبقى مباشر.

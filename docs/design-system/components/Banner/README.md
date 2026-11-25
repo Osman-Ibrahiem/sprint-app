@@ -1,6 +1,6 @@
 # Banner
 
-شريط جملة وأيقونة بدرجة من خمسة (US-13، US-14، BR-12، BR-31، BR-32): `hold` (`warning-soft`)، `neutral` (`surface-sunken`)، `success` (`success-soft`)، `info` (`primary-soft`)، `danger` (`danger-soft`).
+شريط جملة وأيقونة بدرجة من خمسة (US-13، US-14، BR-12، BR-31، BR-32). في الكود `SprintBanner` و `SprintBannerTone` في `lib/core/widgets/banner/`، وفي Figma `Banner` بـ property واحدة `tone`؛ الجملة والأيقونة بيتغيروا في كل instance: `hold` (`warning-soft`)، `neutral` (`surface-sunken`)، `success` (`success-soft`)، `info` (`primary-soft`)، `danger` (`danger-soft`).
 
 - كل درجة ليها أيقونتها، فالدرجة بتتفهم من غير اللون (refactor 000، قرار U4):
 
@@ -14,4 +14,5 @@
 
 - أقل ارتفاع 48 وبيكبر مع النص. الأيقونة دايمًا معاها كلام: اللون لوحده مش كفاية.
 - بيتعلن كـ live region. `trailing` اختياري (زر إغلاق) وبيفضل قابل للوصول.
+- `icon` اختياري: أيقونة أدق بنفس المعنى للاستخدام ده (ساعة للـ cutoff مثلًا)، وإلا أيقونة الدرجة.
 - حلّ مكان `InfoBanner` في تدفق الحجز.

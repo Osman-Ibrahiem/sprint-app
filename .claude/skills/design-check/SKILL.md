@@ -33,10 +33,14 @@ Never commit screen descriptions to `develop`. The pack lives on the feature bra
    - Variables or text styles used in Figma that do not exist in `docs/design-system/tokens.json`.
    - Components used that do not exist in `lib/core/widgets/` or `docs/design-system/components/`.
    - Copy that breaks the copy rules (imperative verbs, non-Western digits, hard-coded hex).
+   - Copy: every string on the feature's screens with its Copy key and the ar and en text; the implementer takes them word for word (refactor 000, decision 15). Flag any screen text that has no Copy row.
+   - Contrast and truncation: colour pairs that are not checked token pairs (C1), and text that is cut with "…" or would not fit at text scale 200% (T1). Only app bar titles may be cut, and only when the body shows the full name (T3).
+   - English: Figma has no English screens, so the report says which screens need English screenshots in design QA (E1).
 5. **Stop on blockers.** Show the report to Osman. If anything is blocking, he decides: fix Figma, change the BRD, or continue with a recorded note. Write no pack until he says go.
 6. **Write the Design Pack** to `specs/<feature>/design-pack/` on the feature branch:
    - `README.md`: generation date, Figma file key, node ids, and any version or last-modified value the Figma tools return, and the sentence "Delete this folder before merging to develop."
    - `<screen-name>.md` per screen (format below).
+   - `copy.md`: the Copy strings from step 4 (key, ar, en).
    - `images/<screen>-<variant>-<theme>.png` for each screenshot, saved with `curl` from the URL `get_screenshot` returns (see Practical notes).
 7. **Handoff line.** Tell Osman which branch holds the pack and which tokens, components or gaps the implementer must know about.
 

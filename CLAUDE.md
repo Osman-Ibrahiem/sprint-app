@@ -53,6 +53,9 @@ Figma is the live source for screens, with every variant: compact, medium, expan
 - **The pack is delete-before-merge.** It must not reach `develop`; CI fails the PR while `design-pack/` exists.
 - **Implementers:** read the pack first. If it is missing, or Figma changed after its generation date, stop and ask Osman to re-run `/design-check`. After implementing, the Figma session compares the result with Figma (design QA) before the PR is opened.
 - If the Figma session implements the feature itself, it reads Figma directly and needs no pack.
+- **Strings:** every new string comes word for word from Figma's Copy collection, and `/design-check` lists the feature's strings (refactor 000, decision 15).
+- **Tests that must pass:** the token contrast test (text 4.5:1, controls and focus 3:1, both themes) and the no-truncation text test at text scale 1.0, 1.5 and 2.0 (C1, T1). The one exception: an app bar title may end in "…" the platform's way when the page body shows the full name and screen readers read it (T3).
+- **English:** Figma is Arabic only. Design QA includes English screenshots of the running app (compact and one wide size, Light and Dark) on top of the ar/en test matrices (E1).
 
 ## Suggested feature order (UI first)
 

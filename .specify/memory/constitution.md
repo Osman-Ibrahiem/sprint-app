@@ -1,25 +1,21 @@
 <!--
 Sync Impact Report
-- Version change: 1.2.0 → 1.3.0 (MINOR: one principle added, one principle expanded)
-- Reason: refactor 000 decision F1 (Osman, 2026-11-23); evidence in the refactor 000 UX review (F1)
+- Version change: 1.3.0 → 1.3.1 (PATCH: one exception spelled out in an existing rule)
+- Reason: refactor 000 decision T3 (Osman, 2026-11-24); amendment approved by Osman ("Yes, add 1.3.1")
 - Modified principles:
-  - V. Arabic First, Adaptive, Accessible: expanded with two required tests, a token contrast
-    test (decision C1) and a no-truncation text test (decision T1)
-- Added sections:
-  - VI. Design Source: CLAUDE.md § "Design source (feature 006 onward)" (Figma is the screen
-    source, `/design-check` before specify, the Design Pack and its delete-before-merge rule,
-    implementers stop when the pack is missing or older than Figma, design QA before the PR),
-    plus strings word for word from Figma's Copy collection (decision 15) and English checked in
-    the running app with screenshots in design QA (decision E1)
+  - V. Arabic First, Adaptive, Accessible: the no-truncation test now names its one exception,
+    app bar titles, which may end in "…" the platform's way when the page body shows the full
+    name and screen readers read it in full (decision T3)
+- Added sections: none
 - Removed sections: none
 - Templates and guidance:
-  - ✅ .specify/templates/plan-template.md: its Constitution Check reads this file at run time, no edit
-  - ✅ .specify/templates/spec-template.md, tasks-template.md: no principle-specific text to change
-  - ✅ docs/decisions.md: rows for decisions 15, C1/C2, T1 and E1 added in the same pull request
-  - ⚠ CLAUDE.md: § Design source already matches VI; the standing rules (Copy word for word,
-    contrast and truncation tests, English screenshots in design QA) are not in it yet
-  - ⚠ .claude/skills/design-check: its checklist does not yet list the feature's Copy strings
-    (decision 15)
+  - ✅ .specify/templates/plan-template.md, spec-template.md, tasks-template.md: no edit needed
+  - ✅ docs/decisions.md and docs/design-system/README.md § الخط, adaptive.md: T3 recorded in the
+    same pull request
+  - ✅ CLAUDE.md: § Design source lists the standing rules (Copy word for word, contrast and
+    truncation tests with the T3 exception, English screenshots in design QA)
+  - ✅ .claude/skills/design-check: its checklist lists the feature's Copy strings (decision 15)
+    and the English, contrast and truncation checks; the pack gets a `copy.md`
 - Deferred TODOs: none
 -->
 # Sprint (سبرنت) Constitution
@@ -71,7 +67,8 @@ icon, never colour alone; text scales to 200% with a minimum size of 12; animati
 reduce-motion setting. Two tests MUST pass in CI: a token contrast test over the colour pairs in
 `tokens.json` (text 4.5:1, controls and focus 3:1, in both themes), and a no-truncation text test
 that fails when any text is cut with an ellipsis at text scale 1.0, 1.5 and 2.0 (refactor 000,
-decisions C1 and T1).
+decisions C1 and T1). The one exception is an app bar title, which may end in "…" the platform's
+way only when the full name shows in the page body and screen readers read it in full (decision T3).
 Rationale: the users are Egyptian university students on every kind of device.
 
 ### VI. Design Source
@@ -136,4 +133,4 @@ same pull request. Versioning follows semantic rules: MAJOR for removing or rede
 principle, MINOR for adding a principle or materially expanding one, PATCH for wording fixes.
 `CLAUDE.md` is the runtime guidance for day-to-day work and is kept consistent with this file.
 
-**Version**: 1.3.0 | **Ratified**: 2026-11-10 | **Last Amended**: 2026-11-23
+**Version**: 1.3.1 | **Ratified**: 2026-11-10 | **Last Amended**: 2026-11-25
