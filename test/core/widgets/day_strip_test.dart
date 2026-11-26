@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/core/adaptive/adaptive_pressable.dart';
 import 'package:sprint/core/tokens/sprint_colors.g.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
+import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip_day.dart';
 
@@ -199,6 +200,24 @@ void main() {
         );
       });
     }
+
+    testWidgets('the item is 90 high at 100% text and at least 64 wide on '
+        'compact (decision 18 sizes)', (tester) async {
+      await pump(tester, week(), size: const Size(390, 800));
+      for (final d in week()) {
+        final item = tester.getSize(find.byKey(DayStrip.itemKey(d.date)));
+        expect(item.height, SprintExtras.dayItemHeight);
+        expect(item.width, greaterThanOrEqualTo(SprintSpacing.space16));
+      }
+      expect(SprintExtras.dayItemHeight, 90);
+      // Large text: it grows instead of clipping.
+      await pump(tester, week(), size: const Size(390, 800), textScale: 2);
+      expect(
+        tester.getSize(find.byKey(DayStrip.itemKey(sat))).height,
+        greaterThan(SprintExtras.dayItemHeight),
+      );
+      expect(tester.takeException(), isNull);
+    });
 
     testWidgets('the circle is at least 48 and the whole item a 48 target', (
       tester,

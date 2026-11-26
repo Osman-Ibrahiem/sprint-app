@@ -34,9 +34,11 @@ abstract final class SprintExtras {
   /// The old day pill height (64), still the unit of a few skeletons.
   static const double dayPillHeight = 64;
 
-  /// DayStrip v2 (decision 18): circle 48, name, dot and their gaps, at 100%
-  /// text; the schedule's loading skeleton uses it.
-  static const double dayItemHeight = 88;
+  /// DayStrip v2 (decision 18): the day item is at least 90 high, as in
+  /// Figma (decision "18 sizes", 2026-11-26); its content (circle 48, name,
+  /// dot and their gaps, 88 at 100% text) is centred in it and it grows with
+  /// large text. The schedule's loading skeleton uses it too.
+  static const double dayItemHeight = 90;
 
   /// StatusBadge README § الشكل: pill height 28.
   static const double statusBadgeHeight = 28;

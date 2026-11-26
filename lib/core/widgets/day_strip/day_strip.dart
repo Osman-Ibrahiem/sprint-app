@@ -373,14 +373,18 @@ class _DayItem extends StatelessWidget {
       pressedColor: selected ? colors.primaryPressed : colors.surfaceSunken,
       hoverColor: selected ? colors.primaryHover : colors.surfaceSunken,
       borderRadius: SprintRadius.fullBorder,
-      builder: (context, _) => Padding(
+      builder: (context, _) => Container(
         key: DayStrip.itemKey(day.date),
+        constraints: const BoxConstraints(
+          minHeight: SprintExtras.dayItemHeight,
+        ),
         padding: const EdgeInsetsDirectional.symmetric(
           horizontal: SprintSpacing.space2,
           vertical: SprintSpacing.space1,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             circle,
             const SizedBox(height: SprintSpacing.space1),
