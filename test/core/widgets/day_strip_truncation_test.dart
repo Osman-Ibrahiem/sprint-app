@@ -105,8 +105,16 @@ void main() {
         await wednesday(tester, lang: 'en', scale: 1, width: 390),
         'Wednesday',
       );
-      // 1200: all seven fit at 64 (scroll cue), too narrow for it.
-      expect(await wednesday(tester, lang: 'en', scale: 1, width: 1200), 'Wed');
+      // 600, 840, 1200: all seven fit and spread over the width.
+      for (final width in [600.0, 840.0, 1200.0]) {
+        expect(
+          await wednesday(tester, lang: 'en', scale: 1, width: width),
+          'Wednesday',
+          reason: '$width',
+        );
+      }
+      // 320: four days and a half of 64, too narrow for it.
+      expect(await wednesday(tester, lang: 'en', scale: 1, width: 320), 'Wed');
     });
 
     testWidgets('never the Modern Standard forms; today stays "النهارده"', (

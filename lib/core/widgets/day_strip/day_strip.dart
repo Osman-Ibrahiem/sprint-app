@@ -78,7 +78,8 @@ class DayStrip extends StatefulWidget {
   );
 
   /// Each day's width (decision "18 scroll cue"): when all [count] days fit at
-  /// [minWidth] they all show at [minWidth]; otherwise the widest that shows
+  /// [minWidth] they are spread evenly over the whole width (Osman,
+  /// 2026-11-26); otherwise the widest that shows
   /// k whole days and half of the next, for the largest k with
   /// (width - k·gap) / (k + 0.5) >= [minWidth]. The half day says the strip
   /// scrolls.
@@ -89,7 +90,8 @@ class DayStrip extends StatefulWidget {
     double gap = SprintSpacing.space2,
   }) {
     if (count * minWidth + (count - 1) * gap <= availableWidth) {
-      return minWidth;
+      // All fit: spread evenly over the whole strip, no empty space after it.
+      return (availableWidth - (count - 1) * gap) / count;
     }
     final k = ((availableWidth - minWidth / 2) / (minWidth + gap)).floor();
     if (k < 1) return minWidth;

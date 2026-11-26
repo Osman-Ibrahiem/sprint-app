@@ -329,7 +329,7 @@ void main() {
   group('scroll cue: whole days plus half of the next (decision 18 scroll '
       'cue)', () {
     test('the rule: 358 with gap 8 gives four days and a half of about 72.4; '
-        'all seven fit at 64 from 496', () {
+        'from 496 all seven fit and spread over the width', () {
       expect(
         DayStrip.itemWidthFor(availableWidth: 358, count: 7, minWidth: 64),
         closeTo(72.44, 0.01),
@@ -338,9 +338,10 @@ void main() {
         DayStrip.itemWidthFor(availableWidth: 496, count: 7, minWidth: 64),
         64,
       );
+      // All fit: spread over the whole width, (W - 6 gaps) / 7.
       expect(
         DayStrip.itemWidthFor(availableWidth: 1200, count: 7, minWidth: 64),
-        64,
+        closeTo((1200 - 6 * 8) / 7, 1e-9),
       );
     });
 
@@ -384,9 +385,18 @@ void main() {
             final allFit =
                 days.length * minWidth + (days.length - 1) * 8 <= width;
             if (allFit) {
+              // Spread over the whole width: every day whole, the strip
+              // fills W, no space after the last day.
+              expect(strip.width, closeTo(width, 0.01));
+              final spread = (width - (days.length - 1) * 8) / days.length;
               for (final r in slots) {
                 expect(visible(r), closeTo(1, 1e-6));
-                expect(r.width, closeTo(minWidth, 0.01));
+                expect(r.width, closeTo(spread, 0.01));
+              }
+              if (rtl) {
+                expect(slots.last.left, closeTo(strip.left, 0.01));
+              } else {
+                expect(slots.last.right, closeTo(strip.right, 0.01));
               }
             } else {
               final shown = [for (final r in slots) visible(r)];
