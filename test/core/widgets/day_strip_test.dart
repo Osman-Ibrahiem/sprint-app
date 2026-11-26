@@ -8,9 +8,12 @@ import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip_day.dart';
 
+import '../../helpers/no_truncation.dart' show loadSprintFonts;
 import '../../helpers/widget_harness.dart';
 
 void main() {
+  setUpAll(loadSprintFonts);
+
   final today = DateTime(2026, 11, 14);
   List<DayStripDay> week({bool firstHasRoom = true, bool lastClosed = false}) =>
       [
@@ -29,38 +32,35 @@ void main() {
     Size size = const Size(800, 900),
     Locale locale = const Locale('ar'),
     double textScale = 1,
-  }) =>
-      pumpWidgetUnderAndSettle(
-        tester,
-        DayStrip(
-          days: days,
-          today: today,
-          selected: selected,
-          onSelected: (_) {},
-        ),
-        size: size,
-        locale: locale,
-        textScale: textScale,
+  }) => pumpWidgetUnderAndSettle(
+    tester,
+    DayStrip(days: days, today: today, selected: selected, onSelected: (_) {}),
+    size: size,
+    locale: locale,
+    textScale: textScale,
+  );
+
+  test(
+    'defaultSelection: the first day with room, else the first open day',
+    () {
+      expect(DayStrip.defaultSelection(week())!.date, DateTime(2026, 11, 14));
+
+      final noRoom = [
+        for (final d in week())
+          DayStripDay(date: d.date, hasAvailability: false),
+      ];
+      expect(DayStrip.defaultSelection(noRoom)!.date, DateTime(2026, 11, 14));
+
+      final closedFirst = [
+        DayStripDay(date: today, hasAvailability: false, isClosed: true),
+        DayStripDay(date: DateTime(2026, 11, 15), hasAvailability: true),
+      ];
+      expect(
+        DayStrip.defaultSelection(closedFirst)!.date,
+        DateTime(2026, 11, 15),
       );
-
-  test('defaultSelection: the first day with room, else the first open day',
-      () {
-    expect(DayStrip.defaultSelection(week())!.date, DateTime(2026, 11, 14));
-
-    final noRoom = [
-      for (final d in week()) DayStripDay(date: d.date, hasAvailability: false),
-    ];
-    expect(DayStrip.defaultSelection(noRoom)!.date, DateTime(2026, 11, 14));
-
-    final closedFirst = [
-      DayStripDay(date: today, hasAvailability: false, isClosed: true),
-      DayStripDay(
-        date: DateTime(2026, 11, 15),
-        hasAvailability: true,
-      ),
-    ];
-    expect(DayStrip.defaultSelection(closedFirst)!.date, DateTime(2026, 11, 15));
-  });
+    },
+  );
 
   testWidgets('shows exactly the supplied days, today first and named '
       '"النهارده"', (tester) async {
@@ -90,24 +90,28 @@ void main() {
     final sat = DateTime(2026, 11, 14); // today
     final sun = DateTime(2026, 11, 15);
 
-    BoxDecoration circle(WidgetTester tester, DateTime d) => tester
-        .widget<DecoratedBox>(
-          find.descendant(
-            of: find.byKey(DayStrip.circleKey(d)),
-            matching: find.byType(DecoratedBox),
-          ),
-        )
-        .decoration as BoxDecoration;
+    BoxDecoration circle(WidgetTester tester, DateTime d) =>
+        tester
+                .widget<DecoratedBox>(
+                  find.descendant(
+                    of: find.byKey(DayStrip.circleKey(d)),
+                    matching: find.byType(DecoratedBox),
+                  ),
+                )
+                .decoration
+            as BoxDecoration;
 
     Color? tail(WidgetTester tester, DateTime d) =>
-        (tester.widget<DecoratedBox>(
-                  find
-                      .ancestor(
-                        of: find.byKey(DayStrip.itemKey(d)),
-                        matching: find.byKey(AdaptivePressable.surfaceKey),
-                      )
-                      .first,
-                ).decoration
+        (tester
+                    .widget<DecoratedBox>(
+                      find
+                          .ancestor(
+                            of: find.byKey(DayStrip.itemKey(d)),
+                            matching: find.byKey(AdaptivePressable.surfaceKey),
+                          )
+                          .first,
+                    )
+                    .decoration
                 as BoxDecoration)
             .color;
 
@@ -130,7 +134,10 @@ void main() {
         );
         expect(tail(tester, sun), colors.primary);
         expect(circle(tester, sun).color, colors.surface);
-        expect(tester.widget<Text>(find.text('15')).style!.color, colors.primary);
+        expect(
+          tester.widget<Text>(find.text('15')).style!.color,
+          colors.primary,
+        );
         expect(
           tester.widget<Text>(find.byKey(DayStrip.nameKey(sun))).style!.color,
           colors.onPrimary,
@@ -195,7 +202,10 @@ void main() {
           colors.inkDisabled,
         );
         expect(
-          tester.widget<Text>(find.byKey(DayStrip.nameKey(closed))).style!.color,
+          tester
+              .widget<Text>(find.byKey(DayStrip.nameKey(closed)))
+              .style!
+              .color,
           colors.inkDisabled,
         );
       });
@@ -279,8 +289,9 @@ void main() {
     });
   });
 
-  testWidgets('a closed day is not pressable and is spoken "مقفول"',
-      (tester) async {
+  testWidgets('a closed day is not pressable and is spoken "مقفول"', (
+    tester,
+  ) async {
     var picks = 0;
     await pumpWidgetUnderAndSettle(
       tester,
@@ -315,15 +326,125 @@ void main() {
     expect(scroll.scrollDirection, Axis.horizontal);
   });
 
-  testWidgets('medium and larger spread across the width', (tester) async {
-    await pump(tester, week(), size: const Size(800, 900));
-    expect(
-      find.byWidgetPredicate(
-        (w) => w is SingleChildScrollView && w.scrollDirection == Axis.horizontal,
-      ),
-      findsNothing,
-    );
-    expect(tester.getSize(find.byType(DayStrip)).width, greaterThan(600));
+  group('scroll cue: whole days plus half of the next (decision 18 scroll '
+      'cue)', () {
+    test('the rule: 358 with gap 8 gives four days and a half of about 72.4; '
+        'all seven fit at 64 from 496', () {
+      expect(
+        DayStrip.itemWidthFor(availableWidth: 358, count: 7, minWidth: 64),
+        closeTo(72.44, 0.01),
+      );
+      expect(
+        DayStrip.itemWidthFor(availableWidth: 496, count: 7, minWidth: 64),
+        64,
+      );
+      expect(
+        DayStrip.itemWidthFor(availableWidth: 1200, count: 7, minWidth: 64),
+        64,
+      );
+    });
+
+    for (final width in [320.0, 358.0, 412.0, 600.0, 840.0, 1200.0]) {
+      for (final scale in [1.0, 2.0]) {
+        for (final locale in const [Locale('ar'), Locale('en')]) {
+          final rtl = locale.languageCode == 'ar';
+          testWidgets('$width x$scale ${locale.languageCode}', (tester) async {
+            await pump(
+              tester,
+              week(),
+              size: Size(width, 800),
+              textScale: scale,
+              locale: locale,
+            );
+            expect(tester.takeException(), isNull);
+            final strip = tester.getRect(find.byType(DayStrip));
+            final days = week();
+            final slots = [
+              for (final d in days)
+                tester.getRect(find.byKey(DayStrip.slotKey(d.date))),
+            ];
+            double visible(Rect r) {
+              final cut = r.intersect(strip);
+              return cut.width <= 0 ? 0 : cut.width / r.width;
+            }
+
+            // Today is whole and at the start (right in Arabic).
+            expect(
+              visible(slots.first),
+              closeTo(1, 1e-6),
+              reason: 'today whole',
+            );
+            if (rtl) {
+              expect(slots.first.right, closeTo(strip.right, 0.01));
+            } else {
+              expect(slots.first.left, closeTo(strip.left, 0.01));
+            }
+
+            final minWidth = DayStrip.minItemWidth(TextScaler.linear(scale));
+            final allFit =
+                days.length * minWidth + (days.length - 1) * 8 <= width;
+            if (allFit) {
+              for (final r in slots) {
+                expect(visible(r), closeTo(1, 1e-6));
+                expect(r.width, closeTo(minWidth, 0.01));
+              }
+            } else {
+              final shown = [for (final r in slots) visible(r)];
+              final partial = shown.indexWhere((v) => v < 1 - 1e-6);
+              expect(partial, greaterThan(0));
+              expect(shown[partial], inInclusiveRange(0.4, 0.6));
+              for (var i = 0; i < partial; i++) {
+                expect(shown[i], closeTo(1, 1e-6));
+              }
+              for (var i = partial + 1; i < shown.length; i++) {
+                expect(shown[i], closeTo(0, 1e-6));
+              }
+              expect(slots.first.width, greaterThanOrEqualTo(minWidth));
+            }
+          });
+        }
+      }
+    }
+
+    testWidgets('a fold keeps the selection and today at the start', (
+      tester,
+    ) async {
+      final sun = DateTime(2026, 11, 15);
+      await pump(tester, week(), selected: sun, size: const Size(840, 800));
+      final colors = SprintColors.light;
+      Color? tailOf(DateTime d) =>
+          (tester
+                      .widget<DecoratedBox>(
+                        find
+                            .ancestor(
+                              of: find.byKey(DayStrip.itemKey(d)),
+                              matching: find.byKey(
+                                AdaptivePressable.surfaceKey,
+                              ),
+                            )
+                            .first,
+                      )
+                      .decoration
+                  as BoxDecoration)
+              .color;
+      expect(tailOf(sun), colors.primary);
+      // Fold to a phone width.
+      tester.view.physicalSize = const Size(358, 800);
+      await tester.pumpAndSettle();
+      expect(tailOf(sun), colors.primary);
+      final strip = tester.getRect(find.byType(DayStrip));
+      final today = tester.getRect(
+        find.byKey(DayStrip.slotKey(DateTime(2026, 11, 14))),
+      );
+      expect(today.right, closeTo(strip.right, 0.01));
+      expect(
+        today.width,
+        closeTo(
+          DayStrip.itemWidthFor(availableWidth: 358, count: 7, minWidth: 64),
+          0.01,
+        ),
+      );
+    });
   });
 
   testWidgets('arrow keys move focus between days', (tester) async {
@@ -338,8 +459,9 @@ void main() {
     expect(FocusManager.instance.primaryFocus?.debugLabel, 'day-1');
   });
 
-  testWidgets('a one-day window and a thirty-day window both build',
-      (tester) async {
+  testWidgets('a one-day window and a thirty-day window both build', (
+    tester,
+  ) async {
     await pump(tester, [week().first]);
     expect(find.text('النهارده'), findsOneWidget);
 

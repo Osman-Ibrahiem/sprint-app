@@ -98,14 +98,15 @@ void main() {
       expect(pick(48, 1), 'الأربع');
     });
 
-    testWidgets('English: "Wednesday" where it fits, "Wed" where it does not', (
-      tester,
-    ) async {
+    testWidgets('English: "Wednesday" where the day is wide enough, "Wed" '
+        'where it is not', (tester) async {
+      // 390: four days and a half, about 79.6 each: room for "Wednesday".
       expect(
-        await wednesday(tester, lang: 'en', scale: 1, width: 1000),
+        await wednesday(tester, lang: 'en', scale: 1, width: 390),
         'Wednesday',
       );
-      expect(await wednesday(tester, lang: 'en', scale: 2, width: 390), 'Wed');
+      // 1200: all seven fit at 64 (scroll cue), too narrow for it.
+      expect(await wednesday(tester, lang: 'en', scale: 1, width: 1200), 'Wed');
     });
 
     testWidgets('never the Modern Standard forms; today stays "النهارده"', (

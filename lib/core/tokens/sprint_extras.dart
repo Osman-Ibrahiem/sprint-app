@@ -40,6 +40,9 @@ abstract final class SprintExtras {
   /// large text. The schedule's loading skeleton uses it too.
   static const double dayItemHeight = 90;
 
+  /// The narrowest day item (decision "18 sizes"): 64, as in Figma.
+  static const double dayItemMinWidth = 64;
+
   /// StatusBadge README § الشكل: pill height 28.
   static const double statusBadgeHeight = 28;
 

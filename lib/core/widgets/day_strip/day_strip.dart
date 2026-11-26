@@ -11,8 +11,8 @@ import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
+import 'package:sprint/core/tokens/sprint_text.g.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip_day.dart';
-import 'package:sprint/core/window/window_size.dart';
 import 'package:sprint/l10n/gen/app_localizations.dart';
 
 /// The booking window as a strip of days (DayStrip README, FR-028 – FR-031).
@@ -61,6 +61,44 @@ class DayStrip extends StatefulWidget {
     painter.dispose();
     return fits ? full : short;
   }
+
+  /// The day's circle: 48 at least, growing with the date number so it stays a
+  /// circle at large text.
+  static double circleDiameter(TextScaler scaler) {
+    final number = SprintText.number;
+    final line = scaler.scale(number.fontSize!) * number.height!;
+    return math.max(SprintSize.controlHeight, line + SprintSpacing.space2 * 2);
+  }
+
+  /// The narrowest a day may be: 64, or its circle plus `space-2` each side
+  /// when large text makes the circle bigger.
+  static double minItemWidth(TextScaler scaler) => math.max(
+    SprintExtras.dayItemMinWidth,
+    circleDiameter(scaler) + SprintSpacing.space2 * 2,
+  );
+
+  /// Each day's width (decision "18 scroll cue"): when all [count] days fit at
+  /// [minWidth] they all show at [minWidth]; otherwise the widest that shows
+  /// k whole days and half of the next, for the largest k with
+  /// (width - k·gap) / (k + 0.5) >= [minWidth]. The half day says the strip
+  /// scrolls.
+  static double itemWidthFor({
+    required double availableWidth,
+    required int count,
+    required double minWidth,
+    double gap = SprintSpacing.space2,
+  }) {
+    if (count * minWidth + (count - 1) * gap <= availableWidth) {
+      return minWidth;
+    }
+    final k = ((availableWidth - minWidth / 2) / (minWidth + gap)).floor();
+    if (k < 1) return minWidth;
+    return (availableWidth - k * gap) / (k + 0.5);
+  }
+
+  /// One day's slot in the strip (its computed width).
+  static ValueKey<String> slotKey(DateTime d) =>
+      ValueKey<String>('day-slot-${d.year}-${d.month}-${d.day}');
 
   /// The first day with room, else the first open day, else null.
   static DayStripDay? defaultSelection(List<DayStripDay> days) {
@@ -134,7 +172,12 @@ class _DayStripState extends State<DayStrip> {
   void _revealSelected() {
     final context = _selectedKey.currentContext;
     if (context != null) {
-      Scrollable.ensureVisible(context, alignment: 0.5);
+      // Only scroll when the selected day is not already in view, so today
+      // stays at the start when it can.
+      Scrollable.ensureVisible(
+        context,
+        alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+      );
     }
   }
 
@@ -161,64 +204,48 @@ class _DayStripState extends State<DayStrip> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final compact =
-            WindowSize.fromWidth(constraints.maxWidth) == WindowSize.compact;
+        // Recomputed on every width change (resize, fold, unfold); the
+        // selection comes from the parent, so it survives.
         final count = widget.days.length;
-        // The width one day gets: 64 on compact (it scrolls), an even share
-        // of the strip from medium up.
-        final slotWidth = compact
-            ? SprintSpacing.space16
-            : (constraints.maxWidth - SprintSpacing.space2 * (count - 1)) /
-                  count;
-        final items = [
-          for (var i = 0; i < widget.days.length; i++)
-            _DayItem(
-              key: _isSameDay(widget.days[i].date, chosen)
-                  ? _selectedKey
-                  : null,
-              slotWidth: slotWidth,
-              day: widget.days[i],
-              today: widget.today,
-              selected: _isSameDay(widget.days[i].date, chosen),
-              focusNode: _nodes[i],
-              onTap: widget.days[i].isClosed
-                  ? null
-                  : () {
-                      AdaptiveHaptics.selection(context);
-                      widget.onSelected(widget.days[i]);
-                    },
-            ),
-        ];
-
-        final strip = compact
-            ? SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    for (var i = 0; i < items.length; i++) ...[
-                      if (i > 0) const SizedBox(width: SprintSpacing.space2),
-                      // At least 64 wide; wider when a name or a 200% number
-                      // needs it, never cut.
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          minWidth: SprintSpacing.space16,
-                        ),
-                        child: items[i],
-                      ),
-                    ],
-                  ],
+        final minWidth = DayStrip.minItemWidth(
+          MediaQuery.textScalerOf(context),
+        );
+        final itemWidth = DayStrip.itemWidthFor(
+          availableWidth: constraints.maxWidth,
+          count: count,
+          minWidth: minWidth,
+        );
+        final strip = SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (var i = 0; i < count; i++) ...[
+                if (i > 0) const SizedBox(width: SprintSpacing.space2),
+                SizedBox(
+                  key: DayStrip.slotKey(widget.days[i].date),
+                  width: itemWidth,
+                  child: _DayItem(
+                    key: _isSameDay(widget.days[i].date, chosen)
+                        ? _selectedKey
+                        : null,
+                    slotWidth: itemWidth,
+                    day: widget.days[i],
+                    today: widget.today,
+                    selected: _isSameDay(widget.days[i].date, chosen),
+                    focusNode: _nodes[i],
+                    onTap: widget.days[i].isClosed
+                        ? null
+                        : () {
+                            AdaptiveHaptics.selection(context);
+                            widget.onSelected(widget.days[i]);
+                          },
+                  ),
                 ),
-              )
-            : Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (var i = 0; i < items.length; i++) ...[
-                    if (i > 0) const SizedBox(width: SprintSpacing.space2),
-                    Expanded(child: items[i]),
-                  ],
-                ],
-              );
+              ],
+            ],
+          ),
+        );
 
         return CallbackShortcuts(
           bindings: traits.keyboardFocusRing
@@ -320,13 +347,8 @@ class _DayItem extends StatelessWidget {
         : colors.ink;
 
     // The circle grows with the number so it stays a circle at 200%.
-    final scaler = MediaQuery.textScalerOf(context);
     final number = context.text.number;
-    final numberLine = scaler.scale(number.fontSize!) * number.height!;
-    final diameter = math.max(
-      SprintSize.controlHeight,
-      numberLine + SprintSpacing.space2 * 2,
-    );
+    final diameter = DayStrip.circleDiameter(MediaQuery.textScalerOf(context));
 
     final ringColor = isToday && !closed
         ? colors.primary
