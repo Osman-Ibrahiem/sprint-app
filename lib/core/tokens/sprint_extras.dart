@@ -162,6 +162,18 @@ abstract final class SprintExtras {
   static const double mediumAccountColumn = 360;
   static const double wideDialogWidth = 400;
 
+  /// Popover README (decision K2): 260 wide at least, growing with its
+  /// longest label up to 380.
+  static const double popoverMinWidth = 260;
+  static const double popoverMaxWidth = 380;
+
+  /// The popover row's radio (Figma `Popover` 278:35507, decision K2): a 22
+  /// circle; selected is a `primary` ring 6 wide (its 10 centre shows the
+  /// panel through), unselected a `control-border` ring 2 wide.
+  static const double popoverRadioSize = 22;
+  static const double popoverRadioSelectedRing = 6;
+  static const double popoverRadioRing = 2;
+
   /// Space below the last item of a scrolling screen so the tab bar or a bar
   /// never covers it, and the larger spacer above a screen's last action.
   static const double screenBottomPadding = 140;
