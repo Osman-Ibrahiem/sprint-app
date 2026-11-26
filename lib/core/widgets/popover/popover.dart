@@ -7,8 +7,8 @@ import 'package:sprint/core/tokens/sprint_radius.g.dart';
 import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 
-/// One row of a [SprintPopover]: a radio and a label. [selected] fills the
-/// radio; the other rows show an empty ring.
+/// One row of a [SprintPopover]: a label and a radio at the row's end.
+/// [selected] fills the radio; the other rows show an empty ring.
 class PopoverOption<T> {
   const PopoverOption({
     required this.value,
@@ -55,7 +55,10 @@ class SprintPopover<T> extends StatelessWidget {
       child: IntrinsicWidth(
         child: Container(
           key: panelKey,
-          padding: const EdgeInsetsDirectional.all(SprintSpacing.space2),
+          padding: const EdgeInsetsDirectional.symmetric(
+            horizontal: SprintSpacing.space4,
+            vertical: SprintSpacing.space2,
+          ),
           decoration: BoxDecoration(
             color: colors.surfaceRaised,
             borderRadius: SprintRadius.lgBorder,
@@ -66,13 +69,15 @@ class SprintPopover<T> extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              for (var i = 0; i < options.length; i++)
+              for (var i = 0; i < options.length; i++) ...[
+                if (i > 0) const SizedBox(height: SprintSpacing.space1),
                 _Row<T>(
                   key: rowKey(i),
                   index: i,
                   option: options[i],
                   onSelected: onSelected,
                 ),
+              ],
             ],
           ),
         ),
@@ -115,19 +120,24 @@ class _Row<T> extends StatelessWidget {
               minHeight: SprintSize.controlHeight,
             ),
             child: Padding(
-              padding: _PopoverRadio.rowPadding,
+              padding: const EdgeInsetsDirectional.symmetric(
+                vertical: SprintSpacing.space3,
+              ),
+              // The label at the start takes the free space and wraps; the
+              // radio sits flush at the end, centred on the label.
               child: Row(
                 children: [
+                  Expanded(
+                    child: Text(
+                      option.label,
+                      textAlign: TextAlign.start,
+                      style: context.text.body.copyWith(color: colors.ink),
+                    ),
+                  ),
+                  const SizedBox(width: SprintSpacing.space3),
                   _PopoverRadio(
                     key: SprintPopover.radioKey(index),
                     selected: option.selected,
-                  ),
-                  const SizedBox(width: _PopoverRadio.gap),
-                  Flexible(
-                    child: Text(
-                      option.label,
-                      style: context.text.body.copyWith(color: colors.ink),
-                    ),
                   ),
                 ],
               ),
@@ -139,44 +149,29 @@ class _Row<T> extends StatelessWidget {
   }
 }
 
-/// The row's radio: a filled ring when selected, an empty ring otherwise.
-/// Its numbers come from the Figma `Popover` radio (decision K2).
+/// The row's radio (Figma `Popover`, decision K2): a 22 circle with no fill.
+/// Selected: a `primary` ring 6 wide, its centre showing the panel through.
+/// Unselected: a `control-border` ring 2 wide.
 class _PopoverRadio extends StatelessWidget {
   const _PopoverRadio({required this.selected, super.key});
 
   final bool selected;
 
-  static const double size = SprintSize.iconMd;
-  static const double stroke = SprintExtras.selectedBorderWidth;
-  static const double dot = SprintSpacing.space2;
-  static const double gap = SprintSpacing.space3;
-  static const EdgeInsetsDirectional rowPadding =
-      EdgeInsetsDirectional.symmetric(horizontal: SprintSpacing.space3);
-
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     return Container(
-      width: size,
-      height: size,
-      alignment: Alignment.center,
+      width: SprintExtras.popoverRadioSize,
+      height: SprintExtras.popoverRadioSize,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
           color: selected ? colors.primary : colors.controlBorder,
-          width: stroke,
+          width: selected
+              ? SprintExtras.popoverRadioSelectedRing
+              : SprintExtras.popoverRadioRing,
         ),
       ),
-      child: selected
-          ? Container(
-              width: dot,
-              height: dot,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: colors.primary,
-              ),
-            )
-          : null,
     );
   }
 }

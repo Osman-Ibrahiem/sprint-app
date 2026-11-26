@@ -73,33 +73,31 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  Iterable<BoxDecoration> circles(WidgetTester tester, int i) => tester
-      .widgetList<Container>(
-        find.descendant(
-          of: find.byKey(SprintPopover.radioKey(i)),
-          matching: find.byType(Container),
-        ),
-      )
-      .map((c) => c.decoration! as BoxDecoration);
-
-  BoxDecoration radio(WidgetTester tester, int i) => circles(tester, i).first;
-
-  bool filled(WidgetTester tester, int i) => circles(tester, i).length > 1;
+  BorderSide ring(WidgetTester tester, int i) {
+    final circle = tester.widget<Container>(
+      find.descendant(
+        of: find.byKey(SprintPopover.radioKey(i)),
+        matching: find.byType(Container),
+      ),
+    );
+    return ((circle.decoration! as BoxDecoration).border! as Border).top;
+  }
 
   for (final dark in [false, true]) {
     final colors = dark ? SprintColors.dark : SprintColors.light;
-    testWidgets('radio: the selected row is filled primary, the others an '
-        'empty control-border ring (${dark ? 'dark' : 'light'})', (
-      tester,
-    ) async {
+    testWidgets('radio: 22, selected a 6 primary ring, the others a 2 '
+        'control-border ring (${dark ? 'dark' : 'light'})', (tester) async {
       await open(tester, dark: dark);
-      expect((radio(tester, 0).border! as Border).top.color, colors.primary);
-      expect(filled(tester, 0), isTrue);
-      expect(
-        (radio(tester, 1).border! as Border).top.color,
-        colors.controlBorder,
-      );
-      expect(filled(tester, 1), isFalse);
+      for (var i = 0; i < 2; i++) {
+        expect(
+          tester.getSize(find.byKey(SprintPopover.radioKey(i))),
+          const Size.square(SprintExtras.popoverRadioSize),
+        );
+      }
+      expect(ring(tester, 0).color, colors.primary);
+      expect(ring(tester, 0).width, SprintExtras.popoverRadioSelectedRing);
+      expect(ring(tester, 1).color, colors.controlBorder);
+      expect(ring(tester, 1).width, SprintExtras.popoverRadioRing);
     });
   }
 
@@ -165,20 +163,49 @@ void main() {
     expect(w, lessThan(SprintExtras.popoverMaxWidth));
   });
 
-  testWidgets('RTL: the radio sits on the start side (right) of its label', (
-    tester,
-  ) async {
-    await open(tester);
+  for (final locale in const [Locale('ar'), Locale('en')]) {
+    final rtl = locale.languageCode == 'ar';
+    testWidgets('layout (${locale.languageCode}): label at the start, radio '
+        'flush at the end, space-4 sides, space-2 top, space-1 between rows', (
+      tester,
+    ) async {
+      await open(tester, locale: locale);
+      final panel = tester.getRect(find.byKey(SprintPopover.panelKey));
+      final radio = tester.getRect(find.byKey(SprintPopover.radioKey(1)));
+      final label = tester.getRect(find.text('English'));
+      // The 1px border is inside the panel, so insets are measured from it.
+      const border = 1.0;
+      if (rtl) {
+        expect(radio.left, panel.left + border + SprintSpacing.space4);
+        expect(
+          label.right,
+          lessThanOrEqualTo(panel.right - SprintSpacing.space4),
+        );
+        expect(radio.center.dx, lessThan(label.center.dx));
+      } else {
+        expect(radio.right, panel.right - border - SprintSpacing.space4);
+        expect(radio.center.dx, greaterThan(label.center.dx));
+      }
+      final row0 = tester.getRect(find.byKey(SprintPopover.rowKey(0)));
+      final row1 = tester.getRect(find.byKey(SprintPopover.rowKey(1)));
+      expect(row0.top, panel.top + border + SprintSpacing.space2);
+      expect(row1.top - row0.bottom, SprintSpacing.space1);
+      // Radio centred on its row.
+      expect(radio.center.dy, closeTo(row1.center.dy, 0.01));
+    });
+  }
+
+  testWidgets('a wrapped label makes a 72 row, the radio centred, at least '
+      'space-3 from the label', (tester) async {
+    await open(tester, options: long);
+    final row = tester.getRect(find.byKey(SprintPopover.rowKey(0)));
+    final radio = tester.getRect(find.byKey(SprintPopover.radioKey(0)));
+    final label = tester.getRect(find.text(long.first.label));
+    expect(row.height, 72);
+    expect(radio.center.dy, closeTo(row.center.dy, 0.01));
     expect(
-      tester.getCenter(find.byKey(SprintPopover.radioKey(1))).dx,
-      greaterThan(tester.getCenter(find.text('English')).dx),
-    );
-    await tester.tapAt(Offset.zero);
-    await tester.pumpAndSettle();
-    await open(tester, locale: const Locale('en'));
-    expect(
-      tester.getCenter(find.byKey(SprintPopover.radioKey(1))).dx,
-      lessThan(tester.getCenter(find.text('English')).dx),
+      label.left - radio.right,
+      greaterThanOrEqualTo(SprintSpacing.space3),
     );
   });
 
