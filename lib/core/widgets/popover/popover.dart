@@ -46,39 +46,45 @@ class SprintPopover<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    return ConstrainedBox(
-      constraints: const BoxConstraints(
-        minWidth: SprintExtras.popoverMinWidth,
-        maxWidth: SprintExtras.popoverMaxWidth,
-      ),
-      // As wide as the longest row wants, inside the bounds above.
-      child: IntrinsicWidth(
-        child: Container(
-          key: panelKey,
-          padding: const EdgeInsetsDirectional.symmetric(
-            horizontal: SprintSpacing.space4,
-            vertical: SprintSpacing.space2,
-          ),
-          decoration: BoxDecoration(
-            color: colors.surfaceRaised,
-            borderRadius: SprintRadius.lgBorder,
-            border: Border.all(color: colors.line),
-            boxShadow: colors.shadowPopover,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              for (var i = 0; i < options.length; i++) ...[
-                if (i > 0) const SizedBox(height: SprintSpacing.space1),
-                _Row<T>(
-                  key: rowKey(i),
-                  index: i,
-                  option: options[i],
-                  onSelected: onSelected,
-                ),
+    // A Material ancestor gives the labels a proper text context wherever the
+    // popover is shown (showSprintPopover's page has none, and the token
+    // styles would merge with Flutter's yellow-underlined fallback).
+    return Material(
+      type: MaterialType.transparency,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          minWidth: SprintExtras.popoverMinWidth,
+          maxWidth: SprintExtras.popoverMaxWidth,
+        ),
+        // As wide as the longest row wants, inside the bounds above.
+        child: IntrinsicWidth(
+          child: Container(
+            key: panelKey,
+            padding: const EdgeInsetsDirectional.symmetric(
+              horizontal: SprintSpacing.space4,
+              vertical: SprintSpacing.space2,
+            ),
+            decoration: BoxDecoration(
+              color: colors.surfaceRaised,
+              borderRadius: SprintRadius.lgBorder,
+              border: Border.all(color: colors.line),
+              boxShadow: colors.shadowPopover,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                for (var i = 0; i < options.length; i++) ...[
+                  if (i > 0) const SizedBox(height: SprintSpacing.space1),
+                  _Row<T>(
+                    key: rowKey(i),
+                    index: i,
+                    option: options[i],
+                    onSelected: onSelected,
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),

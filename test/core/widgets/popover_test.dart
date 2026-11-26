@@ -252,4 +252,21 @@ void main() {
       }
     });
   }
+
+  for (final dark in [false, true]) {
+    testWidgets('opened through showSprintPopover, labels have no decoration '
+        '(no debug underline) (${dark ? 'dark' : 'light'})', (tester) async {
+      await open(tester, dark: dark);
+      for (final label in ['العربية', 'English']) {
+        final rich = tester.widget<RichText>(
+          find.descendant(
+            of: find.text(label),
+            matching: find.byType(RichText),
+          ),
+        );
+        final decoration = rich.text.style?.decoration ?? TextDecoration.none;
+        expect(decoration, TextDecoration.none, reason: label);
+      }
+    });
+  }
 }
