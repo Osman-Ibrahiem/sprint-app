@@ -162,6 +162,11 @@ abstract final class SprintExtras {
   static const double mediumAccountColumn = 360;
   static const double wideDialogWidth = 400;
 
+  /// Popover README (decision K2): 260 wide at least, growing with its
+  /// longest label up to 380.
+  static const double popoverMinWidth = 260;
+  static const double popoverMaxWidth = 380;
+
   /// Space below the last item of a scrolling screen so the tab bar or a bar
   /// never covers it, and the larger spacer above a screen's last action.
   static const double screenBottomPadding = 140;

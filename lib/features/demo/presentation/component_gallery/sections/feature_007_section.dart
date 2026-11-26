@@ -166,6 +166,8 @@ class _Feature007SectionState extends State<Feature007Section> {
                   label: l.gallery007SampleLanguageValue,
                   selected: true,
                 ),
+                // An unselected row, so the empty radio shows too (K2).
+                PopoverOption(value: 'en', label: l.languageEn),
               ],
             ),
           ),
