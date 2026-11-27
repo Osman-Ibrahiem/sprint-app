@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/core/adaptive/adaptive_pressable.dart';
 import 'package:sprint/core/tokens/sprint_colors.g.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
+import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip_day.dart';
@@ -191,12 +192,14 @@ void main() {
           find.descendant(
             of: find.byKey(DayStrip.circleKey(closed)),
             matching: find.byWidgetPredicate(
-              (w) => w is CustomPaint && w.painter != null,
+              (w) => w is CustomPaint && w.foregroundPainter != null,
             ),
           ),
           findsOneWidget,
         );
         expect(circle(tester, closed).border, isNull);
+        // Filled with surface like every other circle (Figma).
+        expect(circle(tester, closed).color, colors.surface);
         expect(
           tester.widget<Text>(find.text('20')).style!.color,
           colors.inkDisabled,
@@ -221,11 +224,12 @@ void main() {
         expect(slot.width, greaterThanOrEqualTo(SprintExtras.dayItemMinWidth));
         expect(
           tester.getSize(find.byKey(DayStrip.circleKey(d.date))),
-          const Size.square(SprintExtras.dayCircleSize),
+          const Size.square(SprintSize.dayCircle),
         );
       }
-      expect(SprintExtras.dayItemMinWidth, 48);
-      expect(SprintExtras.dayCircleSize, 40);
+      expect(SprintExtras.dayItemMinWidth, SprintSize.controlHeight);
+      expect(SprintExtras.dayItemHeight, 82);
+      expect(SprintSize.dayCircle, 40);
       // Large text: it grows instead of clipping.
       await pump(tester, week(), size: const Size(390, 800), textScale: 2);
       expect(
@@ -267,7 +271,7 @@ void main() {
       expect(tester.takeException(), isNull);
       expect(
         tester.getSize(find.byKey(DayStrip.circleKey(wed))).width,
-        greaterThan(SprintExtras.dayCircleSize),
+        greaterThan(SprintSize.dayCircle),
       );
       final nameScale = MediaQuery.textScalerOf(
         tester.element(find.byKey(DayStrip.nameKey(wed))),
@@ -296,6 +300,43 @@ void main() {
         greaterThanOrEqualTo(SprintSpacing.space1),
       );
     });
+  });
+
+  testWidgets('200%: circle 56 (line + space-1 each side), capsule 64 '
+      'around it, item about 103 high (Figma compact week)', (tester) async {
+    final sun = DateTime(2026, 11, 15);
+    await pump(
+      tester,
+      week(),
+      selected: sun,
+      size: const Size(390, 800),
+      textScale: 2,
+    );
+    expect(
+      tester.getSize(find.byKey(DayStrip.circleKey(sun))),
+      const Size.square(56),
+    );
+    expect(DayStrip.minItemWidth(const TextScaler.linear(2)), 64);
+    final item = tester.getSize(find.byKey(DayStrip.itemKey(sun)));
+    expect(item.width, 64);
+    expect(item.height, closeTo(103, 0.5));
+  });
+
+  testWidgets('358, seven days: every day shows its full name (ar)', (
+    tester,
+  ) async {
+    await pump(tester, week(), size: const Size(358, 800));
+    for (final name in [
+      'النهارده',
+      'الأحد',
+      'الاتنين',
+      'التلات',
+      'الأربعاء',
+      'الخميس',
+      'الجمعة',
+    ]) {
+      expect(find.text(name), findsOneWidget, reason: name);
+    }
   });
 
   testWidgets('a closed day is not pressable and is spoken "مقفول"', (

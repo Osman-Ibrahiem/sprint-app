@@ -1,3 +1,5 @@
+import 'package:sprint/core/tokens/sprint_size.g.dart';
+
 /// Constants that the design docs state in prose but that `tokens.json` does
 /// not carry. They are NOT tokens: if one is promoted to a token, move it to
 /// `tokens.json` and the generator instead.
@@ -34,20 +36,19 @@ abstract final class SprintExtras {
   /// The old day pill height (64), still the unit of a few skeletons.
   static const double dayPillHeight = 64;
 
-  /// DayStrip, compact week (decision "18 compact week", 2026-11-27): the
-  /// day item's minimum height. PROVISIONAL: the Figma session sends the new
-  /// number; until then it keeps the earlier 90. The content is centred in
-  /// it and it grows with large text. The schedule's loading skeleton uses
-  /// it too.
-  static const double dayItemHeight = 90;
+  /// DayStrip, compact week (decision "18 compact week", Figma 2026-11-27):
+  /// the day item is 82 high at 100% text: space-1, the 40 circle
+  /// (`day-circle`), space-1, the 16 name line, space-1, the 6 dot, space-2.
+  /// It grows with large text (about 103 at 200%). The schedule's loading
+  /// skeleton uses it too.
+  static const double dayItemHeight = 82;
 
-  /// The date circle (compact week): 40, growing with the number at large
-  /// text.
-  static const double dayCircleSize = 40;
+  /// The availability dot under the day name (Figma: 6).
+  static const double dayDotSize = 6;
 
-  /// The narrowest day item (compact week): 48, the tap target; at large
+  /// The narrowest day item: the tap target, `control-height` (48); at large
   /// text the circle plus `space-1` on each side.
-  static const double dayItemMinWidth = 48;
+  static const double dayItemMinWidth = SprintSize.controlHeight;
 
   /// No gap between day items (compact week); the selected capsule's own
   /// `space-1` padding separates it from its neighbours.

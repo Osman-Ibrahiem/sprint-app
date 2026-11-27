@@ -3,6 +3,7 @@
 // dart format off
 abstract final class SprintSize {
   static const double controlHeight = 48.0;
+  static const double dayCircle = 40.0;
   static const double controlHeightSm = 36.0;
   static const double iconSm = 16.0;
   static const double iconMd = 20.0;

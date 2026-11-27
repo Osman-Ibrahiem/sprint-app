@@ -9,6 +9,7 @@ import 'package:sprint/core/l10n/sprint_format.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
+import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/tokens/sprint_text.g.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip_day.dart';
@@ -67,10 +68,9 @@ class DayStrip extends StatefulWidget {
   static double circleDiameter(TextScaler scaler) {
     final number = SprintText.number;
     final line = scaler.scale(number.fontSize!) * number.height!;
-    return math.max(
-      SprintExtras.dayCircleSize,
-      line + SprintSpacing.space2 * 2,
-    );
+    // Figma: the number's line plus space-1 each side at large text (56 at
+    // 200%), never under `day-circle` (40).
+    return math.max(SprintSize.dayCircle, line + SprintSpacing.space1 * 2);
   }
 
   /// The narrowest a day may be: 64, or its circle plus `space-2` each side
@@ -387,8 +387,9 @@ class _DayItem extends StatelessWidget {
     final Widget circle = SizedBox.square(
       key: DayStrip.circleKey(day.date),
       dimension: diameter,
+      // The closed day's dashes are drawn over its `surface` fill.
       child: CustomPaint(
-        painter: closed
+        foregroundPainter: closed
             ? _DashedCirclePainter(
                 color: colors.controlBorder,
                 width: SprintExtras.hairlineWidth,
@@ -397,7 +398,7 @@ class _DayItem extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: closed ? null : colors.surface,
+            color: colors.surface,
             border: closed
                 ? null
                 : Border.all(color: ringColor, width: ringWidth),
@@ -427,9 +428,12 @@ class _DayItem extends StatelessWidget {
         constraints: const BoxConstraints(
           minHeight: SprintExtras.dayItemHeight,
         ),
-        padding: const EdgeInsetsDirectional.symmetric(
-          horizontal: SprintSpacing.space1,
-          vertical: SprintSpacing.space1,
+        // Figma: space-1 above the circle, space-2 under the dot.
+        padding: const EdgeInsetsDirectional.only(
+          start: SprintSpacing.space1,
+          end: SprintSpacing.space1,
+          top: SprintSpacing.space1,
+          bottom: SprintSpacing.space2,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -448,8 +452,8 @@ class _DayItem extends StatelessWidget {
             ),
             const SizedBox(height: SprintSpacing.space1),
             Container(
-              width: SprintSpacing.space1,
-              height: SprintSpacing.space1,
+              width: SprintExtras.dayDotSize,
+              height: SprintExtras.dayDotSize,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: closed || !day.hasAvailability
@@ -459,7 +463,6 @@ class _DayItem extends StatelessWidget {
                     : colors.success,
               ),
             ),
-            const SizedBox(height: SprintSpacing.space1),
           ],
         ),
       ),
