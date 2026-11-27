@@ -206,6 +206,7 @@
   "slotSpoken": "الساعة {time}، {state}",
   "slotSpokenWithPrice": "الساعة {time}، {state}، {price}",
   "dayToday": "النهارده",
+  "dayTodayShort": "اليوم",
   "dayHasRoom": "فيه أماكن",
   "dayClosed": "مقفول",
   "daySpoken": "يوم {day}، {state}",

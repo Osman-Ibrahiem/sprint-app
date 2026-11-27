@@ -896,6 +896,12 @@ abstract class AppLocalizations {
   /// **'النهارده'**
   String get dayToday;
 
+  /// No description provided for @dayTodayShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوم'**
+  String get dayTodayShort;
+
   /// No description provided for @dayHasRoom.
   ///
   /// In ar, this message translates to:

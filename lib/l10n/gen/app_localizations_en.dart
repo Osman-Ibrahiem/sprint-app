@@ -468,6 +468,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dayToday => 'Today';
 
   @override
+  String get dayTodayShort => 'Today';
+
+  @override
   String get dayHasRoom => 'Places available';
 
   @override
