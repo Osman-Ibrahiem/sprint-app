@@ -34,14 +34,24 @@ abstract final class SprintExtras {
   /// The old day pill height (64), still the unit of a few skeletons.
   static const double dayPillHeight = 64;
 
-  /// DayStrip v2 (decision 18): the day item is at least 90 high, as in
-  /// Figma (decision "18 sizes", 2026-11-26); its content (circle 48, name,
-  /// dot and their gaps, 88 at 100% text) is centred in it and it grows with
-  /// large text. The schedule's loading skeleton uses it too.
+  /// DayStrip, compact week (decision "18 compact week", 2026-11-27): the
+  /// day item's minimum height. PROVISIONAL: the Figma session sends the new
+  /// number; until then it keeps the earlier 90. The content is centred in
+  /// it and it grows with large text. The schedule's loading skeleton uses
+  /// it too.
   static const double dayItemHeight = 90;
 
-  /// The narrowest day item (decision "18 sizes"): 64, as in Figma.
-  static const double dayItemMinWidth = 64;
+  /// The date circle (compact week): 40, growing with the number at large
+  /// text.
+  static const double dayCircleSize = 40;
+
+  /// The narrowest day item (compact week): 48, the tap target; at large
+  /// text the circle plus `space-1` on each side.
+  static const double dayItemMinWidth = 48;
+
+  /// No gap between day items (compact week); the selected capsule's own
+  /// `space-1` padding separates it from its neighbours.
+  static const double dayStripGap = 0;
 
   /// StatusBadge README § الشكل: pill height 28.
   static const double statusBadgeHeight = 28;

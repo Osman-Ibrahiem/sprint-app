@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sprint/core/tokens/sprint_text.g.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip_day.dart';
+import 'package:sprint/l10n/gen/app_localizations.dart';
 
 import '../../helpers/no_truncation.dart';
 import '../../helpers/widget_harness.dart';
@@ -63,8 +64,8 @@ void main() {
       return tester.widget<Text>(find.byKey(DayStrip.nameKey(wed))).data!;
     }
 
-    testWidgets('Arabic on a phone: "الأربعاء", selected or not; at 200% it '
-        'still fits (46 of 48 with the 1.3 cap)', (tester) async {
+    testWidgets('Arabic on a phone: "الأربعاء", selected or not, at 100% and '
+        '200% (compact week widths)', (tester) async {
       for (final selected in [false, true]) {
         for (final scale in [1.0, 2.0]) {
           expect(
@@ -81,30 +82,43 @@ void main() {
       }
     });
 
-    test('the rule: full when it fits the slot minus space-2 each side, '
-        'else short ("الأربعاء" / "الأربع")', () {
-      String pick(double slot, double scale) => DayStrip.fittingName(
-        full: 'الأربعاء',
-        short: 'الأربع',
-        slotWidth: slot,
-        style: SprintText.micro,
-        scaler: TextScaler.linear(scale),
-        direction: TextDirection.rtl,
+    test('the rule: full when it fits the slot minus space-1 each side, '
+        'else short ("الأربعاء" / "الأربع", "النهارده" / "اليوم")', () {
+      String pick(String full, String short, double slot, double scale) =>
+          DayStrip.fittingName(
+            full: full,
+            short: short,
+            slotWidth: slot,
+            style: SprintText.micro,
+            scaler: TextScaler.linear(scale),
+            direction: TextDirection.rtl,
+          );
+      expect(pick('الأربعاء', 'الأربع', 48, 1), 'الأربعاء');
+      expect(pick('الأربعاء', 'الأربع', 48, 1.3), 'الأربع');
+      expect(pick('الأربعاء', 'الأربع', 56, 1.3), 'الأربعاء');
+      expect(pick('النهارده', 'اليوم', 48, 1), 'النهارده');
+      expect(pick('النهارده', 'اليوم', 48, 1.3), 'اليوم');
+    });
+
+    testWidgets('today falls back to "اليوم" (en "Today") when "النهارده" '
+        'does not fit', (tester) async {
+      final ar = lookupAppLocalizations(const Locale('ar'));
+      final en = lookupAppLocalizations(const Locale('en'));
+      expect(ar.dayTodayShort, 'اليوم');
+      expect(en.dayTodayShort, 'Today');
+      // A wide day: the full word.
+      await pumpWidgetUnderAndSettle(
+        tester,
+        DayStrip(days: week, today: today, onSelected: (_) {}),
+        size: const Size(1000, 800),
       );
-      expect(pick(64, 1), 'الأربعاء');
-      expect(pick(64, 1.3), 'الأربعاء');
-      // A narrower slot (a long window spread over the width) at large text.
-      expect(pick(56, 1.3), 'الأربع');
-      expect(pick(48, 1), 'الأربع');
+      expect(find.text('النهارده'), findsOneWidget);
     });
 
     testWidgets('English: "Wednesday" where the day is wide enough, "Wed" '
         'where it is not', (tester) async {
-      // 390: four days and a half, about 79.6 each: room for "Wednesday".
-      expect(
-        await wednesday(tester, lang: 'en', scale: 1, width: 390),
-        'Wednesday',
-      );
+      // 390: seven days of about 55.7, too narrow for "Wednesday" (59).
+      expect(await wednesday(tester, lang: 'en', scale: 1, width: 390), 'Wed');
       // 600, 840, 1200: all seven fit and spread over the width.
       for (final width in [600.0, 840.0, 1200.0]) {
         expect(
@@ -113,7 +127,7 @@ void main() {
           reason: '$width',
         );
       }
-      // 320: four days and a half of 64, too narrow for it.
+      // 320: six days and a half of about 49, too narrow for it.
       expect(await wednesday(tester, lang: 'en', scale: 1, width: 320), 'Wed');
     });
 

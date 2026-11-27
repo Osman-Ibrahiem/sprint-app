@@ -9,7 +9,6 @@ import 'package:sprint/core/l10n/sprint_format.dart';
 import 'package:sprint/core/tokens/context_extensions.dart';
 import 'package:sprint/core/tokens/sprint_extras.dart';
 import 'package:sprint/core/tokens/sprint_radius.g.dart';
-import 'package:sprint/core/tokens/sprint_size.g.dart';
 import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/tokens/sprint_text.g.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip_day.dart';
@@ -38,9 +37,10 @@ class DayStrip extends StatefulWidget {
   static ValueKey<String> nameKey(DateTime d) =>
       ValueKey<String>('day-name-${d.year}-${d.month}-${d.day}');
 
-  /// The full name when it fits on one line in the slot, minus `space-2` on
-  /// each side (the tail's padding, always kept so the name does not change
-  /// when the day is selected); else the short name (decision 18 day names).
+  /// The full name when it fits on one line in the slot, minus `space-1` on
+  /// each side (the capsule's padding, always kept so the name does not
+  /// change when the day is selected); else the short name (decision 18 day
+  /// names; compact week).
   static String fittingName({
     required String full,
     required String short,
@@ -56,7 +56,7 @@ class DayStrip extends StatefulWidget {
       maxLines: 1,
     )..layout();
     final fits =
-        painter.width <= slotWidth - SprintSpacing.space2 * 2 &&
+        painter.width <= slotWidth - SprintSpacing.space1 * 2 &&
         !painter.didExceedMaxLines;
     painter.dispose();
     return fits ? full : short;
@@ -67,14 +67,17 @@ class DayStrip extends StatefulWidget {
   static double circleDiameter(TextScaler scaler) {
     final number = SprintText.number;
     final line = scaler.scale(number.fontSize!) * number.height!;
-    return math.max(SprintSize.controlHeight, line + SprintSpacing.space2 * 2);
+    return math.max(
+      SprintExtras.dayCircleSize,
+      line + SprintSpacing.space2 * 2,
+    );
   }
 
   /// The narrowest a day may be: 64, or its circle plus `space-2` each side
   /// when large text makes the circle bigger.
   static double minItemWidth(TextScaler scaler) => math.max(
     SprintExtras.dayItemMinWidth,
-    circleDiameter(scaler) + SprintSpacing.space2 * 2,
+    circleDiameter(scaler) + SprintSpacing.space1 * 2,
   );
 
   /// Each day's width (decision "18 scroll cue"): when all [count] days fit at
@@ -87,7 +90,7 @@ class DayStrip extends StatefulWidget {
     required double availableWidth,
     required int count,
     required double minWidth,
-    double gap = SprintSpacing.space2,
+    double gap = SprintExtras.dayStripGap,
   }) {
     if (count * minWidth + (count - 1) * gap <= availableWidth) {
       // All fit: spread evenly over the whole strip, no empty space after it.
@@ -172,15 +175,18 @@ class _DayStripState extends State<DayStrip> {
   DateTime _asDate(DateTime d) => DateTime(d.year, d.month, d.day);
 
   void _revealSelected() {
-    final context = _selectedKey.currentContext;
-    if (context != null) {
-      // Only scroll when the selected day is not already in view, so today
-      // stays at the start when it can.
-      Scrollable.ensureVisible(
-        context,
-        alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
-      );
-    }
+    final target = _selectedKey.currentContext;
+    if (target == null || !mounted) return;
+    final item = target.findRenderObject() as RenderBox?;
+    final strip = context.findRenderObject() as RenderBox?;
+    if (item == null || strip == null || !item.attached) return;
+    // Only scroll when the selected day is not already whole in view, so
+    // today stays at the start when it can.
+    final rect = item.localToGlobal(Offset.zero) & item.size;
+    final view = strip.localToGlobal(Offset.zero) & strip.size;
+    final whole =
+        rect.left >= view.left - 0.5 && rect.right <= view.right + 0.5;
+    if (!whole) Scrollable.ensureVisible(target, alignment: 0.5);
   }
 
   void _moveFocus(int delta) {
@@ -217,37 +223,55 @@ class _DayStripState extends State<DayStrip> {
           count: count,
           minWidth: minWidth,
         );
-        final strip = SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              for (var i = 0; i < count; i++) ...[
-                if (i > 0) const SizedBox(width: SprintSpacing.space2),
-                SizedBox(
-                  key: DayStrip.slotKey(widget.days[i].date),
-                  width: itemWidth,
-                  child: _DayItem(
-                    key: _isSameDay(widget.days[i].date, chosen)
-                        ? _selectedKey
-                        : null,
-                    slotWidth: itemWidth,
-                    day: widget.days[i],
-                    today: widget.today,
-                    selected: _isSameDay(widget.days[i].date, chosen),
-                    focusNode: _nodes[i],
-                    onTap: widget.days[i].isClosed
-                        ? null
-                        : () {
-                            AdaptiveHaptics.selection(context);
-                            widget.onSelected(widget.days[i]);
-                          },
+        final allFit =
+            count * minWidth + (count - 1) * SprintExtras.dayStripGap <=
+            constraints.maxWidth;
+        Widget item(int i) => _DayItem(
+          key: _isSameDay(widget.days[i].date, chosen) ? _selectedKey : null,
+          slotWidth: itemWidth,
+          day: widget.days[i],
+          today: widget.today,
+          selected: _isSameDay(widget.days[i].date, chosen),
+          focusNode: _nodes[i],
+          onTap: widget.days[i].isClosed
+              ? null
+              : () {
+                  AdaptiveHaptics.selection(context);
+                  widget.onSelected(widget.days[i]);
+                },
+        );
+        List<Widget> gapped(Widget Function(int i) slot) => [
+          for (var i = 0; i < count; i++) ...[
+            if (i > 0) const SizedBox(width: SprintExtras.dayStripGap),
+            slot(i),
+          ],
+        ];
+
+        // All fit: spread over the whole width with nothing to scroll.
+        // Otherwise: a scrolling strip of whole days plus half of the next.
+        final strip = allFit
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: gapped(
+                  (i) => Expanded(
+                    key: DayStrip.slotKey(widget.days[i].date),
+                    child: item(i),
                   ),
                 ),
-              ],
-            ],
-          ),
-        );
+              )
+            : SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: gapped(
+                    (i) => SizedBox(
+                      key: DayStrip.slotKey(widget.days[i].date),
+                      width: itemWidth,
+                      child: item(i),
+                    ),
+                  ),
+                ),
+              );
 
         return CallbackShortcuts(
           bindings: traits.keyboardFocusRing
@@ -313,16 +337,17 @@ class _DayItem extends StatelessWidget {
     final nameStyle = context.text.micro;
     final nameScaler = MediaQuery.textScalerOf(context)
         .clamp(maxScaleFactor: SprintExtras.navLabelMaxTextScale);
-    final dayName = isToday
-        ? l10n.dayToday
-        : DayStrip.fittingName(
-            full: format.dayStripName(day.date),
-            short: format.dayName(day.date, short: true),
-            slotWidth: slotWidth,
-            style: nameStyle,
-            scaler: nameScaler,
-            direction: Directionality.of(context),
-          );
+    // Today: "النهارده" when it fits, else "اليوم" (compact week).
+    final dayName = DayStrip.fittingName(
+      full: isToday ? l10n.dayToday : format.dayStripName(day.date),
+      short: isToday
+          ? l10n.dayTodayShort
+          : format.dayName(day.date, short: true),
+      slotWidth: slotWidth,
+      style: nameStyle,
+      scaler: nameScaler,
+      direction: Directionality.of(context),
+    );
     final state = day.isClosed
         ? l10n.dayClosed
         : day.hasAvailability
@@ -403,7 +428,7 @@ class _DayItem extends StatelessWidget {
           minHeight: SprintExtras.dayItemHeight,
         ),
         padding: const EdgeInsetsDirectional.symmetric(
-          horizontal: SprintSpacing.space2,
+          horizontal: SprintSpacing.space1,
           vertical: SprintSpacing.space1,
         ),
         child: Column(

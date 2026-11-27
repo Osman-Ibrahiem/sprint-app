@@ -8,7 +8,7 @@ import 'package:sprint/core/tokens/sprint_spacing.g.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip.dart';
 import 'package:sprint/core/widgets/day_strip/day_strip_day.dart';
 
-import '../../helpers/no_truncation.dart' show loadSprintFonts;
+import '../../helpers/no_truncation.dart';
 import '../../helpers/widget_harness.dart';
 
 void main() {
@@ -211,15 +211,21 @@ void main() {
       });
     }
 
-    testWidgets('the item is 90 high at 100% text and at least 64 wide on '
-        'compact (decision 18 sizes)', (tester) async {
+    testWidgets('the item is dayItemHeight high at 100% text, at least 48 '
+        'wide, the circle 40 (compact week)', (tester) async {
       await pump(tester, week(), size: const Size(390, 800));
       for (final d in week()) {
         final item = tester.getSize(find.byKey(DayStrip.itemKey(d.date)));
         expect(item.height, SprintExtras.dayItemHeight);
-        expect(item.width, greaterThanOrEqualTo(SprintSpacing.space16));
+        final slot = tester.getSize(find.byKey(DayStrip.slotKey(d.date)));
+        expect(slot.width, greaterThanOrEqualTo(SprintExtras.dayItemMinWidth));
+        expect(
+          tester.getSize(find.byKey(DayStrip.circleKey(d.date))),
+          const Size.square(SprintExtras.dayCircleSize),
+        );
       }
-      expect(SprintExtras.dayItemHeight, 90);
+      expect(SprintExtras.dayItemMinWidth, 48);
+      expect(SprintExtras.dayCircleSize, 40);
       // Large text: it grows instead of clipping.
       await pump(tester, week(), size: const Size(390, 800), textScale: 2);
       expect(
@@ -229,27 +235,24 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('the circle is at least 48 and the whole item a 48 target', (
-      tester,
-    ) async {
+    testWidgets('every day is a 48 target at least', (tester) async {
       await pump(tester, week());
-      final c = tester.getSize(find.byKey(DayStrip.circleKey(sat)));
-      expect(c.width, greaterThanOrEqualTo(48));
-      expect(c.width, c.height);
-      final item = tester.getSize(
-        find
-            .ancestor(
-              of: find.byKey(DayStrip.itemKey(sat)),
-              matching: find.byType(AdaptivePressable),
-            )
-            .first,
-      );
-      expect(item.width, greaterThanOrEqualTo(48));
-      expect(item.height, greaterThanOrEqualTo(48));
+      for (final d in week()) {
+        final item = tester.getSize(
+          find
+              .ancestor(
+                of: find.byKey(DayStrip.itemKey(d.date)),
+                matching: find.byType(AdaptivePressable),
+              )
+              .first,
+        );
+        expect(item.width, greaterThanOrEqualTo(48));
+        expect(item.height, greaterThanOrEqualTo(48));
+      }
     });
 
     testWidgets('at 200% the number scales fully and the circle grows; the '
-        'name stops at 1.3 and keeps space-2 each side in the tail', (
+        'name stops at 1.3 and keeps space-1 each side in the capsule', (
       tester,
     ) async {
       // "الأربعاء" is the longest name: pick that Wednesday.
@@ -264,7 +267,7 @@ void main() {
       expect(tester.takeException(), isNull);
       expect(
         tester.getSize(find.byKey(DayStrip.circleKey(wed))).width,
-        greaterThan(48),
+        greaterThan(SprintExtras.dayCircleSize),
       );
       final nameScale = MediaQuery.textScalerOf(
         tester.element(find.byKey(DayStrip.nameKey(wed))),
@@ -284,8 +287,14 @@ void main() {
             .first,
       );
       final nameRect = tester.getRect(find.byKey(DayStrip.nameKey(wed)));
-      expect(nameRect.left - tailRect.left, greaterThanOrEqualTo(8));
-      expect(tailRect.right - nameRect.right, greaterThanOrEqualTo(8));
+      expect(
+        nameRect.left - tailRect.left,
+        greaterThanOrEqualTo(SprintSpacing.space1),
+      );
+      expect(
+        tailRect.right - nameRect.right,
+        greaterThanOrEqualTo(SprintSpacing.space1),
+      );
     });
   });
 
@@ -312,115 +321,140 @@ void main() {
     handle.dispose();
   });
 
-  testWidgets('compact scrolls horizontally and keeps the selected day '
-      'visible', (tester) async {
-    await pump(
-      tester,
-      week(),
-      selected: DateTime(2026, 11, 20),
-      size: const Size(400, 800),
-    );
+  testWidgets('a window too long for the width scrolls horizontally and '
+      'reveals a selected day out of view', (tester) async {
+    final fortnight = [
+      for (var i = 0; i < 14; i++)
+        DayStripDay(date: DateTime(2026, 11, 14 + i), hasAvailability: true),
+    ];
+    final last = DateTime(2026, 11, 27);
+    await pump(tester, fortnight, selected: last, size: const Size(400, 800));
     final scroll = tester.widget<SingleChildScrollView>(
-      find.byType(SingleChildScrollView).last,
+      find.descendant(
+        of: find.byType(DayStrip),
+        matching: find.byType(SingleChildScrollView),
+      ),
     );
     expect(scroll.scrollDirection, Axis.horizontal);
+    final strip = tester.getRect(find.byType(DayStrip));
+    final selected = tester.getRect(find.byKey(DayStrip.slotKey(last)));
+    expect(strip.intersect(selected).width, closeTo(selected.width, 0.01));
   });
 
-  group('scroll cue: whole days plus half of the next (decision 18 scroll '
-      'cue)', () {
-    test('the rule: 358 with gap 8 gives four days and a half of about 72.4; '
-        'from 496 all seven fit and spread over the width', () {
+  group('compact week: spread when all fit, else whole days plus half of '
+      'the next (decisions 18 scroll cue, 18 compact week)', () {
+    List<DayStripDay> days(int n) => [
+      for (var i = 0; i < n; i++)
+        DayStripDay(date: DateTime(2026, 11, 14 + i), hasAvailability: true),
+    ];
+
+    test('the rule, gap 0 and minimum 48: 7 days at 358 spread to about '
+        '51; 14 days show six and a half of about 55', () {
+      expect(SprintExtras.dayStripGap, 0);
       expect(
-        DayStrip.itemWidthFor(availableWidth: 358, count: 7, minWidth: 64),
-        closeTo(72.44, 0.01),
+        DayStrip.itemWidthFor(availableWidth: 358, count: 7, minWidth: 48),
+        closeTo(358 / 7, 1e-9),
       );
       expect(
-        DayStrip.itemWidthFor(availableWidth: 496, count: 7, minWidth: 64),
-        64,
-      );
-      // All fit: spread over the whole width, (W - 6 gaps) / 7.
-      expect(
-        DayStrip.itemWidthFor(availableWidth: 1200, count: 7, minWidth: 64),
-        closeTo((1200 - 6 * 8) / 7, 1e-9),
+        DayStrip.itemWidthFor(availableWidth: 358, count: 14, minWidth: 48),
+        closeTo(358 / 6.5, 1e-9),
       );
     });
 
-    for (final width in [320.0, 358.0, 412.0, 600.0, 840.0, 1200.0]) {
-      for (final scale in [1.0, 2.0]) {
-        for (final locale in const [Locale('ar'), Locale('en')]) {
-          final rtl = locale.languageCode == 'ar';
-          testWidgets('$width x$scale ${locale.languageCode}', (tester) async {
-            await pump(
+    for (final n in [7, 14]) {
+      for (final width in [320.0, 358.0, 412.0, 600.0, 840.0, 1200.0]) {
+        for (final scale in [1.0, 2.0]) {
+          for (final locale in const [Locale('ar'), Locale('en')]) {
+            final rtl = locale.languageCode == 'ar';
+            testWidgets('$n days, $width x$scale ${locale.languageCode}', (
               tester,
-              week(),
-              size: Size(width, 800),
-              textScale: scale,
-              locale: locale,
-            );
-            expect(tester.takeException(), isNull);
-            final strip = tester.getRect(find.byType(DayStrip));
-            final days = week();
-            final slots = [
-              for (final d in days)
-                tester.getRect(find.byKey(DayStrip.slotKey(d.date))),
-            ];
-            double visible(Rect r) {
-              final cut = r.intersect(strip);
-              return cut.width <= 0 ? 0 : cut.width / r.width;
-            }
+            ) async {
+              await pump(
+                tester,
+                days(n),
+                size: Size(width, 800),
+                textScale: scale,
+                locale: locale,
+              );
+              expect(tester.takeException(), isNull);
+              expectNoTruncation(tester);
+              final strip = tester.getRect(find.byType(DayStrip));
+              final slots = [
+                for (final d in days(n))
+                  tester.getRect(find.byKey(DayStrip.slotKey(d.date))),
+              ];
+              double visible(Rect r) {
+                final cut = r.intersect(strip);
+                return cut.width <= 0 ? 0 : cut.width / r.width;
+              }
 
-            // Today is whole and at the start (right in Arabic).
-            expect(
-              visible(slots.first),
-              closeTo(1, 1e-6),
-              reason: 'today whole',
-            );
-            if (rtl) {
-              expect(slots.first.right, closeTo(strip.right, 0.01));
-            } else {
-              expect(slots.first.left, closeTo(strip.left, 0.01));
-            }
-
-            final minWidth = DayStrip.minItemWidth(TextScaler.linear(scale));
-            final allFit =
-                days.length * minWidth + (days.length - 1) * 8 <= width;
-            if (allFit) {
-              // Spread over the whole width: every day whole, the strip
-              // fills W, no space after the last day.
-              expect(strip.width, closeTo(width, 0.01));
-              final spread = (width - (days.length - 1) * 8) / days.length;
+              // Every day is a tap target of 48 at least.
               for (final r in slots) {
-                expect(visible(r), closeTo(1, 1e-6));
-                expect(r.width, closeTo(spread, 0.01));
+                expect(
+                  r.width,
+                  greaterThanOrEqualTo(SprintExtras.dayItemMinWidth),
+                );
               }
+              // Today is whole and at the start (right in Arabic).
+              expect(visible(slots.first), closeTo(1, 1e-6));
               if (rtl) {
-                expect(slots.last.left, closeTo(strip.left, 0.01));
+                expect(slots.first.right, closeTo(strip.right, 0.01));
               } else {
-                expect(slots.last.right, closeTo(strip.right, 0.01));
+                expect(slots.first.left, closeTo(strip.left, 0.01));
               }
-            } else {
-              final shown = [for (final r in slots) visible(r)];
-              final partial = shown.indexWhere((v) => v < 1 - 1e-6);
-              expect(partial, greaterThan(0));
-              expect(shown[partial], inInclusiveRange(0.4, 0.6));
-              for (var i = 0; i < partial; i++) {
-                expect(shown[i], closeTo(1, 1e-6));
+
+              final minWidth = DayStrip.minItemWidth(TextScaler.linear(scale));
+              final allFit = n * minWidth <= width;
+              if (allFit) {
+                // Spread over the whole width: no scroll, nothing cut.
+                expect(strip.width, closeTo(width, 0.01));
+                for (final r in slots) {
+                  expect(visible(r), closeTo(1, 1e-6));
+                  expect(r.width, closeTo(width / n, 0.01));
+                }
+              } else {
+                final shown = [for (final r in slots) visible(r)];
+                final partial = shown.indexWhere((v) => v < 1 - 1e-6);
+                expect(partial, greaterThan(0));
+                expect(shown[partial], inInclusiveRange(0.4, 0.6));
+                for (var i = 0; i < partial; i++) {
+                  expect(shown[i], closeTo(1, 1e-6));
+                }
+                for (var i = partial + 1; i < shown.length; i++) {
+                  expect(shown[i], closeTo(0, 1e-6));
+                }
               }
-              for (var i = partial + 1; i < shown.length; i++) {
-                expect(shown[i], closeTo(0, 1e-6));
-              }
-              expect(slots.first.width, greaterThanOrEqualTo(minWidth));
-            }
-          });
+            });
+          }
         }
       }
     }
+
+    testWidgets('358, 7 days: all seven shown at about 51, no scroll', (
+      tester,
+    ) async {
+      await pump(tester, days(7), size: const Size(358, 800));
+      for (final d in days(7)) {
+        expect(
+          tester.getSize(find.byKey(DayStrip.slotKey(d.date))).width,
+          closeTo(358 / 7, 0.01),
+        );
+      }
+      // Nothing to scroll.
+      expect(
+        find.descendant(
+          of: find.byType(DayStrip),
+          matching: find.byType(Scrollable),
+        ),
+        findsNothing,
+      );
+    });
 
     testWidgets('a fold keeps the selection and today at the start', (
       tester,
     ) async {
       final sun = DateTime(2026, 11, 15);
-      await pump(tester, week(), selected: sun, size: const Size(840, 800));
+      await pump(tester, days(14), selected: sun, size: const Size(840, 800));
       final colors = SprintColors.light;
       Color? tailOf(DateTime d) =>
           (tester
@@ -438,7 +472,6 @@ void main() {
                   as BoxDecoration)
               .color;
       expect(tailOf(sun), colors.primary);
-      // Fold to a phone width.
       tester.view.physicalSize = const Size(358, 800);
       await tester.pumpAndSettle();
       expect(tailOf(sun), colors.primary);
@@ -447,13 +480,7 @@ void main() {
         find.byKey(DayStrip.slotKey(DateTime(2026, 11, 14))),
       );
       expect(today.right, closeTo(strip.right, 0.01));
-      expect(
-        today.width,
-        closeTo(
-          DayStrip.itemWidthFor(availableWidth: 358, count: 7, minWidth: 64),
-          0.01,
-        ),
-      );
+      expect(today.width, closeTo(358 / 6.5, 0.01));
     });
   });
 

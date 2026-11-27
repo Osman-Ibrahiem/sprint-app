@@ -468,6 +468,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dayToday => 'النهارده';
 
   @override
+  String get dayTodayShort => 'اليوم';
+
+  @override
   String get dayHasRoom => 'فيه أماكن';
 
   @override
